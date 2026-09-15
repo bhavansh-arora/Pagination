@@ -53,8 +53,25 @@
   --ease: cubic-bezier(.22,.61,.36,1);
 }
 
+/* Smooth cross-page navigation: native browser-driven transition where
+   supported (Chromium 126+), no JS required. */
+@view-transition{
+  navigation:auto;
+}
+
 *,*::before,*::after{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
+
+/* Fallback fade-in for browsers without native cross-document view
+   transitions, so every page change still feels smooth rather than an
+   instant hard cut. Skipped for users who prefer reduced motion. */
+@media (prefers-reduced-motion: no-preference){
+  body{ animation:page-fade-in .35s ease-out; }
+}
+@keyframes page-fade-in{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
 body{
   margin:0;
   background:var(--bg);
@@ -204,7 +221,7 @@ p{ margin:0; }
 }
 .hero-content{
   position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end;
-  padding:0 0 72px; color:#fff;
+  padding-bottom:72px; color:#fff;
 }
 .hero-content .eyebrow{ color:var(--clay-300); }
 .hero-content .eyebrow::before{ background:var(--clay-300); }
