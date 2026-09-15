@@ -20,7 +20,7 @@
       name: "Design Consultation",
       desc: "A focused 1-hour session to talk through your space, style and goals.",
       duration: 60,
-      price: "$150",
+      price: "₹2,999",
       location: "In studio or video call",
     },
     {
@@ -28,7 +28,7 @@
       name: "Single Room Refresh",
       desc: "Concept, layout and sourcing for one room — from mood board to install.",
       duration: 90,
-      price: "From $2,400",
+      price: "From ₹1,80,000",
       location: "In-home visit",
     },
     {
@@ -36,7 +36,7 @@
       name: "Full Home Design",
       desc: "End-to-end design across your entire home, led by a senior designer.",
       duration: 120,
-      price: "From $8,500",
+      price: "From ₹6,50,000",
       location: "In-home visit",
     },
     {
@@ -52,19 +52,19 @@
       name: "Color & Styling",
       desc: "Palette, finishes and styling direction for a room or full home.",
       duration: 60,
-      price: "From $320",
+      price: "From ₹15,000",
       location: "In studio or video call",
     },
   ];
 
   const HOURS = {
-    // 0 = Sunday ... 6 = Saturday
-    1: { open: 9, close: 17 },
-    2: { open: 9, close: 17 },
-    3: { open: 9, close: 17 },
-    4: { open: 9, close: 17 },
-    5: { open: 9, close: 17 },
-    6: { open: 10, close: 14 },
+    // 0 = Sunday (closed) ... 6 = Saturday
+    1: { open: 10, close: 19 },
+    2: { open: 10, close: 19 },
+    3: { open: 10, close: 19 },
+    4: { open: 10, close: 19 },
+    5: { open: 10, close: 19 },
+    6: { open: 10, close: 19 },
   };
 
   const state = {
