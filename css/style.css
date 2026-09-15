@@ -205,8 +205,15 @@ p{ margin:0; }
     flex-direction:column; justify-content:flex-start; align-items:stretch;
     padding:32px 28px; gap:0; transform:translateX(100%); transition:transform .4s var(--ease);
     overflow-y:auto;
+    /* visibility (not just the off-screen transform) keeps this panel from
+       ever being able to widen the page's scrollable area on mobile
+       Safari, which can treat a transformed position:fixed element as
+       contributing to document scroll even while it's clipped and
+       pushed off-screen — the classic cause of "phantom" horizontal
+       scroll on iOS that a plain overflow-x:hidden doesn't always stop. */
+    visibility:hidden; pointer-events:none;
   }
-  .nav-links.open{ transform:translateX(0); }
+  .nav-links.open{ transform:translateX(0); visibility:visible; pointer-events:auto; }
   .nav-links a{ padding:16px 0; border-bottom:1px solid var(--border); font-size:1.1rem; }
   .nav-phone{ display:none; }
   .nav-toggle{ display:flex; }
@@ -251,7 +258,7 @@ p{ margin:0; }
 @keyframes scrollline{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
 
 /* ---------- Marquee strip ---------- */
-.marquee{ background:var(--charcoal-900); color:var(--cream-200); overflow:hidden; padding:20px 0; }
+.marquee{ background:var(--charcoal-900); color:var(--cream-200); overflow:hidden; max-width:100%; padding:20px 0; }
 .marquee-track{ display:flex; gap:56px; white-space:nowrap; animation:marquee 32s linear infinite; width:max-content; }
 .marquee-track span{ font-family:var(--font-display); font-style:italic; font-size:1.25rem; color:var(--cream-100); display:flex; align-items:center; gap:56px; }
 .marquee-track span::after{ content:"✦"; color:var(--clay-400); font-style:normal; }
