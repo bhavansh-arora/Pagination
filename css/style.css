@@ -148,7 +148,10 @@ p{ margin:0; }
    against the 84px-tall navbar instead of the viewport). */
 .navbar.scrolled{ border-color:var(--border); box-shadow:0 2px 20px -10px rgba(26,23,18,.15); }
 .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:84px; gap:24px; }
-.brand{ display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-size:1.4rem; font-weight:600; letter-spacing:.01em; }
+.brand{
+  position:relative; z-index:110;
+  display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-size:1.4rem; font-weight:600; letter-spacing:.01em;
+}
 .brand-mark{
   width:34px; height:34px; border-radius:9px; background:var(--charcoal-900);
   display:flex; align-items:center; justify-content:center; color:var(--cream-100);
@@ -173,26 +176,35 @@ p{ margin:0; }
 .nav-links a.btn{ color:var(--cream-100); }
 .nav-links a.btn:hover{ color:var(--cream-100); }
 .nav-links a.btn::after{ display:none; }
-.nav-cta{ display:flex; align-items:center; gap:14px; }
+.nav-cta{ position:relative; z-index:110; display:flex; align-items:center; gap:14px; }
 .nav-phone{ display:flex; align-items:center; gap:8px; font-size:.88rem; font-weight:600; color:var(--charcoal-700); }
 .nav-phone svg{ width:16px; height:16px; color:var(--accent-ink); }
 .nav-toggle{
+  position:relative; z-index:110;
   display:none; width:44px; height:44px; align-items:center; justify-content:center;
   border-radius:10px; border:1px solid var(--border); background:var(--surface);
 }
-.nav-toggle span{ display:block; width:18px; height:1.5px; background:var(--charcoal-900); position:relative; }
+.nav-toggle span{ display:block; width:18px; height:1.5px; background:var(--charcoal-900); position:relative; transition:background .2s; }
 .nav-toggle span::before,.nav-toggle span::after{
-  content:""; position:absolute; left:0; width:18px; height:1.5px; background:var(--charcoal-900); transition:transform .3s;
+  content:""; position:absolute; left:0; width:18px; height:1.5px; background:var(--charcoal-900); transition:transform .3s, top .3s;
 }
 .nav-toggle span::before{ top:-6px; }
 .nav-toggle span::after{ top:6px; }
+/* Open state: the toggle morphs hamburger -> X so it also serves as the
+   drawer's close control, and it keeps its z-index above .nav-links
+   (below) so it stays visible/clickable once the drawer covers the
+   full screen instead of disappearing behind it. */
+.nav-toggle.open span{ background:transparent; }
+.nav-toggle.open span::before{ top:0; transform:rotate(45deg); }
+.nav-toggle.open span::after{ top:0; transform:rotate(-45deg); }
 .nav-mobile-cta{ display:none; }
 
 @media (max-width:960px){
   .nav-links{
-    position:fixed; inset:84px 0 0 0; background:var(--cream-100);
+    position:fixed; inset:0; z-index:105; background:var(--cream-100);
     flex-direction:column; justify-content:flex-start; align-items:stretch;
-    padding:32px 28px; gap:0; transform:translateX(100%); transition:transform .4s var(--ease);
+    padding:calc(84px + env(safe-area-inset-top,0px) + 24px) 28px 32px;
+    gap:0; transform:translateX(100%); transition:transform .4s var(--ease);
     overflow-y:auto;
     /* visibility (not just the off-screen transform) keeps this panel from
        ever being able to widen the page's scrollable area on mobile
@@ -204,7 +216,12 @@ p{ margin:0; }
   }
   .nav-links.open{ transform:translateX(0); visibility:visible; pointer-events:auto; }
   .nav-links a{ padding:16px 0; border-bottom:1px solid var(--border); font-size:1.1rem; }
-  .nav-phone{ display:none; }
+  /* The "Book a Consultation" pill in .nav-cta was competing with the
+     brand and the toggle for the same narrow row, crowding the toggle
+     to the edge (and clipping it on small phones) — the drawer already
+     has its own "Book a Consultation" CTA (.nav-mobile-cta), so drop
+     the top-bar one entirely on mobile instead of squeezing it in. */
+  .nav-cta{ display:none; }
   .nav-toggle{ display:flex; }
   .nav-links .nav-mobile-cta{ display:inline-flex; margin-top:20px; }
 }
