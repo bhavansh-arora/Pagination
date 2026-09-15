@@ -211,17 +211,25 @@ p{ margin:0; }
     position:fixed; inset:0; z-index:105; background:var(--cream-100);
     flex-direction:column; justify-content:flex-start; align-items:stretch;
     padding:calc(84px + env(safe-area-inset-top,0px) + 24px) 28px 32px;
-    gap:0; transform:translateX(100%); transition:transform .4s var(--ease);
+    gap:0; transform:translateX(100%);
     overflow-y:auto;
     /* visibility (not just the off-screen transform) keeps this panel from
        ever being able to widen the page's scrollable area on mobile
        Safari, which can treat a transformed position:fixed element as
        contributing to document scroll even while it's clipped and
        pushed off-screen — the classic cause of "phantom" horizontal
-       scroll on iOS that a plain overflow-x:hidden doesn't always stop. */
+       scroll on iOS that a plain overflow-x:hidden doesn't always stop.
+       It's switched instantly on open (delay:0s) so the panel is there
+       to animate in, but delayed on close (delay:.4s, matching the
+       transform's own duration) so it stays visible for the whole
+       slide-out instead of vanishing the instant .open is removed. */
     visibility:hidden; pointer-events:none;
+    transition:transform .4s var(--ease), visibility 0s linear .4s;
   }
-  .nav-links.open{ transform:translateX(0); visibility:visible; pointer-events:auto; }
+  .nav-links.open{
+    transform:translateX(0); visibility:visible; pointer-events:auto;
+    transition:transform .4s var(--ease), visibility 0s linear;
+  }
   .nav-links a{ padding:16px 0; border-bottom:1px solid var(--border); font-size:1.1rem; }
   /* The "Book a Consultation" pill in .nav-cta was competing with the
      brand and the toggle for the same narrow row, crowding the toggle
