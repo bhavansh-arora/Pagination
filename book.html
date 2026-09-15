@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Book a Consultation — Atelier Interiors</title>
+<meta name="description" content="Book your interior design consultation online in minutes — choose a service, pick a time, and you're confirmed." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%231a1712%22/><text x=%2250%22 y=%2266%22 font-size=%2255%22 fill=%22%23f3ece1%22 text-anchor=%22middle%22 font-family=%22serif%22>A</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="notice-bar">This booking flow is a front-end demo — no backend is connected. See the README to wire up real availability.</div>
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand"><span class="brand-mark">A</span>Atelier</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="about.html">About</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="contact.html">Contact</a>
+      <a href="book.html" class="btn btn-primary nav-mobile-cta">Book a Consultation</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="nav-phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(415) 555-0148</span>
+      <a href="book.html" class="btn btn-primary">Book a Consultation</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<section class="page-header" style="padding:120px 0 60px">
+  <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1800&auto=format&fit=crop" alt="Design studio">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Book a Consultation</span></div>
+    <span class="eyebrow">Reserve your time</span>
+    <h1>Book your session in under two minutes</h1>
+    <p>Pick a service, choose a time that works for you, and you're confirmed instantly — no phone tag required.</p>
+  </div>
+</section>
+
+<main>
+  <section class="section" style="padding-top:64px">
+    <div class="container">
+      <div id="booking-wizard">
+
+        <div class="steps-bar">
+          <div class="step-item active">
+            <div class="dot">1</div><div class="label">Service</div><div class="bar"></div>
+          </div>
+          <div class="step-item">
+            <div class="dot">2</div><div class="label">Date &amp; Time</div><div class="bar"></div>
+          </div>
+          <div class="step-item">
+            <div class="dot">3</div><div class="label">Your Details</div><div class="bar"></div>
+          </div>
+          <div class="step-item">
+            <div class="dot">4</div><div class="label">Review</div><div class="bar"></div>
+          </div>
+          <div class="step-item">
+            <div class="dot">5</div><div class="label">Confirmed</div><div class="bar"></div>
+          </div>
+        </div>
+
+        <div class="booking-shell">
+          <div class="card-panel">
+
+            <!-- STEP 1: SERVICE -->
+            <div class="booking-step active" data-step="1">
+              <h3>What would you like help with?</h3>
+              <p class="hint">Choose the service that best fits your project — you can always add more later.</p>
+              <div class="service-pick-grid" id="service-pick-grid"></div>
+              <div class="step-actions">
+                <span></span>
+                <button class="btn btn-primary" data-next="1" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+              </div>
+            </div>
+
+            <!-- STEP 2: DATE & TIME -->
+            <div class="booking-step" data-step="2">
+              <h3>Choose a date &amp; time</h3>
+              <p class="hint">Studio hours are Mon–Fri 9am–5pm and Sat 10am–2pm. Times shown are already-booked slots removed.</p>
+              <div class="date-row">
+                <div class="field">
+                  <label for="booking-date">Preferred date</label>
+                  <input type="date" id="booking-date" required>
+                </div>
+              </div>
+              <div class="slots-label">Available times</div>
+              <div class="slots-grid" id="slots-grid"></div>
+              <p class="slots-empty" id="slots-empty">Choose a date to see available times.</p>
+              <div class="step-actions">
+                <button class="btn btn-ghost" data-prev="2">&larr; Back</button>
+                <button class="btn btn-primary" data-next="2" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+              </div>
+            </div>
+
+            <!-- STEP 3: DETAILS -->
+            <div class="booking-step" data-step="3">
+              <h3>Your details</h3>
+              <p class="hint">So we can prepare for your session and send your confirmation.</p>
+              <form id="details-form">
+                <div class="form-grid" style="margin-top:24px">
+                  <div class="field">
+                    <label>Full name <span class="req">*</span></label>
+                    <input type="text" name="name" required>
+                    <span class="field-error">Please enter your name.</span>
+                  </div>
+                  <div class="field">
+                    <label>Email <span class="req">*</span></label>
+                    <input type="email" name="email" required>
+                    <span class="field-error">Please enter a valid email.</span>
+                  </div>
+                  <div class="field">
+                    <label>Phone <span class="req">*</span></label>
+                    <input type="tel" name="phone" required>
+                    <span class="field-error">Please enter your phone number.</span>
+                  </div>
+                  <div class="field">
+                    <label>Preferred contact method</label>
+                    <select name="contact_method">
+                      <option>Email</option>
+                      <option>Phone call</option>
+                      <option>Text message</option>
+                    </select>
+                  </div>
+                  <div class="field full">
+                    <label>Project address <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label>
+                    <input type="text" name="address" placeholder="Street, city — for in-home visits">
+                  </div>
+                  <div class="field">
+                    <label>Estimated budget</label>
+                    <select name="budget">
+                      <option>Under $2,500</option>
+                      <option>$2,500 – $10,000</option>
+                      <option>$10,000 – $30,000</option>
+                      <option>$30,000+</option>
+                      <option>Not sure yet</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>How did you hear about us?</label>
+                    <select name="source">
+                      <option>Instagram / Pinterest</option>
+                      <option>Referral</option>
+                      <option>Google Search</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="field full">
+                    <label>Tell us about your project <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label>
+                    <textarea name="notes" placeholder="Share inspiration, must-haves, or anything else that helps us prepare..."></textarea>
+                  </div>
+                </div>
+              </form>
+              <div class="step-actions">
+                <button class="btn btn-ghost" data-prev="3">&larr; Back</button>
+                <button class="btn btn-primary" data-next="3">Review Booking <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+              </div>
+            </div>
+
+            <!-- STEP 4: REVIEW -->
+            <div class="booking-step" data-step="4">
+              <h3>Review your booking</h3>
+              <p class="hint">Please confirm everything looks right before we lock in your time.</p>
+              <div class="review-grid">
+                <div class="review-block">
+                  <h5>Service</h5>
+                  <dl id="review-service"></dl>
+                </div>
+                <div class="review-block">
+                  <h5>Date &amp; Time</h5>
+                  <dl id="review-datetime"></dl>
+                </div>
+                <div class="review-block" style="grid-column:1 / -1">
+                  <h5>Your Details</h5>
+                  <dl id="review-details"></dl>
+                </div>
+              </div>
+              <label class="consent-row">
+                <input type="checkbox" id="consent-check">
+                <span>I understand this session may be rescheduled free of charge up to 24 hours in advance, and I agree to be contacted about my project.</span>
+              </label>
+              <div class="step-actions">
+                <button class="btn btn-ghost" data-prev="4">&larr; Back</button>
+                <button class="btn btn-primary" id="confirm-booking">Confirm Booking <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></button>
+              </div>
+            </div>
+
+            <!-- STEP 5: CONFIRMATION -->
+            <div class="booking-step" data-step="5">
+              <div class="confirm-box">
+                <div class="icon-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <h3>You're booked!</h3>
+                <p>A confirmation has been "sent" to your email (this is a front-end demo). Add it to your calendar below.</p>
+                <div class="confirm-ref">Reference: <span id="confirm-ref"></span></div>
+                <div class="confirm-details">
+                  <div id="confirm-summary"></div>
+                </div>
+                <div class="confirm-actions">
+                  <button class="btn btn-outline" id="download-ics">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M12 11v6m0 0 3-3m-3 3-3-3"/></svg>
+                    Add to Calendar
+                  </button>
+                  <button class="btn btn-primary" id="book-another">Book Another Session</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- SUMMARY SIDEBAR -->
+          <aside class="summary-panel" id="summary-panel">
+            <h4>Booking Summary</h4>
+            <div class="summary-rows"></div>
+            <p class="summary-empty">Your selections will appear here as you go.</p>
+            <div class="summary-total" hidden></div>
+            <div class="summary-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg>
+              <span>Free cancellation up to 24 hours before your session. No payment is required to book.</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-about">
+        <a href="index.html" class="brand"><span class="brand-mark">A</span>Atelier</a>
+        <p>A boutique interior design studio designing warm, considered homes and spaces across the Bay Area since 2012.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 20c1-4 2-8 2-8m2-4a3 3 0 1 1 3 3c0 2-1 4-1 7"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <ul class="footer-links">
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Services</h5>
+        <ul class="footer-links">
+          <li><a href="book.html?service=consult">Design Consultation</a></li>
+          <li><a href="book.html?service=room">Room Refresh</a></li>
+          <li><a href="book.html?service=home">Full Home Design</a></li>
+          <li><a href="book.html?service=commercial">Commercial Space</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay in touch</h5>
+        <ul class="footer-contact">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>128 Hayes St, San Francisco, CA</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(415) 555-0148</li>
+        </ul>
+        <form class="footer-form">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit" aria-label="Subscribe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year></span> Atelier Interiors. All rights reserved.</span>
+      <div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script src="js/main.js"></script>
+<script src="js/booking.js"></script>
+</body>
+</html>
