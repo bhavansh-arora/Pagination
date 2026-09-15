@@ -55,17 +55,6 @@
 
 *,*::before,*::after{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
-
-/* Fallback fade-in for browsers without native cross-document view
-   transitions, so every page change still feels smooth rather than an
-   instant hard cut. Skipped for users who prefer reduced motion. */
-@media (prefers-reduced-motion: no-preference){
-  body{ animation:page-fade-in .35s ease-out; }
-}
-@keyframes page-fade-in{
-  from{ opacity:0; }
-  to{ opacity:1; }
-}
 html,body{ overflow-x:hidden; max-width:100%; }
 body{
   margin:0;
