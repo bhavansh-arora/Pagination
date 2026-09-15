@@ -366,18 +366,9 @@ p{ margin:0; }
 
 /* ---------- Process ---------- */
 .process-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid var(--border); }
-.process-step{ padding:34px 28px 34px 0; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+.process-step{ padding:34px 28px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
 .process-step:last-child{ border-right:none; }
-/* Zero left padding on .process-step is intentional at 4-up desktop —
-   it keeps each column's number/heading flush with its own divider
-   line. Once the grid drops to 2 or 1 columns that divider stops
-   lining up with the section heading above, so each step reads as its
-   own bordered card and the missing left padding makes the text look
-   jammed against that edge — give it real padding again there. */
-@media (max-width:900px){
-  .process-grid{ grid-template-columns:repeat(2,1fr); }
-  .process-step{ padding-left:28px; }
-}
+@media (max-width:900px){ .process-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:560px){ .process-grid{ grid-template-columns:1fr; } }
 .process-step .n{ font-family:var(--font-display); font-style:italic; font-size:2.4rem; color:var(--clay-300); }
 .process-step h4{ margin-top:14px; font-size:1.15rem; }
