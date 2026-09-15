@@ -322,7 +322,7 @@ p{ margin:0; }
 .filter-btn:hover{ border-color:var(--charcoal-900); color:var(--charcoal-900); }
 .filter-btn.active{ background:var(--charcoal-900); color:#fff; border-color:var(--charcoal-900); }
 
-.gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); grid-auto-flow:dense; gap:24px; }
 @media (max-width:900px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:560px){ .gallery-grid{ grid-template-columns:1fr; } }
 .gallery-item{
