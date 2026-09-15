@@ -258,6 +258,21 @@ p{ margin:0; }
   animation:scrollline 2.2s infinite var(--ease);
 }
 @keyframes scrollline{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
+@media (max-width:640px){
+  /* Content is bottom-anchored inside a fixed-height box; on short mobile
+     viewports the stacked text can be taller than that box, pushing the
+     top lines above it where .hero's overflow:hidden clips them. Give the
+     box more room and shrink the stack so it reliably fits. */
+  .hero-media{ height:100vh; min-height:720px; }
+  .hero-content{ padding-bottom:40px; }
+  .hero-content .eyebrow{ font-size:.7rem; }
+  .hero-content h1{ margin-top:14px; font-size:clamp(2.1rem,9vw,2.8rem); line-height:1.08; }
+  .hero-sub{ margin-top:14px; font-size:1rem; }
+  .hero-actions{ margin-top:24px; gap:12px; }
+  .hero-stats{ margin-top:28px; padding-top:20px; gap:16px 26px; }
+  .hero-stat b{ font-size:1.5rem; }
+  .hero-scroll{ display:none; }
+}
 
 /* ---------- Marquee strip ---------- */
 .marquee{ background:var(--charcoal-900); color:var(--cream-200); overflow:hidden; max-width:100%; padding:20px 0; }
