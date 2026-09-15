@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact Us — Meridian Care Clinic</title>
+<meta name="description" content="Get in touch with Meridian Care Clinic — visit us, call, or send a message. Same-day appointments available.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="announce-bar">💚 Now accepting new patients — <span>Same-day appointments available.</span> Call (555) 010-2938</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span>
+      <span>Meridian<small>Care Clinic</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="team.html">Our Doctors</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="blog.html">Health Blog</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+15550102938" class="nav-phone">
+        <span class="ic"><i class="fa-solid fa-phone"></i></span>
+        <span>(555) 010-2938<small>Mon–Sat, 8am–7pm</small></span>
+      </a>
+      <a href="appointment.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-calendar-check"></i> Book Visit</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-panel">
+    <div class="mobile-panel-top">
+      <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian</span>
+      <button class="mclose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <a href="index.html" class="mlink">Home</a>
+    <a href="about.html" class="mlink">About</a>
+    <a href="services.html" class="mlink">Services</a>
+    <a href="team.html" class="mlink">Our Doctors</a>
+    <a href="testimonials.html" class="mlink">Testimonials</a>
+    <a href="blog.html" class="mlink">Health Blog</a>
+    <a href="contact.html" class="mlink">Contact</a>
+    <a href="appointment.html" class="btn btn-primary btn-block"><i class="fa-solid fa-calendar-check"></i> Book Appointment</a>
+    <a href="tel:+15550102938" class="btn btn-outline btn-block"><i class="fa-solid fa-phone"></i> (555) 010-2938</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i> <span>Contact</span></div>
+      <h1>We're here when you need us.</h1>
+      <p>Questions about a visit, insurance, or a specific doctor? Reach out — our care coordinators respond fast.</p>
+    </div>
+  </section>
+
+  <!-- INFO CARDS -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="grid cols-3" style="margin-top:-96px;position:relative;z-index:2;">
+        <div class="contact-info-card" data-reveal>
+          <span class="ic"><i class="fa-solid fa-location-dot"></i></span>
+          <div><h4>Visit Us</h4><p>123 Health Avenue, Suite 200<br>Springfield, ST 62704</p></div>
+        </div>
+        <div class="contact-info-card" data-reveal>
+          <span class="ic"><i class="fa-solid fa-phone"></i></span>
+          <div><h4>Call Us</h4><p>(555) 010-2938<br>Mon–Sat, 8:00 AM – 7:00 PM</p></div>
+        </div>
+        <div class="contact-info-card" data-reveal>
+          <span class="ic"><i class="fa-solid fa-envelope"></i></span>
+          <div><h4>Email Us</h4><p>hello@meridiancare.example<br>We reply within 1 business day</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM + MAP -->
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div data-reveal>
+          <span class="eyebrow">Send a Message</span>
+          <h2 style="font-size:clamp(24px,3.4vw,34px);margin-top:14px;margin-bottom:26px;">Have a question? Ask away.</h2>
+          <form class="form-card" data-demo-form>
+            <div class="form-row">
+              <div class="field">
+                <label for="c-name">Full Name</label>
+                <input type="text" id="c-name" name="name" placeholder="Jane Doe" required>
+              </div>
+              <div class="field">
+                <label for="c-phone">Phone Number</label>
+                <input type="tel" id="c-phone" name="phone" placeholder="(555) 000-0000" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="c-email">Email Address</label>
+              <input type="email" id="c-email" name="email" placeholder="you@email.com" required>
+            </div>
+            <div class="field">
+              <label for="c-subject">Subject</label>
+              <select id="c-subject" name="subject" required>
+                <option value="">Select a topic</option>
+                <option>General Inquiry</option>
+                <option>Appointment Question</option>
+                <option>Insurance &amp; Billing</option>
+                <option>Medical Records</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="c-message">Message</label>
+              <textarea id="c-message" name="message" placeholder="How can we help?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+            <div class="form-success">
+              <i class="fa-solid fa-circle-check"></i> Thanks! We've received your message and will reply within one business day.
+            </div>
+          </form>
+        </div>
+
+        <div data-reveal>
+          <span class="eyebrow">Find Us</span>
+          <h2 style="font-size:clamp(24px,3.4vw,34px);margin-top:14px;margin-bottom:26px;">Conveniently located, easy to reach</h2>
+          <div class="map-wrap" style="margin-bottom:28px;">
+            <iframe src="https://maps.google.com/maps?q=123%20Health%20Avenue%2C%20Springfield&t=&z=14&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Meridian Care Clinic location"></iframe>
+          </div>
+          <div class="form-card" style="padding:28px;">
+            <h4 style="font-size:16px;margin-bottom:16px;"><i class="fa-solid fa-clock" style="color:var(--teal-600);margin-right:8px;"></i> Clinic Hours</h4>
+            <table class="hours-table">
+              <tr class="today"><td>Monday</td><td>8:00 AM – 7:00 PM</td></tr>
+              <tr><td>Tuesday</td><td>8:00 AM – 7:00 PM</td></tr>
+              <tr><td>Wednesday</td><td>8:00 AM – 7:00 PM</td></tr>
+              <tr><td>Thursday</td><td>8:00 AM – 7:00 PM</td></tr>
+              <tr><td>Friday</td><td>8:00 AM – 7:00 PM</td></tr>
+              <tr><td>Saturday</td><td>9:00 AM – 4:00 PM</td></tr>
+              <tr><td>Sunday</td><td>Closed</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" style="background:var(--mint-50);">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow">Before You Visit</span>
+        <h2>A few things patients often ask</h2>
+      </div>
+      <div style="max-width:760px;margin:0 auto;" data-reveal>
+        <div class="faq-item open">
+          <div class="faq-q"><span>Is parking available on-site?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a" style="max-height:200px;"><div class="faq-a-inner">Yes, free patient parking is available directly behind the building, with dedicated accessible spots near the entrance.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>Do you accept walk-in patients?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a"><div class="faq-a-inner">We prioritize booked appointments, but walk-ins are accommodated for urgent concerns whenever a same-day slot is open.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>How do I verify my insurance is accepted?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a"><div class="faq-a-inner">Call our front desk with your insurance provider and plan number — our team will confirm coverage before your visit.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>What do I do in a medical emergency?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a"><div class="faq-a-inner">For life-threatening emergencies, call your local emergency number immediately or go to the nearest emergency room. Meridian Care Clinic is an outpatient facility.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian<small style="color:rgba(255,255,255,.5);">Care Clinic</small></span>
+        <p>Compassionate, modern healthcare for the whole family — 18 years of trusted care in your neighborhood.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Our Doctors</a></li>
+          <li><a href="blog.html">Health Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Patients</h4>
+        <ul>
+          <li><a href="appointment.html">Book Appointment</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html#faq">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Visit Us</h4>
+        <ul>
+          <li><span class="ic"><i class="fa-solid fa-location-dot"></i></span> 123 Health Avenue, Suite 200, Springfield</li>
+          <li><span class="ic"><i class="fa-solid fa-phone"></i></span> (555) 010-2938</li>
+          <li><span class="ic"><i class="fa-solid fa-envelope"></i></span> hello@meridiancare.example</li>
+          <li><span class="ic"><i class="fa-solid fa-clock"></i></span> Mon–Sat: 8:00 AM – 7:00 PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Meridian Care Clinic. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sell-bar" id="sellBar">
+  <div class="sell-bar-inner">
+    <div class="sell-bar-msg">
+      <span class="heart"><i class="fa-solid fa-heart"></i></span>
+      <div><strong>Love this site? Make it yours.</strong><span>Fully customizable template for your practice — live in days.</span></div>
+    </div>
+    <div class="sell-bar-actions">
+      <a class="sell-bar-btn" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=917017905835&text=Hi%2C+I%E2%80%99d+like+to+get+this+website+for+my+business.%0A%0AWebsite+Code%3A+LM-7319&utm_source=chatgpt.com">
+        <i class="fa-brands fa-whatsapp"></i> <span class="full">Get This Website</span><span class="short">Get Website</span>
+      </a>
+      <button class="sell-bar-close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<div class="toast" id="toast">
+  <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
+  <span data-toast-text>Done!</span>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Patient Testimonials — Meridian Care Clinic</title>
+<meta name="description" content="Read real reviews from Meridian Care Clinic patients — 4.9/5 average rating across 1,800+ verified reviews.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .rating-bar{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .rating-bar .lbl{width:54px;font-size:13px;font-weight:700;color:var(--slate-700);flex-shrink:0;}
+  .rating-bar .track{flex:1;height:9px;border-radius:6px;background:var(--slate-100);overflow:hidden;}
+  .rating-bar .fill{height:100%;border-radius:6px;background:var(--grad-gold);}
+  .rating-bar .pct{width:40px;text-align:right;font-size:12.5px;color:var(--slate-500);font-weight:700;flex-shrink:0;}
+  .review-summary{background:#fff;border-radius:var(--radius-lg);padding:40px;box-shadow:var(--shadow-md);border:1px solid var(--slate-100);display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:center;}
+  .rs-score{text-align:center;padding-right:44px;border-right:1px solid var(--slate-100);}
+  .rs-score .num{font-family:var(--font-head);font-weight:800;font-size:54px;color:var(--navy-900);}
+  @media(max-width:640px){.review-summary{grid-template-columns:1fr;}.rs-score{border-right:none;border-bottom:1px solid var(--slate-100);padding:0 0 24px;}}
+  .review-grid-card{background:#fff;border-radius:var(--radius-md);padding:28px;border:1px solid var(--slate-100);transition:all .35s var(--ease);}
+  .review-grid-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+  .video-testi-card{position:relative;border-radius:var(--radius-md);overflow:hidden;aspect-ratio:4/5;cursor:pointer;}
+  .video-testi-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+  .video-testi-card:hover img{transform:scale(1.08);}
+  .video-testi-card::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,20,25,.82),transparent 55%);}
+  .video-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:var(--teal-700);font-size:20px;z-index:2;transition:transform .3s var(--ease);}
+  .video-testi-card:hover .video-play{transform:translate(-50%,-50%) scale(1.12);}
+  .video-info{position:absolute;bottom:18px;left:18px;right:18px;color:#fff;z-index:2;}
+  .video-info strong{display:block;font-size:15px;}
+  .video-info span{font-size:12px;opacity:.8;}
+</style>
+</head>
+<body>
+
+<div class="announce-bar">💚 Now accepting new patients — <span>Same-day appointments available.</span> Call (555) 010-2938</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span>
+      <span>Meridian<small>Care Clinic</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="team.html">Our Doctors</a>
+      <a href="testimonials.html" class="active">Testimonials</a>
+      <a href="blog.html">Health Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+15550102938" class="nav-phone">
+        <span class="ic"><i class="fa-solid fa-phone"></i></span>
+        <span>(555) 010-2938<small>Mon–Sat, 8am–7pm</small></span>
+      </a>
+      <a href="appointment.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-calendar-check"></i> Book Visit</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-panel">
+    <div class="mobile-panel-top">
+      <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian</span>
+      <button class="mclose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <a href="index.html" class="mlink">Home</a>
+    <a href="about.html" class="mlink">About</a>
+    <a href="services.html" class="mlink">Services</a>
+    <a href="team.html" class="mlink">Our Doctors</a>
+    <a href="testimonials.html" class="mlink">Testimonials</a>
+    <a href="blog.html" class="mlink">Health Blog</a>
+    <a href="contact.html" class="mlink">Contact</a>
+    <a href="appointment.html" class="btn btn-primary btn-block"><i class="fa-solid fa-calendar-check"></i> Book Appointment</a>
+    <a href="tel:+15550102938" class="btn btn-outline btn-block"><i class="fa-solid fa-phone"></i> (555) 010-2938</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i> <span>Testimonials</span></div>
+      <h1>12,400+ patients. One consistent standard of care.</h1>
+      <p>Real, verified reviews from patients across every department at Meridian.</p>
+    </div>
+  </section>
+
+  <!-- RATING SUMMARY -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="review-summary" data-reveal>
+        <div class="rs-score">
+          <div class="num">4.9</div>
+          <div class="stars" style="font-size:20px;">★★★★★</div>
+          <p style="font-size:13px;color:var(--slate-500);margin-top:8px;">Based on 1,842 reviews</p>
+        </div>
+        <div>
+          <div class="rating-bar"><span class="lbl">5 stars</span><div class="track"><div class="fill" style="width:89%;"></div></div><span class="pct">89%</span></div>
+          <div class="rating-bar"><span class="lbl">4 stars</span><div class="track"><div class="fill" style="width:8%;"></div></div><span class="pct">8%</span></div>
+          <div class="rating-bar"><span class="lbl">3 stars</span><div class="track"><div class="fill" style="width:2%;"></div></div><span class="pct">2%</span></div>
+          <div class="rating-bar"><span class="lbl">2 stars</span><div class="track"><div class="fill" style="width:1%;"></div></div><span class="pct">1%</span></div>
+          <div class="rating-bar"><span class="lbl">1 star</span><div class="track"><div class="fill" style="width:0%;"></div></div><span class="pct">0%</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTERABLE REVIEWS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow">Patient Reviews</span>
+        <h2>What our patients are saying</h2>
+      </div>
+
+      <div class="filter-tabs" data-reveal>
+        <button class="active" data-filter="all">All Reviews</button>
+        <button data-filter="cardiology">Cardiology</button>
+        <button data-filter="pediatrics">Pediatrics</button>
+        <button data-filter="dental">Dental</button>
+        <button data-filter="orthopedics">Orthopedics</button>
+        <button data-filter="general">General Medicine</button>
+      </div>
+
+      <div class="grid cols-3" id="reviewGrid">
+        <div class="review-grid-card" data-cat="general" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"Dr. Sharma actually listened to me instead of rushing through my appointment. First clinic in years where I felt like a person, not a number."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Nair"><div><strong>Priya Nair</strong><span>General Medicine</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="pediatrics" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"Booked a same-day slot for my son's fever and we were seen within the hour. The pediatric team is incredibly gentle."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rohan Mehta"><div><strong>Rohan Mehta</strong><span>Pediatrics</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="general" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"The on-site lab meant I had my blood work results the same afternoon. Transparent pricing too — no surprise charges."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sara Thomas"><div><strong>Sara Thomas</strong><span>Diagnostics</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="cardiology" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"Dr. Kapoor caught an irregular heartbeat during a routine checkup that two other doctors had missed. Genuinely grateful."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="David Chen"><div><strong>David Chen</strong><span>Cardiology</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="orthopedics" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"After a knee injury, Dr. Malhotra built a rehab plan that got me back to running in 10 weeks — no surgery needed."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/men/23.jpg" alt="Miguel Santos"><div><strong>Miguel Santos</strong><span>Orthopedics</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="dental" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"Painless cleaning, zero wait time, and the dentist explained every step. Best dental experience I've had."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Aisha Khan"><div><strong>Aisha Khan</strong><span>Dental Care</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="pediatrics" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"Our pediatrician remembers every detail about my kids between visits. It genuinely feels like family medicine."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/women/52.jpg" alt="Linda Park"><div><strong>Linda Park</strong><span>Pediatrics</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="general" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"The telemedicine option saved me a half-day off work for a simple prescription renewal. So convenient."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/men/61.jpg" alt="James Okafor"><div><strong>James Okafor</strong><span>Telemedicine</span></div></div>
+        </div>
+        <div class="review-grid-card" data-cat="cardiology" data-reveal>
+          <div class="stars">★★★★★</div>
+          <p style="margin-top:12px;font-size:14.5px;color:var(--slate-700);">"After years of unclear diagnoses elsewhere, the cardiology team finally gave me a plan that actually worked."</p>
+          <div class="testi-person"><img src="https://randomuser.me/api/portraits/men/76.jpg" alt="Arjun Verma"><div><strong>Arjun Verma</strong><span>Cardiology</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO TESTIMONIALS -->
+  <section class="section" style="background:var(--mint-50);">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow">In Their Own Words</span>
+        <h2>Video testimonials from our patients</h2>
+      </div>
+      <div class="grid cols-3">
+        <div class="video-testi-card" data-reveal data-video-testi>
+          <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=600&q=80" alt="Patient video testimonial">
+          <span class="video-play"><i class="fa-solid fa-play"></i></span>
+          <div class="video-info"><strong>Sara's Story</strong><span>3-year patient · Diagnostics</span></div>
+        </div>
+        <div class="video-testi-card" data-reveal data-video-testi>
+          <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=80" alt="Patient video testimonial">
+          <span class="video-play"><i class="fa-solid fa-play"></i></span>
+          <div class="video-info"><strong>David's Story</strong><span>Cardiology patient</span></div>
+        </div>
+        <div class="video-testi-card" data-reveal data-video-testi>
+          <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" alt="Patient video testimonial">
+          <span class="video-play"><i class="fa-solid fa-play"></i></span>
+          <div class="video-info"><strong>The Mehta Family</strong><span>Pediatric patients</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-banner" data-reveal="scale">
+        <div>
+          <h2>Ready to become our next success story?</h2>
+          <p>Book your first visit and see why 98% of patients recommend Meridian.</p>
+        </div>
+        <a href="appointment.html" class="btn btn-ghost-light">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian<small style="color:rgba(255,255,255,.5);">Care Clinic</small></span>
+        <p>Compassionate, modern healthcare for the whole family — 18 years of trusted care in your neighborhood.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Our Doctors</a></li>
+          <li><a href="blog.html">Health Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Patients</h4>
+        <ul>
+          <li><a href="appointment.html">Book Appointment</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html#faq">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Visit Us</h4>
+        <ul>
+          <li><span class="ic"><i class="fa-solid fa-location-dot"></i></span> 123 Health Avenue, Suite 200, Springfield</li>
+          <li><span class="ic"><i class="fa-solid fa-phone"></i></span> (555) 010-2938</li>
+          <li><span class="ic"><i class="fa-solid fa-envelope"></i></span> hello@meridiancare.example</li>
+          <li><span class="ic"><i class="fa-solid fa-clock"></i></span> Mon–Sat: 8:00 AM – 7:00 PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Meridian Care Clinic. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sell-bar" id="sellBar">
+  <div class="sell-bar-inner">
+    <div class="sell-bar-msg">
+      <span class="heart"><i class="fa-solid fa-heart"></i></span>
+      <div><strong>Love this site? Make it yours.</strong><span>Fully customizable template for your practice — live in days.</span></div>
+    </div>
+    <div class="sell-bar-actions">
+      <a class="sell-bar-btn" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=917017905835&text=Hi%2C+I%E2%80%99d+like+to+get+this+website+for+my+business.%0A%0AWebsite+Code%3A+LM-7319&utm_source=chatgpt.com">
+        <i class="fa-brands fa-whatsapp"></i> <span class="full">Get This Website</span><span class="short">Get Website</span>
+      </a>
+      <button class="sell-bar-close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<div class="toast" id="toast">
+  <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
+  <span data-toast-text>Done!</span>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/script.js"></script>
+<script>
+  (function(){
+    var tabs = document.querySelectorAll(".filter-tabs button");
+    var cards = document.querySelectorAll("#reviewGrid .review-grid-card");
+    tabs.forEach(function(tab){
+      tab.addEventListener("click", function(){
+        tabs.forEach(function(t){ t.classList.remove("active"); });
+        tab.classList.add("active");
+        var f = tab.getAttribute("data-filter");
+        cards.forEach(function(card){
+          var show = (f === "all" || card.getAttribute("data-cat") === f);
+          card.style.display = show ? "" : "none";
+        });
+      });
+    });
+    document.querySelectorAll("[data-video-testi]").forEach(function(card){
+      card.addEventListener("click", function(){
+        var toast = document.getElementById("toast");
+        if(!toast) return;
+        toast.querySelector("[data-toast-text]").textContent = "Sample template — connect your own video testimonials here.";
+        toast.classList.add("show");
+        setTimeout(function(){ toast.classList.remove("show"); }, 4000);
+      });
+    });
+  })();
+</script>
+</body>
+</html>

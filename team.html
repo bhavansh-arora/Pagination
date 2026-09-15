@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Our Doctors — Meridian Care Clinic</title>
+<meta name="description" content="Meet Meridian Care Clinic's board-certified specialists — cardiology, pediatrics, orthopedics, neurology, dermatology, and family medicine.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="announce-bar">💚 Now accepting new patients — <span>Same-day appointments available.</span> Call (555) 010-2938</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span>
+      <span>Meridian<small>Care Clinic</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="team.html" class="active">Our Doctors</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="blog.html">Health Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+15550102938" class="nav-phone">
+        <span class="ic"><i class="fa-solid fa-phone"></i></span>
+        <span>(555) 010-2938<small>Mon–Sat, 8am–7pm</small></span>
+      </a>
+      <a href="appointment.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-calendar-check"></i> Book Visit</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-panel">
+    <div class="mobile-panel-top">
+      <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian</span>
+      <button class="mclose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <a href="index.html" class="mlink">Home</a>
+    <a href="about.html" class="mlink">About</a>
+    <a href="services.html" class="mlink">Services</a>
+    <a href="team.html" class="mlink">Our Doctors</a>
+    <a href="testimonials.html" class="mlink">Testimonials</a>
+    <a href="blog.html" class="mlink">Health Blog</a>
+    <a href="contact.html" class="mlink">Contact</a>
+    <a href="appointment.html" class="btn btn-primary btn-block"><i class="fa-solid fa-calendar-check"></i> Book Appointment</a>
+    <a href="tel:+15550102938" class="btn btn-outline btn-block"><i class="fa-solid fa-phone"></i> (555) 010-2938</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i> <span>Our Doctors</span></div>
+      <h1>Meet the specialists behind your care.</h1>
+      <p>24 board-certified doctors across 12 departments — click any profile to read their full bio and areas of focus.</p>
+    </div>
+  </section>
+
+  <!-- TEAM GRID -->
+  <section class="section">
+    <div class="container">
+      <div class="grid cols-3">
+
+        <div class="doctor-card" data-reveal
+          data-doctor
+          data-img="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=80"
+          data-name="Dr. Ananya Sharma"
+          data-role="Medical Director · Family Medicine"
+          data-tags="MD, Family Medicine, 15+ yrs, Board Certified"
+          data-bio="Dr. Sharma founded Meridian Care Clinic in 2008 with a mission to make unhurried, patient-first care the norm rather than the exception. She specializes in preventive medicine and chronic condition management, and personally oversees the clinic's clinical standards across all departments.">
+          <div class="doctor-media">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80" alt="Dr. Ananya Sharma">
+            <div class="doctor-social">
+              <a href="#" onclick="return false;"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" onclick="return false;"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
+          <div class="doctor-body">
+            <h3>Dr. Ananya Sharma</h3>
+            <span class="role">Medical Director · Family Medicine</span>
+            <p>15+ years guiding patients through preventive and long-term care plans.</p>
+          </div>
+        </div>
+
+        <div class="doctor-card" data-reveal
+          data-doctor
+          data-img="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=900&q=80"
+          data-name="Dr. Rajiv Kapoor"
+          data-role="Cardiologist"
+          data-tags="MD, Cardiology, 12+ yrs, FACC"
+          data-bio="Dr. Kapoor treats a full range of cardiovascular conditions, from hypertension to complex arrhythmias. He's especially passionate about preventive cardiology, helping patients avoid major cardiac events through early intervention and lifestyle coaching.">
+          <div class="doctor-media">
+            <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=600&q=80" alt="Dr. Rajiv Kapoor">
+            <div class="doctor-social">
+              <a href="#" onclick="return false;"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" onclick="return false;"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
+          <div class="doctor-body">
+            <h3>Dr. Rajiv Kapoor</h3>
+            <span class="role">Cardiologist</span>
+            <p>Specializes in preventive cardiology and long-term heart health.</p>
+          </div>
+        </div>
+
+        <div class="doctor-card" data-reveal
+          data-doctor
+          data-img="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=900&q=80"
+          data-name="Dr. Meera Iyer"
+          data-role="Pediatrician"
+          data-tags="MD, Pediatrics, 10+ yrs, Board Certified"
+          data-bio="Dr. Iyer brings warmth and patience to every visit, making checkups and vaccinations far less intimidating for young patients. She works closely with parents to build long-term wellness plans for infants through teens.">
+          <div class="doctor-media">
+            <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=600&q=80" alt="Dr. Meera Iyer">
+            <div class="doctor-social">
+              <a href="#" onclick="return false;"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" onclick="return false;"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
+          <div class="doctor-body">
+            <h3>Dr. Meera Iyer</h3>
+            <span class="role">Pediatrician</span>
+            <p>Gentle, patient-first care for infants, kids, and teens.</p>
+          </div>
+        </div>
+
+        <div class="doctor-card" data-reveal
+          data-doctor
+          data-img="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=80"
+          data-name="Dr. Karan Malhotra"
+          data-role="Orthopedic Surgeon"
+          data-tags="MD, Orthopedics, 14+ yrs, Sports Medicine"
+          data-bio="Dr. Malhotra treats joint, bone, and sports-related injuries with a focus on non-surgical recovery whenever possible. He works with an in-house physiotherapy team to build complete rehabilitation plans for every patient.">
+          <div class="doctor-media">
+            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80" alt="Dr. Karan Malhotra">
+            <div class="doctor-social">
+              <a href="#" onclick="return false;"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" onclick="return false;"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
+          <div class="doctor-body">
+            <h3>Dr. Karan Malhotra</h3>
+            <span class="role">Orthopedic Surgeon</span>
+            <p>Joint, bone, and sports-injury care with hands-on rehab.</p>
+          </div>
+        </div>
+
+        <div class="doctor-card" data-reveal
+          data-doctor
+          data-img="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=80"
+          data-name="Dr. Neha Gupta"
+          data-role="Neurologist"
+          data-tags="MD, Neurology, 11+ yrs, Board Certified"
+          data-bio="Dr. Gupta diagnoses and manages migraines, seizure disorders, and nerve-related conditions. Her approach blends advanced diagnostics with clear, jargon-free explanations so patients understand exactly what's happening — and why.">
+          <div class="doctor-media">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=600&q=80" alt="Dr. Neha Gupta">
+            <div class="doctor-social">
+              <a href="#" onclick="return false;"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" onclick="return false;"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
+          <div class="doctor-body">
+            <h3>Dr. Neha Gupta</h3>
+            <span class="role">Neurologist</span>
+            <p>Advanced diagnostics for migraines and nerve disorders.</p>
+          </div>
+        </div>
+
+        <div class="doctor-card" data-reveal
+          data-doctor
+          data-img="https://images.unsplash.com/photo-1571772805064-207c8435df79?auto=format&fit=crop&w=900&q=80"
+          data-name="Dr. Vikram Rao"
+          data-role="Dermatologist"
+          data-tags="MD, Dermatology, 9+ yrs, Cosmetic &amp; Clinical"
+          data-bio="Dr. Rao treats everything from acne and eczema to skin cancer screenings, combining clinical dermatology with cosmetic expertise. Patients appreciate his straightforward, no-pressure approach to treatment recommendations.">
+          <div class="doctor-media">
+            <img src="https://images.unsplash.com/photo-1571772805064-207c8435df79?auto=format&fit=crop&w=600&q=80" alt="Dr. Vikram Rao">
+            <div class="doctor-social">
+              <a href="#" onclick="return false;"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" onclick="return false;"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+          </div>
+          <div class="doctor-body">
+            <h3>Dr. Vikram Rao</h3>
+            <span class="role">Dermatologist</span>
+            <p>Clinical and cosmetic dermatology for all skin types.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-band">
+    <div class="container stats-grid">
+      <div class="stat-item" data-reveal>
+        <div class="stat-num"><span data-count="24">0</span><span class="suffix">+</span></div>
+        <div class="stat-label">Specialist Doctors</div>
+      </div>
+      <div class="stat-item" data-reveal>
+        <div class="stat-num"><span data-count="12">0</span></div>
+        <div class="stat-label">Departments</div>
+      </div>
+      <div class="stat-item" data-reveal>
+        <div class="stat-num"><span data-count="18">0</span><span class="suffix">+</span></div>
+        <div class="stat-label">Years Combined Trust</div>
+      </div>
+      <div class="stat-item" data-reveal>
+        <div class="stat-num"><span data-count="98">0</span><span class="suffix">%</span></div>
+        <div class="stat-label">Patient Satisfaction</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-banner" data-reveal="scale">
+        <div>
+          <h2>Found the right doctor for you?</h2>
+          <p>Book an appointment in under 60 seconds — same-day slots available.</p>
+        </div>
+        <a href="appointment.html" class="btn btn-ghost-light">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian<small style="color:rgba(255,255,255,.5);">Care Clinic</small></span>
+        <p>Compassionate, modern healthcare for the whole family — 18 years of trusted care in your neighborhood.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Our Doctors</a></li>
+          <li><a href="blog.html">Health Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Patients</h4>
+        <ul>
+          <li><a href="appointment.html">Book Appointment</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html#faq">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Visit Us</h4>
+        <ul>
+          <li><span class="ic"><i class="fa-solid fa-location-dot"></i></span> 123 Health Avenue, Suite 200, Springfield</li>
+          <li><span class="ic"><i class="fa-solid fa-phone"></i></span> (555) 010-2938</li>
+          <li><span class="ic"><i class="fa-solid fa-envelope"></i></span> hello@meridiancare.example</li>
+          <li><span class="ic"><i class="fa-solid fa-clock"></i></span> Mon–Sat: 8:00 AM – 7:00 PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Meridian Care Clinic. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sell-bar" id="sellBar">
+  <div class="sell-bar-inner">
+    <div class="sell-bar-msg">
+      <span class="heart"><i class="fa-solid fa-heart"></i></span>
+      <div><strong>Love this site? Make it yours.</strong><span>Fully customizable template for your practice — live in days.</span></div>
+    </div>
+    <div class="sell-bar-actions">
+      <a class="sell-bar-btn" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=917017905835&text=Hi%2C+I%E2%80%99d+like+to+get+this+website+for+my+business.%0A%0AWebsite+Code%3A+LM-7319&utm_source=chatgpt.com">
+        <i class="fa-brands fa-whatsapp"></i> <span class="full">Get This Website</span><span class="short">Get Website</span>
+      </a>
+      <button class="sell-bar-close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<div class="toast" id="toast">
+  <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
+  <span data-toast-text>Done!</span>
+</div>
+
+<!-- Doctor bio modal -->
+<div class="modal-overlay" id="doctorModal">
+  <div class="modal-box">
+    <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+    <img class="modal-head-img" src="" alt="Doctor photo">
+    <div class="modal-body">
+      <h3 data-m-name></h3>
+      <span class="role" data-m-role></span>
+      <p data-m-bio></p>
+      <div class="modal-tags" data-m-tags></div>
+      <a href="appointment.html" class="btn btn-primary" style="margin-top:22px;">Book with this doctor <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

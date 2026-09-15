@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Services — Meridian Care Clinic</title>
+<meta name="description" content="Explore Meridian Care Clinic's full range of medical services — from cardiology and pediatrics to diagnostics and telemedicine.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="announce-bar">💚 Now accepting new patients — <span>Same-day appointments available.</span> Call (555) 010-2938</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span>
+      <span>Meridian<small>Care Clinic</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="team.html">Our Doctors</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="blog.html">Health Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+15550102938" class="nav-phone">
+        <span class="ic"><i class="fa-solid fa-phone"></i></span>
+        <span>(555) 010-2938<small>Mon–Sat, 8am–7pm</small></span>
+      </a>
+      <a href="appointment.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-calendar-check"></i> Book Visit</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-panel">
+    <div class="mobile-panel-top">
+      <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian</span>
+      <button class="mclose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <a href="index.html" class="mlink">Home</a>
+    <a href="about.html" class="mlink">About</a>
+    <a href="services.html" class="mlink">Services</a>
+    <a href="team.html" class="mlink">Our Doctors</a>
+    <a href="testimonials.html" class="mlink">Testimonials</a>
+    <a href="blog.html" class="mlink">Health Blog</a>
+    <a href="contact.html" class="mlink">Contact</a>
+    <a href="appointment.html" class="btn btn-primary btn-block"><i class="fa-solid fa-calendar-check"></i> Book Appointment</a>
+    <a href="tel:+15550102938" class="btn btn-outline btn-block"><i class="fa-solid fa-phone"></i> (555) 010-2938</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i> <span>Services</span></div>
+      <h1>Complete care, from checkup to specialist treatment.</h1>
+      <p>Every department at Meridian is staffed by board-certified specialists and backed by our on-site diagnostic lab — so your care plan moves fast.</p>
+    </div>
+  </section>
+
+  <!-- FULL SERVICES GRID -->
+  <section class="section">
+    <div class="container">
+      <div class="grid cols-3">
+        <div class="service-card" data-reveal>
+          <span class="badge-num">01</span>
+          <span class="ic"><i class="fa-solid fa-house-chimney-medical"></i></span>
+          <h3>General &amp; Family Medicine</h3>
+          <p>Annual physicals, chronic condition management, and preventive care for every age.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">02</span>
+          <span class="ic"><i class="fa-solid fa-heart-pulse"></i></span>
+          <h3>Cardiology</h3>
+          <p>ECG, echocardiograms, and long-term treatment plans for heart health.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">03</span>
+          <span class="ic"><i class="fa-solid fa-baby"></i></span>
+          <h3>Pediatrics</h3>
+          <p>Well-child visits, vaccinations, and gentle urgent care for infants through teens.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">04</span>
+          <span class="ic"><i class="fa-solid fa-tooth"></i></span>
+          <h3>Dental Care</h3>
+          <p>Cleanings, fillings, and cosmetic dentistry from our in-house dental team.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">05</span>
+          <span class="ic"><i class="fa-solid fa-brain"></i></span>
+          <h3>Neurology</h3>
+          <p>Diagnosis and management of migraines, seizures, and nerve disorders.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">06</span>
+          <span class="ic"><i class="fa-solid fa-bone"></i></span>
+          <h3>Orthopedics</h3>
+          <p>Joint, bone, and sports-injury care with hands-on rehabilitation.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">07</span>
+          <span class="ic"><i class="fa-solid fa-spa"></i></span>
+          <h3>Dermatology</h3>
+          <p>Skin screenings, acne and eczema treatment, and cosmetic dermatology.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">08</span>
+          <span class="ic"><i class="fa-solid fa-microscope"></i></span>
+          <h3>Diagnostic Lab &amp; Imaging</h3>
+          <p>On-site blood work, X-ray, and ultrasound with results within 24 hours.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal>
+          <span class="badge-num">09</span>
+          <span class="ic"><i class="fa-solid fa-laptop-medical"></i></span>
+          <h3>Telemedicine</h3>
+          <p>Secure video consultations for follow-ups, prescriptions, and minor concerns.</p>
+          <a href="appointment.html" class="card-link">Book this service <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section" style="background:var(--mint-50);">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow">How It Works</span>
+        <h2>Getting care takes four simple steps</h2>
+      </div>
+      <div class="grid cols-4">
+        <div class="process-step" data-reveal>
+          <div class="process-line"></div>
+          <div class="num">1</div>
+          <h4>Book Online</h4>
+          <p>Choose a doctor, service, and time slot that fits your schedule.</p>
+        </div>
+        <div class="process-step" data-reveal>
+          <div class="process-line"></div>
+          <div class="num">2</div>
+          <h4>Meet Your Doctor</h4>
+          <p>An unhurried consultation to understand your concerns fully.</p>
+        </div>
+        <div class="process-step" data-reveal>
+          <div class="process-line"></div>
+          <div class="num">3</div>
+          <h4>Get Diagnosed</h4>
+          <p>On-site labs and imaging deliver results in as little as 24 hours.</p>
+        </div>
+        <div class="process-step" data-reveal>
+          <div class="num">4</div>
+          <h4>Start Treatment</h4>
+          <p>A clear, personalized care plan you actually understand.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSURANCE -->
+  <section class="section">
+    <div class="container">
+      <div class="insurance-strip" data-reveal>
+        <div class="split" style="gap:36px;">
+          <div>
+            <span class="eyebrow">Insurance &amp; Payments</span>
+            <h2 style="font-size:clamp(22px,3vw,30px);margin-top:14px;">We work with 30+ insurance providers</h2>
+            <p style="margin-top:12px;color:var(--slate-700);">Flexible payment plans and transparent, upfront pricing on every service — no surprise bills, ever.</p>
+            <a href="contact.html" class="btn btn-dark" style="margin-top:22px;">Ask About Coverage <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="logo-strip" style="justify-content:flex-start;gap:26px;">
+            <span class="lg"><i class="fa-solid fa-shield-heart"></i> HealthPlus</span>
+            <span class="lg"><i class="fa-solid fa-shield-heart"></i> CareShield</span>
+            <span class="lg"><i class="fa-solid fa-shield-heart"></i> UnionMed</span>
+            <span class="lg"><i class="fa-solid fa-shield-heart"></i> Assure+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <span class="eyebrow">Common Questions</span>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div style="max-width:760px;margin:0 auto;" data-reveal>
+        <div class="faq-item open">
+          <div class="faq-q"><span>Do I need a referral to see a specialist?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a" style="max-height:200px;"><div class="faq-a-inner">No referral needed. You can book directly with any of our specialists through our online appointment system or by calling the clinic.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>What should I bring to my first appointment?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a"><div class="faq-a-inner">A valid ID, your insurance card (if applicable), and a list of current medications. New patients should arrive 15 minutes early to complete intake forms.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>How quickly can I get lab results?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a"><div class="faq-a-inner">Most standard blood work and imaging results are available within 24 hours through our on-site diagnostic lab.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>Can I reschedule or cancel my appointment?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a"><div class="faq-a-inner">Yes — you can reschedule or cancel up to 4 hours before your appointment at no charge via the confirmation link or by calling us.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>Do you offer telemedicine visits?</span><span class="plus"><i class="fa-solid fa-plus"></i></span></div>
+          <div class="faq-a"><div class="faq-a-inner">Absolutely. Video consultations are available for follow-ups, prescription renewals, and many minor concerns — book the same way as an in-person visit.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="cta-banner" data-reveal="scale">
+        <div>
+          <h2>Not sure which service you need?</h2>
+          <p>Call our care coordinators — they'll point you to the right specialist in minutes.</p>
+        </div>
+        <a href="tel:+15550102938" class="btn btn-ghost-light"><i class="fa-solid fa-phone"></i> Call (555) 010-2938</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian<small style="color:rgba(255,255,255,.5);">Care Clinic</small></span>
+        <p>Compassionate, modern healthcare for the whole family — 18 years of trusted care in your neighborhood.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Our Doctors</a></li>
+          <li><a href="blog.html">Health Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Patients</h4>
+        <ul>
+          <li><a href="appointment.html">Book Appointment</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html#faq">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Visit Us</h4>
+        <ul>
+          <li><span class="ic"><i class="fa-solid fa-location-dot"></i></span> 123 Health Avenue, Suite 200, Springfield</li>
+          <li><span class="ic"><i class="fa-solid fa-phone"></i></span> (555) 010-2938</li>
+          <li><span class="ic"><i class="fa-solid fa-envelope"></i></span> hello@meridiancare.example</li>
+          <li><span class="ic"><i class="fa-solid fa-clock"></i></span> Mon–Sat: 8:00 AM – 7:00 PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Meridian Care Clinic. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sell-bar" id="sellBar">
+  <div class="sell-bar-inner">
+    <div class="sell-bar-msg">
+      <span class="heart"><i class="fa-solid fa-heart"></i></span>
+      <div><strong>Love this site? Make it yours.</strong><span>Fully customizable template for your practice — live in days.</span></div>
+    </div>
+    <div class="sell-bar-actions">
+      <a class="sell-bar-btn" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=917017905835&text=Hi%2C+I%E2%80%99d+like+to+get+this+website+for+my+business.%0A%0AWebsite+Code%3A+LM-7319&utm_source=chatgpt.com">
+        <i class="fa-brands fa-whatsapp"></i> <span class="full">Get This Website</span><span class="short">Get Website</span>
+      </a>
+      <button class="sell-bar-close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<div class="toast" id="toast">
+  <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
+  <span data-toast-text>Done!</span>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

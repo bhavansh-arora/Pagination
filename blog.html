@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Health Blog — Meridian Care Clinic</title>
+<meta name="description" content="Practical health and wellness insights from the doctors at Meridian Care Clinic.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .newsletter-card{background:var(--grad-primary);border-radius:var(--radius-lg);padding:52px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;color:#fff;position:relative;overflow:hidden;}
+  .newsletter-card::before{content:'';position:absolute;width:280px;height:280px;background:rgba(255,255,255,.1);border-radius:50%;top:-140px;right:-60px;}
+  .newsletter-form{display:flex;gap:10px;position:relative;z-index:1;}
+  .newsletter-form input{flex:1;padding:15px 18px;border-radius:var(--radius-full);border:none;font-size:14.5px;}
+  @media(max-width:768px){.newsletter-card{grid-template-columns:1fr;padding:34px 26px;}.newsletter-form{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<div class="announce-bar">💚 Now accepting new patients — <span>Same-day appointments available.</span> Call (555) 010-2938</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span>
+      <span>Meridian<small>Care Clinic</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="team.html">Our Doctors</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="blog.html" class="active">Health Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+15550102938" class="nav-phone">
+        <span class="ic"><i class="fa-solid fa-phone"></i></span>
+        <span>(555) 010-2938<small>Mon–Sat, 8am–7pm</small></span>
+      </a>
+      <a href="appointment.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-calendar-check"></i> Book Visit</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-panel">
+    <div class="mobile-panel-top">
+      <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian</span>
+      <button class="mclose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <a href="index.html" class="mlink">Home</a>
+    <a href="about.html" class="mlink">About</a>
+    <a href="services.html" class="mlink">Services</a>
+    <a href="team.html" class="mlink">Our Doctors</a>
+    <a href="testimonials.html" class="mlink">Testimonials</a>
+    <a href="blog.html" class="mlink">Health Blog</a>
+    <a href="contact.html" class="mlink">Contact</a>
+    <a href="appointment.html" class="btn btn-primary btn-block"><i class="fa-solid fa-calendar-check"></i> Book Appointment</a>
+    <a href="tel:+15550102938" class="btn btn-outline btn-block"><i class="fa-solid fa-phone"></i> (555) 010-2938</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i> <span>Health Blog</span></div>
+      <h1>Health insights, straight from our doctors.</h1>
+      <p>Practical, evidence-based articles to help you and your family stay well between visits.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid cols-3">
+        <article class="blog-card" data-reveal>
+          <div class="blog-media">
+            <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80" alt="Heart health">
+            <span class="blog-cat">Cardiology</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span><i class="fa-regular fa-calendar"></i> Aug 12, 2026</span><span><i class="fa-regular fa-clock"></i> 5 min read</span></div>
+            <h3>7 Everyday Habits That Protect Your Heart</h3>
+            <p>Small, sustainable changes your cardiologist actually recommends for long-term heart health.</p>
+            <a href="blog-post.html" class="blog-read">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="blog-card" data-reveal>
+          <div class="blog-media">
+            <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80" alt="Pediatric checkup">
+            <span class="blog-cat">Pediatrics</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span><i class="fa-regular fa-calendar"></i> Aug 03, 2026</span><span><i class="fa-regular fa-clock"></i> 4 min read</span></div>
+            <h3>Vaccination Schedule: A Parent's Complete Guide</h3>
+            <p>What to expect at every stage of your child's immunization journey, explained simply.</p>
+            <a href="blog-post.html" class="blog-read">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="blog-card" data-reveal>
+          <div class="blog-media">
+            <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=600&q=80" alt="Lab diagnostics">
+            <span class="blog-cat">Diagnostics</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span><i class="fa-regular fa-calendar"></i> Jul 21, 2026</span><span><i class="fa-regular fa-clock"></i> 6 min read</span></div>
+            <h3>Annual Bloodwork: What Every Number Means</h3>
+            <p>Decoding your lab report so your next checkup makes a lot more sense.</p>
+            <a href="blog-post.html" class="blog-read">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="blog-card" data-reveal>
+          <div class="blog-media">
+            <img src="https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&w=600&q=80" alt="Dermatology">
+            <span class="blog-cat">Dermatology</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span><i class="fa-regular fa-calendar"></i> Jul 10, 2026</span><span><i class="fa-regular fa-clock"></i> 4 min read</span></div>
+            <h3>Sunscreen Myths Dermatologists Wish You'd Stop Believing</h3>
+            <p>SPF, reapplication, and skin-type myths — separated from the facts.</p>
+            <a href="blog-post.html" class="blog-read">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="blog-card" data-reveal>
+          <div class="blog-media">
+            <img src="https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=600&q=80" alt="Orthopedics">
+            <span class="blog-cat">Orthopedics</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span><i class="fa-regular fa-calendar"></i> Jun 28, 2026</span><span><i class="fa-regular fa-clock"></i> 5 min read</span></div>
+            <h3>Desk Job Back Pain? Try These 5 Fixes First</h3>
+            <p>Simple ergonomic and stretching adjustments before you consider a specialist visit.</p>
+            <a href="blog-post.html" class="blog-read">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="blog-card" data-reveal>
+          <div class="blog-media">
+            <img src="https://images.unsplash.com/photo-1587351021355-a479a299d2f9?auto=format&fit=crop&w=600&q=80" alt="Telemedicine">
+            <span class="blog-cat">Telemedicine</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span><i class="fa-regular fa-calendar"></i> Jun 15, 2026</span><span><i class="fa-regular fa-clock"></i> 3 min read</span></div>
+            <h3>When a Video Visit Beats an In-Person Appointment</h3>
+            <p>A quick guide to knowing which concerns are perfect for telemedicine.</p>
+            <a href="blog-post.html" class="blog-read">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="newsletter-card" data-reveal="scale">
+        <div>
+          <h2 style="color:#fff;font-size:clamp(22px,3vw,30px);">Get health tips in your inbox</h2>
+          <p style="color:rgba(255,255,255,.85);margin-top:10px;">One useful email a month — no spam, unsubscribe anytime.</p>
+        </div>
+        <form class="newsletter-form" data-demo-form>
+          <input type="email" placeholder="you@email.com" required aria-label="Email address">
+          <button type="submit" class="btn btn-dark">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand"><span class="brand-mark"><i class="fa-solid fa-staff-snake"></i></span> Meridian<small style="color:rgba(255,255,255,.5);">Care Clinic</small></span>
+        <p>Compassionate, modern healthcare for the whole family — 18 years of trusted care in your neighborhood.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Our Doctors</a></li>
+          <li><a href="blog.html">Health Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Patients</h4>
+        <ul>
+          <li><a href="appointment.html">Book Appointment</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html#faq">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Visit Us</h4>
+        <ul>
+          <li><span class="ic"><i class="fa-solid fa-location-dot"></i></span> 123 Health Avenue, Suite 200, Springfield</li>
+          <li><span class="ic"><i class="fa-solid fa-phone"></i></span> (555) 010-2938</li>
+          <li><span class="ic"><i class="fa-solid fa-envelope"></i></span> hello@meridiancare.example</li>
+          <li><span class="ic"><i class="fa-solid fa-clock"></i></span> Mon–Sat: 8:00 AM – 7:00 PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Meridian Care Clinic. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sell-bar" id="sellBar">
+  <div class="sell-bar-inner">
+    <div class="sell-bar-msg">
+      <span class="heart"><i class="fa-solid fa-heart"></i></span>
+      <div><strong>Love this site? Make it yours.</strong><span>Fully customizable template for your practice — live in days.</span></div>
+    </div>
+    <div class="sell-bar-actions">
+      <a class="sell-bar-btn" target="_blank" rel="noopener" href="https://api.whatsapp.com/send/?phone=917017905835&text=Hi%2C+I%E2%80%99d+like+to+get+this+website+for+my+business.%0A%0AWebsite+Code%3A+LM-7319&utm_source=chatgpt.com">
+        <i class="fa-brands fa-whatsapp"></i> <span class="full">Get This Website</span><span class="short">Get Website</span>
+      </a>
+      <button class="sell-bar-close" aria-label="Dismiss"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<div class="toast" id="toast">
+  <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
+  <span data-toast-text>Done!</span>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
