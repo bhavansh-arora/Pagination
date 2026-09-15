@@ -7,6 +7,8 @@
   /* ---------- Always land at the top on a fresh page load ---------- */
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   window.scrollTo(0, 0);
+  window.addEventListener("pageshow", () => window.scrollTo(0, 0));
+  window.addEventListener("load", () => window.scrollTo(0, 0));
 
   /* ---------- Mobile nav ---------- */
   const navToggle = document.querySelector(".nav-toggle");

@@ -53,12 +53,6 @@
   --ease: cubic-bezier(.22,.61,.36,1);
 }
 
-/* Smooth cross-page navigation: native browser-driven transition where
-   supported (Chromium 126+), no JS required. */
-@view-transition{
-  navigation:auto;
-}
-
 *,*::before,*::after{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
 
@@ -196,6 +190,7 @@ p{ margin:0; }
 }
 .nav-toggle span::before{ top:-6px; }
 .nav-toggle span::after{ top:6px; }
+.nav-mobile-cta{ display:none; }
 
 @media (max-width:960px){
   .nav-links{
@@ -208,7 +203,7 @@ p{ margin:0; }
   .nav-links a{ padding:16px 0; border-bottom:1px solid var(--border); font-size:1.1rem; }
   .nav-phone{ display:none; }
   .nav-toggle{ display:flex; }
-  .nav-links .nav-mobile-cta{ margin-top:20px; }
+  .nav-links .nav-mobile-cta{ display:inline-flex; margin-top:20px; }
 }
 
 /* ---------- Hero ---------- */
@@ -622,11 +617,12 @@ p{ margin:0; }
 
 /* toast */
 .toast{
-  position:fixed; bottom:28px; left:50%; transform:translate(-50%,120%); background:var(--charcoal-900); color:#fff;
-  padding:14px 24px; border-radius:100px; font-size:.88rem; font-weight:600; z-index:400; transition:transform .4s var(--ease);
+  position:fixed; bottom:28px; left:50%; transform:translate(-50%,16px); background:var(--charcoal-900); color:#fff;
+  padding:14px 24px; border-radius:100px; font-size:.88rem; font-weight:600; z-index:400;
+  transition:transform .4s var(--ease), opacity .4s var(--ease); opacity:0; pointer-events:none;
   display:flex; align-items:center; gap:10px; box-shadow:var(--shadow-soft);
 }
-.toast.show{ transform:translate(-50%,0); }
+.toast.show{ transform:translate(-50%,0); opacity:1; pointer-events:auto; }
 .toast svg{ width:18px; height:18px; color:var(--sage-400); }
 
 /* sticky book button (mobile) */
