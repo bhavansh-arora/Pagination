@@ -157,6 +157,13 @@ p{ margin:0; }
   display:flex; align-items:center; justify-content:center; color:var(--cream-100);
   font-family:var(--font-display); font-size:1rem;
 }
+/* Duplicate brand shown only inside the mobile drawer, so the logo
+   slides in together with the link list instead of sitting pinned and
+   static above it (the header's own .brand stays fixed above the
+   drawer as the persistent, non-sliding control alongside the close
+   toggle, and is hidden while the drawer is open — see .nav-drawer-open
+   below — so the two don't show at once). */
+.drawer-brand{ display:none; }
 .nav-links{ display:flex; align-items:center; gap:36px; }
 .nav-links a{
   font-size:.92rem; font-weight:500; color:var(--charcoal-600);
@@ -223,7 +230,16 @@ p{ margin:0; }
      the top-bar one entirely on mobile instead of squeezing it in. */
   .nav-cta{ display:none; }
   .nav-toggle{ display:flex; }
+  .nav-links .drawer-brand{
+    display:flex; align-items:center; gap:10px; font-family:var(--font-display);
+    font-size:1.3rem; font-weight:600; letter-spacing:.01em; color:var(--charcoal-900);
+    padding:0 0 24px; margin-bottom:12px; border-bottom:1px solid var(--border);
+  }
   .nav-links .nav-mobile-cta{ display:inline-flex; margin-top:20px; }
+  /* Hide the header's static brand while the drawer is open so it
+     isn't shown twice at once — the .drawer-brand copy above takes
+     over and slides in with the rest of the panel. */
+  body.nav-drawer-open .brand{ opacity:0; pointer-events:none; }
 }
 
 /* ---------- Hero ---------- */

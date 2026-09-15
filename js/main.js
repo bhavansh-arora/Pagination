@@ -21,12 +21,14 @@
     navToggle.addEventListener("click", () => {
       const isOpen = navLinks.classList.toggle("open");
       navToggle.classList.toggle("open", isOpen);
+      document.body.classList.toggle("nav-drawer-open", isOpen);
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
     navLinks.querySelectorAll("a").forEach((a) =>
       a.addEventListener("click", () => {
         navLinks.classList.remove("open");
         navToggle.classList.remove("open");
+        document.body.classList.remove("nav-drawer-open");
       })
     );
   }
@@ -45,7 +47,7 @@
 
   /* ---------- Highlight active nav link ---------- */
   const path = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav-links a[href]:not(.btn)").forEach((a) => {
+  document.querySelectorAll(".nav-links a[href]:not(.btn):not(.drawer-brand)").forEach((a) => {
     const href = a.getAttribute("href");
     if (href === path || (path === "" && href === "index.html")) {
       a.classList.add("active");
