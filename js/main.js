@@ -4,11 +4,15 @@
 (function () {
   "use strict";
 
-  /* ---------- Always land at the top on a fresh page load ---------- */
+  /* ---------- Always land at the top on a fresh page load ----------
+     Plain window.scrollTo(0,0) would inherit the smooth scroll-behavior
+     set on <html> below and visibly animate up on every load — force an
+     instant jump instead so the page simply starts at the top. */
+  const jumpToTop = () => window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-  window.scrollTo(0, 0);
-  window.addEventListener("pageshow", () => window.scrollTo(0, 0));
-  window.addEventListener("load", () => window.scrollTo(0, 0));
+  jumpToTop();
+  window.addEventListener("pageshow", jumpToTop);
+  window.addEventListener("load", jumpToTop);
 
   /* ---------- Mobile nav ---------- */
   const navToggle = document.querySelector(".nav-toggle");

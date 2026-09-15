@@ -625,17 +625,35 @@ p{ margin:0; }
 .toast.show{ transform:translate(-50%,0); opacity:1; pointer-events:auto; }
 .toast svg{ width:18px; height:18px; color:var(--sage-400); }
 
-/* sticky book button (mobile) */
-.sticky-book{
-  position:fixed; bottom:20px; right:20px; z-index:90;
+/* ---------- Template sale bar ----------
+   Promotes the template itself to whoever is browsing this live demo.
+   Remove this whole block (and the matching <div class="promo-bar">…
+   markup at the end of each page) once the site has been purchased and
+   is being deployed for a real client. */
+:root{ --promo-bar-h:64px; }
+@media (max-width:640px){ :root{ --promo-bar-h:112px; } }
+body{ padding-bottom:var(--promo-bar-h); }
+.promo-bar{
+  position:fixed; left:0; right:0; bottom:0; z-index:200;
+  background:var(--charcoal-900); box-shadow:0 -10px 30px -12px rgba(26,23,18,.4);
 }
-@media (min-width:961px){ .sticky-book{ display:none; } }
+.promo-bar-inner{
+  display:flex; align-items:center; justify-content:space-between; gap:20px; padding-block:14px;
+}
+.promo-bar-text{ font-size:.92rem; color:var(--cream-200); }
+.promo-bar-text strong{ color:#fff; font-family:var(--font-display); font-size:1.05rem; font-weight:600; }
+.promo-bar-btn{ flex:none; white-space:nowrap; }
+.promo-bar-btn svg{ width:17px; height:17px; }
+@media (max-width:640px){
+  .promo-bar-inner{ flex-direction:column; align-items:stretch; gap:10px; padding-block:12px; text-align:center; }
+  .promo-bar-btn{ width:100%; }
+}
 
-/* back to top */
+/* back to top — offset above the sale bar so they never overlap */
 .to-top{
-  position:fixed; bottom:20px; left:20px; width:46px; height:46px; border-radius:50%; background:var(--charcoal-900);
+  position:fixed; bottom:calc(var(--promo-bar-h) + 20px); left:20px; width:46px; height:46px; border-radius:50%; background:var(--charcoal-900);
   color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none;
-  transition:opacity .3s, transform .3s; z-index:90;
+  transition:opacity .3s, transform .3s, bottom .3s; z-index:90;
 }
 .to-top.show{ opacity:1; pointer-events:auto; }
 .to-top svg{ width:18px; height:18px; }
