@@ -48,20 +48,7 @@
   function initSellBar(){
     var bar = document.getElementById("sellBar");
     if(!bar) return;
-    var closeBtn = bar.querySelector(".sell-bar-close");
-    var dismissed = false;
-    try{ dismissed = sessionStorage.getItem("sellBarDismissed") === "1"; }catch(e){}
-
-    if(!dismissed){
-      setTimeout(function(){ bar.classList.add("show"); }, 900);
-    }
-
-    if(closeBtn){
-      closeBtn.addEventListener("click", function(){
-        bar.classList.remove("show");
-        try{ sessionStorage.setItem("sellBarDismissed","1"); }catch(e){}
-      });
-    }
+    setTimeout(function(){ bar.classList.add("show"); }, 900);
   }
 
   /* Back to top button */
