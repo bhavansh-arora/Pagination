@@ -2,7 +2,16 @@
 (function(){
   "use strict";
 
+  /* Always land at the top of a freshly loaded page instead of wherever
+     the browser last scrolled to on a previous page. */
+  if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+  if(!window.location.hash){ window.scrollTo(0, 0); }
+  window.addEventListener("pageshow", function(){
+    if(!window.location.hash){ window.scrollTo(0, 0); }
+  });
+
   document.addEventListener("DOMContentLoaded", function(){
+    if(!window.location.hash){ window.scrollTo(0, 0); }
     initHeader();
     initMobileMenu();
     initSellBar();
