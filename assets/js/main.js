@@ -29,16 +29,32 @@
     /* ---------- Mobile menu ---------- */
     var hamburger = document.querySelector(".hamburger");
     var navLinks = document.querySelector(".nav-links");
+    var navClose = document.querySelector(".nav-close");
+    var navBackdrop = document.querySelector(".nav-backdrop");
     if(hamburger && navLinks){
+      var openMenu = function(){
+        hamburger.classList.add("open");
+        navLinks.classList.add("mobile-open");
+        if(navBackdrop) navBackdrop.classList.add("show");
+        document.body.style.overflow = "hidden";
+      };
+      var closeMenu = function(){
+        hamburger.classList.remove("open");
+        navLinks.classList.remove("mobile-open");
+        if(navBackdrop) navBackdrop.classList.remove("show");
+        document.body.style.overflow = "";
+      };
       hamburger.addEventListener("click", function(){
-        hamburger.classList.toggle("open");
-        navLinks.classList.toggle("mobile-open");
+        if(navLinks.classList.contains("mobile-open")){ closeMenu(); }
+        else{ openMenu(); }
       });
+      if(navClose) navClose.addEventListener("click", closeMenu);
+      if(navBackdrop) navBackdrop.addEventListener("click", closeMenu);
       navLinks.querySelectorAll("a").forEach(function(a){
-        a.addEventListener("click", function(){
-          hamburger.classList.remove("open");
-          navLinks.classList.remove("mobile-open");
-        });
+        a.addEventListener("click", closeMenu);
+      });
+      document.addEventListener("keydown", function(e){
+        if(e.key === "Escape") closeMenu();
       });
     }
 
