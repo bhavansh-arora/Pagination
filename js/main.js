@@ -210,6 +210,52 @@
     });
   });
 
+  /* ---------- Gallery lightbox ---------- */
+  const galleryItems = Array.from(document.querySelectorAll("[data-lightbox]"));
+  const lightbox = document.getElementById("lightbox");
+  if (galleryItems.length && lightbox) {
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+    let activeIndex = 0;
+
+    const renderSlide = (index) => {
+      activeIndex = (index + galleryItems.length) % galleryItems.length;
+      const item = galleryItems[activeIndex];
+      lightboxImg.src = item.dataset.full || item.querySelector("img").src;
+      lightboxImg.alt = item.querySelector("img").alt;
+      lightboxCaption.textContent = item.dataset.title
+        ? `${item.dataset.title} — ${item.dataset.room || ""}`
+        : item.querySelector("img").alt;
+    };
+    const openLightbox = (index) => {
+      renderSlide(index);
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+    const closeLightbox = () => {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    galleryItems.forEach((item, index) => {
+      item.addEventListener("click", () => openLightbox(index));
+    });
+    document.getElementById("lightboxClose")?.addEventListener("click", closeLightbox);
+    document.getElementById("lightboxPrev")?.addEventListener("click", () => renderSlide(activeIndex - 1));
+    document.getElementById("lightboxNext")?.addEventListener("click", () => renderSlide(activeIndex + 1));
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    window.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("is-open")) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") renderSlide(activeIndex - 1);
+      if (e.key === "ArrowRight") renderSlide(activeIndex + 1);
+    });
+  }
+
   /* ---------- Fake form submissions (front-end demo only) ---------- */
   document.querySelectorAll("form[data-demo-form]").forEach((form) => {
     form.addEventListener("submit", (e) => {
