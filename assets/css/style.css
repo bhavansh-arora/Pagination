@@ -151,11 +151,9 @@ section{position:relative;}
 .logo .logo-mark svg{width:24px; height:24px;}
 .logo small{display:block; font-family:var(--font-body); font-weight:600; font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-600);}
 .nav-links{display:flex; align-items:center; gap:2.1rem;}
-.nav-links a{font-weight:600; font-size:.94rem; color:var(--ink-soft); position:relative; padding:6px 0;}
-.nav-links a::after{content:''; position:absolute; left:0; bottom:0; width:0; height:2px; background:var(--teal-500); transition:width .3s var(--ease);}
-.nav-links a:hover{color:var(--navy-900);}
-.nav-links a:hover::after, .nav-links a.active::after{width:100%;}
-.nav-links a.active{color:var(--navy-900);}
+.nav-links a{font-weight:600; font-size:.94rem; color:var(--ink-soft); padding:8px 16px; border-radius:var(--radius-pill); transition:background .3s ease, color .3s ease;}
+.nav-links a:hover{color:var(--navy-900); background:var(--teal-50);}
+.nav-links a.active{color:var(--teal-700); background:var(--teal-50);}
 .nav-cta{display:flex; align-items:center; gap:1.1rem;}
 .nav-phone{display:flex; align-items:center; gap:.5rem; font-weight:700; font-size:.92rem; color:var(--navy-900);}
 .nav-phone .icon-circ{width:36px; height:36px; border-radius:50%; background:var(--teal-50); color:var(--teal-700); display:flex; align-items:center; justify-content:center;}
