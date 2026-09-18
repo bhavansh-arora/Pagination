@@ -1,4 +1,4 @@
-/* VELVET Salon & Spa — site behaviour */
+/* CROWN & BLADE Barber Co. — site behaviour */
 (function(){
   "use strict";
 
@@ -92,21 +92,6 @@
       });
       card.addEventListener('mouseleave', ()=>{ inner.style.transform = 'rotateY(0) rotateX(0)'; });
     });
-  }
-
-  /* ---------- Sticky WhatsApp bar ---------- */
-  const stickyBar = document.querySelector('.sticky-bar');
-  const stickyClose = document.querySelector('.sticky-bar-close');
-  if(stickyBar){
-    if(sessionStorage.getItem('velvet_bar_dismissed') === '1'){
-      stickyBar.classList.add('hidden');
-    }
-    if(stickyClose){
-      stickyClose.addEventListener('click', ()=>{
-        stickyBar.classList.add('hidden');
-        sessionStorage.setItem('velvet_bar_dismissed','1');
-      });
-    }
   }
 
   /* ---------- Filters (services / gallery) ---------- */
