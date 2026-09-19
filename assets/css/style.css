@@ -5,19 +5,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Oswald:wght@400;500;600;700&family=Jost:wght@400;500;600;700&display=swap');
 
 :root{
-  --ink:#100c09;
-  --ink-2:#1b1511;
-  --ink-3:#261e17;
-  --ivory:#f5ece0;
-  --ivory-dim:#cec0ac;
-  --gold:#b8863f;
-  --gold-light:#e2b76e;
-  --gold-deep:#8a6425;
-  --rose:#9c2b2b;
-  --red:#9c2b2b;
-  --red-light:#c8433f;
-  --red-deep:#6e1c1c;
-  --line:rgba(184,134,63,.22);
+  --ink:#0d0a08;
+  --ink-2:#19140f;
+  --ink-3:#241c15;
+  --ivory:#f2e8d8;
+  --ivory-dim:#c9baa2;
+  --gold:#a9803f;
+  --gold-light:#d6b476;
+  --gold-deep:#7a5a26;
+  --rose:#7a2530;
+  --red:#7a2530;
+  --red-light:#a8434a;
+  --red-deep:#4a1620;
+  --wine-deep:#3d1418;
+  --ivory-warm:#e6d9be;
+  --line:rgba(169,128,63,.22);
   --shadow:0 30px 80px -30px rgba(0,0,0,.75);
   --radius-sm:10px;
   --radius-md:20px;
@@ -141,9 +143,13 @@ h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:600;line-height:1.1
   z-index:0;pointer-events:none}
 .hero-inner{position:relative;z-index:2;width:100%}
 .hero-grid{display:grid;grid-template-columns:1.1fr .7fr;gap:40px;align-items:end}
-.hero-stats{display:flex;gap:34px;margin-top:44px;flex-wrap:wrap}
+.hero-content{max-width:600px}
+.hero-lede{color:var(--ivory-dim);font-weight:400;font-size:1.05rem;max-width:520px;margin:22px 0 0}
+.hero-stats{display:flex;gap:34px;margin-top:40px;flex-wrap:wrap}
 .hero-stat b{display:block;font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light)}
 .hero-stat span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ivory-dim)}
+.hero-proof{display:flex;gap:14px;align-items:center;margin-top:30px}
+.hero-proof span{font-size:.82rem;color:var(--ivory-dim)}
 .hero-side{
   border-left:1px solid var(--line);padding-left:34px;
 }
@@ -403,6 +409,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:80px 0 0
   .to-top{right:14px;bottom:148px;width:42px;height:42px}
   .hero{padding-top:110px}
   .compare-label{font-size:.6rem}
+  .floating-badge{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
