@@ -4,7 +4,7 @@ A premium, mobile-optimized, animated multi-page website built for barbershops a
 
 ## Pages
 
-- `index.html` — Home (3D WebGL barber-pole hero, services preview, stats, testimonials, gallery preview)
+- `index.html` — Home (photographic Ken Burns hero, services preview, stats, testimonials, gallery preview)
 - `services.html` — Full service menu with pricing, filters, and FAQ
 - `gallery.html` — Filterable portfolio gallery, lightbox, before/after slider
 - `about.html` — Shop story, values, team of barbers
@@ -14,7 +14,6 @@ A premium, mobile-optimized, animated multi-page website built for barbershops a
 
 Plain HTML/CSS/JS — no build step required. Just open `index.html` or serve the folder statically.
 
-- Three.js (CDN) for the animated 3D spinning barber pole on the homepage
 - Font Awesome (CDN) for icons
 - Vanilla JS for scroll reveals, tilt cards, filters, lightbox, carousel and the sticky WhatsApp bar
 

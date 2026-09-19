@@ -136,11 +136,18 @@ h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:600;line-height:1.1
 
 /* ================= HERO ================= */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding-top:120px;padding-bottom:80px}
-#hero-canvas{position:absolute;inset:0;z-index:0;opacity:.9}
-.hero::before{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 60% 50% at 50% 0%, rgba(184,134,63,.16), transparent 60%),
-  radial-gradient(ellipse 60% 60% at 90% 100%, rgba(156,43,43,.14), transparent 60%);
-  z-index:0;pointer-events:none}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--ink)}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%;
+  transform:scale(1);animation:kenburns 26s ease-in-out infinite alternate;opacity:.85}
+@keyframes kenburns{
+  0%{transform:scale(1) translate(0,0)}
+  100%{transform:scale(1.12) translate(-1.5%,-1%)}
+}
+.hero-bg::after{content:'';position:absolute;inset:0;background:
+  linear-gradient(100deg, rgba(13,10,8,.94) 0%, rgba(13,10,8,.8) 32%, rgba(13,10,8,.42) 62%, rgba(13,10,8,.6) 100%),
+  linear-gradient(0deg, rgba(13,10,8,.85), transparent 45%),
+  radial-gradient(ellipse 70% 60% at 85% 15%, rgba(169,128,63,.14), transparent 60%);
+  z-index:1}
 .hero-inner{position:relative;z-index:2;width:100%}
 .hero-grid{display:grid;grid-template-columns:1.1fr .7fr;gap:40px;align-items:end}
 .hero-content{max-width:600px}
