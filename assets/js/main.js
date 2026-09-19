@@ -250,17 +250,30 @@
   /* ---------- Contact form (static demo submit) ---------- */
   var form = document.getElementById("contact-form");
   if (form) {
+    var CONTACT_EMAIL = "bhavansharora21@gmail.com";
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var btn = form.querySelector("button[type=submit]");
       var original = btn.textContent;
       btn.textContent = "Sending…";
       btn.disabled = true;
-      setTimeout(function () {
-        btn.textContent = "Message sent ✓";
-        form.reset();
-        setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 2400);
-      }, 900);
+
+      fetch("https://formsubmit.co/ajax/" + CONTACT_EMAIL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      })
+        .then(function (res) { return res.ok ? res.json() : Promise.reject(res); })
+        .then(function () {
+          btn.textContent = "Message sent ✓";
+          form.reset();
+        })
+        .catch(function () {
+          btn.textContent = "Couldn't send — email us directly";
+        })
+        .finally(function () {
+          setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 3200);
+        });
     });
   }
 })();

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Contact — Code Bunny</title>
-<meta name="description" content="Get in touch with Bhavansh Arora at Code Bunny — start a project or inquire about a site for sale.">
+<title>Contact Us — Code Bunny</title>
+<meta name="description" content="Start a website, app or software project with Code Bunny, or inquire about one of our ready-made sites for sale. We reply within 24 hours.">
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,10 +13,11 @@
 </head>
 <body>
 
-<!-- EDIT ME: This form is a front-end demo only (no backend wired up).
-     Replace the <form> action/JS with your real email service, Formspree,
-     or backend endpoint before taking it live, and swap the placeholder
-     email/social links below for your real ones. -->
+<!-- EDIT ME: This form submits via FormSubmit.co (see assets/js/main.js) to
+     bhavansharora21@gmail.com — no backend required. FormSubmit will email
+     that inbox a one-time "Activate Form" link on the very first real
+     submission; click it once to start receiving messages. To send
+     submissions somewhere else later, change the address in main.js. -->
 
 <nav class="site-nav">
   <div class="announce-strip">🐇 <strong>Code Bunny</strong> is now booking 3 clients this week · delivery starts within 24 hours</div>
@@ -63,6 +64,9 @@
         <h3 style="margin-bottom:6px;">Send a message</h3>
         <p style="margin-bottom:26px;">We read every message and reply within 24 hours.</p>
         <form id="contact-form">
+          <input type="hidden" name="_subject" value="New message from Code Bunny website">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
           <div class="grid grid-2" style="gap:18px;">
             <div class="form-field">
               <label for="name">Full name</label>
