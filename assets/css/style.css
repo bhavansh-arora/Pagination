@@ -274,7 +274,7 @@ p{ color: var(--text-dim); line-height: 1.7; margin: 0 0 1em; }
   box-shadow: var(--shadow-glow);
   overflow: hidden;
 }
-.avatar-orb img{ width:100%; height:100%; object-fit:cover; }
+.avatar-orb img{ width:100%; height:100%; object-fit:cover; object-position: 50% 20%; }
 .tilt-card h3{ text-align:center; transform: translateZ(50px); margin-bottom: 4px; }
 .tilt-card .role{ text-align:center; color: var(--text-dimmer); font-size: .88rem; transform: translateZ(45px); margin-bottom: 22px; }
 .skill-chips{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; transform: translateZ(35px); }
