@@ -354,8 +354,9 @@ section{ position: relative; padding: 110px 0; }
 .service-row:first-child{ padding-top: 0; }
 .service-row .num{ font-size: .85rem; font-weight:800; color: var(--text-dimmer); padding-top: 4px; }
 .service-row .content{ flex:1; }
-.service-row .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-.service-row .tags span{ font-size:.72rem; font-weight:700; padding:4px 10px; border-radius:999px; background:rgba(184,134,11,.07); border:1px solid rgba(184,134,11,.22); color: var(--text-dim); }
+.tags{ display:flex; gap:8px; flex-wrap:wrap; }
+.tags span{ font-size:.72rem; font-weight:700; padding:4px 10px; border-radius:999px; background:rgba(184,134,11,.07); border:1px solid rgba(184,134,11,.22); color: var(--text-dim); }
+.service-row .tags{ margin-top:10px; }
 
 /* Timeline */
 .timeline{ position: relative; padding-left: 32px; }
