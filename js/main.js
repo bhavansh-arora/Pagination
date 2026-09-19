@@ -104,21 +104,6 @@
     counters.forEach((el) => cio.observe(el));
   }
 
-  /* ---------- Sticky WhatsApp CTA bar ---------- */
-  const stickyCta = document.getElementById("stickyCta");
-  const stickyClose = document.getElementById("stickyCtaClose");
-  if (stickyCta && stickyClose) {
-    if (sessionStorage.getItem("velmora-cta-dismissed") === "1") {
-      stickyCta.classList.add("is-hidden");
-      document.body.style.paddingBottom = "8px";
-    }
-    stickyClose.addEventListener("click", () => {
-      stickyCta.classList.add("is-hidden");
-      document.body.style.paddingBottom = "8px";
-      sessionStorage.setItem("velmora-cta-dismissed", "1");
-    });
-  }
-
   /* ---------- 3D tilt on product / feature cards ---------- */
   const tiltCards = document.querySelectorAll(".tilt-wrap");
   tiltCards.forEach((card) => {
