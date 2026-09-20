@@ -395,7 +395,6 @@ section{ position: relative; padding: 110px 0; }
 
 .browser-mock{
   position: relative;
-  aspect-ratio: 16/10.5;
   margin: 16px;
   border-radius: 14px;
   overflow: hidden;
@@ -411,7 +410,7 @@ section{ position: relative; padding: 110px 0; }
 .browser-bar .url{ margin-left: 10px; font-size: .7rem; color: rgba(255,255,255,.55); background: rgba(255,255,255,.05); padding: 4px 10px; border-radius: 999px; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .mock-body{ position:relative; height: calc(100% - 34px); overflow:hidden; }
 .mock-body .mesh{ position:absolute; inset:0; opacity:.9; }
-.mock-shot{ width:100%; height: calc(100% - 34px); object-fit: cover; object-position: top; display:block; }
+.mock-shot{ width:100%; aspect-ratio: 1.85; object-fit: cover; object-position: top; display:block; }
 .mock-body .mock-ui{ position:absolute; inset:0; padding: 16px; display:flex; flex-direction:column; gap:10px; }
 .mock-ui .mock-nav{ display:flex; gap:6px; }
 .mock-ui .mock-nav i{ width: 34px; height: 8px; border-radius: 4px; background: rgba(255,255,255,.35); }
