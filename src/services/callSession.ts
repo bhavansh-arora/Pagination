@@ -69,9 +69,16 @@ export class CallSession {
     this.currentTurn = { abortController };
     this.isAgentSpeaking = true;
 
-    this.speakSentence(GREETING, abortController.signal)
-      .catch((err) => console.error("Greeting TTS failed:", err))
-      .finally(() => this.onTurnDone(abortController));
+    (async () => {
+      try {
+        const wavBuffer = await synthesizeSpeech(GREETING);
+        if (abortController.signal.aborted) return;
+        const mulaw = convertWavToMulaw8k(wavBuffer);
+        await sendPaced(mulaw, (chunk) => this.sendAudioToTwilio(chunk), abortController.signal);
+      } catch (err) {
+        if (!abortController.signal.aborted) console.error("Greeting TTS failed:", err);
+      }
+    })().finally(() => this.onTurnDone(abortController));
   }
 
   private handleBargeIn(): void {
@@ -92,18 +99,29 @@ export class CallSession {
     this.runAssistantTurn();
   }
 
+  /**
+   * Runs a full assistant turn as a three-stage pipeline so nothing waits
+   * on anything it doesn't have to:
+   *   LLM tokens -> sentence chunks -> [synthesis] -> audio -> [playback]
+   * Synthesis of sentence N+1 starts as soon as sentence N is done
+   * synthesizing, while N is still being played out - that overlap is what
+   * keeps gaps between sentences to a minimum on CPU-only TTS.
+   */
   private runAssistantTurn(): void {
     const abortController = new AbortController();
     const splitter = new SentenceSplitter();
     const sentenceQueue = new AsyncQueue<string>();
+    const audioQueue = new AsyncQueue<Buffer>();
     let assistantText = "";
 
     this.currentTurn = { abortController };
     this.isAgentSpeaking = true;
 
-    this.drainSpeechQueue(sentenceQueue, abortController.signal).finally(() =>
-      this.onTurnDone(abortController)
-    );
+    const pipeline = Promise.all([
+      this.runSynthesisStage(sentenceQueue, audioQueue, abortController.signal),
+      this.runPlaybackStage(audioQueue, abortController.signal),
+    ]);
+    pipeline.finally(() => this.onTurnDone(abortController));
 
     (async () => {
       try {
@@ -126,24 +144,34 @@ export class CallSession {
     })();
   }
 
-  /** Speaks queued sentences one at a time, in order, as they arrive from the LLM stream. */
-  private async drainSpeechQueue(queue: AsyncQueue<string>, signal: AbortSignal): Promise<void> {
-    for await (const sentence of queue) {
-      if (signal.aborted) return;
-      try {
-        await this.speakSentence(sentence, signal);
-      } catch (err) {
-        if (!signal.aborted) console.error("TTS failed:", err);
+  /** Synthesizes queued sentences in order, one at a time, feeding finished audio onward immediately. */
+  private async runSynthesisStage(
+    sentenceQueue: AsyncQueue<string>,
+    audioQueue: AsyncQueue<Buffer>,
+    signal: AbortSignal
+  ): Promise<void> {
+    try {
+      for await (const sentence of sentenceQueue) {
+        if (signal.aborted) return;
+        try {
+          const wavBuffer = await synthesizeSpeech(sentence);
+          if (signal.aborted) return;
+          audioQueue.push(convertWavToMulaw8k(wavBuffer));
+        } catch (err) {
+          if (!signal.aborted) console.error("TTS synthesis failed:", err);
+        }
       }
+    } finally {
+      audioQueue.close();
     }
   }
 
-  private async speakSentence(text: string, signal: AbortSignal): Promise<void> {
-    const wavBuffer = await synthesizeSpeech(text);
-    if (signal.aborted) return;
-    const mulaw = await convertWavToMulaw8k(wavBuffer);
-    if (signal.aborted) return;
-    await sendPaced(mulaw, (chunk) => this.sendAudioToTwilio(chunk), signal);
+  /** Plays synthesized audio in order, one clip at a time, real-time paced. */
+  private async runPlaybackStage(audioQueue: AsyncQueue<Buffer>, signal: AbortSignal): Promise<void> {
+    for await (const mulaw of audioQueue) {
+      if (signal.aborted) return;
+      await sendPaced(mulaw, (chunk) => this.sendAudioToTwilio(chunk), signal);
+    }
   }
 
   private onTurnDone(abortController: AbortController): void {

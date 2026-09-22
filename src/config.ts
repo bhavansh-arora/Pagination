@@ -30,6 +30,5 @@ export const config = {
   // Fully self-hosted TTS - see tts-service/. No cloud TTS API involved.
   tts: {
     serviceUrl: process.env.LOCAL_TTS_URL ?? "http://127.0.0.1:8001",
-    ffmpegPath: process.env.FFMPEG_PATH ?? "ffmpeg",
   },
 };

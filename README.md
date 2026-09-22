@@ -44,11 +44,26 @@ immediately and the agent listens, the way a real conversation works.
    conversation.
 5. As Claude streams its reply, completed sentences are sent to the local
    `tts-service` (Piper for Hindi sentences, MeloTTS for English ones),
-   converted to Twilio's 8kHz mu-law format via `ffmpeg`, and played out
-   in real-time-paced 20ms frames.
+   converted to Twilio's 8kHz mu-law format in-process (no subprocess per
+   sentence), and played out in real-time-paced 20ms frames. Synthesis of
+   the next sentence starts as soon as the current one finishes rendering
+   — it doesn't wait for the current one to finish *playing* — so there's
+   minimal dead air between sentences.
 6. If Deepgram detects the caller speaking again before the agent finishes,
    the in-flight turn is aborted mid-playback and Twilio's buffer is
    cleared — the agent yields the floor immediately.
+
+### On latency
+
+Everything above is tuned to minimize latency within a CPU-only, fully
+self-hosted setup, but there's a real ceiling: Piper (Hindi) is fast enough
+for real-time synthesis on CPU alone, while MeloTTS (English) is heavier
+and takes noticeably longer per sentence on CPU than a cloud TTS API would.
+The pipelining in step 5 hides most of that between sentences, but the
+*first* sentence of a reply still has to actually finish rendering before
+anything plays — there's no way around that on CPU. If English responsiveness
+still isn't good enough, the biggest lever is a GPU: set `MELO_DEVICE=cuda`
+in `tts-service` and that render time drops sharply with no quality loss.
 
 ## Setup
 
@@ -60,9 +75,7 @@ can reach your machine.
 2. Set up `tts-service/` per its own [README](tts-service/README.md) —
    Python venv, Piper + MeloTTS install, downloading the Hindi voice model
    — then leave it running: `uvicorn server:app --host 127.0.0.1 --port 8001`
-3. Make sure `ffmpeg` is installed and on your `PATH` (used to convert
-   synthesized WAV audio into Twilio's mu-law format).
-4. Copy `.env.example` to `.env` and fill in:
+3. Copy `.env.example` to `.env` and fill in:
    - A **Twilio** account SID/auth token and a phone number capable of voice.
    - A **Deepgram** API key.
    - An **Anthropic** API key.
