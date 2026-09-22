@@ -16,7 +16,7 @@ export function detectSpokenLanguage(text: string): "en" | "hi" {
 export async function synthesizeSpeech(text: string): Promise<Buffer> {
   const language = detectSpokenLanguage(text);
 
-  const res = await fetch(`${config.tts.serviceUrl}/synthesize`, {
+  const res = await fetch(`${config.localSpeechServiceUrl}/synthesize`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text, language }),

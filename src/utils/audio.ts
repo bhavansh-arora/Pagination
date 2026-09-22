@@ -1,4 +1,4 @@
-import { parseWav } from "./wav";
+import { parseWav, encodeWavPcm16Mono } from "./wav";
 
 // 8kHz, 8-bit mu-law -> 1 byte/sample -> 160 bytes = 20ms, Twilio's native frame size.
 const FRAME_BYTES = 160;
@@ -50,6 +50,36 @@ function pcm16ToMulaw(samples: Int16Array): Buffer {
     out[i] = linearToMulawByte(samples[i]);
   }
   return out;
+}
+
+/** Standard G.711 mu-law byte -> 16-bit linear PCM sample decode. */
+export function mulawByteToLinear(byte: number): number {
+  const inverted = ~byte & 0xff;
+  const sign = inverted & 0x80;
+  const exponent = (inverted >> 4) & 0x07;
+  const mantissa = inverted & 0x0f;
+  let sample = ((mantissa << 3) + 0x84) << exponent;
+  sample -= 0x84;
+  return sign !== 0 ? -sample : sample;
+}
+
+/** RMS energy of a raw mu-law frame, decoded to linear first - used for VAD. */
+export function mulawFrameEnergy(frame: Buffer): number {
+  let sumSquares = 0;
+  for (let i = 0; i < frame.length; i++) {
+    const sample = mulawByteToLinear(frame[i]);
+    sumSquares += sample * sample;
+  }
+  return Math.sqrt(sumSquares / frame.length);
+}
+
+/** Builds a canonical 8kHz mono PCM16 WAV from raw Twilio mu-law audio - the inverse of `convertWavToMulaw8k`. */
+export function buildWavFromMulaw8k(mulaw: Buffer): Buffer {
+  const samples = new Int16Array(mulaw.length);
+  for (let i = 0; i < mulaw.length; i++) {
+    samples[i] = mulawByteToLinear(mulaw[i]);
+  }
+  return encodeWavPcm16Mono(samples, TWILIO_SAMPLE_RATE);
 }
 
 /**

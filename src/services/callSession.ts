@@ -1,9 +1,9 @@
 import type WebSocket from "ws";
-import type { LiveClient } from "@deepgram/sdk";
-import { openDeepgramConnection, sendAudio, type CallLanguage } from "./deepgram";
 import { streamReply, type ChatMessage } from "./anthropic";
 import { synthesizeSpeech } from "./localTts";
-import { convertWavToMulaw8k, sendPaced } from "../utils/audio";
+import { transcribeSpeech } from "./localStt";
+import { convertWavToMulaw8k, buildWavFromMulaw8k, sendPaced } from "../utils/audio";
+import { UtteranceDetector } from "../utils/vad";
 import { SentenceSplitter } from "../utils/sentenceSplitter";
 import { AsyncQueue } from "../utils/asyncQueue";
 
@@ -15,12 +15,13 @@ interface AssistantTurn {
 
 /**
  * Owns the whole lifecycle of one phone call: the Twilio media-stream
- * socket, the Deepgram STT connection, the Claude conversation, and the
- * locally-synthesized speech currently being spoken. One instance per call.
+ * socket, the local voice-activity detector + speech-to-text, the Claude
+ * conversation, and the locally-synthesized speech currently being spoken.
+ * One instance per call.
  */
 export class CallSession {
   private streamSid: string | null = null;
-  private deepgramConn: LiveClient | null = null;
+  private utteranceDetector: UtteranceDetector | null = null;
   private history: ChatMessage[] = [];
   private currentTurn: AssistantTurn | null = null;
   private isAgentSpeaking = false;
@@ -38,13 +39,11 @@ export class CallSession {
     switch (msg.event) {
       case "start":
         this.streamSid = msg.start.streamSid;
-        this.startDeepgram();
+        this.startUtteranceDetector();
         this.speakGreeting();
         break;
       case "media":
-        if (this.deepgramConn) {
-          sendAudio(this.deepgramConn, Buffer.from(msg.media.payload, "base64"));
-        }
+        this.utteranceDetector?.pushFrame(Buffer.from(msg.media.payload, "base64"));
         break;
       case "stop":
         this.cleanup();
@@ -55,12 +54,24 @@ export class CallSession {
     }
   }
 
-  private startDeepgram(): void {
-    this.deepgramConn = openDeepgramConnection({
-      onFinalTranscript: (text, language) => this.handleUserUtterance(text, language),
-      onSpeechStarted: () => this.handleBargeIn(),
-      onError: (err) => console.error("Deepgram error:", err),
-    });
+  private startUtteranceDetector(): void {
+    this.utteranceDetector = new UtteranceDetector(
+      () => this.handleBargeIn(),
+      (mulawAudio) => this.handleUtteranceAudio(mulawAudio)
+    );
+  }
+
+  /** Transcribes a just-finished utterance locally and feeds it into the conversation. */
+  private async handleUtteranceAudio(mulawAudio: Buffer): Promise<void> {
+    try {
+      const wavBuffer = buildWavFromMulaw8k(mulawAudio);
+      const { text, language } = await transcribeSpeech(wavBuffer);
+      const trimmed = text.trim();
+      if (!trimmed) return; // likely a VAD false trigger (noise burst) with nothing recognizable
+      this.handleUserUtterance(trimmed, language);
+    } catch (err) {
+      console.error("STT failed:", err);
+    }
   }
 
   private speakGreeting(): void {
@@ -91,7 +102,7 @@ export class CallSession {
     }
   }
 
-  private handleUserUtterance(text: string, language: CallLanguage): void {
+  private handleUserUtterance(text: string, language: "en" | "hi"): void {
     if (this.isAgentSpeaking) this.handleBargeIn();
     // Tag the turn with the detected language so Claude reliably replies in
     // kind; the system prompt tells it to treat this as metadata, not text.
@@ -195,11 +206,7 @@ export class CallSession {
   cleanup(): void {
     this.currentTurn?.abortController.abort();
     this.currentTurn = null;
-    try {
-      this.deepgramConn?.requestClose();
-    } catch {
-      // already closed
-    }
-    this.deepgramConn = null;
+    this.utteranceDetector?.reset();
+    this.utteranceDetector = null;
   }
 }

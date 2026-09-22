@@ -1,6 +1,7 @@
 fastapi
 uvicorn[standard]
 piper-tts
+faster-whisper
 numpy
 
 # MeloTTS is not installed via this file - see tts-service/README.md,

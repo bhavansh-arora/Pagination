@@ -18,17 +18,11 @@ export const config = {
     phoneNumber: required("TWILIO_PHONE_NUMBER"),
   },
 
-  deepgram: {
-    apiKey: required("DEEPGRAM_API_KEY"),
-  },
-
   anthropic: {
     apiKey: required("ANTHROPIC_API_KEY"),
     model: process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5",
   },
 
-  // Fully self-hosted TTS - see tts-service/. No cloud TTS API involved.
-  tts: {
-    serviceUrl: process.env.LOCAL_TTS_URL ?? "http://127.0.0.1:8001",
-  },
+  // Fully self-hosted speech (STT + TTS) - see tts-service/. No cloud speech API involved.
+  localSpeechServiceUrl: process.env.LOCAL_SPEECH_SERVICE_URL ?? "http://127.0.0.1:8001",
 };
