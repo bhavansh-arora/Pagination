@@ -9,14 +9,13 @@ function required(name: string): string {
 }
 
 export const config = {
+  // HTTP health-check server.
   port: Number(process.env.PORT ?? 3000),
-  publicHost: required("PUBLIC_HOST"),
 
-  twilio: {
-    accountSid: required("TWILIO_ACCOUNT_SID"),
-    authToken: required("TWILIO_AUTH_TOKEN"),
-    phoneNumber: required("TWILIO_PHONE_NUMBER"),
-  },
+  // Asterisk's AudioSocket() dialplan application connects here. No cloud
+  // telephony API/account is involved - whatever SIP trunk you point
+  // Asterisk at is entirely swappable without touching this app.
+  audioSocketPort: Number(process.env.AUDIOSOCKET_PORT ?? 8090),
 
   anthropic: {
     apiKey: required("ANTHROPIC_API_KEY"),

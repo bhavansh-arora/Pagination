@@ -1,6 +1,6 @@
-import { mulawFrameEnergy } from "./audio";
+import { pcm16FrameEnergy } from "./audio";
 
-const FRAME_MS = 20; // matches Twilio's mu-law frame size (160 bytes @ 8kHz)
+const FRAME_MS = 20; // matches AudioSocket's frame size (320 bytes @ 8kHz, 16-bit mono)
 const SPEECH_START_FRAMES = 2; // ~40ms of sustained energy before declaring speech (avoids clicks/pops)
 const PRE_ROLL_FRAMES = 5; // ~100ms of audio kept from just before speech is confirmed, so onsets aren't clipped
 const SILENCE_HANGOVER_MS = Number(process.env.VAD_SILENCE_HANGOVER_MS ?? 700);
@@ -10,7 +10,7 @@ const ENERGY_THRESHOLD = Number(process.env.VAD_ENERGY_THRESHOLD ?? 500);
 
 /**
  * A simple energy-based voice-activity detector, replacing what Deepgram's
- * hosted VAD used to do. Fed one 20ms mu-law frame at a time; buffers audio
+ * hosted VAD used to do. Fed one 20ms PCM16 frame at a time; buffers audio
  * while the caller is talking and fires `onUtteranceEnded` with the whole
  * utterance once a sustained pause follows it.
  *
@@ -28,11 +28,11 @@ export class UtteranceDetector {
 
   constructor(
     private readonly onSpeechStarted: () => void,
-    private readonly onUtteranceEnded: (mulaw: Buffer) => void
+    private readonly onUtteranceEnded: (pcm: Buffer) => void
   ) {}
 
   pushFrame(frame: Buffer): void {
-    const isLoud = mulawFrameEnergy(frame) > ENERGY_THRESHOLD;
+    const isLoud = pcm16FrameEnergy(frame) > ENERGY_THRESHOLD;
 
     if (this.state === "silence") {
       this.preRoll.push(frame);

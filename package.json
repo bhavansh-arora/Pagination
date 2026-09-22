@@ -2,7 +2,7 @@
   "name": "voice-agent",
   "version": "1.0.0",
   "private": true,
-  "description": "Phone-based bilingual (Hindi/English) conversational voice agent, fully self-hosted speech (Twilio telephony + local Whisper STT + Claude + local Piper/MeloTTS TTS)",
+  "description": "Phone-based bilingual (Hindi/English) conversational voice agent, fully self-hosted speech, telephony via your own Asterisk + AudioSocket (any SIP trunk provider + local Whisper STT + Claude + local Piper/MeloTTS TTS)",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
@@ -12,14 +12,11 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "twilio": "^5.3.4",
-    "ws": "^8.18.0"
+    "express": "^4.21.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.7.5",
-    "@types/ws": "^8.5.12",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }

@@ -1,70 +1,54 @@
-import type WebSocket from "ws";
 import { streamReply, type ChatMessage } from "./anthropic";
 import { synthesizeSpeech } from "./localTts";
 import { transcribeSpeech } from "./localStt";
-import { convertWavToMulaw8k, buildWavFromMulaw8k, sendPaced } from "../utils/audio";
+import { convertWavToPcm16_8k, buildWavFromPcm16_8k, sendPaced } from "../utils/audio";
 import { UtteranceDetector } from "../utils/vad";
 import { SentenceSplitter } from "../utils/sentenceSplitter";
 import { AsyncQueue } from "../utils/asyncQueue";
 
 const GREETING = "Hey, thanks for calling! What can I help you with?";
 
+/** How the call session talks to whatever's actually carrying the audio (AudioSocket, or anything else later). */
+export interface CallTransport {
+  sendAudio: (pcmFrame: Buffer) => void;
+  hangup: () => void;
+}
+
 interface AssistantTurn {
   abortController: AbortController;
 }
 
 /**
- * Owns the whole lifecycle of one phone call: the Twilio media-stream
- * socket, the local voice-activity detector + speech-to-text, the Claude
- * conversation, and the locally-synthesized speech currently being spoken.
- * One instance per call.
+ * Owns the whole lifecycle of one phone call: the local voice-activity
+ * detector + speech-to-text, the Claude conversation, and the
+ * locally-synthesized speech currently being spoken. One instance per call.
+ * Deliberately knows nothing about how audio actually reaches the caller -
+ * that's the transport's job - so swapping the telephony layer later never
+ * touches this file.
  */
 export class CallSession {
-  private streamSid: string | null = null;
-  private utteranceDetector: UtteranceDetector | null = null;
+  private utteranceDetector: UtteranceDetector;
   private history: ChatMessage[] = [];
   private currentTurn: AssistantTurn | null = null;
   private isAgentSpeaking = false;
 
-  constructor(private readonly ws: WebSocket) {}
-
-  handleTwilioMessage(raw: WebSocket.RawData): void {
-    let msg: any;
-    try {
-      msg = JSON.parse(raw.toString());
-    } catch {
-      return;
-    }
-
-    switch (msg.event) {
-      case "start":
-        this.streamSid = msg.start.streamSid;
-        this.startUtteranceDetector();
-        this.speakGreeting();
-        break;
-      case "media":
-        this.utteranceDetector?.pushFrame(Buffer.from(msg.media.payload, "base64"));
-        break;
-      case "stop":
-        this.cleanup();
-        break;
-      default:
-        // "mark", "dtmf", "connected" — nothing to do for this MVP.
-        break;
-    }
-  }
-
-  private startUtteranceDetector(): void {
+  constructor(private readonly transport: CallTransport) {
     this.utteranceDetector = new UtteranceDetector(
       () => this.handleBargeIn(),
-      (mulawAudio) => this.handleUtteranceAudio(mulawAudio)
+      (pcmAudio) => this.handleUtteranceAudio(pcmAudio)
     );
+    this.speakGreeting();
+  }
+
+  /** Feed one 20ms PCM16 8kHz frame of caller audio in. */
+  onAudioFrame(pcmFrame: Buffer): void {
+    this.utteranceDetector.pushFrame(pcmFrame);
   }
 
   /** Transcribes a just-finished utterance locally and feeds it into the conversation. */
-  private async handleUtteranceAudio(mulawAudio: Buffer): Promise<void> {
+  private async handleUtteranceAudio(pcmAudio: Buffer): Promise<void> {
     try {
-      const wavBuffer = buildWavFromMulaw8k(mulawAudio);
+      const wavBuffer = buildWavFromPcm16_8k(pcmAudio);
       const { text, language } = await transcribeSpeech(wavBuffer);
       const trimmed = text.trim();
       if (!trimmed) return; // likely a VAD false trigger (noise burst) with nothing recognizable
@@ -84,8 +68,8 @@ export class CallSession {
       try {
         const wavBuffer = await synthesizeSpeech(GREETING);
         if (abortController.signal.aborted) return;
-        const mulaw = convertWavToMulaw8k(wavBuffer);
-        await sendPaced(mulaw, (chunk) => this.sendAudioToTwilio(chunk), abortController.signal);
+        const pcm = convertWavToPcm16_8k(wavBuffer);
+        await sendPaced(pcm, (frame) => this.transport.sendAudio(frame), abortController.signal);
       } catch (err) {
         if (!abortController.signal.aborted) console.error("Greeting TTS failed:", err);
       }
@@ -97,9 +81,6 @@ export class CallSession {
     this.currentTurn.abortController.abort();
     this.currentTurn = null;
     this.isAgentSpeaking = false;
-    if (this.streamSid) {
-      this.ws.send(JSON.stringify({ event: "clear", streamSid: this.streamSid }));
-    }
   }
 
   private handleUserUtterance(text: string, language: "en" | "hi"): void {
@@ -167,7 +148,7 @@ export class CallSession {
         try {
           const wavBuffer = await synthesizeSpeech(sentence);
           if (signal.aborted) return;
-          audioQueue.push(convertWavToMulaw8k(wavBuffer));
+          audioQueue.push(convertWavToPcm16_8k(wavBuffer));
         } catch (err) {
           if (!signal.aborted) console.error("TTS synthesis failed:", err);
         }
@@ -179,9 +160,9 @@ export class CallSession {
 
   /** Plays synthesized audio in order, one clip at a time, real-time paced. */
   private async runPlaybackStage(audioQueue: AsyncQueue<Buffer>, signal: AbortSignal): Promise<void> {
-    for await (const mulaw of audioQueue) {
+    for await (const pcm of audioQueue) {
       if (signal.aborted) return;
-      await sendPaced(mulaw, (chunk) => this.sendAudioToTwilio(chunk), signal);
+      await sendPaced(pcm, (frame) => this.transport.sendAudio(frame), signal);
     }
   }
 
@@ -192,21 +173,8 @@ export class CallSession {
     }
   }
 
-  private sendAudioToTwilio(base64Payload: string): void {
-    if (!this.streamSid) return;
-    this.ws.send(
-      JSON.stringify({
-        event: "media",
-        streamSid: this.streamSid,
-        media: { payload: base64Payload },
-      })
-    );
-  }
-
   cleanup(): void {
     this.currentTurn?.abortController.abort();
     this.currentTurn = null;
-    this.utteranceDetector?.reset();
-    this.utteranceDetector = null;
   }
 }

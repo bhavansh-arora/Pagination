@@ -1,9 +1,9 @@
 import { parseWav, encodeWavPcm16Mono } from "./wav";
 
-// 8kHz, 8-bit mu-law -> 1 byte/sample -> 160 bytes = 20ms, Twilio's native frame size.
-const FRAME_BYTES = 160;
+// 20ms @ 8kHz, 16-bit mono PCM little-endian - AudioSocket's native frame format.
+const FRAME_BYTES = 320;
 const FRAME_MS = 20;
-const TWILIO_SAMPLE_RATE = 8000;
+const CALL_SAMPLE_RATE = 8000;
 
 /** Linear interpolation resample of mono PCM16 samples to a new sample rate. */
 function resampleLinear(samples: Int16Array, fromRate: number, toRate: number): Int16Array {
@@ -22,91 +22,57 @@ function resampleLinear(samples: Int16Array, fromRate: number, toRate: number): 
 }
 
 /**
- * Faithful port of the ITU-T G.191 reference table-free mu-law encoder
- * (the same algorithm used in the official G.711 conformance test code).
- * Encodes one 16-bit linear PCM sample to one mu-law byte.
+ * Converts a WAV buffer (whatever sample rate the TTS engine produced) to
+ * raw 8kHz mono PCM16LE bytes - AudioSocket's native audio format, so this
+ * is just a resample, no format conversion needed.
  */
-function linearToMulawByte(sample: number): number {
-  const absno = sample < 0 ? Math.min(((~sample) >> 2) + 33, 0x1fff) : Math.min((sample >> 2) + 33, 0x1fff);
-
-  let i = absno >> 6;
-  let segno = 1;
-  while (i !== 0) {
-    segno++;
-    i >>= 1;
-  }
-
-  const highNibble = 0x0008 - segno;
-  const lowNibble = 0x000f - ((absno >> segno) & 0x000f);
-
-  let byte = (highNibble << 4) | lowNibble;
-  if (sample >= 0) byte |= 0x0080;
-  return byte & 0xff;
-}
-
-function pcm16ToMulaw(samples: Int16Array): Buffer {
-  const out = Buffer.alloc(samples.length);
-  for (let i = 0; i < samples.length; i++) {
-    out[i] = linearToMulawByte(samples[i]);
+export function convertWavToPcm16_8k(wavBuffer: Buffer): Buffer {
+  const { sampleRate, samples } = parseWav(wavBuffer);
+  const resampled = resampleLinear(samples, sampleRate, CALL_SAMPLE_RATE);
+  const out = Buffer.alloc(resampled.length * 2);
+  for (let i = 0; i < resampled.length; i++) {
+    out.writeInt16LE(resampled[i], i * 2);
   }
   return out;
 }
 
-/** Standard G.711 mu-law byte -> 16-bit linear PCM sample decode. */
-export function mulawByteToLinear(byte: number): number {
-  const inverted = ~byte & 0xff;
-  const sign = inverted & 0x80;
-  const exponent = (inverted >> 4) & 0x07;
-  const mantissa = inverted & 0x0f;
-  let sample = ((mantissa << 3) + 0x84) << exponent;
-  sample -= 0x84;
-  return sign !== 0 ? -sample : sample;
+/** Builds a canonical 8kHz mono WAV from raw PCM16LE call audio - the inverse of `convertWavToPcm16_8k`. */
+export function buildWavFromPcm16_8k(pcm: Buffer): Buffer {
+  const sampleCount = Math.floor(pcm.length / 2);
+  const samples = new Int16Array(sampleCount);
+  for (let i = 0; i < sampleCount; i++) {
+    samples[i] = pcm.readInt16LE(i * 2);
+  }
+  return encodeWavPcm16Mono(samples, CALL_SAMPLE_RATE);
 }
 
-/** RMS energy of a raw mu-law frame, decoded to linear first - used for VAD. */
-export function mulawFrameEnergy(frame: Buffer): number {
+/** RMS energy of a raw PCM16LE frame - used for VAD. */
+export function pcm16FrameEnergy(frame: Buffer): number {
   let sumSquares = 0;
-  for (let i = 0; i < frame.length; i++) {
-    const sample = mulawByteToLinear(frame[i]);
+  const sampleCount = Math.floor(frame.length / 2);
+  for (let i = 0; i < sampleCount; i++) {
+    const sample = frame.readInt16LE(i * 2);
     sumSquares += sample * sample;
   }
-  return Math.sqrt(sumSquares / frame.length);
-}
-
-/** Builds a canonical 8kHz mono PCM16 WAV from raw Twilio mu-law audio - the inverse of `convertWavToMulaw8k`. */
-export function buildWavFromMulaw8k(mulaw: Buffer): Buffer {
-  const samples = new Int16Array(mulaw.length);
-  for (let i = 0; i < mulaw.length; i++) {
-    samples[i] = mulawByteToLinear(mulaw[i]);
-  }
-  return encodeWavPcm16Mono(samples, TWILIO_SAMPLE_RATE);
+  return Math.sqrt(sumSquares / sampleCount);
 }
 
 /**
- * Converts a WAV buffer (whatever sample rate the TTS engine produced) to
- * raw 8kHz mono mu-law bytes, entirely in-process - no ffmpeg subprocess,
- * so there's no per-sentence process-spawn latency on the hot path.
- */
-export function convertWavToMulaw8k(wavBuffer: Buffer): Buffer {
-  const { sampleRate, samples } = parseWav(wavBuffer);
-  const resampled = resampleLinear(samples, sampleRate, TWILIO_SAMPLE_RATE);
-  return pcm16ToMulaw(resampled);
-}
-
-/**
- * Sends mu-law audio to Twilio as real-time-paced 20ms frames so playback
- * doesn't outrun the call. Returns early (without throwing) if `signal` fires
- * mid-playback - that's how barge-in cuts audio off immediately.
+ * Sends PCM16 audio to the caller as real-time-paced 20ms frames so
+ * playback doesn't outrun the call. Returns early (without throwing) if
+ * `signal` fires mid-playback - that's how barge-in cuts audio off
+ * immediately (AudioSocket has no separate playback buffer to flush;
+ * simply stopping mid-stream is enough).
  */
 export async function sendPaced(
-  mulaw: Buffer,
-  sendFrame: (base64Payload: string) => void,
+  pcm: Buffer,
+  sendFrame: (frame: Buffer) => void,
   signal: AbortSignal
 ): Promise<void> {
-  for (let offset = 0; offset < mulaw.length; offset += FRAME_BYTES) {
+  for (let offset = 0; offset < pcm.length; offset += FRAME_BYTES) {
     if (signal.aborted) return;
-    const frame = mulaw.subarray(offset, offset + FRAME_BYTES);
-    sendFrame(frame.toString("base64"));
+    const frame = pcm.subarray(offset, offset + FRAME_BYTES);
+    sendFrame(frame);
     await sleep(FRAME_MS, signal);
   }
 }
