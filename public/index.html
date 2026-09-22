@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Local Leads Finder</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Local Leads Finder</h1>
+    <p class="subtitle">Find businesses by category &amp; location that have no website, or a weak one.</p>
+  </header>
+
+  <main>
+    <form id="search-form">
+      <input id="category" type="text" placeholder="Category, e.g. salon" required />
+      <input id="location" type="text" placeholder="Location, e.g. Bhopal" required />
+      <button type="submit" id="search-btn">Search</button>
+    </form>
+
+    <div id="status" class="status"></div>
+
+    <div class="toolbar">
+      <label class="filter-toggle">
+        <input type="checkbox" id="filter-flagged" />
+        Show only flagged (auto or manually marked "needs website")
+      </label>
+      <button id="export-btn" type="button" disabled>Export CSV</button>
+      <button id="load-more-btn" type="button" style="display:none;">Load more results</button>
+    </div>
+
+    <table id="results-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>Business</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Rating</th>
+          <th>Auto suggestion</th>
+          <th>Visit site</th>
+          <th>Manual review</th>
+        </tr>
+      </thead>
+      <tbody id="results-body"></tbody>
+    </table>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

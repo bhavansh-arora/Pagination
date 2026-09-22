@@ -1,0 +1,20 @@
+{
+  "name": "local-leads-finder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Find local businesses (by category + location) via Google Places, flag ones with no website or a weak one, and track manual review.",
+  "type": "commonjs",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
