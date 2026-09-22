@@ -3,9 +3,11 @@ import { config } from "../config";
 
 const deepgram = createClient(config.deepgram.apiKey);
 
+export type CallLanguage = "en" | "hi";
+
 export interface DeepgramHandlers {
-  /** Fired once a transcript is final (end of an utterance). */
-  onFinalTranscript: (text: string) => void;
+  /** Fired once a transcript is final (end of an utterance), with the detected language. */
+  onFinalTranscript: (text: string, language: CallLanguage) => void;
   /** Fired the moment Deepgram's VAD detects the caller has started talking. */
   onSpeechStarted: () => void;
   onError?: (err: unknown) => void;
@@ -13,12 +15,13 @@ export interface DeepgramHandlers {
 
 /**
  * Opens a Deepgram live-transcription socket tuned for Twilio's inbound
- * phone audio (8kHz mu-law), and wires it to the given handlers.
+ * phone audio (8kHz mu-law). Uses Nova-3's multilingual mode so the caller
+ * can freely code-switch between English and Hindi turn to turn.
  */
 export function openDeepgramConnection(handlers: DeepgramHandlers): LiveClient {
   const connection = deepgram.listen.live({
-    model: "nova-2-phonecall",
-    language: "en-US",
+    model: "nova-3",
+    language: "multi",
     encoding: "mulaw",
     sample_rate: 8000,
     channels: 1,
@@ -34,7 +37,11 @@ export function openDeepgramConnection(handlers: DeepgramHandlers): LiveClient {
     const alt = data.channel?.alternatives?.[0];
     const text = alt?.transcript?.trim();
     if (text && data.is_final && data.speech_final) {
-      handlers.onFinalTranscript(text);
+      // Multilingual responses carry a `languages` array (dominant language
+      // first); the SDK's types predate this field, hence the cast.
+      const detected = (alt as { languages?: string[] })?.languages?.[0];
+      const language: CallLanguage = detected === "hi" ? "hi" : "en";
+      handlers.onFinalTranscript(text, language);
     }
   });
 

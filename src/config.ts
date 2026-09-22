@@ -27,9 +27,9 @@ export const config = {
     model: process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5",
   },
 
-  elevenlabs: {
-    apiKey: required("ELEVENLABS_API_KEY"),
-    voiceId: required("ELEVENLABS_VOICE_ID"),
-    modelId: process.env.ELEVENLABS_MODEL_ID ?? "eleven_turbo_v2_5",
+  // Fully self-hosted TTS - see tts-service/. No cloud TTS API involved.
+  tts: {
+    serviceUrl: process.env.LOCAL_TTS_URL ?? "http://127.0.0.1:8001",
+    ffmpegPath: process.env.FFMPEG_PATH ?? "ffmpeg",
   },
 };

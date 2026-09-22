@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+piper-tts
+numpy
+
+# MeloTTS is not installed via this file - see tts-service/README.md,
+# it needs a git install plus a one-time `unidic download` step.

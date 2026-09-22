@@ -1,21 +1,22 @@
 import type WebSocket from "ws";
 import type { LiveClient } from "@deepgram/sdk";
-import { openDeepgramConnection, sendAudio } from "./deepgram";
+import { openDeepgramConnection, sendAudio, type CallLanguage } from "./deepgram";
 import { streamReply, type ChatMessage } from "./anthropic";
-import { synthesizeTurn, type TtsTurn } from "./elevenlabs";
+import { synthesizeSpeech } from "./localTts";
+import { convertWavToMulaw8k, sendPaced } from "../utils/audio";
 import { SentenceSplitter } from "../utils/sentenceSplitter";
+import { AsyncQueue } from "../utils/asyncQueue";
 
 const GREETING = "Hey, thanks for calling! What can I help you with?";
 
 interface AssistantTurn {
   abortController: AbortController;
-  tts: TtsTurn;
 }
 
 /**
  * Owns the whole lifecycle of one phone call: the Twilio media-stream
  * socket, the Deepgram STT connection, the Claude conversation, and the
- * ElevenLabs TTS turn currently being spoken. One instance per call.
+ * locally-synthesized speech currently being spoken. One instance per call.
  */
 export class CallSession {
   private streamSid: string | null = null;
@@ -56,7 +57,7 @@ export class CallSession {
 
   private startDeepgram(): void {
     this.deepgramConn = openDeepgramConnection({
-      onFinalTranscript: (text) => this.handleUserUtterance(text),
+      onFinalTranscript: (text, language) => this.handleUserUtterance(text, language),
       onSpeechStarted: () => this.handleBargeIn(),
       onError: (err) => console.error("Deepgram error:", err),
     });
@@ -64,13 +65,18 @@ export class CallSession {
 
   private speakGreeting(): void {
     this.history.push({ role: "assistant", content: GREETING });
-    this.speak(GREETING);
+    const abortController = new AbortController();
+    this.currentTurn = { abortController };
+    this.isAgentSpeaking = true;
+
+    this.speakSentence(GREETING, abortController.signal)
+      .catch((err) => console.error("Greeting TTS failed:", err))
+      .finally(() => this.onTurnDone(abortController));
   }
 
   private handleBargeIn(): void {
     if (!this.isAgentSpeaking || !this.currentTurn) return;
     this.currentTurn.abortController.abort();
-    this.currentTurn.tts.abort();
     this.currentTurn = null;
     this.isAgentSpeaking = false;
     if (this.streamSid) {
@@ -78,55 +84,66 @@ export class CallSession {
     }
   }
 
-  private handleUserUtterance(text: string): void {
+  private handleUserUtterance(text: string, language: CallLanguage): void {
     if (this.isAgentSpeaking) this.handleBargeIn();
-    this.history.push({ role: "user", content: text });
+    // Tag the turn with the detected language so Claude reliably replies in
+    // kind; the system prompt tells it to treat this as metadata, not text.
+    this.history.push({ role: "user", content: `[lang: ${language}] ${text}` });
     this.runAssistantTurn();
-  }
-
-  /** Speaks a fixed string directly, bypassing the LLM (used for the greeting). */
-  private speak(text: string): void {
-    const abortController = new AbortController();
-    const tts = synthesizeTurn(
-      (chunk) => this.sendAudioToTwilio(chunk),
-      () => this.onTurnDone(abortController)
-    );
-    this.currentTurn = { abortController, tts };
-    this.isAgentSpeaking = true;
-    tts.sendText(text);
-    tts.end();
   }
 
   private runAssistantTurn(): void {
     const abortController = new AbortController();
     const splitter = new SentenceSplitter();
+    const sentenceQueue = new AsyncQueue<string>();
     let assistantText = "";
 
-    const tts = synthesizeTurn(
-      (chunk) => this.sendAudioToTwilio(chunk),
-      () => this.onTurnDone(abortController)
-    );
-    this.currentTurn = { abortController, tts };
+    this.currentTurn = { abortController };
     this.isAgentSpeaking = true;
+
+    this.drainSpeechQueue(sentenceQueue, abortController.signal).finally(() =>
+      this.onTurnDone(abortController)
+    );
 
     (async () => {
       try {
         for await (const delta of streamReply(this.history, abortController.signal)) {
           assistantText += delta;
-          for (const chunk of splitter.push(delta)) tts.sendText(chunk);
+          for (const chunk of splitter.push(delta)) sentenceQueue.push(chunk);
         }
         const rest = splitter.flush();
-        if (rest) tts.sendText(rest);
-        tts.end();
-        if (assistantText.trim()) {
-          this.history.push({ role: "assistant", content: assistantText.trim() });
-        }
+        if (rest) sentenceQueue.push(rest);
       } catch (err) {
         if (!abortController.signal.aborted) {
           console.error("Assistant turn failed:", err);
         }
+      } finally {
+        sentenceQueue.close();
+        if (assistantText.trim()) {
+          this.history.push({ role: "assistant", content: assistantText.trim() });
+        }
       }
     })();
+  }
+
+  /** Speaks queued sentences one at a time, in order, as they arrive from the LLM stream. */
+  private async drainSpeechQueue(queue: AsyncQueue<string>, signal: AbortSignal): Promise<void> {
+    for await (const sentence of queue) {
+      if (signal.aborted) return;
+      try {
+        await this.speakSentence(sentence, signal);
+      } catch (err) {
+        if (!signal.aborted) console.error("TTS failed:", err);
+      }
+    }
+  }
+
+  private async speakSentence(text: string, signal: AbortSignal): Promise<void> {
+    const wavBuffer = await synthesizeSpeech(text);
+    if (signal.aborted) return;
+    const mulaw = await convertWavToMulaw8k(wavBuffer);
+    if (signal.aborted) return;
+    await sendPaced(mulaw, (chunk) => this.sendAudioToTwilio(chunk), signal);
   }
 
   private onTurnDone(abortController: AbortController): void {
@@ -149,7 +166,6 @@ export class CallSession {
 
   cleanup(): void {
     this.currentTurn?.abortController.abort();
-    this.currentTurn?.tts.abort();
     this.currentTurn = null;
     try {
       this.deepgramConn?.requestClose();

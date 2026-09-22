@@ -2,3 +2,11 @@ node_modules/
 dist/
 .env
 *.log
+
+# Local TTS service - venv and downloaded model weights are large binaries,
+# fetch them per tts-service/README.md instead of committing them.
+tts-service/.venv/
+tts-service/__pycache__/
+tts-service/models/*.onnx
+tts-service/models/*.onnx.json
+tts-service/models/*.pth

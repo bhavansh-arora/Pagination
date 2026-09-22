@@ -10,10 +10,11 @@ export class SentenceSplitter {
     this.buffer += delta;
     const ready: string[] = [];
 
-    // Split on sentence-ending punctuation, or a comma once the buffer is
-    // long enough that waiting for a full sentence would add noticeable delay.
+    // Split on sentence-ending punctuation (including Hindi's danda ।/॥),
+    // or a comma once the buffer is long enough that waiting for a full
+    // sentence would add noticeable delay.
     let match: RegExpMatchArray | null;
-    const boundary = /[.!?]+[\s"')\]]*|,\s+(?=.{20,})/;
+    const boundary = /[.!?।॥]+[\s"')\]]*|,\s+(?=.{20,})/;
     while ((match = this.buffer.match(boundary))) {
       const cutIndex = match.index! + match[0].length;
       const chunk = this.buffer.slice(0, cutIndex).trim();

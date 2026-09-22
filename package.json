@@ -2,7 +2,7 @@
   "name": "voice-agent",
   "version": "1.0.0",
   "private": true,
-  "description": "Phone-based conversational voice agent (Twilio + Deepgram STT + Claude + ElevenLabs TTS)",
+  "description": "Phone-based bilingual (Hindi/English) conversational voice agent with a fully self-hosted, Indian-accented voice (Twilio + Deepgram STT + Claude + local Piper/MeloTTS)",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
