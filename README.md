@@ -49,6 +49,49 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
 - Click **Export CSV** to download the currently visible rows (business name, phone,
   address, website, auto suggestion, manual status).
 
+## Deploying on the VPS (alongside the CRM)
+
+This app is a single lightweight Node/Express process with a local SQLite file —
+no separate database service needed. It's designed to run as a second, independent
+Docker Compose project on the same VPS as the CRM, sharing the CRM's Caddy
+instance for HTTPS (only one process can bind ports 80/443 on the host, so we
+reuse the CRM's Caddy rather than running a second one).
+
+1. On the VPS, clone this repo next to the CRM (e.g. `/opt/leads-finder`):
+   ```bash
+   cd /opt
+   git clone -b claude/nifty-wozniak-sx5pry https://github.com/bhavansh-arora/pagination.git leads-finder
+   cd leads-finder
+   cp .env.example .env
+   nano .env   # set GOOGLE_PLACES_API_KEY
+   ```
+2. Confirm the CRM's Docker network name (docker-compose.yml here assumes the
+   default `crm_default`, i.e. the CRM lives in `/opt/crm`):
+   ```bash
+   docker network ls | grep default
+   ```
+   If it's named differently, edit the `networks.crm_default` line in this
+   repo's `docker-compose.yml` to match before continuing.
+3. Build and start:
+   ```bash
+   docker compose up -d --build
+   ```
+4. Point a subdomain at this app by adding a block to the CRM's `/opt/crm/Caddyfile`
+   (adjust the subdomain to whatever DNS record you create, e.g. `leads.codebunny.net`):
+   ```
+   leads.codebunny.net {
+       reverse_proxy leads-finder-app-1:3000
+   }
+   ```
+   Then reload Caddy from the CRM directory: `cd /opt/crm && docker compose restart caddy`.
+   (Get the exact container name first with `docker ps --filter name=leads-finder`.)
+5. Add the DNS A record for that subdomain pointing at the VPS's IP, then visit it —
+   Caddy will provision a Let's Encrypt certificate automatically.
+
+To redeploy after a `git pull`, just run `docker compose up -d --build` again from
+`/opt/leads-finder` — the SQLite data lives in the `leads-data` Docker volume and
+persists across rebuilds.
+
 ## Notes / limits
 
 - The "bad website" auto-check is a heuristic (no website / only a Facebook-Instagram

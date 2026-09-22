@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: 3000
+    volumes:
+      - leads-data:/app/data
+    networks:
+      - crm_default
+
+networks:
+  crm_default:
+    external: true
+
+volumes:
+  leads-data:
