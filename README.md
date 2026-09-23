@@ -48,9 +48,11 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
   site** or **Looks fine** — this overrides the auto-suggestion and is saved.
 - Click **Export CSV** to download the currently visible rows (business name, phone,
   address, website, auto suggestion, manual status).
-- Click **Push to CRM** to send the currently visible rows (respects the "Show only
-  flagged" toggle, so you can push just the good leads) straight into the CRM as new
-  leads — tagged with the source in `CRM_LEAD_SOURCE` (default `US`), phone numbers
+- Tick the checkbox on each row you want to send (or the header checkbox to select
+  everything currently visible), pick a **lead source** from the dropdown — it's
+  populated live from the CRM's actual Lead Sources, or choose **+ Add new source…**
+  and type one to create it on the fly — then click **Push selected to CRM**. Only
+  the rows you checked are sent, tagged with the source you picked, phone numbers
   normalized to `+1XXXXXXXXXX`. Rows without a usable phone number are skipped (a
   lead with no way to call or message isn't actionable there). Pushing is safe to
   repeat — leads already in the CRM (matched by phone) are skipped, not duplicated,

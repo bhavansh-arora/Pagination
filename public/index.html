@@ -27,13 +27,22 @@
         Show only flagged (auto or manually marked "needs website")
       </label>
       <button id="export-btn" type="button" disabled>Export CSV</button>
-      <button id="push-crm-btn" type="button" disabled>Push to CRM</button>
       <button id="load-more-btn" type="button" style="display:none;">Load more results</button>
+    </div>
+
+    <div class="toolbar crm-toolbar">
+      <span id="selected-count" class="selected-count">0 selected</span>
+      <select id="crm-source-select">
+        <option value="">Loading sources…</option>
+      </select>
+      <input id="crm-source-new" type="text" placeholder="New source name" style="display:none;" />
+      <button id="push-crm-btn" type="button" disabled>Push selected to CRM</button>
     </div>
 
     <table id="results-table" style="display:none;">
       <thead>
         <tr>
+          <th><input type="checkbox" id="select-all-th" title="Select all visible" /></th>
           <th>Business</th>
           <th>Phone</th>
           <th>Address</th>

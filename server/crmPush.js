@@ -55,4 +55,25 @@ async function pushToCrm({ apiUrl, secret, source, businesses }) {
   return { ...data, skippedNoPhone };
 }
 
-module.exports = { toUsE164, pushToCrm };
+async function fetchCrmSources({ apiUrl, secret }) {
+  if (!apiUrl || !secret) {
+    const err = new Error(
+      "CRM_API_URL and CRM_LEADS_SECRET must both be set in .env to load CRM lead sources."
+    );
+    err.status = 500;
+    throw err;
+  }
+
+  const res = await fetch(`${apiUrl.replace(/\/$/, "")}/api/external/sources`, {
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    const err = new Error(data?.error || `CRM rejected the request (HTTP ${res.status})`);
+    err.status = 502;
+    throw err;
+  }
+  return data.sources || [];
+}
+
+module.exports = { toUsE164, pushToCrm, fetchCrmSources };

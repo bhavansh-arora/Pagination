@@ -8,6 +8,8 @@ const AUTO_LABELS = {
   ok: 'Loaded OK',
 };
 
+const NEW_SOURCE_VALUE = '__new__';
+
 const form = document.getElementById('search-form');
 const categoryInput = document.getElementById('category');
 const locationInput = document.getElementById('location');
@@ -17,12 +19,18 @@ const table = document.getElementById('results-table');
 const tbody = document.getElementById('results-body');
 const filterFlagged = document.getElementById('filter-flagged');
 const exportBtn = document.getElementById('export-btn');
-const pushCrmBtn = document.getElementById('push-crm-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
+const selectAllTh = document.getElementById('select-all-th');
+const selectedCountEl = document.getElementById('selected-count');
+const sourceSelect = document.getElementById('crm-source-select');
+const sourceNewInput = document.getElementById('crm-source-new');
+const pushCrmBtn = document.getElementById('push-crm-btn');
 
 let rows = new Map(); // place_id -> business row
+let selected = new Set(); // place_ids currently checked
 let nextPageToken = null;
 let lastQuery = { category: '', location: '' };
+let defaultSource = '';
 
 function setStatus(msg, isError = false) {
   statusEl.textContent = msg;
@@ -35,9 +43,29 @@ function isFlagged(b) {
   return b.auto_flag && b.auto_flag !== 'ok';
 }
 
+function visibleRows() {
+  const list = Array.from(rows.values());
+  return filterFlagged.checked ? list.filter(isFlagged) : list;
+}
+
+function updateSelectionUi() {
+  const visible = visibleRows();
+  const visibleIds = new Set(visible.map((b) => b.place_id));
+  // Drop selections for rows no longer visible (e.g. filter just narrowed) so
+  // the count and "select all" checkbox stay honest about what's on screen.
+  for (const id of Array.from(selected)) {
+    if (!visibleIds.has(id)) selected.delete(id);
+  }
+
+  selectedCountEl.textContent = `${selected.size} selected`;
+  pushCrmBtn.disabled = selected.size === 0;
+  selectAllTh.checked = visible.length > 0 && visible.every((b) => selected.has(b.place_id));
+  selectAllTh.indeterminate = selected.size > 0 && !selectAllTh.checked;
+}
+
 function render() {
   const list = Array.from(rows.values());
-  const visible = filterFlagged.checked ? list.filter(isFlagged) : list;
+  const visible = visibleRows();
 
   tbody.innerHTML = '';
   for (const b of visible) {
@@ -46,7 +74,7 @@ function render() {
 
   table.style.display = list.length ? '' : 'none';
   exportBtn.disabled = visible.length === 0;
-  pushCrmBtn.disabled = visible.length === 0;
+  updateSelectionUi();
 }
 
 function renderRow(b) {
@@ -71,6 +99,7 @@ function renderRow(b) {
     : '<span class="crm-not-pushed">—</span>';
 
   tr.innerHTML = `
+    <td><input type="checkbox" class="row-select" ${selected.has(b.place_id) ? 'checked' : ''} /></td>
     <td>${escapeHtml(b.name || '')}</td>
     <td>${escapeHtml(b.phone || '—')}</td>
     <td>${escapeHtml(b.address || '')}</td>
@@ -90,6 +119,12 @@ function renderRow(b) {
 
   tr.querySelectorAll('.mark-group button').forEach((btn) => {
     btn.addEventListener('click', () => mark(b.place_id, btn.dataset.action));
+  });
+
+  tr.querySelector('.row-select').addEventListener('change', (e) => {
+    if (e.target.checked) selected.add(b.place_id);
+    else selected.delete(b.place_id);
+    updateSelectionUi();
   });
 
   return tr;
@@ -125,6 +160,7 @@ async function runSearch({ append = false } = {}) {
 
   if (!append) {
     rows = new Map();
+    selected = new Set();
     nextPageToken = null;
     lastQuery = { category, location };
   }
@@ -165,25 +201,99 @@ form.addEventListener('submit', (e) => {
 loadMoreBtn.addEventListener('click', () => runSearch({ append: true }));
 filterFlagged.addEventListener('change', render);
 
+selectAllTh.addEventListener('change', () => {
+  const visible = visibleRows();
+  if (selectAllTh.checked) {
+    for (const b of visible) selected.add(b.place_id);
+  } else {
+    for (const b of visible) selected.delete(b.place_id);
+  }
+  render();
+});
+
+// --- CRM source picker ---
+
+async function loadCrmSources() {
+  try {
+    const [configRes, sourcesRes] = await Promise.all([
+      fetch('/api/crm-config'),
+      fetch('/api/crm-sources'),
+    ]);
+    const config = await configRes.json();
+    defaultSource = config.defaultSource || '';
+
+    if (!sourcesRes.ok) {
+      const err = await sourcesRes.json();
+      throw new Error(err.error || 'Failed to load CRM sources.');
+    }
+    const { sources } = await sourcesRes.json();
+    populateSourceSelect(sources);
+  } catch (err) {
+    sourceSelect.innerHTML = '<option value="">CRM not reachable</option>';
+    sourceSelect.disabled = true;
+    setStatus(`Couldn't load CRM lead sources: ${err.message}`, true);
+  }
+}
+
+function populateSourceSelect(sources) {
+  sourceSelect.innerHTML = '';
+  for (const name of sources) {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    sourceSelect.appendChild(opt);
+  }
+  const addOpt = document.createElement('option');
+  addOpt.value = NEW_SOURCE_VALUE;
+  addOpt.textContent = '+ Add new source…';
+  sourceSelect.appendChild(addOpt);
+
+  if (defaultSource && sources.includes(defaultSource)) {
+    sourceSelect.value = defaultSource;
+  } else if (sources.length > 0) {
+    sourceSelect.value = sources[0];
+  } else {
+    sourceSelect.value = NEW_SOURCE_VALUE;
+  }
+  sourceSelect.dispatchEvent(new Event('change'));
+}
+
+sourceSelect.addEventListener('change', () => {
+  const isNew = sourceSelect.value === NEW_SOURCE_VALUE;
+  sourceNewInput.style.display = isNew ? '' : 'none';
+  if (isNew) sourceNewInput.focus();
+});
+
+loadCrmSources();
+
+// --- Push to CRM ---
+
 pushCrmBtn.addEventListener('click', async () => {
-  const list = Array.from(rows.values());
-  const visible = filterFlagged.checked ? list.filter(isFlagged) : list;
-  if (visible.length === 0) return;
+  const placeIds = Array.from(selected);
+  if (placeIds.length === 0) return;
+
+  const source =
+    sourceSelect.value === NEW_SOURCE_VALUE ? sourceNewInput.value.trim() : sourceSelect.value;
+  if (!source) {
+    setStatus('Pick a lead source or type a new one first.', true);
+    return;
+  }
 
   pushCrmBtn.disabled = true;
-  setStatus(`Pushing ${visible.length} lead(s) to the CRM…`);
+  setStatus(`Pushing ${placeIds.length} lead(s) to the CRM under "${source}"…`);
 
   try {
     const res = await fetch('/api/push-to-crm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ placeIds: visible.map((b) => b.place_id) }),
+      body: JSON.stringify({ placeIds, source }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Push failed.');
 
     for (const [placeId, business] of Object.entries(data.updatedBusinesses || {})) {
       rows.set(placeId, business);
+      selected.delete(placeId);
     }
     render();
 
@@ -191,16 +301,19 @@ pushCrmBtn.addEventListener('click', async () => {
     const parts = [`${data.created} pushed`, `${data.duplicate} already in CRM`];
     if (skippedNoPhone) parts.push(`${skippedNoPhone} skipped (no usable phone)`);
     setStatus(parts.join(', ') + '.');
+
+    // A newly-typed source is now real in the CRM -- refresh the dropdown
+    // so it's pickable (not just re-typeable) on the next push.
+    if (sourceSelect.value === NEW_SOURCE_VALUE) loadCrmSources();
   } catch (err) {
     setStatus(err.message, true);
   } finally {
-    pushCrmBtn.disabled = visible.length === 0;
+    updateSelectionUi();
   }
 });
 
 exportBtn.addEventListener('click', () => {
-  const list = Array.from(rows.values());
-  const visible = filterFlagged.checked ? list.filter(isFlagged) : list;
+  const visible = visibleRows();
   const header = ['Business Name', 'Phone', 'Address', 'Website', 'Auto Suggestion', 'Manual Status'];
   const lines = [header.join(',')];
 

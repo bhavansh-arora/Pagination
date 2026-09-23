@@ -4,7 +4,7 @@ const express = require('express');
 const { searchPlaces } = require('./placesClient');
 const { checkWebsite } = require('./websiteCheck');
 const { upsertBusiness, setManualStatus, getBusiness, markPushed } = require('./db');
-const { toUsE164, pushToCrm } = require('./crmPush');
+const { toUsE164, pushToCrm, fetchCrmSources } = require('./crmPush');
 
 const app = express();
 app.use(express.json());
@@ -76,10 +76,31 @@ app.post('/api/mark', (req, res) => {
   res.json({ ok: true, business: getBusiness(placeId) });
 });
 
+app.get('/api/crm-config', (req, res) => {
+  res.json({
+    configured: Boolean(CRM_API_URL && CRM_LEADS_SECRET),
+    defaultSource: CRM_LEAD_SOURCE,
+  });
+});
+
+app.get('/api/crm-sources', async (req, res) => {
+  try {
+    const sources = await fetchCrmSources({ apiUrl: CRM_API_URL, secret: CRM_LEADS_SECRET });
+    res.json({ sources });
+  } catch (err) {
+    console.error(err);
+    res.status(err.status || 500).json({ error: err.message });
+  }
+});
+
 app.post('/api/push-to-crm', async (req, res) => {
-  const { placeIds } = req.body || {};
+  const { placeIds, source } = req.body || {};
   if (!Array.isArray(placeIds) || placeIds.length === 0) {
     return res.status(400).json({ error: 'placeIds (non-empty array) is required.' });
+  }
+  const trimmedSource = String(source || '').trim();
+  if (!trimmedSource) {
+    return res.status(400).json({ error: 'source is required (pick an existing one or type a new one).' });
   }
 
   const businesses = placeIds.map((id) => getBusiness(id)).filter(Boolean);
@@ -99,7 +120,7 @@ app.post('/api/push-to-crm', async (req, res) => {
     const result = await pushToCrm({
       apiUrl: CRM_API_URL,
       secret: CRM_LEADS_SECRET,
-      source: CRM_LEAD_SOURCE,
+      source: trimmedSource,
       businesses,
     });
 
