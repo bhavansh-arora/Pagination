@@ -10,6 +10,7 @@
   <header>
     <h1>Local Leads Finder</h1>
     <p class="subtitle">Find businesses by category &amp; location that have no website, or a weak one.</p>
+    <p class="subtitle">Only businesses with a phone number are shown — no way to call or message means no usable lead.</p>
   </header>
 
   <main>
@@ -23,8 +24,8 @@
 
     <div class="toolbar">
       <label class="filter-toggle">
-        <input type="checkbox" id="filter-flagged" />
-        Show only flagged (auto or manually marked "needs website")
+        <input type="checkbox" id="boost-mode" />
+        🚀 Boost Mode — only show leads with no website or a weak one
       </label>
       <button id="export-btn" type="button" disabled>Export CSV</button>
       <button id="load-more-btn" type="button" style="display:none;">Load more results</button>

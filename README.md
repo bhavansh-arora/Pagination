@@ -2,7 +2,8 @@
 
 Find local businesses by category + location (e.g. "salon" in "Bhopal") using the
 **Google Places API**, and flag the ones that don't have a website or have a weak one —
-so you can pitch them web design / dev services.
+so you can pitch them web design / dev services. Only businesses with a phone number
+are ever shown — no way to call or message means no usable lead here.
 
 Two layers of "needs a website" review:
 
@@ -43,7 +44,8 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
   website (if any), and an auto-suggestion badge.
 - Click **Load more results** to page through further results (Google returns up to
   ~60 per search, in pages of 20).
-- Toggle **"Show only flagged"** to hide businesses that already look fine.
+- Toggle **🚀 Boost Mode** to narrow the table down to only businesses with no
+  website or a weak one — hides anything that already looks fine.
 - Click **Open site →** to visit a business's website yourself, then mark it **Needs
   site** or **Looks fine** — this overrides the auto-suggestion and is saved.
 - Click **Export CSV** to download the currently visible rows (business name, phone,
@@ -53,10 +55,9 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
   populated live from the CRM's actual Lead Sources, or choose **+ Add new source…**
   and type one to create it on the fly — then click **Push selected to CRM**. Only
   the rows you checked are sent, tagged with the source you picked, phone numbers
-  normalized to `+1XXXXXXXXXX`. Rows without a usable phone number are skipped (a
-  lead with no way to call or message isn't actionable there). Pushing is safe to
-  repeat — leads already in the CRM (matched by phone) are skipped, not duplicated,
-  and pushed rows show a **✓ In CRM** marker.
+  normalized to `+1XXXXXXXXXX`. Pushing is safe to repeat — leads already in the
+  CRM (matched by phone) are skipped, not duplicated, and pushed rows show a
+  **✓ In CRM** marker.
 
 ## Deploying on the VPS (alongside the CRM)
 

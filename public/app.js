@@ -17,7 +17,7 @@ const searchBtn = document.getElementById('search-btn');
 const statusEl = document.getElementById('status');
 const table = document.getElementById('results-table');
 const tbody = document.getElementById('results-body');
-const filterFlagged = document.getElementById('filter-flagged');
+const boostMode = document.getElementById('boost-mode');
 const exportBtn = document.getElementById('export-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
 const selectAllTh = document.getElementById('select-all-th');
@@ -45,7 +45,7 @@ function isFlagged(b) {
 
 function visibleRows() {
   const list = Array.from(rows.values());
-  return filterFlagged.checked ? list.filter(isFlagged) : list;
+  return boostMode.checked ? list.filter(isFlagged) : list;
 }
 
 function updateSelectionUi() {
@@ -199,7 +199,7 @@ form.addEventListener('submit', (e) => {
 });
 
 loadMoreBtn.addEventListener('click', () => runSearch({ append: true }));
-filterFlagged.addEventListener('change', render);
+boostMode.addEventListener('change', render);
 
 selectAllTh.addEventListener('change', () => {
   const visible = visibleRows();

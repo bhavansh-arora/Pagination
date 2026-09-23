@@ -32,7 +32,12 @@ app.post('/api/search', async (req, res) => {
   const query = pageToken ? undefined : `${category} in ${location}`;
 
   try {
-    const { places, nextPageToken } = await searchPlaces({ apiKey: API_KEY, query, pageToken });
+    const { places: allPlaces, nextPageToken } = await searchPlaces({ apiKey: API_KEY, query, pageToken });
+
+    // A lead with no phone number can't be called or WhatsApp'd from the
+    // CRM, so it's not usable here -- drop it before spending a website
+    // fetch on it, not just at push time.
+    const places = allPlaces.filter((p) => p.phone && p.phone.trim());
 
     const checked = await Promise.all(
       places.map(async (p) => {
