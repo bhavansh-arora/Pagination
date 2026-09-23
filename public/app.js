@@ -170,7 +170,12 @@ async function runSearch({ append = false } = {}) {
   setStatus(append ? 'Loading more results…' : `Searching for "${category}" in "${location}"…`);
 
   try {
-    const body = append ? { pageToken: nextPageToken } : { category, location };
+    // On "load more", resend the ORIGINAL search terms (lastQuery), not
+    // whatever's currently typed in the inputs -- Google's paging requires
+    // the request to match the one that produced this pageToken exactly.
+    const body = append
+      ? { category: lastQuery.category, location: lastQuery.location, pageToken: nextPageToken }
+      : { category, location };
     const res = await fetch('/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

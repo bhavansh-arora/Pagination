@@ -25,11 +25,14 @@ app.post('/api/search', async (req, res) => {
 
   const { category, location, pageToken } = req.body || {};
 
-  if (!pageToken && (!category || !location)) {
+  // Required on every call, including "load more" (pageToken) requests --
+  // Google rejects a bare pageToken with no matching textQuery, so the
+  // client resends the original category/location alongside it.
+  if (!category || !location) {
     return res.status(400).json({ error: 'category and location are required.' });
   }
 
-  const query = pageToken ? undefined : `${category} in ${location}`;
+  const query = `${category} in ${location}`;
 
   try {
     const { places: allPlaces, nextPageToken } = await searchPlaces({ apiKey: API_KEY, query, pageToken });
