@@ -1,5 +1,11 @@
 services:
-  app:
+  # Named "leads-app", not "app" -- the CRM's own compose service is also
+  # called "app", and since this project joins the CRM's Docker network,
+  # Compose registers the service name as a network alias. Two containers
+  # sharing the alias "app" on the same network means Docker's internal DNS
+  # round-robins between them, so requests to the CRM would randomly land
+  # on this container instead (and vice versa). Keep this name unique.
+  leads-app:
     build: .
     restart: unless-stopped
     env_file: .env

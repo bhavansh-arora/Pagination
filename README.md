@@ -88,11 +88,13 @@ reuse the CRM's Caddy rather than running a second one).
    (adjust the subdomain to whatever DNS record you create, e.g. `leads.codebunny.net`):
    ```
    leads.codebunny.net {
-       reverse_proxy leads-finder-app-1:3000
+       reverse_proxy leads-finder-leads-app-1:3000
    }
    ```
    Then reload Caddy from the CRM directory: `cd /opt/crm && docker compose restart caddy`.
-   (Get the exact container name first with `docker ps --filter name=leads-finder`.)
+   (Get the exact container name first with `docker ps --filter name=leads-finder` -- it's
+   `leads-app`, not `app`, specifically so it can't collide with the CRM's own "app"
+   service name once both share the same Docker network.)
 5. Add the DNS A record for that subdomain pointing at the VPS's IP, then visit it —
    Caddy will provision a Let's Encrypt certificate automatically.
 
