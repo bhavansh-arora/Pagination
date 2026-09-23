@@ -17,6 +17,7 @@ const table = document.getElementById('results-table');
 const tbody = document.getElementById('results-body');
 const filterFlagged = document.getElementById('filter-flagged');
 const exportBtn = document.getElementById('export-btn');
+const pushCrmBtn = document.getElementById('push-crm-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
 
 let rows = new Map(); // place_id -> business row
@@ -45,6 +46,7 @@ function render() {
 
   table.style.display = list.length ? '' : 'none';
   exportBtn.disabled = visible.length === 0;
+  pushCrmBtn.disabled = visible.length === 0;
 }
 
 function renderRow(b) {
@@ -64,6 +66,10 @@ function renderRow(b) {
   const badge = `<span class="badge badge-${b.auto_flag}">${AUTO_LABELS[b.auto_flag] || b.auto_flag}</span>`;
   const reason = b.auto_reason ? `<div class="manual-tag">${escapeHtml(b.auto_reason)}</div>` : '';
 
+  const crmStatus = b.pushed_to_crm_at
+    ? `<span class="crm-pushed" title="${escapeAttr(b.pushed_to_crm_at)}">✓ In CRM</span>`
+    : '<span class="crm-not-pushed">—</span>';
+
   tr.innerHTML = `
     <td>${escapeHtml(b.name || '')}</td>
     <td>${escapeHtml(b.phone || '—')}</td>
@@ -79,6 +85,7 @@ function renderRow(b) {
         <button class="clear" data-action="clear">Clear</button>
       </div>
     </td>
+    <td>${crmStatus}</td>
   `;
 
   tr.querySelectorAll('.mark-group button').forEach((btn) => {
@@ -157,6 +164,39 @@ form.addEventListener('submit', (e) => {
 
 loadMoreBtn.addEventListener('click', () => runSearch({ append: true }));
 filterFlagged.addEventListener('change', render);
+
+pushCrmBtn.addEventListener('click', async () => {
+  const list = Array.from(rows.values());
+  const visible = filterFlagged.checked ? list.filter(isFlagged) : list;
+  if (visible.length === 0) return;
+
+  pushCrmBtn.disabled = true;
+  setStatus(`Pushing ${visible.length} lead(s) to the CRM…`);
+
+  try {
+    const res = await fetch('/api/push-to-crm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ placeIds: visible.map((b) => b.place_id) }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Push failed.');
+
+    for (const [placeId, business] of Object.entries(data.updatedBusinesses || {})) {
+      rows.set(placeId, business);
+    }
+    render();
+
+    const skippedNoPhone = data.skippedNoPhone?.length || 0;
+    const parts = [`${data.created} pushed`, `${data.duplicate} already in CRM`];
+    if (skippedNoPhone) parts.push(`${skippedNoPhone} skipped (no usable phone)`);
+    setStatus(parts.join(', ') + '.');
+  } catch (err) {
+    setStatus(err.message, true);
+  } finally {
+    pushCrmBtn.disabled = visible.length === 0;
+  }
+});
 
 exportBtn.addEventListener('click', () => {
   const list = Array.from(rows.values());

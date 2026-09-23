@@ -22,9 +22,19 @@ db.exec(`
     auto_reason TEXT,
     manual_status TEXT,
     last_query TEXT,
-    last_seen_at TEXT
+    last_seen_at TEXT,
+    pushed_to_crm_at TEXT
   );
 `);
+
+// Guards a column add for databases created before pushed_to_crm_at existed;
+// SQLite has no "ADD COLUMN IF NOT EXISTS", so this just swallows the
+// "duplicate column" error on a DB that already has it.
+try {
+  db.exec(`ALTER TABLE businesses ADD COLUMN pushed_to_crm_at TEXT`);
+} catch {
+  // already exists
+}
 
 const upsertStmt = db.prepare(`
   INSERT INTO businesses (
@@ -66,4 +76,12 @@ function getBusiness(placeId) {
   return getStmt.get(placeId);
 }
 
-module.exports = { db, upsertBusiness, setManualStatus, getBusiness };
+const markPushedStmt = db.prepare(
+  `UPDATE businesses SET pushed_to_crm_at = ? WHERE place_id = ?`
+);
+
+function markPushed(placeId, when) {
+  markPushedStmt.run(when, placeId);
+}
+
+module.exports = { db, upsertBusiness, setManualStatus, getBusiness, markPushed };

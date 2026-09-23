@@ -3,7 +3,8 @@ const path = require('path');
 const express = require('express');
 const { searchPlaces } = require('./placesClient');
 const { checkWebsite } = require('./websiteCheck');
-const { upsertBusiness, setManualStatus, getBusiness } = require('./db');
+const { upsertBusiness, setManualStatus, getBusiness, markPushed } = require('./db');
+const { toUsE164, pushToCrm } = require('./crmPush');
 
 const app = express();
 app.use(express.json());
@@ -11,6 +12,9 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.GOOGLE_PLACES_API_KEY;
+const CRM_API_URL = process.env.CRM_API_URL;
+const CRM_LEADS_SECRET = process.env.CRM_LEADS_SECRET;
+const CRM_LEAD_SOURCE = process.env.CRM_LEAD_SOURCE || 'US';
 
 app.post('/api/search', async (req, res) => {
   if (!API_KEY) {
@@ -70,6 +74,51 @@ app.post('/api/mark', (req, res) => {
 
   setManualStatus(placeId, status ?? null);
   res.json({ ok: true, business: getBusiness(placeId) });
+});
+
+app.post('/api/push-to-crm', async (req, res) => {
+  const { placeIds } = req.body || {};
+  if (!Array.isArray(placeIds) || placeIds.length === 0) {
+    return res.status(400).json({ error: 'placeIds (non-empty array) is required.' });
+  }
+
+  const businesses = placeIds.map((id) => getBusiness(id)).filter(Boolean);
+  if (businesses.length === 0) {
+    return res.status(404).json({ error: 'None of the given placeIds are in the local database.' });
+  }
+
+  // Map by the same normalized phone the CRM will see back in its response,
+  // so we know exactly which local rows to mark as pushed.
+  const phoneToPlaceId = new Map();
+  for (const b of businesses) {
+    const e164 = toUsE164(b.phone);
+    if (e164) phoneToPlaceId.set(e164, b.place_id);
+  }
+
+  try {
+    const result = await pushToCrm({
+      apiUrl: CRM_API_URL,
+      secret: CRM_LEADS_SECRET,
+      source: CRM_LEAD_SOURCE,
+      businesses,
+    });
+
+    const now = new Date().toISOString();
+    for (const r of result.results || []) {
+      if (r.status !== 'created') continue;
+      const placeId = phoneToPlaceId.get(r.phone);
+      if (placeId) markPushed(placeId, now);
+    }
+
+    const updated = businesses
+      .map((b) => getBusiness(b.place_id))
+      .reduce((map, b) => ({ ...map, [b.place_id]: b }), {});
+
+    res.json({ ...result, updatedBusinesses: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(err.status || 500).json({ error: err.message });
+  }
 });
 
 app.listen(PORT, () => {

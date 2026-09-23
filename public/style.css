@@ -131,3 +131,6 @@ a.visit-link {
 }
 a.visit-link:hover { text-decoration: underline; }
 .no-website { color: var(--muted); font-style: italic; font-size: 13px; }
+
+.crm-pushed { color: var(--ok); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.crm-not-pushed { color: var(--muted); font-size: 12px; }

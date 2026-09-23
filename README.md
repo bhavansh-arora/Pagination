@@ -48,6 +48,13 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
   site** or **Looks fine** — this overrides the auto-suggestion and is saved.
 - Click **Export CSV** to download the currently visible rows (business name, phone,
   address, website, auto suggestion, manual status).
+- Click **Push to CRM** to send the currently visible rows (respects the "Show only
+  flagged" toggle, so you can push just the good leads) straight into the CRM as new
+  leads — tagged with the source in `CRM_LEAD_SOURCE` (default `US`), phone numbers
+  normalized to `+1XXXXXXXXXX`. Rows without a usable phone number are skipped (a
+  lead with no way to call or message isn't actionable there). Pushing is safe to
+  repeat — leads already in the CRM (matched by phone) are skipped, not duplicated,
+  and pushed rows show a **✓ In CRM** marker.
 
 ## Deploying on the VPS (alongside the CRM)
 
@@ -63,7 +70,8 @@ reuse the CRM's Caddy rather than running a second one).
    git clone -b claude/nifty-wozniak-sx5pry https://github.com/bhavansh-arora/pagination.git leads-finder
    cd leads-finder
    cp .env.example .env
-   nano .env   # set GOOGLE_PLACES_API_KEY
+   nano .env   # set GOOGLE_PLACES_API_KEY, and CRM_LEADS_SECRET to match the
+               # CRM's EXTERNAL_LEADS_SECRET if you want "Push to CRM" to work
    ```
 2. Confirm the CRM's Docker network name (docker-compose.yml here assumes the
    default `crm_default`, i.e. the CRM lives in `/opt/crm`):
