@@ -1,15 +1,27 @@
-// Businesses found here are US-only (that's what this tool searches), but
-// Google Places' phone field isn't always in full international format --
-// some come back as a bare 10-digit national number. The CRM's own tel:
-// link logic defaults ambiguous 10-digit numbers to India's +91 (it's built
-// for an India-based sales team), which would be wrong here. So this
-// normalizes to +1 explicitly before handing numbers off, rather than
-// relying on the CRM's default.
-function toUsE164(phone) {
-  let digits = String(phone || "").replace(/\D/g, "");
-  if (digits.length === 11 && digits.startsWith("1")) digits = digits.slice(1);
-  if (digits.length !== 10) return null;
-  return `+1${digits}`;
+// placesClient.js requests internationalPhoneNumber preferentially, which
+// Google returns pre-formatted with a real country code whenever it has
+// one (e.g. "+91 98765 43210" for India, "+1 555-123-4567" for the US) --
+// trust that as-is rather than guessing. It only falls back to
+// nationalPhoneNumber (no country code, format unknown) when international
+// isn't available; that case can't be confidently assigned a country from
+// the digits alone, so it keeps this tool's original US-only assumption
+// (a bare 10-digit number) rather than guessing wrong for other countries.
+function toE164(phone) {
+  const raw = String(phone || "").trim();
+  if (!raw) return null;
+
+  const digits = raw.replace(/\D/g, "");
+  if (raw.startsWith("+")) {
+    // E.164 numbers are 8-15 digits total (country code + subscriber number).
+    return digits.length >= 8 && digits.length <= 15 ? `+${digits}` : null;
+  }
+
+  let nationalDigits = digits;
+  if (nationalDigits.length === 11 && nationalDigits.startsWith("1")) {
+    nationalDigits = nationalDigits.slice(1);
+  }
+  if (nationalDigits.length !== 10) return null;
+  return `+1${nationalDigits}`;
 }
 
 async function pushToCrm({ apiUrl, secret, source, businesses }) {
@@ -24,7 +36,7 @@ async function pushToCrm({ apiUrl, secret, source, businesses }) {
   const leads = [];
   const skippedNoPhone = [];
   for (const b of businesses) {
-    const phone = toUsE164(b.phone);
+    const phone = toE164(b.phone);
     if (!phone) {
       skippedNoPhone.push(b.place_id);
       continue;
@@ -76,4 +88,4 @@ async function fetchCrmSources({ apiUrl, secret }) {
   return data.sources || [];
 }
 
-module.exports = { toUsE164, pushToCrm, fetchCrmSources };
+module.exports = { toE164, pushToCrm, fetchCrmSources };

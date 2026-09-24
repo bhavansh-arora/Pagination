@@ -4,7 +4,7 @@ const express = require('express');
 const { searchPlaces } = require('./placesClient');
 const { checkWebsite } = require('./websiteCheck');
 const { upsertBusiness, setManualStatus, getBusiness, markPushed } = require('./db');
-const { toUsE164, pushToCrm, fetchCrmSources } = require('./crmPush');
+const { toE164, pushToCrm, fetchCrmSources } = require('./crmPush');
 
 const app = express();
 app.use(express.json());
@@ -120,7 +120,7 @@ app.post('/api/push-to-crm', async (req, res) => {
   // so we know exactly which local rows to mark as pushed.
   const phoneToPlaceId = new Map();
   for (const b of businesses) {
-    const e164 = toUsE164(b.phone);
+    const e164 = toE164(b.phone);
     if (e164) phoneToPlaceId.set(e164, b.place_id);
   }
 
