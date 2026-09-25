@@ -55,9 +55,12 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
   populated live from the CRM's actual Lead Sources, or choose **+ Add new source…**
   and type one to create it on the fly — then click **Push selected to CRM**. Only
   the rows you checked are sent, tagged with the source you picked, phone numbers
-  normalized to `+1XXXXXXXXXX`. Pushing is safe to repeat — leads already in the
-  CRM (matched by phone) are skipped, not duplicated, and pushed rows show a
-  **✓ In CRM** marker.
+  normalized to full E.164 (`+<country code><number>`) -- trusting Google's own
+  international format when it has one (any country), falling back to a bare
+  10-digit number being assumed US (`+1XXXXXXXXXX`) only when it doesn't. Pushing
+  is safe to repeat — leads already in the CRM (matched by phone, regardless of
+  which format either side used) are skipped, not duplicated, and pushed rows
+  show a **✓ In CRM** marker.
 
 ## Deploying on the VPS (alongside the CRM)
 
