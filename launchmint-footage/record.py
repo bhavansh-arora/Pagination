@@ -185,7 +185,14 @@ def record(device, plan, out_path):
         ctx = browser.new_context(ignore_https_errors=True, **DEVICES[device])
         page = ctx.new_page()
         page.clock.install()
-        page.goto(URL, wait_until="load", timeout=90000)
+        for attempt in range(4):  # retry a flaky connection
+            try:
+                page.goto(URL, wait_until="load", timeout=90000)
+                break
+            except Exception:
+                if attempt == 3:
+                    raise
+                page.wait_for_timeout(3000 * (attempt + 1))
         page.clock.run_for(1500)
         # Load lazy images and fonts, hide scrollbars, and switch off smooth-scroll CSS.
         page.add_style_tag(content="html{scroll-behavior:auto!important}::-webkit-scrollbar{display:none}"
@@ -251,7 +258,11 @@ def main():
     elif what == "clips":
         (OUT / "clips").mkdir(exist_ok=True)
         for name, device, plan in CLIPS:
-            record(device, plan, OUT / "clips" / f"{name}.mp4")
+            path = OUT / "clips" / f"{name}.mp4"
+            if path.exists() and "--redo" not in sys.argv:
+                print(f"  {path.name}: already there (add --redo to record again)")
+                continue
+            record(device, plan, path)
     else:
         sys.exit("Use: phone, desktop or clips")
 
