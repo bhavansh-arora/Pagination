@@ -186,65 +186,106 @@ def _open(browser, url, **context_kwargs):
     return ctx, page, resp, load_seconds
 
 
-# Each check: (points taken off, plain-English finding, short pitch phrase)
+# Every check a customer would notice. Each one records whether it passed, what we saw,
+# what we'd do about it, and a short phrase for the outreach message.
 def _judge(m_mobile, m_desktop, load_seconds, final_url):
-    issues = []
+    checks = []
 
-    def add(points, key, finding, pitch):
-        issues.append({"points": points, "key": key, "finding": finding, "pitch": pitch})
+    def check(area, label, failed, points, key, finding, ok_text, fix, pitch):
+        checks.append({
+            "area": area, "label": label, "passed": not failed, "points": points if failed else 0,
+            "key": key, "finding": finding if failed else ok_text, "fix": fix, "pitch": pitch,
+        })
 
-    if not m_mobile["viewportMeta"]:
-        add(20, "mobile", "Not built for phones. On a phone it shows a tiny, zoomed-out copy of the desktop site.",
-            "the site isn't built for phones")
-    if m_mobile["scrollWidth"] > m_mobile["innerWidth"] + 8:
-        add(12, "mobile", "The page is wider than a phone screen, so visitors have to scroll sideways.",
-            "the page runs off the side of a phone screen")
-    if m_mobile["smallText"] >= 3 and m_mobile["smallText"] / m_mobile["textCount"] > 0.2:
-        add(8, "mobile", "A lot of the text is too small to read on a phone without zooming in.",
-            "the text is too small to read on a phone")
-    if m_mobile["tinyTaps"] >= 3 and m_mobile["tinyTaps"] / m_mobile["clickables"] > 0.3:
-        add(6, "mobile", "Many buttons and links are too small to tap easily with a finger.",
-            "buttons are hard to tap on a phone")
-    if load_seconds > 8:
-        add(12, "slow", f"Very slow: took about {load_seconds:.0f} seconds to load on a phone.",
-            "the site is slow to load")
-    elif load_seconds > 4.5:
-        add(6, "slow", f"A bit slow: took about {load_seconds:.0f} seconds to load on a phone.",
-            "the site is slow to load")
-    if not final_url.startswith("https://"):
-        add(10, "ssl", 'Browsers label it "Not secure" because it has no padlock (HTTPS).',
-            'browsers show a "Not secure" warning')
-    if not m_mobile["firstScreenCta"]:
-        add(10, "cta", 'No "Call", "Book" or "Contact" button on the first screen of the phone view.',
-            "there's no clear call or booking button")
     judged = m_desktop["judged"] or 1
-    if m_desktop["lowContrast"] >= 3 and m_desktop["lowContrast"] / judged > 0.15:
-        add(8, "contrast", "Some text is faint against its background and hard to read.",
-            "some text is hard to read")
-    if len(m_desktop["fonts"]) > 3:
-        add(6, "fonts", f"Mixes {len(m_desktop['fonts'])} different fonts, which looks messy.",
-            "the design looks a little inconsistent")
-    if m_desktop["broken"]:
-        add(8, "images", f"{m_desktop['broken']} image(s) are broken and don't show up.",
-            "some images are broken")
-    if m_desktop["bigImgs"] and m_desktop["blurry"] / m_desktop["bigImgs"] > 0.3:
-        add(6, "images", "Some photos look blurry or stretched.", "some photos look blurry")
-    if not m_desktop["firstScreenVisual"]:
-        add(6, "visual", "The first screen is mostly text with no strong photo or visual.",
-            "the homepage has no strong first impression")
     yr = m_desktop["copyrightYear"]
-    if yr and yr < THIS_YEAR - 1:
-        add(8 if yr < THIS_YEAR - 3 else 4, "dated",
-            f"The footer still says © {yr}, which makes the business look inactive.",
-            f"the footer still says © {yr}")
-    if m_desktop["usesTables"] > 5:
-        add(10, "dated", "Built with very old web techniques. It likely looks dated.", "the site looks dated")
-    if not m_desktop["favicon"]:
-        add(2, "polish", "No little logo icon in the browser tab.", "small missing details like the tab icon")
+    slow = load_seconds > 4.5
 
-    heuristic = max(0, 100 - sum(i["points"] for i in issues))
-    issues.sort(key=lambda i: -i["points"])
-    return heuristic, issues
+    check("Phone", "Built for phones", not m_mobile["viewportMeta"], 20, "mobile",
+          "Not built for phones. On a phone it shows a tiny, zoomed-out copy of the desktop site.",
+          "Set up to fit phone screens.",
+          "Rebuild the layout so it adapts to any screen size.",
+          "the site isn't built for phones, so it shows up tiny and zoomed out")
+    check("Phone", "Fits the screen", m_mobile["scrollWidth"] > m_mobile["innerWidth"] + 8, 12, "mobile",
+          "The page is wider than a phone screen, so visitors have to scroll sideways.",
+          "Fits the phone screen with no sideways scrolling.",
+          "Fix the sections that overflow so everything fits the screen width.",
+          "the page runs off the side of the screen on a phone")
+    check("Phone", "Readable text",
+          m_mobile["smallText"] >= 3 and m_mobile["smallText"] / (m_mobile["textCount"] or 1) > 0.2, 8, "mobile",
+          "A lot of the text is too small to read on a phone without zooming in.",
+          "Text is a comfortable size on a phone.",
+          "Increase body text to at least 16px on phones.",
+          "a lot of the text is too small to read on a phone")
+    check("Phone", "Easy to tap",
+          m_mobile["tinyTaps"] >= 3 and m_mobile["tinyTaps"] / (m_mobile["clickables"] or 1) > 0.3, 6, "mobile",
+          "Many buttons and links are too small to tap easily with a finger.",
+          "Buttons and links are big enough to tap.",
+          "Make buttons at least 44px tall with space between them.",
+          "the buttons are hard to tap with a finger")
+    check("Phone", "Clear next step", not m_mobile["firstScreenCta"], 10, "cta",
+          'No "Call", "Book" or "Contact" button on the first screen of the phone view.',
+          'A "Call", "Book" or "Contact" button is visible straight away.',
+          "Add a sticky Call / Book button that's always one tap away.",
+          "there's no Call or Book button when the page first opens, so people have to hunt for how to reach you")
+
+    check("Speed", "Loads quickly", slow, 12 if load_seconds > 8 else 6, "slow",
+          f"Took about {load_seconds:.0f} seconds to load on a phone. Most people leave after about 3.",
+          f"Loaded in about {load_seconds:.1f} seconds on a phone.",
+          "Compress images, remove unused plugins, and use fast hosting.",
+          f"it took about {load_seconds:.0f} seconds to load on my phone")
+
+    check("Trust", "Secure padlock", not final_url.startswith("https://"), 10, "ssl",
+          'Browsers label it "Not secure" because it has no padlock (HTTPS).',
+          "Has the secure padlock (HTTPS).",
+          "Add a free SSL certificate so the padlock shows.",
+          'Chrome shows a "Not secure" warning next to your address')
+    check("Trust", "Looks up to date", bool(yr and yr < THIS_YEAR - 1) or m_desktop["usesTables"] > 5,
+          (10 if m_desktop["usesTables"] > 5 else 0) + ((8 if yr < THIS_YEAR - 3 else 4) if yr and yr < THIS_YEAR - 1 else 0),
+          "dated",
+          (f"The footer still says \u00a9 {yr}, which makes the business look inactive. " if yr and yr < THIS_YEAR - 1 else "")
+          + ("Built with very old web techniques, so it looks dated." if m_desktop["usesTables"] > 5 else ""),
+          "Nothing looks out of date.",
+          "Refresh the design and keep the footer year current.",
+          f"the footer still says \u00a9 {yr}, which can make people think you've closed" if yr and yr < THIS_YEAR - 1
+          else "the design looks a few years old")
+    check("Trust", "Images load", m_desktop["broken"] > 0, 8, "images",
+          f"{m_desktop['broken']} image(s) are broken and don't show up.",
+          "All images load.",
+          "Replace or remove the broken images.",
+          "a few images are broken and show up as empty boxes")
+
+    check("Looks", "Strong first impression", not m_desktop["firstScreenVisual"], 6, "visual",
+          "The first screen is mostly text with no strong photo or visual.",
+          "Opens with a strong photo or visual.",
+          "Lead with a big, real photo of the business, team or work.",
+          "the homepage opens with a wall of text instead of a photo of your work")
+    check("Looks", "Sharp photos",
+          m_desktop["bigImgs"] > 0 and m_desktop["blurry"] / m_desktop["bigImgs"] > 0.3, 6, "images",
+          "Some photos look blurry or stretched.",
+          "Photos look sharp.",
+          "Swap in higher-resolution photos.",
+          "some of the photos look blurry or stretched")
+    check("Looks", "Easy to read", m_desktop["lowContrast"] >= 3 and m_desktop["lowContrast"] / judged > 0.15, 8,
+          "contrast",
+          "Some text is faint against its background and hard to read.",
+          "Text stands out clearly from the background.",
+          "Darken the text colors or lighten the backgrounds.",
+          "some of the text is faint and hard to read")
+    check("Looks", "Consistent fonts", len(m_desktop["fonts"]) > 3, 6, "fonts",
+          f"Mixes {len(m_desktop['fonts'])} different fonts, which looks messy.",
+          "Uses a small, consistent set of fonts.",
+          "Pick one font for headings and one for text.",
+          "the fonts change from section to section, which looks a bit messy")
+    check("Looks", "Tab icon", not m_desktop["favicon"], 2, "polish",
+          "No little logo icon in the browser tab.",
+          "Shows a logo icon in the browser tab.",
+          "Add a favicon made from the logo.",
+          "small details like the browser tab icon are missing")
+
+    heuristic = max(0, 100 - sum(c["points"] for c in checks))
+    issues = sorted([c for c in checks if not c["passed"]], key=lambda c: -c["points"])
+    return heuristic, issues, checks
 
 
 def grade_for(score):
@@ -279,6 +320,11 @@ def audit_site(browser, phone, url, shots_dir, ai=None):
         m_mobile = page_m.evaluate(MEASURE_JS)
         mobile_shot = shots_dir / f"{slug}-mobile.jpg"
         page_m.screenshot(path=str(mobile_shot), type="jpeg", quality=70)
+        # Whole phone page, capped so a very long page doesn't make a giant file.
+        height = min(page_m.evaluate("document.documentElement.scrollHeight") or 844, 5000)
+        mobile_full_shot = shots_dir / f"{slug}-mobile-full.jpg"
+        page_m.screenshot(path=str(mobile_full_shot), type="jpeg", quality=60, full_page=True,
+                          clip={"x": 0, "y": 0, "width": phone["viewport"]["width"], "height": height})
         ctx_m.close()
 
         ctx_d, page_d, _, _ = _open(browser, url, viewport={"width": 1440, "height": 900})
@@ -291,13 +337,15 @@ def audit_site(browser, phone, url, shots_dir, ai=None):
         result["error"] = f"couldn't load site: {msg}"
         return result
 
-    heuristic, issues = _judge(m_mobile, m_desktop, load_seconds, final_url)
+    heuristic, issues, checks = _judge(m_mobile, m_desktop, load_seconds, final_url)
     result.update({
         "website": final_url,
         "title": m_desktop.get("title", ""),
         "load_seconds": round(load_seconds, 1),
         "heuristic_score": heuristic,
         "issues": issues,
+        "checks": checks,
+        "mobile_full_shot": str(mobile_full_shot),
         "mobile_shot": str(mobile_shot),
         "desktop_shot": str(desktop_shot),
         "built_with": m_desktop.get("generator", ""),

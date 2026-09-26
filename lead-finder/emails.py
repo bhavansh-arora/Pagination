@@ -135,7 +135,7 @@ def _robots(session, base_url):
 
 def scrape_site(url):
     """Return a dict with emails, phones, socials and notes for one website."""
-    result = {"website": url, "emails": [], "best_email": "", "phones": [], "socials": {}, "contact_form": False,
+    result = {"website": url, "emails": [], "best_email": "", "phones": [], "socials": {}, "contact_form": False, "contact_page": "",
               "pages_checked": 0, "error": ""}
     if not url:
         result["error"] = "no website"
@@ -156,7 +156,7 @@ def scrape_site(url):
 
     emails, soup = _emails_from_html(home.text)
     phones, socials = set(), {}
-    pages = [soup]
+    pages = [(final_url, soup)]
 
     candidates = []
     for a in soup.find_all("a", href=True):
@@ -174,11 +174,11 @@ def scrape_site(url):
             if r.ok and "html" in r.headers.get("content-type", "html"):
                 more, s = _emails_from_html(r.text)
                 emails |= more
-                pages.append(s)
+                pages.append((r.url, s))
         except requests.RequestException:
             continue
 
-    for s in pages:
+    for page_url, s in pages:
         for a in s.find_all("a", href=True):
             href = a["href"].strip()
             if href.lower().startswith("tel:"):
@@ -191,6 +191,9 @@ def scrape_site(url):
                         socials.setdefault(name, href)
         if s.find("form") and (s.find("textarea") or s.find("input", {"type": "email"})):
             result["contact_form"] = True
+            # Prefer a dedicated contact page over a form tucked into the homepage footer.
+            if not result["contact_page"] or page_url != final_url:
+                result["contact_page"] = page_url
 
     def rank(e):
         local, _, domain = e.partition("@")

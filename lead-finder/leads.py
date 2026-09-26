@@ -95,6 +95,7 @@ def step_emails(leads):
         lead.update({
             "emails": emails, "best_email": emails[0] if emails else "",
             "phones": r["phones"], "socials": r["socials"], "contact_form": r["contact_form"],
+            "contact_page": r["contact_page"],
             "email_error": r["error"],
         })
         if r["error"] == "" and r["website"]:
@@ -120,13 +121,19 @@ def step_audit(leads, out_dir, rater):
     return leads
 
 
-def _finish(leads, out_dir, title):
-    from report import write_csv, write_html
+def _finish(leads, out_dir, title, args):
+    from outreach import load_details
+    from report import attach_outreach, write_csv, write_html
+    me = load_details({k: getattr(args, k, None) for k in ("name", "studio", "portfolio")})
+    if not me.get("name"):
+        _say('\nTip: add --name "Your Name" --portfolio yoursite.com so messages are signed properly. '
+             "It's remembered for next time.")
+    attach_outreach(leads, me)
     csv_path = out_dir / "leads.csv"
     html_path = out_dir / "report.html"
     write_csv(leads, csv_path)
     if any(l.get("grade") or l.get("error") for l in leads):
-        write_html(leads, html_path, title)
+        write_html(leads, html_path, title, show_all=getattr(args, "show_all", False))
         _say(f"\nDone. Open this in your browser:\n  {html_path.resolve()}")
     _say(f"Spreadsheet: {csv_path.resolve()}")
 
@@ -156,6 +163,14 @@ def main():
     p_audit.add_argument("--ai", action="store_true", help="have Claude rate each design (needs an API key)")
     p_audit.add_argument("--no-emails", action="store_true", help="skip looking for emails")
 
+    for p in (p_run, p_find, p_emails, p_audit):
+        me = p.add_argument_group("your details for the messages (remembered after the first time)")
+        me.add_argument("--name", help='your name, e.g. "Bhavansh"')
+        me.add_argument("--studio", help='your business name, e.g. "Bhavansh Studio"')
+        me.add_argument("--portfolio", help="your website, e.g. bhavansh.com")
+    for p in (p_run, p_audit):
+        p.add_argument("--show-all", action="store_true", help="also list sites that already look good (A, B)")
+
     sub.add_parser("types", help="list business types you can search for")
     args = parser.parse_args()
 
@@ -169,7 +184,7 @@ def main():
         if args.cmd == "find":
             leads = step_find(args.business_type, args.city, args.limit, args.all)
             out = _out_dir(args, f"{args.business_type} {args.city}")
-            _finish(leads, out, f"{args.business_type.title()} in {args.city}")
+            _finish(leads, out, f"{args.business_type.title()} in {args.city}", args)
         elif args.cmd == "run":
             rater = _make_rater(args.ai)
             leads = step_find(args.business_type, args.city, args.limit)
@@ -178,12 +193,12 @@ def main():
             out = _out_dir(args, f"{args.business_type} {args.city}")
             step_emails(leads)
             step_audit(leads, out, rater)
-            _finish(leads, out, f"{args.business_type.title()} in {args.city}")
+            _finish(leads, out, f"{args.business_type.title()} in {args.city}", args)
         elif args.cmd == "emails":
             leads = _load_sites(args)
             out = _out_dir(args, "emails")
             step_emails(leads)
-            _finish(leads, out, "Email search")
+            _finish(leads, out, "Email search", args)
         elif args.cmd == "audit":
             rater = _make_rater(args.ai)
             leads = _load_sites(args)
@@ -191,7 +206,7 @@ def main():
             if not args.no_emails:
                 step_emails(leads)
             step_audit(leads, out, rater)
-            _finish(leads, out, "Website check")
+            _finish(leads, out, "Website check", args)
     except (ValueError, RuntimeError) as e:
         sys.exit(f"\n{e}")
     except KeyboardInterrupt:

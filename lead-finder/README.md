@@ -1,6 +1,10 @@
 # Lead Finder
 
-Finds local businesses, gets the contact emails listed on their websites, and grades how good each website looks to a customer (A to F). You get a visual report with the weakest websites first. Those businesses are your best prospects.
+Finds local businesses with bad websites, gets their contact emails, and writes your first outreach message for each one. You get a page listing every business with a weak website (grade C, D or F), worst first, each with:
+
+- the email address to use (plus contact form, Facebook, Instagram and phone when found)
+- a **personalized first message**, ready to copy and paste, that names the business, greets the owner by first name when the email address shows it, and mentions the real problems found on their site
+- a **View audit report** button that opens the full audit: phone and laptop screenshots, every check passed or failed, and what to fix
 
 It runs on your own computer.
 
@@ -44,11 +48,17 @@ Each site costs a few cents to rate. Everything else is free.
 
 ## Use it
 
-**All three steps at once:**
+**The first time, add your details** so every message is signed with your name and website. They're remembered after that:
+
+```
+python leads.py run dentist "Austin, Texas" --name "Bhavansh" --studio "Bhavansh Studio" --portfolio bhavansh.com
+```
+
+**After that:**
 
 ```
 python leads.py run dentist "Austin, Texas"
-python leads.py run "hair salon" "Leeds, UK" --limit 60 --ai
+python leads.py run roofer "Tampa, Florida" --limit 60 --ai
 ```
 
 **Only emails, for sites you already have** (for example from Google Maps):
@@ -77,11 +87,33 @@ For anything not in the list, use an OpenStreetMap tag like `"shop=bicycle"`.
 
 ## What you get
 
-Results are saved in `results/<search>-<date>/`:
+Results are saved in `results/<search>-<date>/`. Open `report.html` in your browser.
 
-- `report.html`: open it in your browser. It has one card per business with phone and laptop screenshots, a grade, the problems a customer would notice, the email to use, and an opening line you can copy.
-- `leads.csv`: the same data as a spreadsheet, ready for Google Sheets, Excel or a mail-merge tool.
-- `screenshots/`: the phone and laptop screenshots.
+**The lead list (`report.html`)** shows only businesses with a bad website, worst first. For each one:
+
+1. The problems a customer would notice, and the email address.
+2. **First message**, already written for the best way to reach them:
+   - **Email** if the site lists one. Click **Open in Gmail** and it opens a new email with the address, subject and message filled in.
+   - Otherwise their **contact form**, then **Facebook Messenger**, then **Instagram**, then a **phone call** script.
+   - For forms and DMs, the button copies the message and opens the page, so you just paste.
+   - You can edit the message in the box before copying.
+3. A status menu (Not contacted, Message sent, Follow up, Replied, Not interested) to keep track. It's remembered in your browser. Use the filters at the top to see who still needs a message or a follow-up.
+
+**The audit report** (click **View audit report**) has:
+
+- screenshots of the first screen on a phone and a laptop, and the whole page on a phone
+- all 14 checks grouped into Phone, Speed, Trust and Looks, each marked passed or failed, with the fix for each problem
+- Claude's design scores, if you used `--ai`
+- messages for every channel (email, contact form, Messenger, Instagram, call script) and all contact details found
+
+**Also saved:**
+
+- `leads.csv`: everything as a spreadsheet, including the first message and subject, ready for Google Sheets, Excel, or importing into Instantly or Smartlead.
+- `audits/` and `screenshots/`: the audit pages and images.
+
+Add `--show-all` to also list sites that already look good.
+
+**About the greeting:** when the email is something like `maria@` or `joe.miller@`, the message starts "Hi Maria," or "Hi Joe,". Otherwise it says "Hi there,". The page tells you when a name was guessed, so check it before sending.
 
 **Grades**
 
