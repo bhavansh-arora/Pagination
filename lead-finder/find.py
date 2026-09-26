@@ -60,7 +60,7 @@ BUSINESS_TYPES = {
 }
 
 
-def business_type_names():
+def business_type_names():  # the types OpenStreetMap can search; Google and web search take any wording
     return sorted(BUSINESS_TYPES)
 
 

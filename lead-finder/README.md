@@ -116,6 +116,16 @@ python leads.py run dentist "Austin, Texas"
 python leads.py run roofer "Tampa, Florida" --limit 60 --ai
 ```
 
+**Any business type, and several at once.** With a Google key, describe the business however you'd search for it on Google Maps, and separate several types with commas:
+
+```
+python leads.py run "med spa, dermatologist, chiropractor" "Austin, Texas"
+python leads.py run "roofing contractor, hvac, plumber" "Tampa, Florida" --grid 3
+python leads.py run "personal injury lawyer" "Houston, Texas"
+```
+
+Without a Google key, OpenStreetMap only knows the types listed by `python leads.py types`.
+
 **Only emails, for sites you already have** (for example from Google Maps):
 
 ```

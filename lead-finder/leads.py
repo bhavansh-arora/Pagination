@@ -3,6 +3,7 @@
 
 Examples
   python leads.py run dentist "Austin, Texas"            find + emails + website check, all in one
+  python leads.py run "roofer, hvac, plumber" "Tampa, Florida"   several business types in one go
   python leads.py run dentist "Austin, Texas" --ai       also have Claude rate each design
   python leads.py find "hair salon" "Leeds, UK"          just build a list of businesses
   python leads.py emails brightsmile.com another.com     just find emails on these sites
@@ -86,9 +87,20 @@ def _make_rater(enabled):
     return DesignRater()
 
 
-def step_find(business_type, city, limit, sources=None, grid=2, all_places=False):
-    """Collect businesses from every source asked for (and available), one entry per business."""
-    from find import find_businesses
+def step_find(business_types, city, limit, sources=None, grid=2, all_places=False):
+    """Collect businesses of one or more types (comma separated) from every source, one entry per business."""
+    from sources import merge
+    types = [t.strip() for t in business_types.split(",") if t.strip()]
+    found = [_find_one_type(t, city, limit, sources, grid, all_places) for t in types]
+    leads = merge(*found)
+    if len(types) > 1:
+        with_site = sum(1 for l in leads if l.get("website"))
+        _say(f"All types together: {len(leads)} businesses, {with_site} with a website.")
+    return leads
+
+
+def _find_one_type(business_type, city, limit, sources=None, grid=2, all_places=False):
+    from find import BUSINESS_TYPES, find_businesses
     from sources import available_sources, google_places, merge, web_footprints
     have = available_sources()
     last = {"n": -1}
@@ -107,6 +119,10 @@ def step_find(business_type, city, limit, sources=None, grid=2, all_places=False
         if not have[name]:
             key = {"google": "GOOGLE_PLACES_API_KEY", "web": "BRAVE_API_KEY"}[name]
             _say(f"! Skipping {name}: set {key} first (see README).")
+            continue
+        osm_knows = business_type.strip().lower() in BUSINESS_TYPES or "=" in business_type
+        if name == "osm" and not osm_knows and len([n for n in wanted if have.get(n)]) > 1:
+            _say(f'  (OpenStreetMap has no "{business_type}" category, so it is skipped for this type.)')
             continue
         try:
             if name == "osm":
@@ -216,7 +232,7 @@ def main():
     p_run = sub.add_parser("run", help="find businesses, their emails and grade their websites")
     p_find = sub.add_parser("find", help="list businesses of a type in a city")
     for p in (p_run, p_find):
-        p.add_argument("business_type", help='e.g. dentist, "hair salon", plumber (see: python leads.py types)')
+        p.add_argument("business_type", help='e.g. dentist, "med spa", or several at once: "dentist, chiropractor"')
         p.add_argument("city", help='e.g. "Austin, Texas" or "Leeds, UK"')
         p.add_argument("--limit", type=int, default=40, help="most businesses per source (default 40)")
         p.add_argument("--out", help="folder to save results in")
@@ -251,8 +267,10 @@ def main():
 
     if args.cmd == "types":
         from find import business_type_names
-        _say("Business types:\n  " + "\n  ".join(business_type_names()))
-        _say('\nAnything else: use an OpenStreetMap tag, e.g. "shop=bicycle" or "amenity=kindergarten".')
+        _say("With a Google key (or Brave key), any business type works, in your own words:\n"
+             '  "med spa", "roofing contractor", "personal injury lawyer", "wedding photographer"...\n')
+        _say("OpenStreetMap only knows these types:\n  " + "\n  ".join(business_type_names()))
+        _say('Or use an OpenStreetMap tag, e.g. "shop=bicycle" or "amenity=kindergarten".')
         return
 
     try:
