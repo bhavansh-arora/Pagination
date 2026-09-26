@@ -20,6 +20,22 @@ import sys
 from pathlib import Path
 
 
+def _load_env_file():
+    """Read API keys from a private .env file next to this script (KEY=value per line), if there is one."""
+    env = Path(__file__).with_name(".env")
+    try:
+        lines = env.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip().removeprefix("export ").strip()
+        os.environ.setdefault(key, value.strip().strip('"').strip("'"))
+
+
 def _say(msg):
     print(msg, flush=True)
 
@@ -231,6 +247,7 @@ def main():
 
     sub.add_parser("types", help="list business types you can search for")
     args = parser.parse_args()
+    _load_env_file()
 
     if args.cmd == "types":
         from find import business_type_names

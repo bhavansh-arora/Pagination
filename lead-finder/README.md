@@ -52,6 +52,15 @@ $env:GOOGLE_PLACES_API_KEY="your-google-key"
 $env:BRAVE_API_KEY="your-brave-key"
 ```
 
+Or, instead of setting them each time, create a file called `.env` in the `lead-finder` folder:
+
+```
+GOOGLE_PLACES_API_KEY=your-google-key
+BRAVE_API_KEY=your-brave-key
+```
+
+It's read automatically and never uploaded to GitHub.
+
 Pick sources yourself with `--sources google,web`. For a big city, use `--grid 3` or `--grid 4` to cover more of it with Google.
 
 ## What it does
