@@ -48,6 +48,8 @@ AUDIENCE = {
 }
 
 WHY_IT_MATTERS = {
+    "down": "Anyone who finds you on Google and clicks through to your website is hitting a dead end right now.",
+    "cert": "Most people see that warning and go straight back to Google.",
     "mobile": "Most people searching for {a_niche} are on their phone, so some of them are probably leaving before they get in touch.",
     "cta": "People who are ready to book won't hunt for a phone number. They'll just pick the next result on Google.",
     "slow": "Most people give up on a page after about 3 seconds and go back to the search results.",
@@ -161,6 +163,8 @@ def _possessive(name):
 
 
 def _observation(lead):
+    if lead.get("site_down"):
+        return "When I tried to open it, I got an error. It looks like the site is down at the moment."
     ai = lead.get("ai") or {}
     if ai.get("pitch_line"):
         return ai["pitch_line"].strip()
@@ -213,8 +217,63 @@ def _instagram_handle(url):
     return path.split("/")[0] if path else ""
 
 
+def _build_no_website(lead, me):
+    """For a business that's listed on Google but has no website at all."""
+    biz = _business(lead)
+    first = _first_name(lead.get("best_email"), biz)
+    _, niches, audience = _niche_words(lead)
+    city = _city(lead)
+    rating = ""
+    if lead.get("reviews") and lead.get("rating"):
+        rating = f" You clearly do great work: {lead['rating']} stars from {lead['reviews']} reviews on Google."
+    elif lead.get("reviews"):
+        rating = f" You clearly do great work, judging by your {lead['reviews']} reviews on Google."
+    search_where = f"{niches or 'businesses'} in {city}" if city else (niches or "local businesses")
+    pitch = (f"I came across {biz} on Google while looking at {search_where}, and I couldn't find a website for you."
+             f"{rating}")
+    why = (f"Most new {audience} check a business's website before they call. Without one, they often pick "
+           "a competitor who has one.")
+    offer = me.get("offer") or ("I'm a web designer and I build simple, good-looking websites for local businesses. "
+                                "Would you like to see a quick mock-up of what yours could look like? It's free.")
+    email_body = "\n\n".join(x for x in [
+        f"Hi {first}," if first else "Hi there,", pitch, why, offer, _signature(me),
+        "P.S. If this isn't useful, just reply \"no\" and I won't follow up.",
+    ] if x)
+    call_script = (
+        f"Hi, is this the owner or manager? My name's {me.get('name') or '[your name]'}, I'm a web designer. "
+        f"I'll be quick. I found {biz} on Google{' and saw your great reviews' if lead.get('reviews') else ''}, "
+        "but I couldn't find a website for you. I'd love to put together a free mock-up of what one could look like. "
+        "What's the best email to send it to?"
+    )
+    dm_message = (f"Hi! I came across {biz} on Google{' and saw your reviews' if lead.get('reviews') else ''}. "
+                  "I couldn't find a website for you. I'm a web designer. Would you like a free mock-up of what "
+                  "one could look like? No strings attached.")
+    from urllib.parse import quote_plus
+    lookup = quote_plus(f"{biz} {city}".strip())
+    options = []
+    if lead.get("best_email"):
+        subject = f"Website for {biz}?"
+        options.append({"channel": "email", "label": "Email", "to": lead["best_email"], "subject": subject,
+                        "message": email_body,
+                        "action_url": "https://mail.google.com/mail/?view=cm&fs=1&to=" + quote(lead["best_email"])
+                        + "&su=" + quote(subject) + "&body=" + quote(email_body), "action_label": "Open in Gmail"})
+    if lead.get("phone"):
+        options.append({"channel": "call", "label": "Phone call", "to": lead["phone"], "subject": "",
+                        "message": call_script, "action_url": lead.get("maps_url", ""),
+                        "action_label": "Google listing" if lead.get("maps_url") else ""})
+    options.append({"channel": "messenger", "label": "Facebook (find their page)", "to": biz, "subject": "",
+                    "message": dm_message, "action_url": f"https://www.facebook.com/search/pages/?q={lookup}",
+                    "action_label": "Search Facebook"})
+    options.append({"channel": "instagram", "label": "Instagram (find their profile)", "to": biz, "subject": "",
+                    "message": dm_message, "action_url": f"https://www.google.com/search?q={lookup}+instagram",
+                    "action_label": "Search Instagram"})
+    return {"first": options[0], "others": options[1:], "greeting_name": first}
+
+
 def build(lead, me):
     """Return the first outreach message plus alternates for other channels."""
+    if lead.get("no_website"):
+        return _build_no_website(lead, me)
     biz = _business(lead)
     first = _first_name(lead.get("best_email"), biz)
     hello = f"Hi {first}," if first else "Hi there,"
@@ -228,10 +287,14 @@ def build(lead, me):
         where = niches or "local businesses"
     observation = _observation(lead)
     why = _why(lead)
-    offer = me.get("offer") or (
-        "I'm a web designer, and I recorded a quick 2-minute video showing what I'd change and why. "
-        "Want me to send it over? It's free, no strings attached."
-    )
+    if lead.get("site_down"):
+        offer = ("I'm a web designer and I can help get it back online, or build you a fresh one if it's time. "
+                 "Want me to take a quick look at what's wrong? No charge for that.")
+    else:
+        offer = me.get("offer") or (
+            "I'm a web designer, and I recorded a quick 2-minute video showing what I'd change and why. "
+            "Want me to send it over? It's free, no strings attached."
+        )
 
     email_subject = f"Quick question about {_possessive(biz)} website"
     email_body = "\n\n".join(x for x in [
@@ -252,14 +315,18 @@ def build(lead, me):
     ] if x)
 
     top_issue = (lead.get("issues") or [{}])[0].get("pitch", "a couple of things on your site")
-    dm_message = (
-        f"Hi! I came across {biz} and love what you do. I noticed on your website that {top_issue}. "
-        f"I'm a web designer. Mind if I send you a quick 2-minute video with a few fixes? Free, no sales pitch."
-    )
+    noticed = f"I noticed on your website that {top_issue}."
+    dm_ask = "Mind if I send you a quick 2-minute video with a few fixes? Free, no sales pitch."
+    call_ask = "I recorded a short video showing how I'd fix it. What's the best email to send it to?"
+    if lead.get("site_down"):
+        top_issue = "it isn't loading. I got an error when I tried to open it"
+        noticed = "I tried to visit your website but it isn't loading right now."
+        dm_ask = "I can help get it back up. Want me to take a quick look at what's wrong? No charge."
+        call_ask = "I can help get it back up. Would you like me to take a quick look? There's no charge for that."
+    dm_message = f"Hi! I came across {biz} and love what you do. {noticed} I'm a web designer. {dm_ask}"
     call_script = (
         f"Hi, is this the owner or manager? My name's {me.get('name') or '[your name]'}, I'm a web designer. "
-        f"I'll be quick. I was looking at {_possessive(biz)} website and {top_issue}. "
-        "I recorded a short video showing how I'd fix it. What's the best email to send it to?"
+        f"I'll be quick. I was looking at {_possessive(biz)} website and {top_issue}. {call_ask}"
     )
 
     socials = lead.get("socials") or {}

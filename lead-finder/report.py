@@ -12,7 +12,7 @@ from outreach import build as build_outreach
 CSV_FIELDS = [
     "name", "website", "grade", "score", "verdict", "best_email", "all_emails", "phone", "contact_page",
     "facebook", "instagram", "linkedin", "top_problems", "first_channel", "first_to", "subject", "first_message",
-    "address", "error",
+    "address", "rating", "reviews", "lead_type", "source", "found_because", "built_with", "error",
 ]
 
 BAD_GRADES = ("C", "D", "F")
@@ -35,9 +35,30 @@ def _name(lead):
     return lead.get("name") or (lead.get("title") or "").split(" | ")[0][:60] or lead.get("website", "")
 
 
+def _kind(lead):
+    if lead.get("no_website"):
+        return "nosite"
+    if lead.get("site_down"):
+        return "down"
+    return "bad"
+
+
+def _kind_label(lead):
+    if not (lead.get("grade") or lead.get("no_website")):
+        return ""
+    if _kind(lead) == "bad" and lead.get("grade") not in BAD_GRADES:
+        return "Good website"
+    return {"nosite": "No website", "down": "Website down", "bad": "Bad website"}[_kind(lead)]
+
+
+def _priority(lead):
+    """Worst websites first, nudged up for busy businesses (lots of Google reviews) that can afford a new site."""
+    return (lead.get("opportunity") or (100 if lead.get("no_website") else 0)) + min(lead.get("reviews") or 0, 200) / 10
+
+
 def attach_outreach(leads, me):
     for lead in leads:
-        if lead.get("grade") or lead.get("website"):
+        if lead.get("grade") or lead.get("website") or lead.get("no_website"):
             lead["outreach"] = build_outreach(lead, me)
 
 
@@ -67,6 +88,12 @@ def write_csv(leads, path):
                 "subject": first.get("subject", ""),
                 "first_message": first.get("message", ""),
                 "address": lead.get("address", ""),
+                "rating": lead.get("rating") or "",
+                "reviews": lead.get("reviews") or "",
+                "lead_type": _kind_label(lead),
+                "source": lead.get("source", ""),
+                "found_because": lead.get("found_because", ""),
+                "built_with": lead.get("built_with", ""),
                 "error": lead.get("error") or lead.get("email_error", ""),
             })
 
@@ -265,25 +292,54 @@ def _row(lead, base, audit_rel):
         f'<span class="chip ch-{_e(o["channel"])}">{_e(o["label"])}</span>'
         for o in ([first] if first else []) + out.get("others", [])
     )
-    thumb = (f'<img class="thumb" loading="lazy" src="{_e(_rel(lead["mobile_shot"], base))}" alt="">'
-             if lead.get("mobile_shot") else '<div class="thumb"></div>')
-    problems = "".join(f"<li>{_e(i['finding'])}</li>" for i in issues[:3]) or "<li>No obvious problems found.</li>"
+    kind = _kind(lead)
+    if kind == "nosite":
+        thumb = '<div class="thumb empty"><span>No website</span></div>'
+    elif lead.get("mobile_shot"):
+        thumb = f'<img class="thumb" loading="lazy" src="{_e(_rel(lead["mobile_shot"], base))}" alt="">'
+    else:
+        thumb = '<div class="thumb empty"><span>Site down</span></div>'
+    if kind == "nosite":
+        problems = "<li>No website. People who find them on Google have nowhere to click through to.</li>"
+    else:
+        problems = "".join(f"<li>{_e(i['finding'])}</li>" for i in issues[:3]) or "<li>No obvious problems found.</li>"
+    badges = []
+    if lead.get("reviews"):
+        stars = f"\u2605 {lead['rating']} \u00b7 " if lead.get("rating") else ""
+        badges.append(f'<span class="badge">{stars}{lead["reviews"]} Google reviews</span>')
+    if lead.get("found_because"):
+        badges.append(f'<span class="badge">Found because the site {_e(lead["found_because"])}</span>')
+    if lead.get("built_with"):
+        badges.append(f'<span class="badge">Built with {_e(lead["built_with"])}</span>')
+    if lead.get("source"):
+        badges.append(f'<span class="badge muted">Source: {_e(lead["source"])}</span>')
+    badge_html = f'<div class="badges">{"".join(badges)}</div>' if badges else ""
+    link = lead.get("website") or lead.get("maps_url", "")
+    link_text = lead.get("website") or ("Google listing" if lead.get("maps_url") else "")
+    grade_badge = ('<span class="grade g-F" title="No website">\u2014</span>' if kind == "nosite"
+                   else f'<span class="grade g-{_e(grade)}">{_e(grade)}</span>')
+    audit_btn = (f'<a class="btn" href="{_e(audit_rel)}">View audit report</a>' if audit_rel else
+                 (f'<a class="btn" href="{_e(lead["maps_url"])}" target="_blank" rel="noopener">Google listing \u2197</a>'
+                  if lead.get("maps_url") else ""))
+    status_key = lead.get("website") or lead.get("name", "")
     greet = ""
     if out.get("greeting_name"):
         greet = f'<p class="note">Greeting uses "{_e(out["greeting_name"])}", guessed from the email address. Check it.</p>'
     message = _message_block(first, f"r-{slug}", primary=True) if first else ""
     search = " ".join([name, lead.get("website", ""), " ".join(emails)]).lower()
     return f"""
-<article class="lead" data-grade="{_e(grade)}" data-email="{1 if emails else 0}" data-status="new" data-search="{_e(search)}">
+<article class="lead" data-grade="{_e(grade or 'F')}" data-kind="{kind}" data-email="{1 if emails else 0}" data-status="new" data-search="{_e(search)}">
   <div class="lead-main">
     {thumb}
     <div class="lead-info">
-      <div class="lead-title"><span class="grade g-{_e(grade)}">{_e(grade)}</span><div><h2>{_e(name)}</h2>
-        <a class="site" href="{_e(lead.get('website'))}" target="_blank" rel="noopener">{_e(lead.get('website'))}</a></div></div>
+      <div class="lead-title">{grade_badge}<div><h2>{_e(name)}</h2>
+        <a class="site" href="{_e(link)}" target="_blank" rel="noopener">{_e(link_text)}</a></div></div>
+      {badge_html}
       <ul class="problems">{problems}</ul>
       <div class="contact-line"><span class="k">Email</span>{('<b>' + _e(emails[0]) + '</b>' + (f' <span class="muted">+{len(emails) - 1} more</span>' if len(emails) > 1 else '')) if emails else '<span class="muted">none found</span>'}</div>
+      {f'<div class="contact-line"><span class="k">Phone</span><b>{_e(lead["phone"])}</b></div>' if lead.get("phone") else ""}
       <div class="chips">{chips}</div>
-      <div class="lead-actions"><a class="btn" href="{_e(audit_rel)}">View audit report</a>{_status_select(lead.get('website', ''))}</div>
+      <div class="lead-actions">{audit_btn}{_status_select(status_key)}</div>
     </div>
   </div>
   <div class="lead-msg"><h3>First message <small>edit if you like, then copy</small></h3>{greet}{message}</div>
@@ -297,24 +353,28 @@ def write_html(leads, path, title, show_all=False):
     (out_dir / "style.css").write_text(CSS, encoding="utf-8")
 
     graded = [l for l in leads if l.get("grade")]
-    failed = [l for l in leads if l.get("error") and not l.get("grade")]
-    graded.sort(key=lambda l: l.get("score", 100))
+    no_site = [l for l in leads if l.get("no_website")]
+    failed = [l for l in leads if l.get("error") and not l.get("grade") and not l.get("no_website")]
     bad = [l for l in graded if l["grade"] in BAD_GRADES]
-    shown = graded if show_all else bad
+    shown = sorted((graded if show_all else bad) + no_site, key=lambda l: -_priority(l))
 
     rows = []
     for lead in shown:
-        audit_path = audits_dir / f"{_slug(lead)}.html"
-        _audit_page(lead, audit_path, "../style.css", "../" + Path(path).name)
-        rows.append(_row(lead, out_dir, _rel(audit_path, out_dir)))
+        audit_rel = ""
+        if not lead.get("no_website"):
+            audit_path = audits_dir / f"{_slug(lead)}.html"
+            _audit_page(lead, audit_path, "../style.css", "../" + Path(path).name)
+            audit_rel = _rel(audit_path, out_dir)
+        rows.append(_row(lead, out_dir, audit_rel))
 
-    hidden_good = len(graded) - len(shown)
+    hidden_good = len(graded) - len([l for l in shown if l.get("grade")])
     failed_html = ""
     if failed:
         items = "".join(f"<li><b>{_e(_name(l))}</b> <span class=\"muted\">{_e(l.get('error'))}</span></li>" for l in failed)
         failed_html = f'<details class="failed"><summary>{len(failed)} site(s) couldn\'t be checked</summary><ul>{items}</ul></details>'
 
-    with_email = sum(1 for l in bad if l.get("emails"))
+    with_email = sum(1 for l in shown if l.get("emails"))
+    down = sum(1 for l in shown if l.get("site_down"))
     today = datetime.date.today().strftime("%d %b %Y")
     body = f"""
 <div class="wrap">
@@ -323,8 +383,10 @@ def write_html(leads, path, title, show_all=False):
     <h1>{_e(title)}</h1>
     <div class="summary">
       <span><b>{len(graded)}</b>websites checked</span>
-      <span><b>{len(bad)}</b>with a bad website (C, D or F)</span>
-      <span><b>{with_email}</b>of those have an email</span>
+      <span><b>{len(bad) - down}</b>with a bad website (C, D or F)</span>
+      <span><b>{down}</b>with a website that's down</span>
+      <span><b>{len(no_site)}</b>with no website</span>
+      <span><b>{with_email}</b>leads with an email</span>
     </div>
   </header>
   <div class="toolbar">
@@ -332,12 +394,14 @@ def write_html(leads, path, title, show_all=False):
     <div class="filters" role="group" aria-label="Filter">
       <button type="button" data-f="all" aria-pressed="true">All ({len(shown)})</button>
       <button type="button" data-f="DF" aria-pressed="false">Worst (D, F)</button>
+      <button type="button" data-f="down" aria-pressed="false">Site down</button>
+      <button type="button" data-f="nosite" aria-pressed="false">No website</button>
       <button type="button" data-f="email" aria-pressed="false">Has email</button>
       <button type="button" data-f="new" aria-pressed="false">Not contacted</button>
       <button type="button" data-f="followup" aria-pressed="false">Follow up</button>
     </div>
   </div>
-  <p class="muted">Worst websites first. {f"{hidden_good} site(s) that already look good are left out." if hidden_good else ""}
+  <p class="muted">Best prospects first: no website, site down, then the worst websites, with busy businesses (lots of Google reviews) moved up. {f"{hidden_good} site(s) that already look good are left out." if hidden_good else ""}
   Click <b>View audit report</b> for the full breakdown and screenshots.</p>
   <div class="leads">{''.join(rows) or '<p>No bad websites found in this batch.</p>'}</div>
   {failed_html}
@@ -350,7 +414,8 @@ def write_html(leads, path, title, show_all=False):
     const term = q.value.trim().toLowerCase();
     document.querySelectorAll('.lead').forEach((c) => {{
       const g = c.dataset.grade, st = c.dataset.status;
-      const ok = f === 'all' || (f === 'DF' && (g === 'D' || g === 'F')) || (f === 'email' && c.dataset.email === '1') || f === st;
+      const ok = f === 'all' || (f === 'DF' && (g === 'D' || g === 'F')) || (f === 'email' && c.dataset.email === '1')
+        || f === st || f === c.dataset.kind;
       c.hidden = !(ok && (!term || c.dataset.search.includes(term)));
     }});
   }};
@@ -439,6 +504,9 @@ a { color: var(--accent); }
 .problems { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; }
 .contact-line { display: flex; gap: 10px; align-items: baseline; font-size: 14px; word-break: break-all; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { font: 500 12px var(--body); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--line); }
+.thumb.empty { display: grid; place-items: center; text-align: center; font: 600 12px var(--body); color: var(--muted); }
 .chip { font: 500 12px var(--body); padding: 2px 9px; border-radius: 999px; background: var(--surface-2); color: var(--ink); }
 .lead-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .lead-msg { padding: 18px; background: var(--surface-2); display: grid; gap: 10px; align-content: start; }

@@ -8,9 +8,55 @@ Finds local businesses with bad websites, gets their contact emails, and writes 
 
 It runs on your own computer.
 
+## Where leads come from
+
+| Source | What it finds | Needs |
+|---|---|---|
+| **Google** (Places API) | Google's own business listings: the most complete list there is. Includes star rating, review count, phone, and businesses with **no website at all**. Splits the city into smaller areas to get past Google's 60-results-per-search cap. | `GOOGLE_PLACES_API_KEY` |
+| **Web search** (Brave Search API) | Business websites that give themselves away as outdated: an old "© 2017" footer, "under construction", "best viewed in", DIY site builders. These rarely show up in normal lead lists. | `BRAVE_API_KEY` |
+| **OpenStreetMap** | Free public map data. Good in some cities, patchy in others. | nothing |
+
+`run` uses every source you have a key for, and merges businesses found by more than one.
+
+It also flags two kinds of lead that are the easiest to close:
+
+- **Website down.** A business listed on Google whose website doesn't load or no longer exists. The message tells them, and offers to help.
+- **No website.** A business on Google with good reviews but no website. You get a call script and a message offering a free mock-up.
+
+Leads are sorted with these first, then the worst websites. Busy businesses (lots of Google reviews) move up, because they can afford a new site.
+
+### Getting the keys
+
+**Google Places key** (recommended):
+
+1. Go to [console.cloud.google.com](https://console.cloud.google.com), create a project, and add a billing account.
+2. Open **APIs & Services → Library**, find **Places API (New)** and enable it.
+3. Open **APIs & Services → Credentials → Create credentials → API key**.
+
+Google includes a free monthly allowance for the Places API. Paid use is charged per search, so check the current prices on Google's pricing page. As a rough guide, one city with `--grid 2` is about 12 searches.
+
+**Brave Search key:**
+
+1. Sign up at [brave.com/search/api](https://brave.com/search/api/) and choose a plan. There's a free plan.
+2. Copy the API key from the dashboard.
+
+**Set them before running:**
+
+```
+# Mac / Linux
+export GOOGLE_PLACES_API_KEY=your-google-key
+export BRAVE_API_KEY=your-brave-key
+
+# Windows (PowerShell)
+$env:GOOGLE_PLACES_API_KEY="your-google-key"
+$env:BRAVE_API_KEY="your-brave-key"
+```
+
+Pick sources yourself with `--sources google,web`. For a big city, use `--grid 3` or `--grid 4` to cover more of it with Google.
+
 ## What it does
 
-1. **Finds businesses.** Give it a business type and a city, like `dentist` and `Austin, Texas`. It pulls every matching business that lists a website from OpenStreetMap, a free public map.
+1. **Finds businesses.** Give it a business type and a city, like `dentist` and `Austin, Texas`. It pulls matching businesses from Google, a web search for outdated sites, and OpenStreetMap (see "Where leads come from" above).
 2. **Finds emails.** It visits each website's homepage and up to five contact, about and team pages. It reads email links, plain-text emails, hidden (Cloudflare-protected) emails, and disguised ones like `info [at] site [dot] com`. It also picks up phone numbers, Facebook, Instagram and LinkedIn pages, and whether there's a contact form.
 3. **Grades the website's looks.** It opens each site in a real browser as an iPhone and as a laptop, takes screenshots, and checks what a customer would notice:
    - Is it built for phones, or does it show a shrunk desktop page?
@@ -127,7 +173,7 @@ Add `--show-all` to also list sites that already look good.
 
 ## Good to know
 
-- **OpenStreetMap doesn't list every business.** Coverage is good in most cities but not complete. For more leads, copy websites from Google Maps into a `.txt` file and run `emails` or `audit` on it.
+- **OpenStreetMap doesn't list every business.** Add a Google key for much better coverage. You can also copy websites into a `.txt` file and run `emails` or `audit` on it.
 - **It only collects emails that businesses publish on their own sites**, and it respects each site's `robots.txt`. It visits at most six pages per site.
 - **Follow the email rules where you live.** In the US (CAN-SPAM), use your real name and business address and include a way to opt out. In the UK and EU (GDPR/PECR), cold email to a company's general address (info@, hello@) is usually fine if it's relevant to their business. Be more careful with a named person's email. Always stop when someone asks.
 - **The grade is a guide.** Look at the screenshots before you pitch, and mention only problems you can see yourself.

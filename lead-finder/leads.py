@@ -70,12 +70,54 @@ def _make_rater(enabled):
     return DesignRater()
 
 
-def step_find(business_type, city, limit, all_places=False):
+def step_find(business_type, city, limit, sources=None, grid=2, all_places=False):
+    """Collect businesses from every source asked for (and available), one entry per business."""
     from find import find_businesses
-    _say(f"Looking up {business_type} businesses in {city} on OpenStreetMap...")
-    leads = find_businesses(business_type, city, limit=limit, include_without_website=all_places)
-    with_site = sum(1 for l in leads if l["website"])
-    _say(f"  Found {len(leads)} businesses, {with_site} with a website.")
+    from sources import available_sources, google_places, merge, web_footprints
+    have = available_sources()
+    last = {"n": -1}
+
+    def progress(n):
+        if n != last["n"]:
+            last["n"] = n
+            _say(f"  ...{n} so far")
+
+    wanted = sources or [name for name, ok in have.items() if ok]
+    found = []
+
+    for name in wanted:
+        if name not in have:
+            sys.exit(f'Unknown source "{name}". Use osm, google or web.')
+        if not have[name]:
+            key = {"google": "GOOGLE_PLACES_API_KEY", "web": "BRAVE_API_KEY"}[name]
+            _say(f"! Skipping {name}: set {key} first (see README).")
+            continue
+        try:
+            if name == "osm":
+                _say(f"Looking up {business_type} businesses in {city} on OpenStreetMap...")
+                leads = find_businesses(business_type, city, limit=limit, include_without_website=all_places)
+            elif name == "google":
+                _say(f"Looking up {business_type} businesses in {city} on Google...")
+                leads = google_places(business_type, city, os.environ["GOOGLE_PLACES_API_KEY"], limit=limit, grid=grid,
+                                      progress=progress)
+            else:
+                _say(f"Searching the web for outdated {business_type} websites in {city}...")
+                leads = web_footprints(business_type, city, os.environ["BRAVE_API_KEY"], limit=limit,
+                                       progress=progress)
+        except (ValueError, RuntimeError, OSError) as e:
+            _say(f"! {name} search failed: {e}")
+            continue
+        _say(f"  {len(leads)} found.")
+        found.append(leads)
+
+    leads = merge(*found)
+    for l in leads:
+        if not l.get("website") and (l.get("phone") or all_places):
+            l["no_website"] = True
+    leads = [l for l in leads if l.get("website") or l.get("no_website")]
+    with_site = sum(1 for l in leads if l.get("website"))
+    _say(f"Total: {len(leads)} businesses, {with_site} with a website"
+         + (f", {len(leads) - with_site} with no website at all." if len(leads) > with_site else "."))
     return leads
 
 
@@ -107,12 +149,19 @@ def step_audit(leads, out_dir, rater):
     from audit import Auditor
     targets = [l for l in leads if l.get("website")]
     _say(f"Checking how {len(targets)} websites look on a phone and a laptop" + (" (with Claude's rating)" if rater else "") + "...")
+    from audit import looks_down, mark_down
     with Auditor(out_dir / "screenshots", ai=rater) as auditor:
         for n, lead in enumerate(targets, 1):
             r = auditor.audit(lead["website"])
+            if r.get("error") and looks_down(r["error"]):
+                r = auditor.audit(lead["website"])  # try once more before calling it down
             if r.get("error"):
-                _say(f"  [{n}/{len(targets)}] {lead['website'][:60]}  ->  {r['error']}")
-                lead["error"] = r["error"]
+                if looks_down(r["error"]):
+                    mark_down(lead, r["error"])
+                    _say(f"  [{n}/{len(targets)}] {lead['website'][:60]}  ->  WEBSITE DOWN ({r['error'][:60]})")
+                else:
+                    _say(f"  [{n}/{len(targets)}] {lead['website'][:60]}  ->  {r['error']}")
+                    lead["error"] = r["error"]
                 continue
             website = lead["website"]
             lead.update(r)
@@ -132,10 +181,14 @@ def _finish(leads, out_dir, title, args):
     csv_path = out_dir / "leads.csv"
     html_path = out_dir / "report.html"
     write_csv(leads, csv_path)
-    if any(l.get("grade") or l.get("error") for l in leads):
+    if any(l.get("grade") or l.get("error") or l.get("no_website") for l in leads):
         write_html(leads, html_path, title, show_all=getattr(args, "show_all", False))
         _say(f"\nDone. Open this in your browser:\n  {html_path.resolve()}")
     _say(f"Spreadsheet: {csv_path.resolve()}")
+
+
+def _sources(args):
+    return [x.strip().lower() for x in args.sources.split(",") if x.strip()] if args.sources else None
 
 
 def main():
@@ -149,9 +202,14 @@ def main():
     for p in (p_run, p_find):
         p.add_argument("business_type", help='e.g. dentist, "hair salon", plumber (see: python leads.py types)')
         p.add_argument("city", help='e.g. "Austin, Texas" or "Leeds, UK"')
-        p.add_argument("--limit", type=int, default=40, help="most businesses to include (default 40)")
+        p.add_argument("--limit", type=int, default=40, help="most businesses per source (default 40)")
         p.add_argument("--out", help="folder to save results in")
-    p_find.add_argument("--all", action="store_true", help="also include businesses with no website")
+        p.add_argument("--sources", help="where to look: osm, google, web, comma separated "
+                                         "(default: every source you have a key for)")
+        p.add_argument("--grid", type=int, default=2,
+                       help="Google only: split the city into GRID x GRID areas to get past Google's 60-per-search cap "
+                            "(default 2; use 3-4 for big cities)")
+    p_find.add_argument("--all", action="store_true", help="also include OpenStreetMap businesses with no website")
     p_run.add_argument("--ai", action="store_true", help="have Claude rate each design (needs an API key)")
 
     p_emails = sub.add_parser("emails", help="find emails on websites you give it")
@@ -182,14 +240,14 @@ def main():
 
     try:
         if args.cmd == "find":
-            leads = step_find(args.business_type, args.city, args.limit, args.all)
+            leads = step_find(args.business_type, args.city, args.limit, _sources(args), args.grid, args.all)
             out = _out_dir(args, f"{args.business_type} {args.city}")
             _finish(leads, out, f"{args.business_type.title()} in {args.city}", args)
         elif args.cmd == "run":
             rater = _make_rater(args.ai)
-            leads = step_find(args.business_type, args.city, args.limit)
+            leads = step_find(args.business_type, args.city, args.limit, _sources(args), args.grid)
             if not leads:
-                sys.exit("No businesses with websites found. Try a bigger area or another business type.")
+                sys.exit("No businesses found. Try a bigger area, another business type, or another source.")
             out = _out_dir(args, f"{args.business_type} {args.city}")
             step_emails(leads)
             step_audit(leads, out, rater)

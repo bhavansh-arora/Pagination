@@ -18,6 +18,7 @@ from pathlib import Path
 from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import TimeoutError as PlaywrightTimeout
 from playwright.sync_api import sync_playwright
+import requests
 
 THIS_YEAR = datetime.date.today().year
 
@@ -133,6 +134,17 @@ MEASURE_JS = r"""
   const bodyText = document.body.innerText || '';
   const years = [...bodyText.matchAll(/(?:©|&copy;|copyright)\s*(?:\d{4}\s*[-–]\s*)?((?:19|20)\d{2})/gi)].map((m) => parseInt(m[1]));
 
+  const src = document.documentElement.outerHTML.slice(0, 400000);
+  const builders = [
+    ['Wix', /wixstatic\.com|wix-warmup-data|_wixCssImports/], ['Squarespace', /squarespace\.com|static1\.squarespace/],
+    ['Weebly', /weebly\.com|editmysite\.com/], ['GoDaddy Website Builder', /img1\.wsimg\.com|godaddy/i],
+    ['Jimdo', /jimdo/i], ['Webflow', /webflow\.(com|io)/], ['Shopify', /cdn\.shopify\.com/],
+    ['Duda', /dudaone|multiscreensite|irp\.cdn-website\.com/], ['WordPress', /wp-content|wp-includes/],
+    ['Joomla', /\/media\/jui\/|joomla/i], ['Adobe Muse', /muse\.adobe|musecdn/i], ['Microsoft FrontPage', /FrontPage/],
+    ['Flash', /\.swf["'?]/i],
+  ];
+  const builtWith = builders.filter(([, re]) => re.test(src)).map(([n]) => n);
+  const jq = window.jQuery && window.jQuery.fn && window.jQuery.fn.jquery;
   const meta = document.querySelector('meta[name=viewport]');
   const gen = document.querySelector('meta[name=generator]');
   return {
@@ -150,12 +162,51 @@ MEASURE_JS = r"""
     copyrightYear: years.length ? Math.max(...years) : null,
     favicon: !!document.querySelector('link[rel~="icon"]'),
     generator: gen ? gen.content : '',
+    builtWith, jquery: jq || '',
     title: document.title,
     words: bodyText.split(/\s+/).length,
     usesTables: document.querySelectorAll('table[width], td[bgcolor], font, center, marquee').length,
   };
 }
 """
+
+
+DOWN_SIGNS = (
+    "ERR_NAME_NOT_RESOLVED", "ERR_CONNECTION_REFUSED", "ERR_CONNECTION_TIMED_OUT", "ERR_CONNECTION_RESET",
+    "ERR_ADDRESS_UNREACHABLE", "ERR_TIMED_OUT", "Timeout", "error page (5",
+)
+
+
+def looks_down(error):
+    return any(sign in error for sign in DOWN_SIGNS)
+
+
+def mark_down(lead, error):
+    """A business listed with a website that doesn't load is one of the best leads there is."""
+    reason = ("the address doesn't exist any more" if "NAME_NOT_RESOLVED" in error
+              else "the server isn't responding" if "error page" not in error else "it shows a server error")
+    lead.update({
+        "site_down": True, "grade": "F", "score": 0, "opportunity": 100, "error": "",
+        "verdict": "Website is down. Best prospect.",
+        "issues": [{"area": "Trust", "label": "Website loads", "passed": False, "points": 100, "key": "down",
+                    "finding": f"The website doesn't load: {reason}. Anyone who clicks it on Google gets an error.",
+                    "fix": "Get the site back online, or build a new one.",
+                    "pitch": "your website isn't loading at the moment. I got an error when I tried to open it"}],
+    })
+    lead["checks"] = list(lead["issues"])
+
+
+def _certificate_broken(url):
+    """True when browsers show a full-page 'Your connection is not private' warning."""
+    if not url.startswith("https://"):
+        return False
+    try:
+        requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
+        return False
+    except requests.exceptions.SSLError:
+        return True
+    except requests.RequestException:
+        return False
 
 
 def _slug(url):
@@ -338,6 +389,14 @@ def audit_site(browser, phone, url, shots_dir, ai=None):
         return result
 
     heuristic, issues, checks = _judge(m_mobile, m_desktop, load_seconds, final_url)
+    if _certificate_broken(final_url):
+        cert = {"area": "Trust", "label": "No security warning", "passed": False, "points": 20, "key": "cert",
+                "finding": 'Visitors get a full-page "Your connection is not private" warning before the site opens.',
+                "fix": "Renew or fix the SSL certificate.",
+                "pitch": 'visitors get a big "Your connection is not private" warning before your site even opens'}
+        checks.insert(0, cert)
+        issues.insert(0, cert)
+        heuristic = max(0, heuristic - 20)
     result.update({
         "website": final_url,
         "title": m_desktop.get("title", ""),
@@ -348,7 +407,8 @@ def audit_site(browser, phone, url, shots_dir, ai=None):
         "mobile_full_shot": str(mobile_full_shot),
         "mobile_shot": str(mobile_shot),
         "desktop_shot": str(desktop_shot),
-        "built_with": m_desktop.get("generator", ""),
+        "built_with": ", ".join(m_desktop.get("builtWith") or []) or m_desktop.get("generator", ""),
+        "jquery": m_desktop.get("jquery", ""),
         "ai": None,
     })
 

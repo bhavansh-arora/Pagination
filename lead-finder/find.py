@@ -151,6 +151,7 @@ def find_businesses(business_type, city, limit=100, include_without_website=Fals
             "address": address,
             "type": business_type,
             "area": area_name,
+            "source": "OpenStreetMap",
         })
         if len(results) >= limit:
             break
