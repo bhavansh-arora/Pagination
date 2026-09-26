@@ -18,6 +18,18 @@ It runs on your own computer.
 
 `run` uses every source you have a key for, and merges businesses found by more than one.
 
+It also pulls in information that's already public but rarely used:
+
+- **Fake "websites".** Many Google listings link to a Facebook page, a Linktree, a free Wix or Square subdomain, or a `.business.site` page. Google shut those `.business.site` websites down in 2024, so the link is dead. These are treated as businesses with no website.
+- **Google reviews.** A short 5-star quote to open your message with, and any reviews that complain about the website, online booking, phones not being answered or wrong opening hours.
+- **Google listing details.** Category, opening hours, number of photos, and Google's summary of the business.
+- **Marketing and booking tools on the website.** Google Ads, Facebook Pixel, Google Analytics, Calendly, Zocdoc, Housecall Pro, chat widgets and others. A business paying for Google Ads that lands on a bad website is a strong pitch.
+- **Domain records.** When the domain was registered and when it expires, from public domain registration data. A domain expiring in the next 60 days is mentioned in the message as a helpful heads-up.
+
+The messages use the strongest of these automatically (at most two extras, so they stay short), and everything is shown on each lead's detail page and in the spreadsheet.
+
+Reviews come from Google's Places API, which returns up to 5 reviews per business. Asking for reviews can cost more per search than basic listing data; check Google's current pricing.
+
 It also flags two kinds of lead that are the easiest to close:
 
 - **Website down.** A business listed on Google whose website doesn't load or no longer exists. The message tells them, and offers to help.

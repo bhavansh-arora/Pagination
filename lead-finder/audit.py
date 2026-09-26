@@ -144,6 +144,17 @@ MEASURE_JS = r"""
     ['Flash', /\.swf["'?]/i],
   ];
   const builtWith = builders.filter(([, re]) => re.test(src)).map(([n]) => n);
+  const tools = [
+    ['Google Ads', /AW-\d{6,}|googleadservices\.com|google_conversion_id/], ['Google Analytics', /\bG-[A-Z0-9]{6,}|UA-\d{4,}-\d|google-analytics\.com/],
+    ['Google Tag Manager', /GTM-[A-Z0-9]{4,}/], ['Facebook Pixel', /connect\.facebook\.net\/[^"']*fbevents|fbq\(/],
+    ['TikTok Pixel', /analytics\.tiktok\.com/], ['Calendly', /calendly\.com/], ['Acuity Scheduling', /acuityscheduling\.com/],
+    ['Square Appointments', /squareup\.com\/appointments|square\.site\/book/], ['Vagaro', /vagaro\.com/],
+    ['Booksy', /booksy\.com/], ['Zocdoc', /zocdoc\.com/], ['OpenTable', /opentable\.com/], ['Mindbody', /mindbodyonline\.com/],
+    ['Housecall Pro', /housecallpro\.com/], ['Jobber', /getjobber\.com|jobber\.com/], ['ServiceTitan', /servicetitan/i],
+    ['Podium chat', /podium\.com/], ['Tidio chat', /tidio/i], ['Intercom chat', /intercom/i], ['LiveChat', /livechatinc\.com/],
+    ['Tawk.to chat', /tawk\.to/],
+  ];
+  const marketing = tools.filter(([, re]) => re.test(src)).map(([n]) => n);
   const jq = window.jQuery && window.jQuery.fn && window.jQuery.fn.jquery;
   const meta = document.querySelector('meta[name=viewport]');
   const gen = document.querySelector('meta[name=generator]');
@@ -162,7 +173,7 @@ MEASURE_JS = r"""
     copyrightYear: years.length ? Math.max(...years) : null,
     favicon: !!document.querySelector('link[rel~="icon"]'),
     generator: gen ? gen.content : '',
-    builtWith, jquery: jq || '',
+    builtWith, marketing, jquery: jq || '',
     title: document.title,
     words: bodyText.split(/\s+/).length,
     usesTables: document.querySelectorAll('table[width], td[bgcolor], font, center, marquee').length,
@@ -409,6 +420,7 @@ def audit_site(browser, phone, url, shots_dir, ai=None):
         "desktop_shot": str(desktop_shot),
         "built_with": ", ".join(m_desktop.get("builtWith") or []) or m_desktop.get("generator", ""),
         "jquery": m_desktop.get("jquery", ""),
+        "marketing": m_desktop.get("marketing") or [],
         "ai": None,
     })
 

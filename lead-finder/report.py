@@ -12,7 +12,8 @@ from outreach import build as build_outreach
 CSV_FIELDS = [
     "name", "website", "grade", "score", "verdict", "best_email", "all_emails", "phone", "contact_page",
     "facebook", "instagram", "linkedin", "top_problems", "first_channel", "first_to", "subject", "first_message",
-    "address", "rating", "reviews", "lead_type", "source", "found_because", "built_with", "error",
+    "address", "rating", "reviews", "category", "lead_type", "source", "found_because", "listed_website",
+    "built_with", "marketing_tools", "domain_created", "domain_expires", "review_quote", "review_complaints", "error",
 ]
 
 BAD_GRADES = ("C", "D", "F")
@@ -27,8 +28,8 @@ def _rel(path, base):
 
 
 def _slug(lead):
-    s = re.sub(r"^https?://(www\.)?", "", lead.get("website", "")).strip("/")
-    return re.sub(r"[^a-zA-Z0-9]+", "-", s)[:60] or "site"
+    s = re.sub(r"^https?://(www\.)?", "", lead.get("website", "")).strip("/") or "nosite-" + lead.get("name", "")
+    return re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-")[:60].lower() or "site"
 
 
 def _name(lead):
@@ -94,6 +95,13 @@ def write_csv(leads, path):
                 "source": lead.get("source", ""),
                 "found_because": lead.get("found_because", ""),
                 "built_with": lead.get("built_with", ""),
+                "category": lead.get("category", ""),
+                "listed_website": lead.get("listed_website", ""),
+                "marketing_tools": ", ".join(lead.get("marketing") or []),
+                "domain_created": (lead.get("domain") or {}).get("created", ""),
+                "domain_expires": (lead.get("domain") or {}).get("expires", ""),
+                "review_quote": lead.get("review_quote", ""),
+                "review_complaints": " | ".join(c["text"] for c in lead.get("review_complaints") or []),
                 "error": lead.get("error") or lead.get("email_error", ""),
             })
 
@@ -188,6 +196,79 @@ def _status_select(site):
     return f'<select class="status" data-site="{_e(site)}" aria-label="Contact status">{opts}</select>'
 
 
+# ---------------------------------------------------------------- business signals
+
+def _signal_badges(lead):
+    badges = []
+    if lead.get("placeholder_site"):
+        kind = lead["placeholder_site"].split(",")[0]
+        badges.append(f'<span class="badge hot">Google listing links to {_e(kind)}</span>')
+    marketing = lead.get("marketing") or []
+    if "Google Ads" in marketing:
+        badges.append('<span class="badge hot">Runs Google Ads</span>')
+    if "Facebook Pixel" in marketing:
+        badges.append('<span class="badge">Facebook Pixel</span>')
+    dom = lead.get("domain") or {}
+    days = dom.get("expires_in_days")
+    if days is not None and 0 <= days <= 60:
+        badges.append(f'<span class="badge hot">Domain expires in {days} days</span>')
+    if dom.get("age_years") is not None and dom["age_years"] >= 8:
+        badges.append(f'<span class="badge">Domain {int(dom["age_years"])} years old</span>')
+    if lead.get("review_complaints"):
+        badges.append('<span class="badge hot">Reviews mention website or booking trouble</span>'
+                      if any(c["kind"] in ("website", "booking") for c in lead["review_complaints"])
+                      else '<span class="badge">Reviews mention phone or hours trouble</span>')
+    if lead.get("maps_url") and lead.get("photo_count") is not None and lead["photo_count"] < 3:
+        n = lead["photo_count"]
+        badges.append('<span class="badge">No photos on Google</span>' if n == 0 else
+                      f'<span class="badge">Only {n} photo{"s" if n != 1 else ""} on Google</span>')
+    return badges
+
+
+def _signals_panel(lead):
+    rows = []
+    if lead.get("category"):
+        rows.append(("Google category", lead["category"]))
+    if lead.get("reviews"):
+        rows.append(("Google rating", f"{lead.get('rating') or '?'} stars from {lead['reviews']} reviews"))
+    if lead.get("listed_website"):
+        rows.append(("Listed website", f"{lead['listed_website']} ({lead.get('placeholder_site', '')})"))
+    if lead.get("maps_url"):
+        n = lead.get("photo_count", 0)
+        rows.append(("Photos on Google", "10 or more" if n >= 10 else str(n)))
+    if lead.get("summary"):
+        rows.append(("Google summary", lead["summary"]))
+    if lead.get("address"):
+        rows.append(("Address", lead["address"]))
+    dom = lead.get("domain") or {}
+    if dom.get("created"):
+        rows.append(("Domain registered", f"{dom['created']} ({dom.get('age_years')} years ago)"))
+    if dom.get("expires"):
+        rows.append(("Domain expires", f"{dom['expires']} (in {dom.get('expires_in_days')} days)"))
+    if lead.get("built_with"):
+        rows.append(("Built with", lead["built_with"]))
+    if lead.get("marketing"):
+        rows.append(("Marketing & booking tools", ", ".join(lead["marketing"])))
+    if lead.get("found_because"):
+        rows.append(("Found because", "the site " + lead["found_because"]))
+    if lead.get("source"):
+        rows.append(("Found on", lead["source"]))
+    html_rows = "".join(f'<div class="kv"><span class="k">{_e(k)}</span><span>{_e(v)}</span></div>' for k, v in rows)
+    if lead.get("hours"):
+        html_rows += ('<div class="kv"><span class="k">Opening hours</span><span>'
+                      + "<br>".join(_e(h) for h in lead["hours"]) + "</span></div>")
+    reviews = ""
+    if lead.get("review_quote"):
+        reviews += f'<blockquote class="quote">“{_e(lead["review_quote"])}”</blockquote>'
+    for c in lead.get("review_complaints") or []:
+        reviews += (f'<p class="complaint"><span class="k">Complaint about {_e(c["kind"])}</span>'
+                    f'“{_e(c["text"])}” {("<span class=muted>" + _e(c["when"]) + "</span>") if c.get("when") else ""}</p>')
+    if not (html_rows or reviews):
+        return ""
+    return (f'<section class="panel"><h2>Google listing & business signals</h2>{html_rows}'
+            + (f'<h3>From their Google reviews</h3>{reviews}' if reviews else "") + "</section>")
+
+
 # ---------------------------------------------------------------- audit page
 
 def _audit_page(lead, path, assets_rel, dashboard_rel):
@@ -250,32 +331,46 @@ def _audit_page(lead, path, assets_rel, dashboard_rel):
             + "</section>"
         )
 
+    nosite = lead.get("no_website")
+    if nosite:
+        link, link_text = lead.get("maps_url", ""), ("Google listing" if lead.get("maps_url") else "")
+        verdict = ("Their Google listing links to " + lead["placeholder_site"] + ", not a real website."
+                   if lead.get("placeholder_site") else "No website at all.") + " Best prospect."
+        score_html = '<div class="score big"><span class="grade g-F">—</span><small>no site</small></div>'
+        checks_html = ""
+    else:
+        link, link_text = lead.get("website"), lead.get("website")
+        verdict = f"{lead.get('verdict')} {passed} of {len(checks)} checks passed."
+        score_html = (f'<div class="score big"><span class="grade g-{_e(lead.get("grade"))}">{_e(lead.get("grade"))}</span>'
+                      f'<small>{_e(lead.get("score"))}/100</small></div>')
+        checks_html = f'<section class="panel"><h2>What a customer would notice</h2>{"".join(areas)}</section>'
     body = f"""
 <div class="wrap">
   <a class="back" href="{_e(dashboard_rel)}">← All leads</a>
   <header class="audit-head">
     <div>
-      <span class="eyebrow">Website audit</span>
+      <span class="eyebrow">{"Lead details" if nosite else "Website audit"}</span>
       <h1>{_e(name)}</h1>
-      <a class="site" href="{_e(lead.get('website'))}" target="_blank" rel="noopener">{_e(lead.get('website'))}</a>
-      <p class="verdict">{_e(lead.get('verdict'))} {passed} of {len(checks)} checks passed.</p>
+      <a class="site" href="{_e(link)}" target="_blank" rel="noopener">{_e(link_text)}</a>
+      <p class="verdict">{_e(verdict)}</p>
     </div>
-    <div class="score big"><span class="grade g-{_e(lead.get('grade'))}">{_e(lead.get('grade'))}</span><small>{_e(lead.get('score'))}/100</small></div>
+    {score_html}
   </header>
   {shots}
   <div class="audit-grid">
     <div class="stack">
-      <section class="panel"><h2>What a customer would notice</h2>{''.join(areas)}</section>
+      {checks_html}
+      {_signals_panel(lead)}
       {ai_html}
     </div>
     <div class="stack">
       {msgs}
       <section class="panel"><h2>Contact details</h2>{contact_html}
-        <div class="kv"><span class="k">Status</span>{_status_select(lead.get('website', ''))}</div></section>
+        <div class="kv"><span class="k">Status</span>{_status_select(lead.get('website') or lead.get('name', ''))}</div></section>
     </div>
   </div>
 </div>"""
-    Path(path).write_text(_page(f"{name} audit", body, assets_rel), encoding="utf-8")
+    Path(path).write_text(_page(f"{name} {'details' if nosite else 'audit'}", body, assets_rel), encoding="utf-8")
 
 
 # ---------------------------------------------------------------- dashboard
@@ -299,7 +394,9 @@ def _row(lead, base, audit_rel):
         thumb = f'<img class="thumb" loading="lazy" src="{_e(_rel(lead["mobile_shot"], base))}" alt="">'
     else:
         thumb = '<div class="thumb empty"><span>Site down</span></div>'
-    if kind == "nosite":
+    if kind == "nosite" and lead.get("placeholder_site"):
+        problems = (f"<li>Their Google listing links to {_e(lead['placeholder_site'])}, not a real website.</li>")
+    elif kind == "nosite":
         problems = "<li>No website. People who find them on Google have nowhere to click through to.</li>"
     else:
         problems = "".join(f"<li>{_e(i['finding'])}</li>" for i in issues[:3]) or "<li>No obvious problems found.</li>"
@@ -311,6 +408,7 @@ def _row(lead, base, audit_rel):
         badges.append(f'<span class="badge">Found because the site {_e(lead["found_because"])}</span>')
     if lead.get("built_with"):
         badges.append(f'<span class="badge">Built with {_e(lead["built_with"])}</span>')
+    badges += _signal_badges(lead)
     if lead.get("source"):
         badges.append(f'<span class="badge muted">Source: {_e(lead["source"])}</span>')
     badge_html = f'<div class="badges">{"".join(badges)}</div>' if badges else ""
@@ -318,9 +416,8 @@ def _row(lead, base, audit_rel):
     link_text = lead.get("website") or ("Google listing" if lead.get("maps_url") else "")
     grade_badge = ('<span class="grade g-F" title="No website">\u2014</span>' if kind == "nosite"
                    else f'<span class="grade g-{_e(grade)}">{_e(grade)}</span>')
-    audit_btn = (f'<a class="btn" href="{_e(audit_rel)}">View audit report</a>' if audit_rel else
-                 (f'<a class="btn" href="{_e(lead["maps_url"])}" target="_blank" rel="noopener">Google listing \u2197</a>'
-                  if lead.get("maps_url") else ""))
+    audit_btn = (f'<a class="btn" href="{_e(audit_rel)}">{"View details" if kind == "nosite" else "View audit report"}</a>'
+                 if audit_rel else "")
     status_key = lead.get("website") or lead.get("name", "")
     greet = ""
     if out.get("greeting_name"):
@@ -360,11 +457,9 @@ def write_html(leads, path, title, show_all=False):
 
     rows = []
     for lead in shown:
-        audit_rel = ""
-        if not lead.get("no_website"):
-            audit_path = audits_dir / f"{_slug(lead)}.html"
-            _audit_page(lead, audit_path, "../style.css", "../" + Path(path).name)
-            audit_rel = _rel(audit_path, out_dir)
+        audit_path = audits_dir / f"{_slug(lead)}.html"
+        _audit_page(lead, audit_path, "../style.css", "../" + Path(path).name)
+        audit_rel = _rel(audit_path, out_dir)
         rows.append(_row(lead, out_dir, audit_rel))
 
     hidden_good = len(graded) - len([l for l in shown if l.get("grade")])
@@ -506,6 +601,9 @@ a { color: var(--accent); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .badges { display: flex; flex-wrap: wrap; gap: 6px; }
 .badge { font: 500 12px var(--body); padding: 2px 8px; border-radius: 6px; border: 1px solid var(--line); }
+.badge.hot { border-color: var(--gD); color: var(--gD); }
+.quote { margin: 0; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--surface-2); border-radius: 0 8px 8px 0; font-size: 14px; }
+.complaint { font-size: 14px; display: grid; gap: 2px; }
 .thumb.empty { display: grid; place-items: center; text-align: center; font: 600 12px var(--body); color: var(--muted); }
 .chip { font: 500 12px var(--body); padding: 2px 9px; border-radius: 999px; background: var(--surface-2); color: var(--ink); }
 .lead-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -559,7 +657,8 @@ figcaption { font: 500 11px var(--mono); text-transform: uppercase; letter-spaci
 .bar i { height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--accent) var(--v), var(--surface-2) var(--v)); }
 .bar b { font: 500 12px var(--mono); text-align: right; }
 .panel ul { margin: 0; padding-left: 18px; }
-.kv { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px; font-size: 14px; word-break: break-all; align-items: baseline; }
+.kv { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 10px; font-size: 14px; align-items: baseline; }
+.kv > span:last-child { overflow-wrap: anywhere; }
 @media (max-width: 900px) {
   .lead, .audit-grid { grid-template-columns: 1fr; }
   .shots-big { grid-template-columns: 1fr 1fr; }

@@ -153,6 +153,41 @@ def _find_one_type(business_type, city, limit, sources=None, grid=2, all_places=
     return leads
 
 
+def step_signals(leads):
+    """Fake websites, review insights and domain records: data that's already out there but rarely used."""
+    from signals import domain_info_many, placeholder_kind, review_insights
+    fake = 0
+    for lead in leads:
+        kind = placeholder_kind(lead.get("website", ""))
+        if kind:
+            fake += 1
+            url = lead["website"]
+            lead.update({"placeholder_site": kind, "listed_website": url, "website": "", "no_website": True})
+            socials = lead.setdefault("socials", {})
+            if "facebook" in kind.lower():
+                socials.setdefault("facebook", url)
+            elif "instagram" in kind.lower():
+                socials.setdefault("instagram", url)
+        if lead.get("google_reviews"):
+            insights = review_insights(lead["google_reviews"])
+            lead["review_quote"] = insights["quote"]
+            lead["review_complaints"] = insights["complaints"]
+    if fake:
+        _say(f"  {fake} listed 'website(s)' are really a Facebook page, link-in-bio or free subdomain. "
+             "Counted as no website.")
+
+    targets = [l for l in leads if l.get("website")]
+    if targets:
+        _say(f"Looking up domain records for {len(targets)} websites...")
+        for lead, info in zip(targets, domain_info_many([l["website"] for l in targets])):
+            if info:
+                lead["domain"] = info
+        expiring = sum(1 for l in targets if 0 <= (l.get("domain") or {}).get("expires_in_days", 999) <= 60)
+        if expiring:
+            _say(f"  {expiring} domain(s) expire within 60 days.")
+    return leads
+
+
 def step_emails(leads):
     from emails import scrape_many
     targets = [l for l in leads if l.get("website")]
@@ -284,6 +319,7 @@ def main():
             if not leads:
                 sys.exit("No businesses found. Try a bigger area, another business type, or another source.")
             out = _out_dir(args, f"{args.business_type} {args.city}")
+            step_signals(leads)
             step_emails(leads)
             step_audit(leads, out, rater)
             _finish(leads, out, f"{args.business_type.title()} in {args.city}", args)
@@ -296,6 +332,7 @@ def main():
             rater = _make_rater(args.ai)
             leads = _load_sites(args)
             out = _out_dir(args, "website-check")
+            step_signals(leads)
             if not args.no_emails:
                 step_emails(leads)
             step_audit(leads, out, rater)

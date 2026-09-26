@@ -6,6 +6,7 @@ message for it that names the business, greets the owner when their name
 can be read from the email address, and mentions the real problems found.
 """
 
+import datetime
 import json
 import re
 from pathlib import Path
@@ -217,6 +218,37 @@ def _instagram_handle(url):
     return path.split("/")[0] if path else ""
 
 
+def _compliment(lead):
+    """A short, genuine opener from their best Google review, if there's one short enough to quote."""
+    quote = (lead.get("review_quote") or "").strip()
+    if not quote or len(quote) > 110:
+        return ""
+    return f'Your Google reviews are great. One customer wrote, "{quote}"'
+
+
+def _extras(lead, most=2):
+    """Extra sentences from signals most people never look at, strongest first, at most `most` of them."""
+    extras = []
+    dom = lead.get("domain") or {}
+    days = dom.get("expires_in_days")
+    if days is not None and 0 <= days <= 60:
+        d = datetime.date.fromisoformat(dom["expires"])
+        when = f"{d:%B} {d.day}, {d.year}"
+        extras.append(f"Quick heads up: public records show {dom['domain']} expires on {when}. If it lapses, "
+                      "your website and email stop working.")
+    kinds = {c["kind"] for c in lead.get("review_complaints") or []}
+    if "website" in kinds or "booking" in kinds:
+        extras.append("One of your Google reviews also mentions trouble booking or using the website, so it's "
+                      "costing you real customers.")
+    marketing = lead.get("marketing") or []
+    if "Google Ads" in marketing and not lead.get("site_down"):
+        extras.append("I also noticed you're running Google Ads, so you're paying for clicks that land on this page.")
+    elif "Facebook Pixel" in marketing and not lead.get("site_down"):
+        extras.append("You're also set up to advertise on Facebook, so it's worth making sure the site turns those "
+                      "clicks into customers.")
+    return " ".join(extras[:most])
+
+
 def _build_no_website(lead, me):
     """For a business that's listed on Google but has no website at all."""
     biz = _business(lead)
@@ -229,8 +261,15 @@ def _build_no_website(lead, me):
     elif lead.get("reviews"):
         rating = f" You clearly do great work, judging by your {lead['reviews']} reviews on Google."
     search_where = f"{niches or 'businesses'} in {city}" if city else (niches or "local businesses")
-    pitch = (f"I came across {biz} on Google while looking at {search_where}, and I couldn't find a website for you."
-             f"{rating}")
+    placeholder = lead.get("placeholder_site", "")
+    if "shut down" in placeholder:
+        found = ("your Google listing still links to your old Google website. Google shut those down in 2024, "
+                 "so anyone who clicks it hits a dead end")
+    elif placeholder:
+        found = f"your Google listing links to {placeholder} rather than a website of your own"
+    else:
+        found = "I couldn't find a website for you"
+    pitch = f"I came across {biz} on Google while looking at {search_where}, and {found}.{rating}"
     why = (f"Most new {audience} check a business's website before they call. Without one, they often pick "
            "a competitor who has one.")
     offer = me.get("offer") or ("I'm a web designer and I build simple, good-looking websites for local businesses. "
@@ -242,12 +281,12 @@ def _build_no_website(lead, me):
     call_script = (
         f"Hi, is this the owner or manager? My name's {me.get('name') or '[your name]'}, I'm a web designer. "
         f"I'll be quick. I found {biz} on Google{' and saw your great reviews' if lead.get('reviews') else ''}, "
-        "but I couldn't find a website for you. I'd love to put together a free mock-up of what one could look like. "
+        f"but {found.replace('your ', 'your ', 1)}. I'd love to put together a free mock-up of what a proper site could look like. "
         "What's the best email to send it to?"
     )
     dm_message = (f"Hi! I came across {biz} on Google{' and saw your reviews' if lead.get('reviews') else ''}. "
-                  "I couldn't find a website for you. I'm a web designer. Would you like a free mock-up of what "
-                  "one could look like? No strings attached.")
+                  f"I noticed {found}. I'm a web designer. Would you like a free mock-up of what "
+                  "a proper website could look like? No strings attached.")
     from urllib.parse import quote_plus
     lookup = quote_plus(f"{biz} {city}".strip())
     options = []
@@ -257,16 +296,28 @@ def _build_no_website(lead, me):
                         "message": email_body,
                         "action_url": "https://mail.google.com/mail/?view=cm&fs=1&to=" + quote(lead["best_email"])
                         + "&su=" + quote(subject) + "&body=" + quote(email_body), "action_label": "Open in Gmail"})
+    socials = lead.get("socials") or {}
+    if socials.get("facebook"):
+        options.append({"channel": "messenger", "label": "Facebook Messenger", "to": socials["facebook"], "subject": "",
+                        "message": dm_message, "action_url": _facebook_message_url(socials["facebook"]),
+                        "action_label": "Open Messenger"})
+    if socials.get("instagram"):
+        handle = _instagram_handle(socials["instagram"])
+        options.append({"channel": "instagram", "label": "Instagram DM", "to": "@" + handle, "subject": "",
+                        "message": dm_message, "action_url": f"https://ig.me/m/{handle}",
+                        "action_label": "Open Instagram DM"})
     if lead.get("phone"):
         options.append({"channel": "call", "label": "Phone call", "to": lead["phone"], "subject": "",
                         "message": call_script, "action_url": lead.get("maps_url", ""),
                         "action_label": "Google listing" if lead.get("maps_url") else ""})
-    options.append({"channel": "messenger", "label": "Facebook (find their page)", "to": biz, "subject": "",
-                    "message": dm_message, "action_url": f"https://www.facebook.com/search/pages/?q={lookup}",
-                    "action_label": "Search Facebook"})
-    options.append({"channel": "instagram", "label": "Instagram (find their profile)", "to": biz, "subject": "",
-                    "message": dm_message, "action_url": f"https://www.google.com/search?q={lookup}+instagram",
-                    "action_label": "Search Instagram"})
+    if not socials.get("facebook"):
+        options.append({"channel": "messenger", "label": "Facebook (find their page)", "to": biz, "subject": "",
+                        "message": dm_message, "action_url": f"https://www.facebook.com/search/pages/?q={lookup}",
+                        "action_label": "Search Facebook"})
+    if not socials.get("instagram"):
+        options.append({"channel": "instagram", "label": "Instagram (find their profile)", "to": biz, "subject": "",
+                        "message": dm_message, "action_url": f"https://www.google.com/search?q={lookup}+instagram",
+                        "action_label": "Search Instagram"})
     return {"first": options[0], "others": options[1:], "greeting_name": first}
 
 
@@ -297,10 +348,15 @@ def build(lead, me):
         )
 
     email_subject = f"Quick question about {_possessive(biz)} website"
+    compliment = _compliment(lead)
+    extras = _extras(lead)
     email_body = "\n\n".join(x for x in [
         hello,
-        f"I came across {biz} while looking at {where} and checked out your website. {observation}".strip(),
+        f"I came across {biz} while looking at {where}. {compliment}".strip() if compliment else "",
+        (f"I checked out your website. {observation}" if compliment else
+         f"I came across {biz} while looking at {where} and checked out your website. {observation}").strip(),
         why,
+        extras,
         offer,
         _signature(me),
         "P.S. If this isn't useful, just reply \"no\" and I won't follow up.",
@@ -309,6 +365,7 @@ def build(lead, me):
     form_message = "\n\n".join(x for x in [
         f"Hi {first or 'there'}, I was looking at {_possessive(biz)} website and wanted to flag something. {observation}".strip(),
         why,
+        extras,
         offer,
         f"{me.get('name') or '[your name]'}"
         + (f" ({me['portfolio']})" if me.get("portfolio") else ""),

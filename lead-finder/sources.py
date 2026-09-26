@@ -63,8 +63,10 @@ PLACES_URL = "https://places.googleapis.com/v1/places:searchText"
 PLACES_FIELDS = ",".join([
     "places.displayName", "places.websiteUri", "places.nationalPhoneNumber", "places.internationalPhoneNumber",
     "places.formattedAddress", "places.rating", "places.userRatingCount", "places.businessStatus",
-    "places.googleMapsUri", "places.id", "nextPageToken",
+    "places.googleMapsUri", "places.id", "places.primaryTypeDisplayName", "places.regularOpeningHours",
+    "places.photos", "places.editorialSummary", "nextPageToken",
 ])
+REVIEW_FIELD = "places.reviews"
 
 
 def _city_box(city):
@@ -89,11 +91,20 @@ def _grid(box, n):
             }}
 
 
-def google_places(business_type, city, api_key, limit=100, grid=2, progress=None):
+def _parse_reviews(place):
+    out = []
+    for r in place.get("reviews") or []:
+        text = (r.get("text") or r.get("originalText") or {}).get("text", "")
+        out.append({"rating": r.get("rating"), "text": text, "when": r.get("relativePublishTimeDescription", "")})
+    return out
+
+
+def google_places(business_type, city, api_key, limit=100, grid=2, progress=None, with_reviews=True):
     """Businesses from Google's listings. Google returns at most 60 per search, so the city is
     split into a grid of smaller areas (grid=2 means 4 areas) and each is searched."""
     south, north, west, east, area_name = _city_box(city)
-    headers = {"X-Goog-Api-Key": api_key, "X-Goog-FieldMask": PLACES_FIELDS, "Content-Type": "application/json"}
+    fields = PLACES_FIELDS + ("," + REVIEW_FIELD if with_reviews else "")
+    headers = {"X-Goog-Api-Key": api_key, "X-Goog-FieldMask": fields, "Content-Type": "application/json"}
     results, seen = [], set()
 
     for cell in _grid((south, north, west, east), max(1, grid)):
@@ -122,6 +133,11 @@ def google_places(business_type, city, api_key, limit=100, grid=2, progress=None
                     "rating": p.get("rating"),
                     "reviews": p.get("userRatingCount") or 0,
                     "maps_url": p.get("googleMapsUri", ""),
+                    "category": (p.get("primaryTypeDisplayName") or {}).get("text", ""),
+                    "hours": (p.get("regularOpeningHours") or {}).get("weekdayDescriptions", []),
+                    "photo_count": len(p.get("photos") or []),
+                    "summary": (p.get("editorialSummary") or {}).get("text", ""),
+                    "google_reviews": _parse_reviews(p),
                     "type": business_type,
                     "area": area_name,
                     "source": "Google",
