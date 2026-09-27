@@ -12,7 +12,7 @@ from outreach import LINK_PLACEHOLDER, build as build_outreach, demo_link, demo_
 CSV_FIELDS = [
     "name", "demo_slug", "demo_link", "website", "grade", "score", "verdict", "best_email", "all_emails", "phone", "contact_page",
     "facebook", "instagram", "linkedin", "top_problems", "first_channel", "first_to", "subject", "first_message",
-    "address", "rating", "reviews", "category", "lead_type", "source", "found_because", "listed_website",
+    "address", "type", "area", "phone_intl", "rating", "reviews", "category", "lead_type", "source", "found_because", "listed_website",
     "built_with", "marketing_tools", "domain_created", "domain_expires", "review_quote", "review_complaints", "error",
 ]
 
@@ -94,6 +94,9 @@ def write_csv(leads, path):
                 "subject": first.get("subject", ""),
                 "first_message": first.get("message", ""),
                 "address": lead.get("address", ""),
+                "type": lead.get("type", ""),
+                "area": lead.get("area", ""),
+                "phone_intl": lead.get("phone_intl", ""),
                 "rating": lead.get("rating") or "",
                 "reviews": lead.get("reviews") or "",
                 "lead_type": _kind_label(lead),

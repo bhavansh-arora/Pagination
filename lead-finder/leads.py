@@ -257,6 +257,50 @@ def _finish(leads, out_dir, title, args):
     _say(f"Spreadsheet: {csv_path.resolve()}")
 
 
+def run_demos(args):
+    """Build demo sites for the leads in a CSV and write a copy of the CSV with each demo link."""
+    from demos import build_demos
+    from outreach import load_details
+    path = Path(args.file)
+    if not path.exists():
+        sys.exit(f"Can't find the file {path}")
+    rows = list(csv.DictReader(path.read_text(encoding="utf-8-sig").splitlines()))
+    leads = []
+    for r in rows:
+        r = {(k or "").strip().lower().replace(" ", "_"): (v or "").strip() for k, v in r.items()}
+        leads.append({
+            "name": r.get("name") or r.get("business") or r.get("company", ""),
+            "phone": r.get("phone", "").split(";")[0].strip(),
+            "phone_intl": r.get("phone_intl", ""),
+            "best_email": r.get("email") or r.get("best_email", ""),
+            "address": r.get("address", ""),
+            "area": r.get("city") or r.get("area", ""),
+            "type": r.get("type") or r.get("business_type", ""),
+            "category": r.get("category", ""),
+            "website": r.get("website", ""),
+            "_row": r,
+        })
+    me = load_details({"name": args.name, "studio": args.studio})
+    _say(f"Building demo websites in {args.site_dir}/ ...")
+    built, skipped = build_demos(leads, me, args.site_dir, base_url=args.base_url, template_key=args.template,
+                                 progress=_say)
+    _say(f"\nBuilt {built} demo site(s)." + (f" {skipped} lead(s) skipped: no template fits their business type "
+                                            "(use --template to force one)." if skipped else ""))
+    out = path.with_name(path.stem + "-with-demos.csv")
+    fields = list(rows[0].keys()) if rows else []
+    for extra in ("demo_url", "demo_template"):
+        if extra not in fields:
+            fields.append(extra)
+    with open(out, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
+        w.writeheader()
+        for row, lead in zip(rows, leads):
+            w.writerow({**row, "demo_url": lead.get("demo_url", ""), "demo_template": lead.get("demo_template", "")})
+    _say(f"Leads with their demo links: {out.resolve()}")
+    if args.base_url:
+        _say(f"Next time, add --demo-url \"{args.base_url.rstrip('/')}/{{slug}}/\" to run or audit so messages include the links.")
+
+
 def _sources(args):
     return [x.strip().lower() for x in args.sources.split(",") if x.strip()] if args.sources else None
 
@@ -301,6 +345,16 @@ def main():
     for p in (p_run, p_audit):
         p.add_argument("--show-all", action="store_true", help="also list sites that already look good (A, B)")
 
+    p_demos = sub.add_parser("demos", help="build a personalised demo website for each lead from your templates")
+    p_demos.add_argument("--file", required=True,
+                         help="a .csv of leads: name, phone, email, address, city, type (a Lead Finder leads.csv works)")
+    p_demos.add_argument("--site-dir", default="demo-site", help="folder to write the demo websites into")
+    p_demos.add_argument("--base-url", default="", help='where the folder is served, e.g. "https://demo.codebunny.net"')
+    p_demos.add_argument("--template", choices=["dentist", "doctor", "salon", "interior", "furniture"],
+                         help="use this template for every lead instead of picking by business type")
+    p_demos.add_argument("--name", help="your name")
+    p_demos.add_argument("--studio", help="your business name, shown on the preview label")
+
     sub.add_parser("types", help="list business types you can search for")
     args = parser.parse_args()
     _load_env_file()
@@ -312,6 +366,9 @@ def main():
         _say("OpenStreetMap only knows these types:\n  " + "\n  ".join(business_type_names()))
         _say('Or use an OpenStreetMap tag, e.g. "shop=bicycle" or "amenity=kindergarten".')
         return
+
+    if args.cmd == "demos":
+        return run_demos(args)
 
     try:
         if args.cmd == "find":

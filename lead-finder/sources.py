@@ -128,6 +128,7 @@ def google_places(business_type, city, api_key, limit=100, grid=2, progress=None
                     "name": (p.get("displayName") or {}).get("text", ""),
                     "website": p.get("websiteUri", ""),
                     "phone": p.get("nationalPhoneNumber") or p.get("internationalPhoneNumber", ""),
+                    "phone_intl": p.get("internationalPhoneNumber", ""),
                     "email": "",
                     "address": p.get("formattedAddress", ""),
                     "rating": p.get("rating"),
