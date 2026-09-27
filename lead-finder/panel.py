@@ -50,6 +50,10 @@ STATUS_FILE = LEADS_DIR / "_status.json"
 STATUS_LABELS = {"new": "Not contacted", "sent": "Sent", "followup": "Follow up", "replied": "Replied",
                  "no": "Not interested"}
 
+SESSION_DAYS = 30
+COOKIE = "lf_session"
+_failed = {}      # ip -> [timestamps of failed sign-ins]
+
 _lock = threading.Lock()
 _jobs = {}        # id -> {"id", "kind", "label", "search", "cmd", "state", "started", "ended", "code"}
 _queue = []       # job ids waiting; one job runs at a time (the browser that takes screenshots needs ~1 GB)
@@ -61,6 +65,77 @@ def _e(s):
 
 def _slug(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:60] or "search"
+
+
+# ---------------------------------------------------------------- sign-in
+
+def _secret():
+    """Key that signs the sign-in cookie. Kept in LEADS_DIR, so sessions survive a restart."""
+    path = LEADS_DIR / "_secret"
+    try:
+        return path.read_bytes()
+    except OSError:
+        key = secrets.token_bytes(32)
+        LEADS_DIR.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(key)
+        os.chmod(path, 0o600)
+        return key
+
+
+def make_session(user):
+    expires = int(datetime.datetime.now().timestamp()) + SESSION_DAYS * 86400
+    # The password is part of the signature, so changing it signs everyone out.
+    payload = f"{user}|{expires}"
+    sig = hmac.new(_secret() + PASSWORD.encode(), payload.encode(), "sha256").hexdigest()
+    return base64.urlsafe_b64encode(f"{payload}|{sig}".encode()).decode()
+
+
+def check_session(token):
+    try:
+        user, expires, sig = base64.urlsafe_b64decode(token.encode()).decode().rsplit("|", 2)
+    except (ValueError, UnicodeDecodeError):
+        return False
+    good = hmac.new(_secret() + PASSWORD.encode(), f"{user}|{expires}".encode(), "sha256").hexdigest()
+    return (hmac.compare_digest(sig, good) and hmac.compare_digest(user, USER)
+            and int(expires) > datetime.datetime.now().timestamp())
+
+
+def too_many_attempts(ip):
+    now = datetime.datetime.now().timestamp()
+    recent = [t for t in _failed.get(ip, []) if now - t < 15 * 60]
+    _failed[ip] = recent
+    return len(recent) >= 8
+
+
+def login_page(error="", next_url="/"):
+    err = f'<p class="login-error">{_e(error)}</p>' if error else ""
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><title>Sign in · Lead Finder</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>{CSS}
+body {{ min-height: 100vh; display: grid; place-items: center; padding-block: 24px; }}
+.login {{ width: 100%; max-width: 380px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 28px; display: grid; gap: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }}
+.login h1 {{ font-size: 28px; }}
+.login label {{ display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }}
+.login input[type=text], .login input[type=password] {{ font: 15px var(--body); padding: 11px 12px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink); width: 100%; }}
+.login input:focus-visible {{ outline: 2px solid var(--accent); outline-offset: 1px; }}
+.login .remember {{ display: flex; gap: 8px; align-items: center; font-weight: 500; color: var(--ink); }}
+.login button {{ font: 600 15px var(--body); padding: 11px; border-radius: 8px; border: 0; background: var(--accent);
+  color: var(--accent-ink); cursor: pointer; }}
+.login-error {{ margin: 0; padding: 10px 12px; border-radius: 8px; background: color-mix(in srgb, var(--bad) 12%, transparent);
+  color: var(--bad); font-size: 14px; font-weight: 500; }}
+</style></head>
+<body><form class="login" method="post" action="/login">
+<div><span class="eyebrow">Lead Finder</span><h1>Sign in</h1></div>{err}
+<input type="hidden" name="next" value="{_e(next_url)}">
+<label>Email or username<input type="text" name="user" autocomplete="username" autofocus required></label>
+<label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+<label class="remember"><input type="checkbox" name="remember" value="1" checked> Keep me signed in for {SESSION_DAYS} days</label>
+<button type="submit">Sign in</button>
+</form></body></html>"""
 
 
 # ---------------------------------------------------------------- jobs
@@ -224,7 +299,8 @@ def page(title, body, active=""):
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>{CSS}{PANEL_CSS}</style></head>
 <body><div class="wrap">
-<header class="top"><div><span class="eyebrow">Lead Finder</span><h1>{_e(title)}</h1></div><nav class="nav">{nav}</nav></header>
+<header class="top"><div><span class="eyebrow">Lead Finder</span><h1>{_e(title)}</h1></div><nav class="nav">{nav}
+<form method="post" action="/logout" style="margin:0"><button class="btn ghost" type="submit">Sign out</button></form></nav></header>
 {body}
 </div></body></html>"""
 
@@ -355,8 +431,21 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass
 
+    def _client_ip(self):
+        # Caddy passes the visitor's address along; without a proxy, use the connection's.
+        return (self.headers.get("X-Forwarded-For") or self.client_address[0]).split(",")[0].strip()
+
+    def _cookie(self, name):
+        for part in (self.headers.get("Cookie") or "").split(";"):
+            k, _, v = part.strip().partition("=")
+            if k == name:
+                return v
+        return ""
+
     def _authorized(self):
-        header = self.headers.get("Authorization", "")
+        if check_session(self._cookie(COOKIE)):
+            return True
+        header = self.headers.get("Authorization", "")  # still accepted, for scripts
         if header.startswith("Basic "):
             try:
                 user, _, pw = base64.b64decode(header[6:]).decode("utf-8").partition(":")
@@ -364,6 +453,9 @@ class Handler(BaseHTTPRequestHandler):
                 return False
             return hmac.compare_digest(user, USER) and hmac.compare_digest(pw, PASSWORD)
         return False
+
+    def _secure(self):
+        return self.headers.get("X-Forwarded-Proto", "") == "https"
 
     def _send(self, code, body, ctype="text/html; charset=utf-8", headers=None):
         data = body.encode("utf-8") if isinstance(body, str) else body
@@ -394,18 +486,44 @@ class Handler(BaseHTTPRequestHandler):
     def _gate(self):
         if self._authorized():
             return True
-        self._send(401, "Sign in to use Lead Finder.", "text/plain; charset=utf-8",
-                   {"WWW-Authenticate": 'Basic realm="Lead Finder", charset="UTF-8"'})
+        path = urlparse(self.path).path
+        if path.startswith("/api/") or self.command == "POST":
+            self._send(401, '{"error": "signed out"}', "application/json")
+        else:
+            self._redirect("/login?next=" + quote(self.path, safe=""))
         return False
+
+    def _login(self, form):
+        ip = self._client_ip()
+        next_url = form.get("next") or "/"
+        if not next_url.startswith("/") or next_url.startswith("//"):
+            next_url = "/"
+        if too_many_attempts(ip):
+            return self._send(429, login_page("Too many attempts. Wait 15 minutes and try again.", next_url))
+        user, pw = (form.get("user") or "").strip(), form.get("password") or ""
+        if hmac.compare_digest(user, USER) and hmac.compare_digest(pw, PASSWORD):
+            _failed.pop(ip, None)
+            cookie = f"{COOKIE}={make_session(user)}; Path=/; HttpOnly; SameSite=Lax"
+            if form.get("remember"):
+                cookie += f"; Max-Age={SESSION_DAYS * 86400}"
+            if self._secure():
+                cookie += "; Secure"
+            return self._send(303, "", headers={"Location": next_url, "Set-Cookie": cookie})
+        _failed.setdefault(ip, []).append(datetime.datetime.now().timestamp())
+        return self._send(401, login_page("That email or password isn't right.", next_url))
 
     def do_HEAD(self):
         self.do_GET()
 
     def do_GET(self):
-        if not self._gate():
-            return
         url = urlparse(self.path)
         path = unquote(url.path)
+        if path == "/login":
+            if self._authorized():
+                return self._redirect("/")
+            return self._send(200, login_page(next_url=parse_qs(url.query).get("next", ["/"])[0]))
+        if not self._gate():
+            return
         if path == "/":
             return self._send(200, home_page())
         if path == "/new":
@@ -438,9 +556,14 @@ class Handler(BaseHTTPRequestHandler):
         self._send(200, target.read_bytes(), ctype)
 
     def do_POST(self):
+        path = unquote(urlparse(self.path).path)
+        if path == "/login":
+            return self._login(self._form())
+        if path == "/logout":
+            return self._send(303, "", headers={"Location": "/login",
+                                               "Set-Cookie": f"{COOKIE}=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax"})
         if not self._gate():
             return
-        path = unquote(urlparse(self.path).path)
         form = self._form()
         if path == "/new":
             types = (form.get("types") or "").strip()
