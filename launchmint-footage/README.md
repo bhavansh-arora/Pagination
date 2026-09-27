@@ -22,7 +22,7 @@ Read it slowly and smile while you talk; it comes through in your voice. Pauses 
 | 10.2–14.0 | Scrolling to the price card | **"Real results up top. A timer that gives people a reason to act now…"** |
 | 14.0–17.0 | ₹599 price card, the tap on the button | **"…one clear price. (beat) And checkout in one tap."** |
 | 17.0–20.8 | 7-day money-back guarantee | **"Plus a guarantee, so saying yes feels safe."** |
-| 20.8–24.6 | Closing line and button | **"If your site gets visitors but not sales, (beat) send me the link. I'll show you what's holding it back. Free."** |
+| 20.8–24.6 | Closing line and button | **"If your site gets visitors but not sales, (beat) send me the link. I'll build you a new version. (beat) If you like it, it's yours."** |
 
 About 20 seconds of talking over 24.6 seconds of video, which leaves room to breathe. If you speak slower, trim a line rather than rushing.
 

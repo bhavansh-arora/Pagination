@@ -7,10 +7,10 @@ import os
 import re
 from pathlib import Path
 
-from outreach import build as build_outreach
+from outreach import LINK_PLACEHOLDER, build as build_outreach, demo_link, demo_slug
 
 CSV_FIELDS = [
-    "name", "website", "grade", "score", "verdict", "best_email", "all_emails", "phone", "contact_page",
+    "name", "demo_slug", "demo_link", "website", "grade", "score", "verdict", "best_email", "all_emails", "phone", "contact_page",
     "facebook", "instagram", "linkedin", "top_problems", "first_channel", "first_to", "subject", "first_message",
     "address", "rating", "reviews", "category", "lead_type", "source", "found_because", "listed_website",
     "built_with", "marketing_tools", "domain_created", "domain_expires", "review_quote", "review_complaints", "error",
@@ -59,6 +59,9 @@ def _priority(lead):
 
 def attach_outreach(leads, me):
     for lead in leads:
+        lead["demo_slug"] = demo_slug(lead)
+        link = demo_link(lead, me)
+        lead["demo_link"] = "" if link == LINK_PLACEHOLDER else link
         if lead.get("grade") or lead.get("website") or lead.get("no_website"):
             lead["outreach"] = build_outreach(lead, me)
 
@@ -72,6 +75,8 @@ def write_csv(leads, path):
             first = (lead.get("outreach") or {}).get("first") or {}
             w.writerow({
                 "name": _name(lead),
+                "demo_slug": lead.get("demo_slug", ""),
+                "demo_link": lead.get("demo_link", ""),
                 "website": lead.get("website", ""),
                 "grade": lead.get("grade", ""),
                 "score": lead.get("score", ""),
@@ -609,6 +614,8 @@ a { color: var(--accent); }
 .lead-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .lead-msg { padding: 18px; background: var(--surface-2); display: grid; gap: 10px; align-content: start; }
 .note { font-size: 12px; color: var(--muted); }
+.note.warn { color: var(--gD); }
+.note code { font: 500 12px var(--mono); }
 .msg { display: grid; gap: 8px; }
 .msgs { display: grid; gap: 22px; }
 .msg-top { display: flex; justify-content: space-between; }

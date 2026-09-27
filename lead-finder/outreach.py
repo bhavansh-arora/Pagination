@@ -65,7 +65,7 @@ WHY_IT_MATTERS = {
 
 
 def load_details(overrides=None):
-    details = {"name": "", "studio": "", "portfolio": "", "offer": ""}
+    details = {"name": "", "studio": "", "portfolio": "", "demo_url": "", "offer": ""}
     try:
         details.update(json.loads(DETAILS_FILE.read_text(encoding="utf-8")))
     except (OSError, ValueError):
@@ -218,6 +218,27 @@ def _instagram_handle(url):
     return path.split("/")[0] if path else ""
 
 
+LINK_PLACEHOLDER = "[link to the new site]"
+
+
+def demo_slug(lead):
+    return re.sub(r"[^a-z0-9]+", "-", _business(lead).lower()).strip("-")[:50] or "your-site"
+
+
+def demo_link(lead, me):
+    """The demo site you built for this business: its own demo_url, your URL pattern, or a placeholder."""
+    if lead.get("demo_url"):
+        return lead["demo_url"]
+    pattern = me.get("demo_url") or ""
+    if "{slug}" in pattern:
+        return pattern.replace("{slug}", demo_slug(lead))
+    return LINK_PLACEHOLDER
+
+
+NO_STRINGS = ("No strings attached. If you like it, it's yours to keep, and I'll help you get it live. "
+              "If not, no hard feelings at all.")
+
+
 def _compliment(lead):
     """A short, genuine opener from their best Google review, if there's one short enough to quote."""
     quote = (lead.get("review_quote") or "").strip()
@@ -272,8 +293,9 @@ def _build_no_website(lead, me):
     pitch = f"I came across {biz} on Google while looking at {search_where}, and {found}.{rating}"
     why = (f"Most new {audience} check a business's website before they call. Without one, they often pick "
            "a competitor who has one.")
-    offer = me.get("offer") or ("I'm a web designer and I build simple, good-looking websites for local businesses. "
-                                "Would you like to see a quick mock-up of what yours could look like? It's free.")
+    link = demo_link(lead, me)
+    offer = me.get("offer") or (f"I'm a web designer, so I went ahead and built a website for {biz}. "
+                                f"You can see it here:\n{link}\n\n{NO_STRINGS}")
     email_body = "\n\n".join(x for x in [
         f"Hi {first}," if first else "Hi there,", pitch, why, offer, _signature(me),
         "P.S. If this isn't useful, just reply \"no\" and I won't follow up.",
@@ -281,17 +303,17 @@ def _build_no_website(lead, me):
     call_script = (
         f"Hi, is this the owner or manager? My name's {me.get('name') or '[your name]'}, I'm a web designer. "
         f"I'll be quick. I found {biz} on Google{' and saw your great reviews' if lead.get('reviews') else ''}, "
-        f"but {found.replace('your ', 'your ', 1)}. I'd love to put together a free mock-up of what a proper site could look like. "
-        "What's the best email to send it to?"
+        f"but {found}. So I went ahead and built a website for you. No strings attached: if you like it, it's yours "
+        "to keep. What's the best email to send the link to?"
     )
     dm_message = (f"Hi! I came across {biz} on Google{' and saw your reviews' if lead.get('reviews') else ''}. "
-                  f"I noticed {found}. I'm a web designer. Would you like a free mock-up of what "
-                  "a proper website could look like? No strings attached.")
+                  f"I noticed {found}, so I went ahead and built one for you. No strings attached: if you like it, "
+                  "it's yours to keep. Want me to send you the link?")
     from urllib.parse import quote_plus
     lookup = quote_plus(f"{biz} {city}".strip())
     options = []
     if lead.get("best_email"):
-        subject = f"Website for {biz}?"
+        subject = f"I built a website for {biz}"
         options.append({"channel": "email", "label": "Email", "to": lead["best_email"], "subject": subject,
                         "message": email_body,
                         "action_url": "https://mail.google.com/mail/?view=cm&fs=1&to=" + quote(lead["best_email"])
@@ -338,16 +360,17 @@ def build(lead, me):
         where = niches or "local businesses"
     observation = _observation(lead)
     why = _why(lead)
+    link = demo_link(lead, me)
     if lead.get("site_down"):
-        offer = ("I'm a web designer and I can help get it back online, or build you a fresh one if it's time. "
-                 "Want me to take a quick look at what's wrong? No charge for that.")
+        offer = me.get("offer") or (
+            "I'm a web designer, so I went ahead and built a fresh version of your website that you could switch to. "
+            f"You can see it here:\n{link}\n\n{NO_STRINGS}")
     else:
         offer = me.get("offer") or (
-            "I'm a web designer, and I recorded a quick 2-minute video showing what I'd change and why. "
-            "Want me to send it over? It's free, no strings attached."
-        )
+            "I'm a web designer, so I went ahead and built a new version of your website that fixes this. "
+            f"You can see it here:\n{link}\n\n{NO_STRINGS}")
 
-    email_subject = f"Quick question about {_possessive(biz)} website"
+    email_subject = f"I built a new website for {biz}"
     compliment = _compliment(lead)
     extras = _extras(lead)
     email_body = "\n\n".join(x for x in [
@@ -373,13 +396,17 @@ def build(lead, me):
 
     top_issue = (lead.get("issues") or [{}])[0].get("pitch", "a couple of things on your site")
     noticed = f"I noticed on your website that {top_issue}."
-    dm_ask = "Mind if I send you a quick 2-minute video with a few fixes? Free, no sales pitch."
-    call_ask = "I recorded a short video showing how I'd fix it. What's the best email to send it to?"
+    dm_ask = ("I went ahead and built you a new version of your website. No strings attached: if you like it, "
+              "it's yours to keep. Want me to send you the link?")
+    call_ask = ("So I went ahead and built a new version of your website for you. No strings attached: if you like it, "
+                "it's yours to keep. What's the best email to send the link to?")
     if lead.get("site_down"):
         top_issue = "it isn't loading. I got an error when I tried to open it"
         noticed = "I tried to visit your website but it isn't loading right now."
-        dm_ask = "I can help get it back up. Want me to take a quick look at what's wrong? No charge."
-        call_ask = "I can help get it back up. Would you like me to take a quick look? There's no charge for that."
+        dm_ask = ("I went ahead and built you a fresh version you could switch to. No strings attached: if you like "
+                  "it, it's yours to keep. Want me to send you the link?")
+        call_ask = ("So I went ahead and built a fresh version you could switch to. No strings attached: if you like "
+                    "it, it's yours to keep. What's the best email to send the link to?")
     dm_message = f"Hi! I came across {biz} and love what you do. {noticed} I'm a web designer. {dm_ask}"
     call_script = (
         f"Hi, is this the owner or manager? My name's {me.get('name') or '[your name]'}, I'm a web designer. "

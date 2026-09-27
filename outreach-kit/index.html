@@ -228,6 +228,8 @@
           <label>Type of business<input id="niche" value="dentist"></label>
           <label>City<input id="city" value="Austin"></label>
           <label class="full">Their website<input id="site" value="brightsmiledental.com"></label>
+          <label class="full">Link to the site you built for them<input id="demo" value="bhavansh.com/demo/bright-smile-dental">
+            <span class="hint">Build their new site first, then paste its link here.</span></label>
         </div>
       </div>
 
@@ -327,8 +329,8 @@
       <table>
         <thead><tr><th>Offer</th><th>What you send</th><th>Why it works</th></tr></thead>
         <tbody>
-          <tr><td>2-minute video audit</td><td>A screen recording (Loom or similar) of you scrolling their site on a phone and pointing out three fixes.</td><td>Shows you looked at their business in particular. Easy for them to watch and forward to a partner.</td></tr>
-          <tr><td>Homepage mockup</td><td>One image of what their homepage could look like, using their logo and photos.</td><td>They can see the result before spending anything. Save it for the prospects who fit best, because it takes an hour or two.</td></tr>
+          <tr><td>A new site, already built</td><td>A new version of their homepage using their name, logo, photos and reviews, at a link you send them. Free to keep if they like it.</td><td>The strongest offer there is: they see the finished result before spending anything. Save it for your best prospects, since each one takes a few hours.</td></tr>
+          <tr><td>Quicker: homepage mockup</td><td>One image of what their new homepage could look like, using their logo and photos.</td><td>Takes an hour instead of a few. Use it for good prospects you can't build a full site for yet.</td></tr>
           <tr><td>Speed and SEO report</td><td>Screenshots of their PageSpeed Insights score and a search where a competitor ranks above them.</td><td>Uses numbers from Google, which owners trust more than your opinion.</td></tr>
           <tr><td>Fixed-price starter site</td><td>A clear package, for example a 5-page site built in two weeks with one price and one round of changes.</td><td>Removes the fear of an open-ended bill. Offer it after they reply, not in the first email.</td></tr>
         </tbody>
@@ -344,7 +346,7 @@
     </div>
     <div class="rhythm">
       <div><b>Monday</b><span>Find 25 prospects and note one problem for each.</span></div>
-      <div><b>Tuesday</b><span>Send 10 first emails. Record a video for anyone who replies.</span></div>
+      <div><b>Tuesday</b><span>Build new sites for your 3 best prospects, then send 10 first emails.</span></div>
       <div><b>Wednesday</b><span>Send 10 more first emails. Send the day-3 follow-ups.</span></div>
       <div><b>Thursday</b><span>DM or call the prospects who didn't open your emails.</span></div>
       <div><b>Friday</b><span>Send day-7 and day-14 emails. Post one before-and-after on your socials.</span></div>
@@ -402,10 +404,10 @@
   };
 
   const $ = (id) => document.getElementById(id);
-  const FIELD_IDS = ["first", "biz", "niche", "city", "site", "me", "agency", "portfolio", "proof"];
+  const FIELD_IDS = ["first", "biz", "niche", "city", "site", "demo", "me", "agency", "portfolio", "proof"];
   const SAVED_IDS = ["me", "agency", "portfolio", "proof"];
   const PLACEHOLDERS = {
-    first: "first name", biz: "business", niche: "business type", city: "city", site: "their site",
+    first: "first name", biz: "business", niche: "business type", city: "city", site: "their site", demo: "link to the site you built",
     me: "your name", agency: "studio name", portfolio: "portfolio link", proof: "your real result"
   };
   let problem = "mobile";
@@ -452,26 +454,26 @@
   const EMAILS = [
     {
       day: "0", when: "Send", title: "First email",
-      subject: "Quick note about {biz}'s website",
-      body: "Hi {first},\n\nI was searching for a {niche} in {city} and came across {biz}. {problemLine}\n\nI build websites for local businesses, and I recorded a 2-minute video showing what I'd change and why. Want me to send it over?\n\nIt's free, and there's no obligation either way.\n\n" + sig,
-      why: "Leads with something you actually noticed, and asks for a small yes (can I send a video?) instead of a meeting."
+      subject: "I built a new website for {biz}",
+      body: "Hi {first},\n\nI was searching for a {niche} in {city} and came across {biz}. {problemLine}\n\nI'm a web designer, so I went ahead and built a new version of your website that fixes this. You can see it here:\n{demo}\n\nNo strings attached. If you like it, it's yours to keep, and I'll help you get it live. If not, no hard feelings at all.\n\n" + sig,
+      why: "Leads with something you actually noticed, then shows them the finished result instead of asking for a meeting. Almost everyone clicks a site built for them."
     },
     {
       day: "3", when: "Days later", title: "Gentle bump",
-      subject: "Re: Quick note about {biz}'s website",
-      body: "Hi {first},\n\nJust bumping this in case it got buried. The video is ready whenever you'd like it. It covers {problemShort}, plus two small fixes you could make yourself this week.\n\n" + sig,
+      subject: "Re: I built a new website for {biz}",
+      body: "Hi {first},\n\nJust bumping this in case it got buried. The new site is still up for you to look at:\n{demo}\n\nIt fixes {problemShort}, and it works properly on phones. Happy to change anything you'd like.\n\n" + sig,
       why: "Send it as a reply in the same thread so they see the first email underneath."
     },
     {
       day: "7", when: "Days later", title: "Proof",
-      subject: "Re: Quick note about {biz}'s website",
-      body: "Hi {first},\n\nOne more thought. {proof}\n\nI think {biz} could see something similar, starting with {problemShort}. You can see more of my work at {portfolio}.\n\nHappy to send the video or a quick quote if it's useful.\n\n" + sig,
+      subject: "Re: I built a new website for {biz}",
+      body: "Hi {first},\n\nOne more thought. {proof}\n\nI think {biz} could see something similar. Your new site is here whenever you want another look:\n{demo}\n\nYou can see more of my work at {portfolio}.\n\n" + sig,
       why: "A real result from a similar business is the most convincing thing you can send. Never invent one."
     },
     {
       day: "14", when: "Days later", title: "Last email",
       subject: "Should I close your file?",
-      body: "Hi {first},\n\nI haven't heard back, so I'll assume the timing isn't right and stop emailing. If you ever want the video or a quote, just reply to this email and I'll send it the same day.\n\nAll the best with {biz}.\n\n" + sig,
+      body: "Hi {first},\n\nI haven't heard back, so I'll assume the timing isn't right and stop emailing. I'll keep your new site up for a couple more weeks in case you change your mind:\n{demo}\n\nJust reply to this email if you'd like it.\n\nAll the best with {biz}.\n\n" + sig,
       why: "Last emails often get the most replies. People answer when they know you'll stop."
     }
   ];
@@ -479,12 +481,12 @@
   const DMS = [
     {
       day: "0", when: "Send", title: "First message",
-      body: "Hi {first}! I came across {biz} while looking for a {niche} in {city}. I noticed something about {problemShort} on your website that might be costing you bookings. I make websites for local businesses. Would it be OK if I sent you a quick 2-minute video with a few fixes? Free, no sales pitch.",
-      why: "Follow them and like a couple of recent posts a day before you message."
+      body: "Hi {first}! I came across {biz} while looking for a {niche} in {city}. I noticed something about {problemShort} on your website that might be costing you bookings. I'm a web designer, so I went ahead and built you a new version of your website. No strings attached: if you like it, it's yours to keep. Want me to send you the link?",
+      why: "Ask before sending the link. First DMs with links are often filtered as spam. Follow them and like a recent post a day before."
     },
     {
       day: "4", when: "Days later", title: "Follow-up",
-      body: "Hi {first}, just checking you saw my message. Happy to send the video over here if that's easier. No worries if not!",
+      body: "Hi {first}, just checking you saw my message. Here's the site I built for you, if you'd like a look: {demo} No worries if not!",
       why: "Keep it short. One follow-up on DMs is enough."
     }
   ];
@@ -492,12 +494,12 @@
   const LI = [
     {
       day: "0", when: "Send", title: "Connection note", limit: 300,
-      body: "Hi {first}, I work with {niche}s in {city} on their websites and noticed {biz}'s site could use a fix with {problemShort}. Happy to send a free 2-minute video walkthrough if it's helpful. Either way, glad to connect!",
+      body: "Hi {first}, I work with {niche}s in {city} on their websites and noticed {biz}'s site could use a fix with {problemShort}. I built you a new version, free to keep if you like it. Glad to connect either way!",
       why: "LinkedIn connection notes are capped at 300 characters."
     },
     {
       day: "2", when: "After they accept", title: "Message",
-      body: "Thanks for connecting, {first}. {problemLine}\n\nI recorded a short video showing how I'd fix it. Want me to send the link?\n\n{me}\n{portfolio}",
+      body: "Thanks for connecting, {first}. {problemLine}\n\nSo I went ahead and built a new version of your website. You can see it here:\n{demo}\n\nNo strings attached. If you like it, it's yours to keep.\n\n{me}\n{portfolio}",
       why: "Send this only after they accept the connection."
     }
   ];
@@ -505,13 +507,13 @@
   const CALL = [
     {
       day: "—", when: "Phone", title: "Call script",
-      body: "Hi, is this {first}? This is {me} from {agency}. I'll be quick. I'm a local web designer, and I was looking at {site} earlier. {problemLine}\n\nI recorded a short video showing how I'd fix it. What's the best email to send it to?\n\n[If they're busy]  No problem at all. Can I just email it to you and you can watch it when you have a minute?\n[If \"we're happy with our site\"]  That's fair. Would you still like the video? It's free, and you might find one or two quick fixes useful.",
+      body: "Hi, is this {first}? This is {me} from {agency}. I'll be quick. I'm a local web designer, and I was looking at {site} earlier. {problemLine}\n\nSo I went ahead and built a new version of your website for you. No strings attached: if you like it, it's yours to keep. What's the best email to send the link to?\n\n[If they're busy]  No problem at all. Can I just email you the link, and you can look when you have a minute?\n[If \"we're happy with our site\"]  That's fair. Would you still like the link? It costs nothing to look.",
       why: "The goal of the call is an email address, not a sale. Call mid-morning or mid-afternoon, not at opening time."
     },
     {
       day: "—", when: "In person", title: "Walk-in",
-      body: "Hi, I'm {me}. I build websites for businesses around {city}. I won't take up your time. I noticed something about {problemShort} on your site, and I wrote up a few fixes on this card. My number and a link to a short video are on the back. Could you pass it to {first}?",
-      why: "Bring a printed card with a QR code to your video audit. Go when it's quiet, never at the lunch rush."
+      body: "Hi, I'm {me}. I build websites for businesses around {city}. I won't take up your time. I noticed something about {problemShort} on your site, so I built you a new version. The link and my number are on this card, free to keep if you like it. Could you pass it to {first}?",
+      why: "Bring a printed card with a QR code to the site you built. Go when it's quiet, never at the lunch rush."
     }
   ];
 

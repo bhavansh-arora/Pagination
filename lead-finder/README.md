@@ -33,7 +33,7 @@ Reviews come from Google's Places API, which returns up to 5 reviews per busines
 It also flags two kinds of lead that are the easiest to close:
 
 - **Website down.** A business listed on Google whose website doesn't load or no longer exists. The message tells them, and offers to help.
-- **No website.** A business on Google with good reviews but no website. You get a call script and a message offering a free mock-up.
+- **No website.** A business on Google with good reviews but no website. You get a call script and a message telling them you've built them a website.
 
 Leads are sorted with these first, then the worst websites. Busy businesses (lots of Google reviews) move up, because they can afford a new site.
 
@@ -189,6 +189,14 @@ Results are saved in `results/<search>-<date>/`. Open `report.html` in your brow
 - `audits/` and `screenshots/`: the audit pages and images.
 
 Add `--show-all` to also list sites that already look good.
+
+**The offer in every message:** you've already built them a new website. They can see it at a link, with no strings attached, and if they like it, it's theirs to keep. So build the site before you send the message:
+
+- If you host your demos at a predictable address, add it once with `--demo-url "https://bhavansh.com/demo/{slug}"` and every message gets its own link, like `bhavansh.com/demo/bright-smile-dental`. The `demo_slug` column in the spreadsheet gives you each business's ending.
+- Otherwise, messages say `[link to the new site]` and the lead list reminds you to paste the link in.
+- If your lead file has a `demo_url` column, that link is used for that business.
+
+DMs and phone calls ask "Want me to send you the link?" instead of including it, because first DMs with links often get filtered as spam.
 
 **About the greeting:** when the email is something like `maria@` or `joe.miller@`, the message starts "Hi Maria," or "Hi Joe,". Otherwise it says "Hi there,". The page tells you when a name was guessed, so check it before sending.
 

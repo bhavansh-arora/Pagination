@@ -68,7 +68,10 @@ def _load_sites(args):
             name_col = next((c for c in rows[0].keys() if c and c.strip().lower() in ("name", "business", "company")), None)
             for r in rows:
                 if r.get(col, "").strip():
-                    leads.append({**{k.lower(): v for k, v in r.items() if k},
+                    extra = {k.strip().lower().replace(" ", "_"): v for k, v in r.items() if k}
+                    if extra.get("demo") and not extra.get("demo_url"):
+                        extra["demo_url"] = extra["demo"]
+                    leads.append({**extra,
                                   "name": r.get(name_col, "") if name_col else "", "website": r[col].strip()})
         else:
             leads += [{"name": "", "website": line.strip()} for line in text.splitlines() if line.strip()]
@@ -240,7 +243,7 @@ def step_audit(leads, out_dir, rater):
 def _finish(leads, out_dir, title, args):
     from outreach import load_details
     from report import attach_outreach, write_csv, write_html
-    me = load_details({k: getattr(args, k, None) for k in ("name", "studio", "portfolio")})
+    me = load_details({k: getattr(args, k, None) for k in ("name", "studio", "portfolio", "demo_url")})
     if not me.get("name"):
         _say('\nTip: add --name "Your Name" --portfolio yoursite.com so messages are signed properly. '
              "It's remembered for next time.")
@@ -293,6 +296,8 @@ def main():
         me.add_argument("--name", help='your name, e.g. "Bhavansh"')
         me.add_argument("--studio", help='your business name, e.g. "Bhavansh Studio"')
         me.add_argument("--portfolio", help="your website, e.g. bhavansh.com")
+        me.add_argument("--demo-url", help="where you host the sites you build for leads, with {slug} for the "
+                                           'business, e.g. "https://bhavansh.com/demo/{slug}"')
     for p in (p_run, p_audit):
         p.add_argument("--show-all", action="store_true", help="also list sites that already look good (A, B)")
 
