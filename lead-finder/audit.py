@@ -184,7 +184,7 @@ MEASURE_JS = r"""
 
 DOWN_SIGNS = (
     "ERR_NAME_NOT_RESOLVED", "ERR_CONNECTION_REFUSED", "ERR_CONNECTION_TIMED_OUT", "ERR_CONNECTION_RESET",
-    "ERR_ADDRESS_UNREACHABLE", "ERR_TIMED_OUT", "Timeout", "error page (5",
+    "ERR_ADDRESS_UNREACHABLE", "error page (5",
 )
 
 
@@ -231,17 +231,25 @@ def _launch(p):
     proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
     if proxy:
         kwargs["proxy"] = {"server": proxy, "bypass": "localhost,127.0.0.1"}
+    # Servers often have a tiny shared-memory area; without this flag Chromium can freeze on heavy pages.
+    kwargs["args"] = ["--disable-dev-shm-usage", "--disable-gpu"]
     return p.chromium.launch(**kwargs)
 
 
 def _open(browser, url, **context_kwargs):
     ctx = browser.new_context(ignore_https_errors=True, **context_kwargs)
     page = ctx.new_page()
+    page.set_default_timeout(25000)
     start = time.time()
-    resp = page.goto(url, wait_until="load", timeout=45000)
+    # Wait for the page itself, not for every tracker and chat widget: busy sites may never finish those.
+    resp = page.goto(url, wait_until="domcontentloaded", timeout=40000)
+    try:
+        page.wait_for_load_state("load", timeout=15000)
+    except PlaywrightTimeout:
+        pass
     load_seconds = time.time() - start
     try:
-        page.wait_for_load_state("networkidle", timeout=6000)
+        page.wait_for_load_state("networkidle", timeout=4000)
     except PlaywrightTimeout:
         pass
     page.wait_for_timeout(800)
@@ -457,3 +465,25 @@ class Auditor:
         self._browser.close()
         self._p.stop()
 
+
+
+def _worker():
+    """Check one site and print the result as JSON. Run in its own process, so a site that freezes
+    the browser can be stopped without stopping the whole search."""
+    import json
+    import sys
+    job = json.loads(sys.stdin.read())
+    rater = None
+    if job.get("ai"):
+        from ai_rating import DesignRater
+        rater = DesignRater()
+    try:
+        with Auditor(job["shots_dir"], ai=rater) as auditor:
+            result = auditor.audit(job["url"])
+    except Exception as e:  # noqa: BLE001
+        result = {"error": f"couldn't check site ({e.__class__.__name__})"}
+    print("@@RESULT@@" + json.dumps(result, default=str), flush=True)
+
+
+if __name__ == "__main__" and "--worker" in __import__("sys").argv:
+    _worker()

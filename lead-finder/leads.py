@@ -215,31 +215,58 @@ def step_emails(leads):
     return leads
 
 
+AUDIT_TIME_LIMIT = int(os.environ.get("AUDIT_TIME_LIMIT", "150"))  # seconds per website, including screenshots
+
+
+def _audit_one(url, shots_dir, ai):
+    """Check one website in a separate process with a hard time limit."""
+    import json
+    import signal
+    import subprocess
+    # Its own process group, so a stuck check can be stopped together with the browser it started.
+    proc = subprocess.Popen([sys.executable, str(Path(__file__).with_name("audit.py")), "--worker"],
+                            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                            start_new_session=True)
+    try:
+        out, err = proc.communicate(json.dumps({"url": url, "shots_dir": str(shots_dir), "ai": bool(ai)}),
+                                    timeout=AUDIT_TIME_LIMIT)
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except OSError:
+            proc.kill()
+        proc.communicate()
+        return {"error": f"took too long to load (skipped after {AUDIT_TIME_LIMIT} seconds)"}
+    for line in reversed(out.splitlines()):
+        if line.startswith("@@RESULT@@"):
+            return json.loads(line[len("@@RESULT@@"):])
+    last = (err.strip().splitlines() or ["no details"])[-1][:120]
+    return {"error": f"couldn't check site ({last})"}
+
+
 def step_audit(leads, out_dir, rater):
-    from audit import Auditor
+    from audit import looks_down, mark_down
     targets = [l for l in leads if l.get("website")]
     _say(f"Checking how {len(targets)} websites look on a phone and a laptop" + (" (with Claude's rating)" if rater else "") + "...")
-    from audit import looks_down, mark_down
-    with Auditor(out_dir / "screenshots", ai=rater) as auditor:
-        for n, lead in enumerate(targets, 1):
-            try:
-                r = auditor.audit(lead["website"])
-                if r.get("error") and looks_down(r["error"]):
-                    r = auditor.audit(lead["website"])  # try once more before calling it down
-            except Exception as e:  # noqa: BLE001 - one bad site never stops the search
-                r = {"error": f"couldn't check site ({e.__class__.__name__})"}
-            if r.get("error"):
-                if looks_down(r["error"]):
-                    mark_down(lead, r["error"])
-                    _say(f"  [{n}/{len(targets)}] {lead['website'][:60]}  ->  WEBSITE DOWN ({r['error'][:60]})")
-                else:
-                    _say(f"  [{n}/{len(targets)}] {lead['website'][:60]}  ->  {r['error']}")
-                    lead["error"] = r["error"]
-                continue
-            website = lead["website"]
-            lead.update(r)
-            lead["website"] = website
-            _say(f"  [{n}/{len(targets)}] {website[:60]}  ->  {r['grade']} ({r['score']}/100)")
+    for n, lead in enumerate(targets, 1):
+        r = _audit_one(lead["website"], out_dir / "screenshots", rater)
+        # Only call a site down when the email step couldn't reach it either. A slow or bot-shy
+        # site that the browser gave up on is not "down", and telling the owner so would be wrong.
+        unreachable_before = (lead.get("email_error") or "").startswith("couldn't open site")
+        if r.get("error") and looks_down(r["error"]) and unreachable_before:
+            r = _audit_one(lead["website"], out_dir / "screenshots", rater)  # try once more first
+        if r.get("error"):
+            if looks_down(r["error"]) and unreachable_before:
+                mark_down(lead, r["error"])
+                _say(f"  [{n}/{len(targets)}] {lead['website'][:60]}  ->  WEBSITE DOWN ({r['error'][:60]})")
+            else:
+                _say(f"  [{n}/{len(targets)}] {lead['website'][:60]}  ->  skipped: {r['error'][:90]}")
+                lead["error"] = r["error"]
+            continue
+        website = lead["website"]
+        lead.update(r)
+        lead["website"] = website
+        _say(f"  [{n}/{len(targets)}] {website[:60]}  ->  {r['grade']} ({r['score']}/100)")
     return leads
 
 
