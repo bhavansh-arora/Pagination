@@ -92,6 +92,33 @@ Pick sources yourself with `--sources google,web`. For a big city, use `--grid 3
    - Is it slow, or does the browser warn "Not secure"?
 4. **Optional: a designer's opinion from Claude.** Add `--ai` and Claude looks at the screenshots. It rates the design out of 10 for overall look, modern feel, phone experience, trust and clarity. It lists the biggest problems in plain words and writes an opening line for your cold email.
 
+## Control panel (run everything from the browser)
+
+`panel.py` is a small password-protected web app for your server. From the browser you can:
+
+- **New search:** business types, city, how many leads, which sources. It runs in the background and you can watch its progress live.
+- **Searches:** every search with its counts (no website, site down, bad site, emails, demos, contacted). From each one you can open the lead list, download the spreadsheet, build demo websites or delete it.
+- **Contact status** (Sent, Follow up, Replied…) is saved on the server, so your phone and laptop show the same thing.
+- **Settings:** your name, studio, portfolio and demo link pattern, and which API keys are set.
+
+Start it with:
+
+```
+PANEL_PASSWORD=choose-one python panel.py      # http://127.0.0.1:3200
+```
+
+Settings go in the environment or in the `.env` file:
+
+| Setting | What it does |
+|---|---|
+| `PANEL_USER` / `PANEL_PASSWORD` | The panel login (the password is required) |
+| `PORT` | Port to listen on (default 3200) |
+| `HOST` | Address to listen on (default `127.0.0.1`; use `0.0.0.0` if your web server runs in Docker) |
+| `LEADS_DIR` | Where searches are saved (default `results/`) |
+| `DEMO_SITE_DIR`, `DEMO_BASE_URL` | Where demo websites are written and their public address. Setting both turns on the **Build demos** button. |
+
+Put it behind your web server (Caddy or nginx) with HTTPS, because the login is sent with every request.
+
 ## One-time setup
 
 You need Python 3.10 or newer ([python.org/downloads](https://www.python.org/downloads/)). Then open a terminal in this `lead-finder` folder and run:

@@ -242,25 +242,66 @@ def step_audit(leads, out_dir, rater):
 
 def _finish(leads, out_dir, title, args):
     from outreach import load_details
-    from report import attach_outreach, write_csv, write_html
     me = load_details({k: getattr(args, k, None) for k in ("name", "studio", "portfolio", "demo_url")})
     if not me.get("name"):
         _say('\nTip: add --name "Your Name" --portfolio yoursite.com so messages are signed properly. '
              "It's remembered for next time.")
+    save_search(out_dir, leads, title, show_all=getattr(args, "show_all", False))
+    write_outputs(leads, out_dir, title, me, show_all=getattr(args, "show_all", False))
+
+
+def save_search(out_dir, leads, title, show_all=False):
+    """Keep every lead's full data, so the report can be rebuilt later (after building demos, for example)."""
+    import json
+    data = {"title": title, "show_all": show_all, "created": datetime.datetime.now().isoformat(timespec="seconds"),
+            "leads": [{k: v for k, v in l.items() if k != "outreach"} for l in leads]}
+    old = Path(out_dir) / "leads.json"
+    if old.exists():
+        try:
+            data["created"] = json.loads(old.read_text(encoding="utf-8")).get("created", data["created"])
+        except ValueError:
+            pass
+    (Path(out_dir) / "leads.json").write_text(json.dumps(data, indent=1, default=str), encoding="utf-8")
+
+
+def load_search(out_dir):
+    import json
+    path = Path(out_dir) / "leads.json"
+    if not path.exists():
+        sys.exit(f"{out_dir} has no leads.json. Run the search again with this version of Lead Finder.")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def write_outputs(leads, out_dir, title, me, show_all=False):
+    from report import attach_outreach, write_csv, write_html
     attach_outreach(leads, me)
     csv_path = out_dir / "leads.csv"
     html_path = out_dir / "report.html"
     write_csv(leads, csv_path)
     if any(l.get("grade") or l.get("error") or l.get("no_website") for l in leads):
-        write_html(leads, html_path, title, show_all=getattr(args, "show_all", False))
+        write_html(leads, html_path, title, show_all=show_all)
         _say(f"\nDone. Open this in your browser:\n  {html_path.resolve()}")
     _say(f"Spreadsheet: {csv_path.resolve()}")
 
 
 def run_demos(args):
-    """Build demo sites for the leads in a CSV and write a copy of the CSV with each demo link."""
+    """Build demo sites for the leads in a search folder or a CSV."""
     from demos import build_demos
     from outreach import load_details
+    if args.search:
+        data = load_search(args.search)
+        leads = data["leads"]
+        me = load_details({"name": args.name, "studio": args.studio})
+        _say(f"Building demo websites in {args.site_dir}/ ...")
+        targets = [l for l in leads if l.get("no_website") or l.get("grade") in ("C", "D", "F")]
+        built, skipped = build_demos(targets, me, args.site_dir, base_url=args.base_url,
+                                     template_key=args.template, progress=_say)
+        _say(f"\nBuilt {built} demo site(s)." + (f" {skipped} skipped: no template fits their business type."
+                                                if skipped else ""))
+        save_search(args.search, leads, data["title"], data.get("show_all", False))
+        write_outputs(leads, Path(args.search), data["title"], me, data.get("show_all", False))
+        _say("Report updated with each business's demo link.")
+        return
     path = Path(args.file)
     if not path.exists():
         sys.exit(f"Can't find the file {path}")
@@ -346,14 +387,18 @@ def main():
         p.add_argument("--show-all", action="store_true", help="also list sites that already look good (A, B)")
 
     p_demos = sub.add_parser("demos", help="build a personalised demo website for each lead from your templates")
-    p_demos.add_argument("--file", required=True,
-                         help="a .csv of leads: name, phone, email, address, city, type (a Lead Finder leads.csv works)")
+    src = p_demos.add_mutually_exclusive_group(required=True)
+    src.add_argument("--search", help="a Lead Finder results folder: builds its demos and updates its report")
+    src.add_argument("--file", help="a .csv of leads: name, phone, email, address, city, type")
     p_demos.add_argument("--site-dir", default="demo-site", help="folder to write the demo websites into")
     p_demos.add_argument("--base-url", default="", help='where the folder is served, e.g. "https://demo.codebunny.net"')
     p_demos.add_argument("--template", choices=["dentist", "doctor", "salon", "interior", "furniture"],
                          help="use this template for every lead instead of picking by business type")
     p_demos.add_argument("--name", help="your name")
     p_demos.add_argument("--studio", help="your business name, shown on the preview label")
+
+    p_rebuild = sub.add_parser("rebuild", help="rewrite a search's report with your current details")
+    p_rebuild.add_argument("search", help="the results folder")
 
     sub.add_parser("types", help="list business types you can search for")
     args = parser.parse_args()
@@ -369,6 +414,11 @@ def main():
 
     if args.cmd == "demos":
         return run_demos(args)
+    if args.cmd == "rebuild":
+        from outreach import load_details
+        data = load_search(args.search)
+        write_outputs(data["leads"], Path(args.search), data["title"], load_details(), data.get("show_all", False))
+        return
 
     try:
         if args.cmd == "find":

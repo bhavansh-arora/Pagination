@@ -177,21 +177,38 @@ document.addEventListener('click', (ev) => {
     if (o) { const body = document.querySelector(o.dataset.body); if (body && navigator.clipboard) navigator.clipboard.writeText(body.value).catch(() => {}); }
   }
 });
-// Contact status, remembered in this browser.
+// Contact status. Opened through the control panel (/r/<search>/...), it's saved on the server so
+// every device sees the same thing; opened as a plain file, it's remembered in this browser.
 const STORE = 'leadfinder-status';
+const SEARCH = (location.pathname.match(/^\/r\/([^/]+)\//) || [])[1];
 let status = {};
 try { status = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch (e) {}
+function showStatus() {
+  document.querySelectorAll('select.status').forEach((s) => {
+    if (status[s.dataset.site]) s.value = status[s.dataset.site];
+    const card = s.closest('[data-status]'); if (card) card.dataset.status = s.value;
+  });
+  if (window.applyFilter) window.applyFilter();
+}
 document.querySelectorAll('select.status').forEach((s) => {
-  const k = s.dataset.site;
-  if (status[k]) s.value = status[k];
-  s.closest('[data-status]') && (s.closest('[data-status]').dataset.status = s.value);
   s.addEventListener('change', () => {
+    const k = s.dataset.site;
     status[k] = s.value;
     const card = s.closest('[data-status]'); if (card) card.dataset.status = s.value;
     try { localStorage.setItem(STORE, JSON.stringify(status)); } catch (e) {}
+    if (SEARCH) {
+      fetch('/api/status', {method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({search: decodeURIComponent(SEARCH), site: k, status: s.value})}).catch(() => {});
+    }
     if (window.applyFilter) window.applyFilter();
   });
 });
+showStatus();
+if (SEARCH) {
+  fetch('/api/status?search=' + SEARCH).then((r) => r.ok ? r.json() : {}).then((saved) => {
+    Object.assign(status, saved); showStatus();
+  }).catch(() => {});
+}
 </script>
 """
 
