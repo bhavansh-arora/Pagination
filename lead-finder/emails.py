@@ -15,7 +15,15 @@ from urllib.parse import urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-USER_AGENT = "Mozilla/5.0 (compatible; LeadFinder/1.0; small-business website research)"
+# Sent with each request. Many small-business sites (and their security services) turn away anything that
+# doesn't look like a normal browser, so we look like one. robots.txt is still checked for "LeadFinder".
+BROWSER_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/128.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+USER_AGENT = "LeadFinder"
 TIMEOUT = 15
 MAX_EXTRA_PAGES = 5
 
@@ -52,7 +60,7 @@ SOCIAL_HOSTS = {
 
 def _session():
     s = requests.Session()
-    s.headers.update({"User-Agent": USER_AGENT, "Accept-Language": "en"})
+    s.headers.update(BROWSER_HEADERS)
     return s
 
 
@@ -118,9 +126,16 @@ def _emails_from_html(page_html):
     return found, soup
 
 
+def _host(url):
+    """Host of a link, or '' when the link is broken (pages sometimes contain junk like '[widget-id=...]')."""
+    try:
+        return urlparse(url).netloc.lower().removeprefix("www.")
+    except ValueError:
+        return ""
+
+
 def _same_site(url, base_host):
-    host = urlparse(url).netloc.lower().removeprefix("www.")
-    return host == base_host
+    return _host(url) == base_host
 
 
 def _robots(session, base_url):
@@ -128,7 +143,7 @@ def _robots(session, base_url):
     try:
         r = session.get(urljoin(base_url, "/robots.txt"), timeout=TIMEOUT)
         rp.parse(r.text.splitlines() if r.status_code == 200 else [])
-    except requests.RequestException:
+    except Exception:  # noqa: BLE001 - a broken robots.txt just means "no rules"
         rp.parse([])
     return rp
 
@@ -146,12 +161,16 @@ def scrape_site(url):
     try:
         home = session.get(url, timeout=TIMEOUT, allow_redirects=True)
         home.raise_for_status()
-    except requests.RequestException as e:
+    except requests.HTTPError as e:
+        code = e.response.status_code if e.response is not None else ""
+        result["error"] = f"site refused the request ({code})" if code in (401, 403, 429, 503) else f"site error ({code})"
+        return result
+    except Exception as e:  # noqa: BLE001 - any failure on one site must not stop the search
         result["error"] = f"couldn't open site ({e.__class__.__name__})"
         return result
 
     final_url = home.url
-    base_host = urlparse(final_url).netloc.lower().removeprefix("www.")
+    base_host = _host(final_url)
     rp = _robots(session, final_url)
 
     emails, soup = _emails_from_html(home.text)
@@ -160,22 +179,25 @@ def scrape_site(url):
 
     candidates = []
     for a in soup.find_all("a", href=True):
-        href = urljoin(final_url, a["href"]).split("#")[0]
+        try:
+            href = urljoin(final_url, a["href"]).split("#")[0]
+        except ValueError:
+            continue
         label = (a.get_text(" ", strip=True) or "") + " " + href
         if _same_site(href, base_host) and CONTACT_WORDS.search(label) and href != final_url:
             if href not in candidates:
                 candidates.append(href)
 
     for link in candidates[:MAX_EXTRA_PAGES]:
-        if not rp.can_fetch(USER_AGENT, link):
-            continue
         try:
+            if not rp.can_fetch(USER_AGENT, link):
+                continue
             r = session.get(link, timeout=TIMEOUT)
             if r.ok and "html" in r.headers.get("content-type", "html"):
                 more, s = _emails_from_html(r.text)
                 emails |= more
                 pages.append((r.url, s))
-        except requests.RequestException:
+        except Exception:  # noqa: BLE001 - skip a page that won't load or parse
             continue
 
     for page_url, s in pages:
@@ -183,7 +205,9 @@ def scrape_site(url):
             href = a["href"].strip()
             if href.lower().startswith("tel:"):
                 phones.add(re.sub(r"[^\d+]", "", href[4:]))
-            host = urlparse(href).netloc.lower().removeprefix("www.")
+            host = _host(href)
+            if not host:
+                continue
             for social_host, name in SOCIAL_HOSTS.items():
                 if host == social_host or host.endswith("." + social_host):
                     path = urlparse(href).path.strip("/")
@@ -218,7 +242,12 @@ def scrape_many(urls, workers=8, progress=None):
         futures = {pool.submit(scrape_site, u): i for i, u in enumerate(urls)}
         for n, fut in enumerate(futures, 1):
             i = futures[fut]
-            results[i] = fut.result()
+            try:
+                results[i] = fut.result()
+            except Exception as e:  # noqa: BLE001 - one bad site never stops the search
+                results[i] = {"website": urls[i], "emails": [], "best_email": "", "phones": [], "socials": {},
+                              "contact_form": False, "contact_page": "", "pages_checked": 0,
+                              "error": f"couldn't read site ({e.__class__.__name__})"}
             if progress:
                 progress(n, len(urls), results[i])
     return results

@@ -216,7 +216,7 @@ def _certificate_broken(url):
         return False
     except requests.exceptions.SSLError:
         return True
-    except requests.RequestException:
+    except Exception:  # noqa: BLE001 - anything else just means "can't tell"
         return False
 
 

@@ -222,9 +222,12 @@ def step_audit(leads, out_dir, rater):
     from audit import looks_down, mark_down
     with Auditor(out_dir / "screenshots", ai=rater) as auditor:
         for n, lead in enumerate(targets, 1):
-            r = auditor.audit(lead["website"])
-            if r.get("error") and looks_down(r["error"]):
-                r = auditor.audit(lead["website"])  # try once more before calling it down
+            try:
+                r = auditor.audit(lead["website"])
+                if r.get("error") and looks_down(r["error"]):
+                    r = auditor.audit(lead["website"])  # try once more before calling it down
+            except Exception as e:  # noqa: BLE001 - one bad site never stops the search
+                r = {"error": f"couldn't check site ({e.__class__.__name__})"}
             if r.get("error"):
                 if looks_down(r["error"]):
                     mark_down(lead, r["error"])

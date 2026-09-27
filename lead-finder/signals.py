@@ -154,6 +154,13 @@ def domain_info(url):
     return info
 
 
+def _domain_info_safe(url):
+    try:
+        return domain_info(url)
+    except Exception:  # noqa: BLE001 - a missing domain record never stops the search
+        return {}
+
+
 def domain_info_many(urls, workers=6):
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        return list(pool.map(domain_info, urls))
+        return list(pool.map(_domain_info_safe, urls))

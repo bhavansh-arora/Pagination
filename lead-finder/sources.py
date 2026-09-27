@@ -46,6 +46,21 @@ def is_directory(url):
     return any(host == d.rstrip(".") or host.startswith(d) or ("." + d) in ("." + host) for d in DIRECTORY_DOMAINS)
 
 
+TRACKING_PARAMS = re.compile(r"^(utm_\w+|gclid|fbclid|msclkid|y_source|ref|source)$", re.I)
+
+
+def clean_url(url):
+    """Drop tracking tags such as ?utm_source=google-gbp from a listing's website link."""
+    try:
+        p = urlparse(url)
+    except ValueError:
+        return url
+    if not p.query:
+        return url
+    kept = [q for q in p.query.split("&") if q and not TRACKING_PARAMS.match(q.split("=", 1)[0])]
+    return p._replace(query="&".join(kept)).geturl()
+
+
 def site_key(url):
     """Normalised domain, used to spot the same business found by two sources."""
     host = urlparse(url if "://" in url else "http://" + url).netloc.lower()
@@ -126,7 +141,7 @@ def google_places(business_type, city, api_key, limit=100, grid=2, progress=None
                 seen.add(p.get("id"))
                 results.append({
                     "name": (p.get("displayName") or {}).get("text", ""),
-                    "website": p.get("websiteUri", ""),
+                    "website": clean_url(p.get("websiteUri", "")),
                     "phone": p.get("nationalPhoneNumber") or p.get("internationalPhoneNumber", ""),
                     "phone_intl": p.get("internationalPhoneNumber", ""),
                     "email": "",
