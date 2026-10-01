@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier Interiors</title>
+  <meta name="description" content="Atelier Interiors – full home interiors, modular kitchens and luxury design.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --olive: #56584A;
+      --olive-dark: #3f4136;
+      --gold: #c9a87a;
+      --sand: #EDE0D4;
+      --cream: #F8F4EF;
+      --ink: #333333;
+      --muted: #6b6b6b;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background-color: #f4f4f4;
+      overflow-x: hidden;
+    }
+    body.loading { overflow: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; font-weight: 500; }
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ========== PRELOADER ========== */
+    .preloader {
+      position: fixed; inset: 0; z-index: 3000;
+      background: var(--cream);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+    .preloader.hidden { opacity: 0; visibility: hidden; }
+    .house-blueprint { position: relative; width: 220px; height: 200px; }
+    .house-outline { position: absolute; border: 2px solid var(--olive); opacity: 0; animation: draw .6s ease forwards; }
+    .roof {
+      width: 0; height: 0; border: none; left: 10px; top: 0;
+      border-left: 100px solid transparent; border-right: 100px solid transparent;
+      border-bottom: 70px solid var(--olive); animation-delay: .1s;
+    }
+    .house-base { left: 30px; top: 70px; width: 160px; height: 120px; animation-delay: .4s; }
+    .door { left: 95px; top: 130px; width: 30px; height: 60px; animation-delay: .7s; }
+    .window-left { left: 45px; top: 95px; width: 32px; height: 28px; animation-delay: .9s; }
+    .window-right { left: 143px; top: 95px; width: 32px; height: 28px; animation-delay: 1s; }
+    .interior-element { position: absolute; background: var(--gold); opacity: 0; animation: pop .5s ease forwards; border-radius: 3px; }
+    .sofa { left: 42px; top: 168px; width: 40px; height: 14px; animation-delay: 1.2s; }
+    .table { left: 138px; top: 172px; width: 30px; height: 6px; animation-delay: 1.35s; }
+    .lamp { left: 178px; top: 140px; width: 6px; height: 40px; animation-delay: 1.5s; display: none; }
+    .brand-reveal { margin-top: 2rem; text-align: center; opacity: 0; animation: fadeUp .8s ease 1.6s forwards; }
+    .brand-reveal h1 { color: var(--olive); font-size: 1.8rem; }
+    .loading-text { color: var(--muted); font-size: .85rem; letter-spacing: 3px; text-transform: uppercase; }
+    @keyframes draw { to { opacity: 1; } }
+    @keyframes pop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+    /* ========== HEADER ========== */
+    .header {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--white);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    .subheader {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--olive); color: var(--white);
+      padding: .5rem 2rem; font-size: .9rem;
+    }
+    .contact-info { display: flex; align-items: center; gap: .5rem; }
+    .social-icons { display: flex; gap: .6rem; }
+    .social-icons a {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: all .3s ease;
+    }
+    .social-icons a:hover { background: rgba(255, 255, 255, .2); transform: translateY(-2px); }
+
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; }
+    .logo { display: flex; align-items: center; gap: .6rem; color: var(--olive); }
+    .logo-mark {
+      width: 40px; height: 40px; border-radius: 8px; background: var(--olive); color: var(--gold);
+      display: grid; place-items: center; font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      transition: transform .3s ease;
+    }
+    .logo:hover .logo-mark { transform: scale(1.05); }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.35rem; line-height: 1; }
+    .logo-text small { display: block; font-family: 'Poppins', sans-serif; font-size: .62rem; letter-spacing: 3px; color: var(--gold); margin-top: 3px; }
+
+    .nav-links { display: flex; list-style: none; gap: 1.6rem; align-items: center; }
+    .nav-links > li { position: relative; }
+    .nav-links > li > a {
+      color: var(--ink); font-weight: 500; font-size: .95rem; padding: .5rem 0;
+      position: relative; transition: color .3s;
+    }
+    .nav-links > li > a::after {
+      content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 0;
+      background: var(--gold); transition: width .3s;
+    }
+    .nav-links > li > a:hover { color: var(--olive); }
+    .nav-links > li > a:hover::after { width: 100%; }
+    .nav-links .btn-nav {
+      background: var(--olive); color: var(--white); padding: .55rem 1.2rem; border-radius: 30px;
+    }
+    .nav-links .btn-nav:hover { background: var(--gold); color: var(--white); }
+    .nav-links .btn-nav::after { display: none; }
+
+    .mega-menu {
+      position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%) translateY(10px);
+      background: var(--white); box-shadow: var(--shadow); border-radius: 10px;
+      display: grid; grid-template-columns: repeat(3, minmax(170px, 1fr)); gap: 1.5rem;
+      padding: 1.5rem 1.8rem; opacity: 0; visibility: hidden; transition: all .3s ease;
+      border-top: 3px solid var(--gold);
+    }
+    .nav-links > li:hover .mega-menu,
+    .nav-links > li:focus-within .mega-menu { opacity: 1; visibility: visible; transform: translateX(-50%); }
+    .mega-menu::before { content: ''; position: absolute; top: -21px; left: 0; right: 0; height: 21px; }
+    .mega-menu h4 { color: var(--olive); font-size: .9rem; margin-bottom: .6rem; border-bottom: 1px solid var(--sand); padding-bottom: .4rem; }
+    .mega-menu a { display: block; font-size: .85rem; color: var(--muted); padding: .25rem 0; transition: all .2s; }
+    .mega-menu a:hover { color: var(--gold); padding-left: 6px; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: 0; padding: 6px; }
+    .hamburger span { width: 26px; height: 2px; background: var(--olive); transition: all .3s; }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative; min-height: 88vh; display: flex; align-items: center; color: var(--white);
+      background: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(110deg, rgba(40, 42, 33, .82), rgba(40, 42, 33, .35)); }
+    .hero .container { position: relative; z-index: 1; }
+    .hero-content { max-width: 680px; animation: fadeUp 1s ease both; }
+    .hero-tag { display: inline-block; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; font-size: .8rem; margin-bottom: 1rem; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.15; margin-bottom: 1.2rem; }
+    .hero h1 span { color: var(--gold); font-style: italic; }
+    .hero p { font-size: 1.1rem; opacity: .9; margin-bottom: 2rem; font-weight: 300; }
+    .cta-buttons { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 1.8rem; border-radius: 40px; font-weight: 500; font-size: .95rem;
+      transition: all .3s ease; border: 2px solid transparent; cursor: pointer;
+    }
+    .btn-primary { background: var(--gold); color: var(--white); }
+    .btn-primary:hover { background: var(--olive); transform: translateY(-3px); }
+    .btn-outline { border-color: var(--white); color: var(--white); }
+    .btn-outline:hover { background: var(--white); color: var(--olive); transform: translateY(-3px); }
+    .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 1; }
+    .scroll-indicator a {
+      display: block; width: 28px; height: 46px; border: 2px solid rgba(255, 255, 255, .8); border-radius: 20px; position: relative;
+    }
+    .scroll-indicator a::after {
+      content: ''; position: absolute; left: 50%; top: 8px; width: 4px; height: 8px; margin-left: -2px;
+      background: var(--white); border-radius: 2px; animation: scrollDot 1.6s infinite;
+    }
+    @keyframes scrollDot { 0% { opacity: 1; top: 8px; } 100% { opacity: 0; top: 26px; } }
+
+    /* ========== SECTIONS ========== */
+    section { padding: 5.5rem 0; }
+    .section-title { text-align: center; max-width: 700px; margin: 0 auto 3.2rem; }
+    .section-title h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--olive); margin-bottom: .6rem; }
+    .section-title p { color: var(--muted); }
+    .section-title::after { content: ''; display: block; width: 70px; height: 3px; background: var(--gold); margin: 1rem auto 0; }
+    .reveal { opacity: 0; transform: translateY(40px); transition: all .8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* About */
+    .about { background: var(--white); }
+    .about-content { display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; }
+    .about-text h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); color: var(--olive); margin-bottom: 1.2rem; line-height: 1.25; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+    .stat-item { background: var(--cream); border-radius: 10px; padding: 1.2rem; text-align: center; border-bottom: 3px solid var(--gold); }
+    .stat-number { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--olive); font-weight: 600; }
+    .stat-text { font-size: .82rem; color: var(--muted); }
+    .about-image { position: relative; }
+    .about-image img { border-radius: 14px; box-shadow: var(--shadow); width: 100%; height: 480px; object-fit: cover; }
+    .about-image::before {
+      content: ''; position: absolute; inset: 20px -20px -20px 20px; border: 3px solid var(--gold); border-radius: 14px; z-index: -1;
+    }
+    .about-image { z-index: 0; }
+
+    /* Services */
+    .services { background: var(--cream); }
+    .services-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .service-card { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transition: transform .4s ease, box-shadow .4s ease; }
+    .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, .12); }
+    .service-image { height: 240px; overflow: hidden; }
+    .service-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .service-card:hover .service-image img { transform: scale(1.08); }
+    .service-content { padding: 1.6rem; }
+    .service-content h3 { color: var(--olive); font-size: 1.4rem; margin-bottom: .6rem; }
+    .service-content p { color: var(--muted); font-size: .93rem; margin-bottom: 1.2rem; }
+    .link-arrow { color: var(--gold); font-weight: 600; font-size: .9rem; display: inline-flex; gap: .4rem; align-items: center; }
+    .link-arrow i { transition: transform .3s; }
+    .link-arrow:hover i { transform: translateX(5px); }
+
+    /* Slider */
+    .gallery { background: var(--white); }
+    .slider-container { position: relative; max-width: 1100px; margin: 0 auto; height: 540px; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease, transform 1.2s ease; transform: scale(1.05); cursor: zoom-in; }
+    .slide.active { opacity: 1; transform: scale(1); z-index: 1; }
+    .slide img { width: 100%; height: 100%; object-fit: cover; }
+    .slide-content {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 2.5rem 2rem 2rem; color: var(--white);
+      background: linear-gradient(transparent, rgba(0, 0, 0, .75));
+    }
+    .slide-content h3 { font-size: 1.8rem; }
+    .slide-content p { opacity: .9; font-weight: 300; }
+    .arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+      width: 48px; height: 48px; border-radius: 50%; background: rgba(255, 255, 255, .85); color: var(--olive);
+      display: grid; place-items: center; cursor: pointer; transition: all .3s; border: 0; font-size: 1rem;
+    }
+    .arrow:hover { background: var(--gold); color: var(--white); }
+    .arrow-left { left: 1.2rem; }
+    .arrow-right { right: 1.2rem; }
+    .dots-container { display: flex; justify-content: center; gap: .6rem; margin-top: 1.5rem; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: #d6d1c8; cursor: pointer; transition: all .3s; border: 0; }
+    .dot.active { background: var(--gold); width: 30px; border-radius: 10px; }
+
+    /* Video testimonial */
+    .video-testimonial { background: var(--olive); color: var(--white); }
+    .video-testimonial .section-title h2 { color: var(--white); }
+    .video-testimonial .section-title p { color: rgba(255, 255, 255, .75); }
+    .video-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; }
+    .video-wrapper { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 16/9; background: #000; }
+    .video-wrapper img { width: 100%; height: 100%; object-fit: cover; opacity: .75; }
+    .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .play-button {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 80px; height: 80px; border-radius: 50%; background: var(--gold); color: var(--white);
+      display: grid; place-items: center; font-size: 1.6rem; cursor: pointer; border: 0;
+      box-shadow: 0 0 0 0 rgba(201, 168, 122, .7); animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 70% { box-shadow: 0 0 0 25px rgba(201, 168, 122, 0); } 100% { box-shadow: 0 0 0 0 rgba(201, 168, 122, 0); } }
+    .testimonial-quote { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-style: italic; line-height: 1.6; margin-bottom: 1.5rem; position: relative; }
+    .testimonial-quote::before { content: '\201C'; font-size: 5rem; color: var(--gold); position: absolute; top: -2.8rem; left: -.5rem; opacity: .6; }
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+    .author-image { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--sand); color: var(--olive); display: grid; place-items: center; font-weight: 600; }
+    .author-image img { width: 100%; height: 100%; object-fit: cover; }
+    .author-info h4 { font-size: 1rem; }
+    .author-info p { font-size: .85rem; opacity: .75; }
+    .video-testimonial .btn { margin-top: 2rem; }
+
+    /* Testimonials */
+    .testimonials { background: var(--cream); }
+    .testimonials-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .testimonial-card { background: var(--white); padding: 2rem; border-radius: 14px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; transition: transform .3s; }
+    .testimonial-card:hover { transform: translateY(-6px); }
+    .stars { color: var(--gold); margin-bottom: .8rem; font-size: .9rem; }
+    .testimonial-text { color: var(--muted); font-style: italic; margin-bottom: 1.5rem; }
+    .testimonial-card .author-info h4 { color: var(--olive); }
+    .testimonial-card .author-info p { color: var(--muted); opacity: 1; }
+
+    /* Why choose */
+    .why { background: var(--white); }
+    .reasons-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.6rem; }
+    .reason-card { padding: 2rem 1.6rem; border-radius: 12px; background: var(--cream); position: relative; overflow: hidden; transition: all .35s ease; }
+    .reason-card::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: var(--gold); transition: width .35s ease; z-index: 0; }
+    .reason-card:hover::before { width: 100%; }
+    .reason-card > * { position: relative; z-index: 1; transition: color .35s; }
+    .reason-card:hover > * { color: var(--white); }
+    .reason-number { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--gold); line-height: 1; margin-bottom: .6rem; opacity: .9; }
+    .reason-card h3 { color: var(--olive); font-size: 1.25rem; margin-bottom: .5rem; }
+    .reason-card p { color: var(--muted); font-size: .92rem; }
+
+    /* CTA */
+    .cta {
+      text-align: center; color: var(--white);
+      background: linear-gradient(rgba(63, 65, 54, .88), rgba(63, 65, 54, .88)),
+        url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+    }
+    .cta h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: .8rem; }
+    .cta p { opacity: .85; max-width: 620px; margin: 0 auto 2rem; }
+    .cta .cta-buttons { justify-content: center; }
+
+    /* Floating buttons */
+    .whatsapp-float, .back-to-top {
+      position: fixed; right: 1.5rem; z-index: 900; width: 54px; height: 54px; border-radius: 50%;
+      display: grid; place-items: center; color: var(--white); box-shadow: 0 6px 18px rgba(0, 0, 0, .2); transition: all .3s;
+    }
+    .whatsapp-float { bottom: 1.5rem; background: #25D366; font-size: 1.7rem; }
+    .whatsapp-float:hover { transform: scale(1.1); }
+    .back-to-top { bottom: 5.5rem; background: var(--olive); opacity: 0; visibility: hidden; cursor: pointer; border: 0; width: 46px; height: 46px; right: 1.75rem; }
+    .back-to-top.show { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold); }
+
+    /* Modal */
+    .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, .8); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 1rem; }
+    .modal.open { display: flex; animation: fadeUp .35s ease; }
+    .modal-content { background: var(--white); border-radius: 14px; overflow: hidden; max-width: 900px; width: 100%; display: grid; grid-template-columns: 1.4fr 1fr; position: relative; }
+    .modal-image img { width: 100%; height: 100%; object-fit: cover; min-height: 320px; }
+    .modal-text { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+    .modal-text h2 { color: var(--olive); margin-bottom: .8rem; }
+    .modal-text p { color: var(--muted); margin-bottom: 1.5rem; }
+    .modal-close { position: absolute; top: .8rem; right: .8rem; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .9); cursor: pointer; font-size: 1.1rem; z-index: 2; }
+
+    /* ========== FOOTER ========== */
+    .footer { background: #2d2e26; color: rgba(255, 255, 255, .75); padding: 4.5rem 0 0; }
+    .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 2.5rem; padding-bottom: 3rem; }
+    .footer .logo { color: var(--white); margin-bottom: 1rem; }
+    .footer-about { font-size: .9rem; margin-bottom: 1.4rem; }
+    .footer-social { display: flex; gap: .7rem; }
+    .footer-social a { width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, .08); display: grid; place-items: center; transition: all .3s; }
+    .footer-social a:hover { background: var(--gold); color: var(--white); transform: translateY(-3px); }
+    .footer-title { color: var(--white); font-size: 1.15rem; margin-bottom: 1.2rem; position: relative; padding-bottom: .6rem; }
+    .footer-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 2px; background: var(--gold); }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: .55rem; }
+    .footer-links a { font-size: .9rem; transition: all .3s; }
+    .footer-links a:hover { color: var(--gold); padding-left: 5px; }
+    .contact-item { display: flex; gap: .8rem; margin-bottom: .9rem; font-size: .9rem; }
+    .contact-item i { color: var(--gold); margin-top: 4px; width: 16px; }
+    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, .1); padding: 1.4rem 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: .85rem; }
+    .footer-legal { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+    .footer-legal a:hover { color: var(--gold); }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .services-container, .testimonials-container { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed; top: 0; right: -100%; width: min(320px, 85vw); height: 100vh; background: var(--white);
+        flex-direction: column; align-items: flex-start; gap: 0; padding: 5rem 1.5rem 2rem; overflow-y: auto;
+        box-shadow: -5px 0 25px rgba(0, 0, 0, .15); transition: right .4s ease;
+      }
+      .nav-links.open { right: 0; }
+      .nav-links > li { width: 100%; border-bottom: 1px solid #eee; }
+      .nav-links > li > a { display: block; padding: .9rem 0; }
+      .nav-links .btn-nav { display: inline-block; margin: 1rem 0; padding: .6rem 1.2rem; }
+      .mega-menu {
+        position: static; transform: none; opacity: 1; visibility: visible; box-shadow: none; border-top: 0;
+        grid-template-columns: 1fr; gap: .8rem; padding: 0 0 0 .8rem; max-height: 0; overflow: hidden; transition: max-height .4s ease;
+      }
+      .nav-links > li:hover .mega-menu, .nav-links > li:focus-within .mega-menu { transform: none; }
+      .nav-links > li.expanded .mega-menu { max-height: 900px; padding-bottom: 1rem; }
+      .hamburger { z-index: 1100; position: relative; }
+      .about-content, .video-grid { grid-template-columns: 1fr; }
+      .about-image img { height: 360px; }
+      .modal-content { grid-template-columns: 1fr; }
+      .modal-image img { min-height: 220px; max-height: 260px; }
+    }
+    @media (max-width: 640px) {
+      .subheader { padding: .45rem 1rem; font-size: .8rem; }
+      .navbar { padding: .8rem 1rem; }
+      .container { padding: 0 1rem; }
+      section { padding: 4rem 0; }
+      .services-container, .testimonials-container { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr 1fr; gap: .5rem; }
+      .stat-item { padding: .8rem .4rem; }
+      .stat-number { font-size: 1.6rem; }
+      .slider-container { height: 360px; }
+      .slide-content h3 { font-size: 1.3rem; }
+      .arrow { width: 38px; height: 38px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .about-image::before { display: none; }
+      .cta { background-attachment: scroll; }
+    }
+  </style>
+</head>
+<body class="loading">
+
+  <!-- ===== Preloader ===== -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="house-blueprint">
+      <div class="house-outline roof"></div>
+      <div class="house-outline house-base"></div>
+      <div class="house-outline door"></div>
+      <div class="house-outline window-left"></div>
+      <div class="house-outline window-right"></div>
+      <div class="interior-element sofa"></div>
+      <div class="interior-element table"></div>
+      <div class="interior-element lamp"></div>
+    </div>
+    <div class="brand-reveal">
+      <h1>Welcome to Atelier Interiors</h1>
+      <div class="loading-text">Designing your space…</div>
+    </div>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="subheader">
+      <div class="contact-info">
+        <i class="fas fa-phone-alt"></i>
+        <span>+00 00000 00000</span>
+      </div>
+      <div class="social-icons">
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <a href="#home" class="logo">
+        <span class="logo-mark">A</span>
+        <span class="logo-text">Atelier<small>INTERIORS</small></span>
+      </a>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home">Home</a></li>
+          <li class="has-menu">
+            <a href="#services">Services <i class="fas fa-chevron-down" style="font-size:.7rem"></i></a>
+            <div class="mega-menu">
+              <div>
+                <h4>Complete Home</h4>
+                <a href="#">2 BHK Interiors</a>
+                <a href="#">3 BHK Interiors</a>
+                <a href="#">4 BHK Interiors</a>
+                <a href="#">Villas &amp; Bungalows</a>
+              </div>
+              <div>
+                <h4>Modular</h4>
+                <a href="#">Modular Kitchens</a>
+                <a href="#">Wardrobes</a>
+                <a href="#">Storage Solutions</a>
+              </div>
+              <div>
+                <h4>Luxury</h4>
+                <a href="#">Luxury Interiors</a>
+                <a href="#">Turnkey Projects</a>
+              </div>
+            </div>
+          </li>
+          <li class="has-menu">
+            <a href="#gallery">Design Ideas <i class="fas fa-chevron-down" style="font-size:.7rem"></i></a>
+            <div class="mega-menu">
+              <div>
+                <h4>Rooms</h4>
+                <a href="#">Kitchen</a>
+                <a href="#">Bathroom</a>
+                <a href="#">Master Bedroom</a>
+                <a href="#">Living Room</a>
+                <a href="#">Prayer Room</a>
+              </div>
+              <div>
+                <h4>Features</h4>
+                <a href="#">TV Units</a>
+                <a href="#">False Ceilings</a>
+                <a href="#">Kids' Rooms</a>
+                <a href="#">Balconies</a>
+                <a href="#">Dining Areas</a>
+              </div>
+              <div>
+                <h4>Finishes</h4>
+                <a href="#">Flooring</a>
+                <a href="#">Wallpaper</a>
+                <a href="#">Wall Décor</a>
+                <a href="#">Tiles</a>
+                <a href="#">Study Rooms</a>
+              </div>
+            </div>
+          </li>
+          <li><a href="#gallery">Portfolio</a></li>
+          <li><a href="#">Cost Estimator</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact" class="btn-nav">Free Consultation</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-tag">Interior Design Studio</span>
+        <h1>Homes designed around <span>the way you live</span></h1>
+        <p>From the first sketch to the final cushion, we plan, build and style complete interiors with one accountable team.</p>
+        <div class="cta-buttons">
+          <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book a Free Consultation</a>
+          <a href="#gallery" class="btn btn-outline"><i class="fas fa-images"></i> View Our Work</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator"><a href="#about" aria-label="Scroll down"></a></div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text reveal">
+          <h2>About Atelier Interiors – a design-and-build studio</h2>
+          <p>We are a small team of designers, carpenters and project managers who believe a good interior should feel calm, work hard and age well. Every project starts with listening: how you cook, where the light falls, what you want to keep.</p>
+          <p>We handle drawings, materials, manufacturing and installation in-house, so you get one timeline, one point of contact and a finish that matches the render.</p>
+          <div class="stats">
+            <div class="stat-item"><div class="stat-number" data-target="12">0</div><div class="stat-text">Years of practice</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="450">0</div><div class="stat-text">Homes completed</div></div>
+            <div class="stat-item"><div class="stat-number" data-target="98">0</div><div class="stat-text">% happy clients</div></div>
+          </div>
+        </div>
+        <div class="about-image reveal">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80" alt="Warm living room with neutral tones">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Services ===== -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2>Our Signature Services</h2>
+        <p>Three ways to work with us, each delivered end to end.</p>
+      </div>
+      <div class="services-container">
+        <div class="service-card reveal">
+          <div class="service-image"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Complete home interior"></div>
+          <div class="service-content">
+            <h3>Full Home Interiors</h3>
+            <p>Layouts, furniture, lighting and finishes for every room, planned together so the whole home feels connected.</p>
+            <a href="#" class="link-arrow">Estimate your cost <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-image"><img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80" alt="Modular kitchen"></div>
+          <div class="service-content">
+            <h3>Modular Kitchens</h3>
+            <p>Ergonomic kitchens with durable carcasses, soft-close hardware and storage planned around your cooking habits.</p>
+            <a href="#" class="link-arrow">Explore kitchens <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-image"><img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80" alt="Luxury bedroom interior"></div>
+          <div class="service-content">
+            <h3>Luxury Interiors</h3>
+            <p>Bespoke joinery, natural stone and layered lighting for clients who want something entirely their own.</p>
+            <a href="#" class="link-arrow">See luxury work <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Gallery slider ===== -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2>Featured Projects</h2>
+        <p>A few recent spaces. Tap a slide to see more detail.</p>
+      </div>
+      <div class="slider-container reveal" id="slider">
+        <div class="slide active" data-desc="An open living room with low seating, oak flooring and a single statement pendant.">
+          <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=1400&q=80" alt="Contemporary living room">
+          <div class="slide-content"><h3>Contemporary Living Room</h3><p>Soft neutrals and natural oak</p></div>
+        </div>
+        <div class="slide" data-desc="A two-tone kitchen with a quartz island, concealed appliances and warm under-cabinet lighting.">
+          <img src="https://images.unsplash.com/photo-1600489000022-c2086d79f9d4?auto=format&fit=crop&w=1400&q=80" alt="Kitchen design">
+          <div class="slide-content"><h3>Island Kitchen</h3><p>Quartz, matte lacquer and brass</p></div>
+        </div>
+        <div class="slide" data-desc="A quiet bedroom with an upholstered headboard wall, linen drapes and dimmable cove lighting.">
+          <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1400&q=80" alt="Bedroom design">
+          <div class="slide-content"><h3>Master Bedroom</h3><p>Layered textures for rest</p></div>
+        </div>
+        <div class="slide" data-desc="A compact home office with built-in shelving, acoustic panels and a desk sized for two screens.">
+          <img src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=1400&q=80" alt="Home office">
+          <div class="slide-content"><h3>Home Office</h3><p>Focused, bright and organised</p></div>
+        </div>
+        <button class="arrow arrow-left" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+        <button class="arrow arrow-right" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="dots-container" id="dots"></div>
+    </div>
+  </section>
+
+  <!-- ===== Video testimonial ===== -->
+  <section class="video-testimonial">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2>Client Success Stories</h2>
+        <p>Hear from homeowners in their own words.</p>
+      </div>
+      <div class="video-grid">
+        <div class="video-wrapper reveal" id="videoWrapper">
+          <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80" alt="Video thumbnail">
+          <button class="play-button" id="playBtn" aria-label="Play video"><i class="fas fa-play"></i></button>
+        </div>
+        <div class="testimonial-content reveal">
+          <div class="testimonial-quote">The team turned a dated apartment into a home we never want to leave. Every promise in the proposal showed up on site.</div>
+          <div class="testimonial-author">
+            <div class="author-image">AR</div>
+            <div class="author-info"><h4>A. &amp; R. Sample</h4><p>3 BHK apartment</p></div>
+          </div>
+          <a href="#contact" class="btn btn-primary">Start your story</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Testimonials ===== -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2>What Our Clients Say</h2>
+        <p>Sample reviews – replace with your own.</p>
+      </div>
+      <div class="testimonials-container">
+        <div class="testimonial-card reveal">
+          <div>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="testimonial-text">"Clear drawings, honest pricing and a site that was kept clean every evening. Handover was a day early."</p>
+          </div>
+          <div class="testimonial-author"><div class="author-image">JD</div><div class="author-info"><h4>Client Name</h4><p>Villa project</p></div></div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="testimonial-text">"Our kitchen finally works. They noticed things about how we cook that we hadn't noticed ourselves."</p>
+          </div>
+          <div class="testimonial-author"><div class="author-image">MK</div><div class="author-info"><h4>Client Name</h4><p>Modular kitchen</p></div></div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+            <p class="testimonial-text">"Great communication throughout. The 3D renders matched the finished rooms almost exactly."</p>
+          </div>
+          <div class="testimonial-author"><div class="author-image">SP</div><div class="author-info"><h4>Client Name</h4><p>2 BHK apartment</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Why choose us ===== -->
+  <section class="why">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2>Why Choose Atelier Interiors?</h2>
+        <p>What you can expect from the first meeting to the final walkthrough.</p>
+      </div>
+      <div class="reasons-container">
+        <div class="reason-card reveal"><div class="reason-number">01</div><h3>Years of Experience</h3><p>A decade-plus of homes across every size and budget.</p></div>
+        <div class="reason-card reveal"><div class="reason-number">02</div><h3>You Come First</h3><p>Your routines and priorities shape the brief, not a catalogue.</p></div>
+        <div class="reason-card reveal"><div class="reason-number">03</div><h3>Quality Checks</h3><p>Multi-stage inspections on materials, joinery and installation.</p></div>
+        <div class="reason-card reveal"><div class="reason-number">04</div><h3>Fresh Ideas</h3><p>Thoughtful details and smart storage you won't find off the shelf.</p></div>
+        <div class="reason-card reveal"><div class="reason-number">05</div><h3>Clear Pricing</h3><p>Itemised quotes with no surprise line items at handover.</p></div>
+        <div class="reason-card reveal"><div class="reason-number">06</div><h3>On-Time Delivery</h3><p>A shared schedule with weekly updates from your project manager.</p></div>
+        <div class="reason-card reveal"><div class="reason-number">07</div><h3>After-Care</h3><p>Warranty-backed service visits long after you've moved in.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <h2>Ready to Transform Your Space?</h2>
+      <p>Tell us about your home and we'll come back with ideas, a rough budget and a timeline – no obligation.</p>
+      <div class="cta-buttons">
+        <a href="tel:+000000000000" class="btn btn-outline"><i class="fas fa-phone-alt"></i> Call Us</a>
+        <a href="mailto:hello@example.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Email Us</a>
+        <a href="#" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book a Consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <a href="https://wa.me/000000000000" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ===== Project modal ===== -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      <div class="modal-image"><img id="modalImg" src="" alt=""></div>
+      <div class="modal-text">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDesc"></p>
+        <a href="#contact" class="btn btn-primary" id="modalCta">Get a similar design</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <a href="#home" class="logo">
+            <span class="logo-mark">A</span>
+            <span class="logo-text">Atelier<small>INTERIORS</small></span>
+          </a>
+          <p class="footer-about">Design-and-build interiors for homes that feel calm, work hard and age well.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#gallery">Portfolio</a></li>
+            <li><a href="#">Cost Estimator</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#about">About Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title">Our Services</h3>
+          <ul class="footer-links">
+            <li><a href="#">2 BHK Interiors</a></li>
+            <li><a href="#">3 BHK Interiors</a></li>
+            <li><a href="#">4 BHK Interiors</a></li>
+            <li><a href="#">Modular Kitchens</a></li>
+            <li><a href="#">Wardrobes</a></li>
+            <li><a href="#">Luxury Interiors</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-title">Contact Info</h3>
+          <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Studio address line 1<br>City, State 000000</span></div>
+          <div class="contact-item"><i class="fas fa-phone-alt"></i><a href="tel:+000000000000">+00 00000 00000</a></div>
+          <div class="contact-item"><i class="fas fa-envelope"></i><a href="mailto:hello@example.com">hello@example.com</a></div>
+          <div class="contact-item"><i class="fas fa-clock"></i><span>Mon – Sat, 10:00 – 19:00</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; <span id="year"></span> Atelier Interiors. All rights reserved.</div>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms &amp; Conditions</a>
+          <a href="#">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Preloader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('preloader').classList.add('hidden');
+        document.body.classList.remove('loading');
+      }, 2200);
+    });
+
+    // Mobile navigation
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      hamburger.classList.toggle('active', open);
+      hamburger.setAttribute('aria-expanded', open);
+    });
+    document.querySelectorAll('.has-menu > a').forEach(link => {
+      link.addEventListener('click', e => {
+        if (window.innerWidth <= 900) {
+          e.preventDefault();
+          link.parentElement.classList.toggle('expanded');
+        }
+      });
+    });
+    navLinks.querySelectorAll('a:not(.has-menu > a)').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', false);
+    }));
+
+    // Reveal on scroll + stat counters
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('.stat-number').forEach(animateCount);
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    function animateCount(el) {
+      const target = +el.dataset.target;
+      const start = performance.now();
+      const step = now => {
+        const p = Math.min((now - start) / 1600, 1);
+        el.textContent = Math.floor(target * (1 - Math.pow(1 - p, 3))) + (p === 1 ? '+' : '');
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    // Slider
+    const slides = [...document.querySelectorAll('.slide')];
+    const dotsEl = document.getElementById('dots');
+    let current = 0, timer;
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      d.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(d);
+    });
+    const dots = [...dotsEl.children];
+    function goTo(i) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (i + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      restart();
+    }
+    function restart() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); }
+    document.querySelector('.arrow-left').addEventListener('click', () => goTo(current - 1));
+    document.querySelector('.arrow-right').addEventListener('click', () => goTo(current + 1));
+    const slider = document.getElementById('slider');
+    slider.addEventListener('mouseenter', () => clearInterval(timer));
+    slider.addEventListener('mouseleave', restart);
+    let touchX = 0;
+    slider.addEventListener('touchstart', e => touchX = e.touches[0].clientX, { passive: true });
+    slider.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+    });
+    restart();
+
+    // Project modal
+    const modal = document.getElementById('modal');
+    slides.forEach(slide => slide.addEventListener('click', () => {
+      document.getElementById('modalImg').src = slide.querySelector('img').src;
+      document.getElementById('modalImg').alt = slide.querySelector('img').alt;
+      document.getElementById('modalTitle').textContent = slide.querySelector('h3').textContent;
+      document.getElementById('modalDesc').textContent = slide.dataset.desc;
+      modal.classList.add('open');
+      clearInterval(timer);
+    }));
+    const closeModal = () => { modal.classList.remove('open'); restart(); };
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalCta').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+    // Video – replace VIDEO_ID with your own YouTube video
+    const VIDEO_ID = '';
+    document.getElementById('playBtn').addEventListener('click', () => {
+      if (!VIDEO_ID) { alert('Set VIDEO_ID in index.html to embed your client video.'); return; }
+      document.getElementById('videoWrapper').innerHTML =
+        `<iframe src="https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    });
+
+    // Back to top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => backToTop.classList.toggle('show', window.scrollY > 500));
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
