@@ -22,7 +22,8 @@ db.exec(`
     auto_reason TEXT,
     manual_status TEXT,
     last_query TEXT,
-    last_seen_at TEXT
+    last_seen_at TEXT,
+    pushed_to_crm_at TEXT
   );
 
   CREATE TABLE IF NOT EXISTS people (
@@ -36,6 +37,15 @@ db.exec(`
 const businessColumns = db.prepare(`PRAGMA table_info(businesses)`).all().map((c) => c.name);
 if (!businessColumns.includes('assigned_to')) {
   db.exec(`ALTER TABLE businesses ADD COLUMN assigned_to INTEGER`);
+}
+
+// Guards a column add for databases created before pushed_to_crm_at existed;
+// SQLite has no "ADD COLUMN IF NOT EXISTS", so this just swallows the
+// "duplicate column" error on a DB that already has it.
+try {
+  db.exec(`ALTER TABLE businesses ADD COLUMN pushed_to_crm_at TEXT`);
+} catch {
+  // already exists
 }
 
 const upsertStmt = db.prepare(`
@@ -112,6 +122,14 @@ function deletePerson(id) {
   deletePersonStmt.run(id);
 }
 
+const markPushedStmt = db.prepare(
+  `UPDATE businesses SET pushed_to_crm_at = ? WHERE place_id = ?`
+);
+
+function markPushed(placeId, when) {
+  markPushedStmt.run(when, placeId);
+}
+
 module.exports = {
   db,
   upsertBusiness,
@@ -121,4 +139,5 @@ module.exports = {
   addPerson,
   listPeople,
   deletePerson,
+  markPushed,
 };

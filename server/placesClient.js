@@ -14,9 +14,11 @@ const FIELD_MASK = [
 ].join(',');
 
 async function searchPlaces({ apiKey, query, pageToken }) {
-  const body = pageToken
-    ? { pageToken }
-    : { textQuery: query, pageSize: 20 };
+  // Google's Places API (New) requires a paging request's other parameters
+  // to match the initial request that produced the pageToken -- sending
+  // pageToken alone with no textQuery gets rejected with "Empty text_query".
+  const body = { textQuery: query, pageSize: 20 };
+  if (pageToken) body.pageToken = pageToken;
 
   const res = await fetch(PLACES_SEARCH_URL, {
     method: 'POST',

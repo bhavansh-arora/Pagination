@@ -10,6 +10,7 @@
   <header>
     <h1>Local Leads Finder</h1>
     <p class="subtitle">Find businesses by category &amp; location that have no website, or a weak one.</p>
+    <p class="subtitle">Only businesses with a phone number are shown — no way to call or message means no usable lead.</p>
   </header>
 
   <main>
@@ -33,8 +34,8 @@
 
     <div class="toolbar">
       <label class="filter-toggle">
-        <input type="checkbox" id="filter-flagged" />
-        Show only flagged (auto or manually marked "needs website")
+        <input type="checkbox" id="boost-mode" />
+        🚀 Boost Mode — only show leads with no website or a weak one
       </label>
       <label class="filter-toggle">
         Assigned to:
@@ -47,9 +48,19 @@
       <button id="load-more-btn" type="button" style="display:none;">Load more results</button>
     </div>
 
+    <div class="toolbar crm-toolbar">
+      <span id="selected-count" class="selected-count">0 selected</span>
+      <select id="crm-source-select">
+        <option value="">Loading sources…</option>
+      </select>
+      <input id="crm-source-new" type="text" placeholder="New source name" style="display:none;" />
+      <button id="push-crm-btn" type="button" disabled>Push selected to CRM</button>
+    </div>
+
     <table id="results-table" style="display:none;">
       <thead>
         <tr>
+          <th><input type="checkbox" id="select-all-th" title="Select all visible" /></th>
           <th>Business</th>
           <th>Phone</th>
           <th>Address</th>
@@ -58,6 +69,7 @@
           <th>Visit site</th>
           <th>Manual review</th>
           <th>Assigned to</th>
+          <th>CRM</th>
         </tr>
       </thead>
       <tbody id="results-body"></tbody>

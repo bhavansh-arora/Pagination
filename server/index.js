@@ -11,7 +11,9 @@ const {
   addPerson,
   listPeople,
   deletePerson,
+  markPushed,
 } = require('./db');
+const { toE164, pushToCrm, fetchCrmSources } = require('./crmPush');
 
 const app = express();
 app.use(express.json());
@@ -19,6 +21,9 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.GOOGLE_PLACES_API_KEY;
+const CRM_API_URL = process.env.CRM_API_URL;
+const CRM_LEADS_SECRET = process.env.CRM_LEADS_SECRET;
+const CRM_LEAD_SOURCE = process.env.CRM_LEAD_SOURCE || 'US';
 
 app.post('/api/search', async (req, res) => {
   if (!API_KEY) {
@@ -29,14 +34,22 @@ app.post('/api/search', async (req, res) => {
 
   const { category, location, pageToken } = req.body || {};
 
-  if (!pageToken && (!category || !location)) {
+  // Required on every call, including "load more" (pageToken) requests --
+  // Google rejects a bare pageToken with no matching textQuery, so the
+  // client resends the original category/location alongside it.
+  if (!category || !location) {
     return res.status(400).json({ error: 'category and location are required.' });
   }
 
-  const query = pageToken ? undefined : `${category} in ${location}`;
+  const query = `${category} in ${location}`;
 
   try {
-    const { places, nextPageToken } = await searchPlaces({ apiKey: API_KEY, query, pageToken });
+    const { places: allPlaces, nextPageToken } = await searchPlaces({ apiKey: API_KEY, query, pageToken });
+
+    // A lead with no phone number can't be called or WhatsApp'd from the
+    // CRM, so it's not usable here -- drop it before spending a website
+    // fetch on it, not just at push time.
+    const places = allPlaces.filter((p) => p.phone && p.phone.trim());
 
     const checked = await Promise.all(
       places.map(async (p) => {
@@ -113,6 +126,72 @@ app.post('/api/assign', (req, res) => {
   }
   setAssignee(placeId, id);
   res.json({ ok: true, business: getBusiness(placeId) });
+});
+
+app.get('/api/crm-config', (req, res) => {
+  res.json({
+    configured: Boolean(CRM_API_URL && CRM_LEADS_SECRET),
+    defaultSource: CRM_LEAD_SOURCE,
+  });
+});
+
+app.get('/api/crm-sources', async (req, res) => {
+  try {
+    const sources = await fetchCrmSources({ apiUrl: CRM_API_URL, secret: CRM_LEADS_SECRET });
+    res.json({ sources });
+  } catch (err) {
+    console.error(err);
+    res.status(err.status || 500).json({ error: err.message });
+  }
+});
+
+app.post('/api/push-to-crm', async (req, res) => {
+  const { placeIds, source } = req.body || {};
+  if (!Array.isArray(placeIds) || placeIds.length === 0) {
+    return res.status(400).json({ error: 'placeIds (non-empty array) is required.' });
+  }
+  const trimmedSource = String(source || '').trim();
+  if (!trimmedSource) {
+    return res.status(400).json({ error: 'source is required (pick an existing one or type a new one).' });
+  }
+
+  const businesses = placeIds.map((id) => getBusiness(id)).filter(Boolean);
+  if (businesses.length === 0) {
+    return res.status(404).json({ error: 'None of the given placeIds are in the local database.' });
+  }
+
+  // Map by the same normalized phone the CRM will see back in its response,
+  // so we know exactly which local rows to mark as pushed.
+  const phoneToPlaceId = new Map();
+  for (const b of businesses) {
+    const e164 = toE164(b.phone);
+    if (e164) phoneToPlaceId.set(e164, b.place_id);
+  }
+
+  try {
+    const result = await pushToCrm({
+      apiUrl: CRM_API_URL,
+      secret: CRM_LEADS_SECRET,
+      source: trimmedSource,
+      businesses,
+    });
+
+    const now = new Date().toISOString();
+    for (const r of result.results || []) {
+      if (r.status !== 'created') continue;
+      const placeId = phoneToPlaceId.get(r.phone);
+      if (placeId) markPushed(placeId, now);
+    }
+
+    const updated = businesses
+      .map((b) => getBusiness(b.place_id))
+      .reduce((map, b) => ({ ...map, [b.place_id]: b }), {});
+
+    res.json({ ...result, updatedBusinesses: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(err.status || 500).json({ error: err.message });
+  }
 });
 
 app.listen(PORT, () => {
