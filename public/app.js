@@ -26,13 +26,9 @@ const selectedCountEl = document.getElementById('selected-count');
 const sourceSelect = document.getElementById('crm-source-select');
 const sourceNewInput = document.getElementById('crm-source-new');
 const pushCrmBtn = document.getElementById('push-crm-btn');
-const personForm = document.getElementById('person-form');
-const personNameInput = document.getElementById('person-name');
-const personContactInput = document.getElementById('person-contact');
-const peopleListEl = document.getElementById('people-list');
 
 let rows = new Map(); // place_id -> business row
-let people = []; // {id, name, contact}
+let team = []; // {id, name, email} from the CRM
 let selected = new Set(); // place_ids currently checked
 let nextPageToken = null;
 let lastQuery = { category: '', location: '' };
@@ -49,17 +45,17 @@ function isFlagged(b) {
   return b.auto_flag && b.auto_flag !== 'ok';
 }
 
-function personName(id) {
+function teamMemberName(id) {
   if (!id) return null;
-  const p = people.find((person) => person.id === id);
-  return p ? p.name : null;
+  const member = team.find((m) => m.id === id);
+  return member ? member.name : null;
 }
 
 function matchesAssigneeFilter(b) {
   const val = filterAssignee.value;
   if (!val) return true;
   if (val === 'unassigned') return !b.assigned_to;
-  return b.assigned_to === Number(val);
+  return b.assigned_to === val;
 }
 
 function visibleRows() {
@@ -157,8 +153,8 @@ function renderRow(b) {
 function buildAssigneeSelect(b) {
   const select = document.createElement('select');
   select.innerHTML = `<option value="">— Unassigned —</option>` +
-    people.map((p) => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
-  select.value = b.assigned_to ? String(b.assigned_to) : '';
+    team.map((m) => `<option value="${m.id}">${escapeHtml(m.name)}</option>`).join('');
+  select.value = b.assigned_to || '';
   select.addEventListener('change', () => assign(b.place_id, select.value || null));
   return select;
 }
@@ -186,12 +182,12 @@ async function mark(placeId, action) {
   }
 }
 
-async function assign(placeId, personId) {
+async function assign(placeId, crmUserId) {
   try {
     const res = await fetch('/api/assign', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ placeId, personId: personId ? Number(personId) : null }),
+      body: JSON.stringify({ placeId, crmUserId }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to assign.');
@@ -202,71 +198,26 @@ async function assign(placeId, personId) {
   }
 }
 
-async function loadPeople() {
+async function loadCrmTeam() {
   try {
-    const res = await fetch('/api/people');
+    const res = await fetch('/api/crm-team');
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to load team.');
-    people = data.people;
-    renderPeopleList();
+    if (!res.ok) throw new Error(data.error || 'Failed to load CRM team.');
+    team = data.team;
+    populateAssigneeFilter();
     render();
   } catch (err) {
-    setStatus(err.message, true);
+    setStatus(`Couldn't load the CRM team: ${err.message}`, true);
   }
 }
 
-function renderPeopleList() {
-  peopleListEl.innerHTML = people.length
-    ? ''
-    : '<li class="empty-hint">No one added yet — add a teammate to assign leads to them.</li>';
-
-  for (const p of people) {
-    const li = document.createElement('li');
-    li.innerHTML = `${escapeHtml(p.name)}${p.contact ? ` <span class="manual-tag">(${escapeHtml(p.contact)})</span>` : ''} <button data-id="${p.id}" title="Remove">×</button>`;
-    li.querySelector('button').addEventListener('click', () => removePerson(p.id));
-    peopleListEl.appendChild(li);
-  }
-
+function populateAssigneeFilter() {
   const current = filterAssignee.value;
   filterAssignee.innerHTML =
     `<option value="">Everyone</option><option value="unassigned">Unassigned</option>` +
-    people.map((p) => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+    team.map((m) => `<option value="${m.id}">${escapeHtml(m.name)}</option>`).join('');
   filterAssignee.value = current;
 }
-
-async function removePerson(id) {
-  try {
-    const res = await fetch(`/api/people/${id}`, { method: 'DELETE' });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to remove.');
-    for (const b of rows.values()) {
-      if (b.assigned_to === id) b.assigned_to = null;
-    }
-    await loadPeople();
-  } catch (err) {
-    setStatus(err.message, true);
-  }
-}
-
-personForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = personNameInput.value.trim();
-  if (!name) return;
-  try {
-    const res = await fetch('/api/people', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, contact: personContactInput.value.trim() }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to add person.');
-    personNameInput.value = '';
-    personContactInput.value = '';
-    await loadPeople();
-  } catch (err) {
-    setStatus(err.message, true);
-  }
-});
 
 filterAssignee.addEventListener('change', render);
 
@@ -448,7 +399,7 @@ exportBtn.addEventListener('click', () => {
         csvCell(b.website || 'none'),
         csvCell(AUTO_LABELS[b.auto_flag] || b.auto_flag),
         csvCell(manualLabel(b.manual_status)),
-        csvCell(personName(b.assigned_to) || 'Unassigned'),
+        csvCell(teamMemberName(b.assigned_to) || 'Unassigned'),
       ].join(',')
     );
   }
@@ -480,4 +431,4 @@ function escapeAttr(str) {
   return escapeHtml(str);
 }
 
-loadPeople();
+loadCrmTeam();

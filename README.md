@@ -53,15 +53,15 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
 
 ## Assigning leads
 
-- Add teammates in the **Team** panel at the top (name + optional email/phone). They're
-  stored locally and reused across searches.
-- Each result row has an **Assigned to** dropdown — pick a person to hand that lead off
-  to them. The assignment is saved immediately and sticks even if you re-run the search
-  later.
+- Each result row has an **Assigned to** dropdown, populated live from the CRM's actual
+  team (`GET /api/external/team` — active users only). There's no separate local team
+  list to manage; it's always the CRM's real roster.
+- Picking someone saves the assignment immediately (`POST /api/assign`) and it sticks
+  even if you re-run the search later.
 - Use the **Assigned to** filter in the toolbar to show only one person's leads, or only
   unassigned ones.
-- Removing a person from the Team panel unassigns any leads that were on them (it doesn't
-  delete the leads).
+- The assignment isn't just local bookkeeping — see below, it rides along automatically
+  when you push the lead to the CRM.
 
 ## Pushing leads to the CRM
 
@@ -76,6 +76,11 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
   is safe to repeat — leads already in the CRM (matched by phone, regardless of
   which format either side used) are skipped, not duplicated, and pushed rows
   show a **✓ In CRM** marker.
+- If a row already has someone picked in its **Assigned to** dropdown, that assignment
+  is sent along automatically on push (`assignedToId`) — the CRM creates the lead already
+  assigned to them, no separate assignment step needed. Requires the matching change on
+  the CRM side (`GET /api/external/team` and `assignedToId` support in
+  `POST /api/external/leads`) to already be deployed there.
 
 ## Deploying on the VPS (alongside the CRM)
 

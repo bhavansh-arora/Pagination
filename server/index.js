@@ -8,12 +8,9 @@ const {
   setManualStatus,
   getBusiness,
   setAssignee,
-  addPerson,
-  listPeople,
-  deletePerson,
   markPushed,
 } = require('./db');
-const { toE164, pushToCrm, fetchCrmSources } = require('./crmPush');
+const { toE164, pushToCrm, fetchCrmSources, fetchCrmTeam } = require('./crmPush');
 
 const app = express();
 app.use(express.json());
@@ -93,39 +90,26 @@ app.post('/api/mark', (req, res) => {
   res.json({ ok: true, business: getBusiness(placeId) });
 });
 
-app.get('/api/people', (req, res) => {
-  res.json({ people: listPeople() });
-});
-
-app.post('/api/people', (req, res) => {
-  const { name, contact } = req.body || {};
-  if (!name || !name.trim()) {
-    return res.status(400).json({ error: 'name is required.' });
-  }
-  const person = addPerson({ name: name.trim(), contact: contact?.trim() });
-  res.json({ person });
-});
-
-app.delete('/api/people/:id', (req, res) => {
-  const id = Number(req.params.id);
-  if (!Number.isInteger(id)) {
-    return res.status(400).json({ error: 'Invalid person id.' });
-  }
-  deletePerson(id);
-  res.json({ ok: true });
-});
-
 app.post('/api/assign', (req, res) => {
-  const { placeId, personId } = req.body || {};
+  const { placeId, crmUserId } = req.body || {};
   if (!placeId) {
     return res.status(400).json({ error: 'placeId is required.' });
   }
-  const id = personId === null || personId === undefined ? null : Number(personId);
-  if (id !== null && !Number.isInteger(id)) {
-    return res.status(400).json({ error: 'personId must be an integer or null.' });
+  if (crmUserId !== null && crmUserId !== undefined && typeof crmUserId !== 'string') {
+    return res.status(400).json({ error: 'crmUserId must be a string or null.' });
   }
-  setAssignee(placeId, id);
+  setAssignee(placeId, crmUserId || null);
   res.json({ ok: true, business: getBusiness(placeId) });
+});
+
+app.get('/api/crm-team', async (req, res) => {
+  try {
+    const team = await fetchCrmTeam({ apiUrl: CRM_API_URL, secret: CRM_LEADS_SECRET });
+    res.json({ team });
+  } catch (err) {
+    console.error(err);
+    res.status(err.status || 500).json({ error: err.message });
+  }
 });
 
 app.get('/api/crm-config', (req, res) => {

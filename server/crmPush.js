@@ -41,7 +41,15 @@ async function pushToCrm({ apiUrl, secret, source, businesses }) {
       skippedNoPhone.push(b.place_id);
       continue;
     }
-    leads.push({ name: b.name, phone, website: b.website || undefined });
+    // Whatever CRM team member was already picked for this lead (via the
+    // "Assigned to" dropdown, stored locally ahead of time) rides along on
+    // the push itself -- no separate assignment step in the CRM afterward.
+    leads.push({
+      name: b.name,
+      phone,
+      website: b.website || undefined,
+      assignedToId: b.assigned_to || undefined,
+    });
   }
 
   if (leads.length === 0) {
@@ -88,4 +96,25 @@ async function fetchCrmSources({ apiUrl, secret }) {
   return data.sources || [];
 }
 
-module.exports = { toE164, pushToCrm, fetchCrmSources };
+async function fetchCrmTeam({ apiUrl, secret }) {
+  if (!apiUrl || !secret) {
+    const err = new Error(
+      "CRM_API_URL and CRM_LEADS_SECRET must both be set in .env to load the CRM team."
+    );
+    err.status = 500;
+    throw err;
+  }
+
+  const res = await fetch(`${apiUrl.replace(/\/$/, "")}/api/external/team`, {
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    const err = new Error(data?.error || `CRM rejected the request (HTTP ${res.status})`);
+    err.status = 502;
+    throw err;
+  }
+  return data.team || [];
+}
+
+module.exports = { toE164, pushToCrm, fetchCrmSources, fetchCrmTeam };
