@@ -47,7 +47,19 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
 - Click **Open site →** to visit a business's website yourself, then mark it **Needs
   site** or **Looks fine** — this overrides the auto-suggestion and is saved.
 - Click **Export CSV** to download the currently visible rows (business name, phone,
-  address, website, auto suggestion, manual status).
+  address, website, auto suggestion, manual status, assigned-to).
+
+## Assigning leads
+
+- Add teammates in the **Team** panel at the top (name + optional email/phone). They're
+  stored locally and reused across searches.
+- Each result row has an **Assigned to** dropdown — pick a person to hand that lead off
+  to them. The assignment is saved immediately and sticks even if you re-run the search
+  later.
+- Use the **Assigned to** filter in the toolbar to show only one person's leads, or only
+  unassigned ones.
+- Removing a person from the Team panel unassigns any leads that were on them (it doesn't
+  delete the leads).
 
 ## Notes / limits
 

@@ -16,10 +16,16 @@ const statusEl = document.getElementById('status');
 const table = document.getElementById('results-table');
 const tbody = document.getElementById('results-body');
 const filterFlagged = document.getElementById('filter-flagged');
+const filterAssignee = document.getElementById('filter-assignee');
 const exportBtn = document.getElementById('export-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
+const personForm = document.getElementById('person-form');
+const personNameInput = document.getElementById('person-name');
+const personContactInput = document.getElementById('person-contact');
+const peopleListEl = document.getElementById('people-list');
 
 let rows = new Map(); // place_id -> business row
+let people = []; // {id, name, contact}
 let nextPageToken = null;
 let lastQuery = { category: '', location: '' };
 
@@ -34,9 +40,24 @@ function isFlagged(b) {
   return b.auto_flag && b.auto_flag !== 'ok';
 }
 
+function personName(id) {
+  if (!id) return null;
+  const p = people.find((person) => person.id === id);
+  return p ? p.name : null;
+}
+
+function matchesAssigneeFilter(b) {
+  const val = filterAssignee.value;
+  if (!val) return true;
+  if (val === 'unassigned') return !b.assigned_to;
+  return b.assigned_to === Number(val);
+}
+
 function render() {
   const list = Array.from(rows.values());
-  const visible = filterFlagged.checked ? list.filter(isFlagged) : list;
+  const visible = list
+    .filter((b) => (filterFlagged.checked ? isFlagged(b) : true))
+    .filter(matchesAssigneeFilter);
 
   tbody.innerHTML = '';
   for (const b of visible) {
@@ -79,13 +100,25 @@ function renderRow(b) {
         <button class="clear" data-action="clear">Clear</button>
       </div>
     </td>
+    <td></td>
   `;
 
   tr.querySelectorAll('.mark-group button').forEach((btn) => {
     btn.addEventListener('click', () => mark(b.place_id, btn.dataset.action));
   });
 
+  tr.lastElementChild.appendChild(buildAssigneeSelect(b));
+
   return tr;
+}
+
+function buildAssigneeSelect(b) {
+  const select = document.createElement('select');
+  select.innerHTML = `<option value="">— Unassigned —</option>` +
+    people.map((p) => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+  select.value = b.assigned_to ? String(b.assigned_to) : '';
+  select.addEventListener('change', () => assign(b.place_id, select.value || null));
+  return select;
 }
 
 function manualLabel(status) {
@@ -110,6 +143,90 @@ async function mark(placeId, action) {
     setStatus(err.message, true);
   }
 }
+
+async function assign(placeId, personId) {
+  try {
+    const res = await fetch('/api/assign', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ placeId, personId: personId ? Number(personId) : null }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to assign.');
+    rows.set(placeId, data.business);
+    render();
+  } catch (err) {
+    setStatus(err.message, true);
+  }
+}
+
+async function loadPeople() {
+  try {
+    const res = await fetch('/api/people');
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to load team.');
+    people = data.people;
+    renderPeopleList();
+    render();
+  } catch (err) {
+    setStatus(err.message, true);
+  }
+}
+
+function renderPeopleList() {
+  peopleListEl.innerHTML = people.length
+    ? ''
+    : '<li class="empty-hint">No one added yet — add a teammate to assign leads to them.</li>';
+
+  for (const p of people) {
+    const li = document.createElement('li');
+    li.innerHTML = `${escapeHtml(p.name)}${p.contact ? ` <span class="manual-tag">(${escapeHtml(p.contact)})</span>` : ''} <button data-id="${p.id}" title="Remove">×</button>`;
+    li.querySelector('button').addEventListener('click', () => removePerson(p.id));
+    peopleListEl.appendChild(li);
+  }
+
+  const current = filterAssignee.value;
+  filterAssignee.innerHTML =
+    `<option value="">Everyone</option><option value="unassigned">Unassigned</option>` +
+    people.map((p) => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+  filterAssignee.value = current;
+}
+
+async function removePerson(id) {
+  try {
+    const res = await fetch(`/api/people/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to remove.');
+    for (const b of rows.values()) {
+      if (b.assigned_to === id) b.assigned_to = null;
+    }
+    await loadPeople();
+  } catch (err) {
+    setStatus(err.message, true);
+  }
+}
+
+personForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = personNameInput.value.trim();
+  if (!name) return;
+  try {
+    const res = await fetch('/api/people', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, contact: personContactInput.value.trim() }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to add person.');
+    personNameInput.value = '';
+    personContactInput.value = '';
+    await loadPeople();
+  } catch (err) {
+    setStatus(err.message, true);
+  }
+});
+
+filterAssignee.addEventListener('change', render);
 
 async function runSearch({ append = false } = {}) {
   const category = categoryInput.value.trim();
@@ -160,8 +277,10 @@ filterFlagged.addEventListener('change', render);
 
 exportBtn.addEventListener('click', () => {
   const list = Array.from(rows.values());
-  const visible = filterFlagged.checked ? list.filter(isFlagged) : list;
-  const header = ['Business Name', 'Phone', 'Address', 'Website', 'Auto Suggestion', 'Manual Status'];
+  const visible = list
+    .filter((b) => (filterFlagged.checked ? isFlagged(b) : true))
+    .filter(matchesAssigneeFilter);
+  const header = ['Business Name', 'Phone', 'Address', 'Website', 'Auto Suggestion', 'Manual Status', 'Assigned To'];
   const lines = [header.join(',')];
 
   for (const b of visible) {
@@ -173,6 +292,7 @@ exportBtn.addEventListener('click', () => {
         csvCell(b.website || 'none'),
         csvCell(AUTO_LABELS[b.auto_flag] || b.auto_flag),
         csvCell(manualLabel(b.manual_status)),
+        csvCell(personName(b.assigned_to) || 'Unassigned'),
       ].join(',')
     );
   }
@@ -203,3 +323,5 @@ function escapeHtml(str) {
 function escapeAttr(str) {
   return escapeHtml(str);
 }
+
+loadPeople();

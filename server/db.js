@@ -24,7 +24,19 @@ db.exec(`
     last_query TEXT,
     last_seen_at TEXT
   );
+
+  CREATE TABLE IF NOT EXISTS people (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    contact TEXT,
+    created_at TEXT
+  );
 `);
+
+const businessColumns = db.prepare(`PRAGMA table_info(businesses)`).all().map((c) => c.name);
+if (!businessColumns.includes('assigned_to')) {
+  db.exec(`ALTER TABLE businesses ADD COLUMN assigned_to INTEGER`);
+}
 
 const upsertStmt = db.prepare(`
   INSERT INTO businesses (
@@ -66,4 +78,47 @@ function getBusiness(placeId) {
   return getStmt.get(placeId);
 }
 
-module.exports = { db, upsertBusiness, setManualStatus, getBusiness };
+const assignStmt = db.prepare(`UPDATE businesses SET assigned_to = ? WHERE place_id = ?`);
+
+function setAssignee(placeId, personId) {
+  assignStmt.run(personId, placeId);
+}
+
+const unassignByPersonStmt = db.prepare(
+  `UPDATE businesses SET assigned_to = NULL WHERE assigned_to = ?`
+);
+
+const insertPersonStmt = db.prepare(`
+  INSERT INTO people (name, contact, created_at) VALUES (?, ?, ?)
+`);
+
+function addPerson({ name, contact }) {
+  const info = insertPersonStmt.run(name, contact || null, new Date().toISOString());
+  return getPersonStmt.get(info.lastInsertRowid);
+}
+
+const getPersonStmt = db.prepare(`SELECT * FROM people WHERE id = ?`);
+
+const listPeopleStmt = db.prepare(`SELECT * FROM people ORDER BY name COLLATE NOCASE ASC`);
+
+function listPeople() {
+  return listPeopleStmt.all();
+}
+
+const deletePersonStmt = db.prepare(`DELETE FROM people WHERE id = ?`);
+
+function deletePerson(id) {
+  unassignByPersonStmt.run(id);
+  deletePersonStmt.run(id);
+}
+
+module.exports = {
+  db,
+  upsertBusiness,
+  setManualStatus,
+  getBusiness,
+  setAssignee,
+  addPerson,
+  listPeople,
+  deletePerson,
+};

@@ -13,6 +13,16 @@
   </header>
 
   <main>
+    <section id="team-panel">
+      <h2>Team</h2>
+      <form id="person-form">
+        <input id="person-name" type="text" placeholder="Name" required />
+        <input id="person-contact" type="text" placeholder="Email or phone (optional)" />
+        <button type="submit">Add person</button>
+      </form>
+      <ul id="people-list"></ul>
+    </section>
+
     <form id="search-form">
       <input id="category" type="text" placeholder="Category, e.g. salon" required />
       <input id="location" type="text" placeholder="Location, e.g. Bhopal" required />
@@ -25,6 +35,13 @@
       <label class="filter-toggle">
         <input type="checkbox" id="filter-flagged" />
         Show only flagged (auto or manually marked "needs website")
+      </label>
+      <label class="filter-toggle">
+        Assigned to:
+        <select id="filter-assignee">
+          <option value="">Everyone</option>
+          <option value="unassigned">Unassigned</option>
+        </select>
       </label>
       <button id="export-btn" type="button" disabled>Export CSV</button>
       <button id="load-more-btn" type="button" style="display:none;">Load more results</button>
@@ -40,6 +57,7 @@
           <th>Auto suggestion</th>
           <th>Visit site</th>
           <th>Manual review</th>
+          <th>Assigned to</th>
         </tr>
       </thead>
       <tbody id="results-body"></tbody>
