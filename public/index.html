@@ -27,13 +27,6 @@
         <input type="checkbox" id="boost-mode" />
         🚀 Boost Mode — only show leads with no website or a weak one
       </label>
-      <label class="filter-toggle">
-        Assigned to:
-        <select id="filter-assignee">
-          <option value="">Everyone</option>
-          <option value="unassigned">Unassigned</option>
-        </select>
-      </label>
       <button id="export-btn" type="button" disabled>Export CSV</button>
       <button id="load-more-btn" type="button" style="display:none;">Load more results</button>
     </div>
@@ -44,6 +37,9 @@
         <option value="">Loading sources…</option>
       </select>
       <input id="crm-source-new" type="text" placeholder="New source name" style="display:none;" />
+      <select id="crm-assignee-select">
+        <option value="">Loading team…</option>
+      </select>
       <button id="push-crm-btn" type="button" disabled>Push selected to CRM</button>
     </div>
 
@@ -58,7 +54,6 @@
           <th>Auto suggestion</th>
           <th>Visit site</th>
           <th>Manual review</th>
-          <th>Assigned to</th>
           <th>CRM</th>
         </tr>
       </thead>

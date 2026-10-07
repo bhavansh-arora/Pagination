@@ -7,7 +7,6 @@ const {
   upsertBusiness,
   setManualStatus,
   getBusiness,
-  setAssignee,
   markPushed,
 } = require('./db');
 const { toE164, pushToCrm, fetchCrmSources, fetchCrmTeam } = require('./crmPush');
@@ -90,18 +89,6 @@ app.post('/api/mark', (req, res) => {
   res.json({ ok: true, business: getBusiness(placeId) });
 });
 
-app.post('/api/assign', (req, res) => {
-  const { placeId, crmUserId } = req.body || {};
-  if (!placeId) {
-    return res.status(400).json({ error: 'placeId is required.' });
-  }
-  if (crmUserId !== null && crmUserId !== undefined && typeof crmUserId !== 'string') {
-    return res.status(400).json({ error: 'crmUserId must be a string or null.' });
-  }
-  setAssignee(placeId, crmUserId || null);
-  res.json({ ok: true, business: getBusiness(placeId) });
-});
-
 app.get('/api/crm-team', async (req, res) => {
   try {
     const team = await fetchCrmTeam({ apiUrl: CRM_API_URL, secret: CRM_LEADS_SECRET });
@@ -130,13 +117,16 @@ app.get('/api/crm-sources', async (req, res) => {
 });
 
 app.post('/api/push-to-crm', async (req, res) => {
-  const { placeIds, source } = req.body || {};
+  const { placeIds, source, assignedToId } = req.body || {};
   if (!Array.isArray(placeIds) || placeIds.length === 0) {
     return res.status(400).json({ error: 'placeIds (non-empty array) is required.' });
   }
   const trimmedSource = String(source || '').trim();
   if (!trimmedSource) {
     return res.status(400).json({ error: 'source is required (pick an existing one or type a new one).' });
+  }
+  if (assignedToId !== null && assignedToId !== undefined && typeof assignedToId !== 'string') {
+    return res.status(400).json({ error: 'assignedToId must be a string or null.' });
   }
 
   const businesses = placeIds.map((id) => getBusiness(id)).filter(Boolean);
@@ -157,6 +147,7 @@ app.post('/api/push-to-crm', async (req, res) => {
       apiUrl: CRM_API_URL,
       secret: CRM_LEADS_SECRET,
       source: trimmedSource,
+      assignedToId: assignedToId || null,
       businesses,
     });
 

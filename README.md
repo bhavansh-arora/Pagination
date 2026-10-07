@@ -49,38 +49,27 @@ legitimate, reliable way to get this data and includes a monthly free usage cred
 - Click **Open site →** to visit a business's website yourself, then mark it **Needs
   site** or **Looks fine** — this overrides the auto-suggestion and is saved.
 - Click **Export CSV** to download the currently visible rows (business name, phone,
-  address, website, auto suggestion, manual status, assigned-to).
+  address, website, auto suggestion, manual status).
 
-## Assigning leads
-
-- Each result row has an **Assigned to** dropdown, populated live from the CRM's actual
-  team (`GET /api/external/team` — active users only). There's no separate local team
-  list to manage; it's always the CRM's real roster.
-- Picking someone saves the assignment immediately (`POST /api/assign`) and it sticks
-  even if you re-run the search later.
-- Use the **Assigned to** filter in the toolbar to show only one person's leads, or only
-  unassigned ones.
-- The assignment isn't just local bookkeeping — see below, it rides along automatically
-  when you push the lead to the CRM.
-
-## Pushing leads to the CRM
+## Pushing leads to the CRM (and assigning them)
 
 - Tick the checkbox on each row you want to send (or the header checkbox to select
   everything currently visible), pick a **lead source** from the dropdown — it's
   populated live from the CRM's actual Lead Sources, or choose **+ Add new source…**
-  and type one to create it on the fly — then click **Push selected to CRM**. Only
-  the rows you checked are sent, tagged with the source you picked, phone numbers
-  normalized to full E.164 (`+<country code><number>`) -- trusting Google's own
-  international format when it has one (any country), falling back to a bare
-  10-digit number being assumed US (`+1XXXXXXXXXX`) only when it doesn't. Pushing
-  is safe to repeat — leads already in the CRM (matched by phone, regardless of
-  which format either side used) are skipped, not duplicated, and pushed rows
-  show a **✓ In CRM** marker.
-- If a row already has someone picked in its **Assigned to** dropdown, that assignment
-  is sent along automatically on push (`assignedToId`) — the CRM creates the lead already
-  assigned to them, no separate assignment step needed. Requires the matching change on
-  the CRM side (`GET /api/external/team` and `assignedToId` support in
-  `POST /api/external/leads`) to already be deployed there.
+  and type one to create it on the fly.
+- Pick an **assignee** from the second dropdown, populated live from the CRM's actual
+  active team (`GET /api/external/team`) — or leave it as "Leave unassigned". This one
+  picked person applies to every lead in this push (bulk assignment, not per-row).
+- Click **Push selected to CRM**. Phone numbers are normalized to full E.164
+  (`+<country code><number>`) -- trusting Google's own international format when it
+  has one (any country), falling back to a bare 10-digit number being assumed US
+  (`+1XXXXXXXXXX`) only when it doesn't. Pushing is safe to repeat — leads already in
+  the CRM (matched by phone, regardless of which format either side used) are skipped,
+  not duplicated, and pushed rows show a **✓ In CRM** marker.
+- The chosen assignee rides along on the push itself (`assignedToId`) — the CRM creates
+  each lead already assigned, no separate assignment step there. Requires the matching
+  CRM-side support (`GET /api/external/team` and `assignedToId` on
+  `POST /api/external/leads`) to already be deployed.
 
 ## Deploying on the VPS (alongside the CRM)
 

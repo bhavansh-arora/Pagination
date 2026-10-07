@@ -27,14 +27,6 @@ db.exec(`
   );
 `);
 
-// assigned_to holds a CRM User.id (string, from GET /api/crm-team) -- not a
-// locally-managed person -- so it's sent back as-is as assignedToId when the
-// lead is pushed to the CRM.
-const businessColumns = db.prepare(`PRAGMA table_info(businesses)`).all().map((c) => c.name);
-if (!businessColumns.includes('assigned_to')) {
-  db.exec(`ALTER TABLE businesses ADD COLUMN assigned_to TEXT`);
-}
-
 // Guards a column add for databases created before pushed_to_crm_at existed;
 // SQLite has no "ADD COLUMN IF NOT EXISTS", so this just swallows the
 // "duplicate column" error on a DB that already has it.
@@ -84,12 +76,6 @@ function getBusiness(placeId) {
   return getStmt.get(placeId);
 }
 
-const assignStmt = db.prepare(`UPDATE businesses SET assigned_to = ? WHERE place_id = ?`);
-
-function setAssignee(placeId, crmUserId) {
-  assignStmt.run(crmUserId, placeId);
-}
-
 const markPushedStmt = db.prepare(
   `UPDATE businesses SET pushed_to_crm_at = ? WHERE place_id = ?`
 );
@@ -103,6 +89,5 @@ module.exports = {
   upsertBusiness,
   setManualStatus,
   getBusiness,
-  setAssignee,
   markPushed,
 };

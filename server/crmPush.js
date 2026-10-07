@@ -24,7 +24,7 @@ function toE164(phone) {
   return `+1${nationalDigits}`;
 }
 
-async function pushToCrm({ apiUrl, secret, source, businesses }) {
+async function pushToCrm({ apiUrl, secret, source, assignedToId, businesses }) {
   if (!apiUrl || !secret) {
     const err = new Error(
       "CRM_API_URL and CRM_LEADS_SECRET must both be set in .env to push leads to the CRM."
@@ -41,14 +41,14 @@ async function pushToCrm({ apiUrl, secret, source, businesses }) {
       skippedNoPhone.push(b.place_id);
       continue;
     }
-    // Whatever CRM team member was already picked for this lead (via the
-    // "Assigned to" dropdown, stored locally ahead of time) rides along on
-    // the push itself -- no separate assignment step in the CRM afterward.
+    // One assignee picked for the whole batch at push time (not per-lead
+    // beforehand) -- every lead in this push rides in with the same
+    // assignedToId, so the CRM creates them already assigned.
     leads.push({
       name: b.name,
       phone,
       website: b.website || undefined,
-      assignedToId: b.assigned_to || undefined,
+      assignedToId: assignedToId || undefined,
     });
   }
 

@@ -18,17 +18,17 @@ const statusEl = document.getElementById('status');
 const table = document.getElementById('results-table');
 const tbody = document.getElementById('results-body');
 const boostMode = document.getElementById('boost-mode');
-const filterAssignee = document.getElementById('filter-assignee');
 const exportBtn = document.getElementById('export-btn');
 const loadMoreBtn = document.getElementById('load-more-btn');
 const selectAllTh = document.getElementById('select-all-th');
 const selectedCountEl = document.getElementById('selected-count');
 const sourceSelect = document.getElementById('crm-source-select');
 const sourceNewInput = document.getElementById('crm-source-new');
+const assigneeSelect = document.getElementById('crm-assignee-select');
 const pushCrmBtn = document.getElementById('push-crm-btn');
 
 let rows = new Map(); // place_id -> business row
-let team = []; // {id, name, email} from the CRM
+let team = []; // {id, name, email} from the CRM, for the bulk "assign to" picker at push time
 let selected = new Set(); // place_ids currently checked
 let nextPageToken = null;
 let lastQuery = { category: '', location: '' };
@@ -45,24 +45,9 @@ function isFlagged(b) {
   return b.auto_flag && b.auto_flag !== 'ok';
 }
 
-function teamMemberName(id) {
-  if (!id) return null;
-  const member = team.find((m) => m.id === id);
-  return member ? member.name : null;
-}
-
-function matchesAssigneeFilter(b) {
-  const val = filterAssignee.value;
-  if (!val) return true;
-  if (val === 'unassigned') return !b.assigned_to;
-  return b.assigned_to === val;
-}
-
 function visibleRows() {
   const list = Array.from(rows.values());
-  return list
-    .filter((b) => (boostMode.checked ? isFlagged(b) : true))
-    .filter(matchesAssigneeFilter);
+  return boostMode.checked ? list.filter(isFlagged) : list;
 }
 
 function updateSelectionUi() {
@@ -131,15 +116,12 @@ function renderRow(b) {
         <button class="clear" data-action="clear">Clear</button>
       </div>
     </td>
-    <td class="assignee-cell"></td>
     <td>${crmStatus}</td>
   `;
 
   tr.querySelectorAll('.mark-group button').forEach((btn) => {
     btn.addEventListener('click', () => mark(b.place_id, btn.dataset.action));
   });
-
-  tr.querySelector('.assignee-cell').appendChild(buildAssigneeSelect(b));
 
   tr.querySelector('.row-select').addEventListener('change', (e) => {
     if (e.target.checked) selected.add(b.place_id);
@@ -148,15 +130,6 @@ function renderRow(b) {
   });
 
   return tr;
-}
-
-function buildAssigneeSelect(b) {
-  const select = document.createElement('select');
-  select.innerHTML = `<option value="">— Unassigned —</option>` +
-    team.map((m) => `<option value="${m.id}">${escapeHtml(m.name)}</option>`).join('');
-  select.value = b.assigned_to || '';
-  select.addEventListener('change', () => assign(b.place_id, select.value || null));
-  return select;
 }
 
 function manualLabel(status) {
@@ -182,44 +155,25 @@ async function mark(placeId, action) {
   }
 }
 
-async function assign(placeId, crmUserId) {
-  try {
-    const res = await fetch('/api/assign', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ placeId, crmUserId }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to assign.');
-    rows.set(placeId, data.business);
-    render();
-  } catch (err) {
-    setStatus(err.message, true);
-  }
-}
-
 async function loadCrmTeam() {
   try {
     const res = await fetch('/api/crm-team');
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to load CRM team.');
     team = data.team;
-    populateAssigneeFilter();
-    render();
+    populateAssigneeSelect();
   } catch (err) {
+    assigneeSelect.innerHTML = '<option value="">CRM not reachable</option>';
+    assigneeSelect.disabled = true;
     setStatus(`Couldn't load the CRM team: ${err.message}`, true);
   }
 }
 
-function populateAssigneeFilter() {
-  const current = filterAssignee.value;
-  filterAssignee.innerHTML =
-    `<option value="">Everyone</option><option value="unassigned">Unassigned</option>` +
+function populateAssigneeSelect() {
+  assigneeSelect.innerHTML =
+    `<option value="">Leave unassigned</option>` +
     team.map((m) => `<option value="${m.id}">${escapeHtml(m.name)}</option>`).join('');
-  filterAssignee.value = current;
 }
-
-filterAssignee.addEventListener('change', render);
 
 async function runSearch({ append = false } = {}) {
   const category = categoryInput.value.trim();
@@ -352,6 +306,11 @@ pushCrmBtn.addEventListener('click', async () => {
     return;
   }
 
+  const assignedToId = assigneeSelect.value || null;
+  const assigneeName = assignedToId
+    ? team.find((m) => m.id === assignedToId)?.name
+    : null;
+
   pushCrmBtn.disabled = true;
   setStatus(`Pushing ${placeIds.length} lead(s) to the CRM under "${source}"…`);
 
@@ -359,7 +318,7 @@ pushCrmBtn.addEventListener('click', async () => {
     const res = await fetch('/api/push-to-crm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ placeIds, source }),
+      body: JSON.stringify({ placeIds, source, assignedToId }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Push failed.');
@@ -371,7 +330,7 @@ pushCrmBtn.addEventListener('click', async () => {
     render();
 
     const skippedNoPhone = data.skippedNoPhone?.length || 0;
-    const parts = [`${data.created} pushed`, `${data.duplicate} already in CRM`];
+    const parts = [`${data.created} pushed${assigneeName ? ` to ${assigneeName}` : ''}`, `${data.duplicate} already in CRM`];
     if (skippedNoPhone) parts.push(`${skippedNoPhone} skipped (no usable phone)`);
     setStatus(parts.join(', ') + '.');
 
@@ -387,7 +346,7 @@ pushCrmBtn.addEventListener('click', async () => {
 
 exportBtn.addEventListener('click', () => {
   const visible = visibleRows();
-  const header = ['Business Name', 'Phone', 'Address', 'Website', 'Auto Suggestion', 'Manual Status', 'Assigned To'];
+  const header = ['Business Name', 'Phone', 'Address', 'Website', 'Auto Suggestion', 'Manual Status'];
   const lines = [header.join(',')];
 
   for (const b of visible) {
@@ -399,7 +358,6 @@ exportBtn.addEventListener('click', () => {
         csvCell(b.website || 'none'),
         csvCell(AUTO_LABELS[b.auto_flag] || b.auto_flag),
         csvCell(manualLabel(b.manual_status)),
-        csvCell(teamMemberName(b.assigned_to) || 'Unassigned'),
       ].join(',')
     );
   }
