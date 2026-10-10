@@ -251,8 +251,40 @@
   var form = document.getElementById("contact-form");
   if (form) {
     var CONTACT_EMAIL = "bhavansharora21@gmail.com";
+
+    /* Phone country picker — defaults to the visitor's own country via IP lookup */
+    var phoneInput = document.getElementById("phone");
+    var phoneField = phoneInput ? phoneInput.closest(".form-field") : null;
+    var iti = null;
+    if (phoneInput && window.intlTelInput) {
+      iti = window.intlTelInput(phoneInput, {
+        initialCountry: "auto",
+        loadUtils: function () {
+          return import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/js/utils.js");
+        },
+        geoIpLookup: function (success) {
+          fetch("https://ipapi.co/json")
+            .then(function (res) { return res.json(); })
+            .then(function (data) { success((data && data.country_code) || "us"); })
+            .catch(function () { success("us"); });
+        }
+      });
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      if (iti) {
+        if (typeof iti.isValidNumber === "function" && !iti.isValidNumber()) {
+          if (phoneField) phoneField.classList.add("has-error");
+          phoneInput.focus();
+          return;
+        }
+        if (phoneField) phoneField.classList.remove("has-error");
+        var fullNumber = iti.getNumber();
+        if (fullNumber) phoneInput.value = fullNumber;
+      }
+
       var btn = form.querySelector("button[type=submit]");
       var original = btn.textContent;
       btn.textContent = "Sending…";

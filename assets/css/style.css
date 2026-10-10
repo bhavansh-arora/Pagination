@@ -521,6 +521,13 @@ section{ position: relative; padding: 110px 0; }
   outline: none; border-color: var(--pink); background: var(--surface-strong);
 }
 .form-field textarea{ resize: vertical; min-height: 120px; }
+.form-field .error-msg{ display:none; margin-top:7px; font-size:.78rem; color:#b3261e; }
+.form-field.has-error input{ border-color:#b3261e; }
+.form-field.has-error .error-msg{ display:block; }
+
+/* Phone country picker (intl-tel-input) */
+.form-field .iti{ width:100%; display:block; --iti-border-color: var(--border); --iti-dropdown-bg: var(--surface); --iti-hover-color: rgba(184,134,11,.08); }
+.form-field .iti input{ width:100%; }
 .contact-info .card{ margin-bottom: 18px; }
 .contact-info .row{ display:flex; align-items:center; gap:14px; }
 .contact-info .row .ico-tile{ margin:0; width:44px; height:44px; border-radius:13px; }
