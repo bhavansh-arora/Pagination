@@ -78,6 +78,10 @@
             </div>
           </div>
           <div class="form-field">
+            <label for="phone">Phone number (with country code)</label>
+            <input id="phone" name="phone" type="tel" placeholder="+1 555 123 4567" pattern="\+[1-9][0-9\s\-]{6,18}" title="Include your country code, starting with +, e.g. +1 555 123 4567" required>
+          </div>
+          <div class="form-field">
             <label for="interest">I'm interested in</label>
             <select id="interest" name="interest">
               <option value="new-project">Starting a new project</option>
