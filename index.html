@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Aurelia — Luxury Event Management &amp; Experiential Events Studio</title>
+  <meta name="description" content="Award-winning event management for luxury weddings, corporate conferences, product launches and festivals. Free consultation and a proposal in 24 hours.">
+  <meta name="theme-color" content="#07060b">
+  <meta property="og:title" content="Aurelia — Luxury Event Management &amp; Experiential Events Studio">
+  <meta property="og:description" content="Award-winning event management for luxury weddings, corporate conferences, product launches and festivals. Free consultation and a proposal in 24 hours.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&amp;fit=crop&amp;w=1200&amp;q=80&amp;h=630">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f8e2ad'/%3E%3Cstop offset='.5' stop-color='%23ff7aa8'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='url(%23g)' stroke-width='10'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <div class="preloader-logo"><span style="animation-delay:0.00s">A</span><span style="animation-delay:0.07s">U</span><span style="animation-delay:0.14s">R</span><span style="animation-delay:0.21s">E</span><span style="animation-delay:0.28s">L</span><span style="animation-delay:0.35s">I</span><span style="animation-delay:0.42s">A</span></div>
+      <div class="preloader-bar"><i></i></div>
+      <div class="preloader-count">0%</div>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"></div><div class="cursor-dot" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo" aria-label="Aurelia home"><span class="logo-mark"></span>AURELIA</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a href="contact.html" class="btn btn-primary header-cta" data-magnetic>Book a Free Consult</a>
+      <button class="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <a class="m-link active" href="index.html"><small>01</small>Home</a>
+    <a class="m-link" href="services.html"><small>02</small>Services</a>
+    <a class="m-link" href="portfolio.html"><small>03</small>Portfolio</a>
+    <a class="m-link" href="about.html"><small>04</small>About</a>
+    <a class="m-link" href="contact.html"><small>05</small>Contact</a>
+    <a href="contact.html" class="btn btn-primary btn-lg" style="margin-top:34px;align-self:flex-start">Book a Free Consult <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <div class="m-foot"><span>hello@aurelia.events</span><span>+1 (555) 014-2026</span></div>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-glow"></div>
+      <div class="container">
+        <div>
+          <div class="hero-badge" data-reveal><span class="pulse-dot"></span><b>NEW</b> Now booking the 2027 season — 11 dates left</div>
+          <h1 class="display" data-split>Events that feel like <span class="serif grad-text">pure magic.</span></h1>
+          <p class="lead" data-reveal style="--d:.5s">We design and produce luxury weddings, brand launches and corporate experiences so extraordinary, your guests will still be talking about them years from now.</p>
+          <div class="btn-row" data-reveal style="--d:.65s">
+            <a href="contact.html" class="btn btn-primary btn-lg" data-magnetic>Plan My Event <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a href="portfolio.html" class="btn btn-ghost btn-lg">See Our Work</a>
+          </div>
+          <div class="hero-proof" data-reveal style="--d:.8s">
+            <div class="avatars">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;w=100&amp;q=80&amp;h=100" alt=""><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&amp;fit=crop&amp;w=100&amp;q=80&amp;h=100" alt=""><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&amp;fit=crop&amp;w=100&amp;q=80&amp;h=100" alt=""><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&amp;fit=crop&amp;w=100&amp;q=80&amp;h=100" alt="">
+            </div>
+            <div><div class="stars">★★★★★ <b style="color:var(--ink)">4.9/5</b></div><small>Loved by 1,200+ couples &amp; brands</small></div>
+          </div>
+        </div>
+        <div class="hero-stack" data-reveal="zoom" style="--d:.3s">
+          <div class="card3d c3"><img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=500" alt="Floral wedding aisle"></div>
+          <div class="card3d c1"><img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&amp;fit=crop&amp;w=900&amp;q=80&amp;h=1000" alt="Guests raising a toast"></div>
+          <div class="card3d c2"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&amp;fit=crop&amp;w=700&amp;q=80&amp;h=560" alt="Confetti at a festival"></div>
+          <div class="float-chip f1"><span class="ico">★</span><div><strong>Best Event Studio</strong>Global Event Awards ’25</div></div>
+          <div class="float-chip f2"><span class="ico">⚡</span><div><strong>24h</strong>Proposal turnaround</div></div>
+        </div>
+      </div>
+      <div class="scroll-hint"><i></i>Scroll</div>
+    </section>
+
+    <!-- CLIENTS -->
+    <div class="marquee">
+      <div class="marquee-label">Trusted by visionary brands &amp; 1,200+ families</div>
+      <div class="marquee-track"><span>Northwind</span><span class="s">Halcyon Capital</span><span>Meridian Hotels</span><span>Orbit Labs</span><span class="s">Solstice</span><span>Kairo Studios</span><span>Vanta Group</span><span class="s">Lumen &amp; Co</span><span>Atlas Motors</span><span>Bellamy</span><span>Northwind</span><span class="s">Halcyon Capital</span><span>Meridian Hotels</span><span>Orbit Labs</span><span class="s">Solstice</span><span>Kairo Studios</span><span>Vanta Group</span><span class="s">Lumen &amp; Co</span><span>Atlas Motors</span><span>Bellamy</span></div>
+    </div>
+
+    <!-- STATS -->
+    <section class="section">
+      <div class="container">
+        <div class="stats" data-reveal>
+          <div class="stat"><div class="stat-num"><span data-count="1200">0</span><em>+</em></div><p>Events produced flawlessly</p></div>
+          <div class="stat"><div class="stat-num"><span data-count="98">0</span><em>%</em></div><p>Clients who refer or rebook</p></div>
+          <div class="stat"><div class="stat-num"><span data-count="42">0</span></div><p>Cities across 18 countries</p></div>
+          <div class="stat"><div class="stat-num"><span data-count="4.9">0</span><em>★</em></div><p>Average rating, 600+ reviews</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" style="padding-top:20px">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-reveal>What we create</span>
+          <h2 class="h2" data-split>Every kind of moment, <span class="serif grad-text">elevated.</span></h2>
+          <p class="lead" data-reveal>One studio. Every discipline under one roof — creative direction, design, production, hospitality and tech. Less chaos for you. More wow for your guests.</p>
+        </div>
+        <div class="cards-grid">
+          <a href="services.html#weddings" class="s-card tilt" data-reveal="flip" style="--d:0.00s" data-tilt="8">
+            <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&amp;fit=crop&amp;w=800&amp;q=80&amp;h=1066" alt="Luxury Weddings by Aurelia" loading="lazy">
+            <span class="glare"></span>
+            <span class="num">01</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <div class="s-body">
+              <h3>Luxury Weddings</h3>
+              <p>From intimate vows to three-day celebrations — every flower, light and note designed around your love story.</p>
+              <div class="tags"><span class="tag">Destination</span><span class="tag">Décor</span><span class="tag">Full planning</span></div>
+            </div>
+          </a>
+          <a href="services.html#corporate" class="s-card tilt" data-reveal="flip" style="--d:0.12s" data-tilt="8">
+            <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&amp;fit=crop&amp;w=800&amp;q=80&amp;h=1066" alt="Corporate and Conferences by Aurelia" loading="lazy">
+            <span class="glare"></span>
+            <span class="num">02</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <div class="s-body">
+              <h3>Corporate &amp; Conferences</h3>
+              <p>Summits, offsites and award nights engineered for energy, flawless logistics and measurable ROI.</p>
+              <div class="tags"><span class="tag">Summits</span><span class="tag">Awards</span><span class="tag">Offsites</span></div>
+            </div>
+          </a>
+          <a href="services.html#launches" class="s-card tilt" data-reveal="flip" style="--d:0.24s" data-tilt="8">
+            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&amp;fit=crop&amp;w=800&amp;q=80&amp;h=1066" alt="Product Launches by Aurelia" loading="lazy">
+            <span class="glare"></span>
+            <span class="num">03</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <div class="s-body">
+              <h3>Product Launches</h3>
+              <p>Cinematic reveals with projection mapping, live streams and press moments that trend for days.</p>
+              <div class="tags"><span class="tag">Reveal shows</span><span class="tag">Press</span><span class="tag">Streaming</span></div>
+            </div>
+          </a>
+          <a href="services.html#festivals" class="s-card tilt" data-reveal="flip" style="--d:0.00s" data-tilt="8">
+            <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&amp;fit=crop&amp;w=800&amp;q=80&amp;h=1066" alt="Concerts and Festivals by Aurelia" loading="lazy">
+            <span class="glare"></span>
+            <span class="num">04</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <div class="s-body">
+              <h3>Concerts &amp; Festivals</h3>
+              <p>Stages, sound, artists, ticketing and crowd safety — we produce festivals for 500 to 50,000.</p>
+              <div class="tags"><span class="tag">Production</span><span class="tag">Artists</span><span class="tag">Safety</span></div>
+            </div>
+          </a>
+          <a href="services.html#private" class="s-card tilt" data-reveal="flip" style="--d:0.12s" data-tilt="8">
+            <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&amp;fit=crop&amp;w=800&amp;q=80&amp;h=1066" alt="Private Celebrations by Aurelia" loading="lazy">
+            <span class="glare"></span>
+            <span class="num">05</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <div class="s-body">
+              <h3>Private Celebrations</h3>
+              <p>Milestone birthdays, anniversaries and soirées so personal your guests will feel the story.</p>
+              <div class="tags"><span class="tag">Birthdays</span><span class="tag">Anniversaries</span><span class="tag">Soirées</span></div>
+            </div>
+          </a>
+          <a href="services.html#gala" class="s-card tilt" data-reveal="flip" style="--d:0.24s" data-tilt="8">
+            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&amp;fit=crop&amp;w=800&amp;q=80&amp;h=1066" alt="Galas and Fundraisers by Aurelia" loading="lazy">
+            <span class="glare"></span>
+            <span class="num">06</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <div class="s-body">
+              <h3>Galas &amp; Fundraisers</h3>
+              <p>Black-tie evenings that raise more — choreographed run-of-show, auctions and unforgettable entrances.</p>
+              <div class="tags"><span class="tag">Black-tie</span><span class="tag">Auctions</span><span class="tag">Charity</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIG MARQUEE -->
+    <div class="big-marquee" aria-hidden="true">
+      <div class="marquee-track"><span>Weddings</span><span class="g">Galas</span><span>Launches</span><span class="fill">Festivals</span><span>Summits</span><span class="g">Soirées</span><span>Weddings</span><span class="g">Galas</span><span>Launches</span><span class="fill">Festivals</span><span>Summits</span><span class="g">Soirées</span></div>
+    </div>
+
+    <!-- 3D CAROUSEL -->
+    <section class="section" style="padding-top:60px;overflow:hidden">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow" data-reveal>Signature moments</span>
+          <h2 class="h2" data-split>A world of events, <span class="serif grad-text">in orbit.</span></h2>
+          <p class="lead" data-reveal>Drag to spin through a few of our favourite nights from the last season.</p>
+        </div>
+      </div>
+      <div class="c3d" data-reveal="zoom">
+        <div class="c3d-floor"></div>
+        <div class="c3d-ring">
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1561489413-985b06da5bee?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="The Midnight Gala, New York" loading="lazy" draggable="false"><figcaption><span>New York</span><b>The Midnight Gala</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Garden of Vows, Lake Como" loading="lazy" draggable="false"><figcaption><span>Lake Como</span><b>Garden of Vows</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Nova X Launch, Dubai" loading="lazy" draggable="false"><figcaption><span>Dubai</span><b>Nova X Launch</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Riviera Long Table, Amalfi" loading="lazy" draggable="false"><figcaption><span>Amalfi</span><b>Riviera Long Table</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Solstice Festival, Ibiza" loading="lazy" draggable="false"><figcaption><span>Ibiza</span><b>Solstice Festival</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Future Forward Summit, London" loading="lazy" draggable="false"><figcaption><span>London</span><b>Future Forward Summit</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Crystal Ballroom, Paris" loading="lazy" draggable="false"><figcaption><span>Paris</span><b>Crystal Ballroom</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1496337589254-7e19d01cec44?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Afterglow Party, Miami" loading="lazy" draggable="false"><figcaption><span>Miami</span><b>Afterglow Party</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1522413452208-996ff3f3e740?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Harvest Supper, Napa Valley" loading="lazy" draggable="false"><figcaption><span>Napa Valley</span><b>Harvest Supper</b></figcaption></figure>
+            <figure class="c3d-item"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&amp;fit=crop&amp;w=600&amp;q=80&amp;h=800" alt="Aurora Live, Berlin" loading="lazy" draggable="false"><figcaption><span>Berlin</span><b>Aurora Live</b></figcaption></figure>
+        </div>
+      </div>
+      <div class="c3d-hint">← Drag to explore →</div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-reveal>How it works</span>
+          <h2 class="h2" data-split>From first call to <span class="serif grad-text">final encore.</span></h2>
+          <p class="lead" data-reveal>A proven four-step process refined over 1,200 events — so you can relax and actually enjoy your own event.</p>
+        </div>
+        <div class="process">
+          <div class="process-line"><i></i></div>
+          <div class="step" data-reveal style="--d:0s"><div class="step-num">01</div><h3>Discover</h3><p>A free strategy call to understand your goals, guests, story and budget.</p><span class="when">Day 1</span></div>
+          <div class="step" data-reveal style="--d:.1s"><div class="step-num">02</div><h3>Design</h3><p>Moodboards, 3D venue renders and a transparent, line-by-line budget.</p><span class="when">Within 24 hours</span></div>
+          <div class="step" data-reveal style="--d:.2s"><div class="step-num">03</div><h3>Produce</h3><p>Vendors, logistics, rehearsals and contingencies — all handled by your dedicated team.</p><span class="when">Weeks 2 – 12</span></div>
+          <div class="step" data-reveal style="--d:.3s"><div class="step-num">04</div><h3>Wow</h3><p>You arrive as a guest. We run the show, capture every moment and handle every detail.</p><span class="when">The big day</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="section">
+      <div class="container split-feature">
+        <div class="feature-media">
+          <div class="img-reveal"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&amp;fit=crop&amp;w=1000&amp;q=80&amp;h=1250" alt="Elegant long-table dinner setup" loading="lazy"></div>
+          <div class="inset" data-reveal="zoom" style="--d:.4s"><img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&amp;fit=crop&amp;w=500&amp;q=80&amp;h=500" alt="Couple holding hands with wedding rings" loading="lazy"></div>
+          <svg class="badge-round" viewBox="0 0 130 130" aria-hidden="true"><defs><path id="circ" d="M65,65 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><text><textPath href="#circ">Award-winning · Since 2011 · Award-winning · Since 2011 ·</textPath></text></svg>
+          <div class="badge-core" aria-hidden="true">✦</div>
+        </div>
+        <div>
+          <span class="eyebrow" data-reveal>Why Aurelia</span>
+          <h2 class="h2" data-split>Stress-free for you. <span class="serif grad-text">Unforgettable</span> for them.</h2>
+          <ul class="checklist">
+            <li data-reveal style="--d:.05s"><span class="ck">✓</span><div><b>One dedicated planner, start to finish</b><span>A single point of contact who knows every detail — reachable 7 days a week.</span></div></li>
+            <li data-reveal style="--d:.1s"><span class="ck">✓</span><div><b>100% transparent budgets</b><span>No markups hidden in vendor quotes. Clients save 15–25% via our partner network.</span></div></li>
+            <li data-reveal style="--d:.15s"><span class="ck">✓</span><div><b>Photorealistic 3D previews</b><span>Walk through your venue before a single chair is placed. Approve with confidence.</span></div></li>
+            <li data-reveal style="--d:.2s"><span class="ck">✓</span><div><b>Zero-surprise guarantee</b><span>Written contingency plans and backup vendors for every critical element.</span></div></li>
+          </ul>
+          <a href="about.html" class="btn btn-ghost" data-reveal>Meet the team behind the magic <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTIMATOR -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow" data-reveal>Instant budget estimate</span>
+          <h2 class="h2" data-split>What will your event <span class="serif grad-text">invest?</span></h2>
+          <p class="lead" data-reveal>Play with the options below for a ballpark figure in seconds — then get an exact, itemised proposal free within 24 hours.</p>
+        </div>
+        <div class="estimator" data-reveal="flip">
+          <div class="est-form">
+            <div class="est-group" data-group="type">
+              <span class="est-label">Event type</span>
+              <div class="chips">
+                <button class="chip on" data-v="120">Wedding</button>
+                <button class="chip" data-v="95">Corporate</button>
+                <button class="chip" data-v="140">Product Launch</button>
+                <button class="chip" data-v="70">Festival</button>
+                <button class="chip" data-v="105">Private Party</button>
+                <button class="chip" data-v="130">Gala</button>
+              </div>
+            </div>
+            <div class="est-group">
+              <label class="est-label" for="guests">Number of guests <output id="guestsOut">150</output></label>
+              <input type="range" class="range" id="guests" min="20" max="1000" step="10" value="150">
+            </div>
+            <div class="est-group" data-group="tier">
+              <span class="est-label">Experience level</span>
+              <div class="chips">
+                <button class="chip" data-v="0">Essential</button>
+                <button class="chip on" data-v="1">Signature</button>
+                <button class="chip" data-v="2">Couture</button>
+              </div>
+            </div>
+          </div>
+          <div class="est-result">
+            <span class="label">Estimated investment</span>
+            <div class="est-price" id="estPrice">$22k – $32k</div>
+            <p class="est-note">Includes planning, design &amp; production. Venue &amp; catering vary by city.</p>
+            <ul class="est-incl" id="estIncl"></ul>
+            <a href="contact.html" class="btn btn-primary" data-magnetic>Get My Exact Quote — Free <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-reveal>Client love</span>
+          <h2 class="h2" data-split>Don't take our word <span class="serif grad-text">for it.</span></h2>
+        </div>
+        <div class="testi-wrap" data-reveal>
+          <div class="testi-track">
+          <div class="testi on">
+            <div class="testi-img"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;w=700&amp;q=80&amp;h=875" alt="Sophia &amp; James Laurent" loading="lazy"><span class="q">“</span></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              <blockquote>“Aurelia didn't plan our wedding — they choreographed a dream. Guests still message us a year later about the moment the lanterns rose over the lake.”</blockquote>
+              <cite><b>Sophia &amp; James Laurent</b><span>Lake Como Wedding · 220 guests</span></cite>
+              <div class="result">★ 100% of guests rated it 5/5</div>
+            </div>
+          </div>
+          <div class="testi">
+            <div class="testi-img"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&amp;fit=crop&amp;w=700&amp;q=80&amp;h=875" alt="Daniel Okafor" loading="lazy"><span class="q">“</span></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              <blockquote>“Our product launch hit 4.2 million views in 48 hours. The reveal moment was so perfectly timed that the press called it 'the launch of the year'.”</blockquote>
+              <cite><b>Daniel Okafor</b><span>CMO, Orbit Labs · Product Launch</span></cite>
+              <div class="result">↑ 312% above target reach</div>
+            </div>
+          </div>
+          <div class="testi">
+            <div class="testi-img"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&amp;fit=crop&amp;w=700&amp;q=80&amp;h=875" alt="Priya Raman" loading="lazy"><span class="q">“</span></div>
+            <div>
+              <div class="stars">★★★★★</div>
+              <blockquote>“Three cities, 1,800 attendees, zero hiccups. They handled everything from visas to VIP dinners. We've signed them for the next three years.”</blockquote>
+              <cite><b>Priya Raman</b><span>Head of Events, Halcyon Capital</span></cite>
+              <div class="result">✓ 3-year partnership signed</div>
+            </div>
+          </div>
+          </div>
+          <div class="testi-nav">
+            <button class="arr prev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+            <button class="arr next" aria-label="Next testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <div class="dots"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- URGENCY -->
+    <section class="section-tight">
+      <div class="container">
+        <div class="urgency" data-reveal>
+          <div>
+            <h3>The 2027 season is filling fast.</h3>
+            <p>We take on a limited number of events each month so every client gets our full obsession. Secure your date before it's gone.</p>
+            <div class="meter" style="--v:78%">
+              <div class="meter-bar"><i></i></div>
+              <div class="meter-meta"><span><b>78%</b> of 2027 dates booked</span><span>11 dates remaining</span></div>
+            </div>
+          </div>
+          <a href="contact.html" class="btn btn-primary btn-lg" data-magnetic>Check My Date <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow" data-reveal>Questions, answered</span>
+          <h2 class="h2" data-split>Everything you're <span class="serif grad-text">wondering.</span></h2>
+        </div>
+        <div class="faq">
+        <details data-reveal style="--d:0.00s" open>
+          <summary>How far in advance should we book?</summary>
+          <div class="ans">For weddings and large-scale events we recommend 9–14 months. Corporate events and private celebrations can often be produced in 6–12 weeks — and we've delivered spectacular events in under 3 weeks when needed.</div>
+        </details>
+        <details data-reveal style="--d:0.06s">
+          <summary>Do you work with a fixed budget?</summary>
+          <div class="ans">Absolutely. We design to your number, not around it. You get a line-by-line transparent budget from day one, and we routinely save clients 15–25% through our preferred vendor network.</div>
+        </details>
+        <details data-reveal style="--d:0.12s">
+          <summary>Do you travel for destination events?</summary>
+          <div class="ans">Yes — we've produced events in 42 cities across 18 countries. Our team handles venues, permits, local vendors, guest travel and accommodation end-to-end.</div>
+        </details>
+        <details data-reveal style="--d:0.18s">
+          <summary>What happens if something goes wrong on the day?</summary>
+          <div class="ans">Every event comes with a written contingency plan, a backup for every critical vendor and an on-site operations lead whose only job is to solve problems before you ever notice them.</div>
+        </details>
+        <details data-reveal style="--d:0.24s">
+          <summary>Can we start with just a consultation?</summary>
+          <div class="ans">Of course. Your first 30-minute strategy call is completely free with no obligation. You'll leave with ideas you can use even if you don't hire us.</div>
+        </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-final" data-reveal="zoom">
+          <img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&amp;fit=crop&amp;w=1800&amp;q=80" alt="" loading="lazy">
+          <span class="eyebrow">Let's create something unforgettable</span>
+          <h2 class="h2" data-split>Your guests will remember <span class="serif grad-text">how it felt.</span></h2>
+          <p class="lead">Tell us the date and the dream. Within 24 hours you'll have a creative concept, a transparent budget and a planner who never stops answering.</p>
+          <div class="btn-row">
+            <a href="contact.html" class="btn btn-primary btn-lg" data-magnetic>Get My Free Proposal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a href="portfolio.html" class="btn btn-ghost btn-lg">Explore Our Work</a>
+          </div>
+          <div class="guarantee"><span>Free 30-min consultation</span><span>Proposal in 24 hours</span><span>No hidden fees, ever</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo"><span class="logo-mark"></span>AURELIA</a>
+          <p>An experiential events studio crafting weddings, galas, launches and festivals that people talk about for years.</p>
+          <div class="socials">
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5M3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.95 1.33-1.95 2.7V21h-4z"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-4.8.5-4.8s0-3.2-.5-4.8M9.6 15V9l5.8 3z"/></svg></a>
+            <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-4.2 22.2c-.1-.9-.2-2.3 0-3.3l1.4-5.8s-.4-.7-.4-1.7c0-1.6.9-2.8 2.1-2.8 1 0 1.4.7 1.4 1.6 0 1-.6 2.5-1 3.9-.3 1.2.6 2.1 1.7 2.1 2.1 0 3.7-2.2 3.7-5.4 0-2.8-2-4.8-4.9-4.8-3.3 0-5.3 2.5-5.3 5.1 0 1 .4 2.1.9 2.7.1.1.1.2.1.3l-.3 1.4c-.1.2-.2.3-.4.2-1.5-.7-2.4-2.9-2.4-4.6 0-3.8 2.7-7.2 7.9-7.2 4.1 0 7.3 2.9 7.3 6.9 0 4.1-2.6 7.4-6.2 7.4-1.2 0-2.4-.6-2.7-1.4l-.8 2.8c-.3 1-1 2.3-1.5 3.1A11.5 11.5 0 1 0 12 .5"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Events</h4>
+          <ul>
+            <li><a href="services.html#weddings">Luxury Weddings</a></li>
+            <li><a href="services.html#corporate">Corporate &amp; Conferences</a></li>
+            <li><a href="services.html#launches">Product Launches</a></li>
+            <li><a href="services.html#festivals">Concerts &amp; Festivals</a></li>
+            <li><a href="services.html#private">Private Celebrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>The Inner Circle</h4>
+          <p class="muted" style="font-size:.92rem">Monthly event inspiration, trends and venue drops. No spam.</p>
+          <form class="newsletter" data-demo>
+            <input type="email" placeholder="Your email" aria-label="Email address" required>
+            <button type="submit">Join</button>
+          </form>
+          <ul style="margin-top:22px">
+            <li><a href="mailto:hello@aurelia.events">hello@aurelia.events</a></li>
+            <li><a href="tel:+15550142026">+1 (555) 014-2026</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-big" aria-hidden="true">AURELIA</div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Aurelia Events Studio. All rights reserved.</span>
+        <span>Crafted with obsession for unforgettable moments.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="buy-bar" role="region" aria-label="Get this website">
+    <div class="inner">
+      <div class="msg">
+        <span class="heart"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.2C.3 8.6 2.2 4.5 6.1 4.5c2.2 0 3.6 1.2 4.4 2.4h3c.8-1.2 2.2-2.4 4.4-2.4 3.9 0 5.8 4.1 4.1 7.3C19.5 16.4 12 21 12 21z" transform="translate(-1.5 0)"/></svg></span>
+        <div class="txt">
+          <b>Love this site? <em>Make it yours.</em></b>
+          <span>Fully customised for your event business — launched in days.</span>
+        </div>
+      </div>
+      <a class="btn" href="https://api.whatsapp.com/send/?phone=917017905835&amp;text=Hi%2C+I%E2%80%99d+like+to+get+this+website+for+my+business.%0A%0AWebsite+Code%3A+EM-7319&amp;utm_source=chatgpt.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35M12.04 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.02c0-5.2 4.24-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.36 9.36 0 0 1 2.76 6.67c0 5.2-4.24 9.43-9.44 9.43m8.03-17.46A11.3 11.3 0 0 0 12.04.72C5.78.72.69 5.8.69 12.06c0 2 .52 3.95 1.52 5.67L.6 23.6l6.02-1.58a11.3 11.3 0 0 0 5.42 1.38h.01c6.25 0 11.34-5.09 11.35-11.34 0-3.03-1.18-5.88-3.33-8.02"/></svg><span class="long">Get This Website</span><span class="short">Get It</span></a>
+    </div>
+  </div>
+
+  <script src="assets/js/main.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="assets/js/hero3d.js" defer></script>
+</body>
+</html>

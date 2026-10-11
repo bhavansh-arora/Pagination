@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact — Aurelia Event Management</title>
+  <meta name="description" content="Book a free 30-minute consultation with Aurelia. Get a creative concept and transparent budget for your event within 24 hours.">
+  <meta name="theme-color" content="#07060b">
+  <meta property="og:title" content="Contact — Aurelia Event Management">
+  <meta property="og:description" content="Book a free 30-minute consultation with Aurelia. Get a creative concept and transparent budget for your event within 24 hours.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&amp;fit=crop&amp;w=1200&amp;q=80&amp;h=630">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f8e2ad'/%3E%3Cstop offset='.5' stop-color='%23ff7aa8'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='url(%23g)' stroke-width='10'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"></div><div class="cursor-dot" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo" aria-label="Aurelia home"><span class="logo-mark"></span>AURELIA</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+      <a href="contact.html" class="btn btn-primary header-cta" data-magnetic>Book a Free Consult</a>
+      <button class="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <a class="m-link" href="index.html"><small>01</small>Home</a>
+    <a class="m-link" href="services.html"><small>02</small>Services</a>
+    <a class="m-link" href="portfolio.html"><small>03</small>Portfolio</a>
+    <a class="m-link" href="about.html"><small>04</small>About</a>
+    <a class="m-link active" href="contact.html"><small>05</small>Contact</a>
+    <a href="contact.html" class="btn btn-primary btn-lg" style="margin-top:34px;align-self:flex-start">Book a Free Consult <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <div class="m-foot"><span>hello@aurelia.events</span><span>+1 (555) 014-2026</span></div>
+  </div>
+
+  <main>
+
+    <section class="page-hero">
+      <img src="https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&amp;fit=crop&amp;w=2000&amp;q=80" alt="" fetchpriority="high">
+      <div class="container">
+        <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span><span>Contact</span></div>
+        <span class="eyebrow" data-reveal style="--d:.1s">Let's talk</span>
+        <h1 class="display" data-split>Tell us the dream. <span class="serif grad-text">We'll handle the rest.</span></h1>
+        <p class="lead" data-reveal style="--d:.4s">Share a few details and a senior planner will reply within 24 hours with ideas, availability and a ballpark budget.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:30px">
+      <div class="container contact-grid">
+        <div class="form-card" data-reveal>
+          <div class="response-time"><span class="pulse-dot"></span><span>Our planners are online — average reply time: <b>2 hours</b></span></div>
+          <form data-demo>
+            <div class="form-grid">
+              <div class="field"><input id="f-name" type="text" placeholder=" " required autocomplete="name"><label for="f-name">Your name *</label></div>
+              <div class="field"><input id="f-email" type="email" placeholder=" " required autocomplete="email"><label for="f-email">Email address *</label></div>
+              <div class="field"><input id="f-phone" type="tel" placeholder=" " autocomplete="tel"><label for="f-phone">Phone / WhatsApp</label></div>
+              <div class="field sel"><select id="f-type" required>
+                <option>Wedding</option><option>Corporate event / Conference</option><option>Product launch</option><option>Concert / Festival</option><option>Private celebration</option><option>Gala / Fundraiser</option><option>Something else</option>
+              </select><label for="f-type">Event type</label></div>
+              <div class="field"><input id="f-date" type="text" placeholder=" " onfocus="this.type='date'"><label for="f-date">Event date (approx.)</label></div>
+              <div class="field sel"><select id="f-guests">
+                <option>Under 50</option><option selected>50 – 150</option><option>150 – 400</option><option>400 – 1,000</option><option>1,000+</option>
+              </select><label for="f-guests">Guest count</label></div>
+              <div class="field sel full"><select id="f-budget">
+                <option>Under $10k</option><option>$10k – $25k</option><option selected>$25k – $75k</option><option>$75k – $200k</option><option>$200k+</option>
+              </select><label for="f-budget">Estimated budget</label></div>
+              <div class="field full"><textarea id="f-msg" placeholder=" "></textarea><label for="f-msg">Tell us about your dream event</label></div>
+            </div>
+            <div class="form-foot">
+              <small>🔒 Your details stay private. No spam, ever.</small>
+              <button type="submit" class="btn btn-primary btn-lg" data-magnetic>Get My Free Proposal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            </div>
+          </form>
+          <div class="form-success" aria-live="polite">
+            <div>
+              <div class="big-ck">✓</div>
+              <h3 class="h3" style="font-size:2rem">Your dream is in good hands.</h3>
+              <p class="muted" style="margin-top:12px;max-width:420px">A senior planner will reach out within 24 hours with first ideas and availability. Keep an eye on your inbox ✨</p>
+            </div>
+          </div>
+        </div>
+        <aside>
+          <div class="info-card" data-reveal="right">
+            <h3>Reach us directly</h3>
+            <div class="info-row"><span class="i">✉</span><div><span>Email</span><a href="mailto:hello@aurelia.events">hello@aurelia.events</a></div></div>
+            <div class="info-row"><span class="i">☏</span><div><span>Phone</span><a href="tel:+15550142026">+1 (555) 014-2026</a></div></div>
+            <div class="info-row"><span class="i">⌖</span><div><span>Studio</span>88 Lumière Avenue, Suite 400<br>New York, NY 10013</div></div>
+            <div class="info-row"><span class="i">◷</span><div><span>Hours</span>Mon – Sat · 9am – 8pm<br>Event days · 24/7</div></div>
+          </div>
+          <div class="info-card" data-reveal="right" style="--d:.1s">
+            <h3>What happens next?</h3>
+            <ol class="checklist" style="margin:0;gap:14px">
+              <li><span class="ck">1</span><div><b>We reply within 24h</b><span>With questions, ideas &amp; availability.</span></div></li>
+              <li><span class="ck">2</span><div><b>Free 30-min strategy call</b><span>Video or in-person at our studio.</span></div></li>
+              <li><span class="ck">3</span><div><b>Your custom proposal</b><span>Concept, moodboard &amp; transparent budget.</span></div></li>
+            </ol>
+          </div>
+          <div class="map" data-reveal="right" style="--d:.2s"><iframe title="Studio location map" loading="lazy" src="https://maps.google.com/maps?q=SoHo%2C%20New%20York&amp;z=14&amp;output=embed"></iframe></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow" data-reveal>Before you write</span>
+          <h2 class="h2" data-split>Quick <span class="serif grad-text">answers.</span></h2>
+        </div>
+        <div class="faq">
+        <details data-reveal style="--d:0.00s" open>
+          <summary>How far in advance should we book?</summary>
+          <div class="ans">For weddings and large-scale events we recommend 9–14 months. Corporate events and private celebrations can often be produced in 6–12 weeks — and we've delivered spectacular events in under 3 weeks when needed.</div>
+        </details>
+        <details data-reveal style="--d:0.06s">
+          <summary>Do you work with a fixed budget?</summary>
+          <div class="ans">Absolutely. We design to your number, not around it. You get a line-by-line transparent budget from day one, and we routinely save clients 15–25% through our preferred vendor network.</div>
+        </details>
+        <details data-reveal style="--d:0.12s">
+          <summary>Do you travel for destination events?</summary>
+          <div class="ans">Yes — we've produced events in 42 cities across 18 countries. Our team handles venues, permits, local vendors, guest travel and accommodation end-to-end.</div>
+        </details>
+        <details data-reveal style="--d:0.18s">
+          <summary>What happens if something goes wrong on the day?</summary>
+          <div class="ans">Every event comes with a written contingency plan, a backup for every critical vendor and an on-site operations lead whose only job is to solve problems before you ever notice them.</div>
+        </details>
+        <details data-reveal style="--d:0.24s">
+          <summary>Can we start with just a consultation?</summary>
+          <div class="ans">Of course. Your first 30-minute strategy call is completely free with no obligation. You'll leave with ideas you can use even if you don't hire us.</div>
+        </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo"><span class="logo-mark"></span>AURELIA</a>
+          <p>An experiential events studio crafting weddings, galas, launches and festivals that people talk about for years.</p>
+          <div class="socials">
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5M3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.95 1.33-1.95 2.7V21h-4z"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-4.8.5-4.8s0-3.2-.5-4.8M9.6 15V9l5.8 3z"/></svg></a>
+            <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-4.2 22.2c-.1-.9-.2-2.3 0-3.3l1.4-5.8s-.4-.7-.4-1.7c0-1.6.9-2.8 2.1-2.8 1 0 1.4.7 1.4 1.6 0 1-.6 2.5-1 3.9-.3 1.2.6 2.1 1.7 2.1 2.1 0 3.7-2.2 3.7-5.4 0-2.8-2-4.8-4.9-4.8-3.3 0-5.3 2.5-5.3 5.1 0 1 .4 2.1.9 2.7.1.1.1.2.1.3l-.3 1.4c-.1.2-.2.3-.4.2-1.5-.7-2.4-2.9-2.4-4.6 0-3.8 2.7-7.2 7.9-7.2 4.1 0 7.3 2.9 7.3 6.9 0 4.1-2.6 7.4-6.2 7.4-1.2 0-2.4-.6-2.7-1.4l-.8 2.8c-.3 1-1 2.3-1.5 3.1A11.5 11.5 0 1 0 12 .5"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Events</h4>
+          <ul>
+            <li><a href="services.html#weddings">Luxury Weddings</a></li>
+            <li><a href="services.html#corporate">Corporate &amp; Conferences</a></li>
+            <li><a href="services.html#launches">Product Launches</a></li>
+            <li><a href="services.html#festivals">Concerts &amp; Festivals</a></li>
+            <li><a href="services.html#private">Private Celebrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>The Inner Circle</h4>
+          <p class="muted" style="font-size:.92rem">Monthly event inspiration, trends and venue drops. No spam.</p>
+          <form class="newsletter" data-demo>
+            <input type="email" placeholder="Your email" aria-label="Email address" required>
+            <button type="submit">Join</button>
+          </form>
+          <ul style="margin-top:22px">
+            <li><a href="mailto:hello@aurelia.events">hello@aurelia.events</a></li>
+            <li><a href="tel:+15550142026">+1 (555) 014-2026</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-big" aria-hidden="true">AURELIA</div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Aurelia Events Studio. All rights reserved.</span>
+        <span>Crafted with obsession for unforgettable moments.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="buy-bar" role="region" aria-label="Get this website">
+    <div class="inner">
+      <div class="msg">
+        <span class="heart"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.2C.3 8.6 2.2 4.5 6.1 4.5c2.2 0 3.6 1.2 4.4 2.4h3c.8-1.2 2.2-2.4 4.4-2.4 3.9 0 5.8 4.1 4.1 7.3C19.5 16.4 12 21 12 21z" transform="translate(-1.5 0)"/></svg></span>
+        <div class="txt">
+          <b>Love this site? <em>Make it yours.</em></b>
+          <span>Fully customised for your event business — launched in days.</span>
+        </div>
+      </div>
+      <a class="btn" href="https://api.whatsapp.com/send/?phone=917017905835&amp;text=Hi%2C+I%E2%80%99d+like+to+get+this+website+for+my+business.%0A%0AWebsite+Code%3A+EM-7319&amp;utm_source=chatgpt.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35M12.04 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.02c0-5.2 4.24-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.36 9.36 0 0 1 2.76 6.67c0 5.2-4.24 9.43-9.44 9.43m8.03-17.46A11.3 11.3 0 0 0 12.04.72C5.78.72.69 5.8.69 12.06c0 2 .52 3.95 1.52 5.67L.6 23.6l6.02-1.58a11.3 11.3 0 0 0 5.42 1.38h.01c6.25 0 11.34-5.09 11.35-11.34 0-3.03-1.18-5.88-3.33-8.02"/></svg><span class="long">Get This Website</span><span class="short">Get It</span></a>
+    </div>
+  </div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
