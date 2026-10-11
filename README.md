@@ -149,14 +149,81 @@ is actually reachable from Asterisk.
 Dial the number. The agent should greet you and take it from there — try
 speaking in Hindi partway through the call and it should switch.
 
+## The admin UI
+
+Everything below lives behind one Express server (`src/server.ts`) and a
+no-build-step static frontend in `public/`. Open
+**`http://localhost:3000/`** (locally; add `?token=<ADMIN_TOKEN>` once on a
+VPS, see below) and it walks you through:
+
+- **Home** (`index.html`) — your list of agents. Each one is an
+  independent configuration (intro line, data to collect, voices,
+  telephony trunk) plus its own call history; you can run several side by
+  side (e.g. one per client/business). Create one here, then everything
+  else acts on whichever agent you select.
+- **Setup** (`setup.html`) — a chat with Claude that *trains* the selected
+  agent instead of you filling out a form. Describe your business in plain
+  language ("say 'Thanks for calling Acme Dental' and collect the caller's
+  name and preferred day") and it extracts the opening line, how the agent
+  should introduce/describe itself, and the list of fields to collect —
+  via Claude tool-calling (`src/services/setupChat.ts`'s `update_agent_config`
+  tool), not regex/keyword matching — saving each piece as soon as it's
+  confident, so you can see the config fill in live in the panel beside
+  the chat. An agent starts as `draft`; flip it to `active` once you're
+  happy, and the dashboard/telephony fall back to whichever agent is
+  `active` (or the newest one) when no agent is explicitly specified.
+- **Voices** (`voices.html`) — every available voice (two Piper Hindi
+  voices, five MeloTTS English accents) with a one-click preview
+  (synthesizes a sample sentence on the spot) and a button to make it this
+  agent's Hindi or English voice.
+- **Telephony** (`telephony.html`) — the Plivo-specific "interface"
+  mentioned above: enter your trunk's Auth ID/Token, phone number, and
+  Termination SIP domain (copy that one from the Plivo Console - it's
+  account-specific) and it generates the exact `pjsip.conf`/`extensions.conf`
+  blocks to paste into Asterisk (`src/services/telephony.ts`). This app
+  still never talks to Plivo's API directly - it only turns your trunk's
+  details into Asterisk config, the same config you'd otherwise hand-write
+  following Plivo's docs. The vendor type is a discriminated union
+  (`TelephonyVendorConfig`), so adding a second vendor later is one more
+  union variant and one more generator function, not a rewrite.
+- **Calls** (`calls.html`) — every call the selected agent has taken (from
+  the dashboard or a real phone line), with its full transcript, whatever
+  data got collected, and a playable recording. Recording and logging are
+  automatic and on by default for every call — see below.
+- **Test** (`dashboard.html`) — see the next section. The agent picker at
+  the top lets you test any agent, not just the active one.
+
+All of it (every `/api/*` route and the `/dashboard` WebSocket) is gated by
+a single `ADMIN_TOKEN` - see "Deploying to a VPS" below for how that token
+gets to the browser.
+
+### Call recording and data collection
+
+Every call — dashboard or real phone — is logged from the moment it starts
+(`src/db/`, a local SQLite file at `DB_PATH`, default `./data/voice-agent.sqlite3`):
+the full transcript turn-by-turn, whatever structured data the agent pulled
+out of the conversation, and a mixed recording of both sides of the audio
+(`src/services/callRecorder.ts` — caller and agent frames are mixed at
+their actual wall-clock offsets, so overlapping speech from a barge-in
+sums correctly rather than getting concatenated out of order), saved as a
+WAV file under `RECORDINGS_DIR` (default `./data/recordings/`) and playable
+from the Calls page.
+
+Data collection uses the same data fields you train in Setup: the
+caller-facing agent has its own Claude tool (`record_field`, built per-agent
+from its configured `dataFields`) that it calls as soon as it has heard a
+piece of data worth saving, live during the call — not a post-call
+re-read of the transcript.
+
 ## Testing without a phone: the dashboard
 
 You don't need Asterisk, a SIP trunk, or any phone at all to iterate on
 conversation quality. With just `npm run dev` and `tts-service` running,
-open **`http://localhost:3000/dashboard.html`** in a browser and click
+open **`http://localhost:3000/dashboard.html`**, pick an agent, and click
 "Start conversation." It talks to the exact same `CallSession` logic a
-real call uses — same VAD, same Whisper, same Claude prompt, same
-Piper/MeloTTS — over your computer's mic/speakers instead of a phone line.
+real call uses — same VAD, same Whisper, same Claude prompt and config,
+same Piper/MeloTTS, same recording/logging — over your computer's
+mic/speakers instead of a phone line.
 
 Audio is downsampled to 8kHz in *both* directions before it ever reaches
 the AI pipeline or your speakers, matching a real phone line's bandwidth
@@ -169,14 +236,14 @@ the TTS voices.
 
 This is a separate transport (`src/services/dashboardServer.ts`, a plain
 WebSocket) sitting next to AudioSocket — `CallSession` itself doesn't know
-or care which one is driving it.
+or care which one is driving it, and both get recorded/logged identically.
 
 ## Deploying to a VPS
 
 1. Clone this repo onto the VPS, then run `bash deploy/setup.sh` from the
    repo root. On a fresh Ubuntu/Debian box this installs Node, Python, all
-   dependencies, downloads the Hindi voice model, generates `.env` (with a
-   random `DASHBOARD_TOKEN` already filled in), and installs two systemd
+   dependencies, downloads both Hindi voice models, generates `.env` (with
+   a random `ADMIN_TOKEN` already filled in), and installs two systemd
    services (`voice-agent`, `voice-speech`) so both halves run persistently
    and restart on failure or reboot.
 2. Edit `.env` and set `ANTHROPIC_API_KEY`.
@@ -187,22 +254,24 @@ or care which one is driving it.
    install - see the Asterisk section above. It isn't needed to reach the
    dashboard.
 
-**Reaching the dashboard safely - read this before opening any port.**
+**Reaching the admin UI safely - read this before opening any port.**
 Two things changed from running this on your laptop:
 
-- The `/dashboard` WebSocket can run a real, billed conversation through
-  your Anthropic key. `setup.sh` generates a `DASHBOARD_TOKEN` for exactly
-  this reason - the server rejects any connection that doesn't supply it
-  as `?token=...`, and `dashboard.html` reads the same token from its own
-  URL. Open it as `http://<vps>:3000/dashboard.html?token=<the token
-  from .env>`, not the bare URL.
+- The whole admin surface - every `/api/*` route, the `/dashboard`
+  WebSocket, the setup chatbot (which calls your billed Anthropic key),
+  voice previews, and call recordings/transcripts - requires `ADMIN_TOKEN`.
+  `setup.sh` generates one for exactly this reason; the frontend
+  (`public/app.js`) reads it once from the URL's `?token=...`, stores it
+  for the rest of the session, and strips it back out of the visible URL.
+  Open the app as `http://<vps>:3000/?token=<the token from .env>` the
+  first time (any admin page works - `index.html`, `dashboard.html`,
+  etc.) and it carries the token to every page you navigate to from there.
 - Prefer not exposing port 3000 to the internet at all. The safer default
   is an SSH tunnel: `ssh -L 3000:localhost:3000 you@your-vps`, then open
-  `http://localhost:3000/dashboard.html?token=...` on your own machine -
-  nothing public-facing, no firewall rule needed. Only open the port
-  directly (`ufw allow 3000`, ideally scoped with `ufw allow from
-  <your-ip> to any port 3000`) if you specifically need it reachable
-  without a tunnel.
+  `http://localhost:3000/?token=...` on your own machine - nothing
+  public-facing, no firewall rule needed. Only open the port directly
+  (`ufw allow 3000`, ideally scoped with `ufw allow from <your-ip> to any
+  port 3000`) if you specifically need it reachable without a tunnel.
 - `AUDIOSOCKET_PORT` (8090) has no authentication in its protocol at all
   and binds to `127.0.0.1` by default - never open this to the public
   internet. Only widen `AUDIOSOCKET_HOST` if Asterisk runs on a different
@@ -210,17 +279,26 @@ Two things changed from running this on your laptop:
 
 ## Notes / next steps
 
-- This is a from-scratch MVP: no persistence, no call recording, no
-  multi-call load testing. Conversation history lives in memory per call
-  and is discarded when the call ends.
 - Anthropic (the LLM) is the only paid cloud API left. Telephony,
   speech-to-text, and text-to-speech are all fully self-hosted, and the
-  SIP trunk provider is swappable without touching any code.
-- To change the agent's personality/tone, edit the system prompt in
-  `src/services/anthropic.ts`. To change voices, swap the Piper Hindi model
-  or the MeloTTS speaker in `tts-service/server.py` (MeloTTS also has
-  `EN-US`/`EN-BR`/`EN-AU`/`EN-Default` if you want a non-Indian accent for
-  English instead).
+  SIP trunk provider is swappable without touching any code or redeploying
+  — it's a per-agent config value filled in on the Telephony page.
+- Multiple agents, each with their own config/voices/trunk/call history,
+  can run side by side (useful per-client or for A/B-ing a prompt) - the
+  `agentId` just follows you across pages via `AgentContext` in
+  `public/app.js` (backed by `localStorage`), and the dashboard/AudioSocket
+  fall back to the newest `active` agent (`getDefaultAgent()` in
+  `src/db/agents.ts`) when none is specified.
+- The telephony layer is deliberately vendor-agnostic even though only
+  Plivo is wired up today: `TelephonyVendorConfig` in
+  `src/services/agentConfig.ts` is a discriminated union on `vendor`, and
+  `generateAsteriskConfig()` in `src/services/telephony.ts` switches on it.
+  Adding a second vendor is one more union variant and one more generator
+  function - nothing about call handling, recording, or the rest of the
+  admin UI needs to change.
+- To change an agent's personality/tone beyond what the setup chatbot
+  covers, edit `BASE_PROMPT` in `src/services/anthropic.ts` (applies to
+  every agent). Per-agent voice choice lives in the Voices page, not code.
 - `tts-service` has its own licensing note (Piper's current release line is
   GPL-3.0) — see its README.
 - Outbound calling (agent calls someone) isn't wired up yet — it'd be a

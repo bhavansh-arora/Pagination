@@ -24,9 +24,10 @@ import numpy as np
 from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
 
-PIPER_MODEL_PATH = os.environ.get("PIPER_HI_MODEL_PATH", "models/hi_IN-pratham-medium.onnx")
+PIPER_MODELS_DIR = os.environ.get("PIPER_MODELS_DIR", "models")
+DEFAULT_PIPER_VOICE = os.environ.get("PIPER_DEFAULT_VOICE", "hi_IN-pratham-medium")
 MELO_DEVICE = os.environ.get("MELO_DEVICE", "cpu")
-MELO_SPEAKER = os.environ.get("MELO_SPEAKER", "EN_INDIA")
+DEFAULT_MELO_SPEAKER = os.environ.get("MELO_SPEAKER", "EN_INDIA")
 
 WHISPER_MODEL_SIZE = os.environ.get("WHISPER_MODEL_SIZE", "small")
 WHISPER_DEVICE = os.environ.get("WHISPER_DEVICE", "cpu")
@@ -36,29 +37,37 @@ SUPPORTED_LANGUAGES = {"en", "hi"}
 
 app = FastAPI()
 
-_piper_voice = None
+_piper_voices = {}  # voice id -> loaded PiperVoice, loaded lazily and cached
 _melo_model = None
-_melo_speaker_id = None
 _whisper_model = None
 
 
-def get_piper_voice():
-    global _piper_voice
-    if _piper_voice is None:
+def get_piper_voice(voice_id: str):
+    if voice_id not in _piper_voices:
         from piper import PiperVoice
 
-        _piper_voice = PiperVoice.load(PIPER_MODEL_PATH)
-    return _piper_voice
+        model_path = os.path.join(PIPER_MODELS_DIR, f"{voice_id}.onnx")
+        if not os.path.exists(model_path):
+            raise HTTPException(400, f"Piper voice '{voice_id}' isn't downloaded (expected {model_path})")
+        _piper_voices[voice_id] = PiperVoice.load(model_path)
+    return _piper_voices[voice_id]
 
 
-def get_melo():
-    global _melo_model, _melo_speaker_id
+def get_melo_model():
+    global _melo_model
     if _melo_model is None:
         from melo.api import TTS
 
         _melo_model = TTS(language="EN", device=MELO_DEVICE)
-        _melo_speaker_id = _melo_model.hps.data.spk2id[MELO_SPEAKER]
-    return _melo_model, _melo_speaker_id
+    return _melo_model
+
+
+def get_melo_speaker_id(speaker: str) -> int:
+    model = get_melo_model()
+    spk2id = model.hps.data.spk2id
+    if speaker not in spk2id:
+        raise HTTPException(400, f"Unknown MeloTTS speaker '{speaker}'. Options: {list(spk2id.keys())}")
+    return spk2id[speaker]
 
 
 def get_whisper():
@@ -75,6 +84,7 @@ def get_whisper():
 class SynthesizeRequest(BaseModel):
     text: str
     language: str = "en"  # "en" or "hi"
+    voice: str | None = None  # Piper voice id for hi, MeloTTS speaker id for en - defaults if omitted
 
 
 def decode_wav_pcm16_mono(wav_bytes: bytes):
@@ -100,9 +110,11 @@ def resample_linear(samples: np.ndarray, from_rate: int, to_rate: int) -> np.nda
 
 @app.on_event("startup")
 def warm_up():
-    # Load every model eagerly so the first real call isn't the slow one.
-    get_piper_voice()
-    get_melo()
+    # Load the default voices eagerly so the first real call isn't the slow
+    # one. Other Piper voices (if downloaded) load lazily on first use.
+    if os.path.exists(os.path.join(PIPER_MODELS_DIR, f"{DEFAULT_PIPER_VOICE}.onnx")):
+        get_piper_voice(DEFAULT_PIPER_VOICE)
+    get_melo_model()
     get_whisper()
 
 
@@ -120,11 +132,12 @@ def synthesize(req: SynthesizeRequest):
     buffer = io.BytesIO()
 
     if req.language == "hi":
-        voice = get_piper_voice()
+        voice = get_piper_voice(req.voice or DEFAULT_PIPER_VOICE)
         with wave.open(buffer, "wb") as wav_file:
             voice.synthesize_wav(text, wav_file)
     else:
-        model, speaker_id = get_melo()
+        model = get_melo_model()
+        speaker_id = get_melo_speaker_id(req.voice or DEFAULT_MELO_SPEAKER)
         audio = model.tts_to_file(text, speaker_id, output_path=None, quiet=True)
         sample_rate = model.hps.data.sampling_rate
         pcm16 = (np.clip(audio, -1.0, 1.0) * 32767).astype(np.int16)

@@ -6,8 +6,7 @@ import { convertWavToPcm16_8k, buildWavFromPcm16_8k, sendPaced } from "../utils/
 import { UtteranceDetector } from "../utils/vad";
 import { SentenceSplitter } from "../utils/sentenceSplitter";
 import { AsyncQueue } from "../utils/asyncQueue";
-
-const GREETING = "Hey, thanks for calling! What can I help you with?";
+import type { AgentConfig } from "./agentConfig";
 
 /** How the call session talks to whatever's actually carrying the audio (AudioSocket, a browser dashboard, or anything else later). */
 export interface CallTransport {
@@ -25,11 +24,14 @@ interface AssistantTurn {
  * locally-synthesized speech currently being spoken. One instance per call.
  * Deliberately knows nothing about how audio actually reaches the caller -
  * that's the transport's job - so swapping the telephony layer later never
- * touches this file.
+ * touches this file. Driven entirely by an AgentConfig (greeting, persona,
+ * data fields to collect, voices) rather than hardcoded constants, so the
+ * same code runs whichever agent a caller/tester is talking to.
  *
- * Emits telemetry events (transcript, assistant-text, speaking state,
- * barge-in) purely for observers like the test dashboard - nothing in the
- * call-handling logic depends on anyone listening.
+ * Emits telemetry events (transcript, assistant text, speaking state,
+ * barge-in, collected data, errors) purely for observers like the test
+ * dashboard or call logger - nothing in the call-handling logic depends on
+ * anyone listening.
  */
 export class CallSession extends EventEmitter {
   private utteranceDetector: UtteranceDetector;
@@ -37,7 +39,7 @@ export class CallSession extends EventEmitter {
   private currentTurn: AssistantTurn | null = null;
   private isAgentSpeaking = false;
 
-  constructor(private readonly transport: CallTransport) {
+  constructor(private readonly transport: CallTransport, private readonly agent: AgentConfig) {
     super();
     this.utteranceDetector = new UtteranceDetector(
       () => this.handleBargeIn(),
@@ -67,8 +69,9 @@ export class CallSession extends EventEmitter {
   }
 
   private speakGreeting(): void {
-    this.history.push({ role: "assistant", content: GREETING });
-    this.emit("assistant-text", { text: GREETING });
+    const greeting = this.agent.introLine;
+    this.history.push({ role: "assistant", content: greeting });
+    this.emit("assistant-text", { text: greeting });
     const abortController = new AbortController();
     this.currentTurn = { abortController };
     this.isAgentSpeaking = true;
@@ -76,7 +79,7 @@ export class CallSession extends EventEmitter {
 
     (async () => {
       try {
-        const wavBuffer = await synthesizeSpeech(GREETING);
+        const wavBuffer = await synthesizeSpeech(greeting, this.agent);
         if (abortController.signal.aborted) return;
         const pcm = convertWavToPcm16_8k(wavBuffer);
         await sendPaced(pcm, (frame) => this.transport.sendAudio(frame), abortController.signal);
@@ -108,7 +111,10 @@ export class CallSession extends EventEmitter {
    *   LLM tokens -> sentence chunks -> [synthesis] -> audio -> [playback]
    * Synthesis of sentence N+1 starts as soon as sentence N is done
    * synthesizing, while N is still being played out - that overlap is what
-   * keeps gaps between sentences to a minimum on CPU-only TTS.
+   * keeps gaps between sentences to a minimum on CPU-only TTS. Alongside
+   * text, the LLM stream can also emit record_field tool calls (configured
+   * data collection) - those are relayed as "collected-data" events as soon
+   * as they arrive, independent of the text/audio pipeline.
    */
   private runAssistantTurn(): void {
     const abortController = new AbortController();
@@ -129,10 +135,15 @@ export class CallSession extends EventEmitter {
 
     (async () => {
       try {
-        for await (const delta of streamReply(this.history, abortController.signal)) {
-          assistantText += delta;
-          this.emit("assistant-text-delta", { delta });
-          for (const chunk of splitter.push(delta)) sentenceQueue.push(chunk);
+        for await (const event of streamReply(this.history, this.agent, abortController.signal)) {
+          if (event.type === "text") {
+            assistantText += event.text;
+            this.emit("assistant-text-delta", { delta: event.text });
+            for (const chunk of splitter.push(event.text)) sentenceQueue.push(chunk);
+          } else if (event.type === "tool_call" && event.call.name === "record_field") {
+            const { field, value } = event.call.input as { field?: string; value?: string };
+            if (field && value) this.emit("collected-data", { [field]: value });
+          }
         }
         const rest = splitter.flush();
         if (rest) sentenceQueue.push(rest);
@@ -162,7 +173,7 @@ export class CallSession extends EventEmitter {
       for await (const sentence of sentenceQueue) {
         if (signal.aborted) return;
         try {
-          const wavBuffer = await synthesizeSpeech(sentence);
+          const wavBuffer = await synthesizeSpeech(sentence, this.agent);
           if (signal.aborted) return;
           audioQueue.push(convertWavToPcm16_8k(wavBuffer));
         } catch (err) {

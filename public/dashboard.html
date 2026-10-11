@@ -2,63 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Voice Agent — Test Dashboard</title>
+<title>Test — Voice Agent</title>
+<link rel="stylesheet" href="app.css" />
 <style>
-  :root {
-    color-scheme: light dark;
-    --bg: #0e1116;
-    --panel: #161b22;
-    --border: #2a3140;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --accent: #58a6ff;
-    --user: #3fb950;
-    --agent: #d29922;
-    --error: #f85149;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 24px 16px;
-  }
-  .card {
-    width: 100%;
-    max-width: 640px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-  }
-  h1 { font-size: 18px; margin: 0 0 4px; }
-  .subtitle { color: var(--muted); font-size: 13px; margin: 0 0 20px; }
+  body { display: flex; flex-direction: column; align-items: center; }
+  .card { width: 100%; max-width: 640px; }
   .controls { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-  button {
-    font-size: 14px;
-    font-weight: 600;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-  }
-  #toggle { background: var(--accent); color: #fff; }
   #toggle.active { background: var(--error); }
-  #toggle:disabled { opacity: 0.5; cursor: not-allowed; }
-  .status {
-    font-size: 13px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-  .status.listening { color: var(--user); border-color: var(--user); }
-  .status.speaking { color: var(--agent); border-color: var(--agent); }
   .transcript {
     height: 360px;
     overflow-y: auto;
@@ -74,26 +24,40 @@
   .who.agent { color: var(--agent); }
   .who.sys { color: var(--muted); }
   .latency { color: var(--muted); font-size: 12px; margin-left: 6px; }
-  .empty { color: var(--muted); font-size: 13px; }
 </style>
 </head>
 <body>
+  <div class="nav" style="width:100%; max-width:640px; margin-bottom:20px; border-radius:10px;">
+    <span class="brand">Voice Agent</span>
+    <a href="index.html">Home</a>
+    <a href="setup.html">Setup</a>
+    <a href="voices.html">Voices</a>
+    <a href="telephony.html">Telephony</a>
+    <a href="calls.html">Calls</a>
+    <a href="dashboard.html" class="active">Test</a>
+  </div>
+
   <div class="card">
-    <h1>Voice Agent — Test Dashboard</h1>
+    <h1>Test Dashboard</h1>
     <p class="subtitle">
       Talk to the same AI pipeline a real phone call uses. Audio is downsampled
       to 8kHz in both directions, same as a phone line, so this sounds exactly
       like the real thing.
     </p>
+    <div class="field">
+      <label>Agent</label>
+      <select id="agentPicker"></select>
+    </div>
     <div class="controls">
       <button id="toggle">Start conversation</button>
       <span id="status" class="status">idle</span>
     </div>
     <div id="transcript" class="transcript">
-      <div class="empty">Click "Start conversation" and allow microphone access.</div>
+      <div class="empty">Pick an agent, click "Start conversation," and allow microphone access.</div>
     </div>
   </div>
 
+<script src="app.js"></script>
 <script>
 (() => {
   const CALL_SAMPLE_RATE = 8000;
@@ -137,12 +101,6 @@
     div.innerHTML = `<span class="who ${who}">${label}:</span>${escapeHtml(text)}${latencyHtml}`;
     transcriptEl.appendChild(div);
     transcriptEl.scrollTop = transcriptEl.scrollHeight;
-  }
-
-  function escapeHtml(s) {
-    const d = document.createElement("div");
-    d.textContent = s;
-    return d.innerHTML;
   }
 
   function stopScheduledPlayback() {
@@ -253,13 +211,9 @@
 
     micStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1 } });
 
-    // If this page was opened with ?token=..., forward it as the WebSocket
-    // auth token (see DASHBOARD_TOKEN in the server). No token in the URL
-    // means no token is sent - fine when the server has none configured.
-    const token = new URLSearchParams(location.search).get("token");
-    const wsProtocol = location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${wsProtocol}//${location.host}/dashboard${token ? `?token=${encodeURIComponent(token)}` : ""}`;
-    ws = new WebSocket(wsUrl);
+    const agentId = document.getElementById("agentPicker").value;
+    if (agentId) AgentContext.set(agentId);
+    ws = new WebSocket(AdminApp.wsUrl("/dashboard", agentId ? { agentId } : {}));
     ws.binaryType = "arraybuffer";
     let openedSuccessfully = false;
 
@@ -297,7 +251,7 @@
     ws.onclose = () => {
       if (!openedSuccessfully) {
         setStatus("error");
-        alert("Connection rejected - check the ?token= in this page's URL matches the server's DASHBOARD_TOKEN.");
+        alert("Connection rejected - check the ?token= you opened this page with matches the server's ADMIN_TOKEN.");
       }
       stop(true);
     };
@@ -327,6 +281,22 @@
       alert("Couldn't start: " + err.message);
     });
   });
+
+  (async function populateAgentPicker() {
+    const picker = document.getElementById("agentPicker");
+    try {
+      const agents = await AdminApp.apiJson("/agents");
+      if (agents.length === 0) {
+        picker.innerHTML = '<option value="">No agents yet - create one on the Home page</option>';
+        return;
+      }
+      picker.innerHTML = agents.map((a) => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join("");
+      const preselect = new URLSearchParams(location.search).get("agentId") || AgentContext.get();
+      if (preselect && agents.some((a) => a.id === preselect)) picker.value = preselect;
+    } catch (err) {
+      picker.innerHTML = '<option value="">Couldn\'t load agents</option>';
+    }
+  })();
 })();
 </script>
 </body>

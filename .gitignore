@@ -3,6 +3,9 @@ dist/
 .env
 *.log
 
+# SQLite database + call recordings - local state, not source.
+data/
+
 # Local TTS service - venv and downloaded model weights are large binaries,
 # fetch them per tts-service/README.md instead of committing them.
 tts-service/.venv/

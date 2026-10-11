@@ -41,23 +41,27 @@ pip install git+https://github.com/myshell-ai/MeloTTS.git
 python -m unidic download
 ```
 
-### Download the Hindi voice model
+### Download the Hindi voice models
 
-Piper voice models aren't bundled here (they're binary assets). Pick a
-Hindi voice from the [Piper voices repo](https://huggingface.co/rhasspy/piper-voices/tree/main/hi/hi_IN)
-- `pratham` (male) or `priyamvada` (female), both medium quality - and
-download both files into `models/`:
+Piper voice models aren't bundled here (they're binary assets). The admin
+UI's Voices page lets you preview and pick between both of Piper's Hindi
+voices per agent - `pratham` (male) and `priyamvada` (female), both medium
+quality - so download both into `models/` (named `{voice_id}.onnx` -
+`PIPER_MODELS_DIR`, default `models/`):
 
 ```bash
 mkdir -p models
-curl -L -o models/hi_IN-pratham-medium.onnx \
-  https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/hi_IN-pratham-medium.onnx
-curl -L -o models/hi_IN-pratham-medium.onnx.json \
-  https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/hi_IN-pratham-medium.onnx.json
+for voice in pratham priyamvada; do
+  curl -L -o "models/hi_IN-${voice}-medium.onnx" \
+    "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/${voice}/medium/hi_IN-${voice}-medium.onnx"
+  curl -L -o "models/hi_IN-${voice}-medium.onnx.json" \
+    "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/${voice}/medium/hi_IN-${voice}-medium.onnx.json"
+done
 ```
 
-To use `priyamvada` instead, swap the filenames above and set
-`PIPER_HI_MODEL_PATH=models/hi_IN-priyamvada-medium.onnx` in your `.env`.
+Voices are loaded lazily and cached in memory the first time each one is
+used, so it's fine to have both installed even if a given agent only ever
+uses one.
 
 MeloTTS and the Whisper model (via `faster-whisper`) both download their
 own checkpoints automatically (via Hugging Face) the first time the

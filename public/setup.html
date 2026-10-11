@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Setup — Voice Agent</title>
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="nav">
+    <span class="brand">Voice Agent</span>
+    <a href="index.html">Home</a>
+    <a href="setup.html" class="active">Setup</a>
+    <a href="voices.html">Voices</a>
+    <a href="telephony.html">Telephony</a>
+    <a href="calls.html">Calls</a>
+    <a href="dashboard.html">Test</a>
+  </div>
+
+  <div class="page">
+    <h1 id="agentName">Setup</h1>
+    <p class="subtitle">
+      Describe what you want in plain language - the assistant below picks out
+      the opening line, how the agent should describe itself, and what to
+      collect from callers, and saves each one as you go.
+    </p>
+
+    <div class="card">
+      <div id="chatLog" class="chat-log">
+        <div class="empty">Loading…</div>
+      </div>
+      <form id="chatForm" class="chat-input-row">
+        <input id="chatInput" type="text" placeholder="e.g. The agent should say 'Thanks for calling Acme Dental!' and collect the caller's name and preferred appointment day" autocomplete="off" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Current configuration</h2>
+      <div class="field">
+        <label>Opening line</label>
+        <div id="cfgIntroLine" class="empty">Not set yet</div>
+      </div>
+      <div class="field">
+        <label>How it describes itself</label>
+        <div id="cfgIntroDescription" class="empty">Not set yet</div>
+      </div>
+      <div class="field">
+        <label>Data to collect from callers</label>
+        <div id="cfgDataFields" class="empty">None yet</div>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <span id="cfgStatus" class="status draft">draft</span>
+      </div>
+      <div style="display:flex; gap: 10px; margin-top: 16px;">
+        <button id="activateBtn" class="secondary">Mark as active</button>
+        <a id="testLink" class="btn secondary" href="dashboard.html">Test this agent →</a>
+      </div>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+<script>
+(() => {
+  const agentId = AgentContext.get();
+  if (!agentId) { location.href = "index.html"; return; }
+
+  const chatLog = document.getElementById("chatLog");
+  const chatForm = document.getElementById("chatForm");
+  const chatInput = document.getElementById("chatInput");
+
+  function renderAgent(agent) {
+    document.getElementById("agentName").textContent = `Setup — ${agent.name}`;
+    document.getElementById("cfgIntroLine").textContent = agent.introLine || "Not set yet";
+    document.getElementById("cfgIntroLine").className = agent.introLine ? "" : "empty";
+    document.getElementById("cfgIntroDescription").textContent = agent.introDescription || "Not set yet";
+    document.getElementById("cfgIntroDescription").className = agent.introDescription ? "" : "empty";
+
+    const fieldsEl = document.getElementById("cfgDataFields");
+    if (agent.dataFields.length === 0) {
+      fieldsEl.innerHTML = '<span class="empty">None yet</span>';
+    } else {
+      fieldsEl.innerHTML = agent.dataFields
+        .map((f) => `<div>• <strong>${escapeHtml(f.name)}</strong> — ${escapeHtml(f.description)}</div>`)
+        .join("");
+    }
+
+    const statusEl = document.getElementById("cfgStatus");
+    statusEl.textContent = agent.status;
+    statusEl.className = `status ${agent.status}`;
+    document.getElementById("activateBtn").textContent = agent.status === "active" ? "Mark as draft" : "Mark as active";
+    document.getElementById("testLink").href = `dashboard.html?agentId=${agent.id}`;
+  }
+
+  function renderHistory(history) {
+    if (history.length === 0) {
+      chatLog.innerHTML = '<div class="empty">Say hello to get started — tell it about your business and what the agent should do.</div>';
+      return;
+    }
+    chatLog.innerHTML = history
+      .map((m) => `<div class="bubble ${m.role}">${escapeHtml(m.content)}</div>`)
+      .join("");
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  let currentAgent;
+
+  async function load() {
+    currentAgent = await AdminApp.apiJson(`/agents/${agentId}`);
+    renderAgent(currentAgent);
+    renderHistory(currentAgent.setupChatHistory);
+  }
+
+  chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+    if (!message) return;
+    chatInput.value = "";
+    chatInput.disabled = true;
+
+    const userBubble = document.createElement("div");
+    userBubble.className = "bubble user";
+    userBubble.textContent = message;
+    chatLog.querySelector(".empty")?.remove();
+    chatLog.appendChild(userBubble);
+    chatLog.scrollTop = chatLog.scrollHeight;
+
+    try {
+      const result = await AdminApp.apiJson(`/agents/${agentId}/setup-chat`, {
+        method: "POST",
+        body: { message },
+      });
+      currentAgent = result.agent;
+      renderAgent(currentAgent);
+      const reply = document.createElement("div");
+      reply.className = "bubble assistant";
+      reply.textContent = result.reply || "(saved - no reply this time)";
+      chatLog.appendChild(reply);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    } catch (err) {
+      const errEl = document.createElement("div");
+      errEl.className = "error-text";
+      errEl.textContent = "Something went wrong: " + err.message;
+      chatLog.appendChild(errEl);
+    } finally {
+      chatInput.disabled = false;
+      chatInput.focus();
+    }
+  });
+
+  document.getElementById("activateBtn").addEventListener("click", async () => {
+    const status = currentAgent.status === "active" ? "draft" : "active";
+    currentAgent = await AdminApp.apiJson(`/agents/${agentId}`, { method: "PUT", body: { status } });
+    renderAgent(currentAgent);
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

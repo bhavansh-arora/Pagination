@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Calls — Voice Agent</title>
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="nav">
+    <span class="brand">Voice Agent</span>
+    <a href="index.html">Home</a>
+    <a href="setup.html">Setup</a>
+    <a href="voices.html">Voices</a>
+    <a href="telephony.html">Telephony</a>
+    <a href="calls.html" class="active">Calls</a>
+    <a href="dashboard.html">Test</a>
+  </div>
+
+  <div class="page">
+    <h1 id="title">Calls</h1>
+    <p class="subtitle">Every call this agent has taken, with its recording, transcript, and whatever data it collected.</p>
+
+    <div class="card" id="listCard">
+      <table>
+        <thead>
+          <tr><th>Started</th><th>Source</th><th>Duration</th><th>Collected</th></tr>
+        </thead>
+        <tbody id="callsBody"></tbody>
+      </table>
+      <div id="emptyMsg" class="empty" style="display:none">No calls yet - test it from the Test page, or wait for a real one.</div>
+    </div>
+
+    <div class="card" id="detailCard" style="display:none">
+      <button class="secondary small" id="backBtn">← Back to list</button>
+      <h2 style="margin-top:14px">Recording</h2>
+      <audio id="player" controls style="width:100%"></audio>
+      <h2 style="margin-top:20px">Collected data</h2>
+      <div id="collectedData"></div>
+      <h2 style="margin-top:20px">Transcript</h2>
+      <div id="transcript" class="chat-log" style="height:auto; max-height:420px"></div>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+<script>
+(() => {
+  const agentId = AgentContext.get();
+  if (!agentId) { location.href = "index.html"; return; }
+
+  function formatDuration(startedAt, endedAt) {
+    if (!endedAt) return "in progress";
+    const seconds = Math.round((new Date(endedAt) - new Date(startedAt)) / 1000);
+    return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
+  }
+
+  async function showList() {
+    document.getElementById("detailCard").style.display = "none";
+    document.getElementById("listCard").style.display = "";
+
+    const calls = await AdminApp.apiJson(`/calls?agentId=${agentId}`);
+    const body = document.getElementById("callsBody");
+    document.getElementById("emptyMsg").style.display = calls.length ? "none" : "";
+
+    body.innerHTML = calls
+      .map(
+        (c) => `
+      <tr data-id="${c.id}">
+        <td>${new Date(c.startedAt).toLocaleString()}</td>
+        <td>${escapeHtml(c.source)}</td>
+        <td>${formatDuration(c.startedAt, c.endedAt)}</td>
+        <td>${Object.keys(c.collectedData).length} field(s)</td>
+      </tr>`
+      )
+      .join("");
+
+    body.querySelectorAll("tr").forEach((row) => {
+      row.addEventListener("click", () => showDetail(row.dataset.id));
+    });
+  }
+
+  async function showDetail(callId) {
+    const call = await AdminApp.apiJson(`/calls/${callId}`);
+    document.getElementById("listCard").style.display = "none";
+    document.getElementById("detailCard").style.display = "";
+
+    document.getElementById("player").src = recordingUrl(callId);
+
+    const dataEl = document.getElementById("collectedData");
+    const entries = Object.entries(call.collectedData);
+    dataEl.innerHTML = entries.length
+      ? entries.map(([k, v]) => `<div>• <strong>${escapeHtml(k)}</strong>: ${escapeHtml(v)}</div>`).join("")
+      : '<div class="empty">Nothing collected on this call.</div>';
+
+    const transcriptEl = document.getElementById("transcript");
+    transcriptEl.innerHTML = call.transcript.length
+      ? call.transcript
+          .map((t) => `<div class="bubble ${t.role === "user" ? "user" : "assistant"}">${escapeHtml(t.text)}</div>`)
+          .join("")
+      : '<div class="empty">No transcript.</div>';
+  }
+
+  function recordingUrl(callId) {
+    const token = AdminApp.token;
+    return `/api/calls/${callId}/recording${token ? `?token=${encodeURIComponent(token)}` : ""}`;
+  }
+
+  document.getElementById("backBtn").addEventListener("click", showList);
+
+  (async () => {
+    const agent = await AdminApp.apiJson(`/agents/${agentId}`);
+    document.getElementById("title").textContent = `Calls — ${agent.name}`;
+    showList();
+  })();
+})();
+</script>
+</body>
+</html>

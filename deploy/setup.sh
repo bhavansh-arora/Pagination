@@ -39,21 +39,23 @@ fi
 ./.venv/bin/python -m unidic download
 
 mkdir -p models
-if [ ! -f models/hi_IN-pratham-medium.onnx ]; then
-  echo "==> Downloading the Piper Hindi voice model"
-  curl -L -o models/hi_IN-pratham-medium.onnx \
-    https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/hi_IN-pratham-medium.onnx
-  curl -L -o models/hi_IN-pratham-medium.onnx.json \
-    https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/hi_IN-pratham-medium.onnx.json
-fi
+echo "==> Downloading Piper Hindi voice models (pratham, priyamvada)"
+for voice in pratham priyamvada; do
+  if [ ! -f "models/hi_IN-${voice}-medium.onnx" ]; then
+    curl -L -o "models/hi_IN-${voice}-medium.onnx" \
+      "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/${voice}/medium/hi_IN-${voice}-medium.onnx"
+    curl -L -o "models/hi_IN-${voice}-medium.onnx.json" \
+      "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/${voice}/medium/hi_IN-${voice}-medium.onnx.json"
+  fi
+done
 cd "$REPO_DIR"
 
 if [ ! -f .env ]; then
   echo "==> Creating .env from .env.example"
   cp .env.example .env
   TOKEN="$(openssl rand -hex 24)"
-  sed -i "s/^DASHBOARD_TOKEN=.*/DASHBOARD_TOKEN=${TOKEN}/" .env
-  echo "    Generated a random DASHBOARD_TOKEN for you: ${TOKEN}"
+  sed -i "s/^ADMIN_TOKEN=.*/ADMIN_TOKEN=${TOKEN}/" .env
+  echo "    Generated a random ADMIN_TOKEN for you: ${TOKEN}"
 fi
 
 echo "==> Installing systemd services (voice-agent, voice-speech)"
@@ -65,7 +67,7 @@ sudo systemctl daemon-reload
 
 echo
 echo "Setup done. Still needed before starting:"
-echo "  1. Edit .env and set ANTHROPIC_API_KEY (DASHBOARD_TOKEN was generated for you)."
+echo "  1. Edit .env and set ANTHROPIC_API_KEY (ADMIN_TOKEN was generated for you)."
 echo "  2. sudo systemctl enable --now voice-speech"
 echo "  3. sudo systemctl enable --now voice-agent"
 echo "  4. Reach the dashboard via an SSH tunnel (recommended, see README) or"

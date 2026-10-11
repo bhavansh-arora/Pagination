@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Voices — Voice Agent</title>
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="nav">
+    <span class="brand">Voice Agent</span>
+    <a href="index.html">Home</a>
+    <a href="setup.html">Setup</a>
+    <a href="voices.html" class="active">Voices</a>
+    <a href="telephony.html">Telephony</a>
+    <a href="calls.html">Calls</a>
+    <a href="dashboard.html">Test</a>
+  </div>
+
+  <div class="page">
+    <h1 id="title">Voices</h1>
+    <p class="subtitle">Preview each voice, then pick which one this agent speaks Hindi and English with.</p>
+
+    <div class="card">
+      <h2>Hindi</h2>
+      <div id="hiGrid" class="voice-grid"></div>
+    </div>
+
+    <div class="card">
+      <h2>English (choose an accent)</h2>
+      <div id="enGrid" class="voice-grid"></div>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+<script>
+(() => {
+  const agentId = AgentContext.get();
+  if (!agentId) { location.href = "index.html"; return; }
+
+  let agent, voices;
+  const audioEl = new Audio();
+
+  function render() {
+    document.getElementById("title").textContent = `Voices — ${agent.name}`;
+    renderGrid("hiGrid", voices.filter((v) => v.language === "hi"), agent.voiceHi, "voiceHi");
+    renderGrid("enGrid", voices.filter((v) => v.language === "en"), agent.voiceEn, "voiceEn");
+  }
+
+  function renderGrid(elId, list, selectedId, fieldName) {
+    const el = document.getElementById(elId);
+    el.innerHTML = list
+      .map(
+        (v) => `
+      <div class="voice-card ${v.id === selectedId ? "selected" : ""}" data-id="${v.id}">
+        <div class="name">${escapeHtml(v.label)}</div>
+        <div class="accent">${escapeHtml(v.accent)}</div>
+        <div class="row">
+          <button class="secondary small preview-btn" data-id="${v.id}" data-lang="${v.language}">▶ Preview</button>
+          <button class="small use-btn" data-id="${v.id}" data-field="${fieldName}" ${v.id === selectedId ? "disabled" : ""}>
+            ${v.id === selectedId ? "In use" : "Use this"}
+          </button>
+        </div>
+      </div>`
+      )
+      .join("");
+
+    el.querySelectorAll(".preview-btn").forEach((btn) => {
+      btn.addEventListener("click", () => preview(btn));
+    });
+    el.querySelectorAll(".use-btn").forEach((btn) => {
+      btn.addEventListener("click", () => useVoice(btn.dataset.field, btn.dataset.id));
+    });
+  }
+
+  async function preview(btn) {
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Loading…";
+    try {
+      const res = await AdminApp.api("/voices/preview", { method: "POST", body: { voiceId: btn.dataset.id } });
+      const blob = await res.blob();
+      audioEl.src = URL.createObjectURL(blob);
+      await audioEl.play();
+    } catch (err) {
+      alert("Preview failed: " + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  }
+
+  async function useVoice(fieldName, voiceId) {
+    agent = await AdminApp.apiJson(`/agents/${agentId}`, { method: "PUT", body: { [fieldName]: voiceId } });
+    render();
+  }
+
+  async function load() {
+    [agent, voices] = await Promise.all([
+      AdminApp.apiJson(`/agents/${agentId}`),
+      AdminApp.apiJson("/voices"),
+    ]);
+    render();
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>

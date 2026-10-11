@@ -1,19 +1,27 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { config } from "../config";
+import type { AgentConfig, DataField } from "./agentConfig";
 
-const client = new Anthropic({ apiKey: config.anthropic.apiKey });
+export const client = new Anthropic({ apiKey: config.anthropic.apiKey });
 
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
 }
 
+export interface ToolCall {
+  name: string;
+  input: Record<string, unknown>;
+}
+
+export type ReplyEvent = { type: "text"; text: string } | { type: "tool_call"; call: ToolCall };
+
 // Tuned so the model produces speakable, human-sounding phone dialogue
 // rather than written prose: short turns, contractions, no lists/markdown.
 // Also tuned to code-switch between English and Hindi turn by turn, since
 // each caller utterance is speech-to-text output rather than typed text -
 // the language-hint tag below is what makes that switch reliable.
-const SYSTEM_PROMPT = `You are on a live phone call, talking out loud with someone. Speak the way a warm, easygoing person actually talks on the phone, not like a written assistant reply.
+const BASE_PROMPT = `You are on a live phone call, talking out loud with someone. Speak the way a warm, easygoing person actually talks on the phone, not like a written assistant reply.
 
 Rules for how you talk:
 - Keep turns short: usually one or two sentences, rarely more than three. Let the conversation go back and forth instead of monologuing.
@@ -34,26 +42,90 @@ Language:
 - Match casual, spoken register in either language - natural conversational Hindi, not formal or literary Hindi, the way people actually talk on the phone.
 - If the tag looks wrong for what the caller actually said (e.g. they clearly spoke English but it's tagged "hi"), trust the words they used over the tag.`;
 
+function buildSystemPrompt(agent: AgentConfig): string {
+  const introBlock = agent.introDescription.trim()
+    ? `\n\nWho you are: ${agent.introDescription.trim()}`
+    : "";
+
+  const dataFieldsBlock = agent.dataFields.length
+    ? `\n\nInformation to collect:\nOver the course of the conversation, naturally work these in - don't interrogate the caller with a checklist, weave them into the conversation like a person would:\n${agent.dataFields
+        .map((f) => `- ${f.name}: ${f.description}`)
+        .join("\n")}\nCall the record_field tool the moment the caller gives you each one, even if they volunteer it before you ask - don't ask again for something they already told you.`
+    : "";
+
+  return BASE_PROMPT + introBlock + dataFieldsBlock;
+}
+
+function buildRecordFieldTool(dataFields: DataField[]): Anthropic.Tool | null {
+  if (dataFields.length === 0) return null;
+  return {
+    name: "record_field",
+    description:
+      "Call this as soon as the caller gives you a piece of information you were asked to collect - don't wait until the end of the call.",
+    input_schema: {
+      type: "object",
+      properties: {
+        field: {
+          type: "string",
+          enum: dataFields.map((f) => f.name),
+          description: "Which field this value is for.",
+        },
+        value: {
+          type: "string",
+          description: "The value the caller gave, in their own words, lightly cleaned up.",
+        },
+      },
+      required: ["field", "value"],
+    },
+  };
+}
+
+/**
+ * Streams a reply for the caller-facing agent. Yields text as it's
+ * generated (for sentence-by-sentence TTS) and tool_call events whenever
+ * Claude records a configured data field - this is a fire-and-forget
+ * extraction side-channel, not an agentic loop: nothing is sent back for
+ * a tool call, since nothing here needs Claude to see a result.
+ */
 export async function* streamReply(
   history: ChatMessage[],
+  agent: AgentConfig,
   signal: AbortSignal
-): AsyncGenerator<string> {
+): AsyncGenerator<ReplyEvent> {
+  const tool = buildRecordFieldTool(agent.dataFields);
   const stream = client.messages.stream(
     {
       model: config.anthropic.model,
       max_tokens: 400,
-      system: SYSTEM_PROMPT,
+      system: buildSystemPrompt(agent),
       messages: history,
+      ...(tool ? { tools: [tool] } : {}),
     },
     { signal }
   );
 
+  let pendingToolName: string | null = null;
+  let pendingToolInputJson = "";
+
   for await (const event of stream) {
-    if (
-      event.type === "content_block_delta" &&
-      event.delta.type === "text_delta"
-    ) {
-      yield event.delta.text;
+    if (event.type === "content_block_start" && event.content_block.type === "tool_use") {
+      pendingToolName = event.content_block.name;
+      pendingToolInputJson = "";
+    } else if (event.type === "content_block_delta") {
+      if (event.delta.type === "text_delta") {
+        yield { type: "text", text: event.delta.text };
+      } else if (event.delta.type === "input_json_delta") {
+        pendingToolInputJson += event.delta.partial_json;
+      }
+    } else if (event.type === "content_block_stop" && pendingToolName) {
+      try {
+        const input = pendingToolInputJson ? JSON.parse(pendingToolInputJson) : {};
+        yield { type: "tool_call", call: { name: pendingToolName, input } };
+      } catch {
+        // Malformed tool input - skip it rather than crash the whole turn.
+      }
+      pendingToolName = null;
+      pendingToolInputJson = "";
     }
   }
 }

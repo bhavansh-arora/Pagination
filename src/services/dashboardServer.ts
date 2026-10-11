@@ -1,8 +1,10 @@
-import crypto from "crypto";
 import type { Server as HttpServer } from "http";
 import { WebSocketServer, type WebSocket } from "ws";
 import { CallSession, type CallTransport } from "./callSession";
-import { config } from "../config";
+import { getAgent, getDefaultAgent } from "../db/agents";
+import { startCall, appendTranscriptTurn, mergeCollectedData, endCall } from "../db/calls";
+import { CallRecorder } from "./callRecorder";
+import { isAuthorized } from "./adminAuth";
 
 /**
  * The browser testing dashboard talks the simplest possible protocol over
@@ -13,45 +15,51 @@ import { config } from "../config";
  * relayed straight from CallSession, for the live transcript/status view.
  *
  * This WebSocket can run a real, billed conversation (Anthropic + the local
- * speech services), so if `DASHBOARD_TOKEN` is set, a connection must supply
- * the matching `?token=` query param or it's rejected before CallSession is
- * ever created. Unset (the local-dev default) means no check at all - fine
- * on localhost, not fine on anything internet-reachable.
+ * speech services), so it's gated by the same ADMIN_TOKEN as the rest of
+ * the admin surface - see adminAuth.ts.
  */
 export function attachDashboardServer(httpServer: HttpServer, path = "/dashboard"): WebSocketServer {
-  if (!config.dashboardToken) {
-    console.warn(
-      "WARNING: DASHBOARD_TOKEN is not set - the /dashboard WebSocket has no auth. " +
-        "Fine for localhost-only use; set DASHBOARD_TOKEN before exposing this on a VPS."
-    );
-  }
-
   const wss = new WebSocketServer({
     server: httpServer,
     path,
     verifyClient: ({ req }, done) => {
-      if (!config.dashboardToken) return done(true);
       const url = new URL(req.url ?? "", "http://localhost");
-      const supplied = url.searchParams.get("token") ?? "";
-      done(timingSafeEqual(supplied, config.dashboardToken));
+      done(isAuthorized(url.searchParams.get("token")));
     },
   });
 
-  wss.on("connection", (ws: WebSocket) => {
+  wss.on("connection", (ws: WebSocket, req) => {
+    const url = new URL(req.url ?? "", "http://localhost");
+    const agentId = url.searchParams.get("agentId");
+    const agent = (agentId && getAgent(agentId)) || getDefaultAgent();
+    const callId = startCall(agent.id, "dashboard");
+    const recorder = new CallRecorder();
+
     const transport: CallTransport = {
       sendAudio: (frame) => {
+        recorder.addAgentFrame(frame);
         if (ws.readyState === ws.OPEN) ws.send(frame);
       },
       hangup: () => ws.close(),
     };
 
-    const session = new CallSession(transport);
+    const session = new CallSession(transport, agent);
 
     const forward = (type: string) => (payload?: unknown) => {
       if (ws.readyState === ws.OPEN) ws.send(JSON.stringify({ type, ...(payload as object) }));
     };
-    session.on("transcript", forward("transcript"));
-    session.on("assistant-text", forward("assistant-text"));
+    session.on("transcript", (payload: { text: string; language: "en" | "hi" }) => {
+      appendTranscriptTurn(callId, { role: "user", text: payload.text, language: payload.language });
+      forward("transcript")(payload);
+    });
+    session.on("assistant-text", (payload: { text: string }) => {
+      appendTranscriptTurn(callId, { role: "assistant", text: payload.text });
+      forward("assistant-text")(payload);
+    });
+    session.on("collected-data", (payload: Record<string, string>) => {
+      mergeCollectedData(callId, payload);
+      forward("collected-data")(payload);
+    });
     session.on("assistant-text-delta", forward("assistant-text-delta"));
     session.on("speaking-started", forward("speaking-started"));
     session.on("speaking-stopped", forward("speaking-stopped"));
@@ -61,28 +69,26 @@ export function attachDashboardServer(httpServer: HttpServer, path = "/dashboard
     );
 
     ws.on("message", (data, isBinary) => {
-      if (isBinary) session.onAudioFrame(data as Buffer);
+      if (isBinary) {
+        recorder.addCallerFrame(data as Buffer);
+        session.onAudioFrame(data as Buffer);
+      }
       // Ignore any non-audio text messages from the client for this MVP.
     });
 
-    ws.on("close", () => session.cleanup());
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      session.cleanup();
+      endCall(callId, recorder.save(callId));
+    };
+    ws.on("close", finish);
     ws.on("error", (err) => {
       console.error("Dashboard WebSocket error:", err);
-      session.cleanup();
+      finish();
     });
   });
 
   return wss;
-}
-
-/** Constant-time string compare so a VPS deployment isn't leaking the token via response-time differences. */
-function timingSafeEqual(a: string, b: string): boolean {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  if (bufA.length !== bufB.length) {
-    // Still do a same-shape comparison so early-return timing doesn't leak length either.
-    crypto.timingSafeEqual(bufA, bufA);
-    return false;
-  }
-  return crypto.timingSafeEqual(bufA, bufB);
 }

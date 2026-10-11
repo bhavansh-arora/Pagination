@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Voice Agent</title>
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="nav">
+    <span class="brand">Voice Agent</span>
+    <a href="index.html" class="active">Home</a>
+    <a href="setup.html">Setup</a>
+    <a href="voices.html">Voices</a>
+    <a href="telephony.html">Telephony</a>
+    <a href="calls.html">Calls</a>
+    <a href="dashboard.html">Test</a>
+  </div>
+
+  <div class="page">
+    <h1>Your agents</h1>
+    <p class="subtitle">Pick an agent to configure, or create a new one. Everything else (Setup, Voices, Telephony, Calls, Test) works on whichever one you select here.</p>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>Name</th><th>Status</th><th>Created</th></tr></thead>
+        <tbody id="agentsBody"></tbody>
+      </table>
+      <div id="emptyMsg" class="empty" style="display:none">No agents yet - create your first one below.</div>
+    </div>
+
+    <div class="card">
+      <h2>New agent</h2>
+      <div class="field">
+        <label>Name</label>
+        <input id="newName" type="text" placeholder="e.g. Acme Dental Receptionist" />
+      </div>
+      <button id="createBtn">Create agent</button>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+<script>
+(() => {
+  function selectAgent(id) {
+    AgentContext.set(id);
+    location.href = "setup.html";
+  }
+
+  async function load() {
+    const agents = await AdminApp.apiJson("/agents");
+    const body = document.getElementById("agentsBody");
+    document.getElementById("emptyMsg").style.display = agents.length ? "none" : "";
+
+    body.innerHTML = agents
+      .map(
+        (a) => `
+      <tr data-id="${a.id}">
+        <td>${escapeHtml(a.name)}</td>
+        <td><span class="status ${a.status}">${a.status}</span></td>
+        <td>${new Date(a.createdAt).toLocaleDateString()}</td>
+      </tr>`
+      )
+      .join("");
+
+    body.querySelectorAll("tr").forEach((row) => {
+      row.addEventListener("click", () => selectAgent(row.dataset.id));
+    });
+  }
+
+  document.getElementById("createBtn").addEventListener("click", async () => {
+    const name = document.getElementById("newName").value.trim() || "New Agent";
+    const agent = await AdminApp.apiJson("/agents", { method: "POST", body: { name } });
+    selectAgent(agent.id);
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Telephony — Voice Agent</title>
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="nav">
+    <span class="brand">Voice Agent</span>
+    <a href="index.html">Home</a>
+    <a href="setup.html">Setup</a>
+    <a href="voices.html">Voices</a>
+    <a href="telephony.html" class="active">Telephony</a>
+    <a href="calls.html">Calls</a>
+    <a href="dashboard.html">Test</a>
+  </div>
+
+  <div class="page">
+    <h1 id="title">Telephony</h1>
+    <p class="subtitle">
+      This app never talks to a telephony vendor's API directly - it only
+      generates the Asterisk config that routes your vendor's SIP trunk to
+      this agent. Fill in a trunk's details below to get that config.
+    </p>
+
+    <div class="card">
+      <h2>Vendor</h2>
+      <div class="field">
+        <label>Provider</label>
+        <select id="vendor">
+          <option value="plivo">Plivo</option>
+        </select>
+        <div class="hint">More vendors can be added later without changing how calls are handled.</div>
+      </div>
+      <div class="field">
+        <label>Auth ID</label>
+        <input id="authId" type="text" placeholder="From the Plivo Console" />
+      </div>
+      <div class="field">
+        <label>Auth Token</label>
+        <input id="authToken" type="password" placeholder="From the Plivo Console" />
+      </div>
+      <div class="field">
+        <label>Phone number</label>
+        <input id="phoneNumber" type="text" placeholder="e.g. 911XXXXXXXXXX" />
+      </div>
+      <div class="field">
+        <label>SIP trunk name</label>
+        <input id="sipTrunkName" type="text" placeholder="A short name for this trunk, e.g. plivo-main" />
+      </div>
+      <div class="field">
+        <label>Termination SIP domain</label>
+        <input id="sipDomain" type="text" placeholder="From this trunk's page in the Plivo Console" />
+        <div class="hint">Account-specific - copy it from your Plivo trunk, don't guess.</div>
+      </div>
+      <button id="saveBtn">Generate Asterisk config</button>
+      <span id="saveStatus" class="hint"></span>
+    </div>
+
+    <div class="card" id="configCard" style="display:none">
+      <h2>Paste into Asterisk</h2>
+      <div id="notes"></div>
+      <div class="field">
+        <label>pjsip.conf (append this block)</label>
+        <pre class="config" id="pjsipConf"></pre>
+      </div>
+      <div class="field">
+        <label>extensions.conf (append this block)</label>
+        <pre class="config" id="extensionsConf"></pre>
+      </div>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+<script>
+(() => {
+  const agentId = AgentContext.get();
+  if (!agentId) { location.href = "index.html"; return; }
+
+  function renderConfig(asterisk) {
+    document.getElementById("configCard").style.display = "";
+    document.getElementById("pjsipConf").textContent = asterisk.pjsipConf;
+    document.getElementById("extensionsConf").textContent = asterisk.extensionsConf;
+    document.getElementById("notes").innerHTML = asterisk.notes
+      .map((n) => `<p class="hint">• ${escapeHtml(n)}</p>`)
+      .join("");
+  }
+
+  async function load() {
+    const agent = await AdminApp.apiJson(`/agents/${agentId}`);
+    document.getElementById("title").textContent = `Telephony — ${agent.name}`;
+
+    const existing = await AdminApp.apiJson(`/agents/${agentId}/telephony`);
+    if (existing.vendor) {
+      document.getElementById("authId").value = existing.vendor.authId;
+      document.getElementById("authToken").value = existing.vendor.authToken;
+      document.getElementById("phoneNumber").value = existing.vendor.phoneNumber;
+      document.getElementById("sipTrunkName").value = existing.vendor.sipTrunkName;
+      document.getElementById("sipDomain").value = existing.vendor.sipDomain;
+      if (existing.asterisk) renderConfig(existing.asterisk);
+    }
+  }
+
+  document.getElementById("saveBtn").addEventListener("click", async () => {
+    const statusEl = document.getElementById("saveStatus");
+    const body = {
+      vendor: document.getElementById("vendor").value,
+      authId: document.getElementById("authId").value.trim(),
+      authToken: document.getElementById("authToken").value.trim(),
+      phoneNumber: document.getElementById("phoneNumber").value.trim(),
+      sipTrunkName: document.getElementById("sipTrunkName").value.trim(),
+      sipDomain: document.getElementById("sipDomain").value.trim(),
+    };
+    statusEl.textContent = "Saving…";
+    statusEl.className = "hint";
+    try {
+      const result = await AdminApp.apiJson(`/agents/${agentId}/telephony`, { method: "PUT", body });
+      renderConfig(result.asterisk);
+      statusEl.textContent = "Saved.";
+    } catch (err) {
+      statusEl.textContent = "Failed: " + err.message;
+      statusEl.className = "error-text";
+    }
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

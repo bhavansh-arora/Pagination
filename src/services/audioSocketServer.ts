@@ -1,5 +1,8 @@
 import net from "net";
 import { CallSession, type CallTransport } from "./callSession";
+import { getDefaultAgent } from "../db/agents";
+import { startCall, appendTranscriptTurn, mergeCollectedData, endCall } from "../db/calls";
+import { CallRecorder } from "./callRecorder";
 
 /**
  * Implements Asterisk's AudioSocket protocol: a plain TCP connection where
@@ -15,6 +18,11 @@ import { CallSession, type CallTransport } from "./callSession";
  * 127.0.0.1 by default - safe when Asterisk runs on the same machine. Only
  * widen `host` (via AUDIOSOCKET_HOST) if Asterisk is on a different box, and
  * firewall that port to Asterisk's IP specifically if you do.
+ *
+ * Every call here uses the default agent - AudioSocket has no way (yet) to
+ * say which configured agent a call is for. That's the multi-agent routing
+ * hook to build out later, once calls need to name their agent (e.g. by
+ * which Asterisk trunk/DID received them).
  */
 
 const TYPE_HANGUP = 0x00;
@@ -26,16 +34,27 @@ export function startAudioSocketServer(port: number, host = "127.0.0.1"): net.Se
   const server = net.createServer((socket) => {
     let session: CallSession | null = null;
     let callId: string | null = null;
+    let recorder: CallRecorder | null = null;
+    let logCallId: string | null = null;
     let buffer = Buffer.alloc(0);
     let closed = false;
+    let finished = false;
 
     const transport: CallTransport = {
       sendAudio: (frame) => {
+        recorder?.addAgentFrame(frame);
         if (!closed) socket.write(encodeFrame(TYPE_AUDIO_8K, frame));
       },
       hangup: () => {
         if (!closed) socket.end(encodeFrame(TYPE_HANGUP, Buffer.alloc(0)));
       },
+    };
+
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      if (session && logCallId) endCall(logCallId, recorder?.save(logCallId) ?? null);
+      session?.cleanup();
     };
 
     socket.on("data", (chunk) => {
@@ -50,15 +69,29 @@ export function startAudioSocketServer(port: number, host = "127.0.0.1"): net.Se
         buffer = buffer.subarray(HEADER_BYTES + length);
 
         switch (type) {
-          case TYPE_UUID:
+          case TYPE_UUID: {
             callId = payload.toString("hex");
-            session = new CallSession(transport);
+            const agent = getDefaultAgent();
+            logCallId = startCall(agent.id, "audiosocket");
+            recorder = new CallRecorder();
+            session = new CallSession(transport, agent);
+            session.on("transcript", (p: { text: string; language: "en" | "hi" }) => {
+              if (logCallId) appendTranscriptTurn(logCallId, { role: "user", text: p.text, language: p.language });
+            });
+            session.on("assistant-text", (p: { text: string }) => {
+              if (logCallId) appendTranscriptTurn(logCallId, { role: "assistant", text: p.text });
+            });
+            session.on("collected-data", (p: Record<string, string>) => {
+              if (logCallId) mergeCollectedData(logCallId, p);
+            });
             break;
+          }
           case TYPE_AUDIO_8K:
+            recorder?.addCallerFrame(payload);
             session?.onAudioFrame(payload);
             break;
           case TYPE_HANGUP:
-            session?.cleanup();
+            finish();
             socket.end();
             break;
           default:
@@ -70,13 +103,13 @@ export function startAudioSocketServer(port: number, host = "127.0.0.1"): net.Se
 
     socket.on("close", () => {
       closed = true;
-      session?.cleanup();
+      finish();
     });
 
     socket.on("error", (err) => {
       console.error(`AudioSocket connection error (call ${callId ?? "unknown"}):`, err);
       closed = true;
-      session?.cleanup();
+      finish();
     });
   });
 
