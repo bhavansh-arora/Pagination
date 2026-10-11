@@ -1,4 +1,4 @@
-import type { ChatMessage } from "./anthropic";
+import type { ChatMessage } from "./llm";
 
 /** One piece of information the agent should try to collect from a caller during the conversation. */
 export interface DataField {

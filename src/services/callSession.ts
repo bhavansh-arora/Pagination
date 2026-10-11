@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { streamReply, type ChatMessage } from "./anthropic";
+import { streamReply, type ChatMessage } from "./llm";
 import { synthesizeSpeech } from "./localTts";
 import { transcribeSpeech } from "./localStt";
 import { convertWavToPcm16_8k, buildWavFromPcm16_8k, sendPaced } from "../utils/audio";
@@ -20,7 +20,7 @@ interface AssistantTurn {
 
 /**
  * Owns the whole lifecycle of one phone call: the local voice-activity
- * detector + speech-to-text, the Claude conversation, and the
+ * detector + speech-to-text, the GPT conversation, and the
  * locally-synthesized speech currently being spoken. One instance per call.
  * Deliberately knows nothing about how audio actually reaches the caller -
  * that's the transport's job - so swapping the telephony layer later never
@@ -99,7 +99,7 @@ export class CallSession extends EventEmitter {
 
   private handleUserUtterance(text: string, language: "en" | "hi"): void {
     if (this.isAgentSpeaking) this.handleBargeIn();
-    // Tag the turn with the detected language so Claude reliably replies in
+    // Tag the turn with the detected language so the model reliably replies in
     // kind; the system prompt tells it to treat this as metadata, not text.
     this.history.push({ role: "user", content: `[lang: ${language}] ${text}` });
     this.runAssistantTurn();

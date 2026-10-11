@@ -14,7 +14,7 @@ import { isAuthorized } from "./adminAuth";
  * caller's audio would have). Text messages are JSON telemetry events
  * relayed straight from CallSession, for the live transcript/status view.
  *
- * This WebSocket can run a real, billed conversation (Anthropic + the local
+ * This WebSocket can run a real, billed conversation (OpenAI + the local
  * speech services), so it's gated by the same ADMIN_TOKEN as the rest of
  * the admin surface - see adminAuth.ts.
  */

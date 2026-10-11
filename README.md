@@ -26,11 +26,11 @@ than one bundled "speech-to-speech" API:
   self-hosted [Whisper](https://github.com/SYSTRAN/faster-whisper) model
   (via `faster-whisper`) running in `tts-service/`, which also reports
   whether it heard English or Hindi.
-- **Conversation:** [Claude](https://www.anthropic.com) generates replies
-  with a system prompt tuned for spoken, human-sounding dialogue in either
-  language — short turns, contractions, no lists or markdown, natural
-  acknowledgements — and always answers in whichever language the caller
-  just used.
+- **Conversation:** [OpenAI's GPT](https://platform.openai.com) generates
+  replies with a system prompt tuned for spoken, human-sounding dialogue in
+  either language — short turns, contractions, no lists or markdown,
+  natural acknowledgements — and always answers in whichever language the
+  caller just used.
 - **Text-to-speech:** also fully self-hosted. The same local service runs
   two more open-source models in-process: [Piper](https://github.com/OHF-Voice/piper1-gpl)
   for Hindi (a native Hindi voice), and [MeloTTS](https://github.com/myshell-ai/MeloTTS)'s
@@ -38,7 +38,7 @@ than one bundled "speech-to-speech" API:
   The Node server picks which one to call per sentence just by checking
   whether that sentence contains Devanagari script.
 
-Text streams from Claude straight into TTS sentence-by-sentence (instead of
+Text streams from GPT straight into TTS sentence-by-sentence (instead of
 waiting for the full reply), and the agent supports **barge-in**: if the
 caller starts talking while the agent is still speaking, playback stops
 immediately and the agent listens, the way a real conversation works.
@@ -54,9 +54,9 @@ immediately and the agent listens, the way a real conversation works.
    which buffers audio while the caller is talking and fires once a
    sustained pause follows it.
 3. That buffered utterance is sent to the local Whisper model to transcribe.
-   The resulting text, tagged with its detected language, is sent to Claude
+   The resulting text, tagged with its detected language, is sent to GPT
    as the next turn in the conversation.
-4. As Claude streams its reply, completed sentences are sent to the local
+4. As GPT streams its reply, completed sentences are sent to the local
    `tts-service` (Piper for Hindi sentences, MeloTTS for English ones),
    resampled to 8kHz in-process (no subprocess per sentence), and played
    out in real-time-paced 20ms frames. Synthesis of the next sentence
@@ -108,7 +108,7 @@ speech microservice, and your own Asterisk instance.
    Python venv, Piper + MeloTTS + faster-whisper install, downloading the
    Hindi voice model — then leave it running:
    `uvicorn server:app --host 127.0.0.1 --port 8001`
-3. Copy `.env.example` to `.env` and fill in your **Anthropic** API key.
+3. Copy `.env.example` to `.env` and fill in your **OpenAI** API key.
    The defaults for everything else are fine for local dev.
 4. `npm run dev`. You'll see it listening for AudioSocket connections on
    port 8090 (configurable via `AUDIOSOCKET_PORT`).
@@ -161,12 +161,12 @@ VPS, see below) and it walks you through:
   telephony trunk) plus its own call history; you can run several side by
   side (e.g. one per client/business). Create one here, then everything
   else acts on whichever agent you select.
-- **Setup** (`setup.html`) — a chat with Claude that *trains* the selected
+- **Setup** (`setup.html`) — a chat with GPT that *trains* the selected
   agent instead of you filling out a form. Describe your business in plain
   language ("say 'Thanks for calling Acme Dental' and collect the caller's
   name and preferred day") and it extracts the opening line, how the agent
   should introduce/describe itself, and the list of fields to collect —
-  via Claude tool-calling (`src/services/setupChat.ts`'s `update_agent_config`
+  via OpenAI tool-calling (`src/services/setupChat.ts`'s `update_agent_config`
   tool), not regex/keyword matching — saving each piece as soon as it's
   confident, so you can see the config fill in live in the panel beside
   the chat. An agent starts as `draft`; flip it to `active` once you're
@@ -210,7 +210,7 @@ WAV file under `RECORDINGS_DIR` (default `./data/recordings/`) and playable
 from the Calls page.
 
 Data collection uses the same data fields you train in Setup: the
-caller-facing agent has its own Claude tool (`record_field`, built per-agent
+caller-facing agent has its own OpenAI tool (`record_field`, built per-agent
 from its configured `dataFields`) that it calls as soon as it has heard a
 piece of data worth saving, live during the call — not a post-call
 re-read of the transcript.
@@ -221,7 +221,7 @@ You don't need Asterisk, a SIP trunk, or any phone at all to iterate on
 conversation quality. With just `npm run dev` and `tts-service` running,
 open **`http://localhost:3000/dashboard.html`**, pick an agent, and click
 "Start conversation." It talks to the exact same `CallSession` logic a
-real call uses — same VAD, same Whisper, same Claude prompt and config,
+real call uses — same VAD, same Whisper, same GPT prompt and config,
 same Piper/MeloTTS, same recording/logging — over your computer's
 mic/speakers instead of a phone line.
 
@@ -290,7 +290,7 @@ Two ways to actually reach it:
 
 ## Notes / next steps
 
-- Anthropic (the LLM) is the only paid cloud API left. Telephony,
+- OpenAI (the LLM) is the only paid cloud API left. Telephony,
   speech-to-text, and text-to-speech are all fully self-hosted, and the
   SIP trunk provider is swappable without touching any code or redeploying
   — it's a per-agent config value filled in on the Telephony page.
@@ -308,8 +308,8 @@ Two ways to actually reach it:
   function - nothing about call handling, recording, or the rest of the
   admin UI needs to change.
 - To change an agent's personality/tone beyond what the setup chatbot
-  covers, edit `BASE_PROMPT` in `src/services/anthropic.ts` (applies to
-  every agent). Per-agent voice choice lives in the Voices page, not code.
+  covers, edit `BASE_PROMPT` in `src/services/llm.ts` (applies to every
+  agent). Per-agent voice choice lives in the Voices page, not code.
 - `tts-service` has its own licensing note (Piper's current release line is
   GPL-3.0) — see its README.
 - Outbound calling (agent calls someone) isn't wired up yet — it'd be a

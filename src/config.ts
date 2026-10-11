@@ -27,9 +27,12 @@ export const config = {
   audioSocketPort: Number(process.env.AUDIOSOCKET_PORT ?? 8090),
   audioSocketHost: process.env.AUDIOSOCKET_HOST || "127.0.0.1",
 
-  anthropic: {
-    apiKey: required("ANTHROPIC_API_KEY"),
-    model: process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5",
+  openai: {
+    apiKey: required("OPENAI_API_KEY"),
+    // gpt-4o-mini by default - fast and cheap, which matters for a live
+    // voice call. Swap to a different OpenAI model via OPENAI_MODEL if you
+    // want more quality at the cost of latency.
+    model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
   },
 
   // Fully self-hosted speech (STT + TTS) - see tts-service/. No cloud speech API involved.

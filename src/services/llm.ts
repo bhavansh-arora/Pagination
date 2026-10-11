@@ -1,8 +1,8 @@
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import { config } from "../config";
 import type { AgentConfig, DataField } from "./agentConfig";
 
-export const client = new Anthropic({ apiKey: config.anthropic.apiKey });
+export const client = new OpenAI({ apiKey: config.openai.apiKey });
 
 export interface ChatMessage {
   role: "user" | "assistant";
@@ -56,26 +56,29 @@ function buildSystemPrompt(agent: AgentConfig): string {
   return BASE_PROMPT + introBlock + dataFieldsBlock;
 }
 
-function buildRecordFieldTool(dataFields: DataField[]): Anthropic.Tool | null {
+function buildRecordFieldTool(dataFields: DataField[]): OpenAI.Chat.ChatCompletionTool | null {
   if (dataFields.length === 0) return null;
   return {
-    name: "record_field",
-    description:
-      "Call this as soon as the caller gives you a piece of information you were asked to collect - don't wait until the end of the call.",
-    input_schema: {
-      type: "object",
-      properties: {
-        field: {
-          type: "string",
-          enum: dataFields.map((f) => f.name),
-          description: "Which field this value is for.",
+    type: "function",
+    function: {
+      name: "record_field",
+      description:
+        "Call this as soon as the caller gives you a piece of information you were asked to collect - don't wait until the end of the call.",
+      parameters: {
+        type: "object",
+        properties: {
+          field: {
+            type: "string",
+            enum: dataFields.map((f) => f.name),
+            description: "Which field this value is for.",
+          },
+          value: {
+            type: "string",
+            description: "The value the caller gave, in their own words, lightly cleaned up.",
+          },
         },
-        value: {
-          type: "string",
-          description: "The value the caller gave, in their own words, lightly cleaned up.",
-        },
+        required: ["field", "value"],
       },
-      required: ["field", "value"],
     },
   };
 }
@@ -83,9 +86,11 @@ function buildRecordFieldTool(dataFields: DataField[]): Anthropic.Tool | null {
 /**
  * Streams a reply for the caller-facing agent. Yields text as it's
  * generated (for sentence-by-sentence TTS) and tool_call events whenever
- * Claude records a configured data field - this is a fire-and-forget
+ * the model records a configured data field - this is a fire-and-forget
  * extraction side-channel, not an agentic loop: nothing is sent back for
- * a tool call, since nothing here needs Claude to see a result.
+ * a tool call, since nothing here needs the model to see a result. Tool
+ * call arguments arrive as incremental JSON-string deltas keyed by index,
+ * so they're accumulated and only parsed/yielded once the stream ends.
  */
 export async function* streamReply(
   history: ChatMessage[],
@@ -93,39 +98,41 @@ export async function* streamReply(
   signal: AbortSignal
 ): AsyncGenerator<ReplyEvent> {
   const tool = buildRecordFieldTool(agent.dataFields);
-  const stream = client.messages.stream(
+  const stream = await client.chat.completions.create(
     {
-      model: config.anthropic.model,
-      max_tokens: 400,
-      system: buildSystemPrompt(agent),
-      messages: history,
+      model: config.openai.model,
+      max_completion_tokens: 400,
+      messages: [{ role: "system", content: buildSystemPrompt(agent) }, ...history],
       ...(tool ? { tools: [tool] } : {}),
+      stream: true,
     },
     { signal }
   );
 
-  let pendingToolName: string | null = null;
-  let pendingToolInputJson = "";
+  const pendingToolCalls = new Map<number, { name: string; argsJson: string }>();
 
-  for await (const event of stream) {
-    if (event.type === "content_block_start" && event.content_block.type === "tool_use") {
-      pendingToolName = event.content_block.name;
-      pendingToolInputJson = "";
-    } else if (event.type === "content_block_delta") {
-      if (event.delta.type === "text_delta") {
-        yield { type: "text", text: event.delta.text };
-      } else if (event.delta.type === "input_json_delta") {
-        pendingToolInputJson += event.delta.partial_json;
-      }
-    } else if (event.type === "content_block_stop" && pendingToolName) {
-      try {
-        const input = pendingToolInputJson ? JSON.parse(pendingToolInputJson) : {};
-        yield { type: "tool_call", call: { name: pendingToolName, input } };
-      } catch {
-        // Malformed tool input - skip it rather than crash the whole turn.
-      }
-      pendingToolName = null;
-      pendingToolInputJson = "";
+  for await (const chunk of stream) {
+    const delta = chunk.choices[0]?.delta;
+    if (!delta) continue;
+
+    if (delta.content) {
+      yield { type: "text", text: delta.content };
+    }
+
+    for (const toolCallDelta of delta.tool_calls ?? []) {
+      const existing = pendingToolCalls.get(toolCallDelta.index) ?? { name: "", argsJson: "" };
+      if (toolCallDelta.function?.name) existing.name = toolCallDelta.function.name;
+      if (toolCallDelta.function?.arguments) existing.argsJson += toolCallDelta.function.arguments;
+      pendingToolCalls.set(toolCallDelta.index, existing);
+    }
+  }
+
+  for (const { name, argsJson } of pendingToolCalls.values()) {
+    try {
+      const input = argsJson ? JSON.parse(argsJson) : {};
+      yield { type: "tool_call", call: { name, input } };
+    } catch {
+      // Malformed tool input - skip it rather than crash the whole turn.
     }
   }
 }
