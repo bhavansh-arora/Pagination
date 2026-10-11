@@ -10,6 +10,11 @@ import { CallSession, type CallTransport } from "./callSession";
  * This is the entire "telephony" surface of this app now - whatever SIP
  * trunk/provider actually terminates the call is Asterisk's problem, not
  * ours, so the provider can be swapped freely without touching this code.
+ *
+ * AudioSocket's own protocol has no authentication at all, so this binds to
+ * 127.0.0.1 by default - safe when Asterisk runs on the same machine. Only
+ * widen `host` (via AUDIOSOCKET_HOST) if Asterisk is on a different box, and
+ * firewall that port to Asterisk's IP specifically if you do.
  */
 
 const TYPE_HANGUP = 0x00;
@@ -17,7 +22,7 @@ const TYPE_UUID = 0x01;
 const TYPE_AUDIO_8K = 0x10; // signed linear 16-bit, 8kHz, mono, little-endian
 const HEADER_BYTES = 3;
 
-export function startAudioSocketServer(port: number): net.Server {
+export function startAudioSocketServer(port: number, host = "127.0.0.1"): net.Server {
   const server = net.createServer((socket) => {
     let session: CallSession | null = null;
     let callId: string | null = null;
@@ -75,8 +80,8 @@ export function startAudioSocketServer(port: number): net.Server {
     });
   });
 
-  server.listen(port, () => {
-    console.log(`AudioSocket server listening on port ${port}`);
+  server.listen(port, host, () => {
+    console.log(`AudioSocket server listening on ${host}:${port}`);
   });
 
   return server;

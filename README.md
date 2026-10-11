@@ -171,6 +171,43 @@ This is a separate transport (`src/services/dashboardServer.ts`, a plain
 WebSocket) sitting next to AudioSocket — `CallSession` itself doesn't know
 or care which one is driving it.
 
+## Deploying to a VPS
+
+1. Clone this repo onto the VPS, then run `bash deploy/setup.sh` from the
+   repo root. On a fresh Ubuntu/Debian box this installs Node, Python, all
+   dependencies, downloads the Hindi voice model, generates `.env` (with a
+   random `DASHBOARD_TOKEN` already filled in), and installs two systemd
+   services (`voice-agent`, `voice-speech`) so both halves run persistently
+   and restart on failure or reboot.
+2. Edit `.env` and set `ANTHROPIC_API_KEY`.
+3. `sudo systemctl enable --now voice-speech` then
+   `sudo systemctl enable --now voice-agent`. Check status/logs with
+   `systemctl status voice-agent` / `journalctl -u voice-agent -f`.
+4. Asterisk, if/when you're ready for real phone calls, is a separate
+   install - see the Asterisk section above. It isn't needed to reach the
+   dashboard.
+
+**Reaching the dashboard safely - read this before opening any port.**
+Two things changed from running this on your laptop:
+
+- The `/dashboard` WebSocket can run a real, billed conversation through
+  your Anthropic key. `setup.sh` generates a `DASHBOARD_TOKEN` for exactly
+  this reason - the server rejects any connection that doesn't supply it
+  as `?token=...`, and `dashboard.html` reads the same token from its own
+  URL. Open it as `http://<vps>:3000/dashboard.html?token=<the token
+  from .env>`, not the bare URL.
+- Prefer not exposing port 3000 to the internet at all. The safer default
+  is an SSH tunnel: `ssh -L 3000:localhost:3000 you@your-vps`, then open
+  `http://localhost:3000/dashboard.html?token=...` on your own machine -
+  nothing public-facing, no firewall rule needed. Only open the port
+  directly (`ufw allow 3000`, ideally scoped with `ufw allow from
+  <your-ip> to any port 3000`) if you specifically need it reachable
+  without a tunnel.
+- `AUDIOSOCKET_PORT` (8090) has no authentication in its protocol at all
+  and binds to `127.0.0.1` by default - never open this to the public
+  internet. Only widen `AUDIOSOCKET_HOST` if Asterisk runs on a different
+  machine, and firewall that port to Asterisk's IP specifically if you do.
+
 ## Notes / next steps
 
 - This is a from-scratch MVP: no persistence, no call recording, no

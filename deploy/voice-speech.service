@@ -1,0 +1,14 @@
+[Unit]
+Description=Voice Agent - local speech microservice (Whisper/Piper/MeloTTS)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=__REPO_DIR__/tts-service
+ExecStart=__REPO_DIR__/tts-service/.venv/bin/uvicorn server:app --host 127.0.0.1 --port 8001
+Restart=on-failure
+RestartSec=3
+User=__SERVICE_USER__
+
+[Install]
+WantedBy=multi-user.target

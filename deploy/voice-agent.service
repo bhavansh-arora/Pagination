@@ -1,0 +1,16 @@
+[Unit]
+Description=Voice Agent (Node) - AI phone/dashboard call handler
+After=network.target voice-speech.service
+Wants=voice-speech.service
+
+[Service]
+Type=simple
+WorkingDirectory=__REPO_DIR__
+EnvironmentFile=__REPO_DIR__/.env
+ExecStart=/usr/bin/node __REPO_DIR__/dist/server.js
+Restart=on-failure
+RestartSec=3
+User=__SERVICE_USER__
+
+[Install]
+WantedBy=multi-user.target

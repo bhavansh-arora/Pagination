@@ -253,10 +253,18 @@
 
     micStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1 } });
 
-    ws = new WebSocket(`ws://${location.host}/dashboard`);
+    // If this page was opened with ?token=..., forward it as the WebSocket
+    // auth token (see DASHBOARD_TOKEN in the server). No token in the URL
+    // means no token is sent - fine when the server has none configured.
+    const token = new URLSearchParams(location.search).get("token");
+    const wsProtocol = location.protocol === "https:" ? "wss:" : "ws:";
+    const wsUrl = `${wsProtocol}//${location.host}/dashboard${token ? `?token=${encodeURIComponent(token)}` : ""}`;
+    ws = new WebSocket(wsUrl);
     ws.binaryType = "arraybuffer";
+    let openedSuccessfully = false;
 
     ws.onopen = () => {
+      openedSuccessfully = true;
       const source = audioCtx.createMediaStreamSource(micStream);
       processorNode = audioCtx.createScriptProcessor(4096, 1, 1);
       processorNode.onaudioprocess = (e) => {
@@ -286,7 +294,13 @@
       }
     };
 
-    ws.onclose = () => stop(true);
+    ws.onclose = () => {
+      if (!openedSuccessfully) {
+        setStatus("error");
+        alert("Connection rejected - check the ?token= in this page's URL matches the server's DASHBOARD_TOKEN.");
+      }
+      stop(true);
+    };
     ws.onerror = () => stop(true);
   }
 

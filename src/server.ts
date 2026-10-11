@@ -17,7 +17,7 @@ httpServer.listen(config.port, () => {
   console.log(`Health check listening on port ${config.port}`);
 });
 
-startAudioSocketServer(config.audioSocketPort);
+startAudioSocketServer(config.audioSocketPort, config.audioSocketHost);
 console.log(
-  `Point Asterisk's AudioSocket() dialplan application at this host, port ${config.audioSocketPort}`
+  `Point Asterisk's AudioSocket() dialplan application at ${config.audioSocketHost}:${config.audioSocketPort}`
 );
