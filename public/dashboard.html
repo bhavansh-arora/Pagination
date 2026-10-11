@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Voice Agent — Test Dashboard</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #0e1116;
+    --panel: #161b22;
+    --border: #2a3140;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --user: #3fb950;
+    --agent: #d29922;
+    --error: #f85149;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .subtitle { color: var(--muted); font-size: 13px; margin: 0 0 20px; }
+  .controls { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  button {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  #toggle { background: var(--accent); color: #fff; }
+  #toggle.active { background: var(--error); }
+  #toggle:disabled { opacity: 0.5; cursor: not-allowed; }
+  .status {
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .status.listening { color: var(--user); border-color: var(--user); }
+  .status.speaking { color: var(--agent); border-color: var(--agent); }
+  .transcript {
+    height: 360px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .line { margin-bottom: 10px; }
+  .who { font-weight: 600; margin-right: 6px; }
+  .who.user { color: var(--user); }
+  .who.agent { color: var(--agent); }
+  .who.sys { color: var(--muted); }
+  .latency { color: var(--muted); font-size: 12px; margin-left: 6px; }
+  .empty { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Voice Agent — Test Dashboard</h1>
+    <p class="subtitle">
+      Talk to the same AI pipeline a real phone call uses. Audio is downsampled
+      to 8kHz in both directions, same as a phone line, so this sounds exactly
+      like the real thing.
+    </p>
+    <div class="controls">
+      <button id="toggle">Start conversation</button>
+      <span id="status" class="status">idle</span>
+    </div>
+    <div id="transcript" class="transcript">
+      <div class="empty">Click "Start conversation" and allow microphone access.</div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const CALL_SAMPLE_RATE = 8000;
+  const FRAME_SAMPLES = 160; // 20ms @ 8kHz
+
+  const toggleBtn = document.getElementById("toggle");
+  const statusEl = document.getElementById("status");
+  const transcriptEl = document.getElementById("transcript");
+
+  let ws = null;
+  let audioCtx = null;
+  let micStream = null;
+  let processorNode = null;
+  let resampleRemainder = new Float32Array(0);
+  let active = false;
+
+  // Gapless playback scheduling state.
+  let nextPlayTime = 0;
+  let scheduledSources = [];
+
+  // Latency measurement: time from "we know what the caller said" to "first
+  // audio byte of the reply arrives."
+  let transcriptAt = null;
+  let awaitingFirstFrame = false;
+
+  function setStatus(text, cls) {
+    statusEl.textContent = text;
+    statusEl.className = "status" + (cls ? " " + cls : "");
+  }
+
+  function clearEmptyState() {
+    const empty = transcriptEl.querySelector(".empty");
+    if (empty) empty.remove();
+  }
+
+  function addLine(who, label, text, latencyMs) {
+    clearEmptyState();
+    const div = document.createElement("div");
+    div.className = "line";
+    const latencyHtml = latencyMs != null ? `<span class="latency">replied in ${latencyMs}ms</span>` : "";
+    div.innerHTML = `<span class="who ${who}">${label}:</span>${escapeHtml(text)}${latencyHtml}`;
+    transcriptEl.appendChild(div);
+    transcriptEl.scrollTop = transcriptEl.scrollHeight;
+  }
+
+  function escapeHtml(s) {
+    const d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function stopScheduledPlayback() {
+    for (const src of scheduledSources) {
+      try { src.stop(0); } catch {}
+    }
+    scheduledSources = [];
+    nextPlayTime = audioCtx ? audioCtx.currentTime : 0;
+  }
+
+  function playIncomingFrame(arrayBuffer) {
+    if (awaitingFirstFrame) {
+      awaitingFirstFrame = false;
+      if (transcriptAt != null) {
+        // Stashed here and consumed by the next "assistant-text" event,
+        // since that's when the agent's line is actually rendered.
+        pendingLatencyMs = Math.round(performance.now() - transcriptAt);
+      }
+    }
+
+    const int16 = new Int16Array(arrayBuffer);
+    const buffer = audioCtx.createBuffer(1, int16.length, CALL_SAMPLE_RATE);
+    const channel = buffer.getChannelData(0);
+    for (let i = 0; i < int16.length; i++) channel[i] = int16[i] / 32768;
+
+    const source = audioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioCtx.destination);
+
+    const startAt = Math.max(nextPlayTime, audioCtx.currentTime);
+    source.start(startAt);
+    nextPlayTime = startAt + buffer.duration;
+    scheduledSources.push(source);
+    source.onended = () => {
+      scheduledSources = scheduledSources.filter((s) => s !== source);
+    };
+  }
+
+  let pendingLatencyMs = null;
+
+  function handleServerEvent(msg) {
+    switch (msg.type) {
+      case "transcript":
+        transcriptAt = performance.now();
+        awaitingFirstFrame = true;
+        addLine("user", "You", msg.text + (msg.language === "hi" ? " (hi)" : ""));
+        setStatus("thinking…");
+        break;
+      case "assistant-text":
+        addLine("agent", "Agent", msg.text, pendingLatencyMs);
+        pendingLatencyMs = null;
+        break;
+      case "speaking-started":
+        setStatus("speaking", "speaking");
+        break;
+      case "speaking-stopped":
+        setStatus("listening", "listening");
+        break;
+      case "barge-in":
+        stopScheduledPlayback();
+        addLine("sys", "—", "interrupted");
+        break;
+      case "error":
+        addLine("sys", "error", `${msg.stage}: ${msg.message}`);
+        break;
+    }
+  }
+
+  function downsampleAndSend(float32In, inputRate) {
+    // Prepend leftover samples from the previous callback so frame
+    // boundaries land exactly on 160-sample (20ms) chunks.
+    const combined = new Float32Array(resampleRemainder.length + float32In.length);
+    combined.set(resampleRemainder, 0);
+    combined.set(float32In, resampleRemainder.length);
+
+    const ratio = inputRate / CALL_SAMPLE_RATE;
+    const outLength = Math.floor(combined.length / ratio);
+    const pcm16 = new Int16Array(outLength);
+    for (let i = 0; i < outLength; i++) {
+      const srcPos = i * ratio;
+      const idx0 = Math.floor(srcPos);
+      const idx1 = Math.min(idx0 + 1, combined.length - 1);
+      const frac = srcPos - idx0;
+      const sample = combined[idx0] * (1 - frac) + combined[idx1] * frac;
+      const clamped = Math.max(-1, Math.min(1, sample));
+      pcm16[i] = clamped < 0 ? clamped * 0x8000 : clamped * 0x7fff;
+    }
+
+    const consumedInputSamples = Math.floor(outLength * ratio);
+    resampleRemainder = combined.slice(consumedInputSamples);
+
+    let offset = 0;
+    while (offset + FRAME_SAMPLES <= pcm16.length) {
+      const frame = pcm16.subarray(offset, offset + FRAME_SAMPLES);
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(frame.buffer.slice(frame.byteOffset, frame.byteOffset + frame.byteLength));
+      }
+      offset += FRAME_SAMPLES;
+    }
+  }
+
+  async function start() {
+    toggleBtn.disabled = true;
+    setStatus("connecting…");
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    nextPlayTime = audioCtx.currentTime;
+
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1 } });
+
+    ws = new WebSocket(`ws://${location.host}/dashboard`);
+    ws.binaryType = "arraybuffer";
+
+    ws.onopen = () => {
+      const source = audioCtx.createMediaStreamSource(micStream);
+      processorNode = audioCtx.createScriptProcessor(4096, 1, 1);
+      processorNode.onaudioprocess = (e) => {
+        downsampleAndSend(e.inputBuffer.getChannelData(0), audioCtx.sampleRate);
+      };
+      // Route through a silent gain node so the processor fires without
+      // the mic being audible locally (no echo/feedback).
+      const silentGain = audioCtx.createGain();
+      silentGain.gain.value = 0;
+      source.connect(processorNode);
+      processorNode.connect(silentGain);
+      silentGain.connect(audioCtx.destination);
+
+      active = true;
+      toggleBtn.disabled = false;
+      toggleBtn.textContent = "End conversation";
+      toggleBtn.classList.add("active");
+      setStatus("listening", "listening");
+      clearEmptyState();
+    };
+
+    ws.onmessage = (event) => {
+      if (typeof event.data === "string") {
+        handleServerEvent(JSON.parse(event.data));
+      } else {
+        playIncomingFrame(event.data);
+      }
+    };
+
+    ws.onclose = () => stop(true);
+    ws.onerror = () => stop(true);
+  }
+
+  function stop(fromServer) {
+    active = false;
+    if (processorNode) { processorNode.disconnect(); processorNode = null; }
+    if (micStream) { micStream.getTracks().forEach((t) => t.stop()); micStream = null; }
+    stopScheduledPlayback();
+    if (ws && !fromServer) ws.close();
+    ws = null;
+    resampleRemainder = new Float32Array(0);
+    toggleBtn.disabled = false;
+    toggleBtn.textContent = "Start conversation";
+    toggleBtn.classList.remove("active");
+    setStatus("idle");
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    if (active) stop(false);
+    else start().catch((err) => {
+      console.error(err);
+      setStatus("error");
+      toggleBtn.disabled = false;
+      alert("Couldn't start: " + err.message);
+    });
+  });
+})();
+</script>
+</body>
+</html>

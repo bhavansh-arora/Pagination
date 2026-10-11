@@ -1,3 +1,4 @@
+import { EventEmitter } from "events";
 import { streamReply, type ChatMessage } from "./anthropic";
 import { synthesizeSpeech } from "./localTts";
 import { transcribeSpeech } from "./localStt";
@@ -8,7 +9,7 @@ import { AsyncQueue } from "../utils/asyncQueue";
 
 const GREETING = "Hey, thanks for calling! What can I help you with?";
 
-/** How the call session talks to whatever's actually carrying the audio (AudioSocket, or anything else later). */
+/** How the call session talks to whatever's actually carrying the audio (AudioSocket, a browser dashboard, or anything else later). */
 export interface CallTransport {
   sendAudio: (pcmFrame: Buffer) => void;
   hangup: () => void;
@@ -25,14 +26,19 @@ interface AssistantTurn {
  * Deliberately knows nothing about how audio actually reaches the caller -
  * that's the transport's job - so swapping the telephony layer later never
  * touches this file.
+ *
+ * Emits telemetry events (transcript, assistant-text, speaking state,
+ * barge-in) purely for observers like the test dashboard - nothing in the
+ * call-handling logic depends on anyone listening.
  */
-export class CallSession {
+export class CallSession extends EventEmitter {
   private utteranceDetector: UtteranceDetector;
   private history: ChatMessage[] = [];
   private currentTurn: AssistantTurn | null = null;
   private isAgentSpeaking = false;
 
   constructor(private readonly transport: CallTransport) {
+    super();
     this.utteranceDetector = new UtteranceDetector(
       () => this.handleBargeIn(),
       (pcmAudio) => this.handleUtteranceAudio(pcmAudio)
@@ -52,17 +58,21 @@ export class CallSession {
       const { text, language } = await transcribeSpeech(wavBuffer);
       const trimmed = text.trim();
       if (!trimmed) return; // likely a VAD false trigger (noise burst) with nothing recognizable
+      this.emit("transcript", { text: trimmed, language });
       this.handleUserUtterance(trimmed, language);
     } catch (err) {
       console.error("STT failed:", err);
+      this.emit("error", { stage: "stt", error: err });
     }
   }
 
   private speakGreeting(): void {
     this.history.push({ role: "assistant", content: GREETING });
+    this.emit("assistant-text", { text: GREETING });
     const abortController = new AbortController();
     this.currentTurn = { abortController };
     this.isAgentSpeaking = true;
+    this.emit("speaking-started");
 
     (async () => {
       try {
@@ -81,6 +91,7 @@ export class CallSession {
     this.currentTurn.abortController.abort();
     this.currentTurn = null;
     this.isAgentSpeaking = false;
+    this.emit("barge-in");
   }
 
   private handleUserUtterance(text: string, language: "en" | "hi"): void {
@@ -108,6 +119,7 @@ export class CallSession {
 
     this.currentTurn = { abortController };
     this.isAgentSpeaking = true;
+    this.emit("speaking-started");
 
     const pipeline = Promise.all([
       this.runSynthesisStage(sentenceQueue, audioQueue, abortController.signal),
@@ -119,6 +131,7 @@ export class CallSession {
       try {
         for await (const delta of streamReply(this.history, abortController.signal)) {
           assistantText += delta;
+          this.emit("assistant-text-delta", { delta });
           for (const chunk of splitter.push(delta)) sentenceQueue.push(chunk);
         }
         const rest = splitter.flush();
@@ -126,11 +139,14 @@ export class CallSession {
       } catch (err) {
         if (!abortController.signal.aborted) {
           console.error("Assistant turn failed:", err);
+          this.emit("error", { stage: "llm", error: err });
         }
       } finally {
         sentenceQueue.close();
         if (assistantText.trim()) {
-          this.history.push({ role: "assistant", content: assistantText.trim() });
+          const finalText = assistantText.trim();
+          this.history.push({ role: "assistant", content: finalText });
+          this.emit("assistant-text", { text: finalText });
         }
       }
     })();
@@ -150,7 +166,10 @@ export class CallSession {
           if (signal.aborted) return;
           audioQueue.push(convertWavToPcm16_8k(wavBuffer));
         } catch (err) {
-          if (!signal.aborted) console.error("TTS synthesis failed:", err);
+          if (!signal.aborted) {
+            console.error("TTS synthesis failed:", err);
+            this.emit("error", { stage: "tts", error: err });
+          }
         }
       }
     } finally {
@@ -170,6 +189,7 @@ export class CallSession {
     if (this.currentTurn?.abortController === abortController) {
       this.currentTurn = null;
       this.isAgentSpeaking = false;
+      this.emit("speaking-stopped");
     }
   }
 

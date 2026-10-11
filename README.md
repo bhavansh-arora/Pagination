@@ -149,6 +149,28 @@ is actually reachable from Asterisk.
 Dial the number. The agent should greet you and take it from there — try
 speaking in Hindi partway through the call and it should switch.
 
+## Testing without a phone: the dashboard
+
+You don't need Asterisk, a SIP trunk, or any phone at all to iterate on
+conversation quality. With just `npm run dev` and `tts-service` running,
+open **`http://localhost:3000/dashboard.html`** in a browser and click
+"Start conversation." It talks to the exact same `CallSession` logic a
+real call uses — same VAD, same Whisper, same Claude prompt, same
+Piper/MeloTTS — over your computer's mic/speakers instead of a phone line.
+
+Audio is downsampled to 8kHz in *both* directions before it ever reaches
+the AI pipeline or your speakers, matching a real phone line's bandwidth
+exactly — so what you hear here is a genuine preview of call quality, not
+cleaned-up browser audio. The page also shows a live transcript, the
+detected language per turn, and the time from "caller finished speaking"
+to "first audio of the reply," so you can actually see where latency goes
+as you tune things like `VAD_SILENCE_HANGOVER_MS`, the system prompt, or
+the TTS voices.
+
+This is a separate transport (`src/services/dashboardServer.ts`, a plain
+WebSocket) sitting next to AudioSocket — `CallSession` itself doesn't know
+or care which one is driving it.
+
 ## Notes / next steps
 
 - This is a from-scratch MVP: no persistence, no call recording, no
