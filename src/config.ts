@@ -12,8 +12,12 @@ function required(name: string): string {
 const dataDir = process.env.DATA_DIR || path.join(process.cwd(), "data");
 
 export const config = {
-  // HTTP health-check + admin API server.
+  // HTTP health-check + admin API server. Binds to localhost only by
+  // default - put a reverse proxy (nginx/caddy) in front for TLS and a
+  // real domain, same pattern as AUDIOSOCKET_HOST below. Only widen HOST
+  // if you specifically need the Node process reachable without a proxy.
   port: Number(process.env.PORT ?? 3000),
+  host: process.env.HOST || "127.0.0.1",
 
   // Asterisk's AudioSocket() dialplan application connects here. No cloud
   // telephony API/account is involved - whatever SIP trunk you point

@@ -4,12 +4,18 @@
 # both the Node app and the Python speech microservice.
 #
 # Run from the repo root: bash deploy/setup.sh
+# Optionally pass a domain that already points at this VPS's IP to also
+# set up nginx + a free TLS cert for it:
+#   bash deploy/setup.sh voice.codebunny.net
 #
 # This does NOT install or configure Asterisk - that's a separate, optional
 # step (see the main README) only needed once you're ready to take real
-# phone calls. The browser dashboard works without Asterisk at all.
+# phone calls. The browser dashboard works without Asterisk at all - and
+# needs HTTPS (not a bare IP/HTTP) for microphone access to work, which is
+# exactly what passing a domain here sets up.
 set -euo pipefail
 
+DOMAIN="${1:-}"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR"
 SERVICE_USER="$(whoami)"
@@ -65,10 +71,42 @@ sed -e "s#__REPO_DIR__#${REPO_DIR}#g" -e "s#__SERVICE_USER__#${SERVICE_USER}#g" 
   deploy/voice-speech.service | sudo tee /etc/systemd/system/voice-speech.service >/dev/null
 sudo systemctl daemon-reload
 
+if [ -n "$DOMAIN" ]; then
+  APP_PORT="$(grep '^PORT=' .env | cut -d= -f2)"
+  APP_PORT="${APP_PORT:-3000}"
+
+  echo "==> Installing nginx + certbot for ${DOMAIN}"
+  sudo apt-get install -y nginx certbot python3-certbot-nginx
+
+  sed -e "s/__DOMAIN__/${DOMAIN}/g" -e "s/__PORT__/${APP_PORT}/g" \
+    deploy/nginx.conf.template | sudo tee "/etc/nginx/sites-available/${DOMAIN}" >/dev/null
+  sudo ln -sf "/etc/nginx/sites-available/${DOMAIN}" "/etc/nginx/sites-enabled/${DOMAIN}"
+  sudo nginx -t
+  sudo systemctl reload nginx
+
+  if command -v ufw >/dev/null 2>&1; then
+    sudo ufw allow "Nginx Full" || true
+  fi
+
+  echo "==> Requesting a TLS certificate for ${DOMAIN}"
+  echo "    (requires ${DOMAIN} already pointing at this server's public IP)"
+  sudo certbot --nginx -d "$DOMAIN" --redirect --non-interactive --agree-tos \
+    --register-unsafely-without-email || {
+    echo "    certbot failed - you can re-run it manually later:"
+    echo "    sudo certbot --nginx -d ${DOMAIN} --redirect"
+  }
+fi
+
 echo
 echo "Setup done. Still needed before starting:"
 echo "  1. Edit .env and set ANTHROPIC_API_KEY (ADMIN_TOKEN was generated for you)."
 echo "  2. sudo systemctl enable --now voice-speech"
 echo "  3. sudo systemctl enable --now voice-agent"
-echo "  4. Reach the dashboard via an SSH tunnel (recommended, see README) or"
-echo "     open the firewall per the README if you want it directly reachable."
+if [ -n "$DOMAIN" ]; then
+  echo "  4. Open https://${DOMAIN}/?token=<the ADMIN_TOKEN from .env>"
+else
+  echo "  4. Reach the dashboard via an SSH tunnel (recommended, see README) or"
+  echo "     open the firewall per the README if you want it directly reachable."
+  echo "     Or re-run this script with a domain already pointed at this VPS"
+  echo "     to set up HTTPS automatically: bash deploy/setup.sh yourdomain.com"
+fi

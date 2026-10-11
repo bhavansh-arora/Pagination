@@ -241,37 +241,48 @@ or care which one is driving it, and both get recorded/logged identically.
 ## Deploying to a VPS
 
 1. Clone this repo onto the VPS, then run `bash deploy/setup.sh` from the
-   repo root. On a fresh Ubuntu/Debian box this installs Node, Python, all
+   repo root - optionally passing a domain that already has an A record
+   pointing at this VPS's IP, e.g. `bash deploy/setup.sh voice.example.com`.
+   On a fresh Ubuntu/Debian box this installs Node, Python, all
    dependencies, downloads both Hindi voice models, generates `.env` (with
-   a random `ADMIN_TOKEN` already filled in), and installs two systemd
+   a random `ADMIN_TOKEN` already filled in), installs two systemd
    services (`voice-agent`, `voice-speech`) so both halves run persistently
-   and restart on failure or reboot.
+   and restart on failure or reboot, and - only if you passed a domain -
+   installs nginx as a reverse proxy in front of the app and gets it a
+   free TLS certificate via Let's Encrypt/certbot.
 2. Edit `.env` and set `ANTHROPIC_API_KEY`.
 3. `sudo systemctl enable --now voice-speech` then
    `sudo systemctl enable --now voice-agent`. Check status/logs with
    `systemctl status voice-agent` / `journalctl -u voice-agent -f`.
 4. Asterisk, if/when you're ready for real phone calls, is a separate
    install - see the Asterisk section above. It isn't needed to reach the
-   dashboard.
+   admin UI/dashboard.
 
 **Reaching the admin UI safely - read this before opening any port.**
-Two things changed from running this on your laptop:
+The app itself binds to `127.0.0.1` only (`HOST` in `.env`, same pattern as
+`AUDIOSOCKET_HOST`) - it is never directly reachable from the internet.
+Two ways to actually reach it:
 
-- The whole admin surface - every `/api/*` route, the `/dashboard`
-  WebSocket, the setup chatbot (which calls your billed Anthropic key),
-  voice previews, and call recordings/transcripts - requires `ADMIN_TOKEN`.
-  `setup.sh` generates one for exactly this reason; the frontend
-  (`public/app.js`) reads it once from the URL's `?token=...`, stores it
-  for the rest of the session, and strips it back out of the visible URL.
-  Open the app as `http://<vps>:3000/?token=<the token from .env>` the
-  first time (any admin page works - `index.html`, `dashboard.html`,
-  etc.) and it carries the token to every page you navigate to from there.
-- Prefer not exposing port 3000 to the internet at all. The safer default
-  is an SSH tunnel: `ssh -L 3000:localhost:3000 you@your-vps`, then open
-  `http://localhost:3000/?token=...` on your own machine - nothing
-  public-facing, no firewall rule needed. Only open the port directly
-  (`ufw allow 3000`, ideally scoped with `ufw allow from <your-ip> to any
-  port 3000`) if you specifically need it reachable without a tunnel.
+- **With a domain (recommended, and the only way to use the Test
+  dashboard's microphone from a browser other than on the VPS itself)** -
+  pass the domain to `setup.sh` as above. It writes an nginx config from
+  `deploy/nginx.conf.template` (proxying the domain to the app, with the
+  WebSocket upgrade headers `/dashboard` needs) and runs certbot, which
+  gets a cert and rewrites that config to redirect HTTP to HTTPS. Browsers
+  only allow microphone access (`getUserMedia`) over HTTPS or `localhost` -
+  a bare `http://<ip>:3000` can't use the mic at all, which is why this
+  matters beyond just security. Once that's done, open
+  `https://<your-domain>/?token=<the ADMIN_TOKEN from .env>` once; the
+  frontend (`public/app.js`) reads the token from that URL, stores it for
+  the rest of the browser session, strips it back out of the visible URL,
+  and carries it to every admin page (`index.html`, `dashboard.html`,
+  etc.) you navigate to from there. If you add the domain later, re-run
+  `bash deploy/setup.sh <domain>` - it's safe to re-run.
+- **Without a domain** - an SSH tunnel: `ssh -L 3000:localhost:3000
+  you@your-vps`, then open `http://localhost:3000/?token=...` on your own
+  machine. This also satisfies the HTTPS-or-localhost rule above since the
+  browser sees it as `localhost`, but it only works from the machine
+  running the tunnel.
 - `AUDIOSOCKET_PORT` (8090) has no authentication in its protocol at all
   and binds to `127.0.0.1` by default - never open this to the public
   internet. Only widen `AUDIOSOCKET_HOST` if Asterisk runs on a different

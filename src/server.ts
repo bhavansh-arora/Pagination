@@ -16,9 +16,9 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 const httpServer = http.createServer(app);
 attachDashboardServer(httpServer);
 
-httpServer.listen(config.port, () => {
-  console.log(`Admin UI: http://localhost:${config.port}/`);
-  console.log(`Health check listening on port ${config.port}`);
+httpServer.listen(config.port, config.host, () => {
+  console.log(`Admin UI: http://${config.host}:${config.port}/`);
+  console.log(`Health check listening on ${config.host}:${config.port}`);
 });
 
 startAudioSocketServer(config.audioSocketPort, config.audioSocketHost);
