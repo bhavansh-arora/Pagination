@@ -258,7 +258,7 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
    hard. Applied selectively via .fade-bottom — NOT to every .section-dark,
    since two dark bands can sit back to back (e.g. stats -> process) and
    would otherwise get an unwanted light stripe between them. */
-.hero::after, .page-hero::after, .fade-bottom::after{
+.page-hero::after, .fade-bottom::after{
   content:""; position:absolute; left:0; right:0; bottom:0; height:140px;
   background: linear-gradient(to bottom, transparent, var(--paper));
   pointer-events:none; z-index:1;
