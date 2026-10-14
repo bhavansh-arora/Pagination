@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap"></noscript>
 <link rel="canonical" href="https://www.codebunny.net/about.html">
 <script type="application/ld+json">
 {
@@ -75,16 +75,21 @@
   <div class="wrap">
     <div class="grid grid-2" style="align-items:center; gap:60px;">
       <div class="reveal">
-        <div class="tilt-card" style="max-width:360px;">
+        <div class="tilt-card" style="max-width:360px; background: var(--surface); border-color: var(--border); box-shadow: var(--shadow);">
           <div class="badge-row">
-            <span class="eyebrow" style="margin:0"><span class="dot"></span> Founder</span>
-            <span class="eyebrow" style="margin:0">🐇 Code Bunny</span>
+            <span class="eyebrow" style="color:var(--gold-3);"><span class="dot"></span> Founder</span>
+            <span class="eyebrow" style="color:var(--gold-3);">🐇 Code Bunny</span>
           </div>
           <div class="avatar-orb"><img src="assets/img/bhavansh.webp" alt="Bhavansh Arora"></div>
-          <p class="tilt-name">Bhavansh Arora</p>
-          <div class="role">Website, App &amp; Software Development</div>
+          <p class="tilt-name" style="color:var(--text);">Bhavansh Arora</p>
+          <div class="role" style="color:var(--muted);">Website, App &amp; Software Development</div>
           <div class="skill-chips">
-            <span>React</span><span>Next.js</span><span>Node.js</span><span>Python</span><span>OpenAI API</span><span>UI/UX</span>
+            <span style="background:var(--cream);border-color:var(--line);color:var(--gold-3);">React</span>
+            <span style="background:var(--cream);border-color:var(--line);color:var(--gold-3);">Next.js</span>
+            <span style="background:var(--cream);border-color:var(--line);color:var(--gold-3);">Node.js</span>
+            <span style="background:var(--cream);border-color:var(--line);color:var(--gold-3);">Python</span>
+            <span style="background:var(--cream);border-color:var(--line);color:var(--gold-3);">OpenAI API</span>
+            <span style="background:var(--cream);border-color:var(--line);color:var(--gold-3);">UI/UX</span>
           </div>
         </div>
       </div>
@@ -92,9 +97,9 @@
         <h2>The short version</h2>
         <p>We're the team behind <strong>Code Bunny</strong> — 5 years building and shipping real products. We care about two things on every project: it has to look genuinely great, and it has to make the numbers move — more leads, more bookings, more sales.</p>
         <p>That's why Code Bunny isn't just an agency — it's also a small product lab. Alongside client work, we build our own products: <strong>CustomBotify</strong>, <strong>Thrill Lands</strong> and <strong>LaunchMint</strong> are delivered projects running live in production today, and templates like <strong>Beauty</strong> are ones we're ready to hand off to a new owner.</p>
-        <div class="hero-actions" style="margin-top:10px;">
+        <div class="hero-actions" style="margin-top:10px;opacity:1;animation:none;">
           <a href="contact.html" class="btn btn-primary">Work with us</a>
-          <a href="marketplace.html" class="btn btn-ghost">See what's for sale</a>
+          <a href="marketplace.html" class="btn btn-ghost" style="color:var(--text);background:var(--surface);border-color:var(--border);">See what's for sale</a>
         </div>
       </div>
     </div>
@@ -157,8 +162,33 @@
 
 <div class="wrap"><div class="divider"></div></div>
 
+<!-- ===== Why / proof collage ===== -->
+<section style="background: var(--cream);">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="reveal">
+        <span class="eyebrow"><span class="dot"></span> The proof</span>
+        <h2 style="margin-top:16px;">Live products, <span class="grad-text">not just portfolio shots</span></h2>
+        <p style="font-size:1.05rem;max-width:480px;">CustomBotify and Thrill Lands aren't case studies — they're running businesses today, built the same way we'd build yours.</p>
+        <div class="hero-actions" style="margin-top:28px;opacity:1;animation:none;">
+          <a href="index.html#work" class="btn btn-primary">See recent work</a>
+        </div>
+      </div>
+      <div class="why-visual reveal">
+        <figure class="why-img why-img-a">
+          <img src="assets/img/launchmint-preview.webp" alt="LaunchMint, a live Code Bunny product">
+        </figure>
+        <figure class="why-img why-img-b">
+          <img src="assets/img/beauty-preview.webp" alt="Beauty, a Code Bunny template">
+        </figure>
+        <div class="why-badge"><b>100+</b>Projects<br>Delivered</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== Timeline ===== -->
-<section style="background: var(--bg-cool);">
+<section>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow"><span class="dot"></span> Journey</span>
@@ -209,7 +239,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="brand" style="margin-bottom:14px;">
+        <a href="index.html" class="brand" style="margin-bottom:14px;color:var(--text);">
           <img src="assets/img/logo.webp" alt="Code Bunny" class="brand-logo">
         </a>
         <p style="max-width:280px;">Website, mobile app &amp; software development. 5 years shipping real products, founded by Bhavansh Arora.</p>

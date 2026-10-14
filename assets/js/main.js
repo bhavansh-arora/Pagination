@@ -161,9 +161,9 @@
 
     function colorFor(mix) {
       var stops = [
-        [40, 64, 155],
-        [138, 33, 66],
-        [14, 107, 85]
+        [233, 169, 59],
+        [255, 217, 138],
+        [251, 241, 225]
       ];
       var idx = mix * (stops.length - 1);
       var i0 = Math.floor(idx);
@@ -190,7 +190,7 @@
         ctx.fill();
       }
       ctx.globalAlpha = 0.16;
-      ctx.strokeStyle = "#28409b";
+      ctx.strokeStyle = "#e9a93b";
       for (var a = 0; a < particles.length; a++) {
         for (var b = a + 1; b < particles.length; b++) {
           var dx = particles[a].x - particles[b].x;
