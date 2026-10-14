@@ -407,7 +407,7 @@ section{ position: relative; padding: 110px 0; }
 .browser-bar .dot:nth-child(1){ background:#ff5f57; }
 .browser-bar .dot:nth-child(2){ background:#febc2e; }
 .browser-bar .dot:nth-child(3){ background:#28c840; }
-.browser-bar .url{ margin-left: 10px; font-size: .7rem; color: rgba(255,255,255,.55); background: rgba(255,255,255,.05); padding: 4px 10px; border-radius: 999px; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.browser-bar .url{ display:none; }
 .mock-body{ position:relative; height: calc(100% - 34px); overflow:hidden; }
 .mock-body .mesh{ position:absolute; inset:0; opacity:.9; }
 .mock-shot{ width:100%; aspect-ratio: 1.85; object-fit: cover; object-position: top; display:block; }
