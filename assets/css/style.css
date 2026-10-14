@@ -30,8 +30,8 @@
   --radius-sm: 14px;
   --radius-md: 20px;
   --radius-lg: 28px;
-  --shadow: 0 30px 60px -22px rgba(26,15,20,.22);
-  --shadow-lg: 0 40px 80px -24px rgba(26,15,20,.3);
+  --shadow: 0 14px 28px -18px rgba(26,15,20,.22);
+  --shadow-lg: 0 20px 40px -20px rgba(26,15,20,.26);
   --ease: cubic-bezier(.2,.7,.2,1);
   --maxw: 1200px;
 }
@@ -145,9 +145,9 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
 .btn-primary{
   color: #1a1408;
   background: var(--gold-grad);
-  box-shadow: 0 10px 30px -10px rgba(233,169,59,.65), inset 0 1px 0 rgba(255,255,255,.5);
+  box-shadow: 0 6px 16px -8px rgba(233,169,59,.45), inset 0 1px 0 rgba(255,255,255,.5);
 }
-.btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px -12px rgba(233,169,59,.8), inset 0 1px 0 rgba(255,255,255,.5); }
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 22px -10px rgba(233,169,59,.55), inset 0 1px 0 rgba(255,255,255,.5); }
 .btn-primary::after{
   content:""; position:absolute; inset:0;
   background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
@@ -253,9 +253,12 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
   background-size: 160px 160px;
   color: var(--cream);
 }
-/* Soft dissolve at the bottom edge of every dark band, so it blends into the
-   light sections below instead of cutting off hard. */
-.hero::after, .page-hero::after, .section-dark::after{
+/* Soft dissolve at the bottom edge of a dark band that is immediately
+   followed by a light section, so it blends in instead of cutting off
+   hard. Applied selectively via .fade-bottom — NOT to every .section-dark,
+   since two dark bands can sit back to back (e.g. stats -> process) and
+   would otherwise get an unwanted light stripe between them. */
+.hero::after, .page-hero::after, .fade-bottom::after{
   content:""; position:absolute; left:0; right:0; bottom:0; height:140px;
   background: linear-gradient(to bottom, transparent, var(--paper));
   pointer-events:none; z-index:1;
@@ -304,7 +307,7 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
   padding: 36px;
   transform-style: preserve-3d;
   transition: transform .25s var(--ease), box-shadow .25s;
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,.5);
+  box-shadow: 0 16px 32px -18px rgba(0,0,0,.4);
 }
 .tilt-card::after{
   content:""; position:absolute; inset:-1px; border-radius: inherit; padding:1px;
@@ -322,7 +325,7 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
   font-size: 2.1rem; font-weight:800; color: var(--ink);
   margin: 0 auto 18px;
   transform: translateZ(60px);
-  box-shadow: 0 14px 30px -10px rgba(233,169,59,.5);
+  box-shadow: 0 8px 18px -10px rgba(233,169,59,.4);
   overflow: hidden; position: relative; z-index: 1;
 }
 .avatar-orb img{ width:100%; height:100%; object-fit:cover; object-position: 50% 20%; }
@@ -344,7 +347,7 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
   color: var(--cream);
   display:flex; align-items:center; gap:12px;
   font-size: .82rem; font-weight:700;
-  box-shadow: 0 24px 50px -20px rgba(0,0,0,.55);
+  box-shadow: 0 12px 26px -16px rgba(0,0,0,.45);
   animation: floaty 6s ease-in-out infinite;
 }
 .float-card .ico{ width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex:none; background: var(--gold-grad); color: var(--ink); font-size: 1.1rem; }
@@ -362,9 +365,9 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
 }
 
 /* ---------- Sections ---------- */
-section{ position: relative; padding: 112px 0; }
+section{ position: relative; padding: 92px 0; }
 @media (max-width: 640px){
-  section{ padding: 72px 0; }
+  section{ padding: 60px 0; }
 }
 .section-dark{
   background-color: var(--ink); color: var(--cream);
@@ -373,7 +376,7 @@ section{ position: relative; padding: 112px 0; }
 }
 .section-dark p{ color: rgba(246,241,231,.68); }
 .section-dark h2{ color: var(--cream); }
-.section-head{ text-align:center; max-width: 640px; margin: 0 auto 56px; }
+.section-head{ text-align:center; max-width: 640px; margin: 0 auto 44px; }
 .section-head .eyebrow{ margin-bottom: 18px; justify-content:center; }
 .section-head p{ margin: 0 auto; }
 
@@ -488,7 +491,7 @@ section{ position: relative; padding: 112px 0; }
   position:absolute; left:4%; bottom:6%; width:140px; height:140px; border-radius:50%;
   background: var(--ink); color: var(--cream); display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:6px; text-align:center; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
-  box-shadow: 0 20px 40px -10px rgba(26,15,20,.5); animation: spinSlow 30s linear infinite; z-index:2;
+  box-shadow: 0 10px 22px -12px rgba(26,15,20,.4); animation: spinSlow 30s linear infinite; z-index:2;
 }
 .why-badge b{ font-family:"Fraunces",serif; font-weight:400; font-size:1.7rem; color: var(--gold-2); letter-spacing:0; text-transform:none; }
 @keyframes spinSlow{ 0%,100%{ transform: rotate(-6deg); } 50%{ transform: rotate(6deg); } }
@@ -537,7 +540,7 @@ section{ position: relative; padding: 112px 0; }
   position:absolute; top:-15px; left:50%; transform:translateX(-50%);
   background: var(--gold-grad); color: var(--ink); font-size:.72rem; font-weight:800;
   letter-spacing:.14em; text-transform:uppercase; padding:8px 20px; border-radius:999px;
-  box-shadow: 0 12px 26px -8px rgba(233,169,59,.6); z-index:2; white-space:nowrap;
+  box-shadow: 0 6px 14px -8px rgba(233,169,59,.45); z-index:2; white-space:nowrap;
 }
 .tag-nav-row{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
 .tag-nav{
@@ -686,7 +689,7 @@ footer{ border-top: 1px solid var(--border); padding: 60px 0 0; margin-top: 40px
   width: 48px; height: 48px; border-radius: 50%;
   background: var(--gold-grad); color: var(--ink);
   display:flex; align-items:center; justify-content:center;
-  border:none; cursor:pointer; box-shadow: 0 12px 28px -10px rgba(233,169,59,.6);
+  border:none; cursor:pointer; box-shadow: 0 6px 16px -8px rgba(233,169,59,.45);
   opacity:0; transform: translateY(16px) scale(.8); pointer-events:none;
   transition: opacity .35s, transform .35s, bottom .3s;
 }
@@ -698,7 +701,7 @@ footer{ border-top: 1px solid var(--border); padding: 60px 0 0; margin-top: 40px
   width: 56px; height: 56px; border-radius: 50%;
   background: #25D366; color: #fff;
   display:flex; align-items:center; justify-content:center;
-  box-shadow: 0 10px 28px -6px rgba(37,211,102,.6);
+  box-shadow: 0 6px 16px -8px rgba(37,211,102,.45);
   transition: transform .3s var(--ease), bottom .3s;
 }
 .whatsapp-fab:hover{ transform: translateY(-3px) scale(1.06); }
@@ -730,9 +733,9 @@ footer{ border-top: 1px solid var(--border); padding: 60px 0 0; margin-top: 40px
 
 /* misc */
 .center{ text-align:center; }
-.mt-lg{ margin-top: 60px; }
-.divider{ height:1px; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); margin: 70px 0; }
+.mt-lg{ margin-top: 40px; }
+.divider{ height:1px; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); margin: 50px 0; }
 @media (max-width: 640px){
-  .divider{ margin: 36px 0; }
-  .listing-section{ padding: 54px 0; }
+  .divider{ margin: 30px 0; }
+  .listing-section{ padding: 44px 0; }
 }
