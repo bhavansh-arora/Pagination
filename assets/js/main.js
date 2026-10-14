@@ -32,12 +32,15 @@
     burger.addEventListener("click", function () {
       burger.classList.toggle("open");
       menu.classList.toggle("open");
-      document.body.style.overflow = menu.classList.contains("open") ? "hidden" : "";
+      var isOpen = menu.classList.contains("open");
+      burger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      document.body.style.overflow = isOpen ? "hidden" : "";
     });
     menu.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () {
         burger.classList.remove("open");
         menu.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
         document.body.style.overflow = "";
       });
     });
