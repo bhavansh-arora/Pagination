@@ -352,9 +352,20 @@ p{ color: var(--muted); line-height: 1.75; margin: 0 0 1em; }
 .fc2{ bottom: -16px; left: -20px; animation-delay: -3s; }
 @keyframes floaty{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-14px); } }
 @media (max-width: 560px){ .float-card{ display:none; } }
+@media (max-width: 760px){
+  /* On mobile the hero stacks to one column, so the centered ghost-word
+     watermark ends up sitting behind the founder card instead of behind
+     empty space — drop it there, and tone down the card's shadow, which
+     reads as a muddy halo at full mobile width. */
+  .hero .ghost-word{ display:none; }
+  .tilt-card{ box-shadow: 0 14px 28px -16px rgba(0,0,0,.35); }
+}
 
 /* ---------- Sections ---------- */
 section{ position: relative; padding: 112px 0; }
+@media (max-width: 640px){
+  section{ padding: 72px 0; }
+}
 .section-dark{
   background-color: var(--ink); color: var(--cream);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
@@ -721,3 +732,7 @@ footer{ border-top: 1px solid var(--border); padding: 60px 0 0; margin-top: 40px
 .center{ text-align:center; }
 .mt-lg{ margin-top: 60px; }
 .divider{ height:1px; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); margin: 70px 0; }
+@media (max-width: 640px){
+  .divider{ margin: 36px 0; }
+  .listing-section{ padding: 54px 0; }
+}
