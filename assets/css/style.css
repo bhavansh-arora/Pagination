@@ -23,7 +23,7 @@
   --charcoal-soft: #241f16;
   --gold-light: #e8d3a0;
 
-  --grad-brand: linear-gradient(135deg, var(--violet), var(--pink) 55%, var(--gold-light));
+  --grad-brand: linear-gradient(120deg, var(--violet), var(--pink) 45%, var(--amber) 72%, var(--gold-light));
   --grad-brand-soft: linear-gradient(135deg, rgba(138,106,44,.16), rgba(184,134,11,.14) 55%, rgba(232,211,160,.14));
 
   --radius-sm: 10px;
@@ -31,6 +31,8 @@
   --radius-lg: 28px;
 
   --shadow-glow: 0 10px 36px -10px rgba(184,134,11,.45);
+  --shadow-card: 0 30px 60px -28px rgba(28,23,15,.22), 0 14px 30px -18px rgba(184,134,11,.22);
+  --shadow-card-lg: 0 40px 80px -28px rgba(28,23,15,.26), 0 18px 40px -20px rgba(184,134,11,.24);
   --ease: cubic-bezier(.16,.84,.44,1);
 
   --maxw: 1180px;
@@ -45,7 +47,9 @@ html{ scroll-behavior: smooth; }
 
 body{
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
   color: var(--text);
   font-family: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -139,6 +143,14 @@ p{ color: var(--text-dim); line-height: 1.7; margin: 0 0 1em; }
   box-shadow: var(--shadow-glow);
 }
 .btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 16px 46px -8px rgba(184,134,11,.55); background-position: 100% 0; }
+.btn-primary::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+  background-size: 220% 100%; background-position: 130% 0;
+  transition: background-position .6s var(--ease);
+  pointer-events: none;
+}
+.btn-primary:hover::after{ background-position: -30% 0; }
 .btn-ghost{
   color: var(--text);
   background: var(--surface);
@@ -270,7 +282,7 @@ p{ color: var(--text-dim); line-height: 1.7; margin: 0 0 1em; }
   padding: 34px;
   transform-style: preserve-3d;
   transition: transform .25s var(--ease), box-shadow .25s;
-  box-shadow: 0 30px 70px -30px rgba(28,23,15,.28);
+  box-shadow: var(--shadow-card);
 }
 .tilt-card::before{
   content:""; position:absolute; inset:-1px; border-radius: inherit; padding:1px;
@@ -358,7 +370,7 @@ section{ position: relative; padding: 110px 0; }
   padding: 30px;
   transition: transform .4s var(--ease), border-color .4s, background .4s, box-shadow .4s;
 }
-.card:hover{ transform: translateY(-8px); border-color: rgba(184,134,11,.35); background: var(--surface-strong); box-shadow: 0 30px 60px -30px rgba(28,23,15,.28); }
+.card:hover{ transform: translateY(-8px); border-color: rgba(184,134,11,.35); background: var(--surface-strong); box-shadow: var(--shadow-card); }
 .card .ico-tile{
   width: 52px; height:52px; border-radius: 16px; margin-bottom: 18px;
   display:flex; align-items:center; justify-content:center;
@@ -411,7 +423,7 @@ section{ position: relative; padding: 110px 0; }
   transition: transform .25s var(--ease), box-shadow .25s, border-color .3s;
   display:flex; flex-direction:column;
 }
-.product-card:hover{ border-color: rgba(184,134,11,.35); box-shadow: 0 40px 80px -30px rgba(28,23,15,.32); }
+.product-card:hover{ border-color: rgba(184,134,11,.35); box-shadow: var(--shadow-card-lg); }
 
 .browser-mock{
   position: relative;
@@ -421,7 +433,10 @@ section{ position: relative; padding: 110px 0; }
   border: 1px solid var(--border);
   background: #0c0c18;
   transform: translateZ(30px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6), 0 18px 40px -22px rgba(184,134,11,.35);
+  transition: box-shadow .4s var(--ease);
 }
+.product-card:hover .browser-mock{ box-shadow: 0 1px 0 rgba(255,255,255,.6), 0 26px 54px -20px rgba(184,134,11,.45); }
 .browser-bar{ display:none; }
 .mock-body{ position:relative; height: calc(100% - 34px); overflow:hidden; }
 .mock-body .mesh{ position:absolute; inset:0; opacity:.9; }
@@ -612,4 +627,4 @@ footer{ border-top: 1px solid var(--border); padding: 60px 0 30px; margin-top: 4
 /* misc */
 .center{ text-align:center; }
 .mt-lg{ margin-top: 60px; }
-.divider{ height:1px; background: var(--border); margin: 70px 0; }
+.divider{ height:1px; background: linear-gradient(90deg, transparent, var(--border) 50%, transparent); margin: 70px 0; }
