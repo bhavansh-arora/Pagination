@@ -1,7 +1,7 @@
 /* =========================================================
    Code Bunny — global interactions
    Nav, reveal-on-scroll, 3D tilt, canvas particles,
-   counters, testimonials carousel, back-to-top.
+   counters, back-to-top.
    ========================================================= */
 (function () {
   "use strict";
@@ -216,39 +216,6 @@
     });
   }
 
-  /* ---------- Testimonial carousel ---------- */
-  var slides = document.querySelectorAll(".testi-slide");
-  var dotsWrap = document.querySelector(".testi-dots");
-  if (slides.length) {
-    var active = 0;
-    var timer;
-    if (dotsWrap) {
-      slides.forEach(function (_, i) {
-        var b = document.createElement("button");
-        if (i === 0) b.classList.add("active");
-        b.addEventListener("click", function () { goTo(i); restart(); });
-        dotsWrap.appendChild(b);
-      });
-    }
-    function goTo(i) {
-      slides[active].classList.remove("active");
-      dotsWrap && dotsWrap.children[active].classList.remove("active");
-      active = i;
-      slides[active].classList.add("active");
-      dotsWrap && dotsWrap.children[active].classList.add("active");
-    }
-    function restart() {
-      clearInterval(timer);
-      if (reduceMotion) return;
-      timer = setInterval(function () { goTo((active + 1) % slides.length); }, 5200);
-    }
-    restart();
-    var testiWrap = document.querySelector(".testi-wrap");
-    if (testiWrap) {
-      testiWrap.addEventListener("mouseenter", function () { clearInterval(timer); });
-      testiWrap.addEventListener("mouseleave", restart);
-    }
-  }
 
   /* ---------- Contact form (static demo submit) ---------- */
   var form = document.getElementById("contact-form");
