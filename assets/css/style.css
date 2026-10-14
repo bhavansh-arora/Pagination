@@ -217,6 +217,7 @@ p{ color: var(--text-dim); line-height: 1.7; margin: 0 0 1em; }
 }
 .mobile-menu.open{ transform: translateY(0); }
 .mobile-menu a{ font-size: 1.6rem; font-weight: 700; padding: 14px 20px; font-family:"Playfair Display", serif; }
+.mobile-menu a.active{ color: var(--pink); }
 .mobile-menu .btn{ margin-top: 18px; font-family:"Sora", sans-serif; }
 
 @media (max-width: 860px){
