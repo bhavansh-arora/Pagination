@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lauren Powers — Be Strong. Be Fierce. Be You.</title>
+<meta name="description" content="Lauren Powers: 10-time bodybuilding champion, TV host, actress and best-selling author. Coaching for women ready to build a strong body, a magnetic brand and an abundant life, at any age.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0710;
+  --ink-2:#120c1c;
+  --ink-3:#1b1229;
+  --plum:#2a1442;
+  --violet:#7c3aed;
+  --violet-2:#a78bfa;
+  --orchid:#c084fc;
+  --gold:#d9b25f;
+  --gold-2:#f3dc9a;
+  --cream:#f6f0e6;
+  --mute:#a99fb8;
+  --line:rgba(246,240,230,.12);
+  --radius:22px;
+  --max:1240px;
+  --serif:"Bodoni Moda",Didot,"Times New Roman",serif;
+  --display:"Anton",Impact,sans-serif;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 28px}
+.eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:600;display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.serif{font-family:var(--serif)}
+em.i{font-family:var(--serif);font-style:italic;font-weight:500}
+.gold-text{background:linear-gradient(100deg,var(--gold) 0%,var(--gold-2) 45%,var(--gold) 70%,#b88a35 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.violet-text{background:linear-gradient(100deg,var(--violet-2),var(--orchid));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* grain */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:12px;padding:17px 30px;border-radius:999px;font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s,color .35s;white-space:nowrap}
+.btn svg{width:16px;height:16px;transition:transform .35s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-gold{background:linear-gradient(120deg,var(--gold),var(--gold-2) 50%,var(--gold));background-size:200% 100%;color:#1a1206;box-shadow:0 10px 40px -10px rgba(217,178,95,.6)}
+.btn-gold:hover{transform:translateY(-2px);background-position:100% 0;box-shadow:0 18px 50px -12px rgba(217,178,95,.8)}
+.btn-ghost{border:1px solid rgba(246,240,230,.3);color:var(--cream)}
+.btn-ghost:hover{border-color:var(--cream);background:rgba(246,240,230,.06)}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(10,7,16,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:84px}
+.logo{display:flex;align-items:center;gap:14px}
+.mono{width:42px;height:42px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold)}
+.logo b{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.16em}
+.nav-links{display:flex;gap:38px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.nav-links a{position:relative;transition:color .3s}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--gold);transition:width .35s}
+.nav-links a:hover::after{width:100%}
+.nav .btn{padding:12px 22px;font-size:12px}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;place-items:center}
+.burger span{display:block;width:16px;height:1px;background:var(--cream);box-shadow:0 5px 0 var(--cream),0 -5px 0 var(--cream)}
+
+/* hero */
+.hero{position:relative;min-height:100vh;padding:140px 0 80px;display:flex;align-items:center;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-20%;z-index:-2;
+  background:radial-gradient(45% 50% at 78% 40%,rgba(124,58,237,.45),transparent 70%),radial-gradient(35% 40% at 15% 85%,rgba(217,178,95,.16),transparent 70%),radial-gradient(60% 60% at 50% 0%,rgba(42,20,66,.9),transparent 70%)}
+.spot{position:absolute;z-index:-1;top:-30%;left:58%;width:700px;height:1400px;background:linear-gradient(180deg,rgba(246,240,230,.10),transparent 70%);transform:rotate(18deg);filter:blur(30px);animation:sway 9s ease-in-out infinite alternate}
+@keyframes sway{to{transform:rotate(8deg) translateX(-80px)}}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.onair{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border:1px solid rgba(239,68,68,.45);border-radius:999px;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#fecaca;background:rgba(239,68,68,.08);margin-bottom:30px}
+.onair i{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 0 rgba(239,68,68,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(64px,10.5vw,158px);line-height:.86;letter-spacing:-.005em;text-transform:uppercase}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line>span{display:inline-block;transform:translateY(105%);animation:rise 1.1s cubic-bezier(.2,.8,.2,1) forwards}
+.hero h1 .line:nth-child(2)>span{animation-delay:.12s}
+.hero h1 .line:nth-child(3)>span{animation-delay:.24s}
+@keyframes rise{to{transform:none}}
+.hero h1 .you{font-family:var(--serif);font-style:italic;font-weight:600;text-transform:none;letter-spacing:-.02em}
+.hero-sub{margin:34px 0 40px;max-width:540px;font-size:19px;color:#d9d0e4;font-weight:300}
+.hero-sub strong{color:var(--cream);font-weight:600}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+.hero-proof{display:flex;align-items:center;gap:18px;margin-top:46px;font-size:13px;color:var(--mute)}
+.stars{color:var(--gold);letter-spacing:3px}
+
+/* portrait frame */
+.portrait{position:relative;aspect-ratio:4/5;border-radius:240px 240px 26px 26px;overflow:hidden;border:1px solid rgba(217,178,95,.35);
+  background:radial-gradient(80% 60% at 50% 30%,rgba(192,132,252,.5),transparent 70%),linear-gradient(170deg,#3b1d5e 0%,#1a0f29 55%,#0d0815 100%)}
+.portrait::before{content:"";position:absolute;inset:14px;border-radius:226px 226px 16px 16px;border:1px solid rgba(217,178,95,.25)}
+.portrait .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;color:rgba(246,240,230,.55)}
+.portrait .ph b{font-family:var(--serif);font-style:italic;font-size:120px;line-height:1;color:rgba(217,178,95,.85);font-weight:500}
+.portrait .ph small{font-size:11px;letter-spacing:.3em;text-transform:uppercase}
+.silhouette{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:78%;opacity:.35}
+.badge{position:absolute;background:rgba(10,7,16,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:18px;padding:16px 20px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);animation:float 6s ease-in-out infinite}
+.badge .n{font-family:var(--display);font-size:34px;line-height:1;color:var(--gold)}
+.badge .l{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-top:4px}
+.badge.b1{left:-46px;top:22%}
+.badge.b2{right:-30px;bottom:14%;animation-delay:-3s}
+@keyframes float{50%{transform:translateY(-12px)}}
+.hero-right{position:relative;max-width:460px;justify-self:end;width:100%}
+.scroll-cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:12px}
+.scroll-cue::after{content:"";width:1px;height:46px;background:linear-gradient(var(--gold),transparent);animation:drip 2s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* marquee */
+.seen{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px 0;background:var(--ink-2);overflow:hidden}
+.seen-label{text-align:center;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--mute);margin-bottom:20px}
+.marquee{display:flex;width:max-content;animation:scroll 38s linear infinite}
+.seen:hover .marquee{animation-play-state:paused}
+.marquee span{font-family:var(--display);font-size:34px;letter-spacing:.06em;padding:0 38px;color:rgba(246,240,230,.42);display:flex;align-items:center;gap:76px;white-space:nowrap;transition:color .3s}
+.marquee span:hover{color:var(--cream)}
+.marquee span::after{content:"✦";font-size:14px;color:var(--gold)}
+.marquee .it{font-family:var(--serif);font-style:italic;font-size:30px;letter-spacing:0}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* sections */
+section{position:relative}
+.pad{padding:140px 0}
+.h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(44px,6vw,88px);line-height:.95;letter-spacing:.005em}
+.h2 em{font-family:var(--serif);font-style:italic;text-transform:none;font-weight:500;letter-spacing:-.01em}
+.lead{font-size:19px;color:#cfc5db;font-weight:300;max-width:620px}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:-1px}
+.stat{padding:46px 34px;border-right:1px solid var(--line);position:relative}
+.stat:last-child{border-right:0}
+.stat .n{font-family:var(--display);font-size:clamp(54px,6vw,84px);line-height:1}
+.stat .n sup{font-size:.45em;color:var(--gold);vertical-align:top;margin-left:4px}
+.stat p{color:var(--mute);font-size:14px;margin-top:10px;max-width:220px}
+
+/* story */
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:90px;align-items:start}
+.story-photo{position:sticky;top:120px}
+.story-photo .portrait{border-radius:26px;aspect-ratio:3/4}
+.story-photo .portrait::before{border-radius:16px}
+.story-photo figcaption{margin-top:18px;font-family:var(--serif);font-style:italic;color:var(--mute);font-size:18px}
+.pull{font-family:var(--serif);font-size:clamp(28px,3.2vw,42px);line-height:1.2;font-weight:500;margin:34px 0 48px}
+.pull em{color:var(--gold);font-style:italic}
+.timeline{border-left:1px solid var(--line);margin-left:6px}
+.tl{position:relative;padding:0 0 46px 40px}
+.tl:last-child{padding-bottom:0}
+.tl::before{content:"";position:absolute;left:-6px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--ink);border:1px solid var(--gold)}
+.tl.hot::before{background:var(--gold);box-shadow:0 0 0 6px rgba(217,178,95,.15)}
+.tl .k{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.tl h3{font-family:var(--serif);font-weight:500;font-size:26px;margin:6px 0 8px}
+.tl p{color:#bfb5cc;font-size:16px}
+
+/* method */
+.method{background:linear-gradient(180deg,var(--ink) 0%,var(--plum) 50%,var(--ink) 100%);overflow:hidden}
+.method-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:70px;flex-wrap:wrap}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.pillar{position:relative;padding:44px 36px 40px;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.01));overflow:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s;min-height:470px;display:flex;flex-direction:column}
+.pillar:hover{transform:translateY(-8px);border-color:rgba(217,178,95,.5)}
+.pillar::after{content:"";position:absolute;inset:auto -30% -50% -30%;height:70%;background:radial-gradient(closest-side,rgba(124,58,237,.35),transparent);opacity:0;transition:opacity .6s}
+.pillar:hover::after{opacity:1}
+.pillar .num{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--gold)}
+.pillar .big{font-family:var(--display);font-size:120px;line-height:.85;letter-spacing:.01em;margin:22px 0 6px;text-transform:uppercase}
+.pillar h3{font-family:var(--serif);font-style:italic;font-weight:500;font-size:24px;color:var(--violet-2)}
+.pillar p{color:#c8bed6;margin:18px 0 26px;font-size:16px}
+.pillar ul{list-style:none;margin-top:auto;display:grid;gap:10px;position:relative;z-index:1}
+.pillar li{font-size:14px;display:flex;gap:12px;align-items:baseline;color:#e7dff0}
+.pillar li::before{content:"✦";color:var(--gold);font-size:10px}
+.equation{margin-top:60px;text-align:center;font-family:var(--serif);font-size:clamp(22px,2.6vw,34px);font-style:italic;color:#e7dff0}
+.equation b{font-family:var(--display);font-style:normal;font-weight:400;letter-spacing:.06em;color:var(--cream)}
+.equation .op{color:var(--gold);margin:0 14px;font-style:normal}
+
+/* quiz */
+.quiz{border:1px solid rgba(217,178,95,.3);border-radius:28px;padding:60px;background:radial-gradient(70% 90% at 100% 0%,rgba(124,58,237,.22),transparent 60%),var(--ink-2);display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:center}
+.q-step{display:none}
+.q-step.on{display:block;animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}}
+.q-count{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:12px}
+.q-title{font-family:var(--serif);font-size:30px;line-height:1.2;margin-bottom:24px}
+.q-opts{display:grid;gap:12px}
+.q-opt{text-align:left;padding:18px 22px;border:1px solid var(--line);border-radius:14px;font-size:16px;transition:all .3s;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.02)}
+.q-opt:hover{border-color:var(--gold);background:rgba(217,178,95,.08);transform:translateX(4px)}
+.q-opt::after{content:"→";color:var(--gold);opacity:0;transition:opacity .3s}
+.q-opt:hover::after{opacity:1}
+.q-bar{height:2px;background:var(--line);border-radius:2px;margin-bottom:34px;overflow:hidden}
+.q-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--gold));transition:width .5s}
+.q-result h4{font-family:var(--display);font-weight:400;font-size:52px;text-transform:uppercase;line-height:1;margin:8px 0 14px}
+.q-result p{color:#cfc5db;margin-bottom:26px}
+
+/* programs */
+.programs-head{text-align:center;max-width:780px;margin:0 auto 70px}
+.programs-head .lead{margin:22px auto 0}
+.offer-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px}
+.offer{grid-column:span 4;border:1px solid var(--line);border-radius:var(--radius);padding:38px 34px;display:flex;flex-direction:column;background:var(--ink-2);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s}
+.offer:hover{transform:translateY(-6px);border-color:rgba(246,240,230,.3)}
+.offer .tag{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.offer h3{font-family:var(--display);font-weight:400;font-size:40px;text-transform:uppercase;line-height:1;margin:16px 0 6px}
+.offer .sub{font-family:var(--serif);font-style:italic;color:var(--violet-2);font-size:18px}
+.offer p{color:#bfb5cc;font-size:15px;margin:18px 0 22px}
+.offer ul{list-style:none;display:grid;gap:10px;margin-bottom:30px}
+.offer li{font-size:14px;color:#e7dff0;padding-left:26px;position:relative}
+.offer li::before{content:"";position:absolute;left:0;top:7px;width:12px;height:7px;border-left:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(-45deg)}
+.offer .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:22px}
+.offer .price{font-size:13px;color:var(--mute)}
+.offer .price b{display:block;font-family:var(--serif);font-size:24px;color:var(--cream);font-weight:500}
+.offer .link{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold);display:flex;gap:8px;align-items:center}
+.offer.feature{grid-column:span 12;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;padding:56px;border-color:rgba(217,178,95,.45);
+  background:radial-gradient(60% 100% at 100% 0%,rgba(217,178,95,.14),transparent 60%),radial-gradient(60% 100% at 0% 100%,rgba(124,58,237,.25),transparent 60%),var(--ink-2);position:relative;overflow:hidden}
+.offer.feature h3{font-size:clamp(48px,5vw,72px)}
+.offer.feature .ribbon{position:absolute;top:28px;right:-52px;transform:rotate(45deg);background:var(--gold);color:#1a1206;font-size:10px;letter-spacing:.24em;font-weight:700;padding:8px 60px;text-transform:uppercase}
+.offer.feature .side{border-left:1px solid var(--line);padding-left:50px;display:flex;flex-direction:column;justify-content:center}
+.offer.feature .side ul{margin-bottom:34px}
+.offer.feature .side li{font-size:15px}
+.spots{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mute);margin-top:18px}
+.spots i{display:flex;gap:4px}
+.spots i b{width:16px;height:6px;border-radius:3px;background:var(--gold)}
+.spots i b.off{background:rgba(246,240,230,.15)}
+
+/* book */
+.book{overflow:hidden}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center}
+.book3d{perspective:1600px;display:grid;place-items:center;position:relative;padding:40px 0}
+.book3d::before{content:"";position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(124,58,237,.5),transparent);filter:blur(20px)}
+.cover{position:relative;width:320px;aspect-ratio:2/3;transform-style:preserve-3d;transform:rotateY(-28deg) rotateX(6deg);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.book3d:hover .cover{transform:rotateY(-12deg) rotateX(2deg)}
+.cover .front{position:absolute;inset:0;border-radius:4px 10px 10px 4px;padding:34px 28px;display:flex;flex-direction:column;justify-content:space-between;
+  background:linear-gradient(160deg,#1e1030 0%,#0b0712 60%),#000;box-shadow:inset 6px 0 12px rgba(255,255,255,.08),inset -1px 0 0 rgba(255,255,255,.1),30px 40px 60px -10px rgba(0,0,0,.8);overflow:hidden}
+.cover .front::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 50% at 50% 65%,rgba(124,58,237,.55),transparent 70%)}
+.cover .front > *{position:relative}
+.cover .spine{position:absolute;left:0;top:0;bottom:0;width:36px;transform:rotateY(90deg) translateZ(-18px) translateX(-18px);transform-origin:left;background:linear-gradient(90deg,#0b0712,#1e1030)}
+.cover .pages{position:absolute;right:-2px;top:6px;bottom:6px;width:30px;transform:rotateY(90deg) translateZ(288px);background:repeating-linear-gradient(90deg,#efe7d8 0 1px,#d9cfbd 1px 2px)}
+.cover .ttl{font-family:var(--display);font-size:56px;line-height:.86;text-transform:uppercase;letter-spacing:.01em}
+.cover .ttl span{display:block;font-size:22px;letter-spacing:.3em;color:var(--gold)}
+.cover .sub{font-family:var(--serif);font-style:italic;font-size:18px;color:#e9dcff}
+.cover .auth{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold)}
+.bestseller{position:absolute;top:30px;right:12%;width:118px;height:118px;border-radius:50%;background:conic-gradient(from 0deg,var(--gold),var(--gold-2),var(--gold),#b88a35,var(--gold));display:grid;place-items:center;text-align:center;color:#1a1206;font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;line-height:1.3;box-shadow:0 20px 40px -10px rgba(217,178,95,.5);animation:spin 30s linear infinite;z-index:2}
+.bestseller b{display:block;font-family:var(--display);font-size:34px;letter-spacing:0;font-weight:400}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chapters{display:grid;grid-template-columns:1fr 1fr;gap:12px 30px;margin:34px 0 40px}
+.chapters div{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px;font-size:15px}
+.chapters span{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:14px}
+.form{display:flex;gap:10px;padding:8px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);max-width:560px}
+.form input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--cream);font:inherit;font-size:15px;padding:0 20px}
+.form input::placeholder{color:var(--mute)}
+.form-note{font-size:13px;color:var(--mute);margin-top:14px;padding-left:20px}
+
+/* testimonials */
+.quotes{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;margin-top:70px}
+.quote{border:1px solid var(--line);border-radius:var(--radius);padding:44px;background:var(--ink-2);display:flex;flex-direction:column;justify-content:space-between;gap:34px}
+.quote.big{grid-row:span 2;background:linear-gradient(160deg,var(--plum),var(--ink-2));border-color:rgba(167,139,250,.3)}
+.quote blockquote{font-family:var(--serif);font-size:24px;line-height:1.35}
+.quote.big blockquote{font-size:clamp(32px,3.4vw,46px);line-height:1.15}
+.quote blockquote::before{content:"“";display:block;font-size:90px;line-height:.6;color:var(--gold);margin-bottom:10px}
+.who{display:flex;align-items:center;gap:16px}
+.who .av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:20px;background:linear-gradient(135deg,var(--violet),var(--plum));border:1px solid rgba(217,178,95,.4)}
+.who b{display:block;font-weight:600}
+.who small{color:var(--mute);font-size:13px}
+
+/* credits */
+.credits{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:70px}
+.credit{padding:34px 30px 34px 0;border-bottom:1px solid var(--line)}
+.credit .k{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.credit h4{font-family:var(--serif);font-weight:500;font-size:26px;margin:10px 0 4px}
+.credit p{color:var(--mute);font-size:14px}
+
+/* faith */
+.faith{text-align:center;padding:170px 0;overflow:hidden;background:radial-gradient(50% 60% at 50% 50%,rgba(124,58,237,.28),transparent 70%)}
+.faith .cross{width:46px;height:70px;margin:0 auto 40px;position:relative}
+.faith .cross::before,.faith .cross::after{content:"";position:absolute;background:linear-gradient(var(--gold-2),var(--gold))}
+.faith .cross::before{left:50%;top:0;bottom:0;width:3px;transform:translateX(-50%)}
+.faith .cross::after{top:22%;left:0;right:0;height:3px}
+.faith h2{font-family:var(--serif);font-weight:400;font-size:clamp(48px,8vw,128px);line-height:1;letter-spacing:-.02em}
+.faith h2 em{font-style:italic}
+.faith p{color:#cfc5db;max-width:620px;margin:34px auto 0;font-size:19px;font-weight:300}
+
+/* speaking */
+.speak{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.speak-card{border-radius:var(--radius);padding:56px;border:1px solid var(--line);min-height:420px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.speak-card.a{background:linear-gradient(150deg,#2a1442,#0f0a17)}
+.speak-card.b{background:linear-gradient(150deg,#2b2112,#0f0a17)}
+.speak-card h3{font-family:var(--display);font-weight:400;font-size:clamp(40px,4vw,60px);text-transform:uppercase;line-height:.95}
+.speak-card p{color:#cfc5db;max-width:420px;margin:18px 0 30px}
+.topics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.topics span{font-size:12px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;color:#e7dff0}
+
+/* social */
+.social{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:50px}
+.soc{aspect-ratio:1;border-radius:18px;border:1px solid var(--line);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:24px;transition:transform .4s,border-color .4s}
+.soc:hover{transform:translateY(-6px);border-color:var(--gold)}
+.soc:nth-child(1){background:linear-gradient(160deg,#4c1d95,#1a0f29)}
+.soc:nth-child(2){background:linear-gradient(160deg,#7f1d1d,#1a0f29)}
+.soc:nth-child(3){background:linear-gradient(160deg,#1e3a8a,#1a0f29)}
+.soc:nth-child(4){background:linear-gradient(160deg,#3f3f46,#0f0a17)}
+.soc svg{width:30px;height:30px}
+.soc b{font-family:var(--display);font-weight:400;font-size:28px;text-transform:uppercase;display:block;line-height:1}
+.soc small{color:rgba(246,240,230,.7);font-size:13px}
+
+/* final */
+.final{padding:160px 0;text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.final::before{content:"FIERCE";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--display);font-size:34vw;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(246,240,230,.06);white-space:nowrap;z-index:-1}
+.final .h2{font-size:clamp(54px,8vw,120px)}
+.final .lead{margin:26px auto 44px}
+
+footer{border-top:1px solid var(--line);padding:60px 0 40px;color:var(--mute);font-size:14px}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
+footer h5{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--cream);margin-bottom:18px;font-weight:600}
+footer ul{list-style:none;display:grid;gap:10px}
+footer a:hover{color:var(--cream)}
+.foot-bottom{display:flex;justify-content:space-between;margin-top:60px;padding-top:26px;border-top:1px solid var(--line);font-size:12px;flex-wrap:wrap;gap:12px}
+.tagline{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--cream);margin:18px 0}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(5,3,9,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.modal.open{display:flex;animation:fade .3s}
+.modal-card{width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:26px;border:1px solid rgba(217,178,95,.35);background:var(--ink-2);padding:46px;position:relative}
+.modal-card h3{font-family:var(--display);font-weight:400;font-size:44px;text-transform:uppercase;line-height:1}
+.modal-card p{color:var(--mute);margin:10px 0 26px}
+.modal-card label{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin:16px 0 8px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--cream);font:inherit;font-size:15px;outline:0;transition:border-color .3s}
+.modal-card select option{background:var(--ink-2)}
+.modal-card input:focus,.modal-card select:focus,.modal-card textarea:focus{border-color:var(--gold)}
+.modal-card .btn{width:100%;justify-content:center;margin-top:26px}
+.close{position:absolute;top:18px;right:18px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);font-size:20px;line-height:1}
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,120px);opacity:0;visibility:hidden;z-index:300;background:var(--cream);color:var(--ink);padding:16px 26px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
+
+/* responsive */
+@media (max-width:1020px){
+  .nav-links,.nav .btn{display:none}
+  .burger{display:grid}
+  .hero-grid,.story-grid,.book-grid,.quiz,.speak{grid-template-columns:1fr}
+  .hero-right{justify-self:center;max-width:380px}
+  .badge.b1{left:-14px}.badge.b2{right:-10px}
+  .story-photo{position:relative;top:0;max-width:420px}
+  .pillars{grid-template-columns:1fr}
+  .pillar{min-height:auto}
+  .offer{grid-column:span 12}
+  .offer.feature{grid-template-columns:1fr;padding:40px 30px;gap:30px}
+  .offer.feature .side{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:30px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .quotes{grid-template-columns:1fr}
+  .quote.big{grid-row:auto}
+  .credits{grid-template-columns:1fr 1fr}
+  .social{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .quiz{padding:40px 28px;gap:30px}
+  .book-grid{gap:40px}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .wrap{padding:0 16px}
+  .pad{padding:96px 0}
+  .hero{padding-top:120px}
+  .hero-sub{font-size:17px}
+  .btn{padding:15px 22px;font-size:12px}
+  .stats{grid-template-columns:1fr}
+  .stat{border-right:0;border-bottom:1px solid var(--line);padding:34px 26px}
+  .stat:last-child{border-bottom:0}
+  .credits,.chapters{grid-template-columns:1fr}
+  .speak-card{padding:36px 26px}
+  .cover{width:240px}
+  .cover .ttl{font-size:42px}
+  .bestseller{width:92px;height:92px;right:2%;font-size:8px}
+  .bestseller b{font-size:26px}
+  .pillar .big{font-size:88px}
+  .form{flex-direction:column;border-radius:20px}
+  .form input{padding:14px 16px}
+  .form .btn{justify-content:center}
+  .modal-card{padding:34px 22px}
+  .foot-grid{grid-template-columns:1fr}
+  .marquee span{font-size:26px;padding:0 24px;gap:48px}
+  .q-title{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  .hero h1 .line>span{transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo"><span class="mono">LP</span><b>LAUREN POWERS</b></a>
+    <nav class="nav-links">
+      <a href="#story">Story</a>
+      <a href="#method">The Method</a>
+      <a href="#coaching">Coaching</a>
+      <a href="#book">The Book</a>
+      <a href="#media">Media</a>
+    </nav>
+    <button class="btn btn-gold" data-open="apply">Apply Now</button>
+    <button class="burger" aria-label="Menu" data-open="apply"><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="spot"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="onair"><i></i>Now enrolling · The Powers Circle</div>
+      <h1>
+        <span class="line"><span>Be Strong.</span></span>
+        <span class="line"><span class="gold-text">Be Fierce.</span></span>
+        <span class="line"><span>Be <span class="you">You.</span></span></span>
+      </h1>
+      <p class="hero-sub reveal d2">10× bodybuilding champion, TV host and best-selling author. Lauren coaches women to build a <strong>strong body</strong>, a <strong>magnetic brand</strong> and an <strong>abundant bank account</strong> at any age, with faith over fear.</p>
+      <div class="hero-ctas reveal d3">
+        <button class="btn btn-gold" data-open="apply">Apply for Coaching <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <a class="btn btn-ghost" href="#book">Free Signed Book</a>
+      </div>
+      <div class="hero-proof reveal d3">
+        <span class="stars">★★★★★</span>
+        <span>International best-seller in 98 categories across 11 countries</span>
+      </div>
+    </div>
+    <div class="hero-right reveal d2">
+      <div class="portrait">
+        <div class="ph"><b>LP</b><small>Hero portrait · stage or gym</small></div>
+      </div>
+      <div class="badge b1"><div class="n">10×</div><div class="l">Heavyweight<br>Champion</div></div>
+      <div class="badge b2"><div class="n">#1</div><div class="l">Best-Selling<br>Author</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AS SEEN ON -->
+<div class="seen">
+  <div class="seen-label">As seen on</div>
+  <div class="marquee" id="marquee">
+    <span>HBO</span><span>E! Network</span><span>MSNBC</span><span>TLC</span><span>WE tv</span><span>Hallmark</span><span>ABC</span><span>Travel Channel</span><span class="it">Lady Gaga · “Telephone”</span><span class="it">Jennifer Lopez · “Medicine”</span><span class="it">Justin Bieber · “Yummy”</span><span>iHeart Music Awards</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="wrap" style="padding-top:110px">
+  <div class="stats reveal">
+    <div class="stat"><div class="n" data-count="10">0<sup>×</sup></div><p>Overall &amp; heavyweight bodybuilding titles</p></div>
+    <div class="stat"><div class="n" data-count="98">0</div><p>Best-seller categories for <em class="i">Beneath the Muscle</em></p></div>
+    <div class="stat"><div class="n" data-count="11">0</div><p>Countries where her book hit #1</p></div>
+    <div class="stat"><div class="n" data-count="20">0<sup>+</sup></div><p>Years on stage, screen and set</p></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="pad" id="story">
+  <div class="wrap story-grid">
+    <figure class="story-photo reveal">
+      <div class="portrait"><div class="ph"><b>LP</b><small>Story portrait · candid</small></div></div>
+      <figcaption>“Become who you were born to be.”</figcaption>
+    </figure>
+    <div>
+      <span class="eyebrow reveal">Beneath the Muscle</span>
+      <h2 class="h2 reveal d1" style="margin-top:22px">She didn’t start <em class="gold-text">fierce.</em><br>She got there.</h2>
+      <p class="pull reveal d2">Firefighter. Addiction survivor. Heavyweight champion <em>at an age most athletes retire.</em> Then Hollywood came calling.</p>
+      <div class="timeline">
+        <div class="tl reveal"><div class="k">The Fire</div><h3>Pushed out, not put out</h3><p>Lauren served as a firefighter and engineer until discrimination forced her out. She turned that fight into fuel, and into a whole new life.</p></div>
+        <div class="tl reveal"><div class="k">The Fight</div><h3>Rising above addiction</h3><p>She beat drugs and alcohol, rebuilt from the inside out, and found her purpose in iron, discipline and faith.</p></div>
+        <div class="tl hot reveal"><div class="k">The Crown</div><h3>Ten-time champion</h3><p>From the California State Championships to Muscle Beach Venice, she won heavyweight and overall titles from 2002 to 2014, competing into her mid-50s.</p></div>
+        <div class="tl reveal"><div class="k">The Spotlight</div><h3>Screen, stage &amp; story</h3><p>HBO, E!, MSNBC, TLC, films with Seth Rogen, and music videos for Lady Gaga, J.Lo and Justin Bieber. Now she hands women the same playbook.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="method pad" id="method">
+  <div class="wrap">
+    <div class="method-head">
+      <div>
+        <span class="eyebrow reveal">The Powers Method™</span>
+        <h2 class="h2 reveal d1" style="margin-top:22px">Body. Brand.<br><em class="gold-text">Bank Account.</em></h2>
+      </div>
+      <p class="lead reveal d2">Most coaches fix one thing. Lauren builds the whole woman. Three pillars, one fierce life, taught by someone who has lived all three on camera.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar reveal">
+        <span class="num">Pillar 01</span>
+        <div class="big">Body</div>
+        <h3>Custom physique design</h3>
+        <p>Training and nutrition built for your body, your age and your goals. Strength that turns heads and lasts for decades.</p>
+        <ul><li>Personalized training blueprint</li><li>Nutrition &amp; recovery plan</li><li>Camera-ready at any age</li></ul>
+      </article>
+      <article class="pillar reveal d1">
+        <span class="num">Pillar 02</span>
+        <div class="big">Brand</div>
+        <h3>TV-style presence</h3>
+        <p>How you walk in, speak and show up on camera. Lauren teaches the presence she has used on HBO, E! and big film sets.</p>
+        <ul><li>On-camera confidence training</li><li>Signature look &amp; personal brand</li><li>Social &amp; media playbook</li></ul>
+      </article>
+      <article class="pillar reveal d2">
+        <span class="num">Pillar 03</span>
+        <div class="big">Bank</div>
+        <h3>Financial freedom</h3>
+        <p>Move from scarcity to abundance. Turn your story, skills and audience into income you are proud of.</p>
+        <ul><li>Abundance mindset reset</li><li>Monetize your expertise</li><li>Opportunities &amp; network access</li></ul>
+      </article>
+    </div>
+    <p class="equation reveal">
+      <b>STRONG</b><span class="op">+</span><b>SEEN</b><span class="op">+</span><b>SOLVENT</b><span class="op">=</span><span class="gold-text">unstoppable.</span>
+    </p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="pad" style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="quiz reveal" id="quiz">
+      <div>
+        <span class="eyebrow">60-second assessment</span>
+        <h2 class="h2" style="font-size:clamp(40px,4.4vw,64px);margin-top:20px">What’s your <em class="gold-text">Power</em> Pillar?</h2>
+        <p class="lead" style="margin-top:18px;font-size:17px">Answer three questions and find out where to start your transformation.</p>
+      </div>
+      <div>
+        <div class="q-bar"><i id="qbar"></i></div>
+        <div class="q-step on" data-step="0">
+          <div class="q-count">Question 1 of 3</div>
+          <div class="q-title">When you look in the mirror, what do you want most?</div>
+          <div class="q-opts">
+            <button class="q-opt" data-v="body">To feel strong and proud of my body again</button>
+            <button class="q-opt" data-v="brand">To look like the woman I know I am inside</button>
+            <button class="q-opt" data-v="bank">To see someone who is financially free</button>
+          </div>
+        </div>
+        <div class="q-step" data-step="1">
+          <div class="q-count">Question 2 of 3</div>
+          <div class="q-title">What’s holding you back right now?</div>
+          <div class="q-opts">
+            <button class="q-opt" data-v="body">Low energy and no plan that fits my body</button>
+            <button class="q-opt" data-v="brand">I play small and hide from the camera</button>
+            <button class="q-opt" data-v="bank">Money stress and a scarcity mindset</button>
+          </div>
+        </div>
+        <div class="q-step" data-step="2">
+          <div class="q-count">Question 3 of 3</div>
+          <div class="q-title">One year from now, you’d love to be…</div>
+          <div class="q-opts">
+            <button class="q-opt" data-v="body">In the best shape of my life</button>
+            <button class="q-opt" data-v="brand">Known, booked and on stages</button>
+            <button class="q-opt" data-v="bank">Earning from my own gifts</button>
+          </div>
+        </div>
+        <div class="q-step q-result" data-step="3">
+          <div class="q-count">Your Power Pillar</div>
+          <h4 class="gold-text" id="qres-title">Body</h4>
+          <p id="qres-text"></p>
+          <button class="btn btn-gold" data-open="apply">Claim My Strategy Call <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="pad" id="coaching">
+  <div class="wrap">
+    <div class="programs-head">
+      <span class="eyebrow reveal">Work with Lauren</span>
+      <h2 class="h2 reveal d1" style="margin-top:22px">Choose your <em class="gold-text">arena.</em></h2>
+      <p class="lead reveal d2">From a free signed book to private coaching, there is a way to train with a champion at every level.</p>
+    </div>
+    <div class="offer-grid">
+      <article class="offer feature reveal">
+        <div class="ribbon">Signature</div>
+        <div>
+          <span class="tag">12-Month Mastermind · By application</span>
+          <h3>The Powers <span class="gold-text">Circle</span></h3>
+          <div class="sub">Body, Brand &amp; Bank. All three, with Lauren.</div>
+          <p style="font-size:17px;max-width:520px">Lauren’s private inner circle for women ready to transform completely. You get a custom physique plan, on-camera brand training and an abundance roadmap, plus direct access to a champion who has done it on every stage.</p>
+          <div class="spots"><i><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b class="off"></b><b class="off"></b><b class="off"></b></i> Only 3 seats left this season</div>
+        </div>
+        <div class="side">
+          <ul>
+            <li>Monthly 1:1 sessions with Lauren</li>
+            <li>Custom Physique Design program</li>
+            <li>Professional brand photo &amp; video day</li>
+            <li>VIP access to Powers Fitness &amp; Abundant Life Expo events</li>
+            <li>Private community &amp; weekly live calls</li>
+          </ul>
+          <button class="btn btn-gold" data-open="apply">Apply for the Circle <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </article>
+
+      <article class="offer reveal">
+        <span class="tag">1:1 Coaching</span>
+        <h3>Custom Physique</h3>
+        <div class="sub">Designed by a champion</div>
+        <p>A fully personalized training and nutrition program, built and adjusted by Lauren, whether you want to compete or simply be your strongest.</p>
+        <ul><li>Personal assessment call</li><li>Custom training &amp; macros</li><li>Bi-weekly check-ins</li></ul>
+        <div class="foot"><div class="price">Private<b>By Invite</b></div><button class="link" data-open="apply">Apply →</button></div>
+      </article>
+
+      <article class="offer reveal d1">
+        <span class="tag">Group Program · 90 Days</span>
+        <h3>Fierce 90</h3>
+        <div class="sub">Strong at any age</div>
+        <p>A 90-day group transformation for women who want strength, energy and confidence, with faith-fueled mindset coaching built in.</p>
+        <ul><li>Progressive training plan</li><li>Weekly live coaching</li><li>Sisterhood community</li></ul>
+        <div class="foot"><div class="price">Next cohort<b>Enrolling</b></div><button class="link" data-open="apply">Join →</button></div>
+      </article>
+
+      <article class="offer reveal d2">
+        <span class="tag">VIP Intensive · 1 Day</span>
+        <h3>Camera Ready</h3>
+        <div class="sub">Brand like a TV star</div>
+        <p>A one-day intensive to build your on-camera presence, signature look and personal brand story, coached by a working TV host and actress.</p>
+        <ul><li>On-camera presence training</li><li>Brand story &amp; messaging</li><li>Content plan you can use</li></ul>
+        <div class="foot"><div class="price">Limited<b>Dates</b></div><button class="link" data-open="apply">Book →</button></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="pad book" id="book" style="background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap book-grid">
+    <div class="book3d reveal">
+      <div class="bestseller"><div><b>98</b>Best-seller<br>categories</div></div>
+      <div class="cover">
+        <div class="spine"></div>
+        <div class="front">
+          <div class="auth">Lauren Powers</div>
+          <div>
+            <div class="ttl"><span>Beneath the</span>Muscle</div>
+            <div class="sub" style="margin-top:14px">Unleash Your Inner Champion</div>
+          </div>
+          <div class="auth" style="color:var(--violet-2)">International Best-Seller</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="eyebrow reveal">Free · Autographed</span>
+      <h2 class="h2 reveal d1" style="margin-top:22px">Get the book that <em class="gold-text">started it all.</em></h2>
+      <p class="lead reveal d2" style="margin-top:22px">Lauren’s raw, honest story and the champion strategies behind it, for women of every shape, size and background. Request your free signed copy.</p>
+      <div class="chapters reveal">
+        <div><span>I</span>Triumphs</div><div><span>II</span>Strategies</div>
+        <div><span>III</span>Passion</div><div><span>IV</span>Focus</div>
+        <div><span>V</span>Techniques</div><div><span>VI</span>Who You Are</div>
+      </div>
+      <form class="form reveal" id="bookForm">
+        <input type="email" required placeholder="Your best email" aria-label="Email">
+        <button class="btn btn-gold" type="submit">Send My Copy</button>
+      </form>
+      <p class="form-note reveal">You just cover shipping. Lauren signs every copy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS / CREDITS -->
+<section class="pad" id="media">
+  <div class="wrap">
+    <span class="eyebrow reveal">The Industry Speaks</span>
+    <h2 class="h2 reveal d1" style="margin-top:22px">Not just a champion.<br>A <em class="gold-text">champion maker.</em></h2>
+    <div class="quotes">
+      <div class="quote big reveal">
+        <blockquote>Lauren Powers is not just a champion but a champion maker!</blockquote>
+        <div class="who"><div class="av">SH</div><div><b>Shellie Hunt</b><small>CEO, The Women of Global Change</small></div></div>
+      </div>
+      <div class="quote reveal d1">
+        <blockquote>A gushing brook of inspiration.</blockquote>
+        <div class="who"><div class="av">EF</div><div><b>Eric Fleishman</b><small>Celebrity Personal Trainer</small></div></div>
+      </div>
+      <div class="quote reveal d2">
+        <blockquote>Lauren embodies bodybuilding to the epitome.</blockquote>
+        <div class="who"><div class="av">DB</div><div><b>Dana Linn Bailey</b><small>Ms. Physique Olympia</small></div></div>
+      </div>
+    </div>
+
+    <div class="credits">
+      <div class="credit reveal"><div class="k">Television</div><h4>Botched · E!</h4><p>Plus Wilfred, My Strange Addiction, 1000 Ways to Die</p></div>
+      <div class="credit reveal d1"><div class="k">Documentary</div><h4>Twisted Sisters · MSNBC</h4><p>Plus Secret Lives of Women, Arliss on HBO</p></div>
+      <div class="credit reveal d2"><div class="k">Film</div><h4>The Interview</h4><p>Plus V/H/S/99 and Star-Crossed: The Film</p></div>
+      <div class="credit reveal"><div class="k">Music Videos</div><h4>Gaga · J.Lo · Bieber</h4><p>Telephone, Medicine, Yummy</p></div>
+      <div class="credit reveal d1"><div class="k">Founder</div><h4>Powers Fitness Events</h4><p>Athlete-first competitions and the Abundant Life Expo</p></div>
+      <div class="credit reveal d2"><div class="k">Speaker</div><h4>Women of Excellence</h4><p>Award-winning international speaker</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAITH -->
+<section class="faith">
+  <div class="wrap">
+    <div class="cross reveal"></div>
+    <h2 class="reveal d1"><em>Faith</em> over <span class="gold-text"><em>fear.</em></span></h2>
+    <p class="reveal d2">Lauren’s strength starts with her faith. Every program is built on one belief: God made you strong, and it’s never too late to step fully into who you were born to be.</p>
+  </div>
+</section>
+
+<!-- SPEAKING -->
+<section class="pad" style="padding-top:40px">
+  <div class="wrap speak">
+    <div class="speak-card a reveal">
+      <div>
+        <span class="eyebrow">Keynotes &amp; Events</span>
+        <h3 style="margin-top:20px">Book Lauren<br>to <em class="i gold-text" style="text-transform:none">speak</em></h3>
+        <p>An unforgettable keynote from a firefighter turned champion turned Hollywood personality. Raw, funny and built to move a room to action.</p>
+        <div class="topics"><span>Unleash Your Inner Champion</span><span>Reinvention at Any Age</span><span>Faith Over Fear</span><span>Body, Brand &amp; Bank</span></div>
+      </div>
+      <button class="btn btn-gold" data-open="apply" style="align-self:flex-start">Request Lauren</button>
+    </div>
+    <div class="speak-card b reveal d1">
+      <div>
+        <span class="eyebrow">Press &amp; Production</span>
+        <h3 style="margin-top:20px">Media &amp;<br><em class="i gold-text" style="text-transform:none">casting</em></h3>
+        <p>SAG actress, stuntwoman, TV and podcast host. Available for TV, film, podcasts, brand partnerships and on-camera hosting.</p>
+        <div class="topics"><span>TV Hosting</span><span>Film &amp; Stunts</span><span>Podcast Guest</span><span>Brand Partnerships</span></div>
+      </div>
+      <button class="btn btn-ghost" data-open="apply" style="align-self:flex-start">Download Media Kit</button>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<section class="pad" style="padding-top:40px">
+  <div class="wrap">
+    <span class="eyebrow reveal">Join the movement</span>
+    <h2 class="h2 reveal d1" style="margin-top:22px">Train with Lauren <em class="gold-text">daily.</em></h2>
+    <div class="social">
+      <a class="soc reveal" href="http://www.instagram.com/laurenpowersofficial" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>
+        <div><b>Instagram</b><small>@laurenpowersofficial</small></div>
+      </a>
+      <a class="soc reveal d1" href="http://www.youtube.com/c/laurenpowers10" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+        <div><b>YouTube</b><small>Lauren Powers</small></div>
+      </a>
+      <a class="soc reveal d2" href="http://www.facebook.com/laurenpowersofficial" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h2z"/></svg>
+        <div><b>Facebook</b><small>laurenpowersofficial</small></div>
+      </a>
+      <a class="soc reveal d3" href="http://www.twitter.com/laurenpowersfit" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        <div><b>X / Twitter</b><small>@laurenpowersfit</small></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow reveal">Your comeback starts now</span>
+    <h2 class="h2 reveal d1" style="margin-top:24px">It’s never too late<br>to be <em class="gold-text">fierce.</em></h2>
+    <p class="lead reveal d2">If Lauren could go from firefighter to heavyweight champion to Hollywood, imagine what your next chapter could be.</p>
+    <div class="hero-ctas reveal d3" style="justify-content:center">
+      <button class="btn btn-gold" data-open="apply">Apply for Coaching <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <a class="btn btn-ghost" href="#book">Get the Free Book</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="logo"><span class="mono">LP</span><b>LAUREN POWERS</b></a>
+        <p class="tagline">Be Strong, Be Fierce, Be YOU!</p>
+        <p>Faith &amp; Fitness Queen · Custom Physique Designer · Celebrity Fitness Icon · TV Host &amp; Actress</p>
+      </div>
+      <div><h5>Coaching</h5><ul><li><a href="#coaching">The Powers Circle</a></li><li><a href="#coaching">Custom Physique</a></li><li><a href="#coaching">Fierce 90</a></li><li><a href="#coaching">Camera Ready</a></li></ul></div>
+      <div><h5>Explore</h5><ul><li><a href="#story">Her Story</a></li><li><a href="#method">The Method</a></li><li><a href="#book">Beneath the Muscle</a></li><li><a href="#media">Media &amp; Speaking</a></li></ul></div>
+      <div><h5>Follow</h5><ul><li><a href="http://www.instagram.com/laurenpowersofficial" target="_blank" rel="noopener">Instagram</a></li><li><a href="http://www.youtube.com/c/laurenpowers10" target="_blank" rel="noopener">YouTube</a></li><li><a href="http://www.facebook.com/laurenpowersofficial" target="_blank" rel="noopener">Facebook</a></li><li><a href="http://www.twitter.com/laurenpowersfit" target="_blank" rel="noopener">X / Twitter</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Lauren Powers. All rights reserved.</span><span>Concept design by Code Bunny</span></div>
+  </div>
+</footer>
+
+<!-- APPLY MODAL -->
+<div class="modal" id="apply" role="dialog" aria-modal="true" aria-labelledby="applyTitle">
+  <div class="modal-card">
+    <button class="close" data-close aria-label="Close">×</button>
+    <span class="eyebrow">Strategy call</span>
+    <h3 id="applyTitle" style="margin-top:16px">Apply to work<br>with <span class="gold-text">Lauren</span></h3>
+    <p>Tell us a little about you. Lauren’s team replies within 48 hours.</p>
+    <form id="applyForm">
+      <label for="f-name">Full name</label><input id="f-name" required>
+      <label for="f-email">Email</label><input id="f-email" type="email" required>
+      <label for="f-int">I’m interested in</label>
+      <select id="f-int"><option>The Powers Circle (Mastermind)</option><option>Custom Physique 1:1</option><option>Fierce 90 Group Program</option><option>Camera Ready Intensive</option><option>Booking Lauren to speak / media</option></select>
+      <label for="f-why">What would change if you were your strongest self?</label><textarea id="f-why" rows="3"></textarea>
+      <button class="btn btn-gold" type="submit">Submit Application</button>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast">Thank you. Lauren’s team will be in touch 💜</div>
+
+<script>
+(() => {
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 30);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  // duplicate marquee for seamless loop
+  const mq = document.getElementById('marquee'); mq.innerHTML += mq.innerHTML;
+
+  // reveal + counters
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-count]').forEach(count);
+    io.unobserve(e.target);
+  }), {threshold:.15, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  function count(el){
+    const end = +el.dataset.count, sup = el.querySelector('sup'), t0 = performance.now(), d = 1600;
+    const tick = t => {
+      const p = Math.min((t - t0) / d, 1), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+      el.firstChild.nodeValue = v;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  // modal
+  const modal = document.getElementById('apply');
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => modal.classList.add('open')));
+  modal.addEventListener('click', e => { if (e.target === modal || e.target.hasAttribute('data-close')) modal.classList.remove('open'); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+
+  const toast = document.getElementById('toast');
+  const thanks = () => { toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3200); };
+  document.getElementById('applyForm').addEventListener('submit', e => { e.preventDefault(); modal.classList.remove('open'); e.target.reset(); thanks(); });
+  document.getElementById('bookForm').addEventListener('submit', e => { e.preventDefault(); e.target.reset(); thanks(); });
+
+  // quiz
+  const steps = [...document.querySelectorAll('.q-step')], bar = document.getElementById('qbar');
+  const score = {body:0, brand:0, bank:0};
+  const results = {
+    body:  ['Body', 'Your power starts with strength. Lauren’s Custom Physique Design will rebuild your energy, shape and confidence. Then we layer in brand and bank.'],
+    brand: ['Brand', 'You’re ready to be seen. The Camera Ready Intensive gives you the presence, look and story that make people stop scrolling and start booking you.'],
+    bank:  ['Bank', 'It’s time for abundance. Inside The Powers Circle, Lauren helps you turn your story and skills into income, with your body and brand to match.']
+  };
+  let i = 0;
+  document.querySelectorAll('.q-opt').forEach(b => b.addEventListener('click', () => {
+    score[b.dataset.v]++;
+    steps[i].classList.remove('on'); i++;
+    bar.style.width = (i / 3 * 100) + '%';
+    if (i === 3) {
+      const top = Object.entries(score).sort((a, b) => b[1] - a[1])[0][0];
+      document.getElementById('qres-title').textContent = results[top][0];
+      document.getElementById('qres-text').textContent = results[top][1];
+    }
+    steps[i].classList.add('on');
+  }));
+})();
+</script>
+</body>
+</html>
