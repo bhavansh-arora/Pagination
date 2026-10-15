@@ -1,0 +1,116 @@
+<!--{
+ "title": "Check Your Date | Contact Alpha Visuals",
+ "desc": "Enquire about your wedding film. Tell Sam your date and venue and get a personal reply.",
+ "canonical": "contact",
+ "page": "contact"
+}-->
+    <section class="section section--dark" id="enquire" style="padding-top:calc(var(--nav-h) + clamp(48px,8vw,120px))">
+      <div class="wrap enquire">
+        <div class="enquire__aside">
+          <p class="eyebrow reveal">Check availability</p>
+          <h1 class="h2 reveal" style="font-size:clamp(44px,6vw,84px)">Ready for the <em>big day?</em></h1>
+          <p class="lede reveal">I only take a limited number of weddings each season, so every couple gets my full attention. Tell me a little about yours.</p>
+          <ul class="assure reveal">
+            <li><svg><use href="#i-chat"/></svg><span>A personal reply from Sam, not an auto-responder</span></li>
+            <li><svg><use href="#i-heart"/></svg><span>A relaxed, no-pressure first chat</span></li>
+            <li><svg><use href="#i-clock"/></svg><span>Today's pricing held for bookings before 1 Dec 2026</span></li>
+          </ul>
+          <p class="direct reveal">Not a fan of forms? Flick me an email:<br><a href="mailto:sam@alphavisuals.co.nz">sam@alphavisuals.co.nz</a></p>
+        </div>
+
+        <form class="form reveal" id="enquiry-form" novalidate
+              data-endpoint=""
+              data-email="sam@alphavisuals.co.nz">
+          <div class="form__progress" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+          <fieldset class="form__step is-active" data-step="1" style="border:0;margin:0;padding:0">
+            <h3>When's the big day?</h3>
+            <p>Step 1 of 3 · Let's check I'm free.</p>
+            <div class="fields">
+              <div class="field">
+                <label for="f-date">Wedding date</label>
+                <input id="f-date" name="date" type="date" required>
+                <span class="err">Please add your date (or a rough one)</span>
+              </div>
+              <div class="field">
+                <label for="f-venue">Venue or location</label>
+                <input id="f-venue" name="venue" type="text" placeholder="e.g. Lacebark, Christchurch" autocomplete="off">
+              </div>
+              <div class="field field--full">
+                <span class="lbl" id="pkg-lbl">Which film are you dreaming of?</span>
+                <div class="pills" role="radiogroup" aria-labelledby="pkg-lbl">
+                  <label><input type="radio" name="package" value="Highlight Film"><span>Highlight · $4,000</span></label>
+                  <label><input type="radio" name="package" value="Highlight Film+"><span>Highlight+ · $4,800</span></label>
+                  <label><input type="radio" name="package" value="Extended Film"><span>Extended · $6,000</span></label>
+                  <label><input type="radio" name="package" value="Not sure yet" checked><span>Not sure yet</span></label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form__step" data-step="2" style="border:0;margin:0;padding:0">
+            <h3>Tell me about you two</h3>
+            <p>Step 2 of 3 · The fun part.</p>
+            <div class="fields">
+              <div class="field">
+                <label for="f-first">Your first name</label>
+                <input id="f-first" name="first_name" type="text" autocomplete="given-name" required>
+                <span class="err">What should I call you?</span>
+              </div>
+              <div class="field">
+                <label for="f-partner">Partner's first name</label>
+                <input id="f-partner" name="partner_name" type="text" autocomplete="off">
+              </div>
+              <div class="field field--full">
+                <label for="f-msg">What are you planning?</label>
+                <textarea id="f-msg" name="message" placeholder="The vibe, the venue, the guest count, how you met: anything you'd like me to know."></textarea>
+              </div>
+              <input type="hidden" name="extras" id="f-extras">
+            </div>
+          </fieldset>
+
+          <fieldset class="form__step" data-step="3" style="border:0;margin:0;padding:0">
+            <h3>Where can I reach you?</h3>
+            <p>Step 3 of 3 · I'll reply personally.</p>
+            <div class="fields">
+              <div class="field field--full">
+                <label for="f-email">Email</label>
+                <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+                <span class="err">Please enter a valid email</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">Phone <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted)">(optional)</span></label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+              </div>
+              <div class="field">
+                <label for="f-source">How did you find me?</label>
+                <select id="f-source" name="source">
+                  <option value="">Select one…</option>
+                  <option>Instagram</option>
+                  <option>Google</option>
+                  <option>TikTok</option>
+                  <option>Our photographer / venue</option>
+                  <option>A friend's wedding</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+            </div>
+          </fieldset>
+
+          <div class="form__done" hidden>
+            <div class="tick"><svg><use href="#i-check"/></svg></div>
+            <h3 style="font-family:var(--serif);font-size:36px;font-weight:500;margin:0 0 8px">Thank you!</h3>
+            <p style="color:var(--muted);margin:0 auto;max-width:36ch">Your enquiry is on its way. I'll check my calendar and reply personally, usually within a day or two.</p>
+          </div>
+
+          <div class="form__nav">
+            <button type="button" class="form__back" hidden>← Back</button>
+            <button type="submit" class="btn btn--brass" style="margin-left:auto"><span class="form__next-label">Next</span><svg><use href="#i-arrow"/></svg></button>
+          </div>
+          <p class="form__fine">No spam, ever. Your details are only used to reply to your enquiry.</p>
+        </form>
+      </div>
+    </section>
+
+<!-- @include faq-short -->
