@@ -49,7 +49,10 @@
       </div>
     </div>
     <div class="hero-right reveal d2">
-      <div class="portrait "><div class="ph"><b>LP</b><small>Hero portrait · stage or gym</small></div></div>
+      <div class="hero-photo">
+        <div class="portrait"></div>
+        <img class="cut" src="img/hero.webp" alt="Lauren Powers, arms crossed, in a stars and stripes sequin dress" width="760" height="1111" fetchpriority="high">
+      </div>
       <div class="badge b1"><div class="n">10×</div><div class="l">Heavyweight<br>Champion</div></div>
       <div class="badge b2"><div class="n">#1</div><div class="l">Best-Selling<br>Author</div></div>
     </div>
@@ -58,7 +61,7 @@
 <div class="seen">
   <div class="seen-label">As seen on</div>
   <div class="marquee">
-    <span>HBO</span><span>E! Network</span><span>MSNBC</span><span>TLC</span><span>WE tv</span><span>Hallmark</span><span>ABC</span><span>Travel Channel</span><span class="it">Lady Gaga · “Telephone”</span><span class="it">Jennifer Lopez · “Medicine”</span><span class="it">Justin Bieber · “Yummy”</span><span>iHeart Music Awards</span>
+    <span>HBO</span><span>E! Network</span><span>MSNBC</span><span>TLC</span><span>WE tv</span><span>Hallmark</span><span>ABC</span><span>Travel Channel</span><span>Showtime</span><span>NBC</span><span>Bravo</span><span>CNN</span><span class="it">Lady Gaga · “Telephone”</span><span class="it">Jennifer Lopez · “Medicine”</span><span class="it">Justin Bieber · “Yummy”</span><span>iHeart Music Awards</span>
   </div>
 </div>
 
@@ -73,7 +76,7 @@
 
 <section class="pad">
   <div class="wrap split">
-    <div class="reveal"><div class="portrait "><div class="ph"><b>LP</b><small>Champion portrait · on stage</small></div></div></div>
+    <div class="reveal"><div class="portrait has-img "><img src="img/legend.jpg" alt="Lauren Powers in a red dress, smiling on set" loading="lazy" decoding="async" style="object-position:center 20%"></div></div>
     <div>
       <span class="eyebrow reveal">A living legend</span>
       <h2 class="h2 reveal d1" style="margin-top:22px">The woman who <em class="gold-text">rewrote</em> the rules.</h2>
@@ -87,6 +90,16 @@
       <a class="btn btn-ghost reveal" href="about.html">Read Her Story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
+</section>
+<section class="pad stars-sec">
+  <div class="wrap">
+    <div class="stars-head">
+      <div><span class="eyebrow reveal">On set &amp; on stage</span>
+      <h2 class="h2 reveal d1" style="margin-top:22px">Hollywood calls <em class="gold-text">Lauren.</em></h2></div>
+      <p class="swipe reveal">Swipe <span>→</span></p>
+    </div>
+  </div>
+  <div class="stars-row reveal"><figure class="star-card"><img src="img/star-gaga.jpg" alt="Lauren Powers with Lady Gaga" loading="lazy"><figcaption><b>Lady Gaga</b><span>“Telephone” music video</span></figcaption></figure><figure class="star-card"><img src="img/star-jlo.jpg" alt="Lauren Powers with Jennifer Lopez" loading="lazy"><figcaption><b>Jennifer Lopez</b><span>“Medicine” music video</span></figcaption></figure><figure class="star-card"><img src="img/star-bieber.jpg" alt="Lauren Powers with Justin Bieber" loading="lazy"><figcaption><b>Justin Bieber</b><span>“Yummy” music video</span></figcaption></figure><figure class="star-card"><img src="img/star-kacey.jpg" alt="Lauren Powers with Kacey Musgraves" loading="lazy"><figcaption><b>Kacey Musgraves</b><span>Star-Crossed: The Film</span></figcaption></figure><figure class="star-card"><img src="img/star-katy-perry.jpg" alt="Lauren Powers with Katy Perry" loading="lazy"><figcaption><b>Katy Perry</b><span>Backstage</span></figcaption></figure><figure class="star-card"><img src="img/star-arnold.jpg" alt="Lauren Powers with Arnold Schwarzenegger" loading="lazy"><figcaption><b>Arnold Schwarzenegger</b><span>Fellow iron legend</span></figcaption></figure><figure class="star-card"><img src="img/hogan.jpg" alt="Lauren Powers with Hulk Hogan" loading="lazy"><figcaption><b>Hulk Hogan</b><span>Ultimate Nutrition</span></figcaption></figure></div>
 </section>
 
 <section class="method pad">
@@ -154,17 +167,7 @@
   <div class="wrap book-grid">
     <div class="book3d reveal">
       <div class="bestseller"><div><b>98</b>Best-seller<br>categories</div></div>
-      <div class="cover">
-        <div class="spine"></div>
-        <div class="front">
-          <div class="auth">Lauren Powers</div>
-          <div>
-            <div class="ttl"><span>Beneath the</span>Muscle</div>
-            <div class="sub" style="margin-top:14px">Unleash Your Inner Champion</div>
-          </div>
-          <div class="auth" style="color:var(--violet-2)">International Best-Seller</div>
-        </div>
-      </div>
+      <img class="realbook" src="img/book.webp" alt="Beneath the Muscle: Unleash Your Inner Champion, by Lauren Powers" width="583" height="500" loading="lazy">
     </div>
     <div>
       <span class="eyebrow reveal">Free · Autographed</span>
@@ -182,15 +185,15 @@
     <div class="quotes">
       <div class="quote big reveal">
         <blockquote>Lauren Powers is not just a champion but a champion maker!</blockquote>
-        <div class="who"><div class="av">SH</div><div><b>Shellie Hunt</b><small>CEO, The Women of Global Change</small></div></div>
+        <div class="who"><img class="av" src="img/shellie-hunt.jpg" alt="" loading="lazy" width="52" height="52"><div><b>Shellie Hunt</b><small>CEO, The Women of Global Change</small></div></div>
       </div>
       <div class="quote reveal d1">
         <blockquote>A gushing brook of inspiration.</blockquote>
-        <div class="who"><div class="av">EF</div><div><b>Eric Fleishman</b><small>Celebrity Personal Trainer</small></div></div>
+        <div class="who"><img class="av" src="img/eric-fleishman.jpg" alt="" loading="lazy" width="52" height="52"><div><b>Eric Fleishman</b><small>Celebrity Personal Trainer</small></div></div>
       </div>
       <div class="quote reveal d2">
         <blockquote>Lauren embodies bodybuilding to the epitome.</blockquote>
-        <div class="who"><div class="av">DB</div><div><b>Dana Linn Bailey</b><small>Ms. Physique Olympia</small></div></div>
+        <div class="who"><img class="av" src="img/dana-linn-bailey.jpg" alt="" loading="lazy" width="52" height="52"><div><b>Dana Linn Bailey</b><small>Ms. Physique Olympia</small></div></div>
       </div>
     </div>
   </div>
