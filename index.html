@@ -6,7 +6,7 @@
 <title>Dan Reynolds — Wedding Photography &amp; Film | Chicago, Peoria &amp; Wisconsin</title>
 <meta name="description" content="Documentary-style wedding photography and cinematic wedding films by husband-and-wife team Dan & Lydia Reynolds. Serving Chicago, Central Illinois, Milwaukee and Madison.">
 <link rel="canonical" href="https://www.danreynoldsphotography.com/">
-<meta name="theme-color" content="#141210">
+<meta name="theme-color" content="#080706">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dan Reynolds Photography">
 <meta property="og:title" content="Dan Reynolds — Wedding Photography &amp; Film | Chicago, Peoria &amp; Wisconsin">
@@ -24,10 +24,26 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
+<script>try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}}catch(e){}</script>
 <link rel="preload" as="image" href="assets/img/golden-hour-portrait-800.webp" imagesrcset="assets/img/golden-hour-portrait-800.webp 800w, assets/img/golden-hour-portrait-1600.webp 1600w" imagesizes="100vw">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Dan Reynolds Photography", "description": "Documentary-style wedding photography and cinematic wedding films by Dan & Lydia Reynolds.", "url": "https://www.danreynoldsphotography.com", "image": "https://www.danreynoldsphotography.com/assets/img/golden-hour-portrait-1600.webp", "priceRange": "From $3,500", "founder": {"@type": "Person", "name": "Dan Reynolds"}, "areaServed": ["Chicago, IL", "Peoria, IL", "Central Illinois", "Milwaukee, WI", "Madison, WI"], "sameAs": ["https://www.instagram.com/danreynoldsphotography", "https://www.instagram.com/danreynoldsfilms", "https://www.facebook.com/danreynoldsphotographypeoria", "https://www.youtube.com/@danreynoldsphotography2735", "https://twitter.com/reynoldspix"]}</script>
 </head>
 <body>
+
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
+    <p class="preloader__name"><span>Dan Reynolds</span></p>
+    <p class="preloader__tag"><span>Visual Storyteller</span></p>
+  </div>
+  <div class="preloader__foot"><span>Photo + Film</span><span class="preloader__count" data-count-loader>000</span></div>
+  <div class="preloader__bar"><span></span></div>
+</div>
+<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+<div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
+<div class="hover-preview" aria-hidden="true"><div class="hover-preview__inner"></div></div>
 
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header site-header--overlay">
@@ -58,10 +74,16 @@
 <main id="main">
 
 <section class="hero" aria-label="Introduction">
-  <div class="hero__media"><img src="assets/img/golden-hour-portrait-1600.webp" srcset="assets/img/golden-hour-portrait-800.webp 800w, assets/img/golden-hour-portrait-1600.webp 1600w" sizes="100vw" width="1600" height="1067" alt="A bride and groom holding hands on a stone path, lit by the setting sun" decoding="async" fetchpriority="high" style="object-position:50% 65%"></div>
+  <div class="hero__media hero__slides" data-hero-slides>
+    <div class="hero__slide is-active"><img src="assets/img/golden-hour-portrait-1600.webp" srcset="assets/img/golden-hour-portrait-800.webp 800w, assets/img/golden-hour-portrait-1600.webp 1600w" sizes="100vw" width="1600" height="1067" alt="A bride and groom holding hands on a stone path, lit by the setting sun" decoding="async" fetchpriority="high" style="object-position:49% 21%"></div>
+    <div class="hero__slide"><img src="assets/img/chicago-skyline-couple-1600.webp" srcset="assets/img/chicago-skyline-couple-800.webp 800w, assets/img/chicago-skyline-couple-1600.webp 1600w" sizes="100vw" width="1600" height="1066" alt="A couple on the Chicago lakefront with the skyline behind" loading="lazy" decoding="async" style="object-position:62% 71%"></div>
+    <div class="hero__slide"><img src="assets/img/ethan-gwyn-4-1600.webp" srcset="assets/img/ethan-gwyn-4-800.webp 800w, assets/img/ethan-gwyn-4-1600.webp 1600w" sizes="100vw" width="1600" height="1067" alt="A couple walking through autumn trees at sunset" loading="lazy" decoding="async" style="object-position:46% 50%"></div>
+    <div class="hero__slide"><img src="assets/img/garden-estate-portrait-1600.webp" srcset="assets/img/garden-estate-portrait-800.webp 800w, assets/img/garden-estate-portrait-1600.webp 1600w" sizes="100vw" width="1600" height="1067" alt="A couple embracing on an estate lawn at golden hour" loading="lazy" decoding="async" style="object-position:35% 22%"></div>
+  </div>
+  <div class="hero__index" aria-hidden="true"><span data-hero-current>01</span><span class="hero__index-bar"><span></span></span><span>04</span></div>
   <div class="container hero__content">
     <p class="eyebrow hero__eyebrow reveal">Wedding photography &amp; film</p>
-    <h1 class="hero__title" data-lines>Moments you'll<br>want to <em>feel</em><br>all over again.</h1>
+    <h1 class="hero__title" data-lines aria-label="Moments you'll want to see, hear and feel all over again.">Moments you'll<br>want to <span class="rotator" data-nosplit><span class="rotator__word">see</span><span class="rotator__word">hear</span><span class="rotator__word">feel</span></span><br>all over again.</h1>
     <div class="hero__foot">
       <p class="hero__sub reveal" data-delay="3">Documentary-style wedding photos and cinematic films by Dan &amp; Lydia Reynolds, for couples across Chicago, Central Illinois and Wisconsin.</p>
       <div class="btn-row reveal" data-delay="4">
@@ -73,11 +95,11 @@
   <span class="hero__meta" aria-hidden="true">Chicago · Peoria · Milwaukee · Madison</span>
 </section>
 
-<section class="section quote-band">
+<section class="section section--ivory quote-band">
   <div class="container">
     <div class="quote-mark reveal"><svg viewBox="0 0 40 28" fill="currentColor" aria-hidden="true"><path d="M0 28V17.2C0 7.6 4.6 1.9 13.8 0l1.6 3.3C10.3 5 7.8 8.3 7.5 13.2H15V28H0zm22.6 0V17.2C22.6 7.6 27.2 1.9 36.4 0L38 3.3c-5.1 1.7-7.6 5-7.9 9.9h7.5V28h-15z"/></svg></div>
-    <blockquote class="reveal">
-      <p>We take photos as a <em>return ticket</em> to a moment otherwise gone.</p>
+    <blockquote>
+      <p data-scrub-words>We take photos as a <em>return ticket</em> to a moment otherwise gone.</p>
       <cite>— Katie Thurmes</cite>
     </blockquote>
   </div>
@@ -86,8 +108,8 @@
 <section class="section section--paper2">
   <div class="container split split--wide-media">
     <div class="collage">
-      <div class="media ratio-portrait reveal-img" style="background:#5d4d3c"><img src="assets/img/dan-bts-1600.webp" srcset="assets/img/dan-bts-800.webp 800w, assets/img/dan-bts-1600.webp 1600w" sizes="(min-width:900px) 45vw, 90vw" width="1600" height="1066" alt="Dan laughing behind a camera with two lenses mounted" loading="lazy" decoding="async" style="object-position:40% 50%"></div>
-      <div class="collage__small reveal" data-delay="2"><div class="media ratio-portrait" style="background:#9da2a7"><img src="assets/img/lydia-1600.webp" srcset="assets/img/lydia-800.webp 800w, assets/img/lydia-1600.webp 1600w" sizes="(min-width:900px) 20vw, 40vw" width="1600" height="1066" alt="Lydia smiling in front of a white wall" loading="lazy" decoding="async" style="object-position:60% 50%"></div></div>
+      <div class="media ratio-portrait reveal-img" style="background:#5d4d3c"><img src="assets/img/dan-bts-1600.webp" srcset="assets/img/dan-bts-800.webp 800w, assets/img/dan-bts-1600.webp 1600w" sizes="(min-width:900px) 45vw, 90vw" width="1600" height="1066" alt="Dan laughing behind a camera with two lenses mounted" loading="lazy" decoding="async" style="object-position:77% 30%"></div>
+      <div class="collage__small reveal" data-delay="2"><div class="media ratio-portrait" style="background:#9da2a7"><img src="assets/img/lydia-1600.webp" srcset="assets/img/lydia-800.webp 800w, assets/img/lydia-1600.webp 1600w" sizes="(min-width:900px) 20vw, 40vw" width="1600" height="1066" alt="Lydia smiling in front of a white wall" loading="lazy" decoding="async" style="object-position:58% 28%"></div></div>
       <div class="collage__badge" aria-hidden="true"><svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="bp" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text font-family="Jost, sans-serif" font-size="9.4" letter-spacing="3.3" fill="currentColor"><textPath href="#bp">VISUAL STORYTELLER · PHOTO + FILM · </textPath></text><path d="M60 49v22M49 60h22" stroke="currentColor" stroke-width="1"/></svg></div>
     </div>
     <div class="stack" style="--stack:28px">
@@ -115,8 +137,8 @@
       <p class="prose reveal" style="max-width:42ch">A husband-and-wife team with one shared vision, so your photos and your film feel like they belong together.</p>
     </div>
     <div class="disciplines">
-      <a class="discipline reveal" href="portfolio.html">
-        <div class="media media--zoom" style="background:#969584"><img src="assets/img/ceremony-dip-1600.webp" srcset="assets/img/ceremony-dip-800.webp 800w, assets/img/ceremony-dip-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1067" alt="A groom dipping his bride for a kiss as guests cheer" loading="lazy" decoding="async"></div>
+      <a class="discipline reveal" href="portfolio.html" data-cursor="Explore">
+        <div class="media media--zoom" style="background:#969584"><img src="assets/img/ceremony-dip-1600.webp" srcset="assets/img/ceremony-dip-800.webp 800w, assets/img/ceremony-dip-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1067" alt="A groom dipping his bride for a kiss as guests cheer" loading="lazy" decoding="async" style="object-position:42% 36%"></div>
         <div class="discipline__body">
           <span class="discipline__num">01 — Photography</span>
           <h3 class="discipline__title">Stills</h3>
@@ -124,8 +146,8 @@
           <span class="link-arrow">View portfolio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
         </div>
       </a>
-      <a class="discipline reveal" data-delay="2" href="films.html">
-        <div class="media media--zoom" style="background:#514f49"><img src="assets/img/dan-filming-1600.webp" srcset="assets/img/dan-filming-800.webp 800w, assets/img/dan-filming-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1069" alt="Dan operating a cinema camera on a tripod" loading="lazy" decoding="async" style="object-position:62% 50%"></div>
+      <a class="discipline reveal" data-delay="2" href="films.html" data-cursor="Watch">
+        <div class="media media--zoom" style="background:#514f49"><img src="assets/img/dan-filming-1600.webp" srcset="assets/img/dan-filming-800.webp 800w, assets/img/dan-filming-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1069" alt="Dan operating a cinema camera on a tripod" loading="lazy" decoding="async" style="object-position:59% 30%"></div>
         <div class="discipline__body">
           <span class="discipline__num">02 — Film</span>
           <h3 class="discipline__title">Motion</h3>
@@ -144,38 +166,44 @@
   </div>
 </div>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head section-head--split">
-      <div class="stack" style="--stack:20px">
+<section class="hscroll" data-hscroll aria-label="Recent love stories">
+  <div class="hscroll__sticky">
+    <div class="hscroll__track">
+      <div class="hscroll__intro">
         <p class="eyebrow reveal">Recent love stories</p>
         <h2 data-lines>Real couples,<br><em>real moments.</em></h2>
+        <p class="prose reveal">Scroll through a few recent weddings, then open the full galleries.</p>
+        <a class="link-arrow reveal" href="portfolio.html">Full portfolio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
       </div>
-      <a class="link-arrow reveal" href="portfolio.html">Full portfolio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+      
+      <a class="hcard" href="https://danreynolds.passgallery.com/-gwynandethanmills/gallery" target="_blank" rel="noopener" data-cursor="View">
+        <div class="hcard__media"><div class="media" style="background:#6d604d"><img src="assets/img/ethan-gwyn-barn-1600.webp" srcset="assets/img/ethan-gwyn-barn-800.webp 800w, assets/img/ethan-gwyn-barn-1600.webp 1600w" sizes="(min-width:1024px) 34vw, 78vw" width="1600" height="1066" alt="Ethan and Gwyn in front of a red barn venue" loading="lazy" decoding="async" style="object-position:56% 18%"></div></div>
+        <div class="hcard__meta"><span class="hcard__num">01</span><h3 class="hcard__name">Ethan <em>&amp;</em> Gwyn</h3><span class="story__place">Gallery ↗</span></div>
+      </a>
+      <a class="hcard" href="https://danreynolds.passgallery.com/-amandaandrickfrance/gallery" target="_blank" rel="noopener" data-cursor="View">
+        <div class="hcard__media"><div class="media" style="background:#a69374"><img src="assets/img/amanda-rick-1600.webp" srcset="assets/img/amanda-rick-800.webp 800w, assets/img/amanda-rick-1600.webp 1600w" sizes="(min-width:1024px) 34vw, 78vw" width="1600" height="1067" alt="Amanda and Rick kissing in a golden autumn meadow" loading="lazy" decoding="async" style="object-position:43% 26%"></div></div>
+        <div class="hcard__meta"><span class="hcard__num">02</span><h3 class="hcard__name">Amanda <em>&amp;</em> Rick</h3><span class="story__place">Gallery ↗</span></div>
+      </a>
+      <a class="hcard" href="https://danreynolds.passgallery.com/-kellyandadamporter/gallery" target="_blank" rel="noopener" data-cursor="View">
+        <div class="hcard__media"><div class="media" style="background:#746a54"><img src="assets/img/kelly-adam-1600.webp" srcset="assets/img/kelly-adam-800.webp 800w, assets/img/kelly-adam-1600.webp 1600w" sizes="(min-width:1024px) 34vw, 78vw" width="1600" height="1067" alt="Kelly and Adam walking through a sunlit garden" loading="lazy" decoding="async" style="object-position:58% 40%"></div></div>
+        <div class="hcard__meta"><span class="hcard__num">03</span><h3 class="hcard__name">Kelly <em>&amp;</em> Adam</h3><span class="story__place">Gallery ↗</span></div>
+      </a>
+      <a class="hcard" href="https://danreynolds.passgallery.com/-steveandtaylortorresweddinggallery/gallery" target="_blank" rel="noopener" data-cursor="View">
+        <div class="hcard__media"><div class="media" style="background:#b0a593"><img src="assets/img/steve-taylor-1600.webp" srcset="assets/img/steve-taylor-800.webp 800w, assets/img/steve-taylor-1600.webp 1600w" sizes="(min-width:1024px) 34vw, 78vw" width="1600" height="1066" alt="Steve and Taylor with their wedding party" loading="lazy" decoding="async" style="object-position:49% 45%"></div></div>
+        <div class="hcard__meta"><span class="hcard__num">04</span><h3 class="hcard__name">Steve <em>&amp;</em> Taylor</h3><span class="story__place">Gallery ↗</span></div>
+      </a>
+      <a class="hscroll__end" href="portfolio.html" data-cursor="Open">
+        <span class="hscroll__end-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+        <span class="hscroll__end-text">See every<br><em>love story</em></span>
+      </a>
     </div>
-    <div class="stories">
-      <a class="story reveal" data-delay="0" href="https://danreynolds.passgallery.com/-gwynandethanmills/gallery" target="_blank" rel="noopener">
-        <div class="media media--zoom" style="background:#6d604d"><img src="assets/img/ethan-gwyn-barn-1600.webp" srcset="assets/img/ethan-gwyn-barn-800.webp 800w, assets/img/ethan-gwyn-barn-1600.webp 1600w" sizes="(min-width:1024px) 25vw, (min-width:640px) 46vw, 78vw" width="1600" height="1066" alt="Ethan and Gwyn in front of a red barn venue" loading="lazy" decoding="async"></div>
-        <div class="story__meta"><h3 class="story__name">Ethan <em>+</em> Gwyn</h3><span class="story__place">Gallery ↗</span></div>
-      </a>
-      <a class="story reveal" data-delay="1" href="https://danreynolds.passgallery.com/-amandaandrickfrance/gallery" target="_blank" rel="noopener">
-        <div class="media media--zoom" style="background:#a69374"><img src="assets/img/amanda-rick-1600.webp" srcset="assets/img/amanda-rick-800.webp 800w, assets/img/amanda-rick-1600.webp 1600w" sizes="(min-width:1024px) 25vw, (min-width:640px) 46vw, 78vw" width="1600" height="1067" alt="Amanda and Rick kissing in a golden autumn meadow" loading="lazy" decoding="async"></div>
-        <div class="story__meta"><h3 class="story__name">Amanda <em>+</em> Rick</h3><span class="story__place">Gallery ↗</span></div>
-      </a>
-      <a class="story reveal" data-delay="2" href="https://danreynolds.passgallery.com/-kellyandadamporter/gallery" target="_blank" rel="noopener">
-        <div class="media media--zoom" style="background:#746a54"><img src="assets/img/kelly-adam-1600.webp" srcset="assets/img/kelly-adam-800.webp 800w, assets/img/kelly-adam-1600.webp 1600w" sizes="(min-width:1024px) 25vw, (min-width:640px) 46vw, 78vw" width="1600" height="1067" alt="Kelly and Adam walking through a sunlit garden" loading="lazy" decoding="async"></div>
-        <div class="story__meta"><h3 class="story__name">Kelly <em>+</em> Adam</h3><span class="story__place">Gallery ↗</span></div>
-      </a>
-      <a class="story reveal" data-delay="3" href="https://danreynolds.passgallery.com/-steveandtaylortorresweddinggallery/gallery" target="_blank" rel="noopener">
-        <div class="media media--zoom" style="background:#b0a593"><img src="assets/img/steve-taylor-1600.webp" srcset="assets/img/steve-taylor-800.webp 800w, assets/img/steve-taylor-1600.webp 1600w" sizes="(min-width:1024px) 25vw, (min-width:640px) 46vw, 78vw" width="1600" height="1066" alt="Steve and Taylor with their wedding party" loading="lazy" decoding="async"></div>
-        <div class="story__meta"><h3 class="story__name">Steve <em>+</em> Taylor</h3><span class="story__place">Gallery ↗</span></div>
-      </a></div>
+    <div class="hscroll__progress" aria-hidden="true"><span></span></div>
   </div>
 </section>
 
 <section class="section section--night">
   <div class="container film-feature">
-    <div class="reveal"><button class="yt" type="button" data-id="Gpq9IPxnIhE" aria-label="Play film: What if Wes Anderson filmed a wedding?"><img src="https://i.ytimg.com/vi/Gpq9IPxnIhE/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button></div>
+    <div class="reveal"><button class="yt" type="button" data-cursor="Play" data-id="Gpq9IPxnIhE" aria-label="Play film: What if Wes Anderson filmed a wedding?"><img src="https://i.ytimg.com/vi/Gpq9IPxnIhE/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button></div>
     <div class="stack" style="--stack:24px">
       <p class="eyebrow reveal">Featured film</p>
       <h2 data-lines>What if <em>Wes Anderson</em><br>filmed a wedding?</h2>
@@ -185,26 +213,26 @@
   </div>
 </section>
 
-<section class="section testimonials" data-slider aria-roledescription="carousel" aria-label="Kind words from couples">
+<section class="section section--ivory testimonials" data-slider aria-roledescription="carousel" aria-label="Kind words from couples">
   <div class="container">
     <p class="eyebrow reveal" style="margin-bottom:clamp(32px,4vw,56px)">Kind words</p>
-    <div class="t-track" tabindex="0">
+    <div class="t-track" tabindex="0" data-cursor="Drag">
         <figure class="t-slide" aria-roledescription="slide" aria-label="1 of 3">
-          <div class="media" style="background:#776d61"><img src="assets/img/roseleina-cameron-2-1600.webp" srcset="assets/img/roseleina-cameron-2-800.webp 800w, assets/img/roseleina-cameron-2-1600.webp 1600w" sizes="(min-width:900px) 40vw, 100vw" width="1600" height="1067" alt="A groom dipping his bride for a kiss outside a brick venue" loading="lazy" decoding="async"></div>
+          <div class="media" style="background:#776d61"><img src="assets/img/roseleina-cameron-2-1600.webp" srcset="assets/img/roseleina-cameron-2-800.webp 800w, assets/img/roseleina-cameron-2-1600.webp 1600w" sizes="(min-width:900px) 40vw, 100vw" width="1600" height="1067" alt="A groom dipping his bride for a kiss outside a brick venue" loading="lazy" decoding="async" style="object-position:48% 41%"></div>
           <blockquote>
             <p class="t-quote">“Words cannot describe how amazing it was to work with Dan and Lydia for our wedding photography!”</p>
             <figcaption class="t-cite">Rose</figcaption>
           </blockquote>
         </figure>
         <figure class="t-slide" aria-roledescription="slide" aria-label="2 of 3">
-          <div class="media" style="background:#665944"><img src="assets/img/julia-kirk-1600.webp" srcset="assets/img/julia-kirk-800.webp 800w, assets/img/julia-kirk-1600.webp 1600w" sizes="(min-width:900px) 40vw, 100vw" width="1600" height="1067" alt="A couple embracing among autumn flowers" loading="lazy" decoding="async"></div>
+          <div class="media" style="background:#665944"><img src="assets/img/julia-kirk-1600.webp" srcset="assets/img/julia-kirk-800.webp 800w, assets/img/julia-kirk-1600.webp 1600w" sizes="(min-width:900px) 40vw, 100vw" width="1600" height="1067" alt="A couple embracing among autumn flowers" loading="lazy" decoding="async" style="object-position:46% 30%"></div>
           <blockquote>
             <p class="t-quote">“We worked with Dan and his wife Lydia for our engagement and wedding photos and video, and we cannot recommend them enough! They were energetic, friendly and made us feel so comfortable. All our guests even commented on how great they were!”</p>
             <figcaption class="t-cite">Eileen + Matt</figcaption>
           </blockquote>
         </figure>
         <figure class="t-slide" aria-roledescription="slide" aria-label="3 of 3">
-          <div class="media" style="background:#747e7c"><img src="assets/img/manny-karina-1600.webp" srcset="assets/img/manny-karina-800.webp 800w, assets/img/manny-karina-1600.webp 1600w" sizes="(min-width:900px) 40vw, 100vw" width="1600" height="1067" alt="Manny and Karina walking across an open field at sunset" loading="lazy" decoding="async"></div>
+          <div class="media" style="background:#747e7c"><img src="assets/img/manny-karina-1600.webp" srcset="assets/img/manny-karina-800.webp 800w, assets/img/manny-karina-1600.webp 1600w" sizes="(min-width:900px) 40vw, 100vw" width="1600" height="1067" alt="Manny and Karina walking across an open field at sunset" loading="lazy" decoding="async" style="object-position:44% 42%"></div>
           <blockquote>
             <p class="t-quote">“I just wanted to express how grateful we are for what an incredible experience it was. Thank you for your professionalism, but also for being so personable.”</p>
             <figcaption class="t-cite">Manny + Karina</figcaption>
@@ -223,10 +251,10 @@
 <section class="section section--paper2 section--tight">
   <div class="container">
     <div class="stats">
-      <div class="stat reveal"><div class="stat__num">2</div><p class="stat__label">Artists at every wedding: Dan &amp; Lydia</p></div>
-      <div class="stat reveal" data-delay="1"><div class="stat__num">100<sup>/hr</sup></div><p class="stat__label">Images delivered per hour, on average</p></div>
-      <div class="stat reveal" data-delay="2"><div class="stat__num">14<sup>days</sup></div><p class="stat__label">Until your film teaser arrives</p></div>
-      <div class="stat reveal" data-delay="3"><div class="stat__num">18<sup>mo+</sup></div><p class="stat__label">Booked in advance: dates go fast</p></div>
+      <div class="stat reveal"><div class="stat__num"><span data-count="2">2</span></div><p class="stat__label">Artists at every wedding: Dan &amp; Lydia</p></div>
+      <div class="stat reveal" data-delay="1"><div class="stat__num"><span data-count="100">100</span><sup>/hr</sup></div><p class="stat__label">Images delivered per hour, on average</p></div>
+      <div class="stat reveal" data-delay="2"><div class="stat__num"><span data-count="14">14</span><sup>days</sup></div><p class="stat__label">Until your film teaser arrives</p></div>
+      <div class="stat reveal" data-delay="3"><div class="stat__num"><span data-count="18">18</span><sup>mo+</sup></div><p class="stat__label">Booked in advance: dates go fast</p></div>
     </div>
   </div>
 </section>
@@ -243,13 +271,13 @@
         <a class="handle" href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r=".9" fill="currentColor" stroke="none"/></svg>@danreynoldsfilms</a>
       </div>
     </div>
-    <div class="social-grid"><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#857666"><img src="assets/img/colin-amanda-6-1600.webp" srcset="assets/img/colin-amanda-6-800.webp 800w, assets/img/colin-amanda-6-1600.webp 1365w" sizes="(min-width:900px) 16vw, 33vw" width="1365" height="2048" alt="" loading="lazy" decoding="async"></div></a><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#6b5849"><img src="assets/img/lexi-lucas-9-1600.webp" srcset="assets/img/lexi-lucas-9-800.webp 800w, assets/img/lexi-lucas-9-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1066" alt="" loading="lazy" decoding="async"></div></a><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#aba69a"><img src="assets/img/quinn-charlotte-2-1600.webp" srcset="assets/img/quinn-charlotte-2-800.webp 800w, assets/img/quinn-charlotte-2-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1059" alt="" loading="lazy" decoding="async"></div></a><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#5c4c3e"><img src="assets/img/roseleina-cameron-3-1600.webp" srcset="assets/img/roseleina-cameron-3-800.webp 800w, assets/img/roseleina-cameron-3-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1066" alt="" loading="lazy" decoding="async"></div></a><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#796a4d"><img src="assets/img/ethan-gwyn-3-1600.webp" srcset="assets/img/ethan-gwyn-3-800.webp 800w, assets/img/ethan-gwyn-3-1600.webp 1365w" sizes="(min-width:900px) 16vw, 33vw" width="1365" height="2048" alt="" loading="lazy" decoding="async"></div></a><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#4f4e4b"><img src="assets/img/lexi-lucas-10-1600.webp" srcset="assets/img/lexi-lucas-10-800.webp 800w, assets/img/lexi-lucas-10-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1066" alt="" loading="lazy" decoding="async"></div></a></div>
+    <div class="social-grid"><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#857666"><img src="assets/img/colin-amanda-6-1600.webp" srcset="assets/img/colin-amanda-6-800.webp 800w, assets/img/colin-amanda-6-1600.webp 1365w" sizes="(min-width:900px) 16vw, 33vw" width="1365" height="2048" alt="" loading="lazy" decoding="async" style="object-position:55% 22%"></div></a><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#6b5849"><img src="assets/img/lexi-lucas-9-1600.webp" srcset="assets/img/lexi-lucas-9-800.webp 800w, assets/img/lexi-lucas-9-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1066" alt="" loading="lazy" decoding="async" style="object-position:48% 30%"></div></a><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#aba69a"><img src="assets/img/quinn-charlotte-2-1600.webp" srcset="assets/img/quinn-charlotte-2-800.webp 800w, assets/img/quinn-charlotte-2-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1059" alt="" loading="lazy" decoding="async" style="object-position:48% 32%"></div></a><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#5c4c3e"><img src="assets/img/roseleina-cameron-3-1600.webp" srcset="assets/img/roseleina-cameron-3-800.webp 800w, assets/img/roseleina-cameron-3-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1066" alt="" loading="lazy" decoding="async" style="object-position:44% 20%"></div></a><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#796a4d"><img src="assets/img/ethan-gwyn-3-1600.webp" srcset="assets/img/ethan-gwyn-3-800.webp 800w, assets/img/ethan-gwyn-3-1600.webp 1365w" sizes="(min-width:900px) 16vw, 33vw" width="1365" height="2048" alt="" loading="lazy" decoding="async" style="object-position:46% 20%"></div></a><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener" aria-label="View on Instagram"><div class="media" style="background:#4f4e4b"><img src="assets/img/lexi-lucas-10-1600.webp" srcset="assets/img/lexi-lucas-10-800.webp 800w, assets/img/lexi-lucas-10-1600.webp 1600w" sizes="(min-width:900px) 16vw, 33vw" width="1600" height="1066" alt="" loading="lazy" decoding="async"></div></a></div>
   </div>
 </section>
 
 
 <section class="cta-band">
-  <div class="bg" data-parallax><img src="assets/img/chicago-skyline-couple-1600.webp" srcset="assets/img/chicago-skyline-couple-800.webp 800w, assets/img/chicago-skyline-couple-1600.webp 1600w" sizes="100vw" width="1600" height="1066" alt="" loading="lazy" decoding="async"></div>
+  <div class="bg" data-parallax><img src="assets/img/chicago-skyline-couple-1600.webp" srcset="assets/img/chicago-skyline-couple-800.webp 800w, assets/img/chicago-skyline-couple-1600.webp 1600w" sizes="100vw" width="1600" height="1066" alt="" loading="lazy" decoding="async" style="object-position:62% 71%"></div>
   <div class="container">
     <p class="eyebrow eyebrow--plain reveal">Limited dates each year</p>
     <h2 data-lines>Let us capture<br>your <em>special day.</em></h2>
@@ -299,6 +327,10 @@
   <a class="btn btn--ghost" href="portfolio.html">See work</a>
   <a class="btn btn--light" href="contact.html">Check your date</a>
 </div>
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
+<script src="assets/js/motion.js" defer></script>
 </body>
 </html>

@@ -50,9 +50,37 @@
   }
 
   /* ---------- Split headline into lines ---------- */
+  // Each <br>-separated line becomes a row; every word is masked and rises in on reveal.
+  var wordIndex = 0;
+  function splitWords(node) {
+    Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+      if (child.nodeType === 3) {
+        var frag = document.createDocumentFragment();
+        child.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
+          var w = document.createElement("span");
+          w.className = "word";
+          var inner = document.createElement("span");
+          inner.textContent = part;
+          inner.style.setProperty("--i", wordIndex++);
+          w.appendChild(inner);
+          frag.appendChild(w);
+        });
+        child.parentNode.replaceChild(frag, child);
+      } else if (child.nodeType === 1 && !child.hasAttribute("data-nosplit")) {
+        splitWords(child);
+      } else if (child.nodeType === 1) {
+        child.classList.add("word-block");
+        child.style.setProperty("--i", wordIndex++);
+      }
+    });
+  }
   document.querySelectorAll("[data-lines]").forEach(function (el) {
+    wordIndex = 0;
     var parts = el.innerHTML.split(/<br\s*\/?>/i);
-    el.innerHTML = parts.map(function (p) { return '<span class="line"><span>' + p.trim() + "</span></span>"; }).join("");
+    el.innerHTML = parts.map(function (p) { return '<span class="line">' + p.trim() + "</span>"; }).join("");
+    el.querySelectorAll(".line").forEach(splitWords);
     el.classList.add("lines");
   });
 
@@ -69,9 +97,9 @@
     revealEls.forEach(function (el) { el.classList.add("is-in"); });
   }
 
-  /* ---------- Subtle parallax for CTA backgrounds ---------- */
+  /* ---------- Subtle parallax for CTA backgrounds (fallback when GSAP is absent) ---------- */
   var parallax = document.querySelectorAll("[data-parallax]");
-  if (parallax.length && !reduceMotion) {
+  if (parallax.length && !reduceMotion && !window.gsap) {
     var updateParallax = function () {
       parallax.forEach(function (el) {
         var r = el.parentElement.getBoundingClientRect();

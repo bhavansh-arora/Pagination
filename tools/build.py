@@ -41,6 +41,9 @@ def img(name, alt, sizes="100vw", lazy=True, cls="", pos=None, priority=False):
     m = META[name]
     w = 1600 if m["w"] >= 1600 else m["w"]
     h = round(m["h"] * w / m["w"])
+    # Crop around detected faces (tools/image-meta.json fx/fy) so people are never cut off.
+    if "fx" in m:
+        pos = f'{m["fx"]}% {m["fy"]}%'
     style = f' style="object-position:{pos}"' if pos else ""
     load = 'loading="lazy" decoding="async"' if lazy else 'decoding="async"'
     if priority:
@@ -144,6 +147,22 @@ def footer():
 </footer>"""
 
 
+CHROME = f"""
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
+    <p class="preloader__name"><span>Dan Reynolds</span></p>
+    <p class="preloader__tag"><span>Visual Storyteller</span></p>
+  </div>
+  <div class="preloader__foot"><span>Photo + Film</span><span class="preloader__count" data-count-loader>000</span></div>
+  <div class="preloader__bar"><span></span></div>
+</div>
+<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+<div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
+<div class="hover-preview" aria-hidden="true"><div class="hover-preview__inner"></div></div>"""
+
 STICKY = f"""
 <div class="sticky-cta" aria-label="Quick actions">
   <a class="btn btn--ghost" href="portfolio.html">See work</a>
@@ -162,7 +181,7 @@ def page(filename, title, description, body, active=None, overlay=False, og_imag
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="#141210">
+<meta name="theme-color" content="#080706">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dan Reynolds Photography">
 <meta property="og:title" content="{title}">
@@ -180,16 +199,22 @@ def page(filename, title, description, body, active=None, overlay=False, og_imag
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
+<script>try{{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){{d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){{d.classList.add("is-loading")}}}}catch(e){{}}</script>
 {extra_head}
 </head>
 <body>
+{CHROME}
 {header(active, overlay)}
 <main id="main">
 {body}
 </main>
 {footer()}
 {STICKY if sticky else ""}
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
+<script src="assets/js/motion.js" defer></script>
 </body>
 </html>
 """
@@ -211,7 +236,7 @@ def cta_band(eyebrow, title, image, primary=("Check your date", "contact.html"),
 
 def yt(vid, label, hd=True, sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"):
     thumb = "maxresdefault" if hd else "hqdefault"
-    return (f'<button class="yt" type="button" data-id="{vid}" aria-label="Play film: {label}">'
+    return (f'<button class="yt" type="button" data-cursor="Play" data-id="{vid}" aria-label="Play film: {label}">'
             f'<img src="https://i.ytimg.com/vi/{vid}/{thumb}.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">'
             f'<span class="yt__play">{PLAY}</span></button>')
 
@@ -337,11 +362,6 @@ FAQS = [
 # HOME
 # --------------------------------------------------------------------------- #
 def build_home():
-    stories = "".join(f"""
-      <a class="story reveal" data-delay="{i}" href="{url}" target="_blank" rel="noopener">
-        {media(im, alt, "", "(min-width:1024px) 25vw, (min-width:640px) 46vw, 78vw", "media--zoom", reveal=False)}
-        <div class="story__meta"><h3 class="story__name">{a} <em>+</em> {b}</h3><span class="story__place">Gallery ↗</span></div>
-      </a>""" for i, (a, b, im, url, alt) in enumerate(STORIES))
 
     slides = "".join(f"""
         <figure class="t-slide" aria-roledescription="slide" aria-label="{n + 1} of {len(TESTIMONIALS)}">
@@ -358,10 +378,16 @@ def build_home():
 
     body = f"""
 <section class="hero" aria-label="Introduction">
-  <div class="hero__media">{img("golden-hour-portrait", "A bride and groom holding hands on a stone path, lit by the setting sun", "100vw", lazy=False, priority=True, pos="50% 65%")}</div>
+  <div class="hero__media hero__slides" data-hero-slides>
+    <div class="hero__slide is-active">{img("golden-hour-portrait", "A bride and groom holding hands on a stone path, lit by the setting sun", "100vw", lazy=False, priority=True, pos="50% 65%")}</div>
+    <div class="hero__slide">{img("chicago-skyline-couple", "A couple on the Chicago lakefront with the skyline behind", "100vw", pos="50% 50%")}</div>
+    <div class="hero__slide">{img("ethan-gwyn-4", "A couple walking through autumn trees at sunset", "100vw", pos="50% 60%")}</div>
+    <div class="hero__slide">{img("garden-estate-portrait", "A couple embracing on an estate lawn at golden hour", "100vw", pos="50% 55%")}</div>
+  </div>
+  <div class="hero__index" aria-hidden="true"><span data-hero-current>01</span><span class="hero__index-bar"><span></span></span><span>04</span></div>
   <div class="container hero__content">
     <p class="eyebrow hero__eyebrow reveal">Wedding photography &amp; film</p>
-    <h1 class="hero__title" data-lines>Moments you'll<br>want to <em>feel</em><br>all over again.</h1>
+    <h1 class="hero__title" data-lines aria-label="Moments you'll want to see, hear and feel all over again.">Moments you'll<br>want to <span class="rotator" data-nosplit><span class="rotator__word">see</span><span class="rotator__word">hear</span><span class="rotator__word">feel</span></span><br>all over again.</h1>
     <div class="hero__foot">
       <p class="hero__sub reveal" data-delay="3">Documentary-style wedding photos and cinematic films by Dan &amp; Lydia Reynolds, for couples across Chicago, Central Illinois and Wisconsin.</p>
       <div class="btn-row reveal" data-delay="4">
@@ -373,11 +399,11 @@ def build_home():
   <span class="hero__meta" aria-hidden="true">Chicago · Peoria · Milwaukee · Madison</span>
 </section>
 
-<section class="section quote-band">
+<section class="section section--ivory quote-band">
   <div class="container">
     <div class="quote-mark reveal">{QUOTE}</div>
-    <blockquote class="reveal">
-      <p>We take photos as a <em>return ticket</em> to a moment otherwise gone.</p>
+    <blockquote>
+      <p data-scrub-words>We take photos as a <em>return ticket</em> to a moment otherwise gone.</p>
       <cite>— Katie Thurmes</cite>
     </blockquote>
   </div>
@@ -415,7 +441,7 @@ def build_home():
       <p class="prose reveal" style="max-width:42ch">A husband-and-wife team with one shared vision, so your photos and your film feel like they belong together.</p>
     </div>
     <div class="disciplines">
-      <a class="discipline reveal" href="portfolio.html">
+      <a class="discipline reveal" href="portfolio.html" data-cursor="Explore">
         {media("ceremony-dip", "A groom dipping his bride for a kiss as guests cheer", "", "(min-width:760px) 50vw, 100vw", "media--zoom", reveal=False)}
         <div class="discipline__body">
           <span class="discipline__num">01 — Photography</span>
@@ -424,7 +450,7 @@ def build_home():
           <span class="link-arrow">View portfolio {ARROW}</span>
         </div>
       </a>
-      <a class="discipline reveal" data-delay="2" href="films.html">
+      <a class="discipline reveal" data-delay="2" href="films.html" data-cursor="Watch">
         {media("dan-filming", "Dan operating a cinema camera on a tripod", "", "(min-width:760px) 50vw, 100vw", "media--zoom", reveal=False, pos="62% 50%")}
         <div class="discipline__body">
           <span class="discipline__num">02 — Film</span>
@@ -444,16 +470,26 @@ def build_home():
   </div>
 </div>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head section-head--split">
-      <div class="stack" style="--stack:20px">
+<section class="hscroll" data-hscroll aria-label="Recent love stories">
+  <div class="hscroll__sticky">
+    <div class="hscroll__track">
+      <div class="hscroll__intro">
         <p class="eyebrow reveal">Recent love stories</p>
         <h2 data-lines>Real couples,<br><em>real moments.</em></h2>
+        <p class="prose reveal">Scroll through a few recent weddings, then open the full galleries.</p>
+        <a class="link-arrow reveal" href="portfolio.html">Full portfolio {ARROW}</a>
       </div>
-      <a class="link-arrow reveal" href="portfolio.html">Full portfolio {ARROW}</a>
+      {"".join(f'''
+      <a class="hcard" href="{url}" target="_blank" rel="noopener" data-cursor="View">
+        <div class="hcard__media">{media(im, alt, "", "(min-width:1024px) 34vw, 78vw", "", reveal=False)}</div>
+        <div class="hcard__meta"><span class="hcard__num">0{i + 1}</span><h3 class="hcard__name">{a} <em>&amp;</em> {b}</h3><span class="story__place">Gallery ↗</span></div>
+      </a>''' for i, (a, b, im, url, alt) in enumerate(STORIES))}
+      <a class="hscroll__end" href="portfolio.html" data-cursor="Open">
+        <span class="hscroll__end-circle">{ARROW}</span>
+        <span class="hscroll__end-text">See every<br><em>love story</em></span>
+      </a>
     </div>
-    <div class="stories">{stories}</div>
+    <div class="hscroll__progress" aria-hidden="true"><span></span></div>
   </div>
 </section>
 
@@ -469,10 +505,10 @@ def build_home():
   </div>
 </section>
 
-<section class="section testimonials" data-slider aria-roledescription="carousel" aria-label="Kind words from couples">
+<section class="section section--ivory testimonials" data-slider aria-roledescription="carousel" aria-label="Kind words from couples">
   <div class="container">
     <p class="eyebrow reveal" style="margin-bottom:clamp(32px,4vw,56px)">Kind words</p>
-    <div class="t-track" tabindex="0">{slides}</div>
+    <div class="t-track" tabindex="0" data-cursor="Drag">{slides}</div>
     <div class="t-controls">
       <div class="t-dots">{dots}</div>
       <div class="t-arrows">
@@ -486,10 +522,10 @@ def build_home():
 <section class="section section--paper2 section--tight">
   <div class="container">
     <div class="stats">
-      <div class="stat reveal"><div class="stat__num">2</div><p class="stat__label">Artists at every wedding: Dan &amp; Lydia</p></div>
-      <div class="stat reveal" data-delay="1"><div class="stat__num">100<sup>/hr</sup></div><p class="stat__label">Images delivered per hour, on average</p></div>
-      <div class="stat reveal" data-delay="2"><div class="stat__num">14<sup>days</sup></div><p class="stat__label">Until your film teaser arrives</p></div>
-      <div class="stat reveal" data-delay="3"><div class="stat__num">18<sup>mo+</sup></div><p class="stat__label">Booked in advance: dates go fast</p></div>
+      <div class="stat reveal"><div class="stat__num"><span data-count="2">2</span></div><p class="stat__label">Artists at every wedding: Dan &amp; Lydia</p></div>
+      <div class="stat reveal" data-delay="1"><div class="stat__num"><span data-count="100">100</span><sup>/hr</sup></div><p class="stat__label">Images delivered per hour, on average</p></div>
+      <div class="stat reveal" data-delay="2"><div class="stat__num"><span data-count="14">14</span><sup>days</sup></div><p class="stat__label">Until your film teaser arrives</p></div>
+      <div class="stat reveal" data-delay="3"><div class="stat__num"><span data-count="18">18</span><sup>mo+</sup></div><p class="stat__label">Booked in advance: dates go fast</p></div>
     </div>
   </div>
 </section>
@@ -619,7 +655,7 @@ def build_about():
   </div>
 </section>
 
-<section class="section section--paper2 section--tight">
+<section class="section section--ivory section--tight">
   <div class="container split">
     <div class="stack" style="--stack:20px">
       <p class="eyebrow reveal">Off the clock</p>
@@ -673,7 +709,7 @@ def build_portfolio():
         f'<button class="chip" type="button" data-filter="{k}" aria-pressed="{"true" if k == "all" else "false"}">{t}<span>{len(PORTFOLIO) if k == "all" else counts.get(k, 0)}</span></button>'
         for k, t in FILTERS)
     items = "".join(f"""
-      <a class="masonry__item" href="assets/img/{im}-1600.webp" data-full="assets/img/{im}-1600.webp" data-story="{k}" data-caption="{cap}">
+      <a class="masonry__item" data-cursor="View" href="assets/img/{im}-1600.webp" data-full="assets/img/{im}-1600.webp" data-story="{k}" data-caption="{cap}">
         {media(im, alt, "", "(min-width:760px) 33vw, 50vw", reveal=False)}
         <span class="masonry__tag">{cap}</span>
       </a>""" for im, k, cap, alt in PORTFOLIO)
@@ -706,11 +742,13 @@ def build_portfolio():
       </div>
       <p class="prose reveal" style="max-width:40ch">Every couple receives a private online gallery to view, download and share with family and friends.</p>
     </div>
-    <div class="stories">{"".join(f'''
-      <a class="story reveal" data-delay="{i}" href="{url}" target="_blank" rel="noopener">
-        {media(im, alt, "", "(min-width:1024px) 25vw, (min-width:640px) 46vw, 78vw", "media--zoom", reveal=False)}
-        <div class="story__meta"><h3 class="story__name">{a} <em>+</em> {b}</h3><span class="story__place">Gallery ↗</span></div>
-      </a>''' for i, (a, b, im, url, alt) in enumerate(STORIES))}</div>
+    <ol class="index-list" role="list">{"".join(f'''
+      <li class="reveal"><a class="index-row" href="{url}" target="_blank" rel="noopener" data-preview="assets/img/{im}-800.webp">
+        <span class="index-row__num">0{i + 1}</span>
+        <span class="index-row__thumb">{img(im, "", "120px")}</span>
+        <span class="index-row__name">{a} <em>&amp;</em> {b}</span>
+        <span class="index-row__cta">Open gallery {ARROW}</span>
+      </a></li>''' for i, (a, b, im, url, alt) in enumerate(STORIES))}</ol>
   </div>
 </section>
 
@@ -785,9 +823,9 @@ def build_films():
       </div>
     </div>
     <div class="stats" style="border-color:var(--line-night)">
-      <div class="stat reveal" style="border-color:var(--line-night)"><div class="stat__num">3–7<sup>min</sup></div><p class="stat__label">Highlight film</p></div>
-      <div class="stat reveal" data-delay="1" style="border-color:var(--line-night)"><div class="stat__num">30–60<sup>sec</sup></div><p class="stat__label">Social-ready teaser</p></div>
-      <div class="stat reveal" data-delay="2" style="border-color:var(--line-night)"><div class="stat__num">14<sup>days</sup></div><p class="stat__label">Teaser turnaround</p></div>
+      <div class="stat reveal" style="border-color:var(--line-night)"><div class="stat__num">3–<span data-count="7">7</span><sup>min</sup></div><p class="stat__label">Highlight film</p></div>
+      <div class="stat reveal" data-delay="1" style="border-color:var(--line-night)"><div class="stat__num">30–<span data-count="60">60</span><sup>sec</sup></div><p class="stat__label">Social-ready teaser</p></div>
+      <div class="stat reveal" data-delay="2" style="border-color:var(--line-night)"><div class="stat__num"><span data-count="14">14</span><sup>days</sup></div><p class="stat__label">Teaser turnaround</p></div>
       <div class="stat reveal" data-delay="3" style="border-color:var(--line-night)"><div class="stat__num">4K</div><p class="stat__label">Drone &amp; cinema capture</p></div>
     </div>
   </div>
@@ -912,7 +950,7 @@ def build_investment():
   </div>
 </section>
 
-<section class="section">
+<section class="section section--ivory">
   <div class="container">
     <div class="section-head">
       <p class="eyebrow reveal">How it works</p>
@@ -1090,7 +1128,7 @@ def build_meta_files():
     (ROOT / "site.webmanifest").write_text(json.dumps({
         "name": "Dan Reynolds Photography", "short_name": "Dan Reynolds",
         "icons": [{"src": "assets/brand/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"}],
-        "theme_color": "#141210", "background_color": "#f5f0e8", "display": "standalone", "start_url": "./",
+        "theme_color": "#080706", "background_color": "#0e0c0a", "display": "standalone", "start_url": "./",
     }, indent=2) + "\n")
 
 

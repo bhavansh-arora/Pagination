@@ -24,6 +24,24 @@ The copy, packages, FAQs, testimonials, photos and films all come from danreynol
 - No frameworks or build step at runtime: one CSS file and one dependency-free JS file. Animations respect `prefers-reduced-motion`.
 - SEO: unique titles and descriptions, canonical URLs, Open Graph/Twitter cards (1200×630 JPGs), `ProfessionalService` + `FAQPage` JSON-LD, `sitemap.xml`, `robots.txt`.
 
+## Look & motion
+
+- **Palette:** espresso black (`#0e0c0a`), ivory type (`#efe7da`) and champagne gold (`#c6a46a`), with gold-foil numerals, gold hairlines and ivory sections for rhythm. All colours are CSS tokens at the top of `assets/css/styles.css`.
+- **Motion** (`assets/js/motion.js`, using GSAP, ScrollTrigger and Lenis, stored locally in `assets/vendor/`):
+  - Cinematic preloader with a drawn monogram and a percentage count
+  - Curtain transitions between pages
+  - Lenis smooth scrolling
+  - Hero slideshow with wipe transitions and a rotating word ("see / hear / feel")
+  - Word-by-word masked headline reveals
+  - A quote that lights up word by word as you scroll
+  - Parallax inside image frames
+  - Pinned horizontal "love stories" gallery on desktop
+  - Scroll-velocity marquee and count-up stats
+  - Custom cursor with "View / Play / Drag" labels, magnetic buttons and hover image previews
+  - Animated film grain, a scroll progress bar, and a footer revealed from beneath the page
+- **Faces always in frame:** each photo has a face-detected focal point (`fx`/`fy` in `tools/image-meta.json`). Every crop and parallax effect centres on it, so no heads are cut off at any screen size.
+- **Accessibility:** everything turns off under `prefers-reduced-motion`. The custom cursor only appears on mouse and trackpad devices.
+
 ## Before going live
 
 1. **Inquiry form:** create a free form at [formspree.io](https://formspree.io) and replace `YOUR_FORM_ID` in `tools/build.py` (contact page), then rebuild. Until then the form runs in demo mode: it validates and shows the thank-you state, but nothing is sent.
