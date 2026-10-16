@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MDJ Mortgages Basingstoke</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Award-winning mortgage and protection advice in Basingstoke. First-time buyers, self-employed, remortgages and later-life lending. Free first consultation. 5.0 on Google from 186 reviews.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: dark "award night" opening that hands over to bright stone-paper reading sections; brass is the only accent, used like a foil stamp. */
+:root{
+  --ink:#141210;        /* near-black, warm */
+  --ink-2:#1e1b17;
+  --ink-line:#36302a;
+  --brass:#c9a253;
+  --brass-hi:#f1dca0;
+  --brass-lo:#8a6a2c;
+  --paper:#f5f3ee;
+  --paper-2:#ebe7de;
+  --slate:#5d5850;      /* body text on paper */
+  --text:#1b1916;
+  --on-ink:#efe9dd;
+  --on-ink-dim:#a9a091;
+  --go:#2f7a55;
+  --foil:linear-gradient(115deg,var(--brass-lo) 0%,var(--brass) 28%,var(--brass-hi) 50%,var(--brass) 72%,var(--brass-lo) 100%);
+
+  --f-display:"Gloock","Iowan Old Style","Georgia",serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+
+  --s-1:.875rem; --s0:1rem; --s1:1.125rem; --s2:1.375rem; --s3:1.75rem; --s4:2.375rem; --s5:clamp(2.5rem,5.4vw,4.25rem);
+  --r:14px;
+  --wrap:1180px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--paper);color:var(--text);font:400 var(--s0)/1.6 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+img,svg{max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.005em}
+p{margin:0}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:720px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+.eyebrow{font:600 .75rem/1.2 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--brass-lo)}
+.dark .eyebrow{color:var(--brass)}
+.foil{background:var(--foil);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.lede{font-size:var(--s1);color:var(--slate);max-width:60ch}
+.dark{background:var(--ink);color:var(--on-ink)}
+.dark .lede{color:var(--on-ink-dim)}
+section{padding-block:clamp(64px,9vw,112px)}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(32px,5vw,56px);max-width:760px}
+.sec-head h2{font-size:clamp(2rem,4vw,3rem)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font:600 1rem/1 var(--f-body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--foil);background-size:200% 100%;color:var(--ink);box-shadow:0 8px 24px -10px rgba(201,162,83,.7)}
+.btn-gold:hover{background-position:100% 0}
+.btn-ghost{border-color:var(--ink-line);color:var(--on-ink);background:transparent}
+.btn-ghost:hover{border-color:var(--brass)}
+.btn-ink{background:var(--ink);color:var(--on-ink)}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* Top bar + nav */
+.topbar{background:#0c0b0a;color:var(--on-ink-dim);font-size:.8125rem}
+.topbar .wrap{display:flex;gap:8px 24px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:8px}
+.topbar a{text-decoration:none;color:var(--on-ink)}
+.topbar .tb-right{display:flex;gap:20px;flex-wrap:wrap}
+@media (max-width:640px){.topbar .tb-left{display:none}}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(20,18,16,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--ink-line);color:var(--on-ink)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-mark{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--foil);color:var(--ink);font:400 1.05rem/1 var(--f-display);letter-spacing:.02em}
+.brand-name{font:400 1.25rem/1 var(--f-display)}
+.brand-sub{display:block;font:500 .6875rem/1.4 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--on-ink-dim);margin-top:3px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{text-decoration:none;font-weight:500;font-size:.9375rem;color:var(--on-ink-dim);transition:color .2s}
+.nav-links a:hover{color:var(--on-ink)}
+.nav .btn{min-height:44px;padding:0 20px;font-size:.9375rem}
+.menu-btn{display:none;background:none;border:1px solid var(--ink-line);color:var(--on-ink);border-radius:10px;width:44px;height:44px;cursor:pointer}
+@media (max-width:960px){
+  .nav-links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;background:var(--ink);border-bottom:1px solid var(--ink-line);padding:8px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px))}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px 0;border-bottom:1px solid var(--ink-line);font-size:1.0625rem}
+  .menu-btn{display:grid;place-items:center}
+  .nav .btn.hide-sm{display:none}
+}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding-block:clamp(48px,7vw,96px) clamp(56px,8vw,104px)}
+.hero::before{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,rgba(201,162,83,.07) 0 1px,transparent 1px 22px);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 80%);mask-image:linear-gradient(180deg,#000 0%,transparent 80%);pointer-events:none}
+.hero::after{content:"";position:absolute;left:50%;bottom:-260px;width:1100px;max-width:160%;height:520px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(201,162,83,.28),transparent);pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,72px);align-items:center}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr}}
+.award-chip{display:inline-flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border:1px solid rgba(201,162,83,.45);border-radius:999px;background:rgba(201,162,83,.08);font-size:.8125rem;font-weight:600;letter-spacing:.02em}
+.award-chip .laurel{width:30px;height:30px;border-radius:50%;background:var(--foil);display:grid;place-items:center;color:var(--ink)}
+.award-chip .laurel svg{width:18px;height:18px}
+.hero h1{font-size:var(--s5);margin-top:24px}
+.hero h1 em{font-style:italic}
+.hero .lede{margin-top:22px;font-size:clamp(1.0625rem,1.4vw,1.25rem)}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.hero-proof{display:flex;gap:28px;flex-wrap:wrap;margin-top:40px;padding-top:28px;border-top:1px solid var(--ink-line)}
+.proof{display:grid;gap:4px}
+.proof b{font:400 1.75rem/1 var(--f-display);color:var(--on-ink)}
+.proof span{font-size:.8125rem;color:var(--on-ink-dim)}
+.stars{color:var(--brass);letter-spacing:2px;font-size:.875rem}
+
+/* Calculator card */
+.calc{background:linear-gradient(180deg,#221e19,#191613);border:1px solid var(--ink-line);border-radius:22px;padding:clamp(22px,3vw,32px);box-shadow:0 40px 80px -40px rgba(0,0,0,.8),inset 0 1px 0 rgba(241,220,160,.08);position:relative}
+.calc::before{content:"";position:absolute;inset:-1px;border-radius:22px;padding:1px;background:linear-gradient(160deg,rgba(241,220,160,.5),transparent 40%,transparent 70%,rgba(201,162,83,.35));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.calc h2{font-size:1.625rem}
+.calc .sub{font-size:.875rem;color:var(--on-ink-dim);margin-top:6px}
+.field{display:grid;gap:8px;margin-top:20px}
+.field-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:.875rem;color:var(--on-ink-dim)}
+.field-top output{color:var(--on-ink);font-family:var(--f-mono);font-size:1rem}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--brass) var(--p,40%),#3a342c var(--p,40%));outline-offset:6px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--brass-hi);border:3px solid var(--ink);box-shadow:0 0 0 1px var(--brass);cursor:grab}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--brass-hi);border:3px solid var(--ink);box-shadow:0 0 0 1px var(--brass);cursor:grab}
+.toggle{display:grid;grid-template-columns:1fr 1fr;background:#120f0d;border:1px solid var(--ink-line);border-radius:999px;padding:4px;margin-top:20px}
+.toggle button{border:0;background:none;color:var(--on-ink-dim);font:600 .875rem/1 var(--f-body);padding:11px 8px;border-radius:999px;cursor:pointer}
+.toggle button[aria-pressed=true]{background:var(--ink-2);color:var(--on-ink);box-shadow:inset 0 0 0 1px var(--ink-line)}
+.calc-result{margin-top:24px;padding:20px;border-radius:14px;background:#100e0c;border:1px dashed rgba(201,162,83,.35)}
+.calc-result .label{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-ink-dim)}
+.calc-result .big{font:400 clamp(2rem,4vw,2.5rem)/1.1 var(--f-display);margin-top:6px}
+.calc-result .meta{display:flex;gap:8px 20px;flex-wrap:wrap;margin-top:10px;font-size:.8125rem;color:var(--on-ink-dim)}
+.calc-result .meta b{color:var(--on-ink);font-weight:500;font-family:var(--f-mono)}
+.calc .btn{width:100%;margin-top:18px}
+.fine{font-size:.75rem;color:var(--on-ink-dim);margin-top:12px;line-height:1.5}
+
+/* Trust strip */
+.trust{background:var(--ink-2);border-block:1px solid var(--ink-line);color:var(--on-ink);padding-block:22px}
+.trust .wrap{display:flex;gap:16px 40px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:12px;font-size:.875rem;color:var(--on-ink-dim)}
+.trust-item strong{color:var(--on-ink);font-weight:600;display:block}
+.trust-item svg{width:28px;height:28px;color:var(--brass);flex:none}
+
+/* Journeys */
+.paths{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:960px){.paths{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.paths{grid-template-columns:1fr}}
+.path{background:#fff;border:1px solid var(--paper-2);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:12px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;text-decoration:none}
+.path:hover{transform:translateY(-3px);box-shadow:0 24px 48px -28px rgba(20,18,16,.35);border-color:var(--brass)}
+.path .tag{font:500 .75rem/1 var(--f-mono);color:var(--brass-lo)}
+.path h3{font-size:1.5rem}
+.path p{color:var(--slate);font-size:.9375rem}
+.path ul{margin:4px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:.875rem;color:var(--text)}
+.path li{display:flex;gap:10px}
+.path li::before{content:"";width:14px;height:14px;flex:none;margin-top:4px;border-radius:50%;background:radial-gradient(circle,var(--brass) 0 3px,transparent 4px),rgba(201,162,83,.18)}
+.path .go{margin-top:auto;padding-top:8px;font-weight:600;font-size:.9375rem;display:inline-flex;align-items:center;gap:8px;color:var(--text)}
+.path .go svg{width:16px;height:16px;transition:transform .2s}
+.path:hover .go svg{transform:translateX(4px)}
+.path.feature{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+.path.feature p{color:var(--on-ink-dim)}
+.path.feature ul,.path.feature .go{color:var(--on-ink)}
+.path.feature .tag{color:var(--brass)}
+
+/* Fixed-rate countdown */
+.countdown{background:var(--paper-2)}
+.cd-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+@media (max-width:860px){.cd-grid{grid-template-columns:1fr}}
+.cd-card{background:#fff;border-radius:20px;padding:clamp(22px,3vw,34px);box-shadow:0 30px 60px -40px rgba(20,18,16,.45)}
+.cd-inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cd-card label{font-size:.8125rem;font-weight:600;color:var(--slate);display:grid;gap:6px}
+select,input[type=text],input[type=email],input[type=tel]{width:100%;min-height:50px;border-radius:10px;border:1px solid #d6d0c3;background:#fff;color:var(--text);font:500 1rem var(--f-body);padding:0 14px}
+select:focus,input:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass)}
+.timeline{margin-top:26px;position:relative;height:56px}
+.timeline .bar{position:absolute;left:0;right:0;top:22px;height:10px;border-radius:10px;background:linear-gradient(90deg,#e4ddcf 0%,#e4ddcf 100%)}
+.timeline .window{position:absolute;top:22px;height:10px;border-radius:10px;background:var(--foil)}
+.timeline .now{position:absolute;top:10px;width:2px;height:34px;background:var(--ink);transition:left .4s ease}
+.timeline .now::after{content:"Today";position:absolute;top:-14px;left:50%;transform:translateX(-50%);font:600 .6875rem/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.timeline .tick{position:absolute;top:40px;font:500 .6875rem/1 var(--f-mono);color:var(--slate);transform:translateX(-50%);white-space:nowrap}
+.cd-out{margin-top:30px;display:flex;gap:16px;align-items:flex-start}
+.cd-num{font:400 3.5rem/0.9 var(--f-display);min-width:2ch}
+.cd-out .status{display:inline-flex;align-items:center;gap:6px;font:600 .75rem/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:rgba(47,122,85,.12);color:var(--go)}
+.cd-out .status.warn{background:rgba(201,162,83,.18);color:var(--brass-lo)}
+.cd-out .status.late{background:rgba(160,52,40,.12);color:#9c3426}
+.cd-out p{color:var(--slate);font-size:.9375rem;margin-top:8px}
+.cd-card .btn{margin-top:22px;width:100%}
+.cd-copy ul{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:18px}
+.cd-copy li{display:grid;grid-template-columns:auto 1fr;gap:14px}
+.cd-copy li b{font:400 1.25rem/1 var(--f-display);color:var(--brass-lo);padding-top:2px}
+.cd-copy li span{color:var(--slate)}
+.cd-copy li strong{color:var(--text);display:block}
+
+/* Process */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;counter-reset:s;border-top:1px solid var(--paper-2)}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.steps{grid-template-columns:1fr}}
+.step{padding:28px 24px 8px 0;display:grid;gap:10px;align-content:start;position:relative}
+.step .n{font:500 .8125rem/1 var(--f-mono);color:var(--brass-lo)}
+.step h3{font-size:1.375rem}
+.step p{color:var(--slate);font-size:.9375rem}
+.step::before{content:"";position:absolute;top:-1px;left:0;width:40px;height:2px;background:var(--brass)}
+
+/* Award band */
+.award{position:relative;overflow:hidden}
+.award::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(201,162,83,.09) 0 1px,transparent 1px 16px);-webkit-mask-image:radial-gradient(ellipse at center,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at center,#000 10%,transparent 70%)}
+.award .wrap{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(28px,6vw,80px);align-items:center}
+@media (max-width:820px){.award .wrap{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.medal{width:min(260px,70vw);aspect-ratio:1;max-width:100%}
+.award h2{font-size:clamp(1.75rem,3.6vw,2.75rem)}
+.award .place{font:400 clamp(1.25rem,2.4vw,1.75rem)/1.2 var(--f-display);margin-top:12px}
+.ratings{display:grid;grid-template-columns:repeat(4,auto);gap:18px 28px;margin-top:28px;justify-content:start}
+@media (max-width:820px){.ratings{justify-content:center}}
+@media (max-width:520px){.ratings{grid-template-columns:repeat(2,auto)}}
+.rating{display:grid;gap:6px;justify-items:start}
+@media (max-width:820px){.rating{justify-items:center}}
+.rating .stars{font-size:1rem}
+.rating span{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-ink-dim)}
+.over95{display:inline-block;margin-top:26px;padding:10px 18px;border:1px solid var(--brass);font:600 .875rem/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase}
+.award-years{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+@media (max-width:820px){.award-years{justify-content:center}}
+.award-years span{font:500 .8125rem/1 var(--f-mono);padding:8px 12px;border-radius:999px;border:1px solid var(--ink-line);color:var(--on-ink-dim)}
+
+/* Team */
+.team-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,6vw,80px);align-items:center}
+@media (max-width:860px){.team-grid{grid-template-columns:1fr}}
+.portrait{aspect-ratio:4/5;max-width:100%;border-radius:20px;background:
+  radial-gradient(circle at 50% 38%,#3a332b 0 22%,transparent 22.5%),
+  radial-gradient(ellipse at 50% 100%,#3a332b 0 42%,transparent 42.5%),
+  linear-gradient(160deg,#2a2520,#141210);position:relative;overflow:hidden}
+.portrait .ph{position:absolute;left:16px;bottom:16px;right:16px;display:flex;justify-content:space-between;gap:12px;align-items:flex-end;color:var(--on-ink)}
+.portrait .ph b{font:400 1.5rem/1.1 var(--f-display);display:block}
+.portrait .ph small{color:var(--on-ink-dim);font-size:.8125rem}
+.portrait .note{position:absolute;top:16px;left:16px;font:500 .6875rem/1.3 var(--f-mono);color:var(--on-ink-dim);background:rgba(0,0,0,.35);padding:6px 10px;border-radius:8px}
+.quote{font:400 clamp(1.5rem,2.8vw,2.125rem)/1.25 var(--f-display);margin-top:18px}
+.team-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:32px}
+@media (max-width:520px){.team-points{grid-template-columns:1fr}}
+.team-points div{border-top:1px solid #d9d2c4;padding-top:14px}
+.team-points b{display:block;font-weight:600}
+.team-points span{color:var(--slate);font-size:.9375rem}
+
+/* Reviews */
+.reviews{background:var(--paper-2);overflow:hidden}
+.g-score{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.g-score .score{font:400 4rem/1 var(--f-display)}
+.g-score .stars{font-size:1.25rem;letter-spacing:3px}
+.g-score small{display:block;color:var(--slate);font-size:.875rem}
+.marquee{margin-top:40px;display:grid;gap:16px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.track{display:flex;gap:16px;width:max-content;animation:slide 60s linear infinite}
+.track.rev{animation-direction:reverse;animation-duration:70s}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.review{width:min(360px,80vw);background:#fff;border-radius:var(--r);padding:22px;display:grid;gap:12px;align-content:start}
+.review p{font-size:1.0625rem;line-height:1.5}
+.review footer{display:flex;align-items:center;gap:10px;font-size:.875rem;color:var(--slate)}
+.review .av{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--brass-hi);display:grid;place-items:center;font:600 .8125rem/1 var(--f-body)}
+.review .g{margin-left:auto;font:500 .6875rem/1 var(--f-mono);color:var(--slate)}
+
+/* Fees */
+.fees-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid #ddd6c8;border-radius:20px;overflow:hidden;background:#fff}
+@media (max-width:820px){.fees-grid{grid-template-columns:1fr}}
+.fee{padding:30px;display:grid;gap:8px;align-content:start}
+.fee + .fee{border-left:1px solid #ddd6c8}
+@media (max-width:820px){.fee + .fee{border-left:0;border-top:1px solid #ddd6c8}}
+.fee .amt{font:400 3rem/1 var(--f-display)}
+.fee .amt small{font:500 .875rem var(--f-body);color:var(--slate);margin-left:6px}
+.fee b{font-weight:600}
+.fee p{color:var(--slate);font-size:.9375rem}
+.fee.hl{background:var(--ink);color:var(--on-ink)}
+.fee.hl p{color:var(--on-ink-dim)}
+
+/* Areas */
+.areas{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.areas span{padding:10px 16px;border-radius:999px;border:1px solid #d6cfc0;font-size:.9375rem;background:#fff}
+.areas span.home{background:var(--ink);color:var(--brass-hi);border-color:var(--ink)}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,6vw,80px)}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr}}
+details{border-bottom:1px solid #d9d2c4}
+details:first-of-type{border-top:1px solid #d9d2c4}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 0;font:600 1.0625rem/1.4 var(--f-body)}
+summary::-webkit-details-marker{display:none}
+summary .pm{width:28px;height:28px;flex:none;border-radius:50%;border:1px solid #cfc6b4;position:relative;transition:transform .25s,background .25s}
+summary .pm::before,summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:var(--text);transform:translate(-50%,-50%)}
+summary .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .25s}
+details[open] summary .pm{background:var(--brass);border-color:var(--brass)}
+details[open] summary .pm::after{transform:translate(-50%,-50%) rotate(0)}
+details .ans{padding:0 48px 24px 0;color:var(--slate);max-width:62ch}
+
+/* Enquiry */
+.enquire .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,80px);align-items:start}
+@media (max-width:900px){.enquire .wrap{grid-template-columns:1fr}}
+.contact-list{display:grid;gap:4px;margin-top:32px}
+.contact-row{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--ink-line);text-decoration:none}
+.contact-row .ic{width:44px;height:44px;border-radius:12px;border:1px solid var(--ink-line);display:grid;place-items:center;color:var(--brass)}
+.contact-row .ic svg{width:20px;height:20px}
+.contact-row small{display:block;color:var(--on-ink-dim);font-size:.8125rem}
+.contact-row b{font-weight:500}
+form.wizard{background:var(--paper);color:var(--text);border-radius:22px;padding:clamp(22px,3.5vw,36px);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.progress{display:flex;gap:6px;margin-bottom:22px}
+.progress i{flex:1;height:4px;border-radius:4px;background:#ddd5c5;transition:background .3s}
+.progress i.on{background:var(--brass)}
+.wizard h3{font-size:1.625rem}
+.wizard .hint{color:var(--slate);font-size:.9375rem;margin-top:6px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+@media (max-width:420px){.choices{grid-template-columns:1fr}}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.choice span{display:flex;align-items:center;gap:10px;min-height:56px;padding:12px 14px;border:1px solid #d6cfc0;border-radius:12px;background:#fff;font-weight:600;font-size:.9375rem;transition:border-color .2s,background .2s}
+.choice input:checked + span{border-color:var(--brass);background:#fbf5e6;box-shadow:inset 0 0 0 1px var(--brass)}
+.choice input:focus-visible + span{outline:2px solid var(--brass);outline-offset:2px}
+.form-grid{display:grid;gap:14px;margin-top:20px}
+.form-grid label{display:grid;gap:6px;font-size:.8125rem;font-weight:600;color:var(--slate)}
+.form-nav{display:flex;gap:12px;justify-content:space-between;margin-top:24px}
+.form-nav .btn{min-height:48px}
+.btn-back{background:none;border:1px solid #d6cfc0;color:var(--text)}
+.consent{display:flex;gap:10px;font-size:.8125rem;color:var(--slate);align-items:flex-start;margin-top:4px}
+.consent input{margin-top:3px;accent-color:var(--brass-lo)}
+.err{color:#9c3426;font-size:.8125rem;min-height:1.2em;margin-top:10px}
+.done{text-align:center;padding-block:20px}
+.done .tick{width:64px;height:64px;border-radius:50%;background:var(--foil);display:grid;place-items:center;margin:0 auto 18px;color:var(--ink)}
+.done .tick svg{width:28px;height:28px}
+
+/* Referral */
+.refer{padding-block:0}
+.refer-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px 36px;align-items:center;padding:clamp(24px,4vw,40px);border-radius:22px;background:var(--foil);color:var(--ink);transform:translateY(50%);position:relative;z-index:2;box-shadow:0 30px 60px -30px rgba(20,18,16,.5)}
+@media (max-width:820px){.refer-card{grid-template-columns:1fr;text-align:left}}
+.refer-card .amt{font:400 clamp(3rem,6vw,4.5rem)/1 var(--f-display)}
+.refer-card h3{font-size:clamp(1.375rem,2.4vw,1.875rem)}
+.refer-card p{margin-top:6px;opacity:.82}
+
+/* Footer */
+footer.site{background:#0c0b0a;color:var(--on-ink-dim);padding-top:clamp(120px,14vw,160px);padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+@media (min-width:761px){footer.site{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:32px}
+@media (max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+.foot-grid h4{font:600 .75rem/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--on-ink);margin:0 0 14px}
+.foot-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.9375rem}
+.foot-grid a{text-decoration:none}
+.foot-grid a:hover{color:var(--on-ink)}
+.warning{margin-top:48px;padding:18px 20px;border:1px solid var(--brass-lo);border-radius:12px;color:var(--on-ink);font-weight:600;font-size:.9375rem}
+.legal{margin-top:24px;font-size:.8125rem;line-height:1.65;display:grid;gap:10px;max-width:110ch}
+.legal-bottom{margin-top:32px;padding-top:20px;border-top:1px solid var(--ink-line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.8125rem}
+
+/* Mobile action bar */
+.actionbar{display:none}
+@media (max-width:760px){
+  .actionbar{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:55;background:rgba(12,11,10,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--ink-line);padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+  .actionbar a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:12px;text-decoration:none;font-weight:600;font-size:.9375rem;color:var(--on-ink);border:1px solid var(--ink-line)}
+  .actionbar a.primary{background:var(--foil);color:var(--ink);border:0}
+  .actionbar svg{width:18px;height:18px}
+}
+
+/* Reveal: content is visible at rest; JS adds a gentle rise only when supported */
+.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.in{opacity:1;transform:none}
+.hero-in > *{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.hero-in > *:nth-child(2){animation-delay:.08s}.hero-in > *:nth-child(3){animation-delay:.16s}.hero-in > *:nth-child(4){animation-delay:.24s}.hero-in > *:nth-child(5){animation-delay:.32s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></g></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.1-7.5 9.5-4.3-1.4-7.5-4.9-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke-linecap="round"/></g></symbol>
+    <symbol id="i-laurel" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 20c-4.5-1-7.5-5-7.5-10 0-1.2.2-2.4.5-3.5l1 .3C5.7 7.8 5.5 8.9 5.5 10c0 4.4 2.7 8 6.7 9z"/><path d="M12 20c4.5-1 7.5-5 7.5-10 0-1.2-.2-2.4-.5-3.5l-1 .3c.3 1 .5 2.1.5 3.2 0 4.4-2.7 8-6.7 9z"/><ellipse cx="6.2" cy="13.5" rx="1.1" ry="2" transform="rotate(-40 6.2 13.5)"/><ellipse cx="5" cy="9.5" rx="1" ry="1.9" transform="rotate(-15 5 9.5)"/><ellipse cx="17.8" cy="13.5" rx="1.1" ry="2" transform="rotate(40 17.8 13.5)"/><ellipse cx="19" cy="9.5" rx="1" ry="1.9" transform="rotate(15 19 9.5)"/><path d="M12 6.2l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2L8.8 8.5l2.2-.3z"/></g></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  </defs>
+</svg>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="tb-left">Mon–Fri 9:00–18:00 · Free first consultation, face-to-face, video or phone</span>
+    <span class="tb-right">
+      <a href="tel:+441256518318">01256 518318</a>
+      <a href="mailto:mark@mdjmortgages.com">mark@mdjmortgages.com</a>
+    </span>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="MDJ Mortgages home">
+      <span class="brand-mark" aria-hidden="true">MDJ</span>
+      <span><span class="brand-name">MDJ Mortgages</span><span class="brand-sub">Basingstoke · Hampshire</span></span>
+    </a>
+    <nav class="nav-links" id="navlinks" aria-label="Main">
+      <a href="#help">Mortgages</a>
+      <a href="#remortgage">Remortgage</a>
+      <a href="#later-life">Equity release</a>
+      <a href="#fees">Fees</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQs</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a class="btn btn-gold hide-sm" href="#enquire">Book a free call</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navlinks" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero dark">
+  <div class="wrap">
+    <div class="hero-in">
+      <span class="award-chip"><span class="laurel"><svg aria-hidden="true"><use href="#i-laurel"/></svg></span>Best Mortgage Broker · Basingstoke &amp; Deane 2026</span>
+      <h1>The mortgage advice Basingstoke <em class="foil">trusts</em>, from people who pick up the phone.</h1>
+      <p class="lede">First home, next home, self-employed or approaching retirement: Mark and the MDJ team search the market, handle the paperwork and keep you updated until you have the keys.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="https://calendly.com/mdjmortgages/free-30-minute-discovery-meeting-clone" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-cal"/></svg>Book a free 30-min call</a>
+        <a class="btn btn-ghost" href="https://wa.me/447798819741" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp Mark</a>
+      </div>
+      <div class="hero-proof">
+        <div class="proof"><b>5.0 <span class="stars" aria-hidden="true">★★★★★</span></b><span>186 Google reviews</span></div>
+        <div class="proof"><b>£0</b><span>for your first consultation</span></div>
+        <div class="proof"><b>3×</b><span>award-winning, 2024–2026</span></div>
+      </div>
+    </div>
+
+    <aside class="calc reveal" aria-labelledby="calcTitle">
+      <p class="eyebrow">2-minute check</p>
+      <h2 id="calcTitle" style="margin-top:8px">How much could you borrow?</h2>
+      <p class="sub">Move the sliders. No email needed to see your figure.</p>
+
+      <div class="toggle" role="group" aria-label="Number of applicants">
+        <button type="button" id="appSingle" aria-pressed="true">Just me</button>
+        <button type="button" id="appJoint" aria-pressed="false">Two of us</button>
+      </div>
+
+      <div class="field">
+        <div class="field-top"><label for="inc1">Your yearly income</label><output id="inc1Out" for="inc1">£45,000</output></div>
+        <input type="range" id="inc1" min="15000" max="200000" step="1000" value="45000">
+      </div>
+      <div class="field" id="inc2Field" hidden>
+        <div class="field-top"><label for="inc2">Second applicant's income</label><output id="inc2Out" for="inc2">£32,000</output></div>
+        <input type="range" id="inc2" min="0" max="200000" step="1000" value="32000">
+      </div>
+      <div class="field">
+        <div class="field-top"><label for="dep">Deposit saved</label><output id="depOut" for="dep">£25,000</output></div>
+        <input type="range" id="dep" min="0" max="250000" step="1000" value="25000">
+      </div>
+
+      <div class="calc-result" aria-live="polite">
+        <div class="label">You could typically borrow</div>
+        <div class="big"><span class="foil" id="borrowRange">£180k – £203k</span></div>
+        <div class="meta">
+          <span>Buying power <b id="budget">£228,000</b></span>
+          <span>Loan-to-value <b id="ltv">89%</b></span>
+        </div>
+      </div>
+      <a class="btn btn-gold" href="#enquire" id="calcCta">Get my exact figure from Mark</a>
+      <p class="fine">Illustration only, using 4–4.5× income. Lenders also look at outgoings, credit history and term. Self-employed? We use your latest accounts or SA302s.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="wrap">
+    <div class="trust-item"><svg aria-hidden="true"><use href="#i-star"/></svg><span><strong>5.0 on Google</strong>186 five-star reviews</span></div>
+    <div class="trust-item"><svg aria-hidden="true"><use href="#i-laurel"/></svg><span><strong>Quality Business Awards 2026</strong>Best Mortgage Broker</span></div>
+    <div class="trust-item"><svg aria-hidden="true"><use href="#i-shield"/></svg><span><strong>FCA regulated</strong>via Stonebridge · FRN 949077</span></div>
+    <div class="trust-item"><svg aria-hidden="true"><use href="#i-pin"/></svg><span><strong>Local office</strong>Chineham Court, Basingstoke</span></div>
+  </div>
+</div>
+
+<!-- JOURNEYS -->
+<section id="help">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Where are you starting from?</p>
+      <h2>Pick your situation. We'll take it from there.</h2>
+      <p class="lede">Every case is different, so the first conversation is about you, not a product. These are the people we help most.</p>
+    </div>
+    <div class="paths">
+      <a class="path feature reveal" href="#enquire" data-goal="First home">
+        <span class="tag">First-time buyers</span>
+        <h3>Your first set of keys</h3>
+        <p>Deposits, schemes, credit files and what lenders really look for, explained in plain English.</p>
+        <ul><li>Decision in principle before you view</li><li>Low and no-deposit options checked</li><li>Free WhatsApp group for first-time buyers</li></ul>
+        <span class="go">Start my plan <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="path reveal" href="#enquire" data-goal="Self-employed">
+        <span class="tag">Self-employed &amp; contractors</span>
+        <h3>Income that doesn't fit a box</h3>
+        <p>Sole traders, directors, contractors and complex income. We know which lenders will listen.</p>
+        <ul><li>1 year of accounts considered</li><li>Day-rate contractor lending</li><li>Retained profits and dividends</li></ul>
+        <span class="go">Talk it through <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="path reveal" href="#enquire" data-goal="Moving home">
+        <span class="tag">Moving home</span>
+        <h3>Upsizing, downsizing, relocating</h3>
+        <p>Port your current deal or start fresh. We line up the numbers so your chain doesn't wait on you.</p>
+        <ul><li>Porting vs. new deal compared</li><li>Early repayment charges checked</li><li>Solicitor and survey coordination</li></ul>
+        <span class="go">Plan my move <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="path reveal" href="#remortgage" data-goal="Remortgage">
+        <span class="tag">Remortgage</span>
+        <h3>Fixed rate ending?</h3>
+        <p>Don't drift onto your lender's standard rate. We can secure a new deal up to six months early.</p>
+        <ul><li>Whole-of-market comparison</li><li>Product transfer checked too</li><li>Raise funds for home improvements</li></ul>
+        <span class="go">Check my dates <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="path reveal" href="#enquire" data-goal="Later life" id="later-life">
+        <span class="tag">Later life &amp; equity release</span>
+        <h3>Retirement and lifetime mortgages</h3>
+        <p>Release money from your home or borrow into retirement, with family involved from the first meeting.</p>
+        <ul><li>Retirement interest-only</li><li>Lifetime mortgages</li><li>Fees set out at your first appointment</li></ul>
+        <span class="go">Explore options <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+      <a class="path reveal" href="#enquire" data-goal="Protection">
+        <span class="tag">Protection</span>
+        <h3>Look after the people at home</h3>
+        <p>Life cover, income protection and home insurance arranged alongside your mortgage, without the hard sell.</p>
+        <ul><li>Life and critical illness cover</li><li>Income protection for the self-employed</li><li>Buildings and contents</li></ul>
+        <span class="go">Review my cover <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a>
+    </div>
+    <p class="reveal" style="margin-top:24px;color:var(--slate);font-size:.9375rem">Also: buy-to-let, commercial and specialist lending, and mortgages for foreign nationals. <a href="#enquire" style="font-weight:600">Ask about your case</a>.</p>
+  </div>
+</section>
+
+<!-- FIXED RATE COUNTDOWN -->
+<section class="countdown" id="remortgage">
+  <div class="wrap cd-grid">
+    <div class="cd-copy reveal">
+      <p class="eyebrow">Remortgage reminder</p>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);margin-top:14px">When does your fixed rate end?</h2>
+      <p class="lede" style="margin-top:16px">When a fix ends, most lenders move you to their standard variable rate. Enter your end date and we'll show you when to act.</p>
+      <ul>
+        <li><b>6m</b><span><strong>Start looking</strong>A new rate can usually be secured about six months before your deal ends.</span></li>
+        <li><b>3m</b><span><strong>Lock it in</strong>If rates fall before completion, we can often switch you to the better one.</span></li>
+        <li><b>0</b><span><strong>No gap</strong>Your new deal starts the day the old one ends.</span></li>
+      </ul>
+    </div>
+    <div class="cd-card reveal" aria-labelledby="cdTitle">
+      <h3 id="cdTitle" style="font-size:1.5rem">Your fixed rate timeline</h3>
+      <div class="cd-inputs" style="margin-top:18px">
+        <label for="cdMonth">Month it ends
+          <select id="cdMonth"></select>
+        </label>
+        <label for="cdYear">Year
+          <select id="cdYear"></select>
+        </label>
+      </div>
+      <div class="timeline" aria-hidden="true" id="timeline">
+        <div class="bar"></div>
+        <div class="window" id="tlWindow"></div>
+        <div class="now" id="tlNow"></div>
+        <span class="tick" style="left:0%;transform:none">−12m</span>
+        <span class="tick" style="left:50%">−6m</span>
+        <span class="tick" style="left:100%;transform:translateX(-100%)">Ends</span>
+      </div>
+      <div class="cd-out" aria-live="polite">
+        <div class="cd-num mono" id="cdNum">7</div>
+        <div>
+          <span class="status" id="cdStatus">Plenty of time</span>
+          <p id="cdMsg">Months until your deal ends. We'll get in touch when your six-month window opens.</p>
+        </div>
+      </div>
+      <a class="btn btn-ink" href="#enquire" id="cdCta">Remind me when it's time</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">How it works</p>
+      <h2>From first call to completion in four steps</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="n">Step 1</span><h3>Free discovery call</h3><p>30 minutes by phone, video or at our Chineham office. No cost, no obligation.</p></div>
+      <div class="step reveal"><span class="n">Step 2</span><h3>We search the market</h3><p>We compare lenders and deals on rate, fees and term, then explain our recommendation.</p></div>
+      <div class="step reveal"><span class="n">Step 3</span><h3>We handle the application</h3><p>Documents, lender questions, valuation and solicitor chasing. You get regular updates.</p></div>
+      <div class="step reveal"><span class="n">Step 4</span><h3>Keys, then aftercare</h3><p>We check in before your deal ends so you never roll onto a standard rate.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARD -->
+<section class="award dark" aria-labelledby="awardTitle">
+  <div class="wrap">
+    <svg class="medal reveal" viewBox="0 0 260 260" role="img" aria-label="Quality Business Awards 2026 laurel">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1dca0"/><stop offset=".5" stop-color="#c9a253"/><stop offset="1" stop-color="#8a6a2c"/></linearGradient>
+      </defs>
+      <circle cx="130" cy="130" r="122" fill="none" stroke="url(#g1)" stroke-width="1.5" opacity=".6"/>
+      <circle cx="130" cy="130" r="110" fill="#1b1814" stroke="url(#g1)" stroke-width="1"/>
+      <g fill="url(#g1)" id="leaves"></g>
+      <text x="130" y="104" text-anchor="middle" fill="#efe9dd" font-family="Gloock, Georgia, serif" font-size="15" letter-spacing="2">QUALITY</text>
+      <text x="130" y="122" text-anchor="middle" fill="#efe9dd" font-family="Gloock, Georgia, serif" font-size="13" letter-spacing="2">BUSINESS AWARDS</text>
+      <text x="130" y="168" text-anchor="middle" fill="url(#g1)" font-family="Gloock, Georgia, serif" font-size="44">2026</text>
+      <path d="M118 62l4 8 9 1-6.5 6 1.5 9-8-4.2-8 4.2 1.5-9-6.5-6 9-1z" fill="url(#g1)"/>
+    </svg>
+    <div class="reveal">
+      <p class="eyebrow">Quality Business Awards 2026</p>
+      <h2 id="awardTitle" style="margin-top:12px">The Best Mortgage Broker</h2>
+      <p class="place foil">Basingstoke and Deane, UK</p>
+      <div class="ratings">
+        <div class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span>Satisfaction</span></div>
+        <div class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span>Services</span></div>
+        <div class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span>Reputation</span></div>
+        <div class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span>Quality</span></div>
+      </div>
+      <span class="over95 foil">Quality ratings over 95%</span>
+      <div class="award-years"><span>MDJ Business Awards 2024</span><span>MDJ Business Awards 2025</span><span>Three Best Rated®</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="about">
+  <div class="wrap team-grid">
+    <div class="portrait reveal" role="img" aria-label="Portrait of Mark Jones">
+      <span class="note">Photo: Mark at the Chineham office</span>
+      <div class="ph"><span><b>Mark Jones</b><small>Managing Director</small></span><span class="stars" aria-hidden="true">★★★★★</span></div>
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">Meet your adviser</p>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);margin-top:14px">A local broker you can actually reach</h2>
+      <p class="quote">“What seemed impossible to us was just another day at the office for them.”</p>
+      <p style="color:var(--slate);margin-top:10px;font-size:.9375rem">Anna Foster-Ford, Google review</p>
+      <p class="lede" style="margin-top:22px">Mark, Jodie and the team have helped Hampshire families since 2021. You deal with the same people from your first call to completion, and they answer WhatsApp.</p>
+      <div class="team-points">
+        <div><b>Face-to-face, video or phone</b><span>Whatever fits around your work and family.</span></div>
+        <div><b>Open Mon–Fri, 9–6</b><span>Grove House, Chineham Court, RG24 8AG.</span></div>
+        <div><b>Complex cases welcome</b><span>Self-employed, contractors and later life.</span></div>
+        <div><b>Aftercare included</b><span>We contact you before your rate ends.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="g-score reveal">
+      <span class="score">5.0</span>
+      <div><span class="stars" aria-hidden="true">★★★★★</span><small>186 Google reviews · every one five stars</small></div>
+      <a class="btn btn-ink" style="margin-left:auto" href="https://www.google.com/search?q=mdj+mortgages" target="_blank" rel="noopener">Read them on Google</a>
+    </div>
+  </div>
+  <div class="marquee" aria-label="Client reviews">
+    <div class="track" id="track1"></div>
+    <div class="track rev" id="track2"></div>
+  </div>
+</section>
+
+<!-- FEES -->
+<section id="fees">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Fees, upfront</p>
+      <h2>You'll know what you pay before we start</h2>
+      <p class="lede">There may be a fee for arranging your mortgage, depending on your circumstances. Here's how it works.</p>
+    </div>
+    <div class="fees-grid reveal">
+      <div class="fee hl"><span class="amt foil">£0</span><b>First consultation</b><p>Your initial appointment is free, whether you go ahead or not.</p></div>
+      <div class="fee"><span class="amt">£295<small>typical</small></span><b>Arrangement fee</b><p>Our usual fee for arranging a mortgage once we've found the right deal.</p></div>
+      <div class="fee"><span class="amt">£1,000<small>max</small></span><b>Never more than this</b><p>Capped at the lower of £1,000 or 3% of the loan. Equity release fees are confirmed at your first appointment.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AREAS -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:24px">
+      <p class="eyebrow">Areas we cover</p>
+      <h2 style="font-size:clamp(1.75rem,3vw,2.25rem)">Based in Basingstoke, helping across Hampshire and Berkshire</h2>
+    </div>
+    <div class="areas reveal">
+      <span class="home">Basingstoke</span><span>Chineham</span><span>Lychpit</span><span>Hook</span><span>Odiham</span><span>Oakley</span><span>Overton</span><span>Tadley</span><span>Hartley Wintney</span><span>Fleet</span><span>Farnborough</span><span>Camberley</span><span>Aldershot</span><span>Alton</span><span>Andover</span><span>Winchester</span><span>Newbury</span><span>Reading</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--paper-2)">
+  <div class="wrap faq-grid">
+    <div class="reveal">
+      <p class="eyebrow">Questions</p>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);margin-top:14px">Straight answers</h2>
+      <p class="lede" style="margin-top:16px">Can't see yours? Message Mark on WhatsApp on <span class="mono">07798 819741</span>.</p>
+    </div>
+    <div class="reveal">
+      <details open><summary>How much can I borrow?<span class="pm" aria-hidden="true"></span></summary><div class="ans">Most lenders start at around 4 to 4.5 times your income, and some go higher for certain professions or incomes. They also look at your outgoings, credit history, deposit and term. Try the calculator above, then we'll check real lender criteria for you.</div></details>
+      <details><summary>What is a decision in principle?<span class="pm" aria-hidden="true"></span></summary><div class="ans">It's a lender's indication of how much it would be willing to lend, based on a soft look at your details. Estate agents often ask for one before you make an offer. It isn't a guarantee of a mortgage.</div></details>
+      <details><summary>I'm self-employed. Can I still get a mortgage?<span class="pm" aria-hidden="true"></span></summary><div class="ans">Yes. Lenders use your tax calculations (SA302s) and accounts, and some will consider one year's figures, retained profits or contractor day rates. Picking the right lender for how you're paid makes the biggest difference.</div></details>
+      <details><summary>How do I find the best rate?<span class="pm" aria-hidden="true"></span></summary><div class="ans">Rates change often. The lowest rate isn't always the cheapest deal once fees, deal type and term are included. We compare the total cost over the deal period, not just the headline rate.</div></details>
+      <details><summary>Who regulates MDJ Mortgages?<span class="pm" aria-hidden="true"></span></summary><div class="ans">MDJ Mortgages Ltd is an appointed representative of Stonebridge Mortgage Solutions Ltd, which is authorised and regulated by the Financial Conduct Authority. Our FCA reference is 949077.</div></details>
+      <details><summary>How do I make a complaint?<span class="pm" aria-hidden="true"></span></summary><div class="ans">Contact Stonebridge on 0345 646 5505 or at complaints@stonebridgegroup.co.uk. If you're not happy with the outcome, you can refer your complaint to the Financial Ombudsman Service.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ENQUIRY -->
+<section class="enquire dark" id="enquire">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Start here</p>
+      <h2 style="font-size:clamp(2.25rem,4.4vw,3.5rem);margin-top:14px">Tell us where you are. We'll call you back the same working day.</h2>
+      <p class="lede" style="margin-top:18px">Three quick questions. No credit check, no obligation, and no call centre.</p>
+      <div class="contact-list">
+        <a class="contact-row" href="tel:+441256518318"><span class="ic"><svg aria-hidden="true"><use href="#i-phone"/></svg></span><span><small>Office</small><b class="mono">01256 518318</b></span></a>
+        <a class="contact-row" href="https://wa.me/447798819741" target="_blank" rel="noopener"><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><span><small>WhatsApp</small><b class="mono">07798 819741</b></span></a>
+        <a class="contact-row" href="mailto:mark@mdjmortgages.com"><span class="ic"><svg aria-hidden="true"><use href="#i-mail"/></svg></span><span><small>Email</small><b>mark@mdjmortgages.com</b></span></a>
+        <div class="contact-row"><span class="ic"><svg aria-hidden="true"><use href="#i-pin"/></svg></span><span><small>Office</small><b>Grove House, Lutyens Close, Chineham Court, Basingstoke RG24 8AG</b></span></div>
+        <div class="contact-row"><span class="ic"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><span><small>Opening hours</small><b>Monday to Friday, 9:00–18:00</b></span></div>
+      </div>
+    </div>
+
+    <form class="wizard reveal" id="wizard" novalidate>
+      <div class="progress" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+      <fieldset class="wstep" data-step="1" style="border:0;padding:0;margin:0">
+        <legend class="sr">What do you need help with?</legend>
+        <h3>What can we help with?</h3>
+        <p class="hint">Choose the closest match.</p>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="goal" id="g-first" value="First home"><span>First home</span></label>
+          <label class="choice"><input type="radio" name="goal" id="g-move" value="Moving home"><span>Moving home</span></label>
+          <label class="choice"><input type="radio" name="goal" id="g-remo" value="Remortgage"><span>Remortgage</span></label>
+          <label class="choice"><input type="radio" name="goal" id="g-self" value="Self-employed"><span>Self-employed</span></label>
+          <label class="choice"><input type="radio" name="goal" id="g-later" value="Later life"><span>Later life / equity release</span></label>
+          <label class="choice"><input type="radio" name="goal" id="g-prot" value="Protection"><span>Protection / insurance</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="wstep" data-step="2" hidden style="border:0;padding:0;margin:0">
+        <legend class="sr">When are you looking to move?</legend>
+        <h3>When do you need it?</h3>
+        <p class="hint">This helps us prioritise your call.</p>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="when" id="w-now" value="Found a property"><span>I've found a property</span></label>
+          <label class="choice"><input type="radio" name="when" id="w-3m" value="Within 3 months"><span>Within 3 months</span></label>
+          <label class="choice"><input type="radio" name="when" id="w-6m" value="3 to 6 months"><span>3–6 months</span></label>
+          <label class="choice"><input type="radio" name="when" id="w-res" value="Just researching"><span>Just researching</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="wstep" data-step="3" hidden style="border:0;padding:0;margin:0">
+        <legend class="sr">Your contact details</legend>
+        <h3>Where should we reach you?</h3>
+        <p class="hint" id="summary">We'll call you back today.</p>
+        <div class="form-grid">
+          <label for="fName">Full name<input type="text" id="fName" name="name" autocomplete="name" required></label>
+          <label for="fPhone">Mobile<input type="tel" id="fPhone" name="phone" autocomplete="tel" inputmode="tel" required></label>
+          <label for="fEmail">Email<input type="email" id="fEmail" name="email" autocomplete="email" required></label>
+          <label class="consent" for="fConsent"><input type="checkbox" id="fConsent" required><span>I'm happy for MDJ Mortgages to contact me about my enquiry. See our privacy policy.</span></label>
+        </div>
+      </fieldset>
+
+      <div class="done" id="done" hidden>
+        <div class="tick"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+        <h3>Thanks, we've got it</h3>
+        <p class="hint" style="max-width:36ch;margin-inline:auto">Mark will be in touch within one working day. Want to talk sooner? <a href="https://calendly.com/mdjmortgages/free-30-minute-discovery-meeting-clone" target="_blank" rel="noopener" style="font-weight:600;color:var(--text)">Pick a time in the diary</a>.</p>
+      </div>
+
+      <p class="err" id="err" role="alert"></p>
+      <div class="form-nav" id="formNav">
+        <button type="button" class="btn btn-back" id="back" hidden>Back</button>
+        <button type="submit" class="btn btn-gold" id="next" style="margin-left:auto">Continue <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- REFERRAL -->
+<section class="refer" style="background:var(--ink)">
+  <div class="wrap">
+    <div class="refer-card reveal">
+      <span class="amt">£50</span>
+      <div><h3>Refer a friend, get an Amazon voucher</h3><p>For every referral that completes a mortgage or protection policy with us.</p></div>
+      <a class="btn btn-ink" href="https://www.mdjmortgages.com/refer-your-friend/" target="_blank" rel="noopener">Refer someone</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" style="color:var(--on-ink)"><span class="brand-mark" aria-hidden="true">MDJ</span><span><span class="brand-name">MDJ Mortgages</span><span class="brand-sub">Trusted local experts</span></span></a>
+        <p style="margin-top:18px;font-size:.9375rem;max-width:34ch">Mortgage and protection advice for Basingstoke, Hampshire and beyond.</p>
+      </div>
+      <div><h4>Mortgages</h4><ul><li><a href="#help">First-time buyers</a></li><li><a href="#help">Moving home</a></li><li><a href="#remortgage">Remortgage</a></li><li><a href="#help">Self-employed</a></li><li><a href="#later-life">Equity release</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#about">About</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#fees">Our fees</a></li><li><a href="#faq">FAQs</a></li><li><a href="#enquire">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul><li class="mono">01256 518318</li><li class="mono">07798 819741</li><li>mark@mdjmortgages.com</li><li>Mon–Fri 9:00–18:00</li></ul></div>
+    </div>
+
+    <p class="warning">Your home may be repossessed if you do not keep up repayments on your mortgage.</p>
+    <div class="legal">
+      <p>There may be a fee for arranging your mortgage. The precise amount will depend on your circumstances. We typically charge £295, but this will not exceed £1,000 or 3% of the loan, whichever is lower.</p>
+      <p>You may have to pay an early repayment charge to your existing lender if you remortgage. A lifetime mortgage is a loan secured against your home. Interest accrues over the term, and equity release may reduce the value of your estate and affect your entitlement to means-tested benefits.</p>
+      <p>Some buy-to-let mortgages are not regulated by the Financial Conduct Authority.</p>
+      <p>MDJ Mortgages Limited is an appointed representative of Stonebridge, a trading style of Stonebridge Mortgage Solutions Limited, which is authorised and regulated by the Financial Conduct Authority. Stonebridge registered office: Regency House, Miles Gray Road, Basildon, Essex, SS14 3FR. Registered in England and Wales No. 5601592. MDJ Mortgages Ltd registered address: 28 The Topiary, Lychpit, Basingstoke, Hampshire, RG24 8YX. Company No. 12499356.</p>
+      <p><strong style="color:var(--on-ink)">Fraud alert:</strong> we will never ask for your bank details in relation to payment of your deposit. Your solicitor may request payments directly; always confirm independently, preferably by phone, before transferring funds.</p>
+    </div>
+    <div class="legal-bottom"><span>© <span id="yr">2026</span> MDJ Mortgages Ltd</span><span><a href="#" style="text-decoration:none">Privacy policy</a> · <a href="#" style="text-decoration:none">Cookies</a></span></div>
+  </div>
+</footer>
+
+<nav class="actionbar" aria-label="Quick contact">
+  <a href="tel:+441256518318"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
+  <a href="https://wa.me/447798819741" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</a>
+  <a class="primary" href="#enquire"><svg aria-hidden="true"><use href="#i-cal"/></svg>Free review</a>
+</nav>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){return document.querySelector(s)};
+  var gbp = new Intl.NumberFormat("en-GB",{style:"currency",currency:"GBP",maximumFractionDigits:0});
+  var k = function(n){return "£" + Math.round(n/1000) + "k"};
+
+  /* Nav */
+  var menuBtn = $("#menuBtn"), links = $("#navlinks");
+  menuBtn.addEventListener("click", function(){
+    var open = links.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open);
+  });
+  links.addEventListener("click", function(e){ if(e.target.tagName === "A"){ links.classList.remove("open"); menuBtn.setAttribute("aria-expanded","false"); } });
+
+  /* Borrowing calculator */
+  var joint = false;
+  var inc1 = $("#inc1"), inc2 = $("#inc2"), dep = $("#dep");
+  function paint(r){ r.style.setProperty("--p", ((r.value - r.min) / (r.max - r.min) * 100) + "%"); }
+  function calc(){
+    [inc1, inc2, dep].forEach(paint);
+    var income = +inc1.value + (joint ? +inc2.value : 0);
+    var lo = income * 4, hi = income * 4.5, deposit = +dep.value;
+    $("#inc1Out").textContent = gbp.format(inc1.value);
+    $("#inc2Out").textContent = gbp.format(inc2.value);
+    $("#depOut").textContent = gbp.format(deposit);
+    $("#borrowRange").textContent = k(lo) + " – " + k(hi);
+    var price = hi + deposit;
+    $("#budget").textContent = gbp.format(Math.round(price/1000)*1000);
+    $("#ltv").textContent = price > 0 ? Math.round(hi / price * 100) + "%" : "–";
+  }
+  [inc1, inc2, dep].forEach(function(r){ r.addEventListener("input", calc); });
+  function setJoint(v){
+    joint = v;
+    $("#appSingle").setAttribute("aria-pressed", !v);
+    $("#appJoint").setAttribute("aria-pressed", v);
+    $("#inc2Field").hidden = !v;
+    calc();
+  }
+  $("#appSingle").addEventListener("click", function(){ setJoint(false); });
+  $("#appJoint").addEventListener("click", function(){ setJoint(true); });
+  calc();
+
+  /* Fixed-rate countdown */
+  var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var now = new Date(), mSel = $("#cdMonth"), ySel = $("#cdYear");
+  months.forEach(function(m,i){ var o = document.createElement("option"); o.value = i; o.textContent = m; mSel.appendChild(o); });
+  for (var y = now.getFullYear(); y <= now.getFullYear() + 5; y++){ var o = document.createElement("option"); o.value = y; o.textContent = y; ySel.appendChild(o); }
+  var def = new Date(now.getFullYear(), now.getMonth() + 7, 1);
+  mSel.value = def.getMonth(); ySel.value = def.getFullYear();
+  function countdown(){
+    var diff = (+ySel.value - now.getFullYear()) * 12 + (+mSel.value - now.getMonth());
+    var num = $("#cdNum"), st = $("#cdStatus"), msg = $("#cdMsg"), cta = $("#cdCta");
+    num.textContent = Math.max(diff, 0);
+    st.className = "status";
+    if (diff <= 0){
+      st.classList.add("late"); st.textContent = "Act now";
+      msg.textContent = "Your deal has ended or ends this month. You may already be on a standard rate. Let's get you a new deal.";
+      cta.textContent = "Get me off the standard rate";
+    } else if (diff <= 6){
+      st.classList.add("warn"); st.textContent = "Window open";
+      msg.textContent = (diff === 1 ? "Month" : "Months") + " left. You can secure a new rate today, and we'll keep watching rates in case they fall.";
+      cta.textContent = "Secure my new rate";
+    } else {
+      st.textContent = "Plenty of time";
+      msg.textContent = "Months until your deal ends. We'll get in touch when your six-month window opens.";
+      cta.textContent = "Remind me when it's time";
+    }
+    var pos = Math.min(Math.max((12 - diff) / 12, 0), 1) * 100;
+    $("#tlNow").style.left = "calc(" + pos + "% - 1px)";
+    $("#tlWindow").style.left = "50%"; $("#tlWindow").style.right = "0";
+  }
+  mSel.addEventListener("change", countdown); ySel.addEventListener("change", countdown);
+  countdown();
+
+  /* Reviews (verbatim excerpts from Google) */
+  var reviews = [
+    ["George Robinson","They gave us quality, trusted advice at every step of the process."],
+    ["Justyn Moore","Mark's communication was excellent and in no way excessive."],
+    ["Sam Cooper","Very helpful and found us a great deal on our mortgage!"],
+    ["Alisha Shepherd","So professional, diligent and knowledgeable."],
+    ["Tristan Ware","They are responsive, proactive and really know their stuff."],
+    ["Anna Foster-Ford","What seemed impossible to us was just another day at the office for them."],
+    ["Ellie Caldwell","Super helpful team who helped explain everything."],
+    ["Pauly Blunden","Professional, knowledgeable, flexible, understanding."]
+  ];
+  function card(r, hidden){
+    var initials = r[0].split(" ").map(function(w){return w[0]}).join("").slice(0,2);
+    return '<article class="review"' + (hidden ? ' aria-hidden="true"' : '') + '><span class="stars" aria-label="5 stars">★★★★★</span><p>“' + r[1] + '”</p><footer><span class="av">' + initials + '</span>' + r[0] + '<span class="g">Google</span></footer></article>';
+  }
+  var a = reviews.slice(0,4), b = reviews.slice(4);
+  $("#track1").innerHTML = a.concat(a).map(function(r,i){return card(r, i >= a.length)}).join("");
+  $("#track2").innerHTML = b.concat(b).map(function(r,i){return card(r, i >= b.length)}).join("");
+
+  /* Enquiry wizard */
+  var step = 1, form = $("#wizard"), err = $("#err");
+  var steps = form.querySelectorAll(".wstep"), bars = form.querySelectorAll(".progress i");
+  function show(n){
+    step = n;
+    steps.forEach(function(s){ s.hidden = +s.dataset.step !== n; });
+    bars.forEach(function(b,i){ b.classList.toggle("on", i < n); });
+    $("#back").hidden = n === 1;
+    $("#next").innerHTML = n === 3 ? "Request my call back" : 'Continue <svg aria-hidden="true"><use href="#i-arrow"/></svg>';
+    if (n === 3){
+      var g = form.querySelector("input[name=goal]:checked"), w = form.querySelector("input[name=when]:checked");
+      $("#summary").textContent = (g ? g.value : "") + (w ? " · " + w.value.toLowerCase() : "") + ". We'll call you back today.";
+    }
+    err.textContent = "";
+  }
+  function preselect(goal){
+    var el = form.querySelector('input[name=goal][value="' + goal + '"]');
+    if (el){ el.checked = true; }
+  }
+  document.querySelectorAll("[data-goal]").forEach(function(a){
+    a.addEventListener("click", function(){ preselect(a.dataset.goal); show(1); });
+  });
+  $("#calcCta").addEventListener("click", function(){ preselect(joint ? "First home" : "First home"); });
+  $("#cdCta").addEventListener("click", function(){ preselect("Remortgage"); });
+  $("#back").addEventListener("click", function(){ show(step - 1); });
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (step === 1 && !form.querySelector("input[name=goal]:checked")){ err.textContent = "Choose what you need help with to continue."; return; }
+    if (step === 2 && !form.querySelector("input[name=when]:checked")){ err.textContent = "Choose a timeframe to continue."; return; }
+    if (step < 3){ show(step + 1); return; }
+    var name = $("#fName").value.trim(), phone = $("#fPhone").value.replace(/\s/g,""), email = $("#fEmail").value.trim();
+    if (!name){ err.textContent = "Enter your name so Mark knows who he's calling."; return; }
+    if (!/^(\+44|0)\d{9,10}$/.test(phone)){ err.textContent = "Enter a UK phone number, for example 07700 900123."; return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent = "Enter an email address like name@example.com."; return; }
+    if (!$("#fConsent").checked){ err.textContent = "Tick the box so we're allowed to contact you."; return; }
+    /* Hook point: POST to Pipedrive web form / CRM here. */
+    steps.forEach(function(s){ s.hidden = true; });
+    $("#formNav").hidden = true; err.textContent = "";
+    bars.forEach(function(b){ b.classList.add("on"); });
+    $("#done").hidden = false;
+  });
+
+  /* Award laurel leaves */
+  var g = document.getElementById("leaves"), svgNS = "http://www.w3.org/2000/svg";
+  for (var side = -1; side <= 1; side += 2){
+    for (var i = 0; i < 10; i++){
+      var deg = 100 + i * 14, th = deg * Math.PI / 180, r = 94;
+      var x = 130 - side * Math.cos(th) * r * -1, yy = 130 + Math.sin(th) * r;
+      if (side > 0){ x = 130 - Math.cos(th) * r; }
+      if (side < 0){ x = 130 + Math.cos(th) * r; }
+      var e = document.createElementNS(svgNS, "ellipse");
+      var sz = 1 - i * 0.04;
+      e.setAttribute("cx", x.toFixed(1)); e.setAttribute("cy", yy.toFixed(1));
+      e.setAttribute("rx", (4.6 * sz).toFixed(1)); e.setAttribute("ry", (11 * sz).toFixed(1));
+      var rot = side < 0 ? deg + 25 : 180 - deg - 25;
+      e.setAttribute("transform", "rotate(" + rot.toFixed(1) + " " + x.toFixed(1) + " " + yy.toFixed(1) + ")");
+      g.appendChild(e);
+    }
+  }
+
+  /* Reveal on scroll (visible by default if IO unsupported) */
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches){
+    document.documentElement.classList.add("js");
+    var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } }); }, {rootMargin:"0px 0px -8% 0px"});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+    setTimeout(function(){ document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }, 2500);
+  }
+  $("#yr").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
