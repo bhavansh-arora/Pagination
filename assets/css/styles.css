@@ -52,7 +52,7 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--paper);
@@ -64,7 +64,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 img, video, iframe, svg { display: block; max-width: 100%; }
 img { height: auto; }
@@ -189,6 +189,9 @@ h1 em, h2 em, h3 em, .display em { font-weight: 300; }
 }
 .site-header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .site-header--overlay { color: var(--ivory); }
+@media (max-width: 1023px) {
+  .site-header.is-scrolled { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; background: rgba(12, 10, 8, 0.96) !important; }
+}
 .site-header.is-scrolled {
   background: rgba(12, 10, 8, 0.78);
   -webkit-backdrop-filter: saturate(140%) blur(14px);
@@ -538,7 +541,6 @@ body.menu-open { overflow: hidden; }
   position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 90;
   display: flex; gap: 8px; padding: 8px;
   background: rgba(10, 8, 7, 0.86); color: var(--ivory);
-  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.5);
   transform: translateY(140%); transition: transform 0.6s var(--ease-out);
 }
@@ -834,16 +836,13 @@ main { background: var(--paper); }
 .is-leaving .curtain__mark { opacity: 1; transition-delay: 0.45s; }
 
 /* ---------- Film grain ---------- */
-.grain {
-  position: fixed; inset: -100%; z-index: 450; pointer-events: none; opacity: 0.16; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain 0.9s steps(6) infinite;
+/* Film grain is baked into section backgrounds (static, scrolls with the page)
+   rather than a full-screen overlay, which kept scrolling at a solid 60fps. */
+.grain { display: none; }
+main, .section--paper2, .section--night, .section--ivory, .site-footer, .mobile-menu, .preloader {
+  background-image: url("../brand/grain.png");
 }
-@keyframes grain {
-  0% { transform: translate(0, 0); } 20% { transform: translate(-6%, 4%); } 40% { transform: translate(5%, -7%); }
-  60% { transform: translate(-3%, 8%); } 80% { transform: translate(7%, 2%); } 100% { transform: translate(0, 0); }
-}
-@media (max-width: 760px) { .grain { opacity: 0.12; } }
+main { background-color: var(--paper); }
 
 /* ---------- Scroll progress ---------- */
 .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 150; pointer-events: none; }
@@ -1045,11 +1044,13 @@ h1 em, h2 em, .page-hero__title em, .lede em, .display em { color: var(--accent)
 /* Lifted dark sections with a soft gold glow */
 .section--paper2 {
   background:
+    url("../brand/grain.png"),
     radial-gradient(ellipse 70% 60% at 85% 0%, rgba(198, 164, 106, 0.07), transparent 70%),
     var(--paper-2);
 }
 .section--night {
   background:
+    url("../brand/grain.png"),
     radial-gradient(ellipse 60% 70% at 10% 100%, rgba(198, 164, 106, 0.08), transparent 70%),
     var(--night-2);
   border-block: 1px solid var(--line);
@@ -1062,7 +1063,7 @@ h1 em, h2 em, .page-hero__title em, .lede em, .display em { color: var(--accent)
   --accent: #9c7a43; --accent-ink: #8a6a37;
   --line: rgba(21, 18, 15, 0.14); --line-strong: rgba(21, 18, 15, 0.3);
   color-scheme: light;
-  background: var(--paper); color: var(--ink);
+  background: url("../brand/grain.png"), var(--paper); color: var(--ink);
 }
 .section--ivory .eyebrow { color: var(--muted); }
 .section--ivory .icon-btn:hover { background: var(--ink); color: var(--paper); }

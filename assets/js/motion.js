@@ -1,5 +1,5 @@
 /* Dan Reynolds — motion layer.
-   GSAP + ScrollTrigger + Lenis drive the cinematic effects; every effect
+   GSAP + ScrollTrigger drive the cinematic effects; every effect
    degrades gracefully (content stays visible) if a library fails to load. */
 (function () {
   "use strict";
@@ -19,24 +19,8 @@
 
   if (hasGsap) { gsap.registerPlugin(ST); html.classList.add("has-gsap"); }
 
-  /* ---------- Smooth scroll ---------- */
-  var lenis = null;
-  if (window.Lenis) {
-    lenis = new window.Lenis({ lerp: 0.095, smoothWheel: true, wheelMultiplier: 1 });
-    if (hasGsap) {
-      lenis.on("scroll", ST.update);
-      gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
-    }
-    // Pause smooth scroll while the menu or lightbox locks the page.
-    new MutationObserver(function () {
-      var locked = document.body.classList.contains("menu-open") || document.body.style.overflow === "hidden";
-      locked ? lenis.stop() : lenis.start();
-    }).observe(document.body, { attributes: true, attributeFilter: ["class", "style"] });
-    if (html.classList.contains("is-loading")) lenis.stop();
-  }
+  /* Native scrolling is used on purpose: no scroll hijacking, so wheel,
+     trackpad, touch, keyboard and scrollbar all behave exactly as expected. */
 
   /* ---------- Scroll progress ---------- */
   var bar = $(".scroll-progress");
@@ -67,7 +51,7 @@
     }
     var fontsReady = false;
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { fontsReady = true; });
-    var t0 = performance.now(), shown = 0, MIN = 1900, MAX = 6000;
+    var t0 = performance.now(), shown = 0, MIN = 1600, MAX = 3500;
     (function tick(now) {
       var elapsed = now - t0;
       var ready = (loaded && fontsReady) || elapsed > MAX;
@@ -82,7 +66,6 @@
       setTimeout(function () {
         html.classList.add("is-loaded");
         finishLoading();
-        if (lenis) lenis.start();
         startIntro();
         setTimeout(function () { html.classList.remove("is-loaded"); }, 1300);
       }, 180);
@@ -182,12 +165,18 @@
   }
 
   /* ---------- Velocity marquee ---------- */
+  var lastY = window.scrollY, velocity = 0, direction = 1;
+  (function sample() {
+    var y = window.scrollY, d = y - lastY;
+    velocity += (d - velocity) * 0.2;
+    if (Math.abs(d) > 0.5) direction = d > 0 ? 1 : -1;
+    lastY = y;
+    requestAnimationFrame(sample);
+  })();
   $$(".marquee__track").forEach(function (track) {
-    var x = 0, dir = 1;
+    var x = 0;
     function loop() {
-      var v = lenis ? lenis.velocity : 0;
-      if (lenis && lenis.direction) dir = lenis.direction;
-      x -= (0.55 + Math.min(Math.abs(v) * 0.35, 18)) * dir;
+      x -= (0.55 + Math.min(Math.abs(velocity) * 0.25, 14)) * direction;
       var half = track.scrollWidth / 2;
       if (x <= -half) x += half;
       if (x > 0) x -= half;
