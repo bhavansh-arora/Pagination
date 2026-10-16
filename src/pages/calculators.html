@@ -1,0 +1,194 @@
+<!--meta
+{"title": "Mortgage Calculators | Borrowing, Repayments, Stamp Duty | MDJ Mortgages", "description": "Free mortgage calculators: how much can I borrow, monthly repayments, stamp duty (England) and remortgage savings. Instant estimates from MDJ Mortgages, Basingstoke.", "nav": "calculators"}
+-->
+<section class="page-hero">
+  <div class="container page-hero__grid">
+    <div class="hero-anim">
+      <ol class="crumbs"><li><a href="index.html">Home</a></li><li>Calculators</li></ol>
+      <span class="eyebrow">Mortgage calculators</span>
+      <h1>Run the numbers <em class="gold">in seconds</em></h1>
+      <p class="lead">Quick, private estimates with nothing to sign up for. When you're ready for a real figure, we're a phone call away.</p>
+    </div>
+    <aside class="page-hero__aside hero-anim">
+      <div class="trust-item"><span class="trust-item__icon">{{icon:lock}}</span><span><strong>Private</strong>Nothing you enter leaves your device</span></div>
+      <div class="trust-item"><span class="trust-item__icon">{{icon:calculator}}</span><span><strong>Four calculators</strong>Borrowing, repayments, stamp duty, savings</span></div>
+    </aside>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container" data-tabs>
+    <div class="calc-tabs" role="tablist" aria-label="Calculators">
+      <button class="calc-tab" role="tab" id="t-borrow" aria-controls="tab-borrow" aria-selected="true">How much can I borrow?</button>
+      <button class="calc-tab" role="tab" id="t-repay" aria-controls="tab-repay" aria-selected="false">Monthly repayments</button>
+      <button class="calc-tab" role="tab" id="t-sdlt" aria-controls="tab-sdlt" aria-selected="false">Stamp duty</button>
+      <button class="calc-tab" role="tab" id="t-remo" aria-controls="tab-remo" aria-selected="false">Remortgage savings</button>
+    </div>
+
+    <!-- Borrowing -->
+    <div class="calc-panel" role="tabpanel" id="tab-borrow" aria-labelledby="t-borrow">
+      <form class="calc" data-calc="borrow" novalidate>
+        <div class="calc__form">
+          <div class="field">
+            <div class="field__top"><label for="c-income1">Your annual income</label><output class="field__value" id="c-income1-out"></output></div>
+            <input type="range" id="c-income1" name="income1" min="10000" max="250000" step="1000" value="45000" data-out="c-income1-out" data-format="gbp">
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-income2">Second applicant's income</label><output class="field__value" id="c-income2-out"></output></div>
+            <input type="range" id="c-income2" name="income2" min="0" max="250000" step="1000" value="0" data-out="c-income2-out" data-format="gbp">
+            <small>Leave at £0 if you're buying alone.</small>
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-deposit">Deposit</label><output class="field__value" id="c-deposit-out"></output></div>
+            <input type="range" id="c-deposit" name="deposit" min="0" max="500000" step="1000" value="25000" data-out="c-deposit-out" data-format="gbp">
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-commit">Monthly credit commitments</label><output class="field__value" id="c-commit-out"></output></div>
+            <input type="range" id="c-commit" name="commitments" min="0" max="3000" step="25" value="0" data-out="c-commit-out" data-format="gbp">
+            <small>Loans, car finance and credit card repayments.</small>
+          </div>
+        </div>
+        <div class="calc__result" aria-live="polite">
+          <div>
+            <div class="calc__label">You could borrow around</div>
+            <div class="calc__big" id="b-mid">£0</div>
+            <div class="calc__sub">Typical range <span id="b-range"></span></div>
+          </div>
+          <div class="calc__rows">
+            <div class="calc__row"><span>Property budget</span><strong id="b-budget">£0</strong></div>
+            <div class="calc__row"><span>Your deposit</span><strong id="b-deposit">£0</strong></div>
+            <div class="calc__row"><span>Loan to value</span><strong id="b-ltv">–</strong></div>
+          </div>
+          <a class="btn btn--gold btn--block" href="https://calendly.com/mdjmortgages/free-30-minute-discovery-meeting-clone" target="_blank" rel="noopener">Get an accurate figure {{icon:arrow}}</a>
+          <p class="calc__note">Based on 4 to 5.5 times income after commitments, with 4.5 times as a typical figure. An illustration only, not an offer of credit.</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Repayments -->
+    <div class="calc-panel" role="tabpanel" id="tab-repay" aria-labelledby="t-repay" hidden>
+      <form class="calc" data-calc="repay" novalidate>
+        <div class="calc__form">
+          <div class="field">
+            <div class="field__top"><label for="c-loan">Mortgage amount</label><output class="field__value" id="c-loan-out"></output></div>
+            <input type="range" id="c-loan" name="loan" min="25000" max="1500000" step="5000" value="250000" data-out="c-loan-out" data-format="gbp">
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-rate">Interest rate</label><output class="field__value" id="c-rate-out"></output></div>
+            <input type="range" id="c-rate" name="rate" min="0.5" max="10" step="0.05" value="4.5" data-out="c-rate-out" data-format="pct">
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-term">Mortgage term</label><output class="field__value" id="c-term-out"></output></div>
+            <input type="range" id="c-term" name="term" min="5" max="40" step="1" value="25" data-out="c-term-out" data-format="yrs">
+          </div>
+          <div class="field">
+            <span class="field__label">Repayment type</span>
+            <div class="segmented">
+              <label><input type="radio" name="type" value="repay" checked><span>Capital &amp; interest</span></label>
+              <label><input type="radio" name="type" value="io"><span>Interest only</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="calc__result" aria-live="polite">
+          <div>
+            <div class="calc__label">Monthly payment</div>
+            <div class="calc__big" id="r-monthly">£0</div>
+            <div class="calc__sub">Over the full term</div>
+          </div>
+          <div class="calc__rows">
+            <div class="calc__row"><span>Total repaid</span><strong id="r-total">£0</strong></div>
+            <div class="calc__row"><span>Total interest</span><strong id="r-interest">£0</strong></div>
+            <div class="calc__row"><span>If rates rose 1%</span><strong id="r-stress">£0</strong></div>
+          </div>
+          <a class="btn btn--gold btn--block" href="https://calendly.com/mdjmortgages/free-30-minute-discovery-meeting-clone" target="_blank" rel="noopener">Find a better rate {{icon:arrow}}</a>
+          <p class="calc__note">Assumes the rate stays the same for the whole term. Excludes fees. Interest-only total includes repaying the loan at the end.</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Stamp duty -->
+    <div class="calc-panel" role="tabpanel" id="tab-sdlt" aria-labelledby="t-sdlt" hidden>
+      <form class="calc" data-calc="sdlt" novalidate>
+        <div class="calc__form">
+          <div class="field">
+            <div class="field__top"><label for="c-price">Property price</label><output class="field__value" id="c-price-out"></output></div>
+            <input type="range" id="c-price" name="price" min="50000" max="2500000" step="5000" value="375000" data-out="c-price-out" data-format="gbp">
+          </div>
+          <div class="field">
+            <span class="field__label">I am…</span>
+            <div class="segmented">
+              <label><input type="radio" name="buyer" value="ftb" checked><span>A first-time buyer</span></label>
+              <label><input type="radio" name="buyer" value="mover"><span>Moving home</span></label>
+              <label><input type="radio" name="buyer" value="additional"><span>Buying an additional property</span></label>
+            </div>
+          </div>
+          <div class="callout">
+            <strong>Rates for England and Northern Ireland</strong>
+            <p>Uses the rates in force from 1 April 2025. Wales and Scotland have their own taxes. Always check the latest rates on GOV.UK.</p>
+          </div>
+        </div>
+        <div class="calc__result" aria-live="polite">
+          <div>
+            <div class="calc__label">Stamp duty to pay</div>
+            <div class="calc__big" id="s-tax">£0</div>
+            <div class="calc__sub" id="s-note"></div>
+          </div>
+          <div class="calc__rows">
+            <div class="calc__row"><span>Effective rate</span><strong id="s-rate">0%</strong></div>
+          </div>
+          <a class="btn btn--gold btn--block" href="https://calendly.com/mdjmortgages/free-30-minute-discovery-meeting-clone" target="_blank" rel="noopener">Plan your purchase {{icon:arrow}}</a>
+          <p class="calc__note">A guide only, not tax advice. Your solicitor will confirm the amount due.</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Remortgage -->
+    <div class="calc-panel" role="tabpanel" id="tab-remo" aria-labelledby="t-remo" hidden>
+      <form class="calc" data-calc="remo" novalidate>
+        <div class="calc__form">
+          <div class="field">
+            <div class="field__top"><label for="c-bal">Outstanding mortgage</label><output class="field__value" id="c-bal-out"></output></div>
+            <input type="range" id="c-bal" name="balance" min="25000" max="1000000" step="5000" value="200000" data-out="c-bal-out" data-format="gbp">
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-cur">Rate you'd move to (e.g. lender's SVR)</label><output class="field__value" id="c-cur-out"></output></div>
+            <input type="range" id="c-cur" name="current" min="1" max="10" step="0.05" value="7.5" data-out="c-cur-out" data-format="pct">
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-new">New deal rate</label><output class="field__value" id="c-new-out"></output></div>
+            <input type="range" id="c-new" name="new" min="1" max="10" step="0.05" value="4.25" data-out="c-new-out" data-format="pct">
+          </div>
+          <div class="field">
+            <div class="field__top"><label for="c-rterm">Years remaining</label><output class="field__value" id="c-rterm-out"></output></div>
+            <input type="range" id="c-rterm" name="term" min="5" max="35" step="1" value="20" data-out="c-rterm-out" data-format="yrs">
+          </div>
+        </div>
+        <div class="calc__result" aria-live="polite">
+          <div>
+            <div class="calc__label">You could save</div>
+            <div class="calc__big" id="m-save">£0</div>
+            <div class="calc__sub">per month</div>
+          </div>
+          <div class="calc__rows">
+            <div class="calc__row"><span>Per year</span><strong id="m-year">£0</strong></div>
+            <div class="calc__row"><span>Over a 5-year fix</span><strong id="m-five">£0</strong></div>
+            <div class="calc__row"><span>Payment at current rate</span><strong id="m-cur">£0</strong></div>
+            <div class="calc__row"><span>Payment on new deal</span><strong id="m-new">£0</strong></div>
+          </div>
+          <a class="btn btn--gold btn--block" href="remortgage.html#reminder">Get a renewal reminder {{icon:arrow}}</a>
+          <p class="calc__note">Illustrative only. Rates shown are examples, not offers. Product fees and early repayment charges are not included.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-3">
+    <div class="card reveal"><span class="card__icon">{{icon:file}}</span><h3>What lenders look at</h3><p>Income, regular outgoings, credit history, deposit size and the length of your mortgage term all affect what you can borrow.</p></div>
+    <div class="card reveal" style="--d:.06s"><span class="card__icon">{{icon:trend}}</span><h3>Why figures vary</h3><p>Some lenders go above 5 times income for higher earners or certain professions. Others are more cautious. The right lender matters.</p></div>
+    <div class="card card--ink reveal" style="--d:.12s"><span class="card__icon">{{icon:phone}}</span><h3>Want a real number?</h3><p>Call 01256 518318 and we'll tell you what you could borrow from the lenders most likely to lend to you.</p><a class="card__more" href="tel:+441256518318">Call now {{icon:arrow}}</a></div>
+  </div>
+</section>
+
+{{include:cta}}
