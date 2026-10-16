@@ -143,3 +143,14 @@ window.IB_PRODUCTS = [
     desc: "Hot bain marie with GN pans to keep curries and gravies at serving temperature.",
     specs: ["GN pan configuration", "Electric / gas heating", "Thermostat control", "Under-shelf storage"] }
 ];
+
+/* Real photos from the business's Google Business Profile — shown first in the gallery. */
+window.IB_PHOTOS = [
+  { src: "assets/img/site/pani-puri-stall-night.jpg", name: "Illuminated Pani Puri Stall — Shrikant Panipuri Centre" },
+  { src: "assets/img/site/zero-mile-counter.jpg", name: "Restaurant Counter — Zero Mile Restaurant" },
+  { src: "assets/img/site/showroom-2.jpg", name: "Our Showroom" },
+  { src: "assets/img/site/shawarma-workshop.jpg", name: "Shawarma Machine, fresh from the workshop" },
+  { src: "assets/img/site/display-counters-pair.jpg", name: "Premium Display Counters" },
+  { src: "assets/img/site/workshop-sign.jpg", name: "Our Workshop, Kamptee Road" },
+  { src: "assets/img/site/showroom-1.jpg", name: "Showroom — Refrigeration & Counters" }
+];

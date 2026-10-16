@@ -79,9 +79,9 @@
   function productCard(p) {
     return '<button type="button" class="product reveal" data-product="' + esc(p.id) + '">' +
       '<div class="product-media"><span class="product-tag">' + esc(catName(p.cat)) + '</span>' +
-      '<img src="' + IMG + esc(p.img) + '.jpg" alt="' + esc(p.name) + ' by IB Refrigeration" loading="lazy" width="250" height="250"></div>' +
-      '<div class="product-body"><h3>' + esc(p.name) + '</h3><p>' + esc(p.desc) + '</p>' +
-      '<span class="product-link">View details ' + arrow + '</span></div></button>';
+      '<img src="' + IMG + esc(p.img) + '.jpg" alt="' + esc(p.name) + ' by IB Refrigeration" loading="lazy" width="800" height="800">' +
+      '<span class="product-cta">View details &amp; price ' + arrow + '</span></div>' +
+      '<div class="product-body"><h3>' + esc(p.name) + '</h3><p>' + esc(p.desc) + '</p></div></button>';
   }
 
   var grid = $("#product-grid");
@@ -142,7 +142,7 @@
     var msg = "Hi IB Refrigeration, I'm interested in the " + p.name + ". Please share price and details.";
     $(".modal-media", modal).innerHTML = '<img src="' + IMG + esc(p.img) + '.jpg" alt="' + esc(p.name) + '">';
     $(".modal-body", modal).innerHTML =
-      '<span class="eyebrow">' + esc(catName(p.cat)) + '</span><h2 id="modal-title">' + esc(p.name) + '</h2><p class="lead" style="font-size:16.5px">' + esc(p.desc) + '</p>' +
+      '<span class="eyebrow">' + esc(catName(p.cat)) + '</span><h2 id="modal-title">' + esc(p.name) + '</h2><p class="lead" style="font-size:17px">' + esc(p.desc) + '</p>' +
       '<ul class="spec-list">' + p.specs.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + '</ul>' +
       '<div class="modal-actions">' +
       '<a class="btn btn-whatsapp" target="_blank" rel="noopener" href="' + waLink(msg) + '">' + ICON_WA + 'Get Price on WhatsApp</a>' +
@@ -169,10 +169,12 @@
   var galleryEl = $("#gallery");
   var lb = $("#lightbox");
   var lbIndex = 0;
+  var SHOTS = (window.IB_PHOTOS || []).map(function (p) { return { src: p.src, name: p.name, cap: p.name }; })
+    .concat(PRODUCTS.map(function (p) { return { src: IMG + p.img + ".jpg", name: p.name, cap: p.name + " — " + catName(p.cat) }; }));
   if (galleryEl) {
-    galleryEl.innerHTML = PRODUCTS.map(function (p, i) {
-      return '<button type="button" class="gallery-item reveal" data-lb="' + i + '"><figure style="margin:0"><img src="' + IMG + esc(p.img) +
-        '.jpg" alt="' + esc(p.name) + '" loading="lazy"><figcaption>' + esc(p.name) + '</figcaption></figure></button>';
+    galleryEl.innerHTML = SHOTS.map(function (s, i) {
+      return '<button type="button" class="gallery-item reveal" data-lb="' + i + '"><figure><img src="' + esc(s.src) +
+        '" alt="' + esc(s.name) + '" loading="lazy"><figcaption>' + esc(s.name) + '</figcaption></figure></button>';
     }).join("");
     observe(galleryEl);
     galleryEl.addEventListener("click", function (e) {
@@ -182,11 +184,11 @@
   }
   function showLb(i) {
     if (!lb) return;
-    lbIndex = (i + PRODUCTS.length) % PRODUCTS.length;
-    var p = PRODUCTS[lbIndex];
-    $("img", lb).src = IMG + p.img + ".jpg";
-    $("img", lb).alt = p.name;
-    $("figcaption", lb).textContent = p.name + " — " + catName(p.cat);
+    lbIndex = (i + SHOTS.length) % SHOTS.length;
+    var s = SHOTS[lbIndex];
+    $("img", lb).src = s.src;
+    $("img", lb).alt = s.name;
+    $("figcaption", lb).textContent = s.cap;
     if (!lb.classList.contains("open")) { lastFocus = document.activeElement; lb.classList.add("open"); document.body.style.overflow = "hidden"; $(".lb-close", lb).focus(); }
   }
   function closeLb() { if (!lb) return; lb.classList.remove("open"); document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); }
@@ -202,6 +204,27 @@
       if (e.key === "ArrowLeft") showLb(lbIndex - 1);
       if (e.key === "ArrowRight") showLb(lbIndex + 1);
     }
+  });
+
+  /* ---------- Reviews: source filter + home carousel ---------- */
+  var rf = $("#review-filters");
+  if (rf) rf.addEventListener("click", function (e) {
+    var b = e.target.closest(".filter"); if (!b) return;
+    var src = b.getAttribute("data-src");
+    $$(".filter", rf).forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    $$("#review-grid .review").forEach(function (r) {
+      var s = r.getAttribute("data-src");
+      r.hidden = !(src === "all" || s === src || s === "cta");
+    });
+  });
+  var rail = $("#review-rail");
+  $$("[data-rail]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (!rail) return;
+      var card = $(".review", rail);
+      var step = card ? card.getBoundingClientRect().width + 20 : 340;
+      rail.scrollBy({ left: step * parseInt(b.getAttribute("data-rail"), 10), behavior: "smooth" });
+    });
   });
 
   /* ---------- Quote form → WhatsApp / Email ---------- */

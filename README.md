@@ -27,13 +27,14 @@ Every page also includes:
 
 - **Business details, navigation, page text and footer**: edit `build.py`, then run `python3 build.py`. This regenerates every `.html` file.
 - **Products**: edit `assets/js/products.js`. Add a square JPG to `assets/img/products/` and reference it by file name, without the extension.
-- **Testimonials**: add entries to the `REVIEWS` list in `build.py` (name, text, source, date). Copy them word for word from real Google reviews, then rebuild.
+- **Reviews**: the `REVIEWS` list in `build.py` holds every publicly visible review (5 from Google, 3 from Justdial), copied word for word. The rating summary (4.9★ from 49 Google reviews, star breakdown, and 4.9★ from 58 Justdial ratings) is in `BIZ`. To add a review, append it as (name, profile line, date, stars, text, source) and rebuild.
+- **Photos**: `assets/img/site/` holds the business's own photos from its Google Business Profile (workshop, showroom, stalls). Product photos in `assets/img/products/` are the IndiaMART brochure images, upscaled 4× with an EDSR model.
 - **Styles**: `assets/css/style.css`. Brand colours are the variables at the top of the file.
 
 ## Before go-live checklist
 
-- [ ] Get better photos. The current product images come from the IndiaMART brochure and are low resolution (about 250px). High-res photos (1000px+) will make the site look noticeably sharper.
-- [ ] Paste 3–6 real Google reviews into `REVIEWS` in `build.py`.
+- [ ] Get better product photos. The brochure images are upscaled from about 250px; fresh 1000px+ photos of each product will look noticeably sharper.
+- [ ] Ask the owner to share any extra Google reviews they want featured. Google shows only 5 reviews' text to signed-out visitors, so the other 44 couldn't be pulled automatically.
 - [ ] Confirm the working hours (currently Mon–Sat, 10 AM – 8 PM) and the WhatsApp number (currently 9021426223).
 - [ ] Point the `ibrefrigeration.in` domain at the host. If the domain changes, update `SITE` in `build.py`.
 - [ ] Submit `sitemap.xml` in Google Search Console, and link the website from the Google Business Profile.
