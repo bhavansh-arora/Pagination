@@ -835,3 +835,8 @@ main, .tile, .qcard, .chapter, .price-card, .form-panel, .faq details { backgrou
 .gallery-grid .media { aspect-ratio: 4 / 5; }
 .spacer { height: clamp(40px, 6vw, 96px); }
 .divider { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* Per-device visibility (set from the site editor's Advanced tab) */
+@media (max-width: 759px) { html:not(.ed-edit) .hide-mobile { display: none !important; } }
+@media (min-width: 760px) and (max-width: 1023px) { html:not(.ed-edit) .hide-tablet { display: none !important; } }
+@media (min-width: 1024px) { html:not(.ed-edit) .hide-desktop { display: none !important; } }

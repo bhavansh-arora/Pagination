@@ -177,7 +177,7 @@
   function useHere(it) {
     var tgt = selectedTarget();
     if (!tgt) return;
-    if (tgt.type === "image") { E.setPhoto(tgt.comp, it.kind === "site" ? SITE + "assets/img/" + it.name + "-1600.webp" : it.src); E.renderPhotos(); }
+    if (tgt.type === "image") { E.setPhoto(tgt.comp, it.kind === "site" ? SITE + "assets/img/" + it.name + "-1600.webp" : it.src); if (window.__inspector) window.__inspector.refresh(); }
     else if (tgt.type === "video") { tgt.comp.set("src", it.src); tgt.comp.addAttributes({ src: it.src }); }
     else if (tgt.type === "youtube") { tgt.comp.addAttributes({ "data-id": it.id, "aria-label": "Play film: " + it.name }); }
     editor.trigger("update");

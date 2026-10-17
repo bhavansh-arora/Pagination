@@ -359,8 +359,9 @@
         var m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
         var id = m ? m[1] : v;
         if (id !== v) { this.addAttributes({ "data-id": id }); return; }
-        var img = this.find("img")[0];
-        if (img) img.set("src", "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg");
+        var img = this.find("img")[0], cur = img ? img.get("src") || "" : "";
+        // Follow the new video's thumbnail unless a custom thumbnail was chosen.
+        if (img && (!cur || cur.indexOf("i.ytimg.com") >= 0)) img.set("src", "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg");
       }
     }
   });
@@ -436,58 +437,11 @@
     if (el && el.closest && el.closest(".hero__slides")) return "Slideshow photo " + (i + 1) + (i === 0 ? " (shows first)" : "");
     return n > 1 ? "Photo " + (i + 1) : "Photo";
   }
-  var photoBox = document.createElement("div");
-  photoBox.className = "ed-photos"; photoBox.hidden = true;
-  function renderPhotos() {
-    var c = editor.getSelected();
-    var host = document.querySelector(".gjs-pn-views-container");
-    if (host && photoBox.parentNode !== host) host.insertBefore(photoBox, host.firstChild);
-    var blocks = editor.Panels.getButton("views", "open-blocks");
-    var res = c ? photosFor(c) : { list: [] };
-    if (!c || !res.list.length || (blocks && blocks.get("active"))) { photoBox.hidden = true; photoBox._list = []; return; }
-    var list = res.list, n = list.length;
-    photoBox.hidden = false; photoBox._list = list;
-    photoBox.innerHTML = "<div class='ed-photos__head'><strong>" + (n > 1 ? n + " photos" : "Photo") + (res.from !== c ? " here" : "") + "</strong>" +
-      "<span>Click a thumbnail to set the focus point</span></div>" +
-      list.map(function (p, i) {
-        var f = focusOf(p);
-        return "<div class='ed-photo' data-i='" + i + "'><div class='ed-photo__pic' title='Click to keep this point in frame (e.g. faces)'><img alt='' src='" + p.src.replace(/'/g, "%27") + "'>" +
-          "<i class='ed-photo__dot' style='left:" + f[0] + "%;top:" + f[1] + "%'></i></div><div class='ed-photo__meta'><span class='ed-photo__label'>" + photoLabel(p, i, n) + "</span>" +
-          "<span class='ed-photo__name'></span><div class='ed-photo__acts'><button type='button' class='ed-btn ed-btn--gold' data-photo='change'>Change photo</button>" +
-          "<button type='button' class='ed-btn' data-photo='select' title='Select this photo on the page'>Select</button></div></div></div>";
-      }).join("");
-    photoBox.querySelectorAll(".ed-photo__name").forEach(function (el, i) { el.textContent = photoName(list[i].src); el.title = el.textContent; });
-  }
-  photoBox.addEventListener("click", function (e) {
-    var row = e.target.closest(".ed-photo"); if (!row) return;
-    var p = photoBox._list[+row.getAttribute("data-i")]; if (!p) return;
-    var act = e.target.closest("[data-photo]");
-    if (act && act.getAttribute("data-photo") === "change") {
-      pickPhoto(function (src) { setPhoto(p.comp, src); editor.trigger("update"); setTimeout(renderPhotos, 50); });
-    } else if (act && act.getAttribute("data-photo") === "select") {
-      editor.select(p.comp);
-      try { editor.Canvas.scrollTo(p.comp, { behavior: "smooth", block: "center" }); } catch (err) {}
-    } else if (e.target.closest(".ed-photo__pic")) {
-      var img = row.querySelector("img"), r = img.getBoundingClientRect();
-      // The thumbnail shows the whole photo (contain), so map the click onto the image's real area.
-      var nw = img.naturalWidth || r.width, nh = img.naturalHeight || r.height, sc = Math.min(r.width / nw, r.height / nh);
-      var w = nw * sc, h = nh * sc, ox = r.left + (r.width - w) / 2, oy = r.top + (r.height - h) / 2;
-      var x = Math.round(Math.max(0, Math.min(100, (e.clientX - ox) / w * 100))), y = Math.round(Math.max(0, Math.min(100, (e.clientY - oy) / h * 100)));
-      var st = {}; st[p.kind === "img" ? "object-position" : "background-position"] = x + "% " + y + "%";
-      p.comp.addStyle(st); editor.trigger("update");
-      var dot = row.querySelector(".ed-photo__dot"); dot.style.left = x + "%"; dot.style.top = y + "%";
-    }
-  });
   // The editor window itself never scrolls (scrolling into the canvas can nudge it and hide the top bar).
   document.addEventListener("scroll", function (e) {
     var t = e.target === document ? document.scrollingElement : e.target;
     if (t === document.body || t === document.documentElement) { if (t.scrollTop || t.scrollLeft) { t.scrollTop = 0; t.scrollLeft = 0; } }
   }, true);
-  var photoTimer;
-  function queuePhotos() { clearTimeout(photoTimer); photoTimer = setTimeout(renderPhotos, 60); }
-  editor.on("component:selected component:deselected", queuePhotos);
-  editor.on("component:update:src component:styleUpdate", function () { if (!photoBox.hidden) queuePhotos(); });
-  editor.on("run:open-blocks run:open-sm run:open-tm run:open-layers stop:open-blocks", queuePhotos);
 
   // Hero slideshow: clicking the hero photo selects the whole slideshow so all four photos are listed.
   editor.DomComponents.addType("hero-slideshow", {
@@ -497,7 +451,7 @@
   editor.on("component:selected", function (c) {
     var show = c && c.closest && c.closest(".hero__slides");
     if (show && show !== c) { editor.select(show); return; }
-    if (c && c.get("type") === "hero-slideshow") toast("This is the hero slideshow: change each of its photos at the top of the panel on the right.");
+    if (c && c.get("type") === "hero-slideshow") toast("This is the hero slideshow: change each of its photos in the panel on the right.");
   });
 
   /* ---------------- Style panel shows what is actually applied ---------------- */
@@ -595,11 +549,16 @@
   editor.on("component:selected", function (c) {
     setTimeout(function () { updateColorDots(); fillComputed(); }, 80);
     if (!c || Date.now() - lastDrop < 800) return;
+    // The element inspector (Content / Style / Advanced) opens on its Content tab; without it, open styles.
+    if (window.__inspector) window.__inspector.show();
+    else openStyle();
+  });
+  function openStyle() {
     var b = editor.Panels.getButton("views", "open-sm");
     if (b && !b.get("active")) b.set("active", true);
     ["typography", "decorations"].forEach(function (id) { try { var sec = editor.StyleManager.getSector(id); if (sec) (sec.setOpen ? sec.setOpen(true) : sec.set("open", true)); } catch (e) {} });
     setTimeout(fillComputed, 150);
-  });
+  }
   editor.on("component:deselected", function () { setTimeout(updateColorDots, 50); });
 
   // Image library: every site photo plus anything uploaded this session.
@@ -625,7 +584,11 @@
     ".marquee__track{animation:none!important}",
     ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #c6a46a;border-radius:16px}",
     ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#c6a46a}",
-    ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}"
+    ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}",
+    // Elements hidden on a device stay selectable while editing: faded and outlined instead.
+    "@media (max-width:759px){.hide-mobile{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
+    "@media (min-width:760px) and (max-width:1023px){.hide-tablet{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
+    "@media (min-width:1024px){.hide-desktop{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}"
   ].join("");
 
   // Canvas helpers: make the header and mobile menu editable in place.
@@ -634,6 +597,7 @@
     if (!doc) return;
     var el = doc.getElementById("ed-overrides");
     if (!el) { el = doc.createElement("style"); el.id = "ed-overrides"; doc.head.appendChild(el); }
+    doc.documentElement.classList.add("ed-edit");
     var css = "html body{background:var(--paper,#0d0b09)!important}" + EDIT_MODE_CSS + themeCss();
     // Load every photo right away inside the editor (the live site keeps lazy loading).
     Array.prototype.forEach.call(doc.querySelectorAll("img[loading=lazy]"), function (i) { i.loading = "eager"; });
@@ -1128,6 +1092,7 @@
   // Exposed for automated checks.
   window.__siteEditor = { region: region, setRegion: setRegion, cleanHtml: cleanHtml, extractUploads: extractUploads, currentExport: currentExport, publish: publish, load: load, state: state, cfg: cfg,
     api: api, readFile: readFile, listPages: listPages, commitFiles: commitFiles, toast: toast, openModal: openModal, closeModals: closeModals,
-    setVersion: setVersion, markEdited: markEdited, labelFor: labelFor, updateUI: updateUI, prepareImage: prepareImage, pickPhoto: pickPhoto, photoOf: photoOf, setPhoto: setPhoto, renderPhotos: renderPhotos,
+    setVersion: setVersion, markEdited: markEdited, labelFor: labelFor, updateUI: updateUI, prepareImage: prepareImage, pickPhoto: pickPhoto, photoOf: photoOf, setPhoto: setPhoto, photosFor: photosFor, focusOf: focusOf, photoName: photoName, photoLabel: photoLabel,
+    toEditor: toEditor, fromEditor: fromEditor, openStyle: openStyle, fillComputed: fillComputed, updateColorDots: updateColorDots, applyOverrides: applyOverrides,
     openSettings: openSettings, encPath: encPath, SITE: SITE, editor: editor };
 })();
