@@ -36,6 +36,7 @@
     <button class="ed-btn ed-btn--ghost" id="ed-colors" type="button" title="Colours for the selected element, and the site theme">
       <span class="ed-cdots" aria-hidden="true"><span class="ed-cdot" id="cd-text"></span><span class="ed-cdot" id="cd-bg"></span></span><span class="ed-lbl ed-lbl--md">Colours</span>
     </button>
+    <button class="ed-btn ed-btn--ghost" id="ed-media" type="button" title="Photos &amp; videos library: see, swap and upload media"><svg class="ed-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg><span class="ed-lbl ed-lbl--md">Media</span></button>
     <button class="ed-icon" id="ed-code" type="button" title="Edit HTML / CSS"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></button>
     <button class="ed-icon" id="ed-preview" type="button" title="Preview"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
   </div>
@@ -155,9 +156,31 @@
   </div>
 </div>
 
+<!-- Media library -->
+<div class="ed-modal" id="m-media" hidden>
+  <div class="ed-modal__box ed-modal__box--wide ed-media">
+    <div class="mm-head">
+      <h2>Media library</h2>
+      <div class="ed-tabs" role="tablist">
+        <button class="ed-tab is-active" type="button" data-tab="photos" id="mt-photos">Photos</button>
+        <button class="ed-tab" type="button" data-tab="videos" id="mt-videos">Videos</button>
+      </div>
+    </div>
+    <div class="mm-top">
+      <input id="mm-search" type="search" placeholder="Search by name or page…" aria-label="Search media">
+      <button class="ed-btn" type="button" id="mm-up-photo">Upload photos</button>
+      <button class="ed-btn" type="button" id="mm-up-video">Upload video</button>
+    </div>
+    <p id="mm-target" class="ed-muted ed-small"></p>
+    <div class="mm-grid" id="mm-grid"></div>
+    <div class="ed-actions"><button class="ed-btn ed-btn--gold" type="button" data-close>Done</button></div>
+  </div>
+</div>
+
 <div class="ed-toast" id="ed-toast" role="status" hidden></div>
 
 <script src="vendor/grapes.min.js"></script>
 <script src="editor.js"></script>
+<script src="media.js"></script>
 </body>
 </html>

@@ -80,6 +80,7 @@
     }).then(function (commit) {
       return files.reduce(function (p, f) {
         return p.then(function (tree) {
+          if (f.remove) { tree.push({ path: f.path, mode: "100644", type: "blob", sha: null }); return tree; }
           var body = f.base64 != null ? { content: f.base64, encoding: "base64" } : { content: f.content, encoding: "utf-8" };
           return api("/git/blobs", { method: "POST", body: JSON.stringify(body) }).then(function (blob) {
             tree.push({ path: f.path, mode: "100644", type: "blob", sha: blob.sha });
@@ -149,8 +150,11 @@
       .replace(/<details(?![^>]*\sopen)([^>]*)>/g, '<details$1 open data-ed-closed="">');
   }
   function fromEditor(s) { return (s || "").split(SITE + "assets/").join("assets/"); }
+  // Uploaded videos preview from a temporary blob: URL until GitHub Pages serves the real file.
+  state.blobMap = {};
+  function unblob(s) { Object.keys(state.blobMap).forEach(function (b) { s = s.split(b).join(state.blobMap[b]); }); return s; }
   function cleanHtml(html) {
-    html = fromEditor(html.replace(/^\s*<body[^>]*>/i, "").replace(/<\/body>\s*$/i, ""));
+    html = fromEditor(unblob(html.replace(/^\s*<body[^>]*>/i, "").replace(/<\/body>\s*$/i, "")));
     var doc = new DOMParser().parseFromString('<div id="ed-root">' + html + "</div>", "text/html");
     var root = doc.getElementById("ed-root");
     root.querySelectorAll("details[data-ed-closed]").forEach(function (d) { d.removeAttribute("open"); d.removeAttribute("data-ed-closed"); });
@@ -161,6 +165,12 @@
       if (!stem || src.indexOf("data:") === 0 || img.getAttribute("srcset").indexOf(stem + "-") < 0) {
         img.removeAttribute("srcset"); img.removeAttribute("sizes");
       }
+    });
+    // Videos: drop editor-only attributes and any placeholder source that isn't a real file.
+    root.querySelectorAll("video").forEach(function (v) {
+      v.removeAttribute("allowfullscreen");
+      var src = v.getAttribute("src") || "";
+      if (!src || /^blob:/.test(src) || src.indexOf("/admin/") >= 0) v.removeAttribute("src");
     });
     return root.innerHTML;
   }
@@ -276,6 +286,8 @@
     ["el-image", "Elements", "Photo", ico('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M3 17l5-4 4 3 3-2 6 4"/>'), media("golden-hour-portrait", "Describe this photo", "ratio-land")],
     ["el-video", "Elements", "YouTube film", ico('<rect x="3" y="6" width="18" height="12" rx="3"/><path d="M10 9.5l4.5 2.5-4.5 2.5z"/>'),
       '<button class="yt" type="button" data-id="k7mlTdWmj0o" aria-label="Play film"><img src="https://i.ytimg.com/vi/k7mlTdWmj0o/maxresdefault.jpg" alt=""><span class="yt__play">' + PLAY + "</span></button>"],
+    ["el-videofile", "Elements", "Video file", ico('<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>'),
+      { tagName: "div", classes: ["media", "ratio-wide"], components: [{ type: "video", src: "", autoplay: true, loop: true, controls: false, attributes: { muted: "", playsinline: "", preload: "metadata" } }] }],
     ["el-quote", "Elements", "Quote", ico('<path d="M6 9h4v5H6zM14 9h4v5h-4z"/>'), '<blockquote class="statement" style="font-size:clamp(1.4rem,1rem + 2vw,2.6rem)">“A memorable quote goes here.”</blockquote>'],
     ["el-stat", "Elements", "Stat tile", ico('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'), '<div class="tile"><span class="label">Label</span><div><div class="tile__num foil">18<sup>months</sup></div><p class="mt-s">Explain the number.</p></div></div>'],
     ["el-pill", "Elements", "Pill", ico('<rect x="4" y="9" width="16" height="6" rx="3"/>'), '<span class="pill">Pill text</span>'],
@@ -548,7 +560,7 @@
   function saveDraft() {
     clearTimeout(draftTimer);
     draftTimer = setTimeout(function () {
-      try { localStorage.setItem(draftKey(state.target), JSON.stringify({ t: Date.now(), html: editor.getHtml(), css: editor.getCss({ avoidProtected: true }), meta: state.metaChanged ? state.meta : null })); } catch (e) {}
+      try { localStorage.setItem(draftKey(state.target), JSON.stringify({ t: Date.now(), html: unblob(editor.getHtml()), css: editor.getCss({ avoidProtected: true }), meta: state.metaChanged ? state.meta : null })); } catch (e) {}
     }, 600);
   }
   // "Dirty" means the content really differs from what was loaded (late load events are ignored).
@@ -1027,5 +1039,8 @@
   }
 
   // Exposed for automated checks.
-  window.__siteEditor = { region: region, setRegion: setRegion, cleanHtml: cleanHtml, extractUploads: extractUploads, currentExport: currentExport, publish: publish, load: load, state: state, cfg: cfg };
+  window.__siteEditor = { region: region, setRegion: setRegion, cleanHtml: cleanHtml, extractUploads: extractUploads, currentExport: currentExport, publish: publish, load: load, state: state, cfg: cfg,
+    api: api, readFile: readFile, listPages: listPages, commitFiles: commitFiles, toast: toast, openModal: openModal, closeModals: closeModals,
+    setVersion: setVersion, markEdited: markEdited, labelFor: labelFor, updateUI: updateUI, prepareImage: prepareImage, pickPhoto: pickPhoto,
+    openSettings: openSettings, encPath: encPath, SITE: SITE, editor: editor };
 })();
