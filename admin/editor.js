@@ -149,6 +149,9 @@
       // FAQ answers are opened while editing so they can be changed (closed again on publish).
       .replace(/<details(?![^>]*\sopen)([^>]*)>/g, '<details$1 open data-ed-closed="">');
   }
+  // CSS first: loading components turns inline style="" attributes (photo focal points, inline
+  // background photos) into rules, and setStyle afterwards would wipe them.
+  function setContent(html, css) { editor.setStyle(css || ""); editor.setComponents(html); }
   function fromEditor(s) { return (s || "").split(SITE + "assets/").join("assets/"); }
   // Uploaded videos preview from a temporary blob: URL until GitHub Pages serves the real file.
   state.blobMap = {};
@@ -368,47 +371,133 @@
     if (a.srcset || a.sizes) c.removeAttributes(["srcset", "sizes"]);
   });
 
-  // Hero slideshow: edit all photos from the Settings panel (thumbnails + Change buttons).
   function pickPhoto(onPick) {
     editor.AssetManager.open({
       select: function (asset, complete) { onPick(asset.getSrc()); editor.AssetManager.close(); }
     });
   }
-  editor.TraitManager.addType("slide-photo", {
-    noLabel: true,
-    createInput: function (o) {
-      var trait = o.trait, el = document.createElement("div");
-      el.className = "ed-slide-trait";
-      el.innerHTML = "<img alt=''><div><strong></strong><button type='button' class='ed-btn ed-btn--gold'>Change photo</button></div>";
-      el.querySelector("strong").textContent = trait.get("text");
-      el.querySelector("button").addEventListener("click", function () {
-        var comp = trait.target, img = comp.find(".hero__slide img")[trait.get("idx")];
-        if (!img) return;
-        pickPhoto(function (src) { img.set("src", src); el.querySelector("img").src = src; });
-      });
-      return el;
-    },
-    onUpdate: function (o) {
-      var img = o.component.find(".hero__slide img")[o.trait.get("idx")];
-      o.elInput.querySelector("img").src = img ? img.get("src") : "";
+
+  /* ---------------- Photo panel: every photo in the selection, with Change + focus point ---------------- */
+  // A "photo" is an <img> or any element showing a background-image (e.g. the inline photos in headlines).
+  function bgUrl(c) {
+    var v = (c.getStyle && c.getStyle()["background-image"]) || "";
+    var m = v.match(/url\((['"]?)(.*?)\1\)/);
+    return m ? m[2] : "";
+  }
+  function isImg(c) { return c.get("type") === "image" || c.get("tagName") === "img"; }
+  function photoOf(c) {
+    if (!c || !c.get) return null;
+    if (c.closest && c.closest(".yt")) return null; // film thumbnails follow the YouTube video (Media → Change video)
+    if (isImg(c) && c.get("src")) return { comp: c, kind: "img", src: c.get("src") };
+    var u = bgUrl(c);
+    return u ? { comp: c, kind: "bg", src: u } : null;
+  }
+  function photosIn(c, out) {
+    out = out || [];
+    var p = photoOf(c); if (p) out.push(p);
+    if (out.length < 24) c.components().forEach(function (k) { photosIn(k, out); });
+    return out;
+  }
+  // The selection's own photos; failing that, photos it sits on top of (e.g. a caption laid over a photo).
+  function overlaps(a, b) {
+    if (!a || !b) return false;
+    var r = a.getBoundingClientRect(), q = b.getBoundingClientRect();
+    var w = Math.min(r.right, q.right) - Math.max(r.left, q.left), h = Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top);
+    return w > 0 && h > 0 && w * h > 0.3 * r.width * r.height;
+  }
+  function photosFor(c) {
+    var list = photosIn(c), up = c, hops = 0;
+    if (list.length) return { list: list, from: c };
+    while (hops < 3 && up.parent() && up.parent().get("type") !== "wrapper") {
+      up = up.parent(); hops++;
+      list = photosIn(up).filter(function (p) { return overlaps(c.getEl(), p.comp.getEl()); });
+      if (list.length) return { list: list, from: up };
+    }
+    return { list: [], from: c };
+  }
+  function setPhoto(c, src) {
+    if (isImg(c)) c.set("src", src);
+    else c.addStyle({ "background-image": "url(" + src + ")" });
+  }
+  function focusOf(p) {
+    var st = p.comp.getStyle()[p.kind === "img" ? "object-position" : "background-position"];
+    var el = p.comp.getEl();
+    if (!st && el) { var cs = el.ownerDocument.defaultView.getComputedStyle(el); st = p.kind === "img" ? cs.objectPosition : cs.backgroundPosition; }
+    var m = String(st || "").match(/(-?[\d.]+)%\s+(-?[\d.]+)%/);
+    return m ? [+m[1], +m[2]] : [50, 50];
+  }
+  function photoName(src) {
+    if (/^data:/.test(src)) return "New upload (not published yet)";
+    if (/^blob:/.test(src)) return "New upload";
+    return decodeURIComponent(src.split("?")[0].split("/").pop()).replace(/-(480|800|1600)\.webp$/, "");
+  }
+  function photoLabel(p, i, n) {
+    var el = p.comp.getEl();
+    if (el && el.closest && el.closest(".hero__slides")) return "Slideshow photo " + (i + 1) + (i === 0 ? " (shows first)" : "");
+    return n > 1 ? "Photo " + (i + 1) : "Photo";
+  }
+  var photoBox = document.createElement("div");
+  photoBox.className = "ed-photos"; photoBox.hidden = true;
+  function renderPhotos() {
+    var c = editor.getSelected();
+    var host = document.querySelector(".gjs-pn-views-container");
+    if (host && photoBox.parentNode !== host) host.insertBefore(photoBox, host.firstChild);
+    var blocks = editor.Panels.getButton("views", "open-blocks");
+    var res = c ? photosFor(c) : { list: [] };
+    if (!c || !res.list.length || (blocks && blocks.get("active"))) { photoBox.hidden = true; photoBox._list = []; return; }
+    var list = res.list, n = list.length;
+    photoBox.hidden = false; photoBox._list = list;
+    photoBox.innerHTML = "<div class='ed-photos__head'><strong>" + (n > 1 ? n + " photos" : "Photo") + (res.from !== c ? " here" : "") + "</strong>" +
+      "<span>Click a thumbnail to set the focus point</span></div>" +
+      list.map(function (p, i) {
+        var f = focusOf(p);
+        return "<div class='ed-photo' data-i='" + i + "'><div class='ed-photo__pic' title='Click to keep this point in frame (e.g. faces)'><img alt='' src='" + p.src.replace(/'/g, "%27") + "'>" +
+          "<i class='ed-photo__dot' style='left:" + f[0] + "%;top:" + f[1] + "%'></i></div><div class='ed-photo__meta'><span class='ed-photo__label'>" + photoLabel(p, i, n) + "</span>" +
+          "<span class='ed-photo__name'></span><div class='ed-photo__acts'><button type='button' class='ed-btn ed-btn--gold' data-photo='change'>Change photo</button>" +
+          "<button type='button' class='ed-btn' data-photo='select' title='Select this photo on the page'>Select</button></div></div></div>";
+      }).join("");
+    photoBox.querySelectorAll(".ed-photo__name").forEach(function (el, i) { el.textContent = photoName(list[i].src); el.title = el.textContent; });
+  }
+  photoBox.addEventListener("click", function (e) {
+    var row = e.target.closest(".ed-photo"); if (!row) return;
+    var p = photoBox._list[+row.getAttribute("data-i")]; if (!p) return;
+    var act = e.target.closest("[data-photo]");
+    if (act && act.getAttribute("data-photo") === "change") {
+      pickPhoto(function (src) { setPhoto(p.comp, src); editor.trigger("update"); setTimeout(renderPhotos, 50); });
+    } else if (act && act.getAttribute("data-photo") === "select") {
+      editor.select(p.comp);
+      try { editor.Canvas.scrollTo(p.comp, { behavior: "smooth", block: "center" }); } catch (err) {}
+    } else if (e.target.closest(".ed-photo__pic")) {
+      var img = row.querySelector("img"), r = img.getBoundingClientRect();
+      // The thumbnail shows the whole photo (contain), so map the click onto the image's real area.
+      var nw = img.naturalWidth || r.width, nh = img.naturalHeight || r.height, sc = Math.min(r.width / nw, r.height / nh);
+      var w = nw * sc, h = nh * sc, ox = r.left + (r.width - w) / 2, oy = r.top + (r.height - h) / 2;
+      var x = Math.round(Math.max(0, Math.min(100, (e.clientX - ox) / w * 100))), y = Math.round(Math.max(0, Math.min(100, (e.clientY - oy) / h * 100)));
+      var st = {}; st[p.kind === "img" ? "object-position" : "background-position"] = x + "% " + y + "%";
+      p.comp.addStyle(st); editor.trigger("update");
+      var dot = row.querySelector(".ed-photo__dot"); dot.style.left = x + "%"; dot.style.top = y + "%";
     }
   });
+  // The editor window itself never scrolls (scrolling into the canvas can nudge it and hide the top bar).
+  document.addEventListener("scroll", function (e) {
+    var t = e.target === document ? document.scrollingElement : e.target;
+    if (t === document.body || t === document.documentElement) { if (t.scrollTop || t.scrollLeft) { t.scrollTop = 0; t.scrollLeft = 0; } }
+  }, true);
+  var photoTimer;
+  function queuePhotos() { clearTimeout(photoTimer); photoTimer = setTimeout(renderPhotos, 60); }
+  editor.on("component:selected component:deselected", queuePhotos);
+  editor.on("component:update:src component:styleUpdate", function () { if (!photoBox.hidden) queuePhotos(); });
+  editor.on("run:open-blocks run:open-sm run:open-tm run:open-layers stop:open-blocks", queuePhotos);
+
+  // Hero slideshow: clicking the hero photo selects the whole slideshow so all four photos are listed.
   editor.DomComponents.addType("hero-slideshow", {
     isComponent: function (el) { return el.classList && el.classList.contains("hero__slides"); },
-    model: {
-      defaults: { name: "Slideshow photos", droppable: false, traits: [0, 1, 2, 3].map(function (i) {
-        return { type: "slide-photo", name: "slide-" + i, idx: i, text: "Photo " + (i + 1) + (i === 0 ? " (shows first)" : ""), changeProp: true };
-      }) }
-    }
+    model: { defaults: { name: "Slideshow photos", droppable: false } }
   });
-  // Clicking the hero photo selects the whole slideshow and shows its photos.
   editor.on("component:selected", function (c) {
     var show = c && c.closest && c.closest(".hero__slides");
     if (show && show !== c) { editor.select(show); return; }
-    if (c && c.get("type") === "hero-slideshow") {
-      var b = editor.Panels.getButton("views", "open-tm"); if (b) b.set("active", true);
-      toast("This is the hero slideshow: change each of its photos in the panel on the right.");
-    }
+    if (c && c.get("type") === "hero-slideshow") toast("This is the hero slideshow: change each of its photos at the top of the panel on the right.");
   });
 
   /* ---------------- Style panel shows what is actually applied ---------------- */
@@ -505,7 +594,7 @@
   editor.on("block:drag:stop", function () { lastDrop = Date.now(); });
   editor.on("component:selected", function (c) {
     setTimeout(function () { updateColorDots(); fillComputed(); }, 80);
-    if (!c || Date.now() - lastDrop < 800 || c.get("type") === "hero-slideshow" || (c.closest && c.closest(".hero__slides"))) return;
+    if (!c || Date.now() - lastDrop < 800) return;
     var b = editor.Panels.getButton("views", "open-sm");
     if (b && !b.get("active")) b.set("active", true);
     ["typography", "decorations"].forEach(function (id) { try { var sec = editor.StyleManager.getSector(id); if (sec) (sec.setOpen ? sec.setOpen(true) : sec.set("open", true)); } catch (e) {} });
@@ -662,8 +751,7 @@
       var src = b64decode(j.content), html = region(src, key);
       if (html == null) throw new Error("That version has no editable " + key + " region.");
       state.loading = true;
-      editor.setComponents(toEditor(html));
-      if (key === "main") editor.setStyle(toEditor(pageStyles(src)));
+      if (key === "main") setContent(toEditor(html), toEditor(pageStyles(src))); else editor.setComponents(toEditor(html));
       setTimeout(function () { state.loading = false; state.dirty = true; updateUI(); saveDraft(); applyOverrides(state.target); }, 250);
       closeModals();
       toast("Older version loaded into the editor. Review it, then click Publish to make it live again.");
@@ -810,8 +898,7 @@
       });
     }
     return p.then(function (d) {
-      editor.setComponents(toEditor(d.html));
-      editor.setStyle(toEditor(d.css));
+      setContent(toEditor(d.html), toEditor(d.css));
       editor.UndoManager.clear();
       editor.select(null);
       state.target = target; state.meta = d.meta; state.metaChanged = false;
@@ -823,7 +910,7 @@
         state.loading = false; state.dirty = false; state.baseline = snapshot();
         if (draft && confirm("You have unpublished changes to " + labelFor(target) + " from " + new Date(draft.t).toLocaleString() + ". Restore them?")) {
           state.loading = true;
-          editor.setComponents(draft.html); editor.setStyle(draft.css);
+          setContent(draft.html, draft.css);
           if (draft.meta) { state.meta = draft.meta; state.metaChanged = true; }
           setTimeout(function () { state.loading = false; state.dirty = true; updateUI(); }, 200);
         } else if (draft) {
@@ -899,7 +986,7 @@
       try { localStorage.removeItem(draftKey(t)); } catch (e) {}
       state.dirty = false; state.metaChanged = false; state.baseline = snapshot();
       // Swap uploaded data URLs for their new file paths so further edits stay light.
-      if (out.files.length) { state.loading = true; editor.setComponents(toEditor(out.html)); editor.setStyle(toEditor(out.css)); setTimeout(function () { state.loading = false; state.baseline = snapshot(); }, 250); }
+      if (out.files.length) { state.loading = true; setContent(toEditor(out.html), toEditor(out.css)); setTimeout(function () { state.loading = false; state.baseline = snapshot(); }, 250); }
       toast("Saved to GitHub ✓ The live site updates in about a minute; the status at the top right will turn green when it's live.", false, state.pub.url);
     }).catch(function (e) {
       state.pub = { phase: "error", message: e.message, time: Date.now(), target: t };
@@ -999,7 +1086,7 @@
   });
   $("#f-code").addEventListener("submit", function (e) {
     e.preventDefault();
-    editor.setComponents(toEditor(e.target.html.value)); editor.setStyle(toEditor(e.target.css.value));
+    setContent(toEditor(e.target.html.value), toEditor(e.target.css.value));
     state.dirty = true; updateUI(); saveDraft(); closeModals();
   });
   document.querySelectorAll("[data-device]").forEach(function (b) {
@@ -1041,6 +1128,6 @@
   // Exposed for automated checks.
   window.__siteEditor = { region: region, setRegion: setRegion, cleanHtml: cleanHtml, extractUploads: extractUploads, currentExport: currentExport, publish: publish, load: load, state: state, cfg: cfg,
     api: api, readFile: readFile, listPages: listPages, commitFiles: commitFiles, toast: toast, openModal: openModal, closeModals: closeModals,
-    setVersion: setVersion, markEdited: markEdited, labelFor: labelFor, updateUI: updateUI, prepareImage: prepareImage, pickPhoto: pickPhoto,
+    setVersion: setVersion, markEdited: markEdited, labelFor: labelFor, updateUI: updateUI, prepareImage: prepareImage, pickPhoto: pickPhoto, photoOf: photoOf, setPhoto: setPhoto, renderPhotos: renderPhotos,
     openSettings: openSettings, encPath: encPath, SITE: SITE, editor: editor };
 })();

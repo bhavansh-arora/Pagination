@@ -84,6 +84,7 @@
     if (c.get("type") === "image" || c.get("tagName") === "img") return { type: "image", comp: c };
     if (c.get("type") === "video" || c.get("tagName") === "video") return { type: "video", comp: c };
     if (c.get("type") === "yt-film") return { type: "youtube", comp: c };
+    if (E.photoOf(c)) return { type: "image", comp: c };
     var img = c.find && c.find("img")[0];
     if (img && c.find("img").length === 1) return { type: "image", comp: img };
     var vid = findVideo(c);
@@ -176,7 +177,7 @@
   function useHere(it) {
     var tgt = selectedTarget();
     if (!tgt) return;
-    if (tgt.type === "image") { tgt.comp.set("src", it.kind === "site" ? SITE + "assets/img/" + it.name + "-1600.webp" : it.src); }
+    if (tgt.type === "image") { E.setPhoto(tgt.comp, it.kind === "site" ? SITE + "assets/img/" + it.name + "-1600.webp" : it.src); E.renderPhotos(); }
     else if (tgt.type === "video") { tgt.comp.set("src", it.src); tgt.comp.addAttributes({ src: it.src }); }
     else if (tgt.type === "youtube") { tgt.comp.addAttributes({ "data-id": it.id, "aria-label": "Play film: " + it.name }); }
     editor.trigger("update");
