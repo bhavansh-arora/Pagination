@@ -22,7 +22,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 <script>try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}setTimeout(function(){d.classList.remove("is-loading","is-entering")},5000)}catch(e){}</script>
 
@@ -31,212 +31,171 @@
 
 <div class="preloader" aria-hidden="true">
   <div class="preloader__inner">
-    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
+    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
     <p class="preloader__name"><span>Dan Reynolds</span></p>
-    <p class="preloader__tag"><span>Visual Storyteller</span></p>
+    <p class="preloader__tag"><span>Visual storyteller</span></p>
   </div>
   <div class="preloader__foot"><span>Photo + Film</span><span class="preloader__count" data-count-loader>000</span></div>
   <div class="preloader__bar"><span></span></div>
 </div>
-<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
+<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
 <div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
 <div class="hover-preview" aria-hidden="true"><div class="hover-preview__inner"></div></div>
 
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
-  <div class="container site-header__inner">
-    <a class="brand" href="index.html" aria-label="Dan Reynolds — Visual Storyteller, home">
-      <svg class="brand__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg>
-      <span class="brand__text"><span class="brand__name">Dan Reynolds</span><span class="brand__tag">Visual Storyteller</span></span>
-    </a>
+  <div class="site-header__inner">
+    <a class="brand" href="index.html" aria-label="Dan Reynolds Photography, home"><svg class="brand__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg><span class="brand__name">Dan Reynolds<em>photo + film</em></span></a>
     <nav class="nav" aria-label="Primary"><ul class="nav__list"><li><a class="nav__link" href="about.html" aria-current="page">About</a></li><li><a class="nav__link" href="portfolio.html">Portfolio</a></li><li><a class="nav__link" href="films.html">Films</a></li><li><a class="nav__link" href="investment.html">Investment</a></li><li><a class="nav__link" href="contact.html">Contact</a></li></ul></nav>
-    <a class="btn header-cta" href="contact.html">Check your date</a>
+    <a class="btn btn--gold btn--sm header-cta" href="contact.html">Book a call</a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
-      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span></span>
+      Menu<span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span></span>
     </button>
   </div>
 </header>
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <nav aria-label="Mobile"><ul class="mobile-menu__list"><li><a href="index.html"><small>01</small>Home</a></li><li><a href="about.html" aria-current="page"><small>02</small>About</a></li><li><a href="portfolio.html"><small>03</small>Portfolio</a></li><li><a href="films.html"><small>04</small>Films</a></li><li><a href="investment.html"><small>05</small>Investment</a></li><li><a href="contact.html"><small>06</small>Contact</a></li></ul></nav>
+  <nav aria-label="Mobile"><ul class="mobile-menu__list"><li><a href="index.html">Home<small>01</small></a></li><li><a href="about.html" aria-current="page">About<small>02</small></a></li><li><a href="portfolio.html">Portfolio<small>03</small></a></li><li><a href="films.html">Films<small>04</small></a></li><li><a href="investment.html">Investment<small>05</small></a></li><li><a href="contact.html">Contact<small>06</small></a></li></ul></nav>
   <div class="mobile-menu__foot">
-    <a class="btn btn--light btn--block" href="contact.html">Check your date <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+    <a class="btn btn--gold btn--block" href="contact.html">Check your date <span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
     <div class="mobile-menu__social">
-      <a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">Instagram — Photo</a>
-      <a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">Instagram — Films</a>
-      <a href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a>
-      <a href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a>
+      <a class="pill" href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">Instagram · Photo</a>
+      <a class="pill" href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">Instagram · Films</a>
+      <a class="pill" href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a>
+      <a class="pill" href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a>
     </div>
   </div>
 </div>
 <main id="main">
 
+
 <section class="page-hero">
-  <div class="container page-hero__grid">
-    <div>
-      <p class="eyebrow reveal">About us</p>
-      <h1 class="page-hero__title" data-lines>Get to know<br>the team with<br><em>the vision.</em></h1>
+  <div class="container">
+    <div class="page-hero__meta reveal"><span class="label label--dot">About us</span><span class="label">Dan &amp; Lydia Reynolds</span></div>
+    <div class="page-hero__grid">
+      <h1 class="h-xl page-hero__title" data-lines>Get to know<br>the team with<br><em>the vision.</em></h1>
+      <p class="lede reveal" data-delay="2">Hey! We're Dan and Lydia, a husband-and-wife team capturing weddings with authenticity, artistry and heart.</p>
     </div>
-    <p class="lede reveal" data-delay="2">Hey! We're Dan and Lydia, a husband-and-wife team capturing weddings with authenticity, artistry and heart.</p>
+    
   </div>
 </section>
 
-<section class="container">
-  <div class="media ratio-wide reveal-img" style="background:#879692"><img src="assets/img/dan-patagonia-1600.webp" srcset="assets/img/dan-patagonia-800.webp 800w, assets/img/dan-patagonia-1600.webp 1600w" sizes="100vw" width="1600" height="2133" alt="Dan photographing a turquoise mountain lake beneath snowy peaks" loading="lazy" decoding="async" style="object-position:28% 52%"></div>
-</section>
+<div class="frame"><div class="media ratio-cinema about-hero-media reveal-img" style="background-color:#879692"><img src="assets/img/dan-patagonia-1600.webp" srcset="assets/img/dan-patagonia-800.webp 800w, assets/img/dan-patagonia-1600.webp 1600w" sizes="100vw" width="1600" height="2133" alt="Dan photographing a turquoise mountain lake beneath snowy peaks" loading="lazy" decoding="async" style="object-position:28% 52%"></div></div>
 
 <section class="section">
-  <div class="container split">
-    <div class="stack" style="--stack:24px">
-      <p class="eyebrow reveal">Hey! We are Dan &amp; Lydia</p>
-      <h2 data-lines>A true<br><em>team effort.</em></h2>
-    </div>
-    <div class="prose reveal">
-      <p>I'm Dan Reynolds, the lead photographer and filmmaker behind Dan Reynolds Photography. My wife and I work together to capture weddings with authenticity, artistry and heart. The business carries my name, but it's truly a team effort: we complement each other's strengths so every detail is beautifully preserved.</p>
-      <p>With years of experience in photography, filmmaking and storytelling, I focus on crafting cinematic wedding films and timeless images. Lydia brings her keen eye for detail, organisation and creative input to help the day flow seamlessly.</p>
-      <p>Together we create a relaxed, enjoyable experience, so you can be fully present on your wedding day while we capture every emotion, moment and memory.</p>
-    </div>
+  <div class="container">
+    <div class="head__top reveal"><span class="label">(01) — Our approach</span><span class="label">A true team effort</span></div>
+    <p class="statement mt-l" data-scrub-words>The business carries Dan's name<span class="inline-img inline-img--round" style="background-image:url(assets/img/dan-coffee-800.webp);background-position:40% 38%"></span>, but it's truly a team effort. We complement each other's strengths<span class="inline-img inline-img--round" style="background-image:url(assets/img/lydia-800.webp);background-position:58% 28%"></span> so you can be <em>fully present</em> while we capture every emotion, moment and memory.</p>
   </div>
 </section>
 
-<section class="section section--paper2">
+<section class="section section--flush-top">
   <div class="container">
+    
+    <div class="head head--split">
+      <div class="head__top"><span class="label">(02) — The team</span><span class="label">Photo · Film</span></div>
+      <h2 class="h-xl" data-lines>Meet the<br><em>two of us.</em></h2>
+      <p class="lede reveal">Cinematic films and timeless images from Dan; a keen eye for detail, organisation and creative input from Lydia.</p>
+    </div>
     <div class="team">
-      <article class="team-card reveal">
-        <div class="media" style="background:#7a7164"><img src="assets/img/dan-coffee-1600.webp" srcset="assets/img/dan-coffee-800.webp 800w, assets/img/dan-coffee-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1066" alt="Dan sipping coffee outdoors" loading="lazy" decoding="async" style="object-position:40% 38%"></div>
-        <h3>Dan Reynolds</h3>
-        <span class="team-card__role">Lead photographer &amp; filmmaker</span>
-        <p>Rochester-raised, coffee-powered and a little obsessed with the newest cameras. Dan hand-edits every single image himself.</p>
+      <article class="person reveal">
+        <div class="media" style="background-color:#7a7164"><img src="assets/img/dan-coffee-1600.webp" srcset="assets/img/dan-coffee-800.webp 800w, assets/img/dan-coffee-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1066" alt="Dan sipping coffee outdoors" loading="lazy" decoding="async" style="object-position:40% 38%"></div>
+        <div class="person__body"><span class="label" style="color:var(--accent)">Lead photographer &amp; filmmaker</span><h3 class="h-lg">Dan</h3><p>Rochester-raised, coffee-powered and a little obsessed with the newest cameras. Dan hand-edits every single image himself.</p></div>
       </article>
-      <article class="team-card reveal" data-delay="2">
-        <div class="media" style="background:#9da2a7"><img src="assets/img/lydia-1600.webp" srcset="assets/img/lydia-800.webp 800w, assets/img/lydia-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1066" alt="Lydia smiling against a white wall" loading="lazy" decoding="async" style="object-position:58% 28%"></div>
-        <h3>Lydia Reynolds</h3>
-        <span class="team-card__role">Photographer &amp; creative partner</span>
-        <p>The calm in the room. Lydia keeps the timeline flowing, spots the details everyone else misses and makes every guest feel at ease.</p>
+      <article class="person reveal" data-delay="1">
+        <div class="media" style="background-color:#9da2a7"><img src="assets/img/lydia-1600.webp" srcset="assets/img/lydia-800.webp 800w, assets/img/lydia-1600.webp 1600w" sizes="(min-width:760px) 50vw, 100vw" width="1600" height="1066" alt="Lydia smiling against a white wall" loading="lazy" decoding="async" style="object-position:58% 28%"></div>
+        <div class="person__body"><span class="label" style="color:var(--accent)">Photographer &amp; creative partner</span><h3 class="h-lg">Lydia</h3><p>The calm in the room. Lydia keeps the timeline flowing, spots the details everyone else misses and makes every guest feel at ease.</p></div>
       </article>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow reveal">Our story</p>
-      <h2 data-lines>My story began<br>with <em>Kodak.</em></h2>
+<section class="section section--flush-top">
+  <div class="container story-layout">
+    <div class="story-layout__aside stack" style="--stack:24px">
+      <div class="head__top reveal"><span class="label">(03) — Our story</span><span class="label">Since Rochester</span></div>
+      <h2 class="h-xl" data-lines>My story<br>began with<br><em>Kodak.</em></h2>
+      <p class="lede reveal">From a Kodak town to Ireland's coastline to wedding days across the Midwest.</p>
+      <ul class="loves reveal" role="list"><li>Strong coffee</li><li>Travel</li><li>Fresh, seasonal food</li><li>Our cats</li><li>New camera gear</li><li>Golden hour</li></ul>
     </div>
     <div class="chapters">
-      <article class="chapter">
-        <div class="chapter__media"><div class="media ratio-land reveal-img" style="background:#96948d"><img src="assets/img/dan-seattle-1600.webp" srcset="assets/img/dan-seattle-800.webp 800w, assets/img/dan-seattle-1600.webp 1550w" sizes="(min-width:900px) 50vw, 100vw" width="1550" height="1033" alt="Dan grinning while holding an ice cream cone" loading="lazy" decoding="async" style="object-position:27% 42%"></div></div>
-        <div class="reveal">
-          <div class="chapter__head"><span class="numeral">i.</span><h3>Rochester, New York</h3></div>
-          <div class="prose"><p>I grew up in Rochester, a city with a deep connection to photography, thanks in part to Kodak. My dad worked there. I didn't realise it at the time, but being surrounded by a culture of imagery and innovation planted a seed that would later shape my career.</p></div>
-        </div>
-      </article>
-      <article class="chapter">
-        <div class="chapter__media"><div class="media ratio-land reveal-img" style="background:#868681"><img src="assets/img/dan-lydia-mountains-1600.webp" srcset="assets/img/dan-lydia-mountains-800.webp 800w, assets/img/dan-lydia-mountains-1600.webp 1024w" sizes="(min-width:900px) 50vw, 100vw" width="1024" height="684" alt="Dan and Lydia smiling in front of jagged mountain peaks and a lake" loading="lazy" decoding="async" style="object-position:50% 57%"></div></div>
-        <div class="reveal">
-          <div class="chapter__head"><span class="numeral">ii.</span><h3>A trip to Ireland</h3></div>
-          <div class="prose"><p>The moment came when I bought a nice camera for a trip to Ireland. I just wanted better photos of the landscapes and history I'd always dreamed of seeing. Instead, I fell in love with photography: composition, light, and the way a single frame can hold so much emotion and story.</p><p>That trip changed everything. Soon after, I was diving deeper into photography and video, turning a hobby into something much more meaningful.</p></div>
-        </div>
-      </article>
-      <article class="chapter">
-        <div class="chapter__media"><div class="media ratio-land reveal-img" style="background:#514f49"><img src="assets/img/dan-filming-1600.webp" srcset="assets/img/dan-filming-800.webp 800w, assets/img/dan-filming-1600.webp 1600w" sizes="(min-width:900px) 50vw, 100vw" width="1600" height="1069" alt="Dan setting up a cinema camera on a tripod" loading="lazy" decoding="async" style="object-position:59% 30%"></div></div>
-        <div class="reveal">
-          <div class="chapter__head"><span class="numeral">iii.</span><h3>Today, together</h3></div>
-          <div class="prose"><p>Over the years, Lydia and I have built a full photography and video production team, capturing everything from weddings to commercial projects. Weddings have become our passion: we love the energy, the emotion and the once-in-a-lifetime moments that unfold throughout the day.</p><p>We've grown into a team couples can trust to capture their day exactly as it happens, and to preserve those memories for a lifetime.</p></div>
-        </div>
-      </article>
-    </div>
+        <article class="chapter reveal">
+          <div class="media" style="background-color:#96948d"><img src="assets/img/dan-seattle-1600.webp" srcset="assets/img/dan-seattle-800.webp 800w, assets/img/dan-seattle-1600.webp 1550w" sizes="(min-width:960px) 50vw, 100vw" width="1550" height="1033" alt="Dan grinning while holding an ice cream cone" loading="lazy" decoding="async" style="object-position:27% 42%"></div>
+          <div class="chapter__body"><div class="row" style="justify-content:space-between"><span class="label">Chapter i.</span></div><h3 class="h-md">Rochester, New York</h3><div class="body"><p>I grew up in Rochester, a city with a deep connection to photography, thanks in part to Kodak. My dad worked there. I didn't realise it at the time, but being surrounded by a culture of imagery and innovation planted a seed that would later shape my career.</p></div></div>
+        </article>
+        <article class="chapter reveal">
+          <div class="media" style="background-color:#868681"><img src="assets/img/dan-lydia-mountains-1600.webp" srcset="assets/img/dan-lydia-mountains-800.webp 800w, assets/img/dan-lydia-mountains-1600.webp 1024w" sizes="(min-width:960px) 50vw, 100vw" width="1024" height="684" alt="Dan and Lydia in front of jagged mountain peaks" loading="lazy" decoding="async" style="object-position:50% 57%"></div>
+          <div class="chapter__body"><div class="row" style="justify-content:space-between"><span class="label">Chapter ii.</span></div><h3 class="h-md">A trip to Ireland</h3><div class="body"><p>The moment came when I bought a nice camera for a trip to Ireland. I just wanted better photos of the landscapes and history I'd always dreamed of seeing. Instead, I fell in love with photography: composition, light, and the way a single frame can hold so much emotion.</p><p>That trip changed everything, and soon a hobby became something much more meaningful.</p></div></div>
+        </article>
+        <article class="chapter reveal">
+          <div class="media" style="background-color:#514f49"><img src="assets/img/dan-filming-1600.webp" srcset="assets/img/dan-filming-800.webp 800w, assets/img/dan-filming-1600.webp 1600w" sizes="(min-width:960px) 50vw, 100vw" width="1600" height="1069" alt="Dan setting up a cinema camera" loading="lazy" decoding="async" style="object-position:59% 30%"></div>
+          <div class="chapter__body"><div class="row" style="justify-content:space-between"><span class="label">Chapter iii.</span></div><h3 class="h-md">Today, together</h3><div class="body"><p>Over the years, Lydia and I have built a full photography and video production team, capturing everything from weddings to commercial projects. Weddings have become our passion: the energy, the emotion and the once-in-a-lifetime moments.</p><p>We've grown into a team couples trust to capture their day exactly as it happens.</p></div></div>
+        </article></div>
   </div>
 </section>
 
-<section class="section section--ivory section--tight">
-  <div class="container split">
-    <div class="stack" style="--stack:20px">
-      <p class="eyebrow reveal">Off the clock</p>
-      <h2 data-lines>A few things<br><em>we love.</em></h2>
-    </div>
-    <ul class="loves reveal" role="list">
-      <li>Strong coffee</li><li>Travel</li><li>Fresh, seasonal food</li><li>Our cats</li><li>New camera gear</li><li>Golden hour</li><li>Happy tears</li><li>A great first dance</li>
-    </ul>
-  </div>
-</section>
-
-<section class="section section--night">
-  <div class="container split">
-    <div class="stack" style="--stack:24px">
-      <p class="eyebrow reveal">Some of our favourite venues</p>
-      <h2 data-lines>Places we<br><em>love</em> to shoot.</h2>
-      <p class="prose reveal">From Chicago ballrooms to Central Illinois farms, here are a few spaces we know inside out, so we already know where the best light falls.</p>
-    </div>
-    <ul class="venues" role="list"><li class="reveal"><span>Sarabande</span><span>Chicago</span></li><li class="reveal"><span>Ovation</span><span>Chicago</span></li><li class="reveal"><span>Joliet Union Station</span><span>Joliet</span></li><li class="reveal"><span>Haven on the Farm</span><span>Illinois</span></li><li class="reveal"><span>Sanctuary Events</span><span>Illinois</span></li><li class="reveal"><span>Le Fleur — 905 Room</span><span>Illinois</span></li></ul>
-  </div>
-</section>
+<div class="marquee marquee--words" aria-hidden="true"><div class="marquee__track"><span>Sarabande</span><span>Ovation</span><span>Joliet Union Station</span><span>Haven on the Farm</span><span>Sanctuary Events</span><span>Le Fleur — 905 Room</span><span>Sarabande</span><span>Ovation</span><span>Joliet Union Station</span><span>Haven on the Farm</span><span>Sanctuary Events</span><span>Le Fleur — 905 Room</span></div></div>
 
 <section class="section">
   <div class="container">
-    <div class="split">
-      <div class="stack" style="--stack:24px">
-        <div class="quote-mark reveal" style="margin:0;color:var(--accent)"><svg viewBox="0 0 40 28" fill="currentColor" aria-hidden="true"><path d="M0 28V17.2C0 7.6 4.6 1.9 13.8 0l1.6 3.3C10.3 5 7.8 8.3 7.5 13.2H15V28H0zm22.6 0V17.2C22.6 7.6 27.2 1.9 36.4 0L38 3.3c-5.1 1.7-7.6 5-7.9 9.9h7.5V28h-15z"/></svg></div>
-        <p class="t-quote reveal">“I just wanted to express how grateful we are for what an incredible experience it was. Thank you for your professionalism, but also for being so personable.”</p>
-        <p class="t-cite reveal">Manny + Karina</p>
-      </div>
-      <div class="media ratio-land reveal-img" style="background:#766b5b"><img src="assets/img/brooke-chase-1600.webp" srcset="assets/img/brooke-chase-800.webp 800w, assets/img/brooke-chase-1600.webp 1600w" sizes="(min-width:900px) 50vw, 100vw" width="1600" height="1066" alt="A bride's lace sleeve and white rose bouquet" loading="lazy" decoding="async"></div>
+    
+    <div class="head head--split">
+      <div class="head__top"><span class="label">(04) — Favourite venues</span><span class="label">Illinois</span></div>
+      <h2 class="h-xl" data-lines>Places we<br><em>love</em> to shoot.</h2>
+      <p class="lede reveal">From Chicago ballrooms to Central Illinois farms, spaces we know inside out, including where the best light falls.</p>
     </div>
+    <ul class="venue-list" role="list"><li class="reveal"><span>Sarabande</span><span class="label">Chicago</span></li><li class="reveal"><span>Ovation</span><span class="label">Chicago</span></li><li class="reveal"><span>Joliet Union Station</span><span class="label">Joliet</span></li><li class="reveal"><span>Haven on the Farm</span><span class="label">Illinois</span></li><li class="reveal"><span>Sanctuary Events</span><span class="label">Illinois</span></li><li class="reveal"><span>Le Fleur — 905 Room</span><span class="label">Illinois</span></li></ul>
   </div>
 </section>
 
-
-<section class="cta-band">
-  <div class="bg" data-parallax><img src="assets/img/golden-hour-portrait-1600.webp" srcset="assets/img/golden-hour-portrait-800.webp 800w, assets/img/golden-hour-portrait-1600.webp 1600w" sizes="100vw" width="1600" height="1067" alt="" loading="lazy" decoding="async" style="object-position:49% 21%"></div>
-  <div class="container">
-    <p class="eyebrow eyebrow--plain reveal">Are you ready?</p>
-    <h2 data-lines>Let's book<br>your <em>date.</em></h2>
-    <div class="btn-row reveal" data-delay="2"><a class="btn btn--light" href="contact.html">Connect with us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a><a class="btn btn--outline-light" href="investment.html">View investment</a></div>
+<section class="section section--flush-top">
+  <div class="container container--narrow center">
+    <div class="reveal" style="display:flex;justify-content:center;margin-bottom:28px"><svg class="qmark" viewBox="0 0 40 28" fill="currentColor" aria-hidden="true"><path d="M0 28V17.2C0 7.6 4.6 1.9 13.8 0l1.6 3.3C10.3 5 7.8 8.3 7.5 13.2H15V28H0zm22.6 0V17.2C22.6 7.6 27.2 1.9 36.4 0L38 3.3c-5.1 1.7-7.6 5-7.9 9.9h7.5V28h-15z"/></svg></div>
+    <p class="statement" style="font-size:clamp(1.6rem,1rem + 2.4vw,3.2rem)" data-scrub-words>“I just wanted to express how grateful we are for what an incredible experience it was. Thank you for your professionalism, but also for being so personable.”</p>
+    <p class="label mt-l reveal">— Manny + Karina</p>
   </div>
 </section>
 
 </main>
 
 <footer class="site-footer">
-  <div class="container">
-    <div class="footer-top">
-      <div class="stack" style="--stack:28px">
-        <p class="footer-title">Your story, told <em>exactly</em> as it happened.</p>
-        <a class="btn btn--light" href="contact.html">Start your inquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+  <div class="footer-card">
+    <div class="footer-cta">
+      <div>
+        <span class="label label--dot label--live">Limited dates each year</span>
+        <p class="h-xl mt-m" data-lines>Let's tell<br>your <em>story.</em></p>
       </div>
-      <div class="footer-col">
-        <h3>Explore</h3>
-        <ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="films.html">Films</a></li><li><a href="investment.html">Investment</a></li><li><a href="contact.html">Contact</a></li></ul>
-      </div>
-      <div class="footer-col">
-        <h3>Follow</h3>
-        <ul>
-          <li><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">@danreynoldsphotography</a></li>
-          <li><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">@danreynoldsfilms</a></li>
-          <li><a href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a></li>
-          <li><a href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a></li>
-          <li><a href="https://twitter.com/reynoldspix" target="_blank" rel="noopener">X / Twitter</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Serving</h3>
-        <ul>
-          <li>Chicago</li><li>Central Illinois &amp; Peoria</li><li>Milwaukee</li><li>Madison, WI</li><li>&amp; destinations worldwide</li>
-        </ul>
-      </div>
+      <a class="footer-cta__btn" href="contact.html" data-magnetic-strong><span>Check<br>your date<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; <span data-year>2026</span> Dan Reynolds Photography. All rights reserved.</span>
-      <span>Wedding photography &amp; cinematic film — Illinois &amp; Wisconsin</span>
+    <div class="footer-grid">
+      <div class="footer-col footer-col--intro">
+        <a class="brand" href="index.html"><svg class="brand__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg><span class="brand__name">Dan Reynolds<em>photo + film</em></span></a>
+        <p class="mt-m">Documentary wedding photography and cinematic films by Dan &amp; Lydia Reynolds.</p>
+      </div>
+      <div class="footer-col"><h3>Explore</h3><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="films.html">Films</a></li><li><a href="investment.html">Investment</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h3>Follow</h3><ul>
+        <li><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">Instagram · Photo</a></li>
+        <li><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">Instagram · Films</a></li>
+        <li><a href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://twitter.com/reynoldspix" target="_blank" rel="noopener">X / Twitter</a></li>
+      </ul></div>
+      <div class="footer-col"><h3>Serving</h3><ul>
+        <li>Chicago</li><li>Peoria &amp; Central Illinois</li><li>Milwaukee</li><li>Madison, WI</li><li>Destinations worldwide</li>
+      </ul></div>
     </div>
     <span class="footer-wordmark" aria-hidden="true">Dan Reynolds</span>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Dan Reynolds Photography</span>
+      <span>Illinois &amp; Wisconsin</span>
+      <a href="#main">Back to top ↑</a>
+    </div>
   </div>
 </footer>
 
 <div class="sticky-cta" aria-label="Quick actions">
-  <a class="btn btn--ghost" href="portfolio.html">See work</a>
-  <a class="btn btn--light" href="contact.html">Check your date</a>
+  <a class="btn btn--ghost" href="portfolio.html">Our work</a>
+  <a class="btn btn--gold" href="contact.html">Check your date</a>
 </div>
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>

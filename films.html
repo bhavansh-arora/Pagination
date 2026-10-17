@@ -22,7 +22,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 <script>try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}setTimeout(function(){d.classList.remove("is-loading","is-entering")},5000)}catch(e){}</script>
 
@@ -31,259 +31,222 @@
 
 <div class="preloader" aria-hidden="true">
   <div class="preloader__inner">
-    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
+    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
     <p class="preloader__name"><span>Dan Reynolds</span></p>
-    <p class="preloader__tag"><span>Visual Storyteller</span></p>
+    <p class="preloader__tag"><span>Visual storyteller</span></p>
   </div>
   <div class="preloader__foot"><span>Photo + Film</span><span class="preloader__count" data-count-loader>000</span></div>
   <div class="preloader__bar"><span></span></div>
 </div>
-<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
+<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
 <div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
 <div class="hover-preview" aria-hidden="true"><div class="hover-preview__inner"></div></div>
 
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
-  <div class="container site-header__inner">
-    <a class="brand" href="index.html" aria-label="Dan Reynolds — Visual Storyteller, home">
-      <svg class="brand__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg>
-      <span class="brand__text"><span class="brand__name">Dan Reynolds</span><span class="brand__tag">Visual Storyteller</span></span>
-    </a>
+  <div class="site-header__inner">
+    <a class="brand" href="index.html" aria-label="Dan Reynolds Photography, home"><svg class="brand__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg><span class="brand__name">Dan Reynolds<em>photo + film</em></span></a>
     <nav class="nav" aria-label="Primary"><ul class="nav__list"><li><a class="nav__link" href="about.html">About</a></li><li><a class="nav__link" href="portfolio.html">Portfolio</a></li><li><a class="nav__link" href="films.html" aria-current="page">Films</a></li><li><a class="nav__link" href="investment.html">Investment</a></li><li><a class="nav__link" href="contact.html">Contact</a></li></ul></nav>
-    <a class="btn header-cta" href="contact.html">Check your date</a>
+    <a class="btn btn--gold btn--sm header-cta" href="contact.html">Book a call</a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
-      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span></span>
+      Menu<span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span></span>
     </button>
   </div>
 </header>
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <nav aria-label="Mobile"><ul class="mobile-menu__list"><li><a href="index.html"><small>01</small>Home</a></li><li><a href="about.html"><small>02</small>About</a></li><li><a href="portfolio.html"><small>03</small>Portfolio</a></li><li><a href="films.html" aria-current="page"><small>04</small>Films</a></li><li><a href="investment.html"><small>05</small>Investment</a></li><li><a href="contact.html"><small>06</small>Contact</a></li></ul></nav>
+  <nav aria-label="Mobile"><ul class="mobile-menu__list"><li><a href="index.html">Home<small>01</small></a></li><li><a href="about.html">About<small>02</small></a></li><li><a href="portfolio.html">Portfolio<small>03</small></a></li><li><a href="films.html" aria-current="page">Films<small>04</small></a></li><li><a href="investment.html">Investment<small>05</small></a></li><li><a href="contact.html">Contact<small>06</small></a></li></ul></nav>
   <div class="mobile-menu__foot">
-    <a class="btn btn--light btn--block" href="contact.html">Check your date <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+    <a class="btn btn--gold btn--block" href="contact.html">Check your date <span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
     <div class="mobile-menu__social">
-      <a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">Instagram — Photo</a>
-      <a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">Instagram — Films</a>
-      <a href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a>
-      <a href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a>
+      <a class="pill" href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">Instagram · Photo</a>
+      <a class="pill" href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">Instagram · Films</a>
+      <a class="pill" href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a>
+      <a class="pill" href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a>
     </div>
   </div>
 </div>
 <main id="main">
 
+
 <section class="page-hero">
-  <div class="container page-hero__grid">
-    <div>
-      <p class="eyebrow reveal">Films</p>
-      <h1 class="page-hero__title" data-lines>Don't just see it.<br><em>Feel it again.</em></h1>
+  <div class="container">
+    <div class="page-hero__meta reveal"><span class="label label--dot">Films</span><span class="label">16 wedding films</span></div>
+    <div class="page-hero__grid">
+      <h1 class="h-xl page-hero__title" data-lines>Films you don't<br>just watch. You<br><em>feel</em> them.</h1>
+      <p class="lede reveal" data-delay="2">Cinematic wedding films shot on cinema-grade gear, with pro audio for every vow and toast.</p>
     </div>
-    <p class="lede reveal" data-delay="2">Cinematic wedding films shot on cinema-grade gear, with pro audio for every vow and toast.</p>
+    
   </div>
 </section>
 
-<section class="container">
-  <div class="reveal"><button class="yt" type="button" data-cursor="Play" data-id="Gpq9IPxnIhE" aria-label="Play film: What if Wes Anderson filmed a wedding?"><img src="https://i.ytimg.com/vi/Gpq9IPxnIhE/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button></div>
-  <div class="story__meta"><h2 class="story__name" style="font-size:var(--step-2)">What if Wes Anderson filmed a wedding?</h2><span class="story__place">Featured</span></div>
-</section>
+<div class="frame reveal"><button class="yt yt--feature" type="button" data-cursor="Play" data-id="Gpq9IPxnIhE" aria-label="Play film: What if Wes Anderson filmed a wedding?"><img src="https://i.ytimg.com/vi/Gpq9IPxnIhE/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span><span class="yt__over"><span class="h-lg">What if <em>Wes Anderson</em> filmed a wedding?</span><span class="pill" style="color:var(--ivory);border-color:rgba(239,231,218,.4)">Featured</span></span></button></div>
 
 <section class="section">
   <div class="container">
-    <div class="section-head section-head--split">
-      <div class="stack" style="--stack:20px">
-        <p class="eyebrow reveal">Wedding films</p>
-        <h2 data-lines>Recent <em>films.</em></h2>
-      </div>
-      <a class="link-arrow reveal" href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube channel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+    
+    <div class="head head--split">
+      <div class="head__top"><span class="label">(01) — Wedding films</span><span class="label"><a href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube ↗</a></span></div>
+      <h2 class="h-xl" data-lines>Recent<br><em>films.</em></h2>
+      <p class="lede reveal">Highlight films, teasers and full ceremonies from couples across Illinois and Wisconsin.</p>
     </div>
     <div class="film-grid">
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="k7mlTdWmj0o" aria-label="Play film: Wedding Show Reel"><img src="https://i.ytimg.com/vi/k7mlTdWmj0o/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Wedding Show Reel</h3>
-        <p class="film-card__meta">Photo + film reel</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="k7mlTdWmj0o" aria-label="Play film: Wedding Show Reel"><img src="https://i.ytimg.com/vi/k7mlTdWmj0o/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Wedding Show Reel</h3><span class="label">Photo + film reel</span></div>
       </article>
       <article class="film-card reveal" data-delay="1">
-        <button class="yt" type="button" data-cursor="Play" data-id="uMWyF0awV_Y" aria-label="Play film: Clara + Vince"><img src="https://i.ytimg.com/vi/uMWyF0awV_Y/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Clara + Vince</h3>
-        <p class="film-card__meta">Chicago, Illinois</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="uMWyF0awV_Y" aria-label="Play film: Clara + Vince"><img src="https://i.ytimg.com/vi/uMWyF0awV_Y/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Clara + Vince</h3><span class="label">Chicago, Illinois</span></div>
       </article>
       <article class="film-card reveal" data-delay="2">
-        <button class="yt" type="button" data-cursor="Play" data-id="iQ8-pWzK3gg" aria-label="Play film: Rebekah + Tyler"><img src="https://i.ytimg.com/vi/iQ8-pWzK3gg/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Rebekah + Tyler</h3>
-        <p class="film-card__meta">Fairlie — Chicago</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="iQ8-pWzK3gg" aria-label="Play film: Rebekah + Tyler"><img src="https://i.ytimg.com/vi/iQ8-pWzK3gg/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Rebekah + Tyler</h3><span class="label">Fairlie — Chicago</span></div>
       </article>
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="I9k8FBiaOtc" aria-label="Play film: Julia + Kirk"><img src="https://i.ytimg.com/vi/I9k8FBiaOtc/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Julia + Kirk</h3>
-        <p class="film-card__meta">Westmoreland Country Club</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="I9k8FBiaOtc" aria-label="Play film: Julia + Kirk"><img src="https://i.ytimg.com/vi/I9k8FBiaOtc/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Julia + Kirk</h3><span class="label">Westmoreland Country Club</span></div>
       </article>
       <article class="film-card reveal" data-delay="1">
-        <button class="yt" type="button" data-cursor="Play" data-id="2XM_cg0nLqE" aria-label="Play film: Lauren + Ben"><img src="https://i.ytimg.com/vi/2XM_cg0nLqE/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Lauren + Ben</h3>
-        <p class="film-card__meta">Madison, Wisconsin</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="2XM_cg0nLqE" aria-label="Play film: Lauren + Ben"><img src="https://i.ytimg.com/vi/2XM_cg0nLqE/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Lauren + Ben</h3><span class="label">Madison, Wisconsin</span></div>
       </article>
       <article class="film-card reveal" data-delay="2">
-        <button class="yt" type="button" data-cursor="Play" data-id="yAqZ-5NoTB4" aria-label="Play film: Lauren + Joel"><img src="https://i.ytimg.com/vi/yAqZ-5NoTB4/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Lauren + Joel</h3>
-        <p class="film-card__meta">Chicago, Illinois</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="yAqZ-5NoTB4" aria-label="Play film: Lauren + Joel"><img src="https://i.ytimg.com/vi/yAqZ-5NoTB4/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Lauren + Joel</h3><span class="label">Chicago, Illinois</span></div>
       </article>
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="7_heEQhFX18" aria-label="Play film: Eileen + Matthew"><img src="https://i.ytimg.com/vi/7_heEQhFX18/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Eileen + Matthew</h3>
-        <p class="film-card__meta">Wedding film</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="7_heEQhFX18" aria-label="Play film: Eileen + Matthew"><img src="https://i.ytimg.com/vi/7_heEQhFX18/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Eileen + Matthew</h3><span class="label">Wedding film</span></div>
       </article>
       <article class="film-card reveal" data-delay="1">
-        <button class="yt" type="button" data-cursor="Play" data-id="5Lx9Q7I5jT8" aria-label="Play film: Yura + Joe"><img src="https://i.ytimg.com/vi/5Lx9Q7I5jT8/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Yura + Joe</h3>
-        <p class="film-card__meta">Highlight reel</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="5Lx9Q7I5jT8" aria-label="Play film: Yura + Joe"><img src="https://i.ytimg.com/vi/5Lx9Q7I5jT8/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Yura + Joe</h3><span class="label">Highlight reel</span></div>
       </article>
       <article class="film-card reveal" data-delay="2">
-        <button class="yt" type="button" data-cursor="Play" data-id="pIeFJgLjOj4" aria-label="Play film: Eleanor + Ryan"><img src="https://i.ytimg.com/vi/pIeFJgLjOj4/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Eleanor + Ryan</h3>
-        <p class="film-card__meta">Full highlight film</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="pIeFJgLjOj4" aria-label="Play film: Eleanor + Ryan"><img src="https://i.ytimg.com/vi/pIeFJgLjOj4/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Eleanor + Ryan</h3><span class="label">Full highlight film</span></div>
       </article>
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="fAk-YClUN1Q" aria-label="Play film: Jade + Lars"><img src="https://i.ytimg.com/vi/fAk-YClUN1Q/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Jade + Lars</h3>
-        <p class="film-card__meta">Highlight film</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="fAk-YClUN1Q" aria-label="Play film: Jade + Lars"><img src="https://i.ytimg.com/vi/fAk-YClUN1Q/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Jade + Lars</h3><span class="label">Highlight film</span></div>
       </article>
       <article class="film-card reveal" data-delay="1">
-        <button class="yt" type="button" data-cursor="Play" data-id="nWng4rPcNxw" aria-label="Play film: Chloe + Grant"><img src="https://i.ytimg.com/vi/nWng4rPcNxw/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Chloe + Grant</h3>
-        <p class="film-card__meta">Highlight reel</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="nWng4rPcNxw" aria-label="Play film: Chloe + Grant"><img src="https://i.ytimg.com/vi/nWng4rPcNxw/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Chloe + Grant</h3><span class="label">Highlight reel</span></div>
       </article>
       <article class="film-card reveal" data-delay="2">
-        <button class="yt" type="button" data-cursor="Play" data-id="iq3GEm4Duq8" aria-label="Play film: Jevon + Keyariah"><img src="https://i.ytimg.com/vi/iq3GEm4Duq8/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Jevon + Keyariah</h3>
-        <p class="film-card__meta">Highlight film</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="iq3GEm4Duq8" aria-label="Play film: Jevon + Keyariah"><img src="https://i.ytimg.com/vi/iq3GEm4Duq8/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Jevon + Keyariah</h3><span class="label">Highlight film</span></div>
       </article>
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="QsGi2K15s3o" aria-label="Play film: Toni + Andy"><img src="https://i.ytimg.com/vi/QsGi2K15s3o/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Toni + Andy</h3>
-        <p class="film-card__meta">Wedding film</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="QsGi2K15s3o" aria-label="Play film: Toni + Andy"><img src="https://i.ytimg.com/vi/QsGi2K15s3o/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Toni + Andy</h3><span class="label">Wedding film</span></div>
       </article>
       <article class="film-card reveal" data-delay="1">
-        <button class="yt" type="button" data-cursor="Play" data-id="xVkxb2pO-w0" aria-label="Play film: Liz + Ryan"><img src="https://i.ytimg.com/vi/xVkxb2pO-w0/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Liz + Ryan</h3>
-        <p class="film-card__meta">Highlight reel</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="xVkxb2pO-w0" aria-label="Play film: Liz + Ryan"><img src="https://i.ytimg.com/vi/xVkxb2pO-w0/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Liz + Ryan</h3><span class="label">Highlight reel</span></div>
       </article>
       <article class="film-card reveal" data-delay="2">
-        <button class="yt" type="button" data-cursor="Play" data-id="DNkte8PT0Ns" aria-label="Play film: Ashley + Alex"><img src="https://i.ytimg.com/vi/DNkte8PT0Ns/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Ashley + Alex</h3>
-        <p class="film-card__meta">Highlight reel</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="DNkte8PT0Ns" aria-label="Play film: Ashley + Alex"><img src="https://i.ytimg.com/vi/DNkte8PT0Ns/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Ashley + Alex</h3><span class="label">Highlight reel</span></div>
       </article>
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="v3B8ATsWutQ" aria-label="Play film: Liz + Michael"><img src="https://i.ytimg.com/vi/v3B8ATsWutQ/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Liz + Michael</h3>
-        <p class="film-card__meta">Highlight reel</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="v3B8ATsWutQ" aria-label="Play film: Liz + Michael"><img src="https://i.ytimg.com/vi/v3B8ATsWutQ/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Liz + Michael</h3><span class="label">Highlight reel</span></div>
       </article></div>
   </div>
 </section>
 
-<section class="section section--night">
+<section class="section section--flush-top">
   <div class="container">
-    <div class="split" style="margin-bottom:clamp(48px,6vw,88px)">
-      <div class="stack" style="--stack:20px">
-        <p class="eyebrow reveal">The kit</p>
-        <h2 data-lines>Cinema tools,<br><em>quietly used.</em></h2>
-      </div>
-      <div class="prose reveal">
-        <p>Our hybrid photo + film workflow runs on the Sony system for accurate colour and cinema-quality video, alongside a DJI Ronin 4D and a DJI Mavic 3 drone for sweeping aerials.</p>
-        <p>Every film package includes a lighting kit, pro audio for the ceremony and selected events, and a storytelling consultation while you plan, so the film sounds as good as it looks.</p>
-      </div>
+    
+    <div class="head head--split">
+      <div class="head__top"><span class="label">(02) — The kit</span><span class="label">Gear</span></div>
+      <h2 class="h-xl" data-lines>Cinema tools,<br><em>quietly used.</em></h2>
+      <p class="lede reveal">Every film package includes a lighting kit, pro audio and a storytelling consultation while you plan.</p>
     </div>
-    <div class="stats" style="border-color:var(--line-night)">
-      <div class="stat reveal" style="border-color:var(--line-night)"><div class="stat__num">3–<span data-count="7">7</span><sup>min</sup></div><p class="stat__label">Highlight film</p></div>
-      <div class="stat reveal" data-delay="1" style="border-color:var(--line-night)"><div class="stat__num">30–<span data-count="60">60</span><sup>sec</sup></div><p class="stat__label">Social-ready teaser</p></div>
-      <div class="stat reveal" data-delay="2" style="border-color:var(--line-night)"><div class="stat__num"><span data-count="14">14</span><sup>days</sup></div><p class="stat__label">Teaser turnaround</p></div>
-      <div class="stat reveal" data-delay="3" style="border-color:var(--line-night)"><div class="stat__num">4K</div><p class="stat__label">Drone &amp; cinema capture</p></div>
+    <div class="bento">
+      
+      <div class="tile c-3 reveal" data-delay="0"><span class="label">Camera system</span><div><p class="h-md">Sony</p><p class="mt-s">Accurate colour science and cinema-quality video for our hybrid photo + film workflow.</p></div></div>
+      <div class="tile c-3 reveal" data-delay="1"><span class="label">Stabiliser</span><div><p class="h-md">DJI Ronin 4D</p><p class="mt-s">Fluid, cinematic movement through every moment of the day.</p></div></div>
+      <div class="tile c-3 reveal" data-delay="2"><span class="label">Aerials</span><div><p class="h-md">DJI Mavic 3</p><p class="mt-s">Sweeping drone footage of your venue and surroundings.</p></div></div>
+      <div class="tile c-3 reveal" data-delay="3"><span class="label">Sound</span><div><p class="h-md">Pro audio</p><p class="mt-s">Every vow, laugh and toast recorded clearly for the ceremony and selected events.</p></div></div>
+      <div class="tile c-4 reveal"><span class="label">Highlight film</span><div><div class="tile__num foil">3–<span data-count="7">7</span><sup>min</sup></div><p class="mt-s">Your day, told as a cinematic story.</p></div></div>
+      <div class="tile c-4 reveal" data-delay="1"><span class="label">Teaser</span><div><div class="tile__num foil">30–<span data-count="60">60</span><sup>sec</sup></div><p class="mt-s">Social-ready and delivered within 14 days.</p></div></div>
+      <a class="tile tile--gold c-4 reveal" data-delay="2" href="investment.html"><div class="tile__top"><span class="label">Film packages</span><span class="circle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span></div><div><p class="h-md">From <em>$3,500</em></p><p class="mt-s">See what's included in every film collection.</p></div></a>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section section--flush-top">
   <div class="container">
-    <div class="section-head section-head--split">
-      <div class="stack" style="--stack:20px">
-        <p class="eyebrow reveal">Commercial &amp; events</p>
-        <h2 data-lines>Beyond the <em>aisle.</em></h2>
-      </div>
-      <p class="prose reveal" style="max-width:42ch">Brand films, venue promos and event documentaries for businesses and causes we believe in.</p>
+    
+    <div class="head head--split">
+      <div class="head__top"><span class="label">(03) — Commercial &amp; events</span><span class="label">Commercial</span></div>
+      <h2 class="h-xl" data-lines>Beyond<br>the <em>aisle.</em></h2>
+      <p class="lede reveal">Brand films, venue promos and event documentaries for businesses and causes we believe in.</p>
     </div>
     <div class="film-grid">
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="v4EgbQTo9XU" aria-label="Play film: St. Jude Run & Telethon"><img src="https://i.ytimg.com/vi/v4EgbQTo9XU/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">St. Jude Run &amp; Telethon</h3>
-        <p class="film-card__meta">Peoria, Illinois — 2023</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="v4EgbQTo9XU" aria-label="Play film: St. Jude Run & Telethon"><img src="https://i.ytimg.com/vi/v4EgbQTo9XU/maxresdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">St. Jude Run &amp; Telethon</h3><span class="label">Peoria, Illinois — 2023</span></div>
       </article>
       <article class="film-card reveal" data-delay="1">
-        <button class="yt" type="button" data-cursor="Play" data-id="M250nWZPbeg" aria-label="Play film: Gather Illinois"><img src="https://i.ytimg.com/vi/M250nWZPbeg/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Gather Illinois</h3>
-        <p class="film-card__meta">Venue promo — 4K</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="M250nWZPbeg" aria-label="Play film: Gather Illinois"><img src="https://i.ytimg.com/vi/M250nWZPbeg/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Gather Illinois</h3><span class="label">Venue promo — 4K</span></div>
       </article>
       <article class="film-card reveal" data-delay="2">
-        <button class="yt" type="button" data-cursor="Play" data-id="O0xD8kRDsFM" aria-label="Play film: Signature Smile Arts"><img src="https://i.ytimg.com/vi/O0xD8kRDsFM/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">Signature Smile Arts</h3>
-        <p class="film-card__meta">Brand film — Homewood, IL</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="O0xD8kRDsFM" aria-label="Play film: Signature Smile Arts"><img src="https://i.ytimg.com/vi/O0xD8kRDsFM/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">Signature Smile Arts</h3><span class="label">Brand film — Homewood, IL</span></div>
       </article>
       <article class="film-card reveal" data-delay="0">
-        <button class="yt" type="button" data-cursor="Play" data-id="i3sRv-bI0Hk" aria-label="Play film: NYU — Liu Fellowship in Implantology"><img src="https://i.ytimg.com/vi/i3sRv-bI0Hk/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
-        <h3 class="film-card__title">NYU — Liu Fellowship in Implantology</h3>
-        <p class="film-card__meta">Event documentary</p>
+        <button class="yt " type="button" data-cursor="Play" data-id="i3sRv-bI0Hk" aria-label="Play film: NYU — Liu Fellowship in Implantology"><img src="https://i.ytimg.com/vi/i3sRv-bI0Hk/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="yt__play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg></span></button>
+        <div class="film-card__meta"><h3 class="film-card__title">NYU — Liu Fellowship in Implantology</h3><span class="label">Event documentary</span></div>
       </article></div>
-  </div>
-</section>
-
-
-<section class="cta-band">
-  <div class="bg" data-parallax><img src="assets/img/dan-filming-1600.webp" srcset="assets/img/dan-filming-800.webp 800w, assets/img/dan-filming-1600.webp 1600w" sizes="100vw" width="1600" height="1069" alt="" loading="lazy" decoding="async" style="object-position:59% 30%"></div>
-  <div class="container">
-    <p class="eyebrow eyebrow--plain reveal">Follow @danreynoldsfilms</p>
-    <h2 data-lines>Let's make<br>your <em>film.</em></h2>
-    <div class="btn-row reveal" data-delay="2"><a class="btn btn--light" href="contact.html">Check your date <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a><a class="btn btn--outline-light" href="https://www.instagram.com/danreynoldsfilms">Instagram — Films</a></div>
   </div>
 </section>
 
 </main>
 
 <footer class="site-footer">
-  <div class="container">
-    <div class="footer-top">
-      <div class="stack" style="--stack:28px">
-        <p class="footer-title">Your story, told <em>exactly</em> as it happened.</p>
-        <a class="btn btn--light" href="contact.html">Start your inquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+  <div class="footer-card">
+    <div class="footer-cta">
+      <div>
+        <span class="label label--dot label--live">Limited dates each year</span>
+        <p class="h-xl mt-m" data-lines>Let's tell<br>your <em>story.</em></p>
       </div>
-      <div class="footer-col">
-        <h3>Explore</h3>
-        <ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="films.html">Films</a></li><li><a href="investment.html">Investment</a></li><li><a href="contact.html">Contact</a></li></ul>
-      </div>
-      <div class="footer-col">
-        <h3>Follow</h3>
-        <ul>
-          <li><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">@danreynoldsphotography</a></li>
-          <li><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">@danreynoldsfilms</a></li>
-          <li><a href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a></li>
-          <li><a href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a></li>
-          <li><a href="https://twitter.com/reynoldspix" target="_blank" rel="noopener">X / Twitter</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Serving</h3>
-        <ul>
-          <li>Chicago</li><li>Central Illinois &amp; Peoria</li><li>Milwaukee</li><li>Madison, WI</li><li>&amp; destinations worldwide</li>
-        </ul>
-      </div>
+      <a class="footer-cta__btn" href="contact.html" data-magnetic-strong><span>Check<br>your date<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; <span data-year>2026</span> Dan Reynolds Photography. All rights reserved.</span>
-      <span>Wedding photography &amp; cinematic film — Illinois &amp; Wisconsin</span>
+    <div class="footer-grid">
+      <div class="footer-col footer-col--intro">
+        <a class="brand" href="index.html"><svg class="brand__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg><span class="brand__name">Dan Reynolds<em>photo + film</em></span></a>
+        <p class="mt-m">Documentary wedding photography and cinematic films by Dan &amp; Lydia Reynolds.</p>
+      </div>
+      <div class="footer-col"><h3>Explore</h3><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="films.html">Films</a></li><li><a href="investment.html">Investment</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h3>Follow</h3><ul>
+        <li><a href="https://www.instagram.com/danreynoldsphotography" target="_blank" rel="noopener">Instagram · Photo</a></li>
+        <li><a href="https://www.instagram.com/danreynoldsfilms" target="_blank" rel="noopener">Instagram · Films</a></li>
+        <li><a href="https://www.youtube.com/@danreynoldsphotography2735" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://www.facebook.com/danreynoldsphotographypeoria" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://twitter.com/reynoldspix" target="_blank" rel="noopener">X / Twitter</a></li>
+      </ul></div>
+      <div class="footer-col"><h3>Serving</h3><ul>
+        <li>Chicago</li><li>Peoria &amp; Central Illinois</li><li>Milwaukee</li><li>Madison, WI</li><li>Destinations worldwide</li>
+      </ul></div>
     </div>
     <span class="footer-wordmark" aria-hidden="true">Dan Reynolds</span>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Dan Reynolds Photography</span>
+      <span>Illinois &amp; Wisconsin</span>
+      <a href="#main">Back to top ↑</a>
+    </div>
   </div>
 </footer>
 
 <div class="sticky-cta" aria-label="Quick actions">
-  <a class="btn btn--ghost" href="portfolio.html">See work</a>
-  <a class="btn btn--light" href="contact.html">Check your date</a>
+  <a class="btn btn--ghost" href="portfolio.html">Our work</a>
+  <a class="btn btn--gold" href="contact.html">Check your date</a>
 </div>
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>

@@ -106,6 +106,16 @@
       var words = $$(".rotator__word", rot), wi = words.length - 1;
       words[wi].classList.add("is-current");
       rot.classList.add("is-live");
+      // Size the slot to the visible word so there is no gap before "again".
+      var fit = function () {
+        var max = Math.max.apply(null, words.map(function (w) { return w.offsetWidth; }));
+        rot.style.width = "";
+        var extra = rot.offsetWidth - max;
+        rot.style.width = (words[wi].offsetWidth + extra) + "px";
+      };
+      fit();
+      window.addEventListener("resize", fit);
+      if (document.fonts) document.fonts.ready.then(fit);
       setInterval(function () {
         if (document.hidden) return;
         var prev = words[wi];
@@ -114,6 +124,7 @@
         prev.classList.add("is-out");
         words[wi].classList.remove("is-out");
         words[wi].classList.add("is-current");
+        fit();
         setTimeout(function () { prev.classList.remove("is-out"); }, 950);
       }, 2600);
     }
@@ -233,7 +244,7 @@
     });
 
     if (hasGsap) {
-      $$(".btn, .icon-btn, .hscroll__end-circle, .yt__play, .menu-toggle").forEach(function (el) {
+      $$(".btn, .icon-btn, .hscroll__end-circle, .yt__play, .menu-toggle, .footer-cta__btn").forEach(function (el) {
         el.setAttribute("data-magnetic", "");
         var strength = el.classList.contains("btn") ? 0.28 : 0.4;
         var host = el.classList.contains("yt__play") ? el.parentElement : el;
@@ -253,18 +264,20 @@
 
   /* ====================== GSAP scroll choreography ====================== */
 
-  // Hero: image sinks and swells, copy lifts away as you scroll.
+  // Hero: the framed image eases back and the copy lifts away as you scroll.
   $$(".hero").forEach(function (hero) {
+    var frame = hero.querySelector(".hero__frame");
     var mediaEl = hero.querySelector(".hero__media");
     var content = hero.querySelector(".hero__content");
     var trig = { trigger: hero, start: "top top", end: "bottom top", scrub: true };
-    if (mediaEl) gsap.to(mediaEl, { yPercent: 22, scale: 1.08, ease: "none", scrollTrigger: trig });
-    if (content) gsap.to(content, { yPercent: -18, opacity: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom 15%", scrub: true } });
+    if (frame) gsap.to(frame, { scale: 0.92, yPercent: 6, ease: "none", transformOrigin: "50% 0%", scrollTrigger: trig });
+    if (mediaEl) gsap.to(mediaEl, { yPercent: 14, scale: 1.06, ease: "none", scrollTrigger: trig });
+    if (content) gsap.to(content, { yPercent: -14, opacity: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom 20%", scrub: true } });
   });
 
   // Parallax inside image frames, pivoting around the faces.
   $$(".media").forEach(function (m) {
-    if (m.closest(".masonry, .social-grid, .index-row, .hero, .hcard, .yt, .package, .t-slide")) return;
+    if (m.closest(".masonry, .index-row, .hero, .hcard, .yt, .marquee, .stack-card")) return;
     var im = m.querySelector("img");
     if (!im) return;
     im.classList.add("parallax-img");
@@ -294,7 +307,7 @@
         } else if (c.nodeType === 1) wrap(c);
       });
     })(el);
-    gsap.to($$(".sw", el), {
+    gsap.to($$(".sw, .inline-img", el), {
       opacity: 1, stagger: 0.12, ease: "none",
       scrollTrigger: { trigger: el, start: "top 82%", end: "bottom 42%", scrub: 0.6 }
     });
@@ -343,33 +356,32 @@
     return function () { section.classList.remove("is-pinned"); gsap.set(track, { x: 0 }); };
   });
 
-  // Footer: wordmark letters rise and content settles as it is uncovered.
-  var footer = $(".site-footer"), wm = $(".footer-wordmark");
+  // Process cards stack: each covered card eases back and dims.
+  var cards = window.innerWidth >= 900 ? $$("[data-stack] .stack-card") : [];
+  cards.forEach(function (card, i) {
+    var next = cards[i + 1];
+    if (!next) return;
+    gsap.to(card, { scale: 0.93, ease: "none",
+      scrollTrigger: { trigger: next, start: "top bottom", end: "top " + (96 + (i + 1) * 22) + "px", scrub: true }
+    });
+    gsap.to(card.querySelector(".stack-card__shade"), {
+      opacity: 0.6, ease: "none",
+      scrollTrigger: { trigger: next, start: "top bottom", end: "top " + (96 + (i + 1) * 22) + "px", scrub: true }
+    });
+  });
+
+  // Footer: giant wordmark letters rise into place.
+  var wm = $(".footer-wordmark");
   if (wm) {
     wm.innerHTML = wm.textContent.split("").map(function (ch) {
       return ch === " " ? " " : '<span class="fw-char">' + ch + "</span>";
     }).join("");
+    gsap.from($$(".fw-char", wm), { yPercent: 110, duration: 1.3, ease: "expo.out", stagger: 0.04, scrollTrigger: { trigger: wm, start: "top 98%" } });
   }
-  mm.add("(min-width: 1024px) and (min-height: 720px)", function () {
-    var main = $("main");
-    if (!footer || !main) return;
-    var end = function () { return "bottom " + (window.innerHeight - footer.offsetHeight) + "px"; };
-    gsap.fromTo($(".container", footer), { yPercent: -18, opacity: 0.4 }, {
-      yPercent: 0, opacity: 1, ease: "none",
-      scrollTrigger: { trigger: main, start: "bottom bottom", end: end, scrub: true, invalidateOnRefresh: true }
-    });
-    if (wm) gsap.from($$(".fw-char", wm), {
-      yPercent: 110, ease: "none", stagger: 0.06,
-      scrollTrigger: { trigger: main, start: "bottom 60%", end: end, scrub: true, invalidateOnRefresh: true }
-    });
-  });
-  mm.add("(max-width: 1023px), (max-height: 719px)", function () {
-    if (wm) gsap.from($$(".fw-char", wm), { yPercent: 110, duration: 1.2, ease: "expo.out", stagger: 0.05, scrollTrigger: { trigger: wm, start: "top 95%" } });
-  });
 
   // Section headings get a gentle drift for depth.
   mm.add("(min-width: 900px)", function () {
-    $$(".section-head--split h2, .page-hero__title").forEach(function (h) {
+    $$(".head--split h2, .page-hero__title").forEach(function (h) {
       gsap.fromTo(h, { y: 18 }, { y: -18, ease: "none", scrollTrigger: { trigger: h, start: "top bottom", end: "bottom top", scrub: true } });
     });
   });
