@@ -681,11 +681,13 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .footer-col--intro p { color: var(--ink-2); max-width: 32ch; }
 .footer-wordmark {
   display: block; font-size: clamp(3rem, 15.5vw, 17rem); font-weight: 600; letter-spacing: -0.07em; line-height: 0.8;
-  white-space: nowrap; overflow: hidden; padding-bottom: 0.16em; margin-inline: -0.02em;
+  white-space: nowrap; overflow: hidden; padding: 0 0.06em 0.22em; text-align: center;
   background: linear-gradient(180deg, rgba(239, 231, 218, 0.95), rgba(239, 231, 218, 0.12)); -webkit-background-clip: text; background-clip: text; color: transparent;
   user-select: none;
 }
-.footer-wordmark .fw-char { display: inline-block; background: inherit; -webkit-background-clip: text; background-clip: text; }
+/* Each letter's paint box is widened so the gradient covers the whole glyph (tight tracking
+   otherwise leaves the right edge of every letter unpainted). */
+.footer-wordmark .fw-char { display: inline-block; background: inherit; -webkit-background-clip: text; background-clip: text; padding: 0 0.12em 0.24em 0; margin: 0 -0.12em -0.24em 0; }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding-top: 18px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; color: var(--muted); text-transform: uppercase; }
 .footer-bottom a:hover { color: var(--accent); }
 
@@ -813,3 +815,9 @@ main, .tile, .qcard, .chapter, .price-card, .form-panel, .faq details { backgrou
 .about-hero-media { aspect-ratio: 4 / 5; }
 @media (min-width: 760px) { .about-hero-media { aspect-ratio: 21 / 9; } }
 .stack-card__shade { position: absolute; inset: 0; z-index: 3; border-radius: inherit; background: #080706; opacity: 0; pointer-events: none; }
+
+/* Size the footer wordmark to the card's own width so it never runs past the right edge. */
+.footer-card { container-type: inline-size; }
+@supports (width: 1cqi) {
+  .footer-wordmark { font-size: min(calc(100cqi / 5.7), 20rem); }
+}
