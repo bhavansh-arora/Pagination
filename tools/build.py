@@ -70,7 +70,7 @@ def bg(name):
 def yt(vid, label, hd=True, extra="", over=""):
     thumb = "maxresdefault" if hd else "hqdefault"
     return (f'<button class="yt {extra}" type="button" data-cursor="Play" data-id="{vid}" aria-label="Play film: {label}">'
-            f'<img src="https://i.ytimg.com/vi/{vid}/{thumb}.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">'
+            f'<img src="https://i.ytimg.com/vi/{vid}/{thumb}.jpg" alt="{label} (wedding film thumbnail)" loading="lazy" decoding="async" width="1280" height="720">'
             f'<span class="yt__play">{PLAY}</span>{over}</button>')
 
 
@@ -206,6 +206,7 @@ def page(filename, title, description, body, active=None, og_image="golden-hour-
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@reynoldspix">
+<link rel="icon" href="assets/brand/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
@@ -334,9 +335,17 @@ def build_home():
 
     insta = ["colin-amanda-6", "lexi-lucas-9", "quinn-charlotte-2", "roseleina-cameron-3", "ethan-gwyn-3",
              "lexi-lucas-10", "ben-tamar", "yura-joe-2", "brian-tori", "kelly-adam-2"]
-    insta_items = "".join(
-        f'<a class="marquee__item" href="{IG_PHOTO if n % 2 == 0 else IG_FILMS}" target="_blank" rel="noopener" data-cursor="Follow" aria-label="View on Instagram">{img(s, "", "300px")}</a>'
-        for n, s in enumerate(insta))
+    def couple(name):  # "lexi-lucas-9" -> "Lexi & Lucas"
+        parts = [w.capitalize() for w in name.split("-") if not w.isdigit()]
+        return " & ".join(parts)
+
+    def insta_list(dup):
+        hide = ' aria-hidden="true" tabindex="-1"' if dup else ""
+        return "".join(
+            f'<a class="marquee__item" href="{IG_PHOTO if n % 2 == 0 else IG_FILMS}" target="_blank" rel="noopener" data-cursor="Follow" aria-label="{couple(s)} on Instagram"{hide}>'
+            f'{img(s, f"{couple(s)} wedding photo by Dan Reynolds Photography", "300px")}</a>'
+            for n, s in enumerate(insta))
+    insta_items = insta_list(False) + insta_list(True)
 
     rose = TESTIMONIALS[1]
     body = f"""
@@ -349,7 +358,7 @@ def build_home():
       <div class="hero__slide">{img("garden-estate-portrait", "A couple embracing on an estate lawn at golden hour", "100vw")}</div>
     </div>
     <a class="hero__card reveal" data-delay="4" href="films.html" data-cursor="Watch">
-      <div class="hero__card-media"><img src="https://i.ytimg.com/vi/Gpq9IPxnIhE/mqdefault.jpg" alt="" width="320" height="180"><span>{PLAY}</span></div>
+      <div class="hero__card-media"><img src="https://i.ytimg.com/vi/Gpq9IPxnIhE/mqdefault.jpg" alt="What if Wes Anderson filmed a wedding? (wedding film thumbnail)" width="320" height="180"><span>{PLAY}</span></div>
       <div class="hero__card-body"><div><span class="label">Latest film</span><strong>What if Wes Anderson filmed a wedding?</strong></div>{icon_btn("circle-btn", ARROW_UR)}</div>
     </a>
     <div class="hero__content">
@@ -462,7 +471,7 @@ def build_home():
       <a class="btn btn--ghost btn--sm" href="{IG_FILMS}" target="_blank" rel="noopener">{IG} @danreynoldsfilms</a>
     </div>
   </div>
-  <div class="marquee"><div class="marquee__track">{insta_items}{insta_items}</div></div>
+  <div class="marquee"><div class="marquee__track">{insta_items}</div></div>
 </section>
 """
     schema = {
@@ -473,8 +482,8 @@ def build_home():
         "areaServed": ["Chicago, IL", "Peoria, IL", "Central Illinois", "Milwaukee, WI", "Madison, WI"],
         "sameAs": [IG_PHOTO, IG_FILMS, FACEBOOK, YOUTUBE, TWITTER],
     }
-    page("index.html", "Dan Reynolds — Wedding Photography &amp; Film | Chicago, Peoria &amp; Wisconsin",
-         "Documentary-style wedding photography and cinematic wedding films by husband-and-wife team Dan & Lydia Reynolds. Serving Chicago, Central Illinois, Milwaukee and Madison.",
+    page("index.html", "Dan Reynolds | Chicago &amp; Peoria Wedding Photographer &amp; Films",
+         "Documentary wedding photography and cinematic films by husband-and-wife team Dan & Lydia Reynolds, serving Chicago, Central Illinois, Milwaukee and Madison.",
          body,
          extra_head=('<link rel="preload" as="image" href="assets/img/golden-hour-portrait-800.webp" '
                      'imagesrcset="assets/img/golden-hour-portrait-800.webp 800w, assets/img/golden-hour-portrait-1600.webp 1600w" imagesizes="100vw">\n'
@@ -588,7 +597,7 @@ def build_portfolio():
     index_rows = "".join(f"""
       <li class="reveal"><a class="index-row" href="{url}" target="_blank" rel="noopener" data-preview="assets/img/{im}-800.webp">
         <span class="index-row__num">0{i + 1}</span>
-        <span class="index-row__thumb">{img(im, "", "120px")}</span>
+        <span class="index-row__thumb">{img(im, alt, "120px")}</span>
         <span class="index-row__name">{a} <em>&amp;</em> {b}</span>
         <span class="index-row__cta btn btn--ghost btn--sm">Open gallery {ARROW_UR}</span>
       </a></li>""" for i, (a, b, im, url, alt) in enumerate(STORIES))
@@ -614,7 +623,7 @@ def build_portfolio():
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
   <div class="lightbox__bar"><span data-count>01 / 01</span><span class="lightbox__caption" data-caption></span><button class="icon-btn" type="button" data-close aria-label="Close viewer">{CLOSE}</button></div>
-  <div class="lightbox__stage"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt=""></div>
+  <div class="lightbox__stage"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Full-size photo"></div>
   <div class="lightbox__nav">
     <button class="icon-btn" type="button" data-prev aria-label="Previous image">{ARROW_L}</button>
     <button class="icon-btn" type="button" data-next aria-label="Next image">{ARROW}</button>
@@ -795,7 +804,7 @@ def build_investment():
 </section>
 """
     page("investment.html", "Investment &amp; Packages — Dan Reynolds Photography",
-         "Wedding photography and film packages from $3,500. Two photographers, complimentary engagement session, cinematic highlight films and more. View pricing and FAQs.",
+         "Wedding photography and film packages from $3,500: two photographers, a free engagement session and cinematic highlight films. See pricing and FAQs.",
          body, og_image="garden-estate-portrait",
          extra_head=f'<script type="application/ld+json">{json.dumps(faq_schema)}</script>')
 
@@ -882,7 +891,8 @@ def build_404():
     <div class="row mt-l" style="justify-content:center"><a class="btn btn--gold" href="index.html">Go back home {icon_btn()}</a><a class="btn btn--ghost" href="portfolio.html">See the portfolio</a></div>
   </div>
 </section>"""
-    page("404.html", "Page not found — Dan Reynolds Photography", "This page could not be found.", body, active="", sticky=False)
+    page("404.html", "Page not found — Dan Reynolds Photography", "This page could not be found.", body, active="", sticky=False,
+         extra_head='<meta name="robots" content="noindex, follow">')
 
 
 def build_meta_files():
@@ -899,7 +909,8 @@ def build_meta_files():
         [{"src": f"assets/img/{n}-1600.webp", "name": n} for n in imgs], indent=0) + "\n")
     (ROOT / "site.webmanifest").write_text(json.dumps({
         "name": "Dan Reynolds Photography", "short_name": "Dan Reynolds",
-        "icons": [{"src": "assets/brand/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"}],
+        "icons": [{"src": "assets/brand/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"},
+                  {"src": "assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png"}],
         "theme_color": "#080706", "background_color": "#0d0b09", "display": "standalone", "start_url": "./",
     }, indent=2) + "\n")
 

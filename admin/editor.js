@@ -130,18 +130,53 @@
   }
   function markEdited(html) { return html.indexOf(EDITED) >= 0 ? html : html.replace(/<html[^>]*>/i, function (m) { return m + "\n" + EDITED; }); }
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  // Page SEO lives in <head>: title, description, social share image, canonical URL, indexing and structured data.
+  function unesc(s) { var x = document.createElement("textarea"); x.innerHTML = s; return x.value; }
+  function headOf(html) { var m = html.match(/<head>[\s\S]*?<\/head>/); return m ? m[0] : ""; }
   function getMeta(html) {
-    var t = html.match(/<title>([\s\S]*?)<\/title>/), d = html.match(/<meta name="description" content="([^"]*)"/);
-    var un = function (s) { var x = document.createElement("textarea"); x.innerHTML = s; return x.value; };
-    return { title: t ? un(t[1]) : "", desc: d ? un(d[1]) : "" };
+    var head = headOf(html);
+    var pick = function (re) { var m = head.match(re); return m ? unesc(m[1]) : ""; };
+    return {
+      title: pick(/<title>([\s\S]*?)<\/title>/), desc: pick(/<meta name="description" content="([^"]*)"/),
+      ogImage: pick(/<meta property="og:image" content="([^"]*)"/), canonical: pick(/<link rel="canonical" href="([^"]*)"/),
+      noindex: /<meta name="robots" content="[^"]*noindex/.test(head),
+      jsonld: (head.match(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g) || []).map(function (x) { return x.replace(/^<script[^>]*>|<\/script>$/g, ""); })
+    };
   }
   function applyMeta(html, meta) {
-    var t = esc(meta.title), d = esc(meta.desc);
-    return html
-      .replace(/<title>[\s\S]*?<\/title>/, function () { return "<title>" + t + "</title>"; })
-      .replace(/<meta name="description" content="[^"]*">/, function () { return '<meta name="description" content="' + d + '">'; })
-      .replace(/<meta property="og:title" content="[^"]*">/, function () { return '<meta property="og:title" content="' + t + '">'; })
-      .replace(/<meta property="og:description" content="[^"]*">/, function () { return '<meta property="og:description" content="' + d + '">'; });
+    var head = headOf(html); if (!head) return html;
+    var t = esc(meta.title), d = esc(meta.desc), h = head;
+    var set = function (re, val) { h = h.replace(re, function () { return val; }); };
+    set(/<title>[\s\S]*?<\/title>/, "<title>" + t + "</title>");
+    set(/<meta name="description" content="[^"]*">/, '<meta name="description" content="' + d + '">');
+    set(/<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="' + t + '">');
+    set(/<meta property="og:description" content="[^"]*">/, '<meta property="og:description" content="' + d + '">');
+    if (meta.ogImage) {
+      set(/<meta property="og:image" content="[^"]*">/, '<meta property="og:image" content="' + esc(meta.ogImage) + '">');
+      if (/<meta name="twitter:image"/.test(h)) set(/<meta name="twitter:image" content="[^"]*">/, '<meta name="twitter:image" content="' + esc(meta.ogImage) + '">');
+    }
+    if (meta.canonical) {
+      set(/<link rel="canonical" href="[^"]*">/, '<link rel="canonical" href="' + esc(meta.canonical) + '">');
+      set(/<meta property="og:url" content="[^"]*">/, '<meta property="og:url" content="' + esc(meta.canonical) + '">');
+    }
+    if ("noindex" in meta) {
+      h = h.replace(/\n?<meta name="robots" content="[^"]*">/g, "");
+      if (meta.noindex) h = h.replace(/(<meta name="description" content="[^"]*">)/, '$1\n<meta name="robots" content="noindex, follow">');
+    }
+    if (meta.jsonld) {
+      h = h.replace(/\n?<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "");
+      var ld = meta.jsonld.filter(Boolean).map(function (j) { return '<script type="application/ld+json">' + j.replace(/<\//g, "<\\/") + "</script>"; }).join("\n");
+      if (ld) h = h.replace(/<\/head>$/, ld + "\n</head>");
+    }
+    return html.replace(head, function () { return h; });
+  }
+  // sitemap.xml lists every page Google should index.
+  function sitemapWith(xml, loc, include, drop) {
+    if (drop && drop !== loc) xml = xml.replace(new RegExp("\\s*<url><loc>" + drop.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&") + "</loc></url>"), "");
+    var has = xml.indexOf("<loc>" + loc + "</loc>") >= 0;
+    if (include && !has) xml = xml.replace("</urlset>", "  <url><loc>" + loc + "</loc></url>\n</urlset>");
+    if (!include && has) xml = xml.replace(new RegExp("\\s*<url><loc>" + loc.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&") + "</loc></url>"), "");
+    return xml;
   }
   // Relative site URLs become absolute inside the editor canvas, and back on export.
   function toEditor(s) {
@@ -866,6 +901,7 @@
       editor.UndoManager.clear();
       editor.select(null);
       state.target = target; state.meta = d.meta; state.metaChanged = false;
+      if (state.meta) state.meta.origCanonical = state.meta.canonical;
       applyOverrides(target);
       setTimeout(function () { applyOverrides(target); }, 300);
       var draft = null;
@@ -928,6 +964,13 @@
         src = setPageStyles(setRegion(src, "main", out.html), out.css);
         if (state.metaChanged && state.meta) src = applyMeta(src, state.meta);
         files.push({ path: t, content: setVersion(markEdited(src), version) });
+        if (!(state.metaChanged && state.meta)) return;
+        if (state.meta.ogUpload) files.push(state.meta.ogUpload);
+        if (!state.meta.canonical) return;
+        return readFile("sitemap.xml").then(function (xml) {
+          var nx = sitemapWith(xml, state.meta.canonical, !state.meta.noindex && t !== "404.html", state.meta.origCanonical);
+          if (nx !== xml) files.push({ path: "sitemap.xml", content: nx });
+        }).catch(function () {});
       });
     }
     var themeOnly = !state.dirty && state.themeChanged;
@@ -949,6 +992,7 @@
       watchLive(checkPath, version);
       try { localStorage.removeItem(draftKey(t)); } catch (e) {}
       state.dirty = false; state.metaChanged = false; state.baseline = snapshot();
+      if (state.meta) { delete state.meta.ogUpload; state.meta.origCanonical = state.meta.canonical; }
       // Swap uploaded data URLs for their new file paths so further edits stay light.
       if (out.files.length) { state.loading = true; setContent(toEditor(out.html), toEditor(out.css)); setTimeout(function () { state.loading = false; state.baseline = snapshot(); }, 250); }
       toast("Saved to GitHub ✓ The live site updates in about a minute; the status at the top right will turn green when it's live.", false, state.pub.url);
@@ -971,7 +1015,12 @@
       html = html.replace(/<link rel="canonical" href="[^"]*">/, function (m) { return m.replace(/[^/"]+">$/, slug + '">'); })
                  .replace(/<meta property="og:url" content="[^"]*">/, function (m) { return m.replace(/[^/"]+">$/, slug + '">'); })
                  .replace(/\s*aria-current="page"/g, "");
-      return commitFiles([{ path: file, content: markEdited(html) }], "Add page " + file + " via site editor");
+      var loc = getMeta(html).canonical;
+      return readFile("sitemap.xml").then(function (xml) { return sitemapWith(xml, loc, true); }).catch(function () { return null; }).then(function (xml) {
+        var files = [{ path: file, content: markEdited(html) }];
+        if (xml) files.push({ path: "sitemap.xml", content: xml });
+        return commitFiles(files, "Add page " + file + " via site editor");
+      });
     }).then(function () {
       state.pages.push(file); fillTargets(); return file;
     });
@@ -1023,15 +1072,7 @@
     if (state.dirty && !confirm("You have unpublished changes to " + labelFor(state.target) + ". They're kept as a draft on this computer. Switch anyway?")) { e.target.value = state.target; return; }
     load(t);
   });
-  $("#ed-page-settings").addEventListener("click", function () {
-    if (!state.meta) return;
-    var f = $("#f-page"); f.title.value = state.meta.title; f.desc.value = state.meta.desc; openModal("#m-page");
-  });
-  $("#f-page").addEventListener("submit", function (e) {
-    e.preventDefault();
-    state.meta = { title: e.target.title.value.trim(), desc: e.target.desc.value.trim() };
-    state.metaChanged = true; state.dirty = true; updateUI(); saveDraft(); closeModals();
-  });
+  $("#ed-page-settings").addEventListener("click", function () { if (window.__seo) window.__seo.open(); });
   $("#ed-new-page").addEventListener("click", function () {
     if (!cfg.token) { openSettings("Connect to GitHub to add pages."); return; }
     $("#f-new").reset(); openModal("#m-new");
@@ -1093,6 +1134,6 @@
   window.__siteEditor = { region: region, setRegion: setRegion, cleanHtml: cleanHtml, extractUploads: extractUploads, currentExport: currentExport, publish: publish, load: load, state: state, cfg: cfg,
     api: api, readFile: readFile, listPages: listPages, commitFiles: commitFiles, toast: toast, openModal: openModal, closeModals: closeModals,
     setVersion: setVersion, markEdited: markEdited, labelFor: labelFor, updateUI: updateUI, prepareImage: prepareImage, pickPhoto: pickPhoto, photoOf: photoOf, setPhoto: setPhoto, photosFor: photosFor, focusOf: focusOf, photoName: photoName, photoLabel: photoLabel,
-    toEditor: toEditor, fromEditor: fromEditor, openStyle: openStyle, fillComputed: fillComputed, updateColorDots: updateColorDots, applyOverrides: applyOverrides,
+    toEditor: toEditor, fromEditor: fromEditor, getMeta: getMeta, applyMeta: applyMeta, saveDraft: saveDraft, PAGE_NAMES: PAGE_NAMES, openStyle: openStyle, fillComputed: fillComputed, updateColorDots: updateColorDots, applyOverrides: applyOverrides,
     openSettings: openSettings, encPath: encPath, SITE: SITE, editor: editor };
 })();
