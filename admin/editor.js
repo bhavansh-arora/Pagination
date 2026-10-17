@@ -19,7 +19,11 @@
 
   var cfg = { owner: "bhavansh-arora", repo: "danreynoldsphotography", branch: "main", token: "" };
   try { Object.assign(cfg, JSON.parse(localStorage.getItem(CFG_KEY) || "{}")); } catch (e) {}
-  function saveCfg() { try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch (e) {} }
+  // The GitHub token only ever comes from the signed-in session (admin/auth.js); it's never kept here.
+  cfg.token = "";
+  if (window.__editorAuth) Object.assign(cfg, { owner: window.__editorAuth.owner, repo: window.__editorAuth.repo, branch: window.__editorAuth.branch, token: window.__editorAuth.token });
+  function saveCfg() { try { localStorage.setItem(CFG_KEY, JSON.stringify({ owner: cfg.owner, repo: cfg.repo, branch: cfg.branch })); } catch (e) {} }
+  saveCfg();
 
   var $ = function (s) { return document.querySelector(s); };
   var state = { target: "index.html", pages: Object.keys(PAGE_NAMES), dirty: false, loading: false, meta: null, metaChanged: false };
@@ -38,7 +42,7 @@
       if (r.ok) return r.status === 204 ? null : r.json();
       return r.json().catch(function () { return {}; }).then(function (j) {
         var msg = j.message || r.statusText;
-        if (r.status === 401) msg = "The token was rejected. Check it in Settings.";
+        if (r.status === 401) { msg = "The GitHub token has expired or was revoked. Replace it in ⚙ Account → GitHub token."; if (window.__auth) window.__auth.tokenRejected(); }
         if (r.status === 403 || r.status === 404) msg += " (check the token has Contents: Read and write access to " + cfg.owner + "/" + cfg.repo + ")";
         throw new Error("GitHub " + r.status + ": " + msg);
       });
@@ -715,7 +719,7 @@
     var box = $("#h-status"), list = $("#h-list");
     $("#h-repo").href = "https://github.com/" + cfg.owner + "/" + cfg.repo + "/commits/" + cfg.branch;
     var lines = [];
-    if (!cfg.token) lines.push("<strong>Not connected to GitHub</strong><span class='ed-muted'>You're in preview mode. Click ⚙ Settings and add a token to publish.</span>");
+    if (!cfg.token) lines.push("<strong>Not signed in</strong><span class='ed-muted'>You're in preview mode. Sign in (⚙) to publish.</span>");
     else if (state.pub) {
       var ph = { saved: "Saved to GitHub ✓, waiting for the live site to update…", slow: "Saved to GitHub ✓. The live site is taking longer than usual; it normally updates within a few minutes.",
         live: "Live on the website ✓", error: "Publish failed" }[state.pub.phase];
@@ -1047,25 +1051,9 @@
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") { e.preventDefault(); saveDraft(); toast("Draft saved on this computer. Click Publish to put it live."); }
   });
 
-  function openSettings(note) {
-    var f = $("#f-settings");
-    f.owner.value = cfg.owner; f.repo.value = cfg.repo; f.branch.value = cfg.branch; f.token.value = cfg.token;
-    $("#settings-msg").textContent = note || ""; $("#settings-msg").classList.remove("is-ok");
-    openModal("#m-settings");
-  }
+  // ⚙ opens the account panel (sign-in, team, GitHub token), provided by auth.js.
+  function openSettings(note) { if (window.__auth) window.__auth.openAccount(note); }
   $("#ed-settings").addEventListener("click", function () { openSettings(); });
-  $("#ed-forget").addEventListener("click", function () { cfg.token = ""; saveCfg(); $("#f-settings").token.value = ""; $("#settings-msg").textContent = "Token removed from this browser."; updateUI(); });
-  $("#f-settings").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var f = e.target, msg = $("#settings-msg");
-    cfg.owner = f.owner.value.trim(); cfg.repo = f.repo.value.trim(); cfg.branch = f.branch.value.trim() || "main"; cfg.token = f.token.value.trim();
-    saveCfg(); msg.classList.remove("is-ok"); msg.textContent = "Checking…";
-    api("").then(function (repo) {
-      if (cfg.token && repo.permissions && !repo.permissions.push) throw new Error("This token can read the repository but cannot publish to it.");
-      msg.classList.add("is-ok"); msg.textContent = "Connected to " + repo.full_name + ".";
-      return listPages().then(function (p) { state.pages = p; fillTargets(); updateUI(); setTimeout(closeModals, 700); });
-    }).catch(function (err) { msg.textContent = err.message; });
-  });
 
   $("#ed-target").addEventListener("change", function (e) {
     var t = e.target.value;
@@ -1126,7 +1114,7 @@
       state.pages = p; fillTargets();
       var start = (hash && (p.indexOf(hash) >= 0 || hash.charAt(0) === "@")) ? hash : "index.html";
       load(start);
-      if (!cfg.token) setTimeout(function () { toast("Preview mode: you can try everything, but connect GitHub (⚙ Settings) to publish."); }, 1200);
+      if (!cfg.token) setTimeout(function () { toast("Preview mode: you can try everything, but sign in to publish."); }, 1200);
     });
   }
 

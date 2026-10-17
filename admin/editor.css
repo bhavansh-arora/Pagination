@@ -394,3 +394,47 @@ a { color: var(--e-gold-ink); }
 /* GrapesJS dialogs (photo picker) open above the editor's own windows */
 .gjs-mdl-container { z-index: 1050 !important; }
 .ed-modal textarea#s-desc { font: 14px/1.5 "Inter Tight", system-ui, sans-serif; }
+
+/* ---- Sign-in ---- */
+.auth { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; overflow: auto; padding: 32px 16px; background: radial-gradient(1200px 600px at 20% -10%, #fff8ec, transparent), var(--e-bg); transition: opacity 0.35s; }
+.auth.is-done { opacity: 0; pointer-events: none; }
+.auth[hidden] { display: none; }
+.auth__card { width: min(520px, 100%); display: grid; gap: 14px; padding: 32px; border-radius: 20px; background: var(--e-panel); border: 1px solid var(--e-line); box-shadow: var(--e-shadow); }
+.auth__logo { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #231d17; color: var(--e-gold); font-weight: 700; letter-spacing: 0.02em; }
+.auth h1 { margin: 4px 0 0; font-size: 24px; letter-spacing: -0.02em; font-weight: 600; }
+.auth__lede, .auth__note { margin: 0; color: var(--e-muted); }
+.auth__note { color: var(--e-red); }
+.auth__steps { margin: 0; padding: 14px 16px 14px 34px; border-radius: 12px; background: var(--e-panel-2); border: 1px solid var(--e-line); display: grid; gap: 6px; font-size: 13.5px; }
+.auth__steps code, .auth__foot code { font-size: 12px; background: #fff; padding: 1px 5px; border-radius: 5px; border: 1px solid var(--e-line); }
+.auth__form, .acct-form { display: grid; gap: 12px; }
+.auth__f { display: grid; gap: 6px; font-size: 12.5px; color: var(--e-muted); }
+.auth__f input, .auth__pw input { width: 100%; height: 42px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--e-line-2); background: #fff; color: var(--e-text); font-size: 15px; }
+.auth__f input:focus { outline: none; border-color: var(--e-gold); box-shadow: 0 0 0 3px rgba(198, 164, 106, 0.2); }
+.auth__pw { display: flex; gap: 6px; }
+.auth__pw input { flex: 1; min-width: 0; }
+.auth__eye, .auth__gen { flex: none; height: 42px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--e-line-2); background: #fff; cursor: pointer; font-size: 12.5px; color: var(--e-text); }
+.auth__gen { background: var(--e-panel-2); }
+.auth__eye:hover, .auth__gen:hover { border-color: var(--e-gold); }
+.auth__strength { min-height: 1em; font-size: 12px; }
+.auth__strength.is-bad { color: var(--e-red); }
+.auth__strength.is-good { color: var(--e-green); }
+.auth__check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; }
+.auth__check input { width: 16px; height: 16px; accent-color: #b8955a; }
+.auth__msg { margin: 0; min-height: 1.2em; color: var(--e-red); font-size: 13px; }
+.auth__go { height: 44px !important; justify-content: center; font-size: 15px; }
+.auth__foot { margin: 0; font-size: 12px; color: var(--e-muted); }
+.auth__more summary { cursor: pointer; font-size: 12.5px; color: var(--e-muted); }
+.auth__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-top: 8px; }
+.ed-modal__box--mid { width: min(640px, 100%); }
+.acct-me { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 12px; background: var(--e-panel-2); border: 1px solid var(--e-line); }
+.acct-me div { display: grid; gap: 2px; }
+.acct-sec { border: 1px solid var(--e-line); border-radius: 12px; padding: 0 16px; background: #fff; }
+.acct-sec > summary { padding: 13px 0; cursor: pointer; font-weight: 600; }
+.acct-sec[open] { padding-bottom: 16px; }
+.acct-users { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 6px; }
+.acct-users li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 10px; background: var(--e-panel-2); }
+.acct-users li span { display: grid; }
+.acct-users em { font-style: normal; color: var(--e-muted); font-size: 12px; }
+.acct-users small { color: var(--e-muted); font-size: 11.5px; }
+.ed-modal .auth__f input, .ed-modal .auth__pw input { height: 38px; font-size: 14px; }
+.ed-modal .auth__eye, .ed-modal .auth__gen { height: 38px; }
