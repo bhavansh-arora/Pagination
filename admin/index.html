@@ -33,11 +33,12 @@
     <span class="ed-sep"></span>
     <button class="ed-icon" id="ed-undo" type="button" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
     <button class="ed-icon" id="ed-redo" type="button" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
+    <button class="ed-btn ed-btn--ghost" id="ed-colors" type="button" title="Colours for the selected element, and the site theme">🎨 Colours</button>
     <button class="ed-icon" id="ed-code" type="button" title="Edit HTML / CSS"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></button>
     <button class="ed-icon" id="ed-preview" type="button" title="Preview"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
   </div>
   <div class="ed-bar__group">
-    <span class="ed-status" id="ed-status" aria-live="polite"></span>
+    <button class="ed-status" id="ed-status" type="button" aria-live="polite" title="Publishing status and history"><span class="ed-status__dot"></span><span class="ed-status__text">Loading…</span></button>
     <a class="ed-btn ed-btn--ghost" id="ed-live" href="../index.html" target="_blank" rel="noopener">View live ↗</a>
     <button class="ed-btn ed-btn--ghost" id="ed-settings" type="button" title="GitHub connection">⚙ Settings</button>
     <button class="ed-btn ed-btn--gold" id="ed-publish" type="button">Publish</button>
@@ -109,6 +110,45 @@
       <button class="ed-btn ed-btn--gold" type="submit">Apply</button>
     </div>
   </form>
+</div>
+
+<!-- Colour popover -->
+<div class="ed-pop" id="p-colors" hidden>
+  <p class="ed-pop__title">Selected element <span id="pc-target" class="ed-muted"></span></p>
+  <p class="ed-pop__label">Text colour</p>
+  <div class="ed-swatches" data-prop="color"></div>
+  <p class="ed-pop__label">Background colour</p>
+  <div class="ed-swatches" data-prop="background-color"></div>
+  <p class="ed-muted ed-small" id="pc-hint">Tip: to colour just a few words, select them while typing and use the <strong>A</strong> button in the text toolbar.</p>
+  <div class="ed-actions"><button class="ed-btn ed-btn--ghost" type="button" id="pc-theme">Edit site theme colours…</button></div>
+</div>
+
+<!-- Theme -->
+<div class="ed-modal" id="m-theme" hidden>
+  <form class="ed-modal__box" id="f-theme">
+    <h2>Site theme colours</h2>
+    <p class="ed-muted ed-small">These colours are used across every page. Changes preview instantly and go live when you Publish.</p>
+    <div class="ed-theme" id="theme-fields"></div>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" id="theme-reset">Reset to original</button>
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Close</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Apply</button>
+    </div>
+  </form>
+</div>
+
+<!-- History & publishing status -->
+<div class="ed-modal" id="m-history" hidden>
+  <div class="ed-modal__box ed-modal__box--wide">
+    <h2>Publishing status &amp; history</h2>
+    <div class="ed-statusbox" id="h-status"></div>
+    <p class="ed-pop__label" id="h-title">Saved versions</p>
+    <ol class="ed-history" id="h-list"></ol>
+    <div class="ed-actions">
+      <a class="ed-btn ed-btn--ghost" id="h-repo" href="#" target="_blank" rel="noopener">Open repository on GitHub ↗</a>
+      <button class="ed-btn ed-btn--gold" type="button" data-close>Close</button>
+    </div>
+  </div>
 </div>
 
 <div class="ed-toast" id="ed-toast" role="status" hidden></div>

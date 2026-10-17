@@ -143,12 +143,17 @@
       .replace(/<meta property="og:description" content="[^"]*">/, function () { return '<meta property="og:description" content="' + d + '">'; });
   }
   // Relative site URLs become absolute inside the editor canvas, and back on export.
-  function toEditor(s) { return (s || "").replace(/(["'(\s,=])assets\//g, function (m, p) { return p + SITE + "assets/"; }); }
+  function toEditor(s) {
+    return (s || "").replace(/(["'(\s,=])assets\//g, function (m, p) { return p + SITE + "assets/"; })
+      // FAQ answers are opened while editing so they can be changed (closed again on publish).
+      .replace(/<details(?![^>]*\sopen)([^>]*)>/g, '<details$1 open data-ed-closed="">');
+  }
   function fromEditor(s) { return (s || "").split(SITE + "assets/").join("assets/"); }
   function cleanHtml(html) {
     html = fromEditor(html.replace(/^\s*<body[^>]*>/i, "").replace(/<\/body>\s*$/i, ""));
     var doc = new DOMParser().parseFromString('<div id="ed-root">' + html + "</div>", "text/html");
     var root = doc.getElementById("ed-root");
+    root.querySelectorAll("details[data-ed-closed]").forEach(function (d) { d.removeAttribute("open"); d.removeAttribute("data-ed-closed"); });
     // When a photo is swapped, drop its old responsive srcset so the new photo is what loads.
     root.querySelectorAll("img[srcset]").forEach(function (img) {
       var src = img.getAttribute("src") || "";
@@ -345,6 +350,55 @@
     }
   });
 
+  // Swapping any photo: drop its old responsive srcset so the new photo shows immediately.
+  editor.on("component:update:src", function (c) {
+    var a = c.getAttributes();
+    if (a.srcset || a.sizes) c.removeAttributes(["srcset", "sizes"]);
+  });
+
+  // Hero slideshow: edit all photos from the Settings panel (thumbnails + Change buttons).
+  function pickPhoto(onPick) {
+    editor.AssetManager.open({
+      select: function (asset, complete) { onPick(asset.getSrc()); editor.AssetManager.close(); }
+    });
+  }
+  editor.TraitManager.addType("slide-photo", {
+    noLabel: true,
+    createInput: function (o) {
+      var trait = o.trait, el = document.createElement("div");
+      el.className = "ed-slide-trait";
+      el.innerHTML = "<img alt=''><div><strong></strong><button type='button' class='ed-btn ed-btn--gold'>Change photo</button></div>";
+      el.querySelector("strong").textContent = trait.get("text");
+      el.querySelector("button").addEventListener("click", function () {
+        var comp = trait.target, img = comp.find(".hero__slide img")[trait.get("idx")];
+        if (!img) return;
+        pickPhoto(function (src) { img.set("src", src); el.querySelector("img").src = src; });
+      });
+      return el;
+    },
+    onUpdate: function (o) {
+      var img = o.component.find(".hero__slide img")[o.trait.get("idx")];
+      o.elInput.querySelector("img").src = img ? img.get("src") : "";
+    }
+  });
+  editor.DomComponents.addType("hero-slideshow", {
+    isComponent: function (el) { return el.classList && el.classList.contains("hero__slides"); },
+    model: {
+      defaults: { name: "Slideshow photos", droppable: false, traits: [0, 1, 2, 3].map(function (i) {
+        return { type: "slide-photo", name: "slide-" + i, idx: i, text: "Photo " + (i + 1) + (i === 0 ? " (shows first)" : ""), changeProp: true };
+      }) }
+    }
+  });
+  // Clicking the hero photo selects the whole slideshow and shows its photos.
+  editor.on("component:selected", function (c) {
+    var show = c && c.closest && c.closest(".hero__slides");
+    if (show && show !== c) { editor.select(show); return; }
+    if (c && c.get("type") === "hero-slideshow") {
+      var b = editor.Panels.getButton("views", "open-tm"); if (b) b.set("active", true);
+      toast("This is the hero slideshow: change each of its photos in the panel on the right.");
+    }
+  });
+
   // Image library: every site photo plus anything uploaded this session.
   fetch("assets.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (list) {
     editor.AssetManager.add(list.map(function (a) { return { type: "image", src: SITE + a.src, name: a.name }; }));
@@ -356,13 +410,30 @@
     init();
   });
 
+  // Edit mode: everything the live site animates or hides is shown, so every word and photo can be edited.
+  var EDIT_MODE_CSS = [
+    ".rotator{display:inline-flex!important;flex-wrap:wrap;gap:0 .22em;width:auto!important;overflow:visible!important;padding:0!important;margin:0!important}",
+    ".rotator__word{transform:none!important;opacity:1!important;grid-area:auto!important}",
+    ".rotator__word+.rotator__word::before{content:'/';opacity:.35;margin-right:.18em;font-style:normal}",
+    ".hero__slide{animation:none!important;clip-path:none!important}.hero__slide img{transform:none!important}",
+    ".hero__media{z-index:0!important}.hero__frame::before{z-index:1!important;pointer-events:none}.hero__content{z-index:3}.hero__card{z-index:4}",
+    ".hscroll__intro{display:flex!important;flex-direction:column;justify-content:space-between;gap:24px;flex:none;width:340px;padding-right:24px}",
+    ".masonry__tag,.index-row__cta{opacity:1!important;transform:none!important}",
+    ".marquee__track{animation:none!important}",
+    ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #c6a46a;border-radius:16px}",
+    ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#c6a46a}",
+    ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}"
+  ].join("");
+
   // Canvas helpers: make the header and mobile menu editable in place.
   function applyOverrides(target) {
     var doc = editor.Canvas.getDocument();
     if (!doc) return;
     var el = doc.getElementById("ed-overrides");
     if (!el) { el = doc.createElement("style"); el.id = "ed-overrides"; doc.head.appendChild(el); }
-    var css = "body{background:#0d0b09}";
+    var css = "body{background:#0d0b09}" + EDIT_MODE_CSS + themeCss();
+    // Load every photo right away inside the editor (the live site keeps lazy loading).
+    Array.prototype.forEach.call(doc.querySelectorAll("img[loading=lazy]"), function (i) { i.loading = "eager"; });
     if (target === "@header") css += ".site-header{position:relative!important;transform:none!important;padding-bottom:12px}.mobile-menu{position:relative!important;inset:auto!important;clip-path:none!important;visibility:visible!important;min-height:620px}.mobile-menu__list a{opacity:1!important;transform:none!important}.skip-link{position:static!important;display:inline-block;margin:8px}";
     el.textContent = css;
   }
@@ -392,11 +463,203 @@
     }, 350);
   });
 
-  function setStatus(text) {
-    var s = $("#ed-status");
-    s.textContent = text != null ? text : (state.dirty ? "Unpublished changes" : (cfg.token ? "Connected to GitHub" : "Preview mode: connect GitHub to publish"));
-    s.classList.toggle("is-dirty", !!state.dirty && text == null);
+  /* ---------------- Publishing status (always visible, top right) ---------------- */
+  state.pub = null; // { phase: 'saved'|'live'|'slow'|'error', sha, url, time, file, version, message }
+  function ago(t) {
+    var s = Math.round((Date.now() - t) / 1000);
+    if (s < 60) return "just now";
+    if (s < 3600) return Math.round(s / 60) + " min ago";
+    if (s < 86400) return Math.round(s / 3600) + " h ago";
+    return new Date(t).toLocaleDateString();
   }
+  function setStatus(text, kind) {
+    var b = $("#ed-status"), label, s;
+    if (text != null) { label = text; s = kind || "busy"; }
+    else if (!cfg.token) { label = "Preview mode: not connected to GitHub"; s = "off"; }
+    else if (state.dirty || state.themeChanged) { label = "Unpublished changes"; s = "dirty"; }
+    else if (state.pub && state.pub.phase === "error") { label = "Publish failed: click for details"; s = "error"; }
+    else if (state.pub && state.pub.phase === "saved") { label = "Saved to GitHub ✓ · going live…"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "slow") { label = "Saved to GitHub ✓ · live site still updating"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "live") { label = "Live on the website ✓ · " + ago(state.pub.time); s = "live"; }
+    else { label = "Connected · everything is published"; s = "ok"; }
+    b.setAttribute("data-s", s);
+    b.querySelector(".ed-status__text").textContent = label;
+  }
+  setInterval(function () { if (!state.loading && !$("#ed-publish").disabled) setStatus(); }, 30000);
+
+  // After a publish, poll the live site until it serves the new version.
+  function versionTag(v) { return '<meta name="site-version" content="' + v + '">'; }
+  function setVersion(html, v) {
+    if (/<meta name="site-version" content="[^"]*">/.test(html)) return html.replace(/<meta name="site-version" content="[^"]*">/, function () { return versionTag(v); });
+    return html.replace(/<meta charset="utf-8">/i, function (m) { return m + "\n" + versionTag(v); });
+  }
+  var liveTimer = null;
+  function watchLive(path, version) {
+    clearTimeout(liveTimer);
+    var started = Date.now();
+    (function poll() {
+      fetch(SITE + path + "?check=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : ""; }).then(function (txt) {
+        if (!state.pub || state.pub.version !== version) return;
+        if (txt.indexOf(version) >= 0) { state.pub.phase = "live"; setStatus(); toast("Your change is now live on the website."); return; }
+        if (Date.now() - started > 6 * 60000) { state.pub.phase = "slow"; setStatus(); return; }
+        liveTimer = setTimeout(poll, 6000);
+      }).catch(function () { liveTimer = setTimeout(poll, 8000); });
+    })();
+  }
+
+  /* ---------------- History: every saved version, with restore ---------------- */
+  function historyFile() { return state.target.charAt(0) === "@" ? "index.html" : state.target; }
+  function openHistory() {
+    var box = $("#h-status"), list = $("#h-list");
+    $("#h-repo").href = "https://github.com/" + cfg.owner + "/" + cfg.repo + "/commits/" + cfg.branch;
+    var lines = [];
+    if (!cfg.token) lines.push("<strong>Not connected to GitHub</strong><span class='ed-muted'>You're in preview mode. Click ⚙ Settings and add a token to publish.</span>");
+    else if (state.pub) {
+      var ph = { saved: "Saved to GitHub ✓, waiting for the live site to update…", slow: "Saved to GitHub ✓. The live site is taking longer than usual; it normally updates within a few minutes.",
+        live: "Live on the website ✓", error: "Publish failed" }[state.pub.phase];
+      lines.push("<strong>" + ph + "</strong>");
+      if (state.pub.phase === "error") lines.push("<span class='ed-muted'>" + esc(state.pub.message || "") + "</span>");
+      else lines.push("<span class='ed-muted'>" + esc(labelFor(state.pub.target)) + " · " + new Date(state.pub.time).toLocaleString() + " · commit <a href='" + state.pub.url + "' target='_blank' rel='noopener'>" + state.pub.sha.slice(0, 7) + " ↗</a></span>");
+    } else lines.push("<strong>" + (state.dirty || state.themeChanged ? "You have unpublished changes" : "Everything you see is published") + "</strong><span class='ed-muted'>Connected to " + esc(cfg.owner + "/" + cfg.repo) + " (" + esc(cfg.branch) + ")</span>");
+    box.innerHTML = lines.join("");
+    $("#h-title").textContent = "Saved versions of " + labelFor(state.target);
+    list.innerHTML = cfg.token ? "<li class='ed-muted'>Loading history…</li>" : "";
+    openModal("#m-history");
+    if (!cfg.token) return;
+    api("/commits?path=" + encodeURIComponent(historyFile()) + "&sha=" + encodeURIComponent(cfg.branch) + "&per_page=25").then(function (commits) {
+      list.innerHTML = "";
+      if (!commits.length) { list.innerHTML = "<li class='ed-muted'>No saved versions yet.</li>"; return; }
+      commits.forEach(function (c, i) {
+        var li = document.createElement("li"), when = new Date(c.commit.author.date);
+        li.innerHTML = "<span class='h-msg'>" + esc(c.commit.message.split("\n")[0]) + (i === 0 ? "<span class='h-latest'>● current</span>" : "") + "</span>" +
+          "<span class='h-meta'>" + when.toLocaleString() + " · " + esc(c.commit.author.name) + " · " + c.sha.slice(0, 7) + "</span>" +
+          "<span class='h-actions'><a class='ed-btn ed-btn--ghost' href='" + c.html_url + "' target='_blank' rel='noopener'>View ↗</a>" +
+          (i === 0 ? "" : "<button class='ed-btn' type='button' data-restore='" + c.sha + "'>Restore</button>") + "</span>";
+        list.appendChild(li);
+      });
+    }).catch(function (e) { list.innerHTML = "<li class='ed-muted'>" + esc(e.message) + "</li>"; });
+  }
+  $("#h-list").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-restore]");
+    if (!b) return;
+    var sha = b.getAttribute("data-restore"), t = state.target, key = t.charAt(0) === "@" ? t.slice(1) : "main";
+    b.disabled = true; b.textContent = "Loading…";
+    api("/contents/" + encPath(historyFile()) + "?ref=" + sha).then(function (j) {
+      var src = b64decode(j.content), html = region(src, key);
+      if (html == null) throw new Error("That version has no editable " + key + " region.");
+      state.loading = true;
+      editor.setComponents(toEditor(html));
+      if (key === "main") editor.setStyle(toEditor(pageStyles(src)));
+      setTimeout(function () { state.loading = false; state.dirty = true; updateUI(); saveDraft(); applyOverrides(state.target); }, 250);
+      closeModals();
+      toast("Older version loaded into the editor. Review it, then click Publish to make it live again.");
+    }).catch(function (err) { b.disabled = false; b.textContent = "Restore"; toast(err.message, true); });
+  });
+  $("#ed-status").addEventListener("click", function () { if (!cfg.token && !state.pub) openSettings(); else openHistory(); });
+
+  /* ---------------- Colours ---------------- */
+  var BRAND = [["Gold", "var(--accent)", "#c6a46a"], ["Light gold", "var(--gold-hi)", "#e2c999"], ["Ivory", "var(--ivory)", "#efe7da"],
+    ["Soft text", "var(--ink-2)", "#c3b9a9"], ["Muted", "var(--muted)", "#8d8373"], ["Dark", "var(--paper)", "#0d0b09"],
+    ["Surface", "var(--paper-2)", "#15120f"], ["White", "#ffffff", "#ffffff"]];
+  function swatchHTML(withNone) {
+    return BRAND.map(function (b) { return "<button class='ed-sw' type='button' title='" + b[0] + "' data-v='" + b[1] + "' data-hex='" + b[2] + "' style='background:" + b[2] + "'></button>"; }).join("") +
+      "<label class='ed-sw ed-sw--custom' title='Any colour'><input type='color' value='#c6a46a'></label>" +
+      (withNone ? "<button class='ed-sw ed-sw--none' type='button' title='Remove' data-v=''></button>" : "");
+  }
+  document.querySelectorAll("#p-colors .ed-swatches").forEach(function (box) {
+    var prop = box.getAttribute("data-prop");
+    box.innerHTML = swatchHTML(true);
+    function apply(v) {
+      var sel = editor.getSelected();
+      if (!sel) { toast("Click something on the page first, then pick a colour.", true); return; }
+      var st = {}; st[prop] = v;
+      if (v) sel.addStyle(st); else sel.removeStyle(prop);
+      // Text colour must also reach headings/links inside the element, which set their own colour.
+      if (prop === "color") {
+        var rule = editor.CssComposer.setRule("#" + sel.getId() + " :is(h1,h2,h3,p,a,li,span,em,strong,blockquote)", {});
+        if (v) rule.setStyle({ color: "inherit" }); else editor.CssComposer.remove(rule);
+      }
+      editor.trigger("update");
+    }
+    box.addEventListener("click", function (e) { var b = e.target.closest("button.ed-sw"); if (b) apply(b.getAttribute("data-v")); });
+    box.querySelector("input[type=color]").addEventListener("input", function (e) { apply(e.target.value); });
+  });
+  function positionPop(pop, anchor) { var r = anchor.getBoundingClientRect(); pop.style.left = Math.max(8, Math.min(window.innerWidth - 330, r.left - 120)) + "px"; }
+  $("#ed-colors").addEventListener("click", function (e) {
+    var pop = $("#p-colors");
+    if (!pop.hidden) { pop.hidden = true; return; }
+    var sel = editor.getSelected();
+    $("#pc-target").textContent = sel ? "(" + (sel.getName() || sel.get("tagName")) + ")" : "(nothing selected: click an element first)";
+    positionPop(pop, e.currentTarget); pop.hidden = false;
+  });
+  editor.on("component:selected", function () {
+    var sel = editor.getSelected(); if (!$("#p-colors").hidden) $("#pc-target").textContent = sel ? "(" + (sel.getName() || sel.get("tagName")) + ")" : "";
+  });
+  document.addEventListener("mousedown", function (e) {
+    var pop = $("#p-colors");
+    if (!pop.hidden && !pop.contains(e.target) && e.target !== $("#ed-colors")) pop.hidden = true;
+  });
+
+  // Text colour inside the typing toolbar (for a few selected words).
+  var rtePop = document.createElement("div"); rtePop.className = "ed-rte-pop"; rtePop.hidden = true; rtePop.innerHTML = swatchHTML(false);
+  document.body.appendChild(rtePop);
+  var rteRange = null, rteRef = null;
+  editor.RichTextEditor.add("ed-color", {
+    icon: '<b style="font-family:serif;font-size:15px;border-bottom:3px solid #c6a46a;line-height:1">A</b>',
+    attributes: { title: "Text colour for the selected words" },
+    result: function (rte) {
+      var win = editor.Canvas.getWindow(), sel = win.getSelection();
+      rteRange = sel && sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null; rteRef = rte;
+      // Live inside GrapesJS's own text toolbar so picking a colour doesn't end text editing.
+      var tb = editor.RichTextEditor.getToolbarEl ? editor.RichTextEditor.getToolbarEl() : document.querySelector(".gjs-rte-toolbar");
+      if (tb && rtePop.parentNode !== tb) tb.appendChild(rtePop);
+      rtePop.hidden = !rtePop.hidden;
+    }
+  });
+  function rteColor(hex) {
+    rtePop.hidden = true;
+    if (!rteRef || !rteRange) return;
+    var win = editor.Canvas.getWindow(), doc = win.document, sel = win.getSelection();
+    win.focus(); sel.removeAllRanges(); sel.addRange(rteRange);
+    try { doc.execCommand("styleWithCSS", false, true); } catch (e) {}
+    rteRef.exec("foreColor", hex);
+    // Prefer <span style="color"> over legacy <font> tags.
+    doc.querySelectorAll("font[color]").forEach(function (f) { var sp = doc.createElement("span"); sp.style.color = f.getAttribute("color"); while (f.firstChild) sp.appendChild(f.firstChild); f.parentNode.replaceChild(sp, f); });
+    editor.trigger("update");
+  }
+  rtePop.addEventListener("mousedown", function (e) { if (e.target.tagName !== "INPUT") e.preventDefault(); e.stopPropagation(); });
+  rtePop.addEventListener("click", function (e) { var b = e.target.closest("button.ed-sw"); if (b) rteColor(b.getAttribute("data-hex")); });
+  rtePop.querySelector("input[type=color]").addEventListener("change", function (e) { rteColor(e.target.value); });
+  document.addEventListener("mousedown", function (e) { if (!rtePop.hidden && !rtePop.contains(e.target)) rtePop.hidden = true; });
+
+  /* ---------------- Site theme (brand colours on every page) ---------------- */
+  var THEME_VARS = [["--accent", "Gold accent (buttons, highlights)", "#c6a46a"], ["--gold-hi", "Light gold (headline accents)", "#e2c999"],
+    ["--paper", "Page background", "#0d0b09"], ["--paper-2", "Card background", "#15120f"], ["--ink", "Main text", "#efe7da"],
+    ["--ink-2", "Body text", "#c3b9a9"], ["--muted", "Small labels", "#8d8373"], ["--ivory", "Light buttons & text on photos", "#efe7da"]];
+  state.theme = {}; state.themeChanged = false;
+  function themeCss() {
+    var keys = Object.keys(state.theme || {}); if (!keys.length) return "";
+    return ":root{" + keys.map(function (k) { return k + ":" + state.theme[k]; }).join(";") + "}" + (state.theme["--accent"] ? ".btn--gold,.tile--gold{border-color:" + state.theme["--accent"] + "}" : "");
+  }
+  function parseTheme(g) {
+    var t = {}, css = cssRegion(g, "theme"), re = /(--[a-z0-9-]+)\s*:\s*([^;}]+)/g, m;
+    while ((m = re.exec(css))) t[m[1]] = m[2].trim();
+    return t;
+  }
+  function loadTheme() { return readFile("assets/css/editor-global.css").then(function (g) { state.theme = parseTheme(g); }).catch(function () {}); }
+  function renderTheme() {
+    $("#theme-fields").innerHTML = THEME_VARS.map(function (v) {
+      var val = state.theme[v[0]] || v[2];
+      return "<label><input type='color' data-var='" + v[0] + "' value='" + (/^#[0-9a-f]{6}$/i.test(val) ? val : v[2]) + "'><span>" + v[1] + "</span><code>" + v[0] + "</code></label>";
+    }).join("");
+  }
+  $("#pc-theme").addEventListener("click", function () { $("#p-colors").hidden = true; renderTheme(); openModal("#m-theme"); });
+  $("#theme-fields").addEventListener("input", function (e) {
+    var v = e.target.getAttribute("data-var"); if (!v) return;
+    state.theme[v] = e.target.value; applyOverrides(state.target);
+  });
+  $("#theme-reset").addEventListener("click", function () { state.theme = {}; state.themeChanged = true; renderTheme(); applyOverrides(state.target); updateUI(); });
+  $("#f-theme").addEventListener("submit", function (e) { e.preventDefault(); state.themeChanged = true; closeModals(); updateUI(); toast("Theme updated. Click Publish to put it live on every page."); });
   function updateUI() {
     setStatus();
     $("#ed-live").href = SITE + (state.target.charAt(0) === "@" ? "index.html" : state.target);
@@ -437,6 +700,7 @@
       editor.select(null);
       state.target = target; state.meta = d.meta; state.metaChanged = false;
       applyOverrides(target);
+      setTimeout(function () { applyOverrides(target); }, 300);
       var draft = null;
       try { draft = JSON.parse(localStorage.getItem(draftKey(target)) || "null"); } catch (e) {}
       setTimeout(function () {
@@ -471,8 +735,10 @@
 
   function publish() {
     if (!cfg.token) { openSettings("Connect to GitHub to publish your changes."); return; }
+    if (!state.dirty && !state.themeChanged) { toast("Nothing new to publish: everything you see is already saved."); openHistory(); return; }
     var t = state.target, out = currentExport(), files = out.files.slice();
-    setBusy(true, "Publishing…");
+    var version = "v" + Date.now().toString(36), globalCss = null, checkPath = t.charAt(0) === "@" ? "index.html" : t;
+    setBusy(true, "Saving to GitHub…");
     var job;
     if (t.charAt(0) === "@") {
       var key = t.slice(1);
@@ -485,31 +751,42 @@
               if (key === "header") { // keep the "you are here" highlight correct on each page
                 html = html.replace(/\s*aria-current="page"/g, "").split('href="' + page + '"').join('href="' + page + '" aria-current="page"');
               }
-              files.push({ path: page, content: markEdited(setRegion(src, key, html)) });
+              files.push({ path: page, content: setVersion(markEdited(setRegion(src, key, html)), version) });
             });
           });
         }, Promise.resolve());
-      }).then(function () {
-        return readFile("assets/css/editor-global.css").catch(function () { return DEFAULT_GLOBAL_CSS; });
-      }).then(function (g) {
-        files.push({ path: "assets/css/editor-global.css", content: setCssRegion(g, key, out.css) });
-      });
+      }).then(function () { globalCss = { key: key, css: out.css }; });
     } else {
       job = readFile(t).then(function (src) {
         src = setPageStyles(setRegion(src, "main", out.html), out.css);
         if (state.metaChanged && state.meta) src = applyMeta(src, state.meta);
-        files.push({ path: t, content: markEdited(src) });
+        files.push({ path: t, content: setVersion(markEdited(src), version) });
       });
     }
+    var themeOnly = !state.dirty && state.themeChanged;
     job.then(function () {
-      return commitFiles(files, "Update " + labelFor(t) + " via site editor");
+      if (!globalCss && !state.themeChanged) return;
+      return readFile("assets/css/editor-global.css").catch(function () { return DEFAULT_GLOBAL_CSS; }).then(function (g) {
+        if (globalCss) g = setCssRegion(g, globalCss.key, globalCss.css);
+        if (state.themeChanged) g = setCssRegion(g, "theme", themeCss() ? themeCss().replace(/\.btn--gold[\s\S]*$/, "") : "");
+        g = g.replace(/^\/\* site-version: [^*]*\*\/\n?/, "");
+        files.push({ path: "assets/css/editor-global.css", content: "/* site-version: " + version + " */\n" + g });
+        if (themeOnly) checkPath = "assets/css/editor-global.css";
+      });
+    }).then(function () {
+      if (themeOnly) files = files.filter(function (f) { return f.path === "assets/css/editor-global.css"; });
+      return commitFiles(files, (themeOnly ? "Update site theme colours" : "Update " + labelFor(t) + (state.themeChanged ? " and site theme" : "")) + " via site editor");
     }).then(function (c) {
+      state.themeChanged = false;
+      state.pub = { phase: "saved", sha: c.sha, url: c.html_url || ("https://github.com/" + cfg.owner + "/" + cfg.repo + "/commit/" + c.sha), time: Date.now(), target: t, version: version };
+      watchLive(checkPath, version);
       try { localStorage.removeItem(draftKey(t)); } catch (e) {}
       state.dirty = false; state.metaChanged = false; state.baseline = snapshot();
       // Swap uploaded data URLs for their new file paths so further edits stay light.
       if (out.files.length) { state.loading = true; editor.setComponents(toEditor(out.html)); editor.setStyle(toEditor(out.css)); setTimeout(function () { state.loading = false; state.baseline = snapshot(); }, 250); }
-      toast("Published! The live site updates in about a minute.", false, c.html_url);
+      toast("Saved to GitHub ✓ The live site updates in about a minute; the status at the top right will turn green when it's live.", false, state.pub.url);
     }).catch(function (e) {
+      state.pub = { phase: "error", message: e.message, time: Date.now(), target: t };
       toast("Publish failed: " + e.message, true);
     }).then(function () { setBusy(false); });
   }
@@ -625,6 +902,7 @@
 
   function init() {
     var hash = decodeURIComponent(location.hash.slice(1));
+    loadTheme().then(function () { applyOverrides(state.target); });
     listPages().catch(function () { return state.pages; }).then(function (p) {
       state.pages = p; fillTargets();
       var start = (hash && (p.indexOf(hash) >= 0 || hash.charAt(0) === "@")) ? hash : "index.html";
