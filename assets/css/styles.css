@@ -355,9 +355,14 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .tile__num { font-size: clamp(3.4rem, 2.4rem + 3vw, 5.6rem); font-weight: 500; letter-spacing: -0.06em; line-height: 0.85; }
 .tile__num sup { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 0.38em; letter-spacing: 0; vertical-align: top; position: relative; top: 0.2em; margin-left: 4px; color: var(--accent); -webkit-text-fill-color: var(--accent); }
 .tile p { color: var(--ink-2); font-size: 0.95rem; max-width: 34ch; }
+.tile .h-md { font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.4rem); color: var(--ink); max-width: none; }
+.tile .h-lg { font-size: clamp(2.2rem, 1.1rem + 4.2vw, 5.2rem); color: var(--ink); max-width: none; }
+.tile .tile__title { font-size: clamp(2rem, 1.2rem + 2.6vw, 3.6rem); color: var(--ivory); max-width: none; }
 .tile--gold { background: var(--accent) url("../brand/grain.png"); border-color: var(--accent); color: var(--night); }
 .tile--gold p, .tile--gold .label { color: rgba(8, 7, 6, 0.72); }
-.tile--gold .h-md em { color: var(--night); }
+.tile--gold .h-md, .tile--gold .h-lg, .tile--gold .h-xl { color: var(--night); }
+.tile--gold .tile__num sup { color: var(--night); -webkit-text-fill-color: var(--night); opacity: 0.7; }
+.tile--gold .h-md em, .tile--gold .h-lg em, .tile--gold .h-xl em { color: var(--night); }
 .tile--gold .circle-btn { border-color: rgba(8, 7, 6, 0.3); color: var(--night); }
 .tile--gold:hover .circle-btn { background: var(--night); color: var(--accent); transform: rotate(-45deg); }
 .tile--quote blockquote p { font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem); line-height: 1.35; letter-spacing: -0.02em; color: var(--ink); }
@@ -821,3 +826,12 @@ main, .tile, .qcard, .chapter, .price-card, .form-panel, .faq details { backgrou
 @supports (width: 1cqi) {
   .footer-wordmark { font-size: min(calc(100cqi / 5.7), 20rem); }
 }
+
+/* ---------- Generic layout blocks (used by the visual editor) ---------- */
+.ed-cols { display: grid; gap: clamp(16px, 2.4vw, 32px); grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 760px) { .ed-cols--2 { grid-template-columns: 1fr 1fr; } .ed-cols--3 { grid-template-columns: repeat(3, 1fr); } }
+.gallery-grid { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 900px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+.gallery-grid .media { aspect-ratio: 4 / 5; }
+.spacer { height: clamp(40px, 6vw, 96px); }
+.divider { height: 1px; background: var(--line); border: 0; margin: 0; }

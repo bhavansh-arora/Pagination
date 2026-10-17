@@ -24,6 +24,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/editor-global.css">
+<style id="page-styles"></style>
 <script>try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}setTimeout(function(){d.classList.remove("is-loading","is-entering")},5000)}catch(e){}</script>
 
 </head>
@@ -42,7 +44,7 @@
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
 <div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
 <div class="hover-preview" aria-hidden="true"><div class="hover-preview__inner"></div></div>
-
+<!-- editor:header -->
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="site-header__inner">
@@ -66,7 +68,9 @@
     </div>
   </div>
 </div>
+<!-- /editor:header -->
 <main id="main">
+<!-- editor:main -->
 
 <section class="notfound">
   <div class="container">
@@ -76,8 +80,9 @@
     <div class="row mt-l" style="justify-content:center"><a class="btn btn--gold" href="index.html">Go back home <span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn btn--ghost" href="portfolio.html">See the portfolio</a></div>
   </div>
 </section>
+<!-- /editor:main -->
 </main>
-
+<!-- editor:footer -->
 <footer class="site-footer">
   <div class="footer-card">
     <div class="footer-cta">
@@ -112,6 +117,7 @@
     </div>
   </div>
 </footer>
+<!-- /editor:footer -->
 
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>

@@ -14,6 +14,8 @@ from content import (SITE_URL, IG_PHOTO, IG_FILMS, FACEBOOK, YOUTUBE, TWITTER,
                      PORTFOLIO, FILTERS, FAQS)
 
 ROOT = Path(__file__).resolve().parent.parent
+EDITED_MARK = "<!-- editor:edited -->"
+FORCE = "--force" in __import__("sys").argv
 META = json.loads((Path(__file__).parent / "image-meta.json").read_text())
 
 # --------------------------------------------------------------------------- #
@@ -211,16 +213,22 @@ def page(filename, title, description, body, active=None, og_image="golden-hour-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/editor-global.css">
+<style id="page-styles"></style>
 <script>try{{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){{d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){{d.classList.add("is-loading")}}setTimeout(function(){{d.classList.remove("is-loading","is-entering")}},5000)}}catch(e){{}}</script>
 {extra_head}
 </head>
 <body>
 {CHROME}
-{header(active)}
+<!-- editor:header -->{header(active)}
+<!-- /editor:header -->
 <main id="main">
+<!-- editor:main -->
 {body}
+<!-- /editor:main -->
 </main>
-{footer()}
+<!-- editor:footer -->{footer()}
+<!-- /editor:footer -->
 {STICKY if sticky else ""}
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
@@ -229,7 +237,12 @@ def page(filename, title, description, body, active=None, og_image="golden-hour-
 </body>
 </html>
 """
-    (ROOT / filename).write_text(html)
+    out = ROOT / filename
+    # Pages saved from the visual editor (/admin) are the source of truth: never overwrite them.
+    if out.exists() and EDITED_MARK in out.read_text() and not FORCE:
+        print(f"  skipped {filename} (edited in the visual editor; use --force to overwrite)")
+        return
+    out.write_text(html)
 
 
 # --------------------------------------------------------------------------- #
@@ -876,7 +889,14 @@ def build_meta_files():
     pages = ["", "about", "portfolio", "films", "investment", "contact"]
     urls = "".join(f"  <url><loc>{SITE_URL}/{p}</loc></url>\n" for p in pages)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
-    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: {SITE_URL}/sitemap.xml\n")
+    css = ROOT / "assets/css/editor-global.css"
+    if not css.exists():
+        css.write_text("/* Styles saved from the visual editor for the shared header and footer. */\n/* editor:header */\n/* /editor:header */\n/* editor:footer */\n/* /editor:footer */\n")
+    # Image library for the editor's asset manager.
+    imgs = sorted(n for n in META)
+    (ROOT / "admin" / "assets.json").write_text(json.dumps(
+        [{"src": f"assets/img/{n}-1600.webp", "name": n} for n in imgs], indent=0) + "\n")
     (ROOT / "site.webmanifest").write_text(json.dumps({
         "name": "Dan Reynolds Photography", "short_name": "Dan Reynolds",
         "icons": [{"src": "assets/brand/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"}],

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Site editor — Dan Reynolds</title>
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/grapes.min.css">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+<header class="ed-bar">
+  <div class="ed-bar__group">
+    <span class="ed-logo" aria-hidden="true">DR</span>
+    <label class="ed-select">
+      <span class="ed-sr">Editing</span>
+      <select id="ed-target" aria-label="Choose what to edit"></select>
+    </label>
+    <button class="ed-btn" id="ed-new-page" type="button" title="Add a new page">+ Page</button>
+    <button class="ed-btn" id="ed-page-settings" type="button" title="Page title and description">Page settings</button>
+  </div>
+  <div class="ed-bar__group ed-devices" role="group" aria-label="Preview size">
+    <button class="ed-icon is-active" data-device="Desktop" type="button" title="Desktop">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
+    </button>
+    <button class="ed-icon" data-device="Tablet" type="button" title="Tablet">
+      <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M11 18h2"/></svg>
+    </button>
+    <button class="ed-icon" data-device="Mobile" type="button" title="Phone">
+      <svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>
+    </button>
+    <span class="ed-sep"></span>
+    <button class="ed-icon" id="ed-undo" type="button" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+    <button class="ed-icon" id="ed-redo" type="button" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
+    <button class="ed-icon" id="ed-code" type="button" title="Edit HTML / CSS"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></button>
+    <button class="ed-icon" id="ed-preview" type="button" title="Preview"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+  </div>
+  <div class="ed-bar__group">
+    <span class="ed-status" id="ed-status" aria-live="polite"></span>
+    <a class="ed-btn ed-btn--ghost" id="ed-live" href="../index.html" target="_blank" rel="noopener">View live ↗</a>
+    <button class="ed-btn ed-btn--ghost" id="ed-settings" type="button" title="GitHub connection">⚙ Settings</button>
+    <button class="ed-btn ed-btn--gold" id="ed-publish" type="button">Publish</button>
+  </div>
+</header>
+
+<div id="gjs"></div>
+
+<div class="ed-small-screen">The site editor works best on a laptop or desktop screen.</div>
+
+<!-- GitHub connection -->
+<div class="ed-modal" id="m-settings" hidden>
+  <form class="ed-modal__box" id="f-settings">
+    <h2>Connect to GitHub</h2>
+    <p class="ed-muted" id="settings-note">Publishing saves your changes to the website's GitHub repository. The live site updates about a minute later, and every previous version is kept, so any change can be rolled back.</p>
+    <div class="ed-grid">
+      <label>Owner<input name="owner" required autocomplete="off"></label>
+      <label>Repository<input name="repo" required autocomplete="off"></label>
+      <label>Branch<input name="branch" required autocomplete="off"></label>
+    </div>
+    <label>Personal access token
+      <input name="token" type="password" autocomplete="off" placeholder="github_pat_…">
+    </label>
+    <p class="ed-muted ed-small">Create a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a> with access to this one repository and the <strong>Contents: Read and write</strong> permission. It is stored only in this browser — use this editor on your own computer.</p>
+    <p class="ed-msg" id="settings-msg" role="alert"></p>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Cancel</button>
+      <button class="ed-btn ed-btn--ghost" type="button" id="ed-forget">Forget token</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Save &amp; connect</button>
+    </div>
+  </form>
+</div>
+
+<!-- Page settings -->
+<div class="ed-modal" id="m-page" hidden>
+  <form class="ed-modal__box" id="f-page">
+    <h2>Page settings</h2>
+    <label>Page title (shown in the browser tab and on Google)<input name="title" required></label>
+    <label>Description (shown under the title on Google)<textarea name="desc" rows="3"></textarea></label>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Cancel</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Apply</button>
+    </div>
+  </form>
+</div>
+
+<!-- New page -->
+<div class="ed-modal" id="m-new" hidden>
+  <form class="ed-modal__box" id="f-new">
+    <h2>Add a page</h2>
+    <label>Page name<input name="name" required placeholder="e.g. Engagements"></label>
+    <p class="ed-muted ed-small">The page is created with the site's header and footer and a starter section. Add it to the menu by editing <strong>Header &amp; menu</strong>.</p>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Cancel</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Create page</button>
+    </div>
+  </form>
+</div>
+
+<!-- Code -->
+<div class="ed-modal" id="m-code" hidden>
+  <form class="ed-modal__box ed-modal__box--wide" id="f-code">
+    <h2>Edit code</h2>
+    <p class="ed-muted ed-small">Full control over this section's HTML and its page-specific CSS. The site's main stylesheet classes are all available.</p>
+    <label>HTML<textarea name="html" rows="16" spellcheck="false"></textarea></label>
+    <label>CSS<textarea name="css" rows="6" spellcheck="false"></textarea></label>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Cancel</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Apply</button>
+    </div>
+  </form>
+</div>
+
+<div class="ed-toast" id="ed-toast" role="status" hidden></div>
+
+<script src="vendor/grapes.min.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>
