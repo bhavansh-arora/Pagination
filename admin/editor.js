@@ -399,6 +399,108 @@
     }
   });
 
+  /* ---------------- Style panel shows what is actually applied ---------------- */
+  var FONT_OPTIONS = [
+    { id: '"Inter Tight", "Helvetica Neue", Arial, sans-serif', label: "Inter Tight (site sans)" },
+    { id: '"Instrument Serif", "Times New Roman", serif', label: "Instrument Serif (site italic)" },
+    { id: '"Geist Mono", ui-monospace, monospace', label: "Geist Mono (site labels)" },
+    { id: "Arial, Helvetica, sans-serif", label: "Arial" }, { id: "Georgia, serif", label: "Georgia" },
+    { id: '"Times New Roman", Times, serif', label: "Times New Roman" }, { id: "Verdana, Geneva, sans-serif", label: "Verdana" }
+  ];
+  editor.on("load", function () {
+    try {
+      var ff = editor.StyleManager.getProperty("typography", "font-family");
+      if (ff) { if (ff.setOptions) ff.setOptions(FONT_OPTIONS); else ff.set("options", FONT_OPTIONS); }
+    } catch (e) {}
+  });
+  function toHex(c) {
+    var m = String(c).match(/rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+))?\)/);
+    if (!m) return c;
+    if (m[4] !== undefined && parseFloat(m[4]) < 1) return parseFloat(m[4]) === 0 ? "transparent" : c;
+    return "#" + [m[1], m[2], m[3]].map(function (n) { return ("0" + (+n).toString(16)).slice(-2); }).join("");
+  }
+  function selEl() { var c = editor.getSelected(); return c && c.getEl ? c.getEl() : null; }
+  function cstyle(el) { return el ? el.ownerDocument.defaultView.getComputedStyle(el) : null; }
+  function effectiveBg(el) {
+    while (el && el.nodeType === 1) {
+      var b = toHex(cstyle(el).backgroundColor);
+      if (b && b !== "transparent") return { color: b, own: el === selEl() };
+      el = el.parentElement;
+    }
+    return { color: "#0d0b09", own: false };
+  }
+  function ownStyle() {
+    var t = editor.StyleManager.getSelected && editor.StyleManager.getSelected();
+    try { return (t && t.getStyle && t.getStyle()) || {}; } catch (e) { return {}; }
+  }
+  var WEIGHTS = { 100: "Thin", 200: "Extra-Light", 300: "Light", 400: "Normal", 500: "Medium", 600: "Semi-Bold", 700: "Bold", 800: "Extra-Bold", 900: "Ultra-Bold" };
+  var filling = false;
+  function fillComputed() {
+    var el = selEl(), cs = cstyle(el);
+    if (!cs || filling) return;
+    filling = true;
+    var own = ownStyle();
+    document.querySelectorAll(".gjs-sm-property").forEach(function (prop) {
+      if (prop.querySelector(".gjs-sm-property")) return; // composite wrapper: handled by its children
+      var m = (prop.className.match(/gjs-sm-property__([a-z-]+)/) || [])[1];
+      if (!m || own[m]) { prop.classList.remove("ed-has-computed"); return; }
+      var v = cs.getPropertyValue(m);
+      if (!v) return;
+      if (/color/.test(m)) v = toHex(v);
+      else v = v.replace(/(-?\d+\.\d+)px/g, function (x, n) { return (Math.round(parseFloat(n) * 10) / 10) + "px"; });
+      var input = prop.querySelector(".gjs-field input:not([type=radio])"), select = prop.querySelector(".gjs-field select");
+      if (input && !input.value) { input.placeholder = v; prop.classList.add("ed-has-computed"); }
+      if (m === "color" || m === "background-color") {
+        var sw = prop.querySelector(".gjs-field-color-picker");
+        if (sw) sw.style.backgroundColor = v === "transparent" ? "" : v;
+      }
+      if (select && (m === "font-family" || m === "font-weight")) {
+        var label = m === "font-family" ? v.split(",")[0].replace(/["']/g, "").trim() : (WEIGHTS[v] || v);
+        var opt = select.querySelector("option[data-ed-cur]");
+        if (!opt) { opt = document.createElement("option"); opt.setAttribute("data-ed-cur", ""); opt.value = ""; opt.className = "ed-current-opt"; select.insertBefore(opt, select.firstChild); }
+        opt.textContent = label + " (current)";
+        select.selectedIndex = 0; prop.classList.add("ed-has-computed");
+      }
+      if (m === "text-align") {
+        var r = prop.querySelector("input[type=radio][value='" + v + "']");
+        if (r && !prop.querySelector("input[type=radio]:checked")) r.checked = true;
+      }
+    });
+    filling = false;
+  }
+  var smObs = new MutationObserver(function () { clearTimeout(smObs.t); smObs.t = setTimeout(fillComputed, 40); });
+  editor.on("load", function () {
+    var c = document.querySelector(".gjs-sm-sectors") || document.querySelector(".gjs-pn-views-container");
+    if (c) smObs.observe(c, { childList: true, subtree: true });
+  });
+  editor.on("component:styleUpdate style:property:update", function () { setTimeout(function () { fillComputed(); updateColorDots(); }, 60); });
+
+  // Show the selected element's current colours on the Colours button (and in its popover).
+  function updateColorDots() {
+    var el = selEl(), t = $("#cd-text"), b = $("#cd-bg"), cur = $("#pc-current");
+    if (!el) { t.style.background = b.style.background = ""; cur.innerHTML = ""; document.querySelectorAll(".ed-sw.is-current").forEach(function (x) { x.classList.remove("is-current"); }); return; }
+    var tc = toHex(cstyle(el).color), bg = effectiveBg(el);
+    t.style.background = tc; b.style.background = bg.color;
+    cur.innerHTML = "<span><i style='background:" + tc + "'></i>Text " + tc + "</span><span><i style='background:" + bg.color + "'></i>Background " + bg.color + (bg.own ? "" : " (from section)") + "</span>";
+    document.querySelectorAll("#p-colors .ed-swatches").forEach(function (box) {
+      var want = box.getAttribute("data-prop") === "color" ? tc : (bg.own ? bg.color : "");
+      box.querySelectorAll(".ed-sw[data-hex]").forEach(function (sw) { sw.classList.toggle("is-current", sw.getAttribute("data-hex").toLowerCase() === String(want).toLowerCase()); });
+    });
+  }
+
+  // Clicking an element opens its styles (not right after dropping a new block from the panel).
+  var lastDrop = 0;
+  editor.on("block:drag:stop", function () { lastDrop = Date.now(); });
+  editor.on("component:selected", function (c) {
+    setTimeout(function () { updateColorDots(); fillComputed(); }, 80);
+    if (!c || Date.now() - lastDrop < 800 || c.get("type") === "hero-slideshow" || (c.closest && c.closest(".hero__slides"))) return;
+    var b = editor.Panels.getButton("views", "open-sm");
+    if (b && !b.get("active")) b.set("active", true);
+    ["typography", "decorations"].forEach(function (id) { try { var sec = editor.StyleManager.getSector(id); if (sec) (sec.setOpen ? sec.setOpen(true) : sec.set("open", true)); } catch (e) {} });
+    setTimeout(fillComputed, 150);
+  });
+  editor.on("component:deselected", function () { setTimeout(updateColorDots, 50); });
+
   // Image library: every site photo plus anything uploaded this session.
   fetch("assets.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (list) {
     editor.AssetManager.add(list.map(function (a) { return { type: "image", src: SITE + a.src, name: a.name }; }));
@@ -431,7 +533,7 @@
     if (!doc) return;
     var el = doc.getElementById("ed-overrides");
     if (!el) { el = doc.createElement("style"); el.id = "ed-overrides"; doc.head.appendChild(el); }
-    var css = "body{background:#0d0b09}" + EDIT_MODE_CSS + themeCss();
+    var css = "html body{background:var(--paper,#0d0b09)!important}" + EDIT_MODE_CSS + themeCss();
     // Load every photo right away inside the editor (the live site keeps lazy loading).
     Array.prototype.forEach.call(doc.querySelectorAll("img[loading=lazy]"), function (i) { i.loading = "eager"; });
     if (target === "@header") css += ".site-header{position:relative!important;transform:none!important;padding-bottom:12px}.mobile-menu{position:relative!important;inset:auto!important;clip-path:none!important;visibility:visible!important;min-height:620px}.mobile-menu__list a{opacity:1!important;transform:none!important}.skip-link{position:static!important;display:inline-block;margin:8px}";
@@ -580,6 +682,7 @@
         if (v) rule.setStyle({ color: "inherit" }); else editor.CssComposer.remove(rule);
       }
       editor.trigger("update");
+      setTimeout(function () { updateColorDots(); fillComputed(); }, 60);
     }
     box.addEventListener("click", function (e) { var b = e.target.closest("button.ed-sw"); if (b) apply(b.getAttribute("data-v")); });
     box.querySelector("input[type=color]").addEventListener("input", function (e) { apply(e.target.value); });
@@ -590,7 +693,7 @@
     if (!pop.hidden) { pop.hidden = true; return; }
     var sel = editor.getSelected();
     $("#pc-target").textContent = sel ? "(" + (sel.getName() || sel.get("tagName")) + ")" : "(nothing selected: click an element first)";
-    positionPop(pop, e.currentTarget); pop.hidden = false;
+    positionPop(pop, e.currentTarget); pop.hidden = false; updateColorDots();
   });
   editor.on("component:selected", function () {
     var sel = editor.getSelected(); if (!$("#p-colors").hidden) $("#pc-target").textContent = sel ? "(" + (sel.getName() || sel.get("tagName")) + ")" : "";
@@ -662,6 +765,7 @@
   $("#f-theme").addEventListener("submit", function (e) { e.preventDefault(); state.themeChanged = true; closeModals(); updateUI(); toast("Theme updated. Click Publish to put it live on every page."); });
   function updateUI() {
     setStatus();
+    $("#ed-discard").disabled = !(state.dirty || state.themeChanged) || $("#ed-publish").disabled;
     $("#ed-live").href = SITE + (state.target.charAt(0) === "@" ? "index.html" : state.target);
     $("#ed-page-settings").disabled = state.target.charAt(0) === "@";
   }
@@ -898,6 +1002,17 @@
     if (editor.Commands.isActive("preview")) editor.stopCommand("preview"); else editor.runCommand("preview");
   });
   $("#ed-publish").addEventListener("click", publish);
+  /* ---------------- Discard unpublished edits ---------------- */
+  $("#ed-discard").addEventListener("click", function () {
+    if (!(state.dirty || state.themeChanged)) return;
+    if (!confirm("Discard all unpublished changes to " + labelFor(state.target) + (state.themeChanged ? " and the theme colours" : "") + "?\n\nThe page goes back to what is currently published. This can't be undone.")) return;
+    try { localStorage.removeItem(draftKey(state.target)); } catch (e) {}
+    state.dirty = false; state.metaChanged = false;
+    var reTheme = state.themeChanged ? loadTheme() : Promise.resolve();
+    state.themeChanged = false;
+    reTheme.then(function () { return load(state.target); }).then(function () { toast("Changes discarded. You're looking at the published version again."); });
+  });
+
   window.addEventListener("beforeunload", function (e) { if (state.dirty) { e.preventDefault(); e.returnValue = ""; } });
 
   function init() {

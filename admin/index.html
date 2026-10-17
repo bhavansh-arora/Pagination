@@ -11,16 +11,16 @@
 </head>
 <body>
 <header class="ed-bar">
-  <div class="ed-bar__group">
+  <div class="ed-bar__group ed-bar__left">
     <span class="ed-logo" aria-hidden="true">DR</span>
     <label class="ed-select">
       <span class="ed-sr">Editing</span>
       <select id="ed-target" aria-label="Choose what to edit"></select>
     </label>
-    <button class="ed-btn" id="ed-new-page" type="button" title="Add a new page">+ Page</button>
-    <button class="ed-btn" id="ed-page-settings" type="button" title="Page title and description">Page settings</button>
+    <button class="ed-btn" id="ed-new-page" type="button" title="Add a new page"><span aria-hidden="true">+</span><span class="ed-lbl ed-lbl--md">Page</span></button>
+    <button class="ed-btn" id="ed-page-settings" type="button" title="Page title and description (Google)"><svg class="ed-ico" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="ed-lbl ed-lbl--lg">Page settings</span></button>
   </div>
-  <div class="ed-bar__group ed-devices" role="group" aria-label="Preview size">
+  <div class="ed-bar__group ed-bar__mid" role="group" aria-label="Preview size and tools">
     <button class="ed-icon is-active" data-device="Desktop" type="button" title="Desktop">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
     </button>
@@ -33,14 +33,17 @@
     <span class="ed-sep"></span>
     <button class="ed-icon" id="ed-undo" type="button" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
     <button class="ed-icon" id="ed-redo" type="button" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
-    <button class="ed-btn ed-btn--ghost" id="ed-colors" type="button" title="Colours for the selected element, and the site theme">🎨 Colours</button>
+    <button class="ed-btn ed-btn--ghost" id="ed-colors" type="button" title="Colours for the selected element, and the site theme">
+      <span class="ed-cdots" aria-hidden="true"><span class="ed-cdot" id="cd-text"></span><span class="ed-cdot" id="cd-bg"></span></span><span class="ed-lbl ed-lbl--md">Colours</span>
+    </button>
     <button class="ed-icon" id="ed-code" type="button" title="Edit HTML / CSS"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></button>
     <button class="ed-icon" id="ed-preview" type="button" title="Preview"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
   </div>
-  <div class="ed-bar__group">
+  <div class="ed-bar__group ed-bar__right">
     <button class="ed-status" id="ed-status" type="button" aria-live="polite" title="Publishing status and history"><span class="ed-status__dot"></span><span class="ed-status__text">Loading…</span></button>
-    <a class="ed-btn ed-btn--ghost" id="ed-live" href="../index.html" target="_blank" rel="noopener">View live ↗</a>
-    <button class="ed-btn ed-btn--ghost" id="ed-settings" type="button" title="GitHub connection">⚙ Settings</button>
+    <a class="ed-icon" id="ed-live" href="../index.html" target="_blank" rel="noopener" title="Open the live page"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+    <button class="ed-icon" id="ed-settings" type="button" title="GitHub connection settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    <button class="ed-btn ed-btn--danger" id="ed-discard" type="button" title="Throw away all unpublished changes" disabled><span class="ed-lbl ed-lbl--sm">Discard</span><svg class="ed-ico ed-ico--sm" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
     <button class="ed-btn ed-btn--gold" id="ed-publish" type="button">Publish</button>
   </div>
 </header>
@@ -115,6 +118,7 @@
 <!-- Colour popover -->
 <div class="ed-pop" id="p-colors" hidden>
   <p class="ed-pop__title">Selected element <span id="pc-target" class="ed-muted"></span></p>
+  <div id="pc-current"></div>
   <p class="ed-pop__label">Text colour</p>
   <div class="ed-swatches" data-prop="color"></div>
   <p class="ed-pop__label">Background colour</p>
