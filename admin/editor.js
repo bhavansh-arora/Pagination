@@ -639,6 +639,8 @@
   }
   editor.on("load", function () {
     var doc = editor.Canvas.getDocument();
+    // Typing counts as a change straight away, so Publish lights up while you type.
+    if (doc) doc.addEventListener("input", function () { if (!state.loading && !state.dirty) { state.dirty = true; updateUI(); } }, true);
     // Capture phase: the editor stops click events from bubbling up to the document.
     if (doc) doc.addEventListener("click", function (e) {
       if (e.detail > 1 || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
@@ -758,7 +760,7 @@
     b.setAttribute("data-s", s);
     b.querySelector(".ed-status__text").textContent = label;
   }
-  setInterval(function () { if (!state.loading && !$("#ed-publish").disabled) setStatus(); }, 30000);
+  setInterval(function () { if (!state.loading && !state.busy) setStatus(); }, 30000);
 
   // After a publish, poll the live site until it serves the new version.
   function versionTag(v) { return '<meta name="site-version" content="' + v + '">'; }
@@ -773,7 +775,7 @@
     (function poll() {
       fetch(SITE + path + "?check=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : ""; }).then(function (txt) {
         if (!state.pub || state.pub.version !== version) return;
-        if (txt.indexOf(version) >= 0) { state.pub.phase = "live"; setStatus(); toast("Your change is now live on the website."); return; }
+        if (txt.indexOf(version) >= 0) { state.pub.phase = "live"; setStatus(); toast("Live ✓ Your changes are now on the website.", false, "success"); return; }
         if (Date.now() - started > 6 * 60000) { state.pub.phase = "slow"; setStatus(); return; }
         liveTimer = setTimeout(poll, 6000);
       }).catch(function () { liveTimer = setTimeout(poll, 8000); });
@@ -938,7 +940,14 @@
   $("#f-theme").addEventListener("submit", function (e) { e.preventDefault(); state.themeChanged = true; closeModals(); updateUI(); toast("Theme updated. Click Publish to put it live on every page."); });
   function updateUI() {
     setStatus();
-    $("#ed-discard").disabled = !(state.dirty || state.themeChanged) || $("#ed-publish").disabled;
+    var pending = state.dirty || state.themeChanged, pb = $("#ed-publish");
+    // Publish shows the real state: changes to publish, publishing, or everything already live.
+    pb.disabled = !!state.busy || (!pending && !!cfg.token);
+    pb.classList.toggle("is-busy", !!state.busy);
+    pb.classList.toggle("is-done", !state.busy && !pending && !!cfg.token);
+    pb.textContent = state.busy ? "Publishing…" : (!pending && cfg.token) ? "Published ✓" : "Publish";
+    pb.title = state.busy ? "Saving your changes" : (!pending && cfg.token) ? "Everything you see is published" : "Put your changes live on the website";
+    $("#ed-discard").disabled = !pending || !!state.busy;
     $("#ed-live").href = SITE + (state.target.charAt(0) === "@" ? "index.html" : state.target);
     $("#ed-page-settings").disabled = state.target.charAt(0) === "@";
   }
@@ -1006,13 +1015,27 @@
   }
 
   function setBusy(on, text) {
-    ["#ed-publish", "#ed-target", "#ed-new-page"].forEach(function (s) { $(s).disabled = on; });
-    if (on) setStatus(text); else updateUI();
+    state.busy = on;
+    ["#ed-target", "#ed-new-page"].forEach(function (s) { $(s).disabled = on; });
+    updateUI();
+    if (on) setStatus(text);
+  }
+  // Text being typed is only saved into the page when editing stops; finish it before publishing.
+  function flushEditing() {
+    var ed = editor.getEditing(), v = ed && ed.getView();
+    if (!v || !v.disableEditing) return Promise.resolve();
+    return Promise.resolve(v.disableEditing()).catch(function () {}).then(function () {
+      if (!state.loading) state.dirty = state.metaChanged || snapshot() !== state.baseline;
+    });
   }
 
   function publish() {
     if (!cfg.token) { openSettings("Sign in to publish your changes."); return; }
-    if (!state.dirty && !state.themeChanged) { toast("Nothing new to publish: everything you see is already saved."); openHistory(); return; }
+    if (state.busy) return;
+    flushEditing().then(doPublish);
+  }
+  function doPublish() {
+    if (!state.dirty && !state.themeChanged) { updateUI(); toast("Everything is already published ✓"); return; }
     var t = state.target, out = currentExport(), files = out.files.slice();
     var version = "v" + Date.now().toString(36), globalCss = null, checkPath = t.charAt(0) === "@" ? "index.html" : t;
     setBusy(true, "Publishing…");
@@ -1072,7 +1095,7 @@
       if (state.meta) { delete state.meta.ogUpload; state.meta.origCanonical = state.meta.canonical; }
       // Swap uploaded data URLs for their new file paths so further edits stay light.
       if (out.files.length) { state.loading = true; setContent(toEditor(out.html), toEditor(out.css)); setTimeout(function () { state.loading = false; state.baseline = snapshot(); }, 250); }
-      toast("Published ✓ The live site updates in about a minute; the status at the top right turns green when it's live.");
+      toast("Published ✓ Your changes go live on the website in about a minute.", false, "success");
     }).catch(function (e) {
       state.pub = { phase: "error", message: e.message, time: Date.now(), target: t };
       toast("Publish failed: " + e.message, true);
@@ -1110,7 +1133,7 @@
   function toast(msg, isError, link) {
     var t = $("#ed-toast");
     t.innerHTML = ""; t.appendChild(document.createTextNode(msg));
-    t.classList.toggle("is-error", !!isError); t.hidden = false;
+    t.classList.toggle("is-error", !!isError); t.classList.toggle("is-success", link === "success"); t.hidden = false;
     clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, isError ? 9000 : 6000);
   }
   function openModal(id) { $(id).hidden = false; var f = $(id).querySelector("input, textarea"); if (f) setTimeout(function () { f.focus(); }, 30); }
