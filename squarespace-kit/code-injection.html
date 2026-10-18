@@ -1,0 +1,27 @@
+<!--
+  Dan Reynolds Photography: Squarespace code injection
+  Turns the custom look (custom.css) on, one page at a time while you build, then site-wide at launch.
+
+  ─────────────────────────────────────────────────────────────────────────────
+  WHILE BUILDING: paste ONE of these into each NEW page only:
+    Pages → hover the page → ⚙ (Page settings) → Advanced → Page Header Code Injection
+  ─────────────────────────────────────────────────────────────────────────────
+
+  For the new HOME page (gives the extra-large hero headline):
+-->
+<script>document.documentElement.classList.add("dr-site", "dr-home");</script>
+
+<!--
+  For every OTHER new page (About, Portfolio, Films, Investment, Contact):
+
+<script>document.documentElement.classList.add("dr-site");</script>
+
+  ─────────────────────────────────────────────────────────────────────────────
+  AT LAUNCH: turn the look on for the whole site, including the header and footer:
+    Settings → Advanced (Developer tools) → Code Injection → HEADER, paste:
+
+<script>document.documentElement.classList.add("dr-site");</script>
+
+  Then you can leave or delete the per-page snippets (keep the home one for "dr-home").
+  ─────────────────────────────────────────────────────────────────────────────
+-->

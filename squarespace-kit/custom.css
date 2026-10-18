@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Dan Reynolds Photography: Squarespace 7.1 custom CSS
+   Paste into: Website → Website Tools → Custom CSS
+
+   Everything is scoped to html.dr-site, so it only affects pages that carry
+   the small code snippet from code-injection.html. Dan's current pages stay
+   exactly as they are until launch.
+
+   How Dan keeps the look while editing:
+   - Italic words in headings turn gold serif (select a word → Italic).
+   - "Paragraph 3" text becomes the small uppercase label, e.g. (01) — THE STUDIO.
+   - Primary button = gold pill, Secondary = outline pill, Tertiary = text link with arrow.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap");
+
+html.dr-site {
+  --dr-paper: #0d0b09;      /* page background (espresso) */
+  --dr-paper-2: #15120f;    /* raised panels */
+  --dr-paper-3: #1e1a16;    /* cards */
+  --dr-ink: #efe7da;        /* main text (ivory) */
+  --dr-ink-2: #c3b9a9;      /* body text */
+  --dr-muted: #8d8373;      /* labels */
+  --dr-gold: #c6a46a;       /* accent */
+  --dr-gold-hi: #e2c999;    /* gold italic words */
+  --dr-night: #080706;
+  --dr-line: rgba(239, 231, 218, 0.1);
+  --dr-line-2: rgba(239, 231, 218, 0.18);
+  --dr-sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --dr-serif: "Instrument Serif", "Times New Roman", serif;
+  --dr-mono: "Geist Mono", ui-monospace, Menlo, monospace;
+  --dr-r-xl: clamp(20px, 2.2vw, 32px);
+  --dr-r-lg: clamp(16px, 1.6vw, 24px);
+  background: var(--dr-paper);
+}
+
+/* ---------- Page and sections ---------- */
+html.dr-site body,
+html.dr-site #siteWrapper,
+html.dr-site .page-section,
+html.dr-site .section-background { background-color: var(--dr-paper); }
+html.dr-site body { color: var(--dr-ink-2); font-family: var(--dr-sans); -webkit-font-smoothing: antialiased; }
+/* Give every new section the "Darkest 1" colour theme; "Dark 1" = slightly raised panel colour */
+html.dr-site .page-section[data-section-theme="dark"] .section-background { background-color: var(--dr-paper-2); }
+html.dr-site ::selection { background: var(--dr-gold); color: var(--dr-night); }
+
+/* ---------- Type ---------- */
+html.dr-site h1, html.dr-site h2, html.dr-site h3, html.dr-site h4 {
+  font-family: var(--dr-sans) !important; font-weight: 500 !important; color: var(--dr-ink) !important;
+  letter-spacing: -0.045em !important; line-height: 0.95 !important; text-transform: none !important;
+}
+html.dr-site h1 { font-size: clamp(2.7rem, 1rem + 6.6vw, 8rem) !important; line-height: 0.9 !important; letter-spacing: -0.055em !important; }
+html.dr-site.dr-home .page-section:first-child h1 { font-size: clamp(3.4rem, 1rem + 10.5vw, 13.5rem) !important; line-height: 0.86 !important; letter-spacing: -0.06em !important; }
+html.dr-site h2 { font-size: clamp(2.4rem, 1rem + 5.2vw, 6.4rem) !important; line-height: 0.92 !important; }
+/* Heading 3 = the big "statement" sentence */
+html.dr-site h3 { font-size: clamp(1.75rem, 0.9rem + 3.3vw, 4.4rem) !important; font-weight: 450 !important; line-height: 1.08 !important; }
+/* Heading 4 = card titles */
+html.dr-site h4 { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.2rem) !important; line-height: 1.05 !important; letter-spacing: -0.035em !important; }
+
+/* Italic words in any heading: gold serif, the signature look */
+html.dr-site h1 em, html.dr-site h2 em, html.dr-site h3 em, html.dr-site h4 em {
+  font-family: var(--dr-serif) !important; font-style: italic !important; font-weight: 400 !important;
+  letter-spacing: -0.01em !important; color: var(--dr-gold-hi) !important;
+}
+
+html.dr-site p, html.dr-site li { font-family: var(--dr-sans) !important; color: var(--dr-ink-2) !important; letter-spacing: -0.01em; }
+html.dr-site li::marker { color: var(--dr-gold); }
+html.dr-site p.sqsrte-large { font-size: clamp(1.1rem, 1rem + 0.45vw, 1.35rem) !important; line-height: 1.5 !important; }
+/* Paragraph 3 = small uppercase mono label */
+html.dr-site p.sqsrte-small {
+  font-family: var(--dr-mono) !important; font-size: 0.72rem !important; letter-spacing: 0.06em !important;
+  text-transform: uppercase !important; color: var(--dr-muted) !important; line-height: 1.6 !important;
+}
+html.dr-site .sqs-html-content a { color: var(--dr-ink); text-decoration-color: var(--dr-gold); text-underline-offset: 4px; }
+html.dr-site .sqs-html-content a:hover { color: var(--dr-gold-hi); }
+html.dr-site .sqs-html-content strong { color: var(--dr-ink); font-weight: 600; }
+
+/* ---------- Buttons ---------- */
+html.dr-site .sqs-block-button-element,
+html.dr-site .header .btn, html.dr-site .header-menu .btn {
+  font-family: var(--dr-sans) !important; font-size: 0.94rem !important; font-weight: 500 !important;
+  letter-spacing: -0.01em !important; text-transform: none !important;
+  border-radius: 999px !important; padding: 1.05em 1.7em !important; text-decoration: none !important;
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease !important;
+}
+/* Primary: gold pill */
+html.dr-site .sqs-button-element--primary,
+html.dr-site .header .btn, html.dr-site .header-menu .btn {
+  background: var(--dr-gold) !important; color: var(--dr-night) !important; border: 1px solid var(--dr-gold) !important;
+}
+html.dr-site .sqs-button-element--primary:hover,
+html.dr-site .header .btn:hover { background: var(--dr-ink) !important; border-color: var(--dr-ink) !important; color: var(--dr-night) !important; }
+/* Secondary: outline pill */
+html.dr-site .sqs-button-element--secondary {
+  background: rgba(239, 231, 218, 0.06) !important; color: var(--dr-ink) !important; border: 1px solid var(--dr-line-2) !important;
+}
+html.dr-site .sqs-button-element--secondary:hover { background: var(--dr-ink) !important; color: var(--dr-night) !important; border-color: var(--dr-ink) !important; }
+/* Tertiary: text link with arrow */
+html.dr-site .sqs-button-element--tertiary {
+  background: none !important; border: 0 !important; padding: 0.4em 0 !important; color: var(--dr-ink) !important;
+  border-bottom: 1px solid var(--dr-gold) !important; border-radius: 0 !important;
+}
+html.dr-site .sqs-button-element--tertiary::after { content: " →"; color: var(--dr-gold); }
+html.dr-site .sqs-button-element--tertiary:hover { color: var(--dr-gold-hi) !important; }
+
+/* ---------- Images, galleries, videos: rounded corners ---------- */
+html.dr-site .sqs-block-image .fluid-image-container,
+html.dr-site .sqs-block-image .image-block-wrapper,
+html.dr-site .sqs-block-image img,
+html.dr-site .gallery-masonry-item img, html.dr-site .gallery-grid-item img,
+html.dr-site .gallery-masonry-wrapper, html.dr-site .gallery-grid-wrapper,
+html.dr-site .sqs-block-video .sqs-video-wrapper, html.dr-site .sqs-block-video .intrinsic,
+html.dr-site .sqs-block-video img { border-radius: var(--dr-r-lg) !important; overflow: hidden; }
+html.dr-site .sqs-block-image img, html.dr-site .gallery-masonry-item img, html.dr-site .gallery-grid-item img {
+  transition: transform 1.2s cubic-bezier(.16, 1, .3, 1) !important;
+}
+html.dr-site .sqs-block-image a:hover img, html.dr-site .gallery-masonry-item:hover img, html.dr-site .gallery-grid-item:hover img { transform: scale(1.04); }
+/* Image blocks set to the "Poster" design: text over the photo */
+html.dr-site .image-block-outer-wrapper.design-layout-poster .image-title * { color: var(--dr-ink) !important; }
+html.dr-site .image-block-outer-wrapper.design-layout-poster .image-subtitle * { color: rgba(239, 231, 218, .8) !important; }
+
+/* Shape blocks (used as the coloured "tiles") */
+html.dr-site .sqs-block-shape .sqs-shape { border-radius: var(--dr-r-lg); }
+
+/* ---------- Accordion (FAQ) ---------- */
+html.dr-site .accordion-item__title { font-family: var(--dr-sans) !important; font-size: clamp(1.1rem, 1rem + .5vw, 1.4rem) !important; font-weight: 500 !important; color: var(--dr-ink) !important; letter-spacing: -0.02em !important; }
+html.dr-site .accordion-item__description, html.dr-site .accordion-item__description p { color: var(--dr-ink-2) !important; }
+html.dr-site .accordion-divider { background-color: var(--dr-line-2) !important; opacity: 1 !important; }
+html.dr-site .accordion-icon-container * { background-color: var(--dr-gold) !important; }
+
+/* ---------- Forms ---------- */
+html.dr-site .sqs-block-form input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+html.dr-site .sqs-block-form textarea, html.dr-site .sqs-block-form select {
+  background: var(--dr-paper-3) !important; color: var(--dr-ink) !important; border: 1px solid var(--dr-line-2) !important;
+  border-radius: 12px !important; font-family: var(--dr-sans) !important; padding: 14px 16px !important;
+}
+html.dr-site .sqs-block-form input:focus, html.dr-site .sqs-block-form textarea:focus, html.dr-site .sqs-block-form select:focus { border-color: var(--dr-gold) !important; outline: none !important; }
+html.dr-site .sqs-block-form label, html.dr-site .sqs-block-form legend, html.dr-site .sqs-block-form .title {
+  font-family: var(--dr-mono) !important; font-size: 0.72rem !important; letter-spacing: 0.06em !important; text-transform: uppercase !important; color: var(--dr-muted) !important;
+}
+html.dr-site .sqs-block-form button[type="submit"], html.dr-site .sqs-block-form input[type="submit"] {
+  background: var(--dr-gold) !important; color: var(--dr-night) !important; border: 0 !important; border-radius: 999px !important;
+  font-family: var(--dr-sans) !important; font-weight: 500 !important; text-transform: none !important; letter-spacing: -0.01em !important; padding: 1.05em 2em !important;
+}
+
+/* ---------- Header ---------- */
+html.dr-site .header, html.dr-site .header-announcement-bar-wrapper { background: rgba(13, 11, 9, 0.82) !important; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+html.dr-site .header-title-text a, html.dr-site .header-title-text { text-decoration: none !important; font-family: var(--dr-sans) !important; font-weight: 600 !important; letter-spacing: -0.03em !important; color: var(--dr-ink) !important; text-transform: none !important; }
+html.dr-site .header-nav-item a {
+  font-family: var(--dr-sans) !important; font-size: 0.92rem !important; letter-spacing: -0.01em !important; text-transform: none !important;
+  color: var(--dr-ink-2) !important; background-image: none !important; text-decoration: none !important;
+}
+html.dr-site .header-nav-item a:hover, html.dr-site .header-nav-item--active a { color: var(--dr-ink) !important; }
+html.dr-site .header-nav-item--active a { border-bottom: 1px solid var(--dr-gold); }
+html.dr-site .header-burger-btn .top-bun, html.dr-site .header-burger-btn .patty, html.dr-site .header-burger-btn .bottom-bun { background-color: var(--dr-ink) !important; }
+/* Mobile menu */
+html.dr-site .header-menu-bg { background: var(--dr-paper) !important; }
+html.dr-site .header-menu-nav-item a { font-family: var(--dr-sans) !important; font-size: clamp(2.2rem, 10vw, 3.4rem) !important; font-weight: 500 !important; letter-spacing: -0.05em !important; color: var(--dr-ink) !important; }
+
+/* ---------- Footer ---------- */
+html.dr-site #footer-sections .page-section .section-background { background-color: var(--dr-night) !important; }
+html.dr-site #footer-sections p { color: var(--dr-muted); }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 767px) {
+  html.dr-site .sqs-block-button-element { padding: 0.95em 1.4em !important; }
+}
