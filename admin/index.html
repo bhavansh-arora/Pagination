@@ -6,6 +6,9 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Site editor — Dan Reynolds</title>
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="vendor/grapes.min.css">
 <link rel="stylesheet" href="editor.css">
 </head>
@@ -166,7 +169,14 @@
 <div class="ed-toast" id="ed-toast" role="status" hidden></div>
 
 <!-- Sign-in gate. The editor scripts load only after signing in (or in preview mode). -->
-<div class="auth" id="auth" aria-live="polite"><div class="auth__card" id="auth-card"><p class="ed-muted">Loading…</p></div></div>
+<div class="auth" id="auth">
+  <aside class="auth__art" aria-hidden="true">
+    <img src="../assets/img/golden-hour-portrait-1600.webp" srcset="../assets/img/golden-hour-portrait-800.webp 800w, ../assets/img/golden-hour-portrait-1600.webp 1600w" sizes="(min-width: 960px) 46vw, 100vw" alt="">
+    <div class="auth__brand"><span class="auth__mark">DR</span><span>Dan Reynolds<small>Site editor</small></span></div>
+    <p class="auth__quote"><em>Every page, photo and film,</em><br>yours to change in a click.</p>
+  </aside>
+  <main class="auth__main"><div class="auth__card" id="auth-card" aria-live="polite"><div class="a-loading"><i class="a-spin"></i></div></div></main>
+</div>
 <script src="auth.js"></script>
 </body>
 </html>
