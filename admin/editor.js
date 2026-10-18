@@ -830,8 +830,8 @@
     else if (!cfg.token) { label = "Preview mode: sign in to publish"; s = "off"; }
     else if (state.dirty || state.themeChanged) { label = "Unpublished changes"; s = "dirty"; }
     else if (state.pub && state.pub.phase === "error") { label = "Publish failed: click for details"; s = "error"; }
-    else if (state.pub && state.pub.phase === "saved") { label = "Saved ✓ · going live…"; s = "deploying"; }
-    else if (state.pub && state.pub.phase === "slow") { label = "Saved ✓ · live site still updating"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "saved") { label = "Published ✓ · live in about a minute"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "slow") { label = "Published ✓ · website still updating"; s = "deploying"; }
     else if (state.pub && state.pub.phase === "live") { label = "Live on the website ✓ · " + ago(state.pub.time); s = "live"; }
     else { label = "Connected · everything is published"; s = "ok"; }
     b.setAttribute("data-s", s);
@@ -852,12 +852,34 @@
     (function poll() {
       fetch(SITE + path + "?check=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : ""; }).then(function (txt) {
         if (!state.pub || state.pub.version !== version) return;
-        if (txt.indexOf(version) >= 0) { state.pub.phase = "live"; setStatus(); toast("Live ✓ Your changes are now on the website.", false, "success"); return; }
-        if (Date.now() - started > 6 * 60000) { state.pub.phase = "slow"; setStatus(); return; }
+        if (txt.indexOf(version) >= 0) { state.pub.phase = "live"; setStatus(); liveNote(); return; }
+        if (Date.now() - started > 6 * 60000) { state.pub.phase = "slow"; setStatus(); liveNote(); return; }
         liveTimer = setTimeout(poll, 6000);
       }).catch(function () { liveTimer = setTimeout(poll, 8000); });
     })();
   }
+
+  /* After publishing, a card under the Publish button says the website takes about a minute to
+     update, then turns green once the live site serves the new version. */
+  var noteTimer = null;
+  function liveNote() {
+    var n = $("#ed-livenote"), pub = state.pub;
+    clearTimeout(noteTimer);
+    if (!pub || pub.phase === "error") { n.hidden = true; return; }
+    var copy = {
+      saved: ["Published ✓", "Your changes will be live on the website in about a minute. You can keep editing meanwhile."],
+      slow: ["Published ✓ · still updating", "The website is taking longer than usual. It normally updates within a few minutes; nothing else to do."],
+      live: ["Live on the website ✓", "Your changes are now on the website. Refresh the site if it still shows the old version."]
+    }[pub.phase];
+    n.setAttribute("data-phase", pub.phase);
+    n.querySelector(".ed-livenote__title").textContent = copy[0];
+    n.querySelector(".ed-livenote__text").textContent = copy[1];
+    n.querySelector(".ed-livenote__link").href = SITE + (pub.target.charAt(0) === "@" ? "index.html" : pub.target);
+    if (pub.phase === "saved") { var bar = n.querySelector(".ed-livenote__bar b"); bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = ""; }
+    n.hidden = false;
+    if (pub.phase === "live") noteTimer = setTimeout(function () { n.hidden = true; }, 15000);
+  }
+  $("#ed-livenote .ed-livenote__x").addEventListener("click", function () { clearTimeout(noteTimer); $("#ed-livenote").hidden = true; });
 
   /* ---------------- History: every saved version, with restore ---------------- */
   function historyFile() { return state.target.charAt(0) === "@" ? "index.html" : state.target; }
@@ -1172,9 +1194,9 @@
       if (state.meta) { delete state.meta.ogUpload; state.meta.origCanonical = state.meta.canonical; }
       // Swap uploaded data URLs for their new file paths so further edits stay light.
       if (out.files.length) { state.loading = true; setContent(toEditor(out.html), toEditor(out.css)); setTimeout(function () { state.loading = false; state.baseline = snapshot(); }, 250); }
-      toast("Published ✓ Your changes go live on the website in about a minute.", false, "success");
+      $("#ed-toast").hidden = true; liveNote();
     }).catch(function (e) {
-      state.pub = { phase: "error", message: e.message, time: Date.now(), target: t };
+      state.pub = { phase: "error", message: e.message, time: Date.now(), target: t }; liveNote();
       toast("Publish failed: " + e.message, true);
     }).then(function () { setBusy(false); });
   }
