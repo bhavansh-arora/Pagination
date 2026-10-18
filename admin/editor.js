@@ -639,6 +639,40 @@
     if (!view || !el || !el.contains(e.target) || !view.onActive) return;
     Promise.resolve(view.onActive(e)).then(function () { caretAt(el.ownerDocument, e.clientX, e.clientY); });
   }
+  /* While dragging a block from the Add panel the mouse wheel doesn't work, so the page scrolls
+     by itself when the pointer nears the top or bottom edge (faster the closer it gets). */
+  var asSpeed = 0, asTimer = null;
+  function autoscrollAt(y, height) {
+    var edge = 110;
+    asSpeed = y < edge ? -Math.ceil((edge - Math.max(y, -40)) / 5) : y > height - edge ? Math.ceil((y - (height - edge)) / 5) : 0;
+    if (asSpeed && !asTimer) asTimer = setInterval(function () {
+      if (!asSpeed) { clearInterval(asTimer); asTimer = null; return; }
+      var w = editor.Canvas.getWindow(); if (w) w.scrollBy(0, asSpeed * 2);
+    }, 16);
+  }
+  function stopAutoscroll() { asSpeed = 0; }
+  editor.on("load", function () {
+    var cdoc = editor.Canvas.getDocument(), cwin = editor.Canvas.getWindow();
+    if (cdoc) {
+      cdoc.addEventListener("dragover", function (e) { autoscrollAt(e.clientY, cwin.innerHeight); });
+      ["drop", "dragend"].forEach(function (t) { cdoc.addEventListener(t, stopAutoscroll); });
+    }
+    // Just above the page preview (over the small toolbar) also scrolls up.
+    document.addEventListener("dragover", function (e) {
+      var fr = document.querySelector(".gjs-frame"); if (!fr) return;
+      var r = fr.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY < r.top && e.clientY > r.top - 60) autoscrollAt(e.clientY - r.top, r.height);
+      else if (e.clientY < r.top - 60 || e.clientX < r.left) stopAutoscroll();
+    });
+    ["drop", "dragend"].forEach(function (t) { document.addEventListener(t, stopAutoscroll); });
+  });
+  // After dropping a block, bring it into view.
+  editor.on("block:drag:stop", function (c) {
+    stopAutoscroll();
+    var comp = Array.isArray(c) ? c[0] : c;
+    if (comp && comp.getEl) setTimeout(function () { try { editor.Canvas.scrollTo(comp, { behavior: "smooth", block: "nearest" }); } catch (e) {} }, 120);
+  });
+
   editor.on("load", function () {
     var doc = editor.Canvas.getDocument();
     // Typing counts as a change straight away, so Publish lights up while you type.

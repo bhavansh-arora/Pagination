@@ -117,7 +117,7 @@
       if (canUse) acts.push("<button class='ed-btn ed-btn--gold' data-act='use' data-i='" + i + "'>Use here</button>");
       if (it.kind === "site" || it.kind === "upload" || it.kind === "videofile") acts.push("<button class='ed-btn' data-act='replace' data-i='" + i + "'>Replace everywhere…</button>");
       if (it.kind === "youtube") acts.push("<button class='ed-btn' data-act='change' data-i='" + i + "'>Change video…</button><a class='ed-btn ed-btn--ghost' href='https://www.youtube.com/watch?v=" + it.id + "' target='_blank' rel='noopener'>Watch ↗</a>");
-      if ((it.kind === "upload" || it.kind === "videofile") && !it.used.length && !it.fresh) acts.push("<button class='ed-btn ed-btn--danger' data-act='delete' data-i='" + i + "'>Delete</button>");
+      if (it.kind === "upload" || it.kind === "videofile" || it.kind === "pending") acts.push("<button class='ed-btn ed-btn--danger' data-act='delete' data-i='" + i + "'>Delete</button>");
       return "<article class='mm-card' data-i='" + i + "'><div class='mm-thumb'>" + media + "</div><div class='mm-body'><strong title='" + esc(it.name) + "'>" + esc(it.name) + "</strong>" +
         "<span class='mm-used'>" + esc(usedText(it)) + "</span><div class='mm-acts'>" + acts.join("") + "</div>" +
         (it.kind === "youtube" ? "<form class='mm-change' hidden><input placeholder='Paste a YouTube link or ID' required><button class='ed-btn ed-btn--gold' type='submit'>Save</button></form>" : "") +
@@ -237,12 +237,49 @@
     }).catch(function (e) { E.toast("Change failed: " + e.message, true); });
   }
 
+  // Where the open page (including unpublished edits) uses a file.
+  function canvasUses(needle) { return (editor.getHtml() + editor.getCss()).indexOf(needle) >= 0; }
+  function removeFromCanvas(needle) {
+    var n = 0;
+    (function walk(c) {
+      c.components().forEach(walk);
+      var t = c.get("tagName"), src = c.get("src") || (c.getAttributes() || {}).src || "";
+      if ((t === "img" || c.get("type") === "image" || t === "video" || c.get("type") === "video") && src.indexOf(needle) >= 0) {
+        var p = c.parent(); c.remove(); n++;
+        if (p && p.getClasses().indexOf("media") >= 0 && !p.components().length) p.remove();
+        return;
+      }
+      var bg = (c.getStyle && c.getStyle()["background-image"]) || "";
+      if (bg.indexOf(needle) >= 0) { c.removeStyle("background-image"); n++; }
+    })(editor.getWrapper());
+    if (n) editor.trigger("update");
+    return n;
+  }
   function deleteUpload(it) {
+    var kind = it.kind === "videofile" ? "video" : "photo";
+    // Not published yet: just drop it from this session (and from the page, if it was placed).
+    if (it.kind === "pending") {
+      var here = canvasUses(it.src);
+      if (!confirm("Remove this new " + kind + "?" + (here ? "\n\nIt's used on this page; those spots will be removed too." : ""))) return;
+      var a = editor.AssetManager.getAll().find(function (x) { return x.get("src") === it.src; });
+      if (a) editor.AssetManager.remove(a);
+      if (here) removeFromCanvas(it.src);
+      E.toast("Removed.");
+      lib.loadedAt = 0; return buildIndex(true).then(render);
+    }
     if (needsToken("delete media")) return;
-    if (it.used.length) return;
-    if (!confirm("Delete \"" + it.name + "\" from the website? It isn't used on any page.")) return;
-    E.commitFiles([{ path: it.paths[0], remove: true }], "Delete " + it.name + " via media library")
-      .then(function (c) { committed(c, "Deleted ✓"); lib.loadedAt = 0; open(); })
+    var path = it.paths[0], here = canvasUses(path), pages = it.used.map(E.labelFor);
+    if (here && E.state && pages.indexOf(E.labelFor(E.state.target)) < 0) pages.push(E.labelFor(E.state.target) + " (unpublished)");
+    var msg = pages.length
+      ? "Delete \"" + it.name + "\" from the website?\n\nIt's used on: " + pages.join(", ") + ".\nThose spots will be left empty" + (here ? " (it's removed from the page you're editing now; Publish to save that)" : "") + ". Tip: use \"Replace everywhere\" instead to swap it for another " + kind + "."
+      : "Delete \"" + it.name + "\" from the website? It isn't used on any page.";
+    if (!confirm(msg)) return;
+    E.commitFiles([{ path: path, remove: true }], "Delete " + it.name + " via media library")
+      .then(function (c) {
+        if (here) removeFromCanvas(path);
+        Object.keys(state.blobMap || {}).forEach(function (bl) { if (state.blobMap[bl] === path) delete state.blobMap[bl]; });
+        committed(c, "Deleted ✓"); lib.loadedAt = 0; open();
+      })
       .catch(function (e) { E.toast("Delete failed: " + e.message, true); });
   }
 
