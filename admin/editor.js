@@ -419,6 +419,18 @@
     }
   });
 
+  /* GrapesJS treats links as text, so clicking a label inside a card link (portfolio name pills,
+     index rows, price cards…) would hand the click to the whole card. Only styled words (em,
+     strong…) should do that; any other text inside a link is selected and edited on its own. */
+  var FORMAT_TAGS = /^(em|strong|b|i|u|s|mark|code|sup|sub|br)$/;
+  var textProto = editor.DomComponents.getType("text").view.prototype, baseCanActivate = textProto.canActivate;
+  textProto.canActivate = function () {
+    var res = baseCanActivate.apply(this, arguments), m = this.model;
+    if (res.result || !res.delegate || !res.delegate.is("link") || FORMAT_TAGS.test(m.get("tagName"))) return res;
+    if (this.rteEnabled || !m.get("editable") || this.em.getEditing() === m) return res;
+    return { result: true };
+  };
+
   // Custom HTML block: edited as code from the panel (Content → Custom HTML), not piece by piece.
   function lockInside(c) { c.components().forEach(function (k) { k.set({ selectable: false, hoverable: false, editable: false, draggable: false, droppable: false, layerable: false, copyable: false, removable: false }); lockInside(k); }); }
   editor.DomComponents.addType("custom-html", {
