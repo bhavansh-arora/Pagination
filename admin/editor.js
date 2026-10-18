@@ -354,6 +354,8 @@
     storageManager: false,
     showOffsets: true,
     selectorManager: { componentFirst: true },
+    // Only real changes are undoable; selecting things isn't.
+    undoManager: { trackSelection: false },
     // Headings and paragraphs that contain styled words (em, strong, span…) are still plain text to edit.
     parser: { textTags: ["br", "b", "i", "u", "a", "ul", "ol", "em", "strong", "span", "small", "sup", "sub", "mark", "s", "code"] },
     canvas: { styles: [FONTS, SITE + "assets/css/styles.css", SITE + "assets/css/editor-global.css"] },
@@ -692,6 +694,12 @@
     ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#c6a46a}",
     ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}",
     ".custom-html{min-height:48px;outline:1px dashed rgba(198,164,106,.6);outline-offset:4px}",
+    // Elementor-style drop zones (editor only): columns and new sections get padding and a minimum height,
+    // so there's room to drop things inside them rather than next to them.
+    ".ed-cols>*{min-height:110px;padding:16px;border-radius:12px;outline:1px dashed rgba(198,164,106,.45);outline-offset:-1px}",
+    ".ed-cols>*:empty::before,.section>.container:empty::before{content:'Drop elements here';display:grid;place-items:center;min-height:78px;font:12px ui-monospace,monospace;color:rgba(198,164,106,.8)}",
+    ".section>.container{min-height:96px;padding-block:16px}",
+    ".stack:empty,.container:empty{min-height:96px}",
     // Elements hidden on a device stay selectable while editing: faded and outlined instead.
     "@media (max-width:759px){.hide-mobile{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
     "@media (min-width:760px) and (max-width:1023px){.hide-tablet{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
@@ -1183,8 +1191,18 @@
       document.querySelectorAll("[data-device]").forEach(function (x) { x.classList.toggle("is-active", x === b); });
     });
   });
-  $("#ed-undo").addEventListener("click", function () { editor.UndoManager.undo(); });
-  $("#ed-redo").addEventListener("click", function () { editor.UndoManager.redo(); });
+  $("#ed-undo").addEventListener("click", function () { editor.UndoManager.undo(); updateUndo(); });
+  $("#ed-redo").addEventListener("click", function () { editor.UndoManager.redo(); updateUndo(); });
+  // Undo / Redo are greyed out when there's nothing to undo or redo.
+  function updateUndo() {
+    var um = editor.UndoManager;
+    $("#ed-undo").disabled = !um.hasUndo();
+    $("#ed-redo").disabled = !um.hasRedo();
+  }
+  var undoTimer;
+  editor.on("update undo redo change:changesCount component:update component:add component:remove", function () { clearTimeout(undoTimer); undoTimer = setTimeout(updateUndo, 60); });
+  setInterval(updateUndo, 1500);
+  updateUndo();
   $("#ed-preview").addEventListener("click", function () {
     if (editor.Commands.isActive("preview")) editor.stopCommand("preview"); else editor.runCommand("preview");
   });

@@ -687,3 +687,5 @@ html.auth-open body > *:not(.auth):not(script) { display: none !important; }
 #ed-publish.is-busy { opacity: 1; cursor: progress; }
 #ed-publish.is-busy::before { content: ""; width: 13px; height: 13px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: a-rot 0.7s linear infinite; }
 .ed-toast.is-success { border-color: var(--e-green); background: #f1f9f3; color: #1f5f39; }
+/* Undo / Redo when there's nothing to undo or redo */
+.ed-icon[disabled] { opacity: 0.28; cursor: default; pointer-events: none; }
