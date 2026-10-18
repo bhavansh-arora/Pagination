@@ -256,9 +256,10 @@ body.menu-open { overflow: hidden; }
 a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 
 /* ---------- Hero (home) ---------- */
-.hero { position: relative; height: 100vh; height: 100svh; min-height: 620px; padding: var(--frame); }
+/* min-height (not height) so anything added to the hero makes it taller instead of being clipped off the top */
+.hero { position: relative; display: flex; flex-direction: column; min-height: max(620px, 100vh); min-height: max(620px, 100svh); padding: var(--frame); }
 .hero__frame {
-  position: relative; height: 100%; border-radius: var(--r-xl); overflow: hidden; isolation: isolate;
+  position: relative; flex: 1 0 auto; border-radius: var(--r-xl); overflow: hidden; isolation: isolate;
   background: var(--night); color: var(--ivory); display: flex; flex-direction: column; justify-content: flex-end;
 }
 .hero__media { position: absolute; inset: 0; z-index: -2; }
