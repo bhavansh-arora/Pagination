@@ -23,7 +23,7 @@
     (kids || []).forEach(function (c) { if (c != null && c !== false) el.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
     return el;
   }
-  var openSecs = { photos: true, adjust: true, video: true, link: true, text: true, ident: true, classes: true, attrs: false, responsive: true, motion: true, css: false, html: false };
+  var openSecs = { "site-Background": true, "site-Text": true, "site-Accent": true, icon: true, photos: true, photosInside: false, adjust: true, video: true, link: true, text: true, ident: true, classes: true, attrs: false, responsive: true, motion: true, css: false, html: false };
   function section(key, title, kids, note) {
     var d = h("details", { class: "ed-sec", "data-sec": key }, [h("summary", {}, [h("span", { text: title }), note ? h("em", { text: note }) : null])].concat(kids));
     d.open = openSecs[key] !== false;
@@ -81,7 +81,7 @@
     return true;
   }
   function viewBtn(id) { return editor.Panels.getButton("views", id); }
-  function others(fn) { ["open-sm", "open-tm", "open-layers", "open-blocks"].forEach(function (id) { var b = viewBtn(id); if (b) fn(b); }); }
+  function others(fn) { ["open-sm", "open-tm", "open-layers", "open-blocks", "open-site"].forEach(function (id) { var b = viewBtn(id); if (b) fn(b); }); }
 
   editor.Commands.add("ed-open-insp", {
     run: function () { state.active = true; others(function (b) { if (b.get("active")) b.set("active", false); }); sync(); },
@@ -93,9 +93,71 @@
     label: "<svg viewBox='0 0 24 24' width='18' height='18' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round'><path d='M4 7h10M18 7h2M4 17h4M12 17h8'/><circle cx='16' cy='7' r='2'/><circle cx='10' cy='17' r='2'/></svg>"
   });
   ["open-sm", "open-tm", "open-layers", "open-blocks"].forEach(function (id) {
-    editor.on("run:" + id, function () { var b = viewBtn("open-insp"); if (b && b.get("active")) b.set("active", false); state.active = false; sync(); });
+    editor.on("run:" + id, function () {
+      ["open-insp", "open-site"].forEach(function (x) { var b = viewBtn(x); if (b && b.get("active")) b.set("active", false); });
+      state.active = false; sync();
+    });
     editor.on("stop:" + id, sync);
   });
+
+  /* ------------------------------ Site style (colours for every page) ------------------------------ */
+  var sitePanel = h("div", { class: "ed-insp ed-site", hidden: true });
+  var THEME_DEFAULTS = { "--paper": "#0d0b09", "--paper-2": "#15120f", "--paper-3": "#1e1a16", "--ink": "#efe7da", "--ink-2": "#c3b9a9",
+    "--muted": "#8d8373", "--ivory": "#efe7da", "--accent": "#c6a46a", "--gold-hi": "#e2c999" };
+  var THEME_GROUPS = [
+    ["Background", [["--paper", "Page background"], ["--paper-2", "Cards & panels"], ["--paper-3", "Raised areas & photo placeholders"]]],
+    ["Text", [["--ink", "Headings & main text"], ["--ink-2", "Body text"], ["--muted", "Small labels"], ["--ivory", "Text on photos & light buttons"]]],
+    ["Accent", [["--accent", "Gold accent (buttons, highlights)"], ["--gold-hi", "Light gold (headline accents)"]]]
+  ];
+  editor.Commands.add("ed-open-site", {
+    run: function () {
+      ["open-sm", "open-tm", "open-layers", "open-blocks", "open-insp"].forEach(function (id) { var b = viewBtn(id); if (b && b.get("active")) b.set("active", false); });
+      state.active = false; sync();
+      var host = document.querySelector(".gjs-pn-views-container");
+      if (host && sitePanel.parentNode !== host) host.insertBefore(sitePanel, host.firstChild);
+      sitePanel.hidden = false; renderSite();
+    },
+    stop: function () { sitePanel.hidden = true; }
+  });
+  editor.Panels.addButton("views", {
+    id: "open-site", command: "ed-open-site", togglable: false, active: false,
+    attributes: { title: "Site style: background and colours for every page" },
+    label: "<svg viewBox='0 0 24 24' width='18' height='18' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-1.1-.9-1.4-.9-2.4 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z'/><circle cx='7.5' cy='11' r='1.2'/><circle cx='10' cy='7' r='1.2'/><circle cx='14.5' cy='7' r='1.2'/></svg>"
+  });
+  function themeValue(v) {
+    var st = E.state.theme || {};
+    if (st[v]) return st[v];
+    try { var cs = getComputedStyle(editor.Canvas.getDocument().documentElement).getPropertyValue(v).trim(); if (/^#[0-9a-f]{6}$/i.test(cs)) return cs; } catch (e) {}
+    return THEME_DEFAULTS[v];
+  }
+  var siteTimer;
+  function setTheme(v, val) {
+    if (val == null) delete E.state.theme[v]; else E.state.theme[v] = val;
+    E.state.themeChanged = true;
+    E.applyOverrides(E.state.target);
+    clearTimeout(siteTimer); siteTimer = setTimeout(E.updateUI, 150);
+  }
+  function renderSite() {
+    sitePanel.innerHTML = "";
+    sitePanel.appendChild(h("div", { class: "ed-site__head" }, [h("strong", { text: "Site style" }), h("p", { text: "Colours used on every page. Changes show instantly here and go live when you Publish." })]));
+    THEME_GROUPS.forEach(function (g) {
+      var rows = g[1].map(function (r) {
+        var v = r[0], val = themeValue(v), changedFlag = !!(E.state.theme || {})[v];
+        var color = h("input", { type: "color", value: val });
+        var hex = h("input", { type: "text", value: val, spellcheck: "false", maxlength: 7, "aria-label": r[1] + " hex" });
+        var reset = h("button", { type: "button", class: "ed-mini", title: "Back to original", text: "↺", hidden: !changedFlag, onclick: function () { setTheme(v, null); renderSite(); } });
+        color.addEventListener("input", function () { hex.value = color.value; reset.hidden = false; setTheme(v, color.value); });
+        hex.addEventListener("change", function () { var x = hex.value.trim(); if (!/^#?[0-9a-f]{6}$/i.test(x)) { hex.value = color.value; return; } x = x.charAt(0) === "#" ? x : "#" + x; color.value = x; hex.value = x; reset.hidden = false; setTheme(v, x); });
+        return h("div", { class: "ed-swrow" }, [h("label", { class: "ed-swrow__sw" }, [color]), h("span", { class: "ed-swrow__l", text: r[1] }), hex, reset]);
+      });
+      sitePanel.appendChild(section("site-" + g[0], g[0], rows));
+    });
+    sitePanel.appendChild(h("div", { class: "ed-row ed-site__foot" }, [btn("Reset all colours", "ed-btn--ghost", function () {
+      if (!confirm("Put every site colour back to the original?")) return;
+      E.state.theme = {}; E.state.themeChanged = true; E.applyOverrides(E.state.target); E.updateUI(); renderSite();
+    })]));
+  }
+  function openSite() { var b = viewBtn("open-site"); if (b) { if (b.get("active")) renderSite(); else b.set("active", true); } }
 
   function show(tab) {
     if (tab) state.tab = tab;
@@ -130,7 +192,7 @@
   function renderHead(c) {
     head.innerHTML = "";
     var p = c.parent();
-    head.appendChild(h("div", { class: "ed-ihead__name" }, [h("strong", { text: c.getName() }), h("code", { text: "<" + (c.get("tagName") || "div") + ">" })]));
+    head.appendChild(h("div", { class: "ed-ihead__name" }, [h("strong", { text: isSvg(c) ? "Icon" : c.getName() }), h("code", { text: "<" + (c.get("tagName") || "div") + ">" })]));
     if (p && p.get("type") !== "wrapper") head.appendChild(btn("↑ Parent", "ed-btn--ghost ed-mini-btn", function () { editor.select(p); }, "Select the element this one sits in: " + p.getName()));
   }
 
@@ -151,12 +213,110 @@
     var vid = videoFileIn(c), yt = ytIn(c);
     if (yt) out.push(youtubeSection(yt));
     if (vid) out.push(videoSection(vid));
-    var ph = E.photosFor(c);
-    if (ph.list.length) out.push(photosSection(c, ph));
+    // Photos appear the way Elementor shows image controls: open for a photo (or a block that is only
+    // photos, like the hero slideshow), folded away for a larger block that merely contains some,
+    // and not at all for text that happens to sit on top of a picture.
+    var sv = svgIn(c);
+    if (sv) out.push(iconSection(sv));
+    var ph = E.photosFor(c), kind = photoKind(c, ph);
+    if (kind === "photo") out.push(photosSection(c, ph, false));
+    else if (kind === "inside") out.push(photosSection(c, ph, true));
     out.push(linkSection(c));
     if (isTextish(c)) out.push(textSection(c));
     if (out.length === 1 && !isTextish(c)) out.push(h("p", { class: "ed-hint", text: "Click text on the page to type. Use Style for colours, spacing and fonts, and Advanced for classes, custom CSS and HTML." }));
     return out;
+  }
+
+  /* ---------- Icons (inline SVG) ---------- */
+  var ICONS = {
+    "Arrow right": "<path d='M5 12h14M13 6l6 6-6 6'/>", "Arrow up-right": "<path d='M7 17L17 7M8 7h9v9'/>", "Arrow down": "<path d='M12 5v14M6 13l6 6 6-6'/>",
+    "Chevron": "<path d='M9 6l6 6-6 6'/>", "Plus": "<path d='M12 5v14M5 12h14'/>", "Check": "<path d='M5 12.5l4.5 4.5L19 7.5'/>", "Close": "<path d='M6 6l12 12M18 6L6 18'/>",
+    "Menu": "<path d='M4 7h16M4 12h16M4 17h16'/>", "Play": "<path d='M7 4.5v15l13-7.5z' fill='currentColor' stroke='none'/>",
+    "Heart": "<path d='M12 20s-7-4.4-9.2-8.6C1.3 8.3 3.2 5 6.5 5c2 0 3.5 1.1 4.5 2.6C12 6.1 13.5 5 15.5 5c3.3 0 5.2 3.3 3.7 6.4C17 15.6 12 20 12 20z'/>",
+    "Star": "<path d='M12 3.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17l-5.4 3 1.2-6-4.5-4.2 6.1-.7z'/>",
+    "Camera": "<path d='M4 8h3l2-3h6l2 3h3v11H4z'/><circle cx='12' cy='13' r='3.5'/>", "Film": "<rect x='3' y='6' width='13' height='12' rx='2'/><path d='M16 10l5-3v10l-5-3'/>",
+    "Mail": "<rect x='3' y='5' width='18' height='14' rx='2'/><path d='M3 7l9 6 9-6'/>",
+    "Phone": "<path d='M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2'/>",
+    "Location": "<path d='M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z'/><circle cx='12' cy='10' r='2.5'/>",
+    "Calendar": "<rect x='3' y='5' width='18' height='16' rx='2'/><path d='M3 10h18M8 3v4M16 3v4'/>",
+    "Instagram": "<rect x='3' y='3' width='18' height='18' rx='5'/><circle cx='12' cy='12' r='4'/><circle cx='17.5' cy='6.5' r='.8' fill='currentColor'/>",
+    "Facebook": "<path d='M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V10H6v4h3v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h2z'/>",
+    "YouTube": "<rect x='2.5' y='5.5' width='19' height='13' rx='4'/><path d='M10 9.5v5l4.5-2.5z' fill='currentColor'/>",
+    "X / Twitter": "<path d='M4 4l16 16M20 4l-6.5 6.5M10.5 13.5L4 20'/>",
+    "Quote": "<path d='M10 7H6a3 3 0 0 0-3 3v7h7v-7H6a1 1 0 0 1 1-1h3zM21 7h-4a3 3 0 0 0-3 3v7h7v-7h-4a1 1 0 0 1 1-1h3z' fill='currentColor' stroke='none'/>",
+    "Globe": "<circle cx='12' cy='12' r='9'/><path d='M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18'/>"
+  };
+  function iconMarkup(inner) { return "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>" + inner + "</svg>"; }
+  function isSvg(c) { return c.get("tagName") === "svg" || c.get("type") === "svg"; }
+  function svgIn(c) {
+    if (isSvg(c)) return c;
+    var found = [];
+    (function walk(k) { if (found.length > 1) return; if (isSvg(k)) { found.push(k); return; } k.components().forEach(walk); })(c);
+    return found.length === 1 && c.components().length <= 4 ? found[0] : null;
+  }
+  // Uploaded or pasted SVG code: keep the drawing, drop anything that could run code.
+  function cleanSvg(markup) {
+    var doc = new DOMParser().parseFromString(String(markup).trim(), "image/svg+xml"), root = doc.documentElement;
+    if (!root || root.nodeName.toLowerCase() !== "svg" || doc.getElementsByTagName("parsererror").length) return null;
+    Array.prototype.slice.call(root.querySelectorAll("script, foreignObject, iframe, object, embed, audio, video")).forEach(function (n) { n.remove(); });
+    [root].concat(Array.prototype.slice.call(root.querySelectorAll("*"))).forEach(function (n) {
+      Array.prototype.slice.call(n.attributes).forEach(function (a) {
+        if (/^on/i.test(a.name) || (/href$/i.test(a.name) && /^\s*javascript:/i.test(a.value))) n.removeAttribute(a.name);
+      });
+    });
+    return root;
+  }
+  function replaceSvg(c, markup) {
+    var root = cleanSvg(markup);
+    if (!root) { E.toast("That isn't a valid SVG image.", true); return; }
+    var old = c.getAttributes(), id = c.getId();
+    ["class", "aria-hidden", "role", "focusable", "width", "height"].forEach(function (k) { if (old[k] != null && old[k] !== "" && !root.hasAttribute(k)) root.setAttribute(k, old[k]); });
+    root.setAttribute("id", id);
+    var keep = rulesFor(id).map(function (r) { return r.toCSS(); }).join("");
+    var res = c.replaceWith(new XMLSerializer().serializeToString(root).replace(/ xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, ""));
+    if (keep) editor.Css.addRules(keep);
+    res = Array.isArray(res) ? res : [res];
+    changed(); if (res[0]) editor.select(res[0]);
+  }
+  function iconSection(c) {
+    var el = c.getEl(), cs = el ? el.ownerDocument.defaultView.getComputedStyle(el) : null;
+    var prev = h("div", { class: "ed-svgprev", html: E.fromEditor(c.toHTML()) });
+    if (cs) prev.style.color = cs.color;
+    var grid = h("div", { class: "ed-icongrid", hidden: true }, Object.keys(ICONS).map(function (name) {
+      return h("button", { type: "button", title: name, html: iconMarkup(ICONS[name]), onclick: function () { replaceSvg(c, iconMarkup(ICONS[name])); } });
+    }));
+    var code = h("textarea", { rows: 6, spellcheck: "false", class: "ed-code", hidden: true });
+    var applyCode = btn("Apply code", "ed-btn--gold", function () { replaceSvg(c, code.value); });
+    applyCode.hidden = true;
+    var file = h("input", { type: "file", accept: ".svg,image/svg+xml", hidden: true });
+    file.addEventListener("change", function () {
+      var f = file.files[0]; if (!f) return;
+      if (f.size > 200000) { E.toast("That SVG is very large. Please use one under 200 KB.", true); return; }
+      f.text().then(function (t) { replaceSvg(c, t); });
+    });
+    var st = c.getStyle(), size = parseFloat(st.width) || (el ? Math.round(el.getBoundingClientRect().width) : 24) || 24;
+    var colorIn = h("input", { type: "color", value: toHex(st.color || (cs && cs.color)) || "#c6a46a" });
+    colorIn.addEventListener("input", function () { c.addStyle({ color: colorIn.value }); prev.style.color = colorIn.value; });
+    colorIn.addEventListener("change", changed);
+    return section("icon", "Icon", [
+      prev,
+      h("div", { class: "ed-row" }, [
+        btn("Choose icon", "ed-btn--gold", function () { grid.hidden = !grid.hidden; }),
+        btn("Upload SVG", "", function () { file.click(); }),
+        btn("Edit code", "ed-btn--ghost", function () { code.hidden = !code.hidden; applyCode.hidden = code.hidden; if (!code.hidden) code.value = E.fromEditor(c.toHTML()); })
+      ]),
+      grid, code, h("div", { class: "ed-row" }, [applyCode]), file,
+      h("div", { class: "ed-swrow" }, [h("label", { class: "ed-swrow__sw" }, [colorIn]), h("span", { class: "ed-swrow__l", text: "Icon colour" }),
+        h("button", { type: "button", class: "ed-mini", title: "Use the surrounding text colour", text: "↺", onclick: function () { c.removeStyle("color"); changed(); refresh(); } })]),
+      slider("Size", Math.round(size), 8, 160, 1, "px", Math.round(size), function (v, k) { c.addStyle({ width: v + "px", height: v + "px" }); if (k) changed(); }),
+      h("p", { class: "ed-hint", text: "Colour works for single-colour icons (like the site's own). Multi-colour SVGs keep their own colours." })
+    ]);
+  }
+  function toHex(c) {
+    if (!c) return "";
+    if (/^#[0-9a-f]{6}$/i.test(c)) return c;
+    var m = String(c).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    return m ? "#" + [m[1], m[2], m[3]].map(function (x) { return ("0" + (+x).toString(16)).slice(-2); }).join("") : "";
   }
 
   /* ---------- Photos ---------- */
@@ -165,7 +325,23 @@
     if (p.kind === "img" && parent && parent.getClasses().indexOf("media") >= 0) return parent;
     return p.comp;
   }
-  function photosSection(c, ph) {
+  function hasText(c) {
+    var found = false;
+    (function walk(k) {
+      if (found) return;
+      var t = k.get("type");
+      if ((t === "text" || t === "link" || t === "textnode") && (k.getEl() ? (k.getEl().textContent || "").trim() : (k.get("content") || "").trim())) { found = true; return; }
+      k.components().forEach(walk);
+    })(c);
+    return found;
+  }
+  function photoKind(c, ph) {
+    if (!ph.list.length) return "";
+    if (ph.from !== c) return ""; // photos merely underneath the clicked element
+    if (E.photoOf(c) || c.get("type") === "hero-slideshow" || !hasText(c)) return "photo";
+    return "inside";
+  }
+  function photosSection(c, ph, folded) {
     var list = ph.list, n = list.length, kids = [];
     if (n > 1) kids.push(h("p", { class: "ed-hint", text: "Click a thumbnail to set the focus point. Use Adjust for size, filters and more." }));
     list.forEach(function (p, i) {
@@ -198,7 +374,8 @@
       kids.push(h("div", { class: "ed-photo-wrap" }, [row, adjustBox]));
       if (n === 1) { adjustBox.hidden = false; adjBtn.classList.add("is-on"); adjustBox.appendChild(adjustPanel(p)); }
     });
-    return section("photos", n > 1 ? n + " photos" + (ph.from !== c ? " here" : "") : "Photo" + (ph.from !== c ? " here" : ""), kids, "click to set focus");
+    if (folded) return section("photosInside", n + (n > 1 ? " photos" : " photo") + " inside", kids, "open to change");
+    return section("photos", n > 1 ? n + " photos" : "Photo", kids, "click to set focus");
   }
 
   // Filters, zoom and flip are kept in separate CSS properties so the site's own scroll effects
@@ -411,6 +588,20 @@
   }
 
   /* ================================ ADVANCED ================================ */
+  var AUTO_ID = /^i[a-z0-9]{3,6}(-\d+)?$/;
+  function original(c) {
+    var o = c.get("edOrig");
+    if (!o) {
+      var a = c.getAttributes();
+      // IDs the editor generates look like "ib8dp"; anything else came from the site and is locked.
+      o = { ccid: c.ccid, id: a.id && !AUTO_ID.test(a.id) ? a.id : "", classes: c.getClasses().slice(),
+        attrs: Object.keys(a).filter(function (k) { return ["id", "class", "style"].indexOf(k) < 0; }) };
+      c.set("edOrig", o, { silent: true });
+    }
+    return o;
+  }
+  // Remember each element's original state the first time it's selected, before any edits.
+  editor.on("component:selected", function (c) { if (c) original(c); });
   var siteClasses = null;
   function classList() {
     if (siteClasses) return siteClasses;
@@ -456,46 +647,66 @@
 
   function advanced(c) {
     var out = [], id = c.getId(), attrs = c.getAttributes();
-    // ID
-    out.push(section("ident", "CSS ID", [field("ID", input(attrs.id || id, function (v, el) {
-      if (!v || v === c.getId()) return;
-      if (!/^[A-Za-z][\w-]*$/.test(v)) { E.toast("IDs start with a letter and use only letters, numbers, - and _.", true); el.value = c.getId(); return; }
-      if (editor.Canvas.getDocument().getElementById(v)) { E.toast("Another element already uses #" + v + ".", true); el.value = c.getId(); return; }
-      var old = c.getId(), extra = rulesFor(old).filter(function (r) { return r.selectorsToString() !== "#" + old || r.get("mediaText") || r.get("state"); });
+    // What the element had before anyone edited it: the site's own ID, classes and attributes stay locked,
+    // so a typo can't break the design, links or animations. Only additions can be changed or removed.
+    var o = original(c), cur = c.getId(), myId = cur && cur !== o.ccid && cur !== o.id && !AUTO_ID.test(cur) ? cur : "";
+    var lock = "<svg viewBox='0 0 24 24' width='12' height='12' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'><rect x='5' y='11' width='14' height='9' rx='2'/><path d='M8 11V8a4 4 0 0 1 8 0v3'/></svg>";
+    function renameId(v, el) {
+      var old = c.getId();
+      if (v === old) return;
+      if (v !== o.ccid) {
+        if (!/^[A-Za-z][\w-]*$/.test(v)) { E.toast("Use letters, numbers and dashes, starting with a letter, e.g. contact or our-story.", true); if (el) el.value = myId; return; }
+        if (editor.Canvas.getDocument().getElementById(v)) { E.toast("Another part of this page already uses #" + v + ".", true); if (el) el.value = myId; return; }
+      }
+      var extra = rulesFor(old).filter(function (r) { return r.selectorsToString() !== "#" + old || r.get("mediaText") || r.get("state"); });
       var css = extra.map(function (r) { return r.toCSS(); }).join("");
       extra.forEach(function (r) { editor.Css.remove(r); });
       c.setId(v);
       if (css) editor.Css.addRules(css.split("#" + old).join("#" + v));
       changed(); refresh();
-    }), "Lets links jump here with #your-id, and targets this element in custom CSS")]));
+    }
+    var idKids;
+    if (o.id) idKids = [h("div", { class: "ed-locked" }, [h("span", { html: lock }), h("code", { text: "#" + o.id })]), h("small", { class: "ed-f__h", text: "Set by the site design, so it's locked. Links can jump here with #" + o.id + "." })];
+    else idKids = [
+      field("Link name", input(myId, function (v, el) { v = v.replace(/^#/, ""); if (!v) { if (myId) renameId(o.ccid); return; } renameId(v, el); }, { placeholder: "e.g. contact" }),
+        "Optional. Lets buttons and menus jump straight here with #name."),
+      myId ? h("div", { class: "ed-row" }, [btn("Remove link name", "ed-btn--ghost", function () { renameId(o.ccid); })]) : null
+    ];
+    out.push(section("ident", "Link name (anchor)", idKids, o.id || myId ? "#" + (o.id || myId) : ""));
 
-    // Classes
+    // Classes: the design's own are locked; extra ones can be added and removed.
+    var cls0 = c.getClasses(), locked = cls0.filter(function (n) { return o.classes.indexOf(n) >= 0; }), mine = cls0.filter(function (n) { return o.classes.indexOf(n) < 0 && !/^(hide-(desktop|tablet|mobile)|reveal|reveal-img)$/.test(n); });
     var chips = h("div", { class: "ed-chips" });
-    c.getClasses().forEach(function (n) {
-      chips.appendChild(h("span", { class: "ed-chip" }, [n, h("button", { type: "button", title: "Remove class", text: "×", onclick: function () { c.removeClass(n); changed(); refresh(); } })]));
+    locked.forEach(function (n) { chips.appendChild(h("span", { class: "ed-chip is-locked", title: "Part of the site design (locked)", html: lock + "<span></span>" })); chips.lastChild.lastChild.textContent = n; });
+    mine.forEach(function (n) {
+      chips.appendChild(h("span", { class: "ed-chip" }, [n, h("button", { type: "button", title: "Remove this class", text: "×", onclick: function () { c.removeClass(n); changed(); refresh(); } })]));
     });
     var addCls = input("", function (v, el) {
       v.split(/[\s,]+/).filter(Boolean).forEach(function (n) { if (/^-?[_A-Za-z][\w-]*$/.test(n)) c.addClass(n); });
       el.value = ""; changed(); refresh();
     }, { placeholder: "Add a class, press Enter", list: classDatalist() });
-    out.push(section("classes", "CSS classes", [chips, addCls, h("small", { class: "ed-f__h", text: "Any class from the site's stylesheet works, e.g. h-xl, btn, btn--light, label, mt-l, reveal" })]));
+    out.push(section("classes", "Extra CSS classes", [chips.childNodes.length ? chips : null, addCls,
+      h("small", { class: "ed-f__h", text: "Locked classes come from the site design. Add extra ones from the stylesheet, e.g. label, mt-l, btn--light." })], mine.length ? mine.length + " added" : ""));
 
-    // Attributes
+    // Attributes: existing ones are shown read-only; added ones can be edited or removed.
     var rows = h("div", { class: "ed-attrs" });
     Object.keys(attrs).filter(function (k) { return ["id", "class", "style"].indexOf(k) < 0; }).forEach(function (k) {
-      var name = input(k, function (nv) {
-        if (!nv || nv === k) return;
-        var val = c.getAttributes()[k]; c.removeAttributes([k]); var o = {}; o[nv] = val; c.addAttributes(o); changed(); refresh();
-      });
-      var val = input(attrs[k] === true ? "" : String(attrs[k]), function (nv) { var o = {}; o[k] = nv; c.addAttributes(o); changed(); });
-      rows.appendChild(h("div", { class: "ed-attr" }, [name, val, h("button", { type: "button", class: "ed-mini", title: "Remove", text: "×", onclick: function () { c.removeAttributes([k]); changed(); refresh(); } })]));
+      var v = attrs[k] === true ? "" : String(attrs[k]);
+      if (o.attrs.indexOf(k) >= 0) {
+        rows.appendChild(h("div", { class: "ed-attr is-locked", title: "Part of the site (locked)" }, [h("code", { text: k }), h("code", { text: v.length > 40 ? v.slice(0, 40) + "…" : v }), h("span", { class: "ed-attr__lock", html: lock })]));
+        return;
+      }
+      var val = input(v, function (nv) { var x = {}; x[k] = nv; c.addAttributes(x); changed(); });
+      rows.appendChild(h("div", { class: "ed-attr" }, [h("code", { text: k }), val, h("button", { type: "button", class: "ed-mini", title: "Remove", text: "×", onclick: function () { c.removeAttributes([k]); changed(); refresh(); } })]));
     });
     var nk = input("", function () {}, { placeholder: "name" }), nv = input("", function () {}, { placeholder: "value" });
     rows.appendChild(h("div", { class: "ed-attr ed-attr--new" }, [nk, nv, h("button", { type: "button", class: "ed-mini", title: "Add attribute", text: "+", onclick: function () {
-      var k = nk.value.trim(); if (!/^[A-Za-z_:][\w:.-]*$/.test(k)) { nk.focus(); return; }
-      var o = {}; o[k] = nv.value; c.addAttributes(o); changed(); refresh();
+      var k = nk.value.trim();
+      if (!/^[A-Za-z_:][\w:.-]*$/.test(k) || ["id", "class", "style"].indexOf(k.toLowerCase()) >= 0 || /^on/i.test(k)) { E.toast("Use a name like title, aria-label or data-something.", true); nk.focus(); return; }
+      if (k in c.getAttributes()) { E.toast("This element already has " + k + ".", true); return; }
+      var x = {}; x[k] = nv.value; c.addAttributes(x); changed(); refresh();
     } })]));
-    out.push(section("attrs", "Attributes", [rows, h("small", { class: "ed-f__h", text: "e.g. title, aria-label, data-… attributes, loading" })], Object.keys(attrs).length - (attrs.id ? 1 : 0) - (attrs.class ? 1 : 0) + ""));
+    out.push(section("attrs", "Attributes", [rows, h("small", { class: "ed-f__h", text: "Locked rows belong to the site. Add your own, e.g. title, aria-label or data-…" })]));
 
     // Responsive visibility
     var cls = c.getClasses();
@@ -559,6 +770,6 @@
     return out;
   }
 
-  window.__inspector = { show: show, refresh: refresh, sync: sync, state: state };
+  window.__inspector = { show: show, refresh: refresh, sync: sync, state: state, openSite: openSite };
   editor.on("load", function () { setTimeout(sync, 0); });
 })();

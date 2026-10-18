@@ -888,7 +888,7 @@
 
   /* ---------------- Site theme (brand colours on every page) ---------------- */
   var THEME_VARS = [["--accent", "Gold accent (buttons, highlights)", "#c6a46a"], ["--gold-hi", "Light gold (headline accents)", "#e2c999"],
-    ["--paper", "Page background", "#0d0b09"], ["--paper-2", "Card background", "#15120f"], ["--ink", "Main text", "#efe7da"],
+    ["--paper", "Page background", "#0d0b09"], ["--paper-2", "Card background", "#15120f"], ["--paper-3", "Raised areas", "#1e1a16"], ["--ink", "Main text", "#efe7da"],
     ["--ink-2", "Body text", "#c3b9a9"], ["--muted", "Small labels", "#8d8373"], ["--ivory", "Light buttons & text on photos", "#efe7da"]];
   state.theme = {}; state.themeChanged = false;
   function themeCss() {
@@ -907,7 +907,10 @@
       return "<label><input type='color' data-var='" + v[0] + "' value='" + (/^#[0-9a-f]{6}$/i.test(val) ? val : v[2]) + "'><span>" + v[1] + "</span><code>" + v[0] + "</code></label>";
     }).join("");
   }
-  $("#pc-theme").addEventListener("click", function () { $("#p-colors").hidden = true; renderTheme(); openModal("#m-theme"); });
+  $("#pc-theme").addEventListener("click", function () {
+    $("#p-colors").hidden = true;
+    if (window.__inspector && window.__inspector.openSite) window.__inspector.openSite(); else { renderTheme(); openModal("#m-theme"); }
+  });
   $("#theme-fields").addEventListener("input", function (e) {
     var v = e.target.getAttribute("data-var"); if (!v) return;
     state.theme[v] = e.target.value; applyOverrides(state.target);
