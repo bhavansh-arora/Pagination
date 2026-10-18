@@ -65,15 +65,21 @@
       headers: { Accept: "application/vnd.github+json", Authorization: "Bearer " + token, "Content-Type": "application/json" }
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (j) {
-        if (!r.ok) throw new Error(r.status === 401 ? "GitHub didn't accept that token. Check you copied all of it." : r.status === 404 ? "The token can't see " + repoConf.owner + "/" + repoConf.repo + ". Give it access to that repository." : "GitHub " + r.status + ": " + (j.message || r.statusText));
+        if (!r.ok) throw new Error(
+          r.status === 401 ? "GitHub didn't accept that token. Check you copied all of it." :
+          r.status === 404 ? "The token can't see " + repoConf.owner + "/" + repoConf.repo + ". On GitHub, edit the token and under Repository access choose this repository." :
+          r.status === 403 ? "The token isn't allowed to save changes. On GitHub, edit the token → Repository permissions → Contents → choose \"Read and write\" → Update, then try again (the token itself stays the same)." :
+          "GitHub " + r.status + ": " + (j.message || r.statusText));
         return j;
       });
     });
   }
+  // GitHub reports the account's access on the repository, not the token's, so actually try a write:
+  // creating a tiny unreferenced blob needs Contents: Read and write and changes nothing on the site.
   function checkToken(repoConf, token) {
     return gh(repoConf, token, "").then(function (repo) {
-      if (repo.permissions && !repo.permissions.push) throw new Error("This token can only read the repository. Give it Contents: Read and write.");
-      return repo;
+      if (repo.permissions && !repo.permissions.push) throw new Error("Your GitHub account can only read this repository; it needs write access.");
+      return gh(repoConf, token, "/git/blobs", { method: "POST", body: JSON.stringify({ content: "editor access check", encoding: "utf-8" }) }).then(function () { return repo; });
     });
   }
   function saveConf(repoConf, token, data, message) {
