@@ -317,8 +317,12 @@
       '<div class="ed-cols ed-cols--2"><div class="stack"><p class="body">Column one. Drag elements in here.</p></div><div class="stack"><p class="body">Column two.</p></div></div>'],
     ["lay-3", "Layout", "3 columns", ico('<rect x="2" y="4" width="6" height="16" rx="1.5"/><rect x="9" y="4" width="6" height="16" rx="1.5"/><rect x="16" y="4" width="6" height="16" rx="1.5"/>'),
       '<div class="ed-cols ed-cols--3"><div class="stack"><p class="body">Column one.</p></div><div class="stack"><p class="body">Column two.</p></div><div class="stack"><p class="body">Column three.</p></div></div>'],
-    ["lay-section", "Layout", "Empty section", ico('<rect x="3" y="5" width="18" height="14" rx="2" stroke-dasharray="3 3"/>'),
-      '<section class="section"><div class="container"><p class="body">Empty section. Drag elements in here.</p></div></section>'],
+    ["lay-section", "Layout", "Section", ico('<rect x="3" y="5" width="18" height="14" rx="2" stroke-dasharray="3 3"/>'),
+      '<section class="section"><div class="container"><p class="body">New section. Drag headings, text, photos and buttons in here.</p></div></section>'],
+    ["lay-section-h", "Layout", "Section with heading", ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/>'),
+      '<section class="section"><div class="container stack"><span class="label label--dot">Small label</span><h2 class="h-xl">Section title</h2><p class="lede">A sentence or two introducing this section.</p></div></section>'],
+    ["lay-html", "Layout", "Custom HTML", ico('<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/>'),
+      '<div class="custom-html"><p class="body">Custom HTML: select this block and paste your code in the panel on the left.</p></div>'],
     ["lay-spacer", "Layout", "Spacer", ico('<path d="M12 4v16M8 8l4-4 4 4M8 16l4 4 4-4"/>'), '<div class="spacer"></div>'],
     ["lay-divider", "Layout", "Divider", ico('<path d="M3 12h18"/>'), '<hr class="divider">'],
     // ---- Elements
@@ -368,7 +372,10 @@
         });
       }
     },
-    blockManager: { blocks: BLOCKS.map(function (b) { return { id: b[0], category: b[1], label: b[2], media: b[3], content: b[4], select: true, activate: b[0] === "el-image" }; }) }
+    // Building blocks first (like Elementor's Basic widgets), then the ready-made sections.
+    blockManager: { blocks: ["Layout", "Elements", "Sections"].reduce(function (all, cat) { return all.concat(BLOCKS.filter(function (b) { return b[1] === cat; })); }, []).map(function (b) {
+      return { id: b[0], category: b[1] === "Sections" ? "Ready-made sections" : b[1] === "Layout" ? "Layout & sections" : b[1], label: b[2], media: b[3], content: b[4], select: true, activate: b[0] === "el-image" };
+    }) }
   });
   window.siteEditor = editor;
 
@@ -407,6 +414,16 @@
         // Follow the new video's thumbnail unless a custom thumbnail was chosen.
         if (img && (!cur || cur.indexOf("i.ytimg.com") >= 0)) img.set("src", "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg");
       }
+    }
+  });
+
+  // Custom HTML block: edited as code from the panel (Content → Custom HTML), not piece by piece.
+  function lockInside(c) { c.components().forEach(function (k) { k.set({ selectable: false, hoverable: false, editable: false, draggable: false, droppable: false, layerable: false, copyable: false, removable: false }); lockInside(k); }); }
+  editor.DomComponents.addType("custom-html", {
+    isComponent: function (el) { return el.classList && el.classList.contains("custom-html"); },
+    model: {
+      defaults: { name: "Custom HTML", droppable: false },
+      init: function () { lockInside(this); this.listenTo(this.components(), "add reset", function () { lockInside(this); }); }
     }
   });
 
@@ -672,6 +689,7 @@
     ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #c6a46a;border-radius:16px}",
     ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#c6a46a}",
     ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}",
+    ".custom-html{min-height:48px;outline:1px dashed rgba(198,164,106,.6);outline-offset:4px}",
     // Elements hidden on a device stay selectable while editing: faded and outlined instead.
     "@media (max-width:759px){.hide-mobile{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
     "@media (min-width:760px) and (max-width:1023px){.hide-tablet{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
@@ -685,7 +703,7 @@
     var el = doc.getElementById("ed-overrides");
     if (!el) { el = doc.createElement("style"); el.id = "ed-overrides"; doc.head.appendChild(el); }
     doc.documentElement.classList.add("ed-edit");
-    var css = "html body{background:var(--paper,#0d0b09)!important}" + EDIT_MODE_CSS + themeCss();
+    var css = "html body{background:var(--paper,#0d0b09)!important}" + EDIT_MODE_CSS + themeCss() + (state.siteCss || "");
     // Photos keep loading lazily (only near what's on screen), except inside sideways-scrolling strips,
     // which the browser can't see coming.
     Array.prototype.forEach.call(doc.querySelectorAll(".hscroll img[loading=lazy], .marquee img[loading=lazy]"), function (i) { i.loading = "eager"; });
@@ -900,7 +918,8 @@
     while ((m = re.exec(css))) t[m[1]] = m[2].trim();
     return t;
   }
-  function loadTheme() { return readFile("assets/css/editor-global.css").then(function (g) { state.theme = parseTheme(g); }).catch(function () {}); }
+  state.siteCss = "";
+  function loadTheme() { return readFile("assets/css/editor-global.css").then(function (g) { state.theme = parseTheme(g); state.siteCss = cssRegion(g, "custom"); }).catch(function () {}); }
   function renderTheme() {
     $("#theme-fields").innerHTML = THEME_VARS.map(function (v) {
       var val = state.theme[v[0]] || v[2];
@@ -1033,7 +1052,10 @@
       if (!globalCss && !state.themeChanged) return;
       return readFile("assets/css/editor-global.css").catch(function () { return DEFAULT_GLOBAL_CSS; }).then(function (g) {
         if (globalCss) g = setCssRegion(g, globalCss.key, globalCss.css);
-        if (state.themeChanged) g = setCssRegion(g, "theme", themeCss() ? themeCss().replace(/\.btn--gold[\s\S]*$/, "") : "");
+        if (state.themeChanged) {
+          g = setCssRegion(g, "theme", themeCss() ? themeCss().replace(/\.btn--gold[\s\S]*$/, "") : "");
+          g = setCssRegion(g, "custom", state.siteCss || "");
+        }
         g = g.replace(/^\/\* site-version: [^*]*\*\/\n?/, "");
         files.push({ path: "assets/css/editor-global.css", content: "/* site-version: " + version + " */\n" + g });
         if (themeOnly) checkPath = "assets/css/editor-global.css";

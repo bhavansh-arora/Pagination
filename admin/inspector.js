@@ -23,7 +23,7 @@
     (kids || []).forEach(function (c) { if (c != null && c !== false) el.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
     return el;
   }
-  var openSecs = { "site-Background": true, "site-Text": true, "site-Accent": true, icon: true, photos: true, photosInside: false, adjust: true, video: true, link: true, text: true, ident: true, classes: true, attrs: false, responsive: true, motion: true, css: false, html: false };
+  var openSecs = { "site-links": true, "site-css": false, customhtml: true, "site-Background": true, "site-Text": true, "site-Accent": true, icon: true, photos: true, photosInside: false, adjust: true, video: true, link: true, text: true, ident: true, classes: true, attrs: false, responsive: true, motion: true, css: false, html: false };
   function section(key, title, kids, note) {
     var d = h("details", { class: "ed-sec", "data-sec": key }, [h("summary", {}, [h("span", { text: title }), note ? h("em", { text: note }) : null])].concat(kids));
     d.open = openSecs[key] !== false;
@@ -139,7 +139,15 @@
   }
   function renderSite() {
     sitePanel.innerHTML = "";
-    sitePanel.appendChild(h("div", { class: "ed-site__head" }, [h("strong", { text: "Site style" }), h("p", { text: "Colours used on every page. Changes show instantly here and go live when you Publish." })]));
+    sitePanel.appendChild(h("div", { class: "ed-site__head" }, [h("strong", { text: "Site settings" }), h("p", { text: "Colours and CSS for every page, plus quick links to titles, descriptions and the favicon." })]));
+    function seo(tab) { return function () { if (window.__seo) window.__seo.open(tab); }; }
+    sitePanel.appendChild(section("site-links", "Titles, Google & favicon", [
+      h("div", { class: "ed-sitelinks" }, [
+        h("button", { type: "button", onclick: seo("page"), html: "<strong>Page title &amp; description</strong><span>Browser tab title, Google listing and share image for this page</span>" }),
+        h("button", { type: "button", onclick: seo("site"), html: "<strong>Favicon &amp; site name</strong><span>Tab icon, site name, Analytics and Search Console</span>" }),
+        h("button", { type: "button", onclick: seo("images"), html: "<strong>Alt text for images</strong><span>Describe every photo for Google and screen readers</span>" })
+      ])
+    ]));
     THEME_GROUPS.forEach(function (g) {
       var rows = g[1].map(function (r) {
         var v = r[0], val = themeValue(v), changedFlag = !!(E.state.theme || {})[v];
@@ -152,11 +160,61 @@
       });
       sitePanel.appendChild(section("site-" + g[0], g[0], rows));
     });
+    var siteCss = h("textarea", { rows: 8, spellcheck: "false", class: "ed-code", placeholder: ".section { padding-block: 120px; }\nh2 { letter-spacing: -0.03em; }" });
+    siteCss.value = E.state.siteCss || "";
+    sitePanel.appendChild(section("site-css", "Custom CSS (whole site)", [
+      h("small", { class: "ed-f__h", text: "Extra CSS added to every page, after the site's own styles. For one element only, use Element → Advanced → Custom CSS." }),
+      siteCss,
+      h("div", { class: "ed-row" }, [btn("Apply CSS", "ed-btn--gold", function () {
+        E.state.siteCss = siteCss.value.trim(); E.state.themeChanged = true;
+        E.applyOverrides(E.state.target); E.updateUI();
+        E.toast("Site CSS applied. Publish to put it live on every page.");
+      })])
+    ], (E.state.siteCss || "").trim() ? "in use" : ""));
     sitePanel.appendChild(h("div", { class: "ed-row ed-site__foot" }, [btn("Reset all colours", "ed-btn--ghost", function () {
       if (!confirm("Put every site colour back to the original?")) return;
       E.state.theme = {}; E.state.themeChanged = true; E.applyOverrides(E.state.target); E.updateUI(); renderSite();
     })]));
   }
+  /* ------------------------------ Sidebar buttons: clear, labelled, in a sensible order ------------------------------ */
+  var VB = {
+    "open-blocks": ["Add", "Add sections and elements", "<path d='M12 5v14M5 12h14'/><rect x='3' y='3' width='18' height='18' rx='4'/>"],
+    "open-insp": ["Element", "Edit the selected element: content, style and advanced", "<path d='M4 7h10M18 7h2M4 17h4M12 17h8'/><circle cx='16' cy='7' r='2'/><circle cx='10' cy='17' r='2'/>"],
+    "open-layers": ["Layers", "Page structure", "<path d='M12 3l9 5-9 5-9-5z'/><path d='M3 13l9 5 9-5'/>"],
+    "open-site": ["Site", "Site style: background, colours and custom CSS for every page", "<path d='M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-1.1-.9-1.4-.9-2.4 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z'/><circle cx='7.5' cy='11' r='1.2'/><circle cx='10' cy='7' r='1.2'/><circle cx='14.5' cy='7' r='1.2'/>"]
+  };
+  function styleViews() {
+    Object.keys(VB).forEach(function (id) {
+      var b = viewBtn(id); if (!b) return;
+      b.set({ className: "ed-vb ed-vb--" + id, label: "<svg viewBox='0 0 24 24'>" + VB[id][2] + "</svg><span>" + VB[id][0] + "</span>", attributes: { title: VB[id][1] } });
+    });
+    // The engine's own Style (brush) and Settings (gear) views duplicate the Element panel and expose raw IDs.
+    ["open-sm", "open-tm"].forEach(function (id) { var b = viewBtn(id); if (b) b.set({ className: "ed-vb ed-vb--hidden" }); });
+  }
+  styleViews();
+
+  /* ------------------------------ Search in the Add panel ------------------------------ */
+  function addBlockSearch() {
+    setTimeout(function () {
+      var cont = document.querySelector(".gjs-blocks-cs");
+      if (!cont || cont.querySelector(".ed-bsearch")) return;
+      var box = h("div", { class: "ed-bsearch" }, [h("input", { type: "search", placeholder: "Search sections and elements", "aria-label": "Search blocks" })]);
+      cont.insertBefore(box, cont.firstChild);
+      box.firstChild.addEventListener("input", function () {
+        var q = box.firstChild.value.trim().toLowerCase();
+        cont.querySelectorAll(".gjs-block-category").forEach(function (cat) {
+          var any = false;
+          cat.querySelectorAll(".gjs-block").forEach(function (bl) { var hit = !q || bl.textContent.toLowerCase().indexOf(q) >= 0; bl.style.display = hit ? "" : "none"; any = any || hit; });
+          cat.style.display = any ? "" : "none";
+          if (q && any) cat.classList.add("gjs-open");
+        });
+      });
+    }, 0);
+  }
+  editor.on("run:open-blocks", addBlockSearch);
+  editor.on("load", function () { setTimeout(addBlockSearch, 50); });
+  addBlockSearch();
+
   function openSite() { var b = viewBtn("open-site"); if (b) { if (b.get("active")) renderSite(); else b.set("active", true); } }
 
   function show(tab) {
@@ -216,7 +274,8 @@
     // Photos appear the way Elementor shows image controls: open for a photo (or a block that is only
     // photos, like the hero slideshow), folded away for a larger block that merely contains some,
     // and not at all for text that happens to sit on top of a picture.
-    var sv = svgIn(c);
+    if (c.get("type") === "custom-html") out.push(customHtmlSection(c));
+    var sv = c.get("type") === "custom-html" ? null : svgIn(c);
     if (sv) out.push(iconSection(sv));
     var ph = E.photosFor(c), kind = photoKind(c, ph);
     if (kind === "photo") out.push(photosSection(c, ph, false));
@@ -225,6 +284,20 @@
     if (isTextish(c)) out.push(textSection(c));
     if (out.length === 1 && !isTextish(c)) out.push(h("p", { class: "ed-hint", text: "Click text on the page to type. Use Style for colours, spacing and fonts, and Advanced for classes, custom CSS and HTML." }));
     return out;
+  }
+
+  /* ---------- Custom HTML ---------- */
+  function customHtmlSection(c) {
+    var ta = h("textarea", { rows: 12, spellcheck: "false", class: "ed-code" });
+    ta.value = E.fromEditor(c.components().map(function (k) { return k.toHTML(); }).join("\n"));
+    return section("customhtml", "Custom HTML", [
+      h("small", { class: "ed-f__h", text: "Paste any HTML, including embed codes that use an <iframe> (Google Maps, Vimeo, booking or review widgets). Scripts are removed for safety." }),
+      ta,
+      h("div", { class: "ed-row" }, [btn("Apply HTML", "ed-btn--gold", function () {
+        c.components(E.toEditor(ta.value.trim() || "<p class='body'>Custom HTML</p>"));
+        changed(); refresh(); E.toast("HTML applied.");
+      })])
+    ]);
   }
 
   /* ---------- Icons (inline SVG) ---------- */
