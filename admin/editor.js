@@ -678,6 +678,29 @@
     });
     ["drop", "dragend"].forEach(function (t) { document.addEventListener(t, stopAutoscroll); });
   });
+  /* On short text the formatting bar (pinned left) and the element bar (pinned right) land on top of
+     each other. Line them up side by side instead: element bar after the formatting bar, or before
+     it near the right edge, or stacked above when neither fits. */
+  function nudge(el, dx, dy) {
+    if (dx) el.style.left = (parseFloat(el.style.left) || 0) + dx + "px";
+    if (dy) el.style.top = (parseFloat(el.style.top) || 0) + dy + "px";
+  }
+  function separateToolbars() {
+    var rte = document.querySelector(".gjs-rte-toolbar"), tb = document.querySelector(".gjs-toolbar"), fr = document.querySelector(".gjs-frame");
+    if (!rte || !tb || !fr || !rte.offsetWidth || !tb.offsetWidth) return;
+    var a = rte.getBoundingClientRect(), t = tb.getBoundingClientRect(), f = fr.getBoundingClientRect(), gap = 6;
+    if (a.right + gap <= t.left || t.right + gap <= a.left || a.bottom <= t.top || t.bottom <= a.top) return;
+    var midTop = a.top + (a.height - t.height) / 2 - t.top;
+    if (a.right + gap + t.width <= f.right) nudge(tb, a.right + gap - t.left, midTop);
+    else if (t.left - gap - a.width >= f.left) nudge(rte, t.left - gap - a.width - a.left, 0);
+    else nudge(rte, 0, t.top - 4 - a.height - a.top);
+  }
+  editor.on("load", function () {
+    var tools = document.querySelector(".gjs-cv-canvas__tools") || document.querySelector(".gjs-cv-canvas");
+    if (tools) new MutationObserver(separateToolbars).observe(tools, { subtree: true, childList: true, attributes: true, attributeFilter: ["style", "class"] });
+  });
+  editor.on("rte:enable component:selected", function () { setTimeout(separateToolbars, 0); });
+
   // After dropping a block, bring it into view.
   editor.on("block:drag:stop", function (c) {
     stopAutoscroll();
