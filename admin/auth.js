@@ -212,7 +212,7 @@
       "<label class='a-check'><input type='checkbox' id='a-remember'><span class='a-box'>" + I.check + "</span><span>Keep me signed in on this computer</span></label>" +
       "<p class='a-msg' id='a-msg' role='alert' hidden></p>" +
       btn("Sign in", "a-btn--primary a-btn--block", "type='submit'") + "</form>" +
-      "<details class='a-help'><summary>Forgot your password?</summary><p>Ask another editor to set a new one for you from <b>⚙ Account → Team</b> (adding your username again resets it). If nobody can sign in, the site owner can delete <code>admin/auth.json</code> on GitHub and run setup again.</p></details>");
+      "<details class='a-help'><summary>Forgot your password?</summary><p>Ask another editor to set a new one for you from <b>⚙ Account → Team</b>. If nobody can sign in, contact the person who set up the website.</p></details>");
     var root = $("#auth-card");
     wirePw(root);
     setTimeout(function () { $("#a-user").focus(); }, 50);
@@ -235,6 +235,11 @@
         $("#a-pass").select();
       });
     });
+  }
+
+  function showNotReady() {
+    card("<header class='a-head'><span class='a-kicker'>" + I.lock + "Site editor</span><h1>Not set up yet</h1><p>The site editor needs a one-time setup by the website's owner before anyone can sign in.</p></header>" +
+      "<a class='a-btn a-btn--ghost a-btn--block' href='?setup'><span>I'm the owner: set it up</span>" + I.arrow + "</a>");
   }
 
   /* ------------------------------ Setup (two steps) ------------------------------ */
@@ -369,11 +374,11 @@
     if (note) acctTab = "token";
     var users = (conf && conf.users) || [];
     box.innerHTML =
-      "<header class='a-acct__head'><div class='a-me'>" + avatar(session.user) + "<div><h2>" + esc(session.user) + "</h2><p>" + I.gh + esc(session.owner + "/" + session.repo) + " · " + esc(session.branch) + "</p></div></div>" +
+      "<header class='a-acct__head'><div class='a-me'>" + avatar(session.user) + "<div><h2>" + esc(session.user) + "</h2><p>Editing " + esc(host()) + "</p></div></div>" +
       "<div class='a-acct__actions'>" + btn("Sign out", "a-btn--ghost a-btn--sm", "type='button' id='ac-out'") + "<button type='button' class='a-close' data-close aria-label='Close'>" + I.x + "</button></div></header>" +
       (note ? "<p class='a-msg is-shown'>" + esc(note) + "</p>" : "") +
       "<nav class='a-tabs' role='tablist'>" +
-      [["team", I.team + "Team<em>" + users.length + "</em>"], ["password", I.key + "My password"], ["token", I.gh + "GitHub token"]].map(function (t) {
+      [["team", I.team + "Team<em>" + users.length + "</em>"], ["password", I.key + "My password"]].map(function (t) {
         return "<button type='button' role='tab' data-acct='" + t[0] + "' class='" + (acctTab === t[0] ? "is-on" : "") + "'>" + t[1] + "</button>";
       }).join("") + "</nav>" +
       "<section class='a-pane' data-pane='team'" + (acctTab === "team" ? "" : " hidden") + ">" +
@@ -391,12 +396,13 @@
       field("c-new", "New password", { type: "password", icon: "key", ac: "new-password", gen: true, meter: true }) +
       "<p class='a-msg' id='c-msg' role='alert' hidden></p><div class='a-formfoot'><span></span>" + btn("Change password", "a-btn--primary", "type='submit'") + "</div></form></section>" +
       "<section class='a-pane' data-pane='token'" + (acctTab === "token" ? "" : " hidden") + "><form id='ac-token' class='a-form' novalidate>" +
-      "<p class='a-lede'>Replace the token when it expires or if it may have leaked; then delete the old one on GitHub. Everyone keeps their own password.</p>" +
+      "<h3>Editor connection</h3><p class='a-lede'>For the site owner. The editor saves through a GitHub access token, which expires. When it does, create a new one and paste it here. Everyone keeps their own password.</p>" +
       "<a class='a-btn a-btn--dark a-btn--sm a-self' href='https://github.com/settings/personal-access-tokens/new' target='_blank' rel='noopener'><span>Create a token on GitHub</span>" + I.ext + "</a>" +
       "<p class='a-hint'>Repository access: <b>" + esc(session.repo) + "</b> only · Repository permissions: <b>Contents → Read and write</b></p>" +
       field("t-new", "New token", { type: "password", icon: "key", placeholder: "github_pat_…", cls: "a-field--mono" }) +
       field("t-me", "Your password, to confirm", { type: "password", icon: "lock", ac: "current-password" }) +
-      "<p class='a-msg' id='t-msg' role='alert' hidden></p><div class='a-formfoot'><span></span>" + btn("Replace token", "a-btn--primary", "type='submit'") + "</div></form></section>";
+      "<p class='a-msg' id='t-msg' role='alert' hidden></p><div class='a-formfoot'><span></span>" + btn("Renew connection", "a-btn--primary", "type='submit'") + "</div></form></section>" +
+      "<footer class='a-acct__owner'><button type='button' class='a-link' id='ac-owner'>" + (acctTab === "token" ? "Back to account" : "Owner settings") + "</button></footer>";
     wirePw(box, "#n-user");
     box.querySelectorAll("[data-acct]").forEach(function (t) {
       t.addEventListener("click", function () {
@@ -405,6 +411,7 @@
         box.querySelectorAll("[data-pane]").forEach(function (p) { p.hidden = p.getAttribute("data-pane") !== acctTab; });
       });
     });
+    $("#ac-owner").addEventListener("click", function () { acctTab = acctTab === "token" ? "team" : "token"; openAccount(); });
     $("#ac-out").addEventListener("click", function () { if (!window.__siteEditor || !window.__siteEditor.state.dirty || confirm("You have unpublished changes. They're kept as a draft on this computer. Sign out anyway?")) signOut(); });
     box.querySelectorAll("[data-remove]").forEach(function (b) {
       b.addEventListener("click", function () {
@@ -447,8 +454,8 @@
       }).then(function () {
         session.token = token; store(session, !!localStorage.getItem(SESSION));
         if (window.__siteEditor) { window.__siteEditor.cfg.token = token; window.__siteEditor.updateUI(); }
-        acctTab = "team"; openAccount(); toast("Token replaced for everyone. You can delete the old token on GitHub now.");
-      }).catch(function (err) { busy(b, false, "Replace token"); say(msg, err.message); });
+        acctTab = "team"; openAccount(); toast("Connection renewed for everyone.");
+      }).catch(function (err) { busy(b, false, "Renew connection"); say(msg, err.message); });
     });
   }
   function tokenRejected() {}
@@ -464,7 +471,10 @@
       var sess = stored();
       if (sess && sess.token) { startEditor(sess); return; }
       if (preview) { startEditor(null); return; }
-      if (!conf || !conf.users || !conf.users.length) showSetup(); else showLogin();
+      var setupUrl = /[?&]setup\b/.test(location.search);
+      if (conf && conf.users && conf.users.length) showLogin(setupUrl ? "The editor is already set up. Sign in below." : "");
+      else if (setupUrl) showSetup();
+      else showNotReady();
     });
   }
 
@@ -473,7 +483,7 @@
     get user() { return session && session.user; },
     tokenRejected: function () {
       if (!session || tokenRejected.shown) return; tokenRejected.shown = true;
-      reloadConf().then(function () { openAccount("GitHub rejected the token. If someone replaced it recently, sign out and back in. If it expired, replace it below."); });
+      reloadConf().then(function () { openAccount("The editor's connection has expired or was renewed by someone else. Sign out and back in; if that doesn't help, the owner can renew it below."); });
     },
     _test: { weakness: weakness, generate: generate, wrapMaster: wrapMaster, unwrapMaster: unwrapMaster, sealToken: sealToken, openToken: openToken }
   };

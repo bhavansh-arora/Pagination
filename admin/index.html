@@ -8,7 +8,14 @@
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<!-- Start downloading the editor while the sign-in screen shows -->
+<link rel="preload" href="vendor/grapes.min.js" as="script">
+<link rel="preload" href="editor.js" as="script">
+<link rel="preload" href="media.js" as="script">
+<link rel="preload" href="inspector.js" as="script">
+<link rel="preload" href="seo.js" as="script">
+<link rel="preload" href="../assets/css/styles.css" as="style">
 <link rel="stylesheet" href="vendor/grapes.min.css">
 <link rel="stylesheet" href="editor.css">
 </head>
@@ -46,7 +53,7 @@
   <div class="ed-bar__group ed-bar__right">
     <button class="ed-status" id="ed-status" type="button" aria-live="polite" title="Publishing status and history"><span class="ed-status__dot"></span><span class="ed-status__text">Loading…</span></button>
     <a class="ed-icon" id="ed-live" href="../index.html" target="_blank" rel="noopener" title="Open the live page"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
-    <button class="ed-icon" id="ed-settings" type="button" title="Account: sign out, team members, password and GitHub token"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    <button class="ed-icon" id="ed-settings" type="button" title="Account: team, password and sign out"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     <button class="ed-btn ed-btn--danger" id="ed-discard" type="button" title="Throw away all unpublished changes" disabled><span class="ed-lbl ed-lbl--sm">Discard</span><svg class="ed-ico ed-ico--sm" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
     <button class="ed-btn ed-btn--gold" id="ed-publish" type="button">Publish</button>
   </div>
@@ -139,7 +146,6 @@
     <p class="ed-pop__label" id="h-title">Saved versions</p>
     <ol class="ed-history" id="h-list"></ol>
     <div class="ed-actions">
-      <a class="ed-btn ed-btn--ghost" id="h-repo" href="#" target="_blank" rel="noopener">Open repository on GitHub ↗</a>
       <button class="ed-btn ed-btn--gold" type="button" data-close>Close</button>
     </div>
   </div>

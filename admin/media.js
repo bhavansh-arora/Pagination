@@ -137,7 +137,7 @@
   /* ------------------------------ Actions ------------------------------ */
   function needsToken(what) {
     if (cfg.token) return false;
-    E.openSettings("Connect to GitHub to " + what + ".");
+    E.openSettings("Sign in to " + what + ".");
     return true;
   }
   function blockIfDirty() {

@@ -41,10 +41,13 @@
     }).then(function (r) {
       if (r.ok) return r.status === 204 ? null : r.json();
       return r.json().catch(function () { return {}; }).then(function (j) {
-        var msg = j.message || r.statusText;
-        if (r.status === 401) { msg = "The GitHub token has expired or was revoked. Replace it in ⚙ Account → GitHub token."; if (window.__auth) window.__auth.tokenRejected(); }
-        if (r.status === 403 || r.status === 404) msg += " (check the token has Contents: Read and write access to " + cfg.owner + "/" + cfg.repo + ")";
-        throw new Error("GitHub " + r.status + ": " + msg);
+        // Technical detail goes to the console; people see a plain explanation.
+        if (window.console) console.warn("Editor connection error", r.status, path, j.message || r.statusText);
+        var msg = "Something went wrong while saving (" + r.status + "). Please try again in a moment.";
+        if (r.status === 401) { msg = "The editor's connection has expired. The site owner can renew it in ⚙ Account → Owner settings."; if (window.__auth) window.__auth.tokenRejected(); }
+        else if (r.status === 403 || r.status === 404) msg = "The editor isn't allowed to save right now. Ask the site owner to check ⚙ Account → Owner settings.";
+        else if (r.status === 409 || r.status === 422) msg = "Someone else just published a change. Reload the editor and try again.";
+        throw new Error(msg);
       });
     });
   }
@@ -347,6 +350,8 @@
     storageManager: false,
     showOffsets: true,
     selectorManager: { componentFirst: true },
+    // Headings and paragraphs that contain styled words (em, strong, span…) are still plain text to edit.
+    parser: { textTags: ["br", "b", "i", "u", "a", "ul", "ol", "em", "strong", "span", "small", "sup", "sub", "mark", "s", "code"] },
     canvas: { styles: [FONTS, SITE + "assets/css/styles.css", SITE + "assets/css/editor-global.css"] },
     deviceManager: { devices: [
       { id: "Desktop", name: "Desktop", width: "" },
@@ -582,6 +587,49 @@
     });
   }
 
+  // Elementor-style: a single click on text starts typing, with the cursor where you clicked.
+  function isTextComp(c) { return c && c.get("editable") && /^(text|link)$/.test(c.get("type")); }
+  function caretAt(doc, x, y) {
+    try {
+      var r = doc.caretRangeFromPoint ? doc.caretRangeFromPoint(x, y) : null;
+      if (!r && doc.caretPositionFromPoint) { var pos = doc.caretPositionFromPoint(x, y); if (pos) { r = doc.createRange(); r.setStart(pos.offsetNode, pos.offset); } }
+      if (r) { var sel = doc.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+    } catch (e) {}
+  }
+  function compFromEl(node) {
+    var all = editor.getWrapper().find("*"), byEl = new Map();
+    all.forEach(function (c) { var el = c.getEl(); if (el) byEl.set(el, c); });
+    for (var n = node; n && n.nodeType === 1; n = n.parentNode) {
+      var c = byEl.get(n);
+      if (c && c.get("selectable") !== false) return c;
+    }
+    return null;
+  }
+  function startTyping(e, tries) {
+    var c = editor.getSelected(), cel = c && c.getEl();
+    // A click that only closed the previous text leaves it selected: select what was clicked instead.
+    if (!cel || !cel.contains(e.target)) {
+      var hit = compFromEl(e.target);
+      if (!hit || !isTextComp(hit)) return;
+      editor.select(hit); c = hit;
+    }
+    if (!isTextComp(c)) return;
+    // Moving straight from one text to another: wait for the first to finish closing.
+    if (editor.getEditing()) { if (editor.getEditing() !== c && (tries || 0) < 12) setTimeout(function () { startTyping(e, (tries || 0) + 1); }, 25); return; }
+    var view = c.getView(), el = c.getEl();
+    if (!view || !el || !el.contains(e.target) || !view.onActive) return;
+    Promise.resolve(view.onActive(e)).then(function () { caretAt(el.ownerDocument, e.clientX, e.clientY); });
+  }
+  editor.on("load", function () {
+    var doc = editor.Canvas.getDocument();
+    // Capture phase: the editor stops click events from bubbling up to the document.
+    if (doc) doc.addEventListener("click", function (e) {
+      if (e.detail > 1 || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      var ev = { target: e.target, clientX: e.clientX, clientY: e.clientY, stopPropagation: function () {} };
+      setTimeout(function () { startTyping(ev); }, 0);
+    }, true);
+  });
+
   // Clicking an element opens its styles (not right after dropping a new block from the panel).
   var lastDrop = 0;
   editor.on("block:drag:stop", function () { lastDrop = Date.now(); });
@@ -638,8 +686,9 @@
     if (!el) { el = doc.createElement("style"); el.id = "ed-overrides"; doc.head.appendChild(el); }
     doc.documentElement.classList.add("ed-edit");
     var css = "html body{background:var(--paper,#0d0b09)!important}" + EDIT_MODE_CSS + themeCss();
-    // Load every photo right away inside the editor (the live site keeps lazy loading).
-    Array.prototype.forEach.call(doc.querySelectorAll("img[loading=lazy]"), function (i) { i.loading = "eager"; });
+    // Photos keep loading lazily (only near what's on screen), except inside sideways-scrolling strips,
+    // which the browser can't see coming.
+    Array.prototype.forEach.call(doc.querySelectorAll(".hscroll img[loading=lazy], .marquee img[loading=lazy]"), function (i) { i.loading = "eager"; });
     if (target === "@header") css += ".site-header{position:relative!important;transform:none!important;padding-bottom:12px}.mobile-menu{position:relative!important;inset:auto!important;clip-path:none!important;visibility:visible!important;min-height:620px}.mobile-menu__list a{opacity:1!important;transform:none!important}.skip-link{position:static!important;display:inline-block;margin:8px}";
     el.textContent = css;
   }
@@ -681,11 +730,11 @@
   function setStatus(text, kind) {
     var b = $("#ed-status"), label, s;
     if (text != null) { label = text; s = kind || "busy"; }
-    else if (!cfg.token) { label = "Preview mode: not connected to GitHub"; s = "off"; }
+    else if (!cfg.token) { label = "Preview mode: sign in to publish"; s = "off"; }
     else if (state.dirty || state.themeChanged) { label = "Unpublished changes"; s = "dirty"; }
     else if (state.pub && state.pub.phase === "error") { label = "Publish failed: click for details"; s = "error"; }
-    else if (state.pub && state.pub.phase === "saved") { label = "Saved to GitHub ✓ · going live…"; s = "deploying"; }
-    else if (state.pub && state.pub.phase === "slow") { label = "Saved to GitHub ✓ · live site still updating"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "saved") { label = "Saved ✓ · going live…"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "slow") { label = "Saved ✓ · live site still updating"; s = "deploying"; }
     else if (state.pub && state.pub.phase === "live") { label = "Live on the website ✓ · " + ago(state.pub.time); s = "live"; }
     else { label = "Connected · everything is published"; s = "ok"; }
     b.setAttribute("data-s", s);
@@ -717,16 +766,15 @@
   function historyFile() { return state.target.charAt(0) === "@" ? "index.html" : state.target; }
   function openHistory() {
     var box = $("#h-status"), list = $("#h-list");
-    $("#h-repo").href = "https://github.com/" + cfg.owner + "/" + cfg.repo + "/commits/" + cfg.branch;
     var lines = [];
     if (!cfg.token) lines.push("<strong>Not signed in</strong><span class='ed-muted'>You're in preview mode. Sign in (⚙) to publish.</span>");
     else if (state.pub) {
-      var ph = { saved: "Saved to GitHub ✓, waiting for the live site to update…", slow: "Saved to GitHub ✓. The live site is taking longer than usual; it normally updates within a few minutes.",
+      var ph = { saved: "Saved ✓, waiting for the live site to update…", slow: "Saved ✓. The live site is taking longer than usual; it normally updates within a few minutes.",
         live: "Live on the website ✓", error: "Publish failed" }[state.pub.phase];
       lines.push("<strong>" + ph + "</strong>");
       if (state.pub.phase === "error") lines.push("<span class='ed-muted'>" + esc(state.pub.message || "") + "</span>");
-      else lines.push("<span class='ed-muted'>" + esc(labelFor(state.pub.target)) + " · " + new Date(state.pub.time).toLocaleString() + " · commit <a href='" + state.pub.url + "' target='_blank' rel='noopener'>" + state.pub.sha.slice(0, 7) + " ↗</a></span>");
-    } else lines.push("<strong>" + (state.dirty || state.themeChanged ? "You have unpublished changes" : "Everything you see is published") + "</strong><span class='ed-muted'>Connected to " + esc(cfg.owner + "/" + cfg.repo) + " (" + esc(cfg.branch) + ")</span>");
+      else lines.push("<span class='ed-muted'>" + esc(labelFor(state.pub.target)) + " · " + new Date(state.pub.time).toLocaleString() + "</span>");
+    } else lines.push("<strong>" + (state.dirty || state.themeChanged ? "You have unpublished changes" : "Everything you see is published") + "</strong><span class='ed-muted'>Signed in as " + esc((window.__auth && window.__auth.user) || "editor") + "</span>");
     box.innerHTML = lines.join("");
     $("#h-title").textContent = "Saved versions of " + labelFor(state.target);
     list.innerHTML = cfg.token ? "<li class='ed-muted'>Loading history…</li>" : "";
@@ -738,8 +786,8 @@
       commits.forEach(function (c, i) {
         var li = document.createElement("li"), when = new Date(c.commit.author.date);
         li.innerHTML = "<span class='h-msg'>" + esc(c.commit.message.split("\n")[0]) + (i === 0 ? "<span class='h-latest'>● current</span>" : "") + "</span>" +
-          "<span class='h-meta'>" + when.toLocaleString() + " · " + esc(c.commit.author.name) + " · " + c.sha.slice(0, 7) + "</span>" +
-          "<span class='h-actions'><a class='ed-btn ed-btn--ghost' href='" + c.html_url + "' target='_blank' rel='noopener'>View ↗</a>" +
+          "<span class='h-meta'>" + when.toLocaleString() + "</span>" +
+          "<span class='h-actions'>" +
           (i === 0 ? "" : "<button class='ed-btn' type='button' data-restore='" + c.sha + "'>Restore</button>") + "</span>";
         list.appendChild(li);
       });
@@ -941,11 +989,11 @@
   }
 
   function publish() {
-    if (!cfg.token) { openSettings("Connect to GitHub to publish your changes."); return; }
+    if (!cfg.token) { openSettings("Sign in to publish your changes."); return; }
     if (!state.dirty && !state.themeChanged) { toast("Nothing new to publish: everything you see is already saved."); openHistory(); return; }
     var t = state.target, out = currentExport(), files = out.files.slice();
     var version = "v" + Date.now().toString(36), globalCss = null, checkPath = t.charAt(0) === "@" ? "index.html" : t;
-    setBusy(true, "Saving to GitHub…");
+    setBusy(true, "Publishing…");
     var job;
     if (t.charAt(0) === "@") {
       var key = t.slice(1);
@@ -999,7 +1047,7 @@
       if (state.meta) { delete state.meta.ogUpload; state.meta.origCanonical = state.meta.canonical; }
       // Swap uploaded data URLs for their new file paths so further edits stay light.
       if (out.files.length) { state.loading = true; setContent(toEditor(out.html), toEditor(out.css)); setTimeout(function () { state.loading = false; state.baseline = snapshot(); }, 250); }
-      toast("Saved to GitHub ✓ The live site updates in about a minute; the status at the top right will turn green when it's live.", false, state.pub.url);
+      toast("Published ✓ The live site updates in about a minute; the status at the top right turns green when it's live.");
     }).catch(function (e) {
       state.pub = { phase: "error", message: e.message, time: Date.now(), target: t };
       toast("Publish failed: " + e.message, true);
@@ -1037,14 +1085,13 @@
   function toast(msg, isError, link) {
     var t = $("#ed-toast");
     t.innerHTML = ""; t.appendChild(document.createTextNode(msg));
-    if (link) { var a = document.createElement("a"); a.href = link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "View change"; t.appendChild(a); }
     t.classList.toggle("is-error", !!isError); t.hidden = false;
     clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, isError ? 9000 : 6000);
   }
   function openModal(id) { $(id).hidden = false; var f = $(id).querySelector("input, textarea"); if (f) setTimeout(function () { f.focus(); }, 30); }
   function closeModals() { document.querySelectorAll(".ed-modal").forEach(function (m) { m.hidden = true; }); }
   document.querySelectorAll(".ed-modal").forEach(function (m) {
-    m.addEventListener("click", function (e) { if (e.target === m || e.target.hasAttribute("data-close")) closeModals(); });
+    m.addEventListener("click", function (e) { if (e.target === m || (e.target.closest && e.target.closest("[data-close]"))) closeModals(); });
   });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeModals();
@@ -1062,7 +1109,7 @@
   });
   $("#ed-page-settings").addEventListener("click", function () { if (window.__seo) window.__seo.open(); });
   $("#ed-new-page").addEventListener("click", function () {
-    if (!cfg.token) { openSettings("Connect to GitHub to add pages."); return; }
+    if (!cfg.token) { openSettings("Sign in to add pages."); return; }
     $("#f-new").reset(); openModal("#m-new");
   });
   $("#f-new").addEventListener("submit", function (e) {
@@ -1110,12 +1157,12 @@
   function init() {
     var hash = decodeURIComponent(location.hash.slice(1));
     loadTheme().then(function () { applyOverrides(state.target); });
-    listPages().catch(function () { return state.pages; }).then(function (p) {
-      state.pages = p; fillTargets();
-      var start = (hash && (p.indexOf(hash) >= 0 || hash.charAt(0) === "@")) ? hash : "index.html";
-      load(start);
-      if (!cfg.token) setTimeout(function () { toast("Preview mode: you can try everything, but sign in to publish."); }, 1200);
-    });
+    // Open the page straight away; the page list (for the dropdown) loads alongside it.
+    var start = hash && (/^[\w.-]+\.html$/.test(hash) || hash.charAt(0) === "@") ? hash : "index.html";
+    fillTargets();
+    load(start).catch(function () { if (start !== "index.html") load("index.html"); });
+    listPages().catch(function () { return state.pages; }).then(function (p) { state.pages = p; fillTargets(); });
+    if (!cfg.token) setTimeout(function () { toast("Preview mode: you can try everything, but sign in to publish."); }, 1200);
   }
 
   // Exposed for automated checks.

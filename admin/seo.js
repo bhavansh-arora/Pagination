@@ -344,7 +344,7 @@
     ["#fav-bg", "#fav-round", "#fav-pad"].forEach(function (s) { $(s).addEventListener("input", favPreview); $(s).addEventListener("change", favPreview); });
     $("#fav-save").addEventListener("click", saveFavicon);
   }
-  function needToken(what) { if (E.cfg.token) return false; E.openSettings("Connect to GitHub to " + what + "."); return true; }
+  function needToken(what) { if (E.cfg.token) return false; E.openSettings("Sign in to " + what + "."); return true; }
   function committed(c, msg) {
     state.pub = { phase: "saved", sha: c.sha, url: c.html_url || ("https://github.com/" + E.cfg.owner + "/" + E.cfg.repo + "/commit/" + c.sha), time: Date.now(), target: state.target, version: "site" };
     E.updateUI(); E.toast(msg, false, state.pub.url);
