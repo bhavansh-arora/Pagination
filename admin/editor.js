@@ -830,9 +830,9 @@
     else if (!cfg.token) { label = "Preview mode: sign in to publish"; s = "off"; }
     else if (state.dirty || state.themeChanged) { label = "Unpublished changes"; s = "dirty"; }
     else if (state.pub && state.pub.phase === "error") { label = "Publish failed: click for details"; s = "error"; }
-    else if (state.pub && state.pub.phase === "saved") { label = "Published ✓ · live in about a minute"; s = "deploying"; }
-    else if (state.pub && state.pub.phase === "slow") { label = "Published ✓ · website still updating"; s = "deploying"; }
-    else if (state.pub && state.pub.phase === "live") { label = "Live on the website ✓ · " + ago(state.pub.time); s = "live"; }
+    else if (state.pub && state.pub.phase === "saved") { label = "Updating website…"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "slow") { label = "Still updating website…"; s = "deploying"; }
+    else if (state.pub && state.pub.phase === "live") { label = "Website updated ✓ · " + ago(state.pub.time); s = "live"; }
     else { label = "Connected · everything is published"; s = "ok"; }
     b.setAttribute("data-s", s);
     b.querySelector(".ed-status__text").textContent = label;
@@ -867,9 +867,9 @@
     clearTimeout(noteTimer);
     if (!pub || pub.phase === "error") { n.hidden = true; return; }
     var copy = {
-      saved: ["Published ✓", "Your changes will be live on the website in about a minute. You can keep editing meanwhile."],
-      slow: ["Published ✓ · still updating", "The website is taking longer than usual. It normally updates within a few minutes; nothing else to do."],
-      live: ["Live on the website ✓", "Your changes are now on the website. Refresh the site if it still shows the old version."]
+      saved: ["Updating your website…", "Your changes are saved. Visitors will see them in about a minute."],
+      slow: ["Still updating your website…", "This is taking longer than usual. Your changes are saved and will appear soon."],
+      live: ["Your website is updated ✓", "Visitors can now see your changes."]
     }[pub.phase];
     n.setAttribute("data-phase", pub.phase);
     n.querySelector(".ed-livenote__title").textContent = copy[0];
@@ -888,8 +888,8 @@
     var lines = [];
     if (!cfg.token) lines.push("<strong>Not signed in</strong><span class='ed-muted'>You're in preview mode. Sign in (⚙) to publish.</span>");
     else if (state.pub) {
-      var ph = { saved: "Saved ✓, waiting for the live site to update…", slow: "Saved ✓. The live site is taking longer than usual; it normally updates within a few minutes.",
-        live: "Live on the website ✓", error: "Publish failed" }[state.pub.phase];
+      var ph = { saved: "Saved ✓ Updating your website (about a minute)…", slow: "Saved ✓ Your website is taking longer than usual to update; it normally takes a few minutes.",
+        live: "Your website is updated ✓", error: "Publish failed" }[state.pub.phase];
       lines.push("<strong>" + ph + "</strong>");
       if (state.pub.phase === "error") lines.push("<span class='ed-muted'>" + esc(state.pub.message || "") + "</span>");
       else lines.push("<span class='ed-muted'>" + esc(labelFor(state.pub.target)) + " · " + new Date(state.pub.time).toLocaleString() + "</span>");
