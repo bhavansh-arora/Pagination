@@ -1,0 +1,19 @@
+<!-- Dan Reynolds Photography: paste ALL of this into
+     Settings → Advanced (Developer Tools) → Code Injection → FOOTER -->
+<script src="https://danreynoldsphotography.codebunny.net/assets/vendor/gsap.min.js"></script>
+<script src="https://danreynoldsphotography.codebunny.net/assets/vendor/ScrollTrigger.min.js"></script>
+<script>
+/* Contact page: move the Squarespace Form block into the design's form panel,
+   so inquiries go through Squarespace (and Dan's connected integrations). */
+(function () {
+  var slot = document.getElementById("sq-form-slot");
+  if (!slot) return;
+  var form = document.querySelector(".sqs-block-form");
+  if (!form) return;
+  var holder = form.closest(".fe-block");
+  slot.appendChild(form);
+  if (holder) holder.style.display = "none";
+})();
+</script>
+<script src="https://danreynoldsphotography.codebunny.net/assets/js/main.js"></script>
+<script src="https://danreynoldsphotography.codebunny.net/assets/js/motion.js"></script>
