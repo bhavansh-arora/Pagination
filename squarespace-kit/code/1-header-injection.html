@@ -6,7 +6,11 @@
 <link rel="stylesheet" href="https://danreynoldsphotography.codebunny.net/assets/css/styles.css">
 <style>
 /* Squarespace adapter: only on pages that contain the site's code (.drx) */
-body:has(.drx) { background: #0d0b09 !important; }
+/* Dark background, applied directly: the design's own wrapper plus every Squarespace layer around it */
+.drx { background: #0d0b09 !important; color: #efe7da; min-height: 100vh; }
+html:has(.drx), body:has(.drx) { background: #0d0b09 !important; }
+.page-section:has(.drx), .page-section:has(.drx) .content-wrapper, .page-section:has(.drx) .content,
+.page-section:has(.drx) .fluid-engine, .fe-block:has(.drx), .sqs-block:has(.drx), .sqs-block-content:has(.drx) { background: #0d0b09 !important; background-color: #0d0b09 !important; }
 body:has(.drx) #header, body:has(.drx) .header-announcement-bar-wrapper,
 body:has(.drx) #footer-sections, body:has(.drx) footer.sections { display: none !important; }
 body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.container {
