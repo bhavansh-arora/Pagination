@@ -16,7 +16,8 @@ OUT = os.path.join(KIT, "code", "self-contained")
 HOST = "https://danreynoldsphotography.codebunny.net/"
 GSAP = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/"
 PAGES = {"index.html": ("home", "/"), "about.html": ("about", "/about"), "portfolio.html": ("portfolio", "/portfolio"),
-         "films.html": ("films", "/films"), "investment.html": ("investment", "/investment"), "contact.html": ("contact", "/contact")}
+         "films.html": ("films", "/films"), "investment.html": ("investment", "/investment"), "contact.html": ("contact", "/contact"),
+         "404.html": ("page-not-found", "/page-not-found")}
 
 
 def read(path):
