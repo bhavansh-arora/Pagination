@@ -1,2 +1,46 @@
+<!-- Dan Reynolds Photography · films page (live from the site editor). Paste ALL of this into one Code Block. -->
+<script>window.__drBooted=1;try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}else{d.classList.add("is-entering")}setTimeout(function(){d.classList.remove("is-loading","is-entering")},8000)}catch(e){}</script>
+<style>
+html,body,#siteWrapper,#page,.page-section:has(#drx-live),.page-section:has(#drx-live) .content-wrapper,.page-section:has(#drx-live) .content,.page-section:has(#drx-live) .fluid-engine,.fe-block:has(#drx-live),.sqs-block:has(#drx-live){background:#0d0b09!important}.page-section:has(#drx-live) .section-background,#header,.header-announcement-bar-wrapper,#footer-sections,footer.sections{display:none!important}.page-section:has(#drx-live){padding:0!important;min-height:100vh}#drx-live{min-height:100vh}
+:root { /* Palette: espresso black, ivory, champagne gold */ --ivory: #efe7da; --paper: #0d0b09; --paper-2: #15120f; --paper-3: #1e1a16; --ink: #efe7da; --ink-2: #c3b9a9; --muted: #8d8373; --accent: #c6a46a; --accent-ink: #d8bc86; --gold-hi: #e2c999; --gold-grad: linear-gradient(105deg, #a8844c 0%, #ead7a8 45%, #c6a46a 70%, #9d7b45 100%); --night: #080706; --line: rgba(239, 231, 218, 0.1); --line-2: rgba(239, 231, 218, 0.18); --line-gold: rgba(198, 164, 106, 0.28); color-scheme: dark; --sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif; --serif: "Instrument Serif", "Times New Roman", serif; --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace; --gutter: clamp(16px, 3.6vw, 48px); --max: 1440px; --frame: clamp(8px, 1vw, 14px); --r-xl: clamp(20px, 2.2vw, 32px); --r-lg: clamp(16px, 1.6vw, 24px); --r-md: 14px; --r-sm: 10px; --ease: cubic-bezier(0.22, 0.61, 0.36, 1); --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --section: clamp(88px, 11vw, 176px); }
+.preloader { position: fixed; inset: 0; z-index: 500; display: none; background: var(--night) url("https://danreynoldsphotography.codebunny.net/assets/brand/grain.png"); color: var(--ivory); clip-path: inset(0 0 0 0); transition: clip-path 1.15s cubic-bezier(0.76, 0, 0.24, 1); }
+.is-loading .preloader, .is-loaded .preloader { display: grid; place-items: center; }
+.is-loaded .preloader { clip-path: inset(0 0 100% 0); }
+.is-loading body { overflow: hidden; }
+.preloader__inner { display: grid; justify-items: center; gap: 16px; text-align: center; }
+.preloader__mark { width: clamp(60px, 11vw, 88px); color: var(--accent); }
+.preloader__mark path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.6s var(--ease-out) forwards; }
+.preloader__mark path:nth-child(2) { animation-delay: 0.25s; }
+.preloader__mark path:nth-child(3) { animation-delay: 0.55s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.preloader__name, .preloader__tag { overflow: hidden; }
+.preloader__name span, .preloader__tag span { display: block; transform: translateY(110%); animation: rise 1.1s var(--ease-out) forwards; }
+.preloader__name span { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 500; letter-spacing: -0.04em; animation-delay: 0.5s; }
+.preloader__tag span { font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.5rem); color: var(--muted); animation-delay: 0.68s; }
+@keyframes rise { to { transform: none; } }
+.preloader__foot { position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(24px + env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: flex-end; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; color: var(--muted); }
+.preloader__count { font-family: var(--sans); font-size: clamp(3.4rem, 11vw, 8rem); line-height: 0.8; letter-spacing: -0.06em; font-weight: 500; color: var(--ivory); font-variant-numeric: tabular-nums; }
+.preloader__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(239, 231, 218, 0.08); }
+.preloader__bar span { display: block; height: 100%; background: var(--accent); transform: scaleX(var(--p, 0)); transform-origin: left; transition: transform 0.3s linear; }
+.curtain { position: fixed; inset: 0; z-index: 400; pointer-events: none; background: var(--night); color: var(--accent); display: grid; place-items: center; transform: scaleY(0); transform-origin: 50% 0; }
+.curtain__mark { width: 52px; opacity: 0; transition: opacity 0.3s; }
+.is-entering .curtain { transform: scaleY(1); }
+.is-entering .curtain__mark { opacity: 1; }
+.is-entered .curtain { transform: scaleY(0); transform-origin: 50% 0; transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1) 0.1s; }
+.is-leaving .curtain { transform: scaleY(1); transform-origin: 50% 100%; transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1); pointer-events: all; }
+.is-leaving .curtain__mark { opacity: 1; transition-delay: 0.45s; }
+@media (prefers-reduced-motion: reduce) { .preloader, .curtain { display: none !important; } }
+</style>
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
+    <p class="preloader__name"><span>Dan Reynolds</span></p>
+    <p class="preloader__tag"><span>Visual storyteller</span></p>
+  </div>
+  <div class="preloader__foot"><span>Photo + Film</span><span class="preloader__count" data-count-loader>000</span></div>
+  <div class="preloader__bar"><span></span></div>
+</div>
+<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap">
 <div id="drx-live" data-page="films.html"></div>
-<script src="https://danreynoldsphotography.codebunny.net/assets/js/squarespace.js"></script>
+<script defer src="https://danreynoldsphotography.codebunny.net/assets/js/squarespace.js"></script>

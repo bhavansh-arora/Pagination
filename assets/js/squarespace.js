@@ -19,14 +19,14 @@
   var d = document.documentElement;
 
   // Same start-up as the site's own pages: entry animation after a page transition, loader on a first visit.
-  try {
+  // (The pasted snippet normally does this itself, before the first frame is painted.)
+  if (!window.__drBooted) try {
     if (sessionStorage.getItem("dr-nav")) { d.classList.add("is-entering"); sessionStorage.removeItem("dr-nav"); }
     else if (!sessionStorage.getItem("dr-seen") && !matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("is-loading");
     setTimeout(function () { d.classList.remove("is-loading", "is-entering"); }, 6000);
   } catch (e) {}
 
   root.classList.add("drx");
-  root.innerHTML = '<div class="drx-loading">Loading…</div>';
 
   function css(href) { var l = document.createElement("link"); l.rel = "stylesheet"; l.href = href; document.head.appendChild(l); return l; }
   css("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap");
@@ -44,6 +44,10 @@
   function load(src) {
     return new Promise(function (ok, fail) { var s = document.createElement("script"); s.src = src; s.async = false; s.onload = ok; s.onerror = fail; document.body.appendChild(s); });
   }
+
+  // Start downloading the site's scripts now, in parallel with the page; they run once it's in place.
+  var SCRIPTS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/js/main.js", "assets/js/motion.js"];
+  SCRIPTS.forEach(function (src) { var l = document.createElement("link"); l.rel = "preload"; l.as = "script"; l.href = HOST + src + "?" + V; document.head.appendChild(l); });
 
   var html = fetch(HOST + PAGE + "?" + V, { cache: "no-cache" }).then(function (r) {
     if (!r.ok) throw new Error(r.status);
@@ -67,6 +71,8 @@
     var ps = doc.getElementById("page-styles");
     if (ps) { var st = document.createElement("style"); st.textContent = absUrls(ps.textContent); frag.appendChild(st); }
     doc.body.querySelectorAll("script").forEach(function (s) { s.remove(); });
+    // Keep the intro screen and curtain the snippet already shows (so their animation doesn't restart).
+    [".preloader", ".curtain"].forEach(function (sel) { if (document.querySelector(sel)) doc.body.querySelectorAll(sel).forEach(function (el) { el.remove(); }); });
     doc.body.querySelectorAll("[src],[href],[srcset],[data-full],[data-preview],[poster],[style]").forEach(function (el) {
       ["src", "href", "data-full", "data-preview", "poster"].forEach(function (a) { if (el.hasAttribute(a)) el.setAttribute(a, abs(el.getAttribute(a))); });
       if (el.hasAttribute("srcset")) el.setAttribute("srcset", el.getAttribute("srcset").split(",").map(function (part) {
@@ -85,8 +91,8 @@
     if (sqForm && slotEl) { var holder = sqForm.closest(".fe-block"); slotEl.appendChild(sqForm); if (holder) holder.style.display = "none"; }
 
     // The site's scripts, in order (animations, menus, lightbox, page transitions).
-    return ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/js/main.js", "assets/js/motion.js"]
-      .reduce(function (p, s) { return p.then(function () { return load(HOST + s + "?" + V); }); }, Promise.resolve());
+    // async = false keeps them running in order while they download (or come from the preload) in parallel.
+    return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + V); }));
   }).then(function () {
     // Re-measure scroll effects once photos have loaded (the window "load" event has already passed).
     var refresh = function () { if (window.ScrollTrigger) window.ScrollTrigger.refresh(); };
