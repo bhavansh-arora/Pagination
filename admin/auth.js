@@ -9,8 +9,9 @@
    written anywhere but this browser's session. Security rests on strong passwords, so they're enforced. */
 (function () {
   "use strict";
-  var SESSION = "dr-auth-session", ITER = 600000, enc = new TextEncoder(), dec = new TextDecoder();
-  var DEFAULTS = { owner: "bhavansh-arora", repo: "danreynoldsphotography", branch: "main" };
+  var C = window.SITE_EDITOR_CONFIG || {};
+  var SESSION = C.sessionKey || "site-editor-session", ITER = 600000, enc = new TextEncoder(), dec = new TextDecoder();
+  var DEFAULTS = { owner: (C.repo || {}).owner || "", repo: (C.repo || {}).repo || "", branch: (C.repo || {}).branch || "main" };
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); };
   var conf = null, session = null;

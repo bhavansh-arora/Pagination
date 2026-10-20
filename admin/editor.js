@@ -1,23 +1,26 @@
-/* Visual site editor for danreynoldsphotography.com
+/* Visual site editor (reusable). Site-specific settings come from site-config.js.
    ------------------------------------------------------------------
    - Edits each page's <main> content, plus the shared header and footer.
    - Pages mark their editable regions with <!-- editor:main --> … <!-- /editor:main -->
      (likewise :header and :footer). Page-specific CSS lives in <style id="page-styles">,
-     shared header/footer CSS in assets/css/editor-global.css.
+     shared header/footer CSS in the site's global editor CSS file (config.globalCss).
    - Publish writes everything (including newly uploaded photos) to GitHub in ONE commit
      using the Git Data API, so every change is versioned and reversible. */
 (function () {
   "use strict";
 
+  var C = window.SITE_EDITOR_CONFIG || {};
   var SITE = new URL("../", location.href).href; // site root, e.g. https://example.com/
-  var CFG_KEY = "dr-site-editor";
+  var CFG_KEY = C.storageKey || "site-editor";
+  var GLOBAL_CSS = C.globalCss || GLOBAL_CSS;
+  var UPLOADS = C.uploadsDir || "assets/uploads/";
   var EDITED = "<!-- editor:edited -->";
   var DEFAULT_GLOBAL_CSS = "/* Styles saved from the visual editor for the shared header and footer. */\n/* editor:header */\n/* /editor:header */\n/* editor:footer */\n/* /editor:footer */\n";
-  var PAGE_NAMES = { "index.html": "Home", "about.html": "About", "portfolio.html": "Portfolio", "films.html": "Films",
-    "investment.html": "Investment", "contact.html": "Contact", "404.html": "404 page" };
+  var PAGE_NAMES = C.pages || { "index.html": "Home" };
   var GLOBALS = [["@header", "Header & menu (all pages)"], ["@footer", "Footer (all pages)"]];
 
-  var cfg = { owner: "bhavansh-arora", repo: "danreynoldsphotography", branch: "main", token: "" };
+  var REPO = C.repo || {};
+  var cfg = { owner: REPO.owner || "", repo: REPO.repo || "", branch: REPO.branch || "main", token: "" };
   try { Object.assign(cfg, JSON.parse(localStorage.getItem(CFG_KEY) || "{}")); } catch (e) {}
   // The GitHub token only ever comes from the signed-in session (admin/auth.js); it's never kept here.
   cfg.token = "";
@@ -227,7 +230,7 @@
       return s.replace(re, function (m, type, b64) {
         if (!map[m]) {
           var ext = type === "svg+xml" ? "svg" : type.replace("jpeg", "jpg");
-          var path = "assets/uploads/" + stamp + "-" + (n++) + "." + ext;
+          var path = UPLOADS + stamp + "-" + (n++) + "." + ext;
           map[m] = path; files.push({ path: path, base64: b64 });
         }
         return map[m];
@@ -243,110 +246,27 @@
   /* ------------------------------------------------------------------ */
   /* Blocks: the site's own sections, ready to drag in                   */
   /* ------------------------------------------------------------------ */
-  var IMG = function (name) { return SITE + "assets/img/" + name + "-1600.webp"; };
-  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-  var ARROW_UR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>';
-  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg>';
   var ico = function (d) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + d + "</svg>"; };
-  var media = function (name, alt, ratio) { return '<div class="media ' + (ratio || "") + '"><img src="' + IMG(name) + '" alt="' + alt + '" loading="lazy"></div>'; };
-  var btn = function (text, href, kind) { return '<a class="btn ' + (kind || "btn--gold") + '" href="' + href + '">' + text + ' <span class="btn__icon">' + ARROW + "</span></a>"; };
-  var head = function (num, label, title, lede) {
-    return '<div class="head' + (lede ? " head--split" : "") + '"><div class="head__top"><span class="label">(' + num + ") — " + label + '</span><span class="label">Section</span></div>' +
-      '<h2 class="h-xl">' + title + "</h2>" + (lede ? '<p class="lede">' + lede + "</p>" : "") + "</div>";
-  };
-  var wrap = function (inner, extra) { return '<section class="section' + (extra ? " " + extra : "") + '"><div class="container">' + inner + "</div></section>"; };
-
-  var BLOCKS = [
-    // ---- Sections
-    ["sec-page-hero", "Sections", "Page header", ico('<path d="M4 6h16M4 11h10M4 16h7"/>'),
-      '<section class="page-hero"><div class="container"><div class="page-hero__meta"><span class="label label--dot">Page label</span><span class="label">Right label</span></div>' +
-      '<div class="page-hero__grid"><h1 class="h-xl page-hero__title">A bold headline,<br><em>beautifully said.</em></h1><p class="lede">A short introduction to this page. Click any text to edit it.</p></div></div></section>'],
-    ["sec-heading", "Sections", "Section heading", ico('<path d="M5 6h14M5 11h9"/><path d="M5 17h6"/>'),
-      wrap(head("01", "Section label", "Two lines of<br><em>headline.</em>", "A sentence that supports the headline."))],
-    ["sec-statement", "Sections", "Statement with photos", ico('<path d="M4 8h9M4 13h16M4 18h11"/><rect x="15" y="6" width="5" height="4" rx="2"/>'),
-      wrap('<div class="head__top"><span class="label">(01) — Label</span><span class="label">Right label</span></div><p class="statement mt-l">A big, confident sentence<span class="inline-img" style="background-image:url(' + IMG("golden-hour-portrait") + ')"></span> with little photos set right <em>inside the words.</em></p>')],
-    ["sec-split", "Sections", "Image + text", ico('<rect x="3" y="5" width="8" height="14" rx="2"/><path d="M14 8h7M14 12h7M14 16h5"/>'),
-      wrap('<div class="ed-cols ed-cols--2" style="align-items:center">' + media("dan-filming", "Describe this photo", "ratio-portrait") +
-      '<div class="stack"><span class="label">Label</span><h2 class="h-lg">Headline with an <em>accent.</em></h2><p class="body">Write a paragraph here. Click to edit text, double-click the photo to replace it.</p>' + btn("Call to action", "contact.html") + "</div></div>")],
-    ["sec-bento", "Sections", "Bento grid", ico('<rect x="3" y="3" width="10" height="10" rx="2"/><rect x="15" y="3" width="6" height="10" rx="2"/><rect x="3" y="15" width="6" height="6" rx="2"/><rect x="11" y="15" width="10" height="6" rx="2"/>'),
-      wrap(head("02", "What we do", "Two crafts,<br><em>one story.</em>", "A supporting sentence.") +
-      '<div class="bento"><a class="tile tile--media c-7 r-2 span-6" href="portfolio.html">' + media("ceremony-dip", "A wedding moment", "") +
-      '<div class="tile__overlay"><div><span class="label">01 — Photography</span><p class="tile__title">Stills that feel <em>alive.</em></p></div><span class="circle-btn">' + ARROW_UR + "</span></div></a>" +
-      '<a class="tile tile--media c-5 r-2 span-6" href="films.html">' + media("dan-filming", "Filming", "") +
-      '<div class="tile__overlay"><div><span class="label">02 — Film</span><p class="tile__title">Cinematic <em>films.</em></p></div><span class="circle-btn">' + ARROW_UR + "</span></div></a>" +
-      '<div class="tile c-4"><div class="tile__top"><span class="label">Label</span><span class="pill">Pill</span></div><div><div class="tile__num foil">100<sup>unit</sup></div><p class="mt-s">Describe the number.</p></div></div>' +
-      '<div class="tile c-4"><span class="label">Label</span><div><p class="h-md">A short <em>highlight.</em></p><p class="mt-s">Supporting detail.</p></div></div>' +
-      '<a class="tile tile--gold c-4" href="contact.html"><div class="tile__top"><span class="label">Call to action</span><span class="circle-btn">' + ARROW_UR + '</span></div><div><p class="h-md">Check your <em>date.</em></p><p class="mt-s">Dates go fast.</p></div></a></div>')],
-    ["sec-cards", "Sections", "Three cards", ico('<rect x="3" y="5" width="5" height="14" rx="1.5"/><rect x="9.5" y="5" width="5" height="14" rx="1.5"/><rect x="16" y="5" width="5" height="14" rx="1.5"/>'),
-      wrap(head("03", "Cards", "Three things<br><em>worth knowing.</em>") + '<div class="ed-cols ed-cols--3">' +
-      ["quinn-charlotte-2", "kelly-adam-2", "manny-karina"].map(function (n, i) {
-        return '<article class="qcard">' + media(n, "Photo", "") + '<div class="qcard__body"><div><span class="label">0' + (i + 1) + '</span><p class="h-md mt-s">Card title</p></div><p class="body">A short description for this card.</p></div></article>';
-      }).join("") + "</div>")],
-    ["sec-quotes", "Sections", "Testimonials", ico('<path d="M5 9h5v6H5zM14 9h5v6h-5z"/>'),
-      wrap(head("04", "Kind words", "Loved by<br><em>our couples.</em>") + '<div class="quotes">' +
-      ["roseleina-cameron-2", "julia-kirk", "manny-karina"].map(function (n) {
-        return '<figure class="qcard">' + media(n, "Couple", "") + '<div class="qcard__body"><blockquote><p>“Paste a kind review from a couple here.”</p></blockquote><figcaption class="qcard__who"><strong>Couple name</strong></figcaption></div></figure>';
-      }).join("") + "</div>")],
-    ["sec-process", "Sections", "Stacking steps", ico('<rect x="4" y="4" width="16" height="6" rx="2"/><rect x="4" y="12" width="16" height="8" rx="2"/>'),
-      wrap(head("05", "How it works", "Three simple<br><em>steps.</em>") + '<div class="stack-cards">' +
-      [["01", "First step", "lexi-lucas-1"], ["02", "Second step", "dan-coffee"], ["03", "Third step", "golden-hour-portrait"]].map(function (s, i) {
-        return '<article class="stack-card" style="--i:' + i + '"><div class="stack-card__text"><span class="stack-card__num">Step ' + s[0] + ' / 03</span><div class="stack"><h3>' + s[1] + '</h3><p>Describe this step.</p></div></div>' + media(s[2], "Step photo", "") + "</article>";
-      }).join("") + "</div>")],
-    ["sec-pricing", "Sections", "Pricing cards", ico('<rect x="3" y="4" width="8" height="16" rx="2"/><rect x="13" y="4" width="8" height="16" rx="2"/><path d="M6 9h2M16 9h2"/>'),
-      wrap(head("06", "Collections", "Choose your<br><em>story.</em>") + '<div class="pricing" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">' +
-      ["lexi-lucas-9", "dan-bts"].map(function (n, i) {
-        return '<article class="price-card' + (i ? " price-card--feature" : "") + '">' + media(n, "Package photo", "") + '<div class="price-card__body"><div class="price-card__head"><span class="label">Package name</span><span class="pill">6 hours</span></div>' +
-          '<div class="price"><small>From</small><strong>$3,500</strong></div><ul class="checklist"><li>Included item</li><li>Included item</li><li>Included item</li></ul>' + btn("Enquire", "contact.html", i ? "btn--gold btn--block" : "btn--ghost btn--block") + "</div></article>";
-      }).join("") + "</div>")],
-    ["sec-faq", "Sections", "FAQ", ico('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17h.01"/>'),
-      wrap('<div class="faq-layout"><div class="faq-layout__aside stack"><span class="label">(07) — FAQ</span><h2 class="h-xl">Questions,<br><em>answered.</em></h2></div><div class="faq">' +
-      [1, 2, 3].map(function () { return '<details><summary>A common question?<span class="faq__icon" aria-hidden="true"></span></summary><div class="faq__body"><div><p>The answer goes here.</p></div></div></details>'; }).join("") + "</div></div>")],
-    ["sec-film", "Sections", "Featured film", ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/>'),
-      wrap('<div class="head__top"><span class="label">(08) — Featured film</span><a class="link" href="films.html">All films ' + ARROW + "</a></div>" +
-      '<div class="mt-l"><button class="yt yt--feature" type="button" data-id="Gpq9IPxnIhE" aria-label="Play film"><img src="https://i.ytimg.com/vi/Gpq9IPxnIhE/maxresdefault.jpg" alt=""><span class="yt__play">' + PLAY + '</span><span class="yt__over"><span class="h-lg">Film <em>title</em></span></span></button></div>')],
-    ["sec-gallery", "Sections", "Photo grid", ico('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
-      wrap('<div class="gallery-grid">' + ["colin-amanda-2", "lexi-lucas-6", "ethan-gwyn-3", "roseleina-cameron-1", "quinn-charlotte-1", "brian-tori"].map(function (n) { return media(n, "Wedding photo", ""); }).join("") + "</div>")],
-    ["sec-banner", "Sections", "Full-width photo", ico('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 15l6-5 5 4 3-2 6 4"/>'),
-      '<div class="frame">' + media("chicago-skyline-couple", "Describe this photo", "ratio-cinema") + "</div>"],
-    ["sec-cta", "Sections", "Call to action", ico('<rect x="3" y="7" width="18" height="10" rx="5"/><path d="M9 12h6"/>'),
-      wrap('<a class="tile tile--gold" href="contact.html" style="min-height:0;flex-direction:row;flex-wrap:wrap;align-items:center"><div><span class="label">Limited dates</span><p class="h-lg mt-s">Let\'s tell <em>your story.</em></p></div><span class="circle-btn">' + ARROW_UR + "</span></a>")],
-    ["sec-marquee", "Sections", "Scrolling words", ico('<path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/>'),
-      '<div class="marquee marquee--words" aria-hidden="true"><div class="marquee__track"><span>Authentic</span><span>Cinematic</span><span>Timeless</span><span>Authentic</span><span>Cinematic</span><span>Timeless</span></div></div>'],
-    // ---- Layout
-    ["lay-2", "Layout", "2 columns", ico('<rect x="3" y="4" width="8" height="16" rx="1.5"/><rect x="13" y="4" width="8" height="16" rx="1.5"/>'),
-      '<div class="ed-cols ed-cols--2"><div class="stack"><p class="body">Column one. Drag elements in here.</p></div><div class="stack"><p class="body">Column two.</p></div></div>'],
-    ["lay-3", "Layout", "3 columns", ico('<rect x="2" y="4" width="6" height="16" rx="1.5"/><rect x="9" y="4" width="6" height="16" rx="1.5"/><rect x="16" y="4" width="6" height="16" rx="1.5"/>'),
-      '<div class="ed-cols ed-cols--3"><div class="stack"><p class="body">Column one.</p></div><div class="stack"><p class="body">Column two.</p></div><div class="stack"><p class="body">Column three.</p></div></div>'],
-    ["lay-section", "Layout", "Section", ico('<rect x="3" y="5" width="18" height="14" rx="2" stroke-dasharray="3 3"/>'),
-      '<section class="section"><div class="container"><p class="body">New section. Drag headings, text, photos and buttons in here.</p></div></section>'],
-    ["lay-section-h", "Layout", "Section with heading", ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/>'),
-      '<section class="section"><div class="container stack"><span class="label label--dot">Small label</span><h2 class="h-xl">Section title</h2><p class="lede">A sentence or two introducing this section.</p></div></section>'],
-    ["lay-html", "Layout", "Custom HTML", ico('<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/>'),
-      '<div class="custom-html"><p class="body">Custom HTML: select this block and paste your code in the panel on the left.</p></div>'],
-    ["lay-spacer", "Layout", "Spacer", ico('<path d="M12 4v16M8 8l4-4 4 4M8 16l4 4 4-4"/>'), '<div class="spacer"></div>'],
-    ["lay-divider", "Layout", "Divider", ico('<path d="M3 12h18"/>'), '<hr class="divider">'],
-    // ---- Elements
-    ["el-heading", "Elements", "Heading", ico('<path d="M6 5v14M18 5v14M6 12h12"/>'), '<h2 class="h-lg">A heading with an <em>accent</em></h2>'],
-    ["el-text", "Elements", "Paragraph", ico('<path d="M4 7h16M4 12h16M4 17h10"/>'), '<p class="body">Write something here. Select text to make it bold, italic or a link.</p>'],
-    ["el-label", "Elements", "Small label", ico('<path d="M4 12h3M10 12h10"/>'), '<span class="label label--dot">Small label</span>'],
-    ["el-button", "Elements", "Gold button", ico('<rect x="3" y="8" width="18" height="8" rx="4"/>'), btn("Check your date", "contact.html")],
-    ["el-button2", "Elements", "Outline button", ico('<rect x="3" y="8" width="18" height="8" rx="4" stroke-dasharray="2 2"/>'), btn("See the work", "portfolio.html", "btn--ghost")],
-    ["el-link", "Elements", "Text link", ico('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'), '<a class="link" href="about.html">Read more ' + ARROW + "</a>"],
-    ["el-image", "Elements", "Photo", ico('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M3 17l5-4 4 3 3-2 6 4"/>'), media("golden-hour-portrait", "Describe this photo", "ratio-land")],
-    ["el-video", "Elements", "YouTube film", ico('<rect x="3" y="6" width="18" height="12" rx="3"/><path d="M10 9.5l4.5 2.5-4.5 2.5z"/>'),
-      '<button class="yt" type="button" data-id="k7mlTdWmj0o" aria-label="Play film"><img src="https://i.ytimg.com/vi/k7mlTdWmj0o/maxresdefault.jpg" alt=""><span class="yt__play">' + PLAY + "</span></button>"],
-    ["el-videofile", "Elements", "Video file", ico('<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>'),
-      { tagName: "div", classes: ["media", "ratio-wide"], components: [{ type: "video", src: "", autoplay: true, loop: true, controls: false, attributes: { muted: "", playsinline: "", preload: "metadata" } }] }],
-    ["el-quote", "Elements", "Quote", ico('<path d="M6 9h4v5H6zM14 9h4v5h-4z"/>'), '<blockquote class="statement" style="font-size:clamp(1.4rem,1rem + 2vw,2.6rem)">“A memorable quote goes here.”</blockquote>'],
-    ["el-stat", "Elements", "Stat tile", ico('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'), '<div class="tile"><span class="label">Label</span><div><div class="tile__num foil">18<sup>months</sup></div><p class="mt-s">Explain the number.</p></div></div>'],
-    ["el-pill", "Elements", "Pill", ico('<rect x="4" y="9" width="16" height="6" rx="3"/>'), '<span class="pill">Pill text</span>'],
-    ["el-list", "Elements", "Checklist", ico('<path d="M4 7l2 2 3-3M4 14l2 2 3-3M12 8h8M12 15h8"/>'), '<ul class="checklist"><li>First item</li><li>Second item</li><li>Third item</li></ul>']
+  // Each site brings its own blocks (site-config.js); without them, plain HTML building blocks.
+  var BLOCKS = C.blocks ? C.blocks({ SITE: SITE, ico: ico }) : [
+    ["lay-2", "Layout", "2 columns", ico('<rect x="3" y="4" width="8" height="16" rx="1.5"/><rect x="13" y="4" width="8" height="16" rx="1.5"/>'), '<div class="ed-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:24px"><div></div><div></div></div>'],
+    ["lay-3", "Layout", "3 columns", ico('<rect x="2" y="4" width="6" height="16" rx="1.5"/><rect x="9" y="4" width="6" height="16" rx="1.5"/><rect x="16" y="4" width="6" height="16" rx="1.5"/>'), '<div class="ed-cols" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px"><div></div><div></div><div></div></div>'],
+    ["lay-section", "Layout", "Section", ico('<rect x="3" y="5" width="18" height="14" rx="2" stroke-dasharray="3 3"/>'), '<section style="padding:64px 24px"><div class="ed-cols" style="display:grid;gap:24px"><div></div></div></section>'],
+    ["lay-html", "Layout", "Custom HTML", ico('<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/>'), '<div class="custom-html"><p>Custom HTML: edit it in the panel on the right.</p></div>'],
+    ["lay-spacer", "Layout", "Spacer", ico('<path d="M12 4v16M8 8l4-4 4 4M8 16l4 4 4-4"/>'), '<div style="height:64px"></div>'],
+    ["lay-divider", "Layout", "Divider", ico('<path d="M3 12h18"/>'), '<hr>'],
+    ["el-heading", "Elements", "Heading", ico('<path d="M6 5v14M18 5v14M6 12h12"/>'), '<h2>A heading</h2>'],
+    ["el-text", "Elements", "Paragraph", ico('<path d="M4 7h16M4 12h16M4 17h10"/>'), '<p>Write something here. Select text to make it bold, italic or a link.</p>'],
+    ["el-button", "Elements", "Button", ico('<rect x="3" y="8" width="18" height="8" rx="4"/>'), '<a class="button" href="#">Button</a>'],
+    ["el-image", "Elements", "Photo", ico('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M3 17l5-4 4 3 3-2 6 4"/>'), { type: "image" }],
+    ["el-videofile", "Elements", "Video file", ico('<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>'), '<video controls playsinline style="width:100%"></video>'],
+    ["el-list", "Elements", "List", ico('<path d="M4 7h1M4 12h1M4 17h1M8 7h12M8 12h12M8 17h12"/>'), '<ul><li>First item</li><li>Second item</li></ul>']
   ];
 
   /* ------------------------------------------------------------------ */
   /* Editor                                                              */
   /* ------------------------------------------------------------------ */
-  var FONTS = "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap";
+  var abs = function (u) { return /^https?:/.test(u) ? u : SITE + u; };
   var editor = grapesjs.init({
     container: "#gjs",
     height: "100%",
@@ -358,7 +278,9 @@
     undoManager: { trackSelection: false },
     // Headings and paragraphs that contain styled words (em, strong, span…) are still plain text to edit.
     parser: { textTags: ["br", "b", "i", "u", "a", "ul", "ol", "em", "strong", "span", "small", "sup", "sub", "mark", "s", "code"] },
-    canvas: { styles: [FONTS, SITE + "assets/css/styles.css", SITE + "assets/css/editor-global.css"] },
+    // GrapesJS's default frame style minus its white body, so the site's own background shows.
+    canvas: { styles: (C.stylesheets || []).map(abs).concat(SITE + GLOBAL_CSS),
+      frameStyle: "* ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1) } * ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2) } * ::-webkit-scrollbar { width: 10px }" },
     deviceManager: { devices: [
       { id: "Desktop", name: "Desktop", width: "" },
       { id: "Tablet", name: "Tablet", width: "820px", widthMedia: "1023px" },
@@ -509,7 +431,7 @@
   }
   function photoLabel(p, i, n) {
     var el = p.comp.getEl();
-    if (el && el.closest && el.closest(".hero__slides")) return "Slideshow photo " + (i + 1) + (i === 0 ? " (shows first)" : "");
+    if (C.slideshow && el && el.closest && el.closest(C.slideshow)) return "Slideshow photo " + (i + 1) + (i === 0 ? " (shows first)" : "");
     return n > 1 ? "Photo " + (i + 1) : "Photo";
   }
   // The editor window itself never scrolls (scrolling into the canvas can nudge it and hide the top bar).
@@ -518,25 +440,22 @@
     if (t === document.body || t === document.documentElement) { if (t.scrollTop || t.scrollLeft) { t.scrollTop = 0; t.scrollLeft = 0; } }
   }, true);
 
-  // Hero slideshow: clicking the hero photo selects the whole slideshow so all four photos are listed.
-  editor.DomComponents.addType("hero-slideshow", {
-    isComponent: function (el) { return el.classList && el.classList.contains("hero__slides"); },
+  // Slideshow (config.slideshow): clicking one of its photos selects the whole slideshow so all its photos are listed.
+  if (C.slideshow) editor.DomComponents.addType("hero-slideshow", {
+    isComponent: function (el) { return el.matches && el.matches(C.slideshow); },
     model: { defaults: { name: "Slideshow photos", droppable: false } }
   });
   editor.on("component:selected", function (c) {
-    var show = c && c.closest && c.closest(".hero__slides");
+    var show = C.slideshow && c && c.closest && c.closest(C.slideshow);
     if (show && show !== c) { editor.select(show); return; }
     if (c && c.get("type") === "hero-slideshow") toast("This is the hero slideshow: change each of its photos in the panel on the right.");
   });
 
   /* ---------------- Style panel shows what is actually applied ---------------- */
-  var FONT_OPTIONS = [
-    { id: '"Inter Tight", "Helvetica Neue", Arial, sans-serif', label: "Inter Tight (site sans)" },
-    { id: '"Instrument Serif", "Times New Roman", serif', label: "Instrument Serif (site italic)" },
-    { id: '"Geist Mono", ui-monospace, monospace', label: "Geist Mono (site labels)" },
+  var FONT_OPTIONS = (C.fonts || []).concat([
     { id: "Arial, Helvetica, sans-serif", label: "Arial" }, { id: "Georgia, serif", label: "Georgia" },
     { id: '"Times New Roman", Times, serif', label: "Times New Roman" }, { id: "Verdana, Geneva, sans-serif", label: "Verdana" }
-  ];
+  ]);
   editor.on("load", function () {
     try {
       var ff = editor.StyleManager.getProperty("typography", "font-family");
@@ -750,30 +669,17 @@
   });
 
   // Edit mode: everything the live site animates or hides is shown, so every word and photo can be edited.
-  var EDIT_MODE_CSS = [
-    ".rotator{display:inline-flex!important;flex-wrap:wrap;gap:0 .22em;width:auto!important;overflow:visible!important;padding:0!important;margin:0!important}",
-    ".rotator__word{transform:none!important;opacity:1!important;grid-area:auto!important}",
-    ".rotator__word+.rotator__word::before{content:'/';opacity:.35;margin-right:.18em;font-style:normal}",
-    ".hero__slide{animation:none!important;clip-path:none!important}.hero__slide img{transform:none!important}",
-    ".hero__media{z-index:0!important}.hero__frame::before{z-index:1!important;pointer-events:none}.hero__content{z-index:3}.hero__card{z-index:4}",
-    ".hscroll__intro{display:flex!important;flex-direction:column;justify-content:space-between;gap:24px;flex:none;width:340px;padding-right:24px}",
-    ".masonry__tag,.index-row__cta{opacity:1!important;transform:none!important}",
-    ".marquee__track{animation:none!important}",
-    ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #c6a46a;border-radius:16px}",
-    ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#c6a46a}",
-    ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}",
+  var EDIT_MODE_CSS = (C.editModeCss || []).concat([
     ".custom-html{min-height:48px;outline:1px dashed rgba(198,164,106,.6);outline-offset:4px}",
     // Elementor-style drop zones (editor only): columns and new sections get padding and a minimum height,
     // so there's room to drop things inside them rather than next to them.
     ".ed-cols>*{min-height:110px;padding:16px;border-radius:12px;outline:1px dashed rgba(198,164,106,.45);outline-offset:-1px}",
-    ".ed-cols>*:empty::before,.section>.container:empty::before{content:'Drop elements here';display:grid;place-items:center;min-height:78px;font:12px ui-monospace,monospace;color:rgba(198,164,106,.8)}",
-    ".section>.container{min-height:96px;padding-block:16px}",
-    ".stack:empty,.container:empty{min-height:96px}",
+    ".ed-cols>*:empty::before{content:'Drop elements here';display:grid;place-items:center;min-height:78px;font:12px ui-monospace,monospace;color:rgba(198,164,106,.8)}",
     // Elements hidden on a device stay selectable while editing: faded and outlined instead.
     "@media (max-width:759px){.hide-mobile{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
     "@media (min-width:760px) and (max-width:1023px){.hide-tablet{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}",
     "@media (min-width:1024px){.hide-desktop{opacity:.35;outline:2px dashed #c6a46a;outline-offset:-2px}}"
-  ].join("");
+  ]).join("");
 
   // Canvas helpers: make the header and mobile menu editable in place.
   function applyOverrides(target) {
@@ -782,11 +688,11 @@
     var el = doc.getElementById("ed-overrides");
     if (!el) { el = doc.createElement("style"); el.id = "ed-overrides"; doc.head.appendChild(el); }
     doc.documentElement.classList.add("ed-edit");
-    var css = "html body{background:var(--paper,#0d0b09)!important}" + EDIT_MODE_CSS + themeCss() + (state.siteCss || "");
+    var css = (C.canvasBackground ? "html body{background:" + C.canvasBackground + "!important}" : "") + EDIT_MODE_CSS + themeCss() + (state.siteCss || "");
     // Photos keep loading lazily (only near what's on screen), except inside sideways-scrolling strips,
     // which the browser can't see coming.
-    Array.prototype.forEach.call(doc.querySelectorAll(".hscroll img[loading=lazy], .marquee img[loading=lazy]"), function (i) { i.loading = "eager"; });
-    if (target === "@header") css += ".site-header{position:relative!important;transform:none!important;padding-bottom:12px}.mobile-menu{position:relative!important;inset:auto!important;clip-path:none!important;visibility:visible!important;min-height:620px}.mobile-menu__list a{opacity:1!important;transform:none!important}.skip-link{position:static!important;display:inline-block;margin:8px}";
+    if (C.eagerImages) Array.prototype.forEach.call(doc.querySelectorAll(C.eagerImages), function (i) { i.loading = "eager"; });
+    if (target === "@header" && C.headerEditCss) css += C.headerEditCss;
     el.textContent = css;
   }
 
@@ -930,9 +836,7 @@
   $("#ed-status").addEventListener("click", function () { if (!cfg.token && !state.pub) openSettings(); else openHistory(); });
 
   /* ---------------- Colours ---------------- */
-  var BRAND = [["Gold", "var(--accent)", "#c6a46a"], ["Light gold", "var(--gold-hi)", "#e2c999"], ["Ivory", "var(--ivory)", "#efe7da"],
-    ["Soft text", "var(--ink-2)", "#c3b9a9"], ["Muted", "var(--muted)", "#8d8373"], ["Dark", "var(--paper)", "#0d0b09"],
-    ["Surface", "var(--paper-2)", "#15120f"], ["White", "#ffffff", "#ffffff"]];
+  var BRAND = C.swatches || [["Black", "#000000", "#000000"], ["Dark grey", "#333333", "#333333"], ["Grey", "#888888", "#888888"], ["White", "#ffffff", "#ffffff"]];
   function swatchHTML(withNone) {
     return BRAND.map(function (b) { return "<button class='ed-sw' type='button' title='" + b[0] + "' data-v='" + b[1] + "' data-hex='" + b[2] + "' style='background:" + b[2] + "'></button>"; }).join("") +
       "<label class='ed-sw ed-sw--custom' title='Any colour'><input type='color' value='#c6a46a'></label>" +
@@ -1006,13 +910,16 @@
   document.addEventListener("mousedown", function (e) { if (!rtePop.hidden && !rtePop.contains(e.target)) rtePop.hidden = true; });
 
   /* ---------------- Site theme (brand colours on every page) ---------------- */
-  var THEME_VARS = [["--accent", "Gold accent (buttons, highlights)", "#c6a46a"], ["--gold-hi", "Light gold (headline accents)", "#e2c999"],
-    ["--paper", "Page background", "#0d0b09"], ["--paper-2", "Card background", "#15120f"], ["--paper-3", "Raised areas", "#1e1a16"], ["--ink", "Main text", "#efe7da"],
-    ["--ink-2", "Body text", "#c3b9a9"], ["--muted", "Small labels", "#8d8373"], ["--ivory", "Light buttons & text on photos", "#efe7da"]];
+  var THEME = C.theme || {};
+  var THEME_VARS = THEME.vars || [];
   state.theme = {}; state.themeChanged = false;
+  function themeVarsCss() {
+    var keys = Object.keys(state.theme || {}); if (!keys.length) return "";
+    return ":root{" + keys.map(function (k) { return k + ":" + state.theme[k]; }).join(";") + "}";
+  }
   function themeCss() {
     var keys = Object.keys(state.theme || {}); if (!keys.length) return "";
-    return ":root{" + keys.map(function (k) { return k + ":" + state.theme[k]; }).join(";") + "}" + (state.theme["--accent"] ? ".btn--gold,.tile--gold{border-color:" + state.theme["--accent"] + "}" : "");
+    return themeVarsCss() + (THEME.extraCss ? THEME.extraCss(state.theme) : "");
   }
   function parseTheme(g) {
     var t = {}, css = cssRegion(g, "theme"), re = /(--[a-z0-9-]+)\s*:\s*([^;}]+)/g, m;
@@ -1020,7 +927,7 @@
     return t;
   }
   state.siteCss = "";
-  function loadTheme() { return readFile("assets/css/editor-global.css").then(function (g) { state.theme = parseTheme(g); state.siteCss = cssRegion(g, "custom"); }).catch(function () {}); }
+  function loadTheme() { return readFile(GLOBAL_CSS).then(function (g) { state.theme = parseTheme(g); state.siteCss = cssRegion(g, "custom"); }).catch(function () {}); }
   function renderTheme() {
     $("#theme-fields").innerHTML = THEME_VARS.map(function (v) {
       var val = state.theme[v[0]] || v[2];
@@ -1066,7 +973,7 @@
     var p;
     if (target.charAt(0) === "@") {
       var key = target.slice(1);
-      p = Promise.all([readFile("index.html"), readFile("assets/css/editor-global.css").catch(function () { return DEFAULT_GLOBAL_CSS; })]).then(function (r) {
+      p = Promise.all([readFile("index.html"), readFile(GLOBAL_CSS).catch(function () { return DEFAULT_GLOBAL_CSS; })]).then(function (r) {
         var html = region(r[0], key);
         if (html == null) throw new Error("The home page has no editable " + key + " region.");
         return { html: html, css: cssRegion(r[1], key), meta: null };
@@ -1172,18 +1079,18 @@
     var themeOnly = !state.dirty && state.themeChanged;
     job.then(function () {
       if (!globalCss && !state.themeChanged) return;
-      return readFile("assets/css/editor-global.css").catch(function () { return DEFAULT_GLOBAL_CSS; }).then(function (g) {
+      return readFile(GLOBAL_CSS).catch(function () { return DEFAULT_GLOBAL_CSS; }).then(function (g) {
         if (globalCss) g = setCssRegion(g, globalCss.key, globalCss.css);
         if (state.themeChanged) {
-          g = setCssRegion(g, "theme", themeCss() ? themeCss().replace(/\.btn--gold[\s\S]*$/, "") : "");
+          g = setCssRegion(g, "theme", themeVarsCss());
           g = setCssRegion(g, "custom", state.siteCss || "");
         }
         g = g.replace(/^\/\* site-version: [^*]*\*\/\n?/, "");
-        files.push({ path: "assets/css/editor-global.css", content: "/* site-version: " + version + " */\n" + g });
-        if (themeOnly) checkPath = "assets/css/editor-global.css";
+        files.push({ path: GLOBAL_CSS, content: "/* site-version: " + version + " */\n" + g });
+        if (themeOnly) checkPath = GLOBAL_CSS;
       });
     }).then(function () {
-      if (themeOnly) files = files.filter(function (f) { return f.path === "assets/css/editor-global.css"; });
+      if (themeOnly) files = files.filter(function (f) { return f.path === GLOBAL_CSS; });
       return commitFiles(files, (themeOnly ? "Update site theme colours" : "Update " + labelFor(t) + (state.themeChanged ? " and site theme" : "")) + " via site editor");
     }).then(function (c) {
       state.themeChanged = false;
@@ -1206,11 +1113,10 @@
     if (!slug) return Promise.reject(new Error("Please enter a page name."));
     var file = slug + ".html";
     if (state.pages.indexOf(file) >= 0) return Promise.reject(new Error(file + " already exists."));
-    var starter = '<section class="page-hero"><div class="container"><div class="page-hero__meta"><span class="label label--dot">' + esc(name) + '</span><span class="label">Dan Reynolds</span></div>' +
-      '<div class="page-hero__grid"><h1 class="h-xl page-hero__title">' + esc(name) + '</h1><p class="lede">Introduce this page here. Drag sections in from the Blocks panel.</p></div></div></section>';
-    return readFile("contact.html").then(function (src) {
+    var starter = C.newPage ? C.newPage(name, esc) : '<section style="padding:64px 24px"><h1>' + esc(name) + '</h1><p>Introduce this page here. Drag elements in from the Add panel.</p></section>';
+    return readFile(C.pageTemplate || "index.html").then(function (src) {
       var html = setPageStyles(setRegion(src, "main", starter), "");
-      html = applyMeta(html, { title: name + " — Dan Reynolds Photography", desc: name + " — Dan Reynolds Photography" });
+      html = applyMeta(html, { title: name + (C.titleSuffix || ""), desc: name + (C.titleSuffix || "") });
       html = html.replace(/<link rel="canonical" href="[^"]*">/, function (m) { return m.replace(/[^/"]+">$/, slug + '">'); })
                  .replace(/<meta property="og:url" content="[^"]*">/, function (m) { return m.replace(/[^/"]+">$/, slug + '">'); })
                  .replace(/\s*aria-current="page"/g, "");
@@ -1323,7 +1229,7 @@
   }
 
   // Exposed for automated checks.
-  window.__siteEditor = { region: region, setRegion: setRegion, cleanHtml: cleanHtml, extractUploads: extractUploads, currentExport: currentExport, publish: publish, load: load, state: state, cfg: cfg,
+  window.__siteEditor = { config: C, UPLOADS: UPLOADS, region: region, setRegion: setRegion, cleanHtml: cleanHtml, extractUploads: extractUploads, currentExport: currentExport, publish: publish, load: load, state: state, cfg: cfg,
     api: api, readFile: readFile, listPages: listPages, commitFiles: commitFiles, toast: toast, openModal: openModal, closeModals: closeModals,
     setVersion: setVersion, markEdited: markEdited, labelFor: labelFor, updateUI: updateUI, prepareImage: prepareImage, pickPhoto: pickPhoto, photoOf: photoOf, setPhoto: setPhoto, photosFor: photosFor, focusOf: focusOf, photoName: photoName, photoLabel: photoLabel,
     toEditor: toEditor, fromEditor: fromEditor, getMeta: getMeta, applyMeta: applyMeta, saveDraft: saveDraft, PAGE_NAMES: PAGE_NAMES, openStyle: openStyle, fillComputed: fillComputed, updateColorDots: updateColorDots, applyOverrides: applyOverrides,

@@ -5,13 +5,14 @@
   "use strict";
   var E = window.__siteEditor;
   if (!E) return;
-  var editor = E.editor, state = E.state, SITE = E.SITE;
+  var editor = E.editor, state = E.state, SITE = E.SITE, C = E.config || {};
+  var BRAND = C.brandDir || "assets/brand/", SITE_NAME = C.siteName || C.name || "";
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); };
   var tab = "page";
 
   function origin() {
-    try { return new URL(state.meta && state.meta.canonical || "").origin; } catch (e) { return "https://www.danreynoldsphotography.com"; }
+    try { return new URL(state.meta && state.meta.canonical || "").origin; } catch (e) { return C.origin || SITE.replace(/\/$/, ""); }
   }
   // Production URLs (canonical domain) shown through whatever domain the editor runs on.
   function viewable(url) { return url && url.indexOf(origin()) === 0 ? SITE + url.slice(origin().length + 1) : url; }
@@ -29,14 +30,14 @@
   }
   function humanize(name) {
     var words = name.split(/[-_\s]+/).filter(function (w) { return w && !/^\d+$/.test(w) && !/^(img|dsc|photo|image|final|edit)$/i.test(w); });
-    if (!words.length) return "Wedding photo by Dan Reynolds Photography";
+    if (!words.length) return C.altDefault || "Photo";
     var cap = words.map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); });
-    if (cap.length === 2 && !/(detail|portrait|skyline|coffee|filming|bts)/i.test(name)) return cap[0] + " & " + cap[1] + " wedding photo by Dan Reynolds Photography";
-    return cap.join(" ") + " — Dan Reynolds Photography";
+    if (C.altText) { var custom = C.altText(cap, name); if (custom) return custom; }
+    return cap.join(" ") + (C.altSuffix || "");
   }
   function suggestAlt(p) {
     var el = p.comp.getEl(), yt = el && el.closest && el.closest(".yt");
-    if (yt) return String(yt.getAttribute("aria-label") || "").replace(/^Play film:\s*/, "") + " (wedding film thumbnail)";
+    if (yt) return String(yt.getAttribute("aria-label") || "").replace(/^Play film:\s*/, "") + (C.videoAltSuffix || " (video thumbnail)");
     return humanize(srcName(p.src));
   }
   function allImages() {
@@ -149,7 +150,7 @@
       "<div class='seo-grid'><div class='seo-col'>" +
       "<label class='seo-f'>Title shown on Google <span id='sc-title'></span><input id='s-title' value='" + esc(m.title) + "'></label>" +
       "<label class='seo-f'>Description shown under it <span id='sc-desc'></span><textarea id='s-desc' rows='3'>" + esc(m.desc) + "</textarea></label>" +
-      "<p class='seo-label'>Google preview</p><div class='serp'><div class='serp__site'><img src='" + SITE + "assets/brand/favicon-48.png' alt=''><div><b>Dan Reynolds Photography</b><span id='serp-url'></span></div></div><div class='serp__title' id='serp-title'></div><div class='serp__desc' id='serp-desc'></div></div>" +
+      "<p class='seo-label'>Google preview</p><div class='serp'><div class='serp__site'><img src='" + SITE + BRAND + "favicon-48.png' alt=''><div><b>" + esc(SITE_NAME) + "</b><span id='serp-url'></span></div></div><div class='serp__title' id='serp-title'></div><div class='serp__desc' id='serp-desc'></div></div>" +
       "<label class='seo-f'>Canonical URL (the page's one true address)<input id='s-canon' value='" + esc(m.canonical) + "' placeholder='" + esc(origin() + "/" + slug) + "'></label>" +
       "<label class='ed-check'><input type='checkbox' id='s-noindex'" + (m.noindex ? " checked" : "") + "><span>Hide this page from Google (noindex, removed from the sitemap)</span></label>" +
       "</div><div class='seo-col'>" +
@@ -314,10 +315,10 @@
     var v = Date.now();
     body.innerHTML = "<div class='seo-grid'><div class='seo-col'>" +
       "<p class='seo-label'>Favicon <span class='ed-muted'>(browser tab, bookmarks, Google results, phone home screen)</span></p>" +
-      "<div class='fav-row'><div class='fav-prev' id='fav-prev'><figure><img id='fp-16' src='" + SITE + "assets/brand/favicon-48.png?v=" + v + "' width='16' height='16' alt=''><figcaption>16</figcaption></figure>" +
-      "<figure><img id='fp-32' src='" + SITE + "assets/brand/favicon-48.png?v=" + v + "' width='32' height='32' alt=''><figcaption>32</figcaption></figure>" +
-      "<figure><img id='fp-180' src='" + SITE + "assets/brand/apple-touch-icon.png?v=" + v + "' width='72' height='72' alt=''><figcaption>Phone</figcaption></figure></div>" +
-      "<div class='fav-tab'><img id='fp-tab' src='" + SITE + "assets/brand/favicon-48.png?v=" + v + "' alt=''><span>Dan Reynolds — Wedding Photo…</span></div></div>" +
+      "<div class='fav-row'><div class='fav-prev' id='fav-prev'><figure><img id='fp-16' src='" + SITE + BRAND + "favicon-48.png?v=" + v + "' width='16' height='16' alt=''><figcaption>16</figcaption></figure>" +
+      "<figure><img id='fp-32' src='" + SITE + BRAND + "favicon-48.png?v=" + v + "' width='32' height='32' alt=''><figcaption>32</figcaption></figure>" +
+      "<figure><img id='fp-180' src='" + SITE + BRAND + "apple-touch-icon.png?v=" + v + "' width='72' height='72' alt=''><figcaption>Phone</figcaption></figure></div>" +
+      "<div class='fav-tab'><img id='fp-tab' src='" + SITE + BRAND + "favicon-48.png?v=" + v + "' alt=''><span>" + esc(SITE_NAME || "Your site") + "</span></div></div>" +
       "<div class='ed-row'><button class='ed-btn' type='button' id='fav-up'>Upload new icon…</button><span class='ed-muted ed-small'>Square PNG, JPG or SVG, 512×512 or larger</span></div>" +
       "<div class='fav-opts' id='fav-opts' hidden><label class='seo-f'>Background<select id='fav-bg'>" + BG.map(function (b) { return "<option value='" + b[0] + "'>" + b[1] + "</option>"; }).join("") + "</select></label>" +
       "<label class='ed-check'><input type='checkbox' id='fav-round' checked><span>Rounded corners</span></label>" +
@@ -437,10 +438,10 @@
     var plainSvg = fav.svgText && !fav.bg && !fav.pad && !fav.round;
     var svg = plainSvg ? fav.svgText : "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><image width='128' height='128' href='" + drawIcon(128).toDataURL("image/png") + "'/></svg>";
     var files = [
-      { path: "assets/brand/favicon-48.png", base64: b64(drawIcon(48)) },
-      { path: "assets/brand/apple-touch-icon.png", base64: b64(drawIcon(180, true)) },
-      { path: "assets/brand/icon-512.png", base64: b64(drawIcon(512, true)) },
-      { path: "assets/brand/favicon.svg", content: svg },
+      { path: BRAND + "favicon-48.png", base64: b64(drawIcon(48)) },
+      { path: BRAND + "apple-touch-icon.png", base64: b64(drawIcon(180, true)) },
+      { path: BRAND + "icon-512.png", base64: b64(drawIcon(512, true)) },
+      { path: BRAND + "favicon.svg", content: svg },
       { path: "favicon.ico", base64: ico([drawIcon(16), drawIcon(32), drawIcon(48)]) }
     ];
     E.toast("Saving favicon…");

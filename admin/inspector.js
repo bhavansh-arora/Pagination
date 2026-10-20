@@ -102,13 +102,11 @@
 
   /* ------------------------------ Site style (colours for every page) ------------------------------ */
   var sitePanel = h("div", { class: "ed-insp ed-site", hidden: true });
-  var THEME_DEFAULTS = { "--paper": "#0d0b09", "--paper-2": "#15120f", "--paper-3": "#1e1a16", "--ink": "#efe7da", "--ink-2": "#c3b9a9",
-    "--muted": "#8d8373", "--ivory": "#efe7da", "--accent": "#c6a46a", "--gold-hi": "#e2c999" };
-  var THEME_GROUPS = [
-    ["Background", [["--paper", "Page background"], ["--paper-2", "Cards & panels"], ["--paper-3", "Raised areas & photo placeholders"]]],
-    ["Text", [["--ink", "Headings & main text"], ["--ink-2", "Body text"], ["--muted", "Small labels"], ["--ivory", "Text on photos & light buttons"]]],
-    ["Accent", [["--accent", "Gold accent (buttons, highlights)"], ["--gold-hi", "Light gold (headline accents)"]]]
-  ];
+  // Site colours come from site-config.js (theme.vars / theme.groups).
+  var THEME_CFG = (E.config && E.config.theme) || {};
+  var THEME_DEFAULTS = {};
+  (THEME_CFG.vars || []).forEach(function (v) { THEME_DEFAULTS[v[0]] = v[2]; });
+  var THEME_GROUPS = THEME_CFG.groups || [["Colours", (THEME_CFG.vars || []).map(function (v) { return [v[0], v[1]]; })]];
   editor.Commands.add("ed-open-site", {
     run: function () {
       ["open-sm", "open-tm", "open-layers", "open-blocks", "open-insp"].forEach(function (id) { var b = viewBtn(id); if (b && b.get("active")) b.set("active", false); });
@@ -759,7 +757,7 @@
       el.value = ""; changed(); refresh();
     }, { placeholder: "Add a class, press Enter", list: classDatalist() });
     out.push(section("classes", "Extra CSS classes", [chips.childNodes.length ? chips : null, addCls,
-      h("small", { class: "ed-f__h", text: "Locked classes come from the site design. Add extra ones from the stylesheet, e.g. label, mt-l, btn--light." })], mine.length ? mine.length + " added" : ""));
+      h("small", { class: "ed-f__h", text: "Locked classes come from the site design. Add extra ones defined in the site's stylesheet." })], mine.length ? mine.length + " added" : ""));
 
     // Attributes: existing ones are shown read-only; added ones can be edited or removed.
     var rows = h("div", { class: "ed-attrs" });

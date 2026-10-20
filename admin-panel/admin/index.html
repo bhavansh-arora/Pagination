@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Site editor</title>
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<!-- Start downloading the editor while the sign-in screen shows -->
+<link rel="preload" href="vendor/grapes.min.js" as="script">
+<link rel="preload" href="editor.js" as="script">
+<link rel="preload" href="media.js" as="script">
+<link rel="preload" href="inspector.js" as="script">
+<link rel="preload" href="seo.js" as="script">
+<link rel="preload" href="../assets/css/styles.css" as="style">
+<link rel="stylesheet" href="vendor/grapes.min.css">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+<header class="ed-bar">
+  <div class="ed-bar__group ed-bar__left">
+    <span class="ed-logo" id="ed-logo" aria-hidden="true"></span>
+    <label class="ed-select">
+      <span class="ed-sr">Editing</span>
+      <select id="ed-target" aria-label="Choose what to edit"></select>
+    </label>
+    <button class="ed-btn" id="ed-new-page" type="button" title="Add a new page"><span aria-hidden="true">+</span><span class="ed-lbl ed-lbl--md">Page</span></button>
+    <button class="ed-btn" id="ed-page-settings" type="button" title="Page title, description, favicon, alt text and Google checklist"><svg class="ed-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><span class="ed-lbl">SEO</span><span class="seo-score" id="seo-score" hidden></span></button>
+  </div>
+  <div class="ed-bar__group ed-bar__mid" role="group" aria-label="Preview size and tools">
+    <button class="ed-icon is-active" data-device="Desktop" type="button" title="Desktop">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
+    </button>
+    <button class="ed-icon" data-device="Tablet" type="button" title="Tablet">
+      <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M11 18h2"/></svg>
+    </button>
+    <button class="ed-icon" data-device="Mobile" type="button" title="Phone">
+      <svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>
+    </button>
+    <span class="ed-sep"></span>
+    <button class="ed-icon" id="ed-undo" type="button" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+    <button class="ed-icon" id="ed-redo" type="button" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
+    <button class="ed-btn ed-btn--ghost" id="ed-colors" type="button" title="Colours for the selected element, and the site theme">
+      <span class="ed-cdots" aria-hidden="true"><span class="ed-cdot" id="cd-text"></span><span class="ed-cdot" id="cd-bg"></span></span><span class="ed-lbl ed-lbl--md">Colours</span>
+    </button>
+    <button class="ed-btn ed-btn--ghost" id="ed-media" type="button" title="Photos &amp; videos library: see, swap and upload media"><svg class="ed-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg><span class="ed-lbl ed-lbl--md">Media</span></button>
+    <button class="ed-icon" id="ed-code" type="button" title="Edit HTML / CSS"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></button>
+    <button class="ed-icon" id="ed-preview" type="button" title="Preview"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+  </div>
+  <div class="ed-bar__group ed-bar__right">
+    <button class="ed-status" id="ed-status" type="button" aria-live="polite" title="Publishing status and history"><span class="ed-status__dot"></span><span class="ed-status__text">Loading…</span></button>
+    <a class="ed-icon" id="ed-live" href="../index.html" target="_blank" rel="noopener" title="Open the live page"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+    <button class="ed-icon" id="ed-settings" type="button" title="Account: team, password and sign out"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    <button class="ed-btn ed-btn--danger" id="ed-discard" type="button" title="Throw away all unpublished changes" disabled><span class="ed-lbl ed-lbl--sm">Discard</span><svg class="ed-ico ed-ico--sm" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+    <button class="ed-btn ed-btn--gold" id="ed-publish" type="button">Publish</button>
+  </div>
+</header>
+
+<div id="gjs"></div>
+
+<div class="ed-small-screen">The site editor works best on a laptop or desktop screen.</div>
+
+<!-- Account: sign-in, team and GitHub token (admin/auth.js) -->
+<div class="ed-modal" id="m-settings" hidden>
+  <div class="ed-modal__box ed-modal__box--mid" id="acct-box"></div>
+</div>
+
+<!-- SEO -->
+<div class="ed-modal" id="m-page" hidden>
+  <div class="ed-modal__box ed-modal__box--wide ed-seo">
+    <div class="mm-head">
+      <h2>SEO <span class="seo-score" id="seo-modal-score"></span></h2>
+      <div class="ed-tabs" role="tablist" id="seo-tabs">
+        <button class="ed-tab is-active" type="button" data-seo="page">This page</button>
+        <button class="ed-tab" type="button" data-seo="images">Images &amp; alt text</button>
+        <button class="ed-tab" type="button" data-seo="check">Checklist</button>
+        <button class="ed-tab" type="button" data-seo="site">Site &amp; favicon</button>
+      </div>
+    </div>
+    <div class="seo-body" id="seo-body"></div>
+    <div class="ed-actions"><button class="ed-btn ed-btn--gold" type="button" data-close>Done</button></div>
+  </div>
+</div>
+
+<!-- New page -->
+<div class="ed-modal" id="m-new" hidden>
+  <form class="ed-modal__box" id="f-new">
+    <h2>Add a page</h2>
+    <label>Page name<input name="name" required placeholder="e.g. Engagements"></label>
+    <p class="ed-muted ed-small">The page is created with the site's header and footer and a starter section. Add it to the menu by editing <strong>Header &amp; menu</strong>.</p>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Cancel</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Create page</button>
+    </div>
+  </form>
+</div>
+
+<!-- Code -->
+<div class="ed-modal" id="m-code" hidden>
+  <form class="ed-modal__box ed-modal__box--wide" id="f-code">
+    <h2>Edit code</h2>
+    <p class="ed-muted ed-small">Full control over this section's HTML and its page-specific CSS. The site's main stylesheet classes are all available.</p>
+    <label>HTML<textarea name="html" rows="16" spellcheck="false"></textarea></label>
+    <label>CSS<textarea name="css" rows="6" spellcheck="false"></textarea></label>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Cancel</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Apply</button>
+    </div>
+  </form>
+</div>
+
+<!-- Colour popover -->
+<div class="ed-pop" id="p-colors" hidden>
+  <p class="ed-pop__title">Selected element <span id="pc-target" class="ed-muted"></span></p>
+  <div id="pc-current"></div>
+  <p class="ed-pop__label">Text colour</p>
+  <div class="ed-swatches" data-prop="color"></div>
+  <p class="ed-pop__label">Background colour</p>
+  <div class="ed-swatches" data-prop="background-color"></div>
+  <p class="ed-muted ed-small" id="pc-hint">Tip: to colour just a few words, select them while typing and use the <strong>A</strong> button in the text toolbar.</p>
+  <div class="ed-actions"><button class="ed-btn ed-btn--ghost" type="button" id="pc-theme">Site background &amp; colours…</button></div>
+</div>
+
+<!-- Theme -->
+<div class="ed-modal" id="m-theme" hidden>
+  <form class="ed-modal__box" id="f-theme">
+    <h2>Site theme colours</h2>
+    <p class="ed-muted ed-small">These colours are used across every page. Changes preview instantly and go live when you Publish.</p>
+    <div class="ed-theme" id="theme-fields"></div>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--ghost" type="button" id="theme-reset">Reset to original</button>
+      <button class="ed-btn ed-btn--ghost" type="button" data-close>Close</button>
+      <button class="ed-btn ed-btn--gold" type="submit">Apply</button>
+    </div>
+  </form>
+</div>
+
+<!-- History & publishing status -->
+<div class="ed-modal" id="m-history" hidden>
+  <div class="ed-modal__box ed-modal__box--wide">
+    <h2>Publishing status &amp; history</h2>
+    <div class="ed-statusbox" id="h-status"></div>
+    <p class="ed-pop__label" id="h-title">Saved versions</p>
+    <ol class="ed-history" id="h-list"></ol>
+    <div class="ed-actions">
+      <button class="ed-btn ed-btn--gold" type="button" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Media library -->
+<div class="ed-modal" id="m-media" hidden>
+  <div class="ed-modal__box ed-modal__box--wide ed-media">
+    <div class="mm-head">
+      <h2>Media library</h2>
+      <div class="ed-tabs" role="tablist">
+        <button class="ed-tab is-active" type="button" data-tab="photos" id="mt-photos">Photos</button>
+        <button class="ed-tab" type="button" data-tab="videos" id="mt-videos">Videos</button>
+      </div>
+    </div>
+    <div class="mm-top">
+      <input id="mm-search" type="search" placeholder="Search by name or page…" aria-label="Search media">
+      <button class="ed-btn" type="button" id="mm-up-photo">Upload photos</button>
+      <button class="ed-btn" type="button" id="mm-up-video">Upload video</button>
+    </div>
+    <p id="mm-target" class="ed-muted ed-small"></p>
+    <div class="mm-grid" id="mm-grid"></div>
+    <div class="ed-actions"><button class="ed-btn ed-btn--gold" type="button" data-close>Done</button></div>
+  </div>
+</div>
+
+<div class="ed-toast" id="ed-toast" role="status" hidden></div>
+<div class="ed-livenote" id="ed-livenote" role="status" aria-live="polite" hidden>
+  <span class="ed-livenote__icon" aria-hidden="true"></span>
+  <div class="ed-livenote__body"><strong class="ed-livenote__title"></strong><span class="ed-livenote__text"></span><i class="ed-livenote__bar" aria-hidden="true"><b></b></i></div>
+  <a class="ed-livenote__link" target="_blank" rel="noopener">Open your website ↗</a>
+  <button class="ed-livenote__x" type="button" aria-label="Close" title="Close">×</button>
+</div>
+
+<!-- Sign-in gate. The editor scripts load only after signing in (or in preview mode). -->
+<div class="auth" id="auth">
+  <aside class="auth__art" aria-hidden="true">
+    <img id="auth-art" alt="">
+    <div class="auth__brand"><span class="auth__mark" id="auth-mark"></span><span><span id="auth-name"></span><small>Site editor</small></span></div>
+    <p class="auth__quote"><em>Every page, photo and film,</em><br>yours to change in a click.</p>
+  </aside>
+  <main class="auth__main"><div class="auth__card" id="auth-card" aria-live="polite"><div class="a-loading"><i class="a-spin"></i></div></div></main>
+</div>
+<script src="site-config.js"></script>
+<script>
+  // Branding from site-config.js
+  (function (C) {
+    document.title = "Site editor" + (C.name ? " — " + C.name : "");
+    var mark = C.initials || (C.name || "S").charAt(0);
+    document.getElementById("auth-mark").textContent = mark;
+    document.getElementById("ed-logo").textContent = mark;
+    document.getElementById("auth-name").textContent = C.name || "Your site";
+    var art = document.getElementById("auth-art");
+    if (C.signInImage) { art.src = "../" + C.signInImage; if (C.signInImageSet) { art.srcset = C.signInImageSet.replace(/(^|,\s*)(?!https?:)/g, "$1../"); art.sizes = "(min-width: 960px) 46vw, 100vw"; } }
+    else art.remove();
+  })(window.SITE_EDITOR_CONFIG || {});
+</script>
+<script src="auth.js"></script>
+</body>
+</html>

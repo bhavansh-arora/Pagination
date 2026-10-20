@@ -26,17 +26,21 @@
       return fetch("assets.json", { cache: "no-store" }).then(function (r) { return r.json(); }).catch(function () { return []; });
     }).then(function (site) {
       var photos = [], seen = {};
+      // assets.json: the site's photo library, [{ src, name, thumb?, paths? }]. Photos exported in
+      // responsive sizes (name-1600.webp / name-800.webp) are grouped as one photo.
       site.forEach(function (a) {
-        var name = a.name;
-        photos.push({ kind: "site", key: "assets/img/" + name, name: name, thumb: SITE + "assets/img/" + name + "-800.webp", src: SITE + a.src,
-          paths: ["assets/img/" + name + "-1600.webp", "assets/img/" + name + "-800.webp"], used: usedOn(sources, "assets/img/" + name + "-") });
-        seen["assets/img/" + name] = 1;
+        var stem = a.src.replace(/-(480|800|1600)\.webp$/, ""), sized = stem !== a.src;
+        photos.push({ kind: "site", key: stem, name: a.name || stem.split("/").pop(), src: SITE + a.src,
+          thumb: SITE + (a.thumb || (sized ? stem + "-800.webp" : a.src)),
+          paths: a.paths || (sized ? [stem + "-1600.webp", stem + "-800.webp"] : [a.src]),
+          used: usedOn(sources, sized ? stem + "-" : a.src) });
+        seen[stem] = 1;
       });
       // Uploaded files: from the repository listing and from page references.
       var uploads = {};
-      (tree || []).forEach(function (t) { if (t.type === "blob" && /^assets\/uploads\//.test(t.path)) uploads[t.path] = t.size || 0; });
+      (tree || []).forEach(function (t) { if (t.type === "blob" && t.path.indexOf(E.UPLOADS) === 0) uploads[t.path] = t.size || 0; });
       Object.keys(sources).forEach(function (p) {
-        var re = /assets\/uploads\/[A-Za-z0-9._-]+/g, m;
+        var re = new RegExp(E.UPLOADS.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&") + "[A-Za-z0-9._-]+", "g"), m;
         while ((m = re.exec(sources[p]))) if (!(m[0] in uploads)) uploads[m[0]] = 0;
       });
       var videos = [];
@@ -300,7 +304,7 @@
       var f = files[0]; if (!f) return;
       if (f.size > MAX_VIDEO_MB * 1048576) { E.toast("That video is " + Math.round(f.size / 1048576) + " MB. Please keep videos under " + MAX_VIDEO_MB + " MB (compress it first).", true); return; }
       var slug = f.name.toLowerCase().replace(/\.[a-z0-9]+$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "video";
-      var path = "assets/uploads/" + Date.now().toString(36) + "-" + slug + (/\.webm$/i.test(f.name) ? ".webm" : ".mp4");
+      var path = E.UPLOADS + Date.now().toString(36) + "-" + slug + (/\.webm$/i.test(f.name) ? ".webm" : ".mp4");
       E.toast("Uploading " + f.name + " (" + Math.round(f.size / 1048576) + " MB)…");
       readAsDataURL(f).then(function (d) {
         return E.commitFiles([{ path: path, base64: d.split(",")[1] }], "Upload video " + f.name + " via media library");
