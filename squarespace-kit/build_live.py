@@ -49,13 +49,12 @@ def main():
               ".page-section:has(#drx-live){padding:0!important;min-height:100vh}#drx-live{min-height:100vh}")
     index = read("index.html")
     intro_html = block(index, "preloader") + "\n" + block(index, "curtain")
-    # Same start-up as the site: loader on a first visit, curtain after a page change. A reload of an
-    # already-visited page also starts under the curtain, which lifts once the page has arrived.
+    # Start-up: the curtain after a page change (as on the site); otherwise the intro screen with its
+    # counter, shown until the page has loaded (first visits and reloads alike).
     boot = ("<script>window.__drBooted=1;try{var d=document.documentElement;"
             "if(sessionStorage.getItem(\"dr-nav\")){d.classList.add(\"is-entering\");sessionStorage.removeItem(\"dr-nav\")}"
-            "else if(!sessionStorage.getItem(\"dr-seen\")&&!matchMedia(\"(prefers-reduced-motion: reduce)\").matches){d.classList.add(\"is-loading\")}"
-            "else{d.classList.add(\"is-entering\")}"
-            "setTimeout(function(){d.classList.remove(\"is-loading\",\"is-entering\")},8000)}catch(e){}</script>")
+            "else if(!matchMedia(\"(prefers-reduced-motion: reduce)\").matches){d.classList.add(\"is-loading\")}"
+            "setTimeout(function(){d.classList.remove(\"is-loading\",\"is-entering\")},20000)}catch(e){}</script>")
     os.makedirs(OUT, exist_ok=True)
     for name, page in PAGES.items():
         out = (f'<!-- Dan Reynolds Photography · {name} page (live from the site editor). Paste ALL of this into one Code Block. -->\n'

@@ -22,8 +22,8 @@
   // (The pasted snippet normally does this itself, before the first frame is painted.)
   if (!window.__drBooted) try {
     if (sessionStorage.getItem("dr-nav")) { d.classList.add("is-entering"); sessionStorage.removeItem("dr-nav"); }
-    else if (!sessionStorage.getItem("dr-seen") && !matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("is-loading");
-    setTimeout(function () { d.classList.remove("is-loading", "is-entering"); }, 6000);
+    else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("is-loading");
+    setTimeout(function () { d.classList.remove("is-loading", "is-entering"); }, 20000);
   } catch (e) {}
 
   root.classList.add("drx");
