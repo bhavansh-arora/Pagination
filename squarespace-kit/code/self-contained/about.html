@@ -790,8 +790,19 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 }
 .sq-form-slot, .sq-form-slot p, .sq-form-slot span { color: #c3b9a9; }
 </style>
-<div class="drx">
 <style id="page-styles"></style>
+<script>try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}setTimeout(function(){d.classList.remove("is-loading","is-entering")},5000)}catch(e){}</script>
+<div class="drx">
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <svg class="preloader__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><path pathLength="1" d="M7 5v30h15"/><path pathLength="1" d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path pathLength="1" d="M19 24l13 12"/></svg>
+    <p class="preloader__name"><span>Dan Reynolds</span></p>
+    <p class="preloader__tag"><span>Visual storyteller</span></p>
+  </div>
+  <div class="preloader__foot"><span>Photo + Film</span><span class="preloader__count" data-count-loader>000</span></div>
+  <div class="preloader__bar"><span></span></div>
+</div>
+<div class="curtain" aria-hidden="true"><svg class="curtain__mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 5v30h15"/><path d="M7 5h14.5a9.5 9.5 0 0 1 0 19H13"/><path d="M19 24l13 12"/></svg></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
 <div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
 <div class="hover-preview" aria-hidden="true"><div class="hover-preview__inner"></div></div>
@@ -937,6 +948,15 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var slot = document.getElementById("sq-form-slot"), form = document.querySelector(".sqs-block-form");
+  if (!slot || !form) return;
+  var holder = form.closest(".fe-block");
+  slot.appendChild(form);
+  if (holder) holder.style.display = "none";
+});
+</script>
 <script>
 /* ===== Site script: main ===== */
 /* Dan Reynolds — site interactions. No dependencies. */
@@ -1241,7 +1261,7 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 })();
 </script>
 <script>
-/* ===== Site script: motion ===== */
+/* ===== Site script: motion (page transitions, scroll effects) ===== */
 /* Dan Reynolds — motion layer.
    GSAP + ScrollTrigger drive the cinematic effects; every effect
    degrades gracefully (content stays visible) if a library fails to load. */
@@ -1332,7 +1352,7 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (a.target === "_blank" || a.hasAttribute("download")) return;
     var url = new URL(a.getAttribute("href"), location.href);
-    if (url.origin !== location.origin || !/(\.html|\/)$/.test(url.pathname)) return;
+    if (url.origin !== location.origin || !/(\.html|\/|\/[^.\/]+)$/.test(url.pathname)) return;
     if (url.pathname === location.pathname) return;
     e.preventDefault();
     try { sessionStorage.setItem("dr-nav", "1"); } catch (err) {}
