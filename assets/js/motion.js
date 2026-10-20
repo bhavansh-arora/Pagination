@@ -88,7 +88,7 @@
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (a.target === "_blank" || a.hasAttribute("download")) return;
     var url = new URL(a.getAttribute("href"), location.href);
-    if (url.origin !== location.origin || !/(\.html|\/)$/.test(url.pathname)) return;
+    if (url.origin !== location.origin || !/(\.html|\/|\/[^.\/]+)$/.test(url.pathname)) return;
     if (url.pathname === location.pathname) return;
     e.preventDefault();
     try { sessionStorage.setItem("dr-nav", "1"); } catch (err) {}
