@@ -157,6 +157,8 @@ export interface Settings {
   defaultPlanId: string;
   platformCurrency: string;
   demoSlug: string;
+  /** Monthly AI spend budget in USD cents; 0 = no budget. */
+  aiMonthlyBudget: number;
 }
 
 export const DEFAULT_PLANS: Plan[] = [
@@ -202,6 +204,7 @@ export const DEFAULT_SETTINGS: Settings = {
   defaultPlanId: "starter",
   platformCurrency: "usd",
   demoSlug: "",
+  aiMonthlyBudget: 0,
 };
 
 /** Token usage aggregated per day, mind and model. */
@@ -215,6 +218,10 @@ export interface UsageRow {
   output: number;
   cacheRead: number;
   cacheWrite: number;
+  /** Coach/admin test-chat usage, as opposed to real clients. */
+  preview?: boolean;
+  /** Cost computed per request at list prices, in millionths of a USD. */
+  costMicros?: number;
 }
 
 export interface AuditEntry {

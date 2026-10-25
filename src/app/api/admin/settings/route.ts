@@ -9,6 +9,7 @@ const Patch = z
     defaultPlanId: z.string().max(40),
     platformCurrency: z.string().length(3),
     demoSlug: z.string().max(60),
+    aiMonthlyBudget: z.number().int().min(0).max(100_000_000),
     plans: z
       .array(
         z.object({

@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, BadgePercent, Brain, CircleDollarSign, LayoutDashboard, MailPlus, Rocket, Settings, Users } from "lucide-react";
+import { Activity, BadgePercent, Brain, CircleDollarSign, Cpu, LayoutDashboard, MailPlus, Rocket, Settings, Users } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const ITEMS = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/revenue", label: "Revenue", icon: CircleDollarSign },
+  { href: "/admin/usage", label: "AI usage & cost", icon: Cpu },
   { href: "/admin/onboarding", label: "Coach onboarding", icon: Rocket },
   { href: "/admin/coaches", label: "Coaches", icon: Users },
   { href: "/admin/minds", label: "Minds", icon: Brain },

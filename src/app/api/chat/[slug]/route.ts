@@ -89,7 +89,7 @@ export async function POST(req: Request, { params }: Ctx) {
         if (bal) bal.remaining = Math.max(0, bal.remaining - 1);
       }
     });
-  });
+  }, { preview });
 
   return new Response(stream, {
     headers: {

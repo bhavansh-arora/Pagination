@@ -14,6 +14,12 @@ A platform where coaches build an AI "mind" of themselves, trained on their own 
 **Admin panel (`/admin`)**
 - **Overview**: coaches, minds, AI replies and estimated Claude cost, client sales, platform revenue, MRR, clients, plus an alert when applications are waiting
 - **Revenue**: client sales (GMV), commission, coach-plan revenue, MRR, platform revenue per day, top coaches, coaches per plan, and a full payment ledger
+- **AI usage & cost**: Claude spend for 7, 30 or 90 days, split between clients and coach testing.
+  - **Monthly budget**: a progress bar and month-end projection, with warnings at 80% and when you go over (also shown on the Overview).
+  - **Breakdowns**: cost per day against the budget, by model, and the most expensive minds.
+  - **Cost vs. revenue per coach**: flags coaches who cost more in AI than they bring in.
+  - **CSV export** of daily usage.
+  - Cost is calculated per reply from Anthropic's token counts at list prices, including prompt caching, Haiku's long-prompt rate and fallback models. Check it against your Anthropic invoice.
 - **Coach onboarding**: application queue (approving one creates a personal sign-up link), an onboarding funnel from "applied" to "first sale", and each coach's progress with their next step
 - **Coaches**: add accounts, suspend or reactivate, make admin, reset passwords, edit, delete
 - **Minds**: every mind on the platform; open any of them in the studio (changes are logged), publish or unpublish, delete

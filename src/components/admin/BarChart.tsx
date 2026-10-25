@@ -2,10 +2,32 @@
 import { useState } from "react";
 import { formatMoney } from "@/lib/money";
 
-export function BarChart({ data, unit, currency }: { data: { day: string; value: number }[]; unit: string; currency?: string }) {
-  const fmt = (v: number) => (currency ? formatMoney(v, currency, { compact: true }) : v.toLocaleString());
+function microUsd(v: number) {
+  const n = v / 1e6;
+  if (n === 0) return "$0";
+  if (n < 0.01) return `$${n.toFixed(4)}`;
+  if (n < 1) return `$${n.toFixed(3)}`;
+  return `$${n.toFixed(2)}`;
+}
+
+export function BarChart({
+  data,
+  unit,
+  currency,
+  micros,
+  budgetLine,
+}: {
+  data: { day: string; value: number }[];
+  unit: string;
+  currency?: string;
+  /** Values are millionths of a USD. */
+  micros?: boolean;
+  /** Optional horizontal reference line (same units as values), e.g. daily budget. */
+  budgetLine?: number;
+}) {
+  const fmt = (v: number) => (micros ? microUsd(v) : currency ? formatMoney(v, currency, { compact: true }) : v.toLocaleString());
   const [hover, setHover] = useState<number | null>(null);
-  const max = Math.max(1, ...data.map((d) => d.value));
+  const max = Math.max(1, budgetLine ?? 0, ...data.map((d) => d.value));
   const ticks = [max, Math.round(max / 2), 0].filter((v, i, a) => a.indexOf(v) === i);
   const label = (day: string) => new Date(day + "T00:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric" });
 
@@ -23,6 +45,13 @@ export function BarChart({ data, unit, currency }: { data: { day: string; value:
               <div key={t} className="border-t border-dashed border-zinc-100" />
             ))}
           </div>
+          {budgetLine ? (
+            <div className="pointer-events-none absolute inset-x-0 top-0 bottom-6">
+              <div className="absolute inset-x-0 border-t-2 border-dashed border-amber-400" style={{ bottom: `${(budgetLine / max) * 100}%` }}>
+                <span className="absolute -top-5 left-0 rounded bg-amber-50 px-1.5 text-[10px] font-semibold text-amber-700">daily budget {fmt(budgetLine)}</span>
+              </div>
+            </div>
+          ) : null}
           <div className="absolute inset-x-0 top-0 bottom-6 flex items-end gap-[2px]" role="img" aria-label={`${unit} per day`}>
             {data.map((d, i) => (
               <div
@@ -39,7 +68,7 @@ export function BarChart({ data, unit, currency }: { data: { day: string; value:
                   <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 rounded-lg bg-ink px-2.5 py-1.5 text-xs whitespace-nowrap text-white shadow-lift">
                     <div className="text-zinc-400">{label(d.day)}</div>
                     <div className="font-semibold tabular-nums">
-                      {currency ? formatMoney(d.value, currency) : d.value.toLocaleString()} {unit}
+                      {micros ? microUsd(d.value) : currency ? formatMoney(d.value, currency) : d.value.toLocaleString()} {unit}
                     </div>
                   </div>
                 )}

@@ -6,6 +6,7 @@ import { Empty, Initials, PageHeader, Panel, Pill, StatTile, td, th } from "@/co
 import { read } from "@/lib/db";
 import { ago, EMPTY, money, usageBy, words } from "@/lib/stats";
 import { estimateCost, lastDays } from "@/lib/usage";
+import { monthToDate, usd } from "@/lib/usage-report";
 import { formatMoney } from "@/lib/money";
 import { planFor } from "@/lib/plans";
 import { fee, gross, mainCurrency, recurring, sumBy } from "@/lib/revenue";
@@ -21,6 +22,9 @@ export default async function AdminOverview() {
   const perDay = days14.map((day) => ({ day, value: d.usage.filter((r) => r.day === day).reduce((n, r) => n + r.messages, 0) }));
   const messages30 = usage30.reduce((n, r) => n + r.messages, 0);
   const cost30 = estimateCost(usage30);
+  const mtd = monthToDate(d);
+  const budget = d.settings.aiMonthlyBudget / 100;
+  const budgetWarn = budget > 0 && (mtd.spent >= budget * 0.8 || mtd.projected > budget);
   const convos = d.conversations.filter((c) => !c.preview);
   const convos30 = convos.filter((c) => c.createdAt.slice(0, 10) >= since30).length;
   const visitors = new Set(convos.map((c) => c.visitorId)).size;
@@ -56,6 +60,16 @@ export default async function AdminOverview() {
         </Link>
       )}
 
+      {budgetWarn && (
+        <Link href="/admin/usage" className="mb-6 flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 hover:bg-amber-100/70">
+          <AlertTriangle className="size-4 shrink-0" />
+          <span className="flex-1">
+            <b>AI spend:</b> {usd(mtd.spent)} of your {usd(budget)} monthly budget used · projected {usd(mtd.projected)} by month-end.
+          </span>
+          <ArrowRight className="size-4" />
+        </Link>
+      )}
+
       {!apiKey && (
         <div className="mb-6 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
           <AlertTriangle className="mt-0.5 size-4 shrink-0" />
@@ -70,7 +84,13 @@ export default async function AdminOverview() {
         <StatTile label="Coaches" value={activeCoaches} sub={`${d.coaches.length - activeCoaches} suspended · signup ${d.settings.signupMode}`} />
         <StatTile label="Minds" value={d.bots.length} sub={`${live} live · ${d.bots.length - live} draft`} />
         <StatTile label="AI replies · 30 days" value={messages30.toLocaleString()} sub={`${convos30} new conversations · ${visitors} visitors all-time`} />
-        <StatTile label="Est. AI cost · 30 days" value={money(cost30)} sub={`${knowledge.toLocaleString()} words of knowledge`} />
+        <Link href="/admin/usage" className="block rounded-2xl transition hover:-translate-y-0.5 hover:shadow-lift">
+          <StatTile
+            label="AI cost · 30 days"
+            value={usd(cost30)}
+            sub={budget ? `${usd(mtd.spent)} of ${usd(budget)} budget this month →` : `${usd(mtd.spent)} this month · view breakdown →`}
+          />
+        </Link>
       </div>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

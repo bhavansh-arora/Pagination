@@ -30,6 +30,7 @@ export async function replyStream(
   history: ChatMessage[],
   signal: AbortSignal,
   onFinish: (text: string) => Promise<void>,
+  opts: { preview?: boolean } = {},
 ): Promise<ReadableStream<Uint8Array>> {
   const { sources, total } = await loadKnowledge(bot.id);
   const persona = buildPersona(bot);
@@ -101,7 +102,7 @@ export async function replyStream(
           }
         }
         const final = await stream.finalMessage();
-        recordUsage(bot.id, bot.coachId, model, final.usage).catch((e) => console.error("[usage]", e));
+        recordUsage(bot.id, bot.coachId, final.model || model, final.usage, !!opts.preview).catch((e) => console.error("[usage]", e));
         if (final.stop_reason === "refusal") {
           text = "I'm not able to help with that one. Is there something else on your mind I can help you work through?";
           send(controller, { t: "error", message: text });
