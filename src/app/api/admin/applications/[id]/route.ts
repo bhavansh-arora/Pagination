@@ -4,6 +4,8 @@ import { z } from "zod";
 import { mutate } from "@/lib/db";
 import { audit, requireAdmin } from "@/lib/admin";
 import { fail, json } from "@/lib/api";
+import { sendMail } from "@/lib/mail";
+import { appUrl } from "@/lib/stripe";
 
 type Ctx = { params: Promise<{ id: string }> };
 const Body = z.object({ action: z.enum(["approve", "reject"]) });
@@ -41,5 +43,18 @@ export async function PATCH(req: Request, { params }: Ctx) {
   });
   if (!result) return fail("Not found", 404);
   await audit(admin, parsed.data.action === "approve" ? "Approved application" : "Rejected application", result.app.email);
-  return json({ ok: true, token: result.token });
+  let emailed = false;
+  if (result.token) {
+    emailed = await sendMail(result.app.email, {
+      subject: "You're in — create your account",
+      heading: `Welcome aboard, ${result.app.name.split(" ")[0]}!`,
+      paragraphs: [
+        "Your application has been approved. Use your personal link below to create your account and start building your AI mind.",
+        "Setup takes about 20 minutes: add your content, describe how you coach, test it, then share your link.",
+      ],
+      button: { label: "Create my account", url: `${await appUrl()}/signup?invite=${result.token}` },
+      footnote: "This link is just for you and expires in 14 days.",
+    });
+  }
+  return json({ ok: true, token: result.token, emailed });
 }

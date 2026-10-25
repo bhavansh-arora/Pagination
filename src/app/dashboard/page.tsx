@@ -4,6 +4,8 @@ import { ArrowRight, BookOpen, Check, MessagesSquare, Sparkles } from "lucide-re
 import { BotAvatar } from "@/components/brand";
 import { NewMindButton } from "@/components/DashboardClient";
 import { StudioHeader } from "@/components/StudioHeader";
+import { UsageMeter } from "@/components/UsageMeter";
+import { quotaFor } from "@/lib/quota";
 import { getCoach } from "@/lib/auth";
 import { read } from "@/lib/db";
 
@@ -45,6 +47,7 @@ export default async function Dashboard() {
     { done: bots.some((b) => b.conversations > 0), label: "Get your first client conversation", href: null },
   ];
   const doneCount = steps.filter((x) => x.done).length;
+  const quota = quotaFor(d, coach);
   const totals = bots.reduce((t, b) => ({ c: t.c + b.conversations, m: t.m + b.messages, w: t.w + b.words }), { c: 0, m: 0, w: 0 });
 
   return (
@@ -59,6 +62,12 @@ export default async function Dashboard() {
           </div>
           {bots.length > 0 && <NewMindButton />}
         </div>
+
+        {bots.length > 0 && (
+          <div className="mt-6">
+            <UsageMeter used={quota.used} limit={quota.limit} planName={quota.plan.name} resetsOn={quota.resetsOn} upgradeHref="/dashboard/plan" />
+          </div>
+        )}
 
         {doneCount < steps.length && (
           <div className="mt-8 rounded-3xl border border-violet-100 bg-gradient-to-br from-white to-violet-50/60 p-6 shadow-soft">

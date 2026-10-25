@@ -2,6 +2,8 @@ import { nanoid } from "nanoid";
 import { z } from "zod";
 import { mutate } from "@/lib/db";
 import { clientIp, fail, json, rateLimit } from "@/lib/api";
+import { adminEmails, sendMail } from "@/lib/mail";
+import { appUrl } from "@/lib/stripe";
 
 const Body = z.object({
   name: z.string().trim().min(1, "Tell us your name").max(80),
@@ -23,5 +25,22 @@ export async function POST(req: Request) {
     return "ok";
   });
   if (result === "exists") return fail("You already have an account — sign in instead", 409);
+  if (result === "ok") {
+    const base = await appUrl();
+    // Don't make the applicant wait on the mail server.
+    void Promise.all([
+      sendMail(await adminEmails(), {
+        subject: `New coach application: ${parsed.data.name}`,
+        heading: "New coach application",
+        paragraphs: [`${parsed.data.name} (${parsed.data.email}) applied.`, `Coaches: ${parsed.data.niche}`, ...(parsed.data.audience ? [`Audience: ${parsed.data.audience}`] : [])],
+        button: { label: "Review application", url: `${base}/admin/onboarding` },
+      }),
+      sendMail(parsed.data.email, {
+        subject: "We got your application",
+        heading: `Thanks, ${parsed.data.name.split(" ")[0]}!`,
+        paragraphs: ["We've received your application and will review it shortly. Once you're approved, we'll email you a personal link to create your account."],
+      }),
+    ]);
+  }
   return json({ ok: true });
 }

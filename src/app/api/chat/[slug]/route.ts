@@ -4,6 +4,8 @@ import { mutate, read, type ChatMessage, type Conversation } from "@/lib/db";
 import { replyStream } from "@/lib/brain";
 import { chatAccess, resolveVisitor, validVisitor } from "@/lib/chat-access";
 import { accessState, offer } from "@/lib/entitlements";
+import { quotaFor } from "@/lib/quota";
+import { ipHashFor } from "@/lib/iphash";
 import { clientIp, fail, rateLimit } from "@/lib/api";
 
 export const maxDuration = 300;
@@ -32,7 +34,19 @@ export async function POST(req: Request, { params }: Ctx) {
   const visitor = preview ? (validVisitor(visitorId) ? { key: visitorId, clientId: null } : null) : await resolveVisitor(visitorId);
   if (!visitor) return fail("Invalid visitor");
 
-  const state = accessState(await read(), bot, visitor.clientId, visitor.key);
+  const data = await read();
+  const owningCoach = data.coaches.find((c) => c.id === bot.coachId);
+  if (owningCoach && quotaFor(data, owningCoach).exceeded) {
+    return fail(
+      owner
+        ? "You've used all the AI replies included in your plan this month. Upgrade your plan to keep chatting."
+        : `${bot.name} is taking a short break and will be back soon. Please try again later.`,
+      429,
+    );
+  }
+
+  const ipHash = await ipHashFor(req);
+  const state = accessState(await read(), bot, visitor.clientId, visitor.key, ipHash);
   if (!owner && !state.canChat) {
     return Response.json(
       {
@@ -43,6 +57,7 @@ export async function POST(req: Request, { params }: Ctx) {
     );
   }
   const chargeCredit = !owner && state.charge === "credit";
+
 
   const limitKey = `chat:${bot.id}:${owner ? "owner" : clientIp(req)}`;
   const { visitorMessagesPer10Min } = (await read()).settings;
@@ -59,6 +74,7 @@ export async function POST(req: Request, { params }: Ctx) {
         id: nanoid(12),
         botId: bot.id,
         visitorId: visitor.key,
+        ipHash: preview ? undefined : ipHash,
         title: message!.replace(/\s+/g, " ").slice(0, 70),
         preview,
         messages: [],
@@ -89,7 +105,7 @@ export async function POST(req: Request, { params }: Ctx) {
         if (bal) bal.remaining = Math.max(0, bal.remaining - 1);
       }
     });
-  }, { preview });
+  }, { preview, visitorKey: visitor.key });
 
   return new Response(stream, {
     headers: {

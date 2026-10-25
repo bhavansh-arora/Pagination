@@ -48,6 +48,7 @@ const Patch = z
     visibility: z.enum(["public", "code"]),
     accessCode: z.string().max(60),
     published: z.boolean(),
+    memoryEnabled: z.boolean(),
     pricing: z
       .object({
         mode: z.enum(["free", "paid"]),

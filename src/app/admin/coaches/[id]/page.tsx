@@ -7,6 +7,7 @@ import { Empty, Initials, Panel, Pill, StatTile, td, th } from "@/components/adm
 import { getCoach } from "@/lib/auth";
 import { read } from "@/lib/db";
 import { ago, EMPTY, money, usageBy, words } from "@/lib/stats";
+import { quotaFor } from "@/lib/quota";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -24,6 +25,7 @@ export default async function CoachDetail({ params }: Props) {
   const bots = d.bots.filter((b) => b.coachId === id).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const byBot = usageBy(d, "botId");
   const total = usageBy(d, "coachId").get(id) ?? EMPTY;
+  const quota = quotaFor(d, coach);
   const convos = d.conversations.filter((c) => !c.preview && bots.some((b) => b.id === c.botId));
   const sessions = d.sessions.filter((s) => s.coachId === id && new Date(s.expiresAt).getTime() > Date.now()).length;
 
@@ -61,7 +63,11 @@ export default async function CoachDetail({ params }: Props) {
       <div className="mt-6 grid gap-4 sm:grid-cols-4">
         <StatTile label="Minds" value={bots.length} sub={`${bots.filter((b) => b.published).length} live`} />
         <StatTile label="Conversations" value={convos.length} sub={`${new Set(convos.map((c) => c.visitorId)).size} unique visitors`} />
-        <StatTile label="AI replies · 30d" value={total.messages.toLocaleString()} sub={`${total.tokens.toLocaleString(undefined, { notation: "compact" })} tokens`} />
+        <StatTile
+          label="AI replies · this month"
+          value={quota.used.toLocaleString()}
+          sub={quota.limit ? `of ${quota.limit.toLocaleString()} on ${quota.plan.name}${quota.exceeded ? " · limit reached" : ""}` : `unlimited · ${total.messages.toLocaleString()} in 30 days`}
+        />
         <StatTile label="Est. cost · 30d" value={money(total.cost)} />
       </div>
 

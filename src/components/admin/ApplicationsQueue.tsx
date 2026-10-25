@@ -12,6 +12,7 @@ export function ApplicationsQueue({ apps, inviteTokens }: { apps: Application[];
   const [origin, setOrigin] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [links, setLinks] = useState<Record<string, string>>(inviteTokens);
+  const [emailed, setEmailed] = useState<Record<string, boolean>>({});
   const [tab, setTab] = useState<"new" | "approved" | "rejected">("new");
   useEffect(() => setOrigin(window.location.origin), []);
   const shown = apps.filter((a) => a.status === tab);
@@ -19,8 +20,9 @@ export function ApplicationsQueue({ apps, inviteTokens }: { apps: Application[];
   async function act(id: string, action: "approve" | "reject") {
     setBusy(id + action);
     try {
-      const { token } = await api(`/api/admin/applications/${id}`, "PATCH", { action });
-      if (token) setLinks((l) => ({ ...l, [id]: token }));
+      const res = await api(`/api/admin/applications/${id}`, "PATCH", { action });
+      if (res.token) setLinks((l) => ({ ...l, [id]: res.token }));
+      if (res.emailed) setEmailed((m) => ({ ...m, [id]: true }));
       router.refresh();
     } catch (err) {
       alert((err as Error).message);
@@ -93,7 +95,9 @@ export function ApplicationsQueue({ apps, inviteTokens }: { apps: Application[];
               </div>
               {a.status === "approved" && links[a.id] && origin && (
                 <div className="mt-3 max-w-xl space-y-1.5">
-                  <p className="text-xs font-medium text-emerald-700">Approved — send this personal sign-up link to {a.email}:</p>
+                  <p className="text-xs font-medium text-emerald-700">
+                    {emailed[a.id] ? `Approved — we emailed this sign-up link to ${a.email}:` : `Approved — send this personal sign-up link to ${a.email}:`}
+                  </p>
                   <CopyBox value={`${origin}/signup?invite=${links[a.id]}`} />
                 </div>
               )}

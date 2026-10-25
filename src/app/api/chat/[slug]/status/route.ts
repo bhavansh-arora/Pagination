@@ -3,6 +3,7 @@ import { chatAccess, resolveVisitor } from "@/lib/chat-access";
 import { getClient } from "@/lib/client-auth";
 import { accessState, offer } from "@/lib/entitlements";
 import { fail, json } from "@/lib/api";
+import { ipHashFor } from "@/lib/iphash";
 
 type Ctx = { params: Promise<{ slug: string }> };
 
@@ -13,7 +14,7 @@ export async function GET(req: Request, { params }: Ctx) {
   const visitor = await resolveVisitor(new URL(req.url).searchParams.get("visitorId"));
   if (!visitor) return fail("Invalid visitor");
   const client = await getClient();
-  const state = accessState(await read(), access.bot, visitor.clientId, visitor.key);
+  const state = accessState(await read(), access.bot, visitor.clientId, visitor.key, await ipHashFor(req));
   return json({
     state: access.owner ? { ...state, canChat: true, owner: true } : state,
     offer: offer(access.bot),

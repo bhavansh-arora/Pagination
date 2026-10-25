@@ -14,6 +14,7 @@ export function InviteManager({ invites, signupMode }: { invites: Row[]; signupM
   const [origin, setOrigin] = useState("");
   const [form, setForm] = useState({ email: "", note: "", days: 7 });
   const [created, setCreated] = useState<string | null>(null);
+  const [sentTo, setSentTo] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   useEffect(() => setOrigin(window.location.origin), []);
@@ -29,8 +30,9 @@ export function InviteManager({ invites, signupMode }: { invites: Row[]; signupM
           setLoading(true);
           setError("");
           try {
-            const { invite } = await api("/api/admin/invites", "POST", form);
+            const { invite, emailed } = await api("/api/admin/invites", "POST", form);
             setCreated(link(invite.token));
+            setSentTo(emailed ? invite.email : "");
             setForm({ email: "", note: "", days: 7 });
             router.refresh();
           } catch (err) {
@@ -69,7 +71,7 @@ export function InviteManager({ invites, signupMode }: { invites: Row[]; signupM
         </Button>
         {created && (
           <div className="space-y-2 rounded-xl bg-emerald-50 p-3">
-            <p className="text-xs font-semibold text-emerald-800">Invite ready — send this link:</p>
+            <p className="text-xs font-semibold text-emerald-800">{sentTo ? `Invite emailed to ${sentTo}. You can also share this link:` : "Invite ready — send this link:"}</p>
             <CopyBox value={created} />
           </div>
         )}

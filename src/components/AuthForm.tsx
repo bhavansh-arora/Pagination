@@ -47,7 +47,16 @@ export function AuthForm({ mode, invite, inviteEmail }: { mode: "login" | "signu
           className={inviteEmail ? "bg-zinc-50 text-muted" : undefined}
         />
       </Field>
-      <Field label="Password">
+      <Field
+        label="Password"
+        aside={
+          mode === "login" ? (
+            <Link href="/forgot" className="font-medium text-violet-700 hover:underline">
+              Forgot password?
+            </Link>
+          ) : undefined
+        }
+      >
         <Input
           name="password"
           type="password"
@@ -57,6 +66,19 @@ export function AuthForm({ mode, invite, inviteEmail }: { mode: "login" | "signu
           placeholder={mode === "signup" ? "At least 8 characters" : "••••••••"}
         />
       </Field>
+      {mode === "signup" && (
+        <p className="text-xs leading-relaxed text-muted">
+          By creating an account you agree to the{" "}
+          <Link href="/legal/terms" target="_blank" className="underline">
+            Terms
+          </Link>{" "}
+          and{" "}
+          <Link href="/legal/privacy" target="_blank" className="underline">
+            Privacy Policy
+          </Link>
+          .
+        </p>
+      )}
       {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
       <Button type="submit" size="lg" loading={loading} className="w-full">
         {mode === "signup" ? "Create my account" : "Sign in"}

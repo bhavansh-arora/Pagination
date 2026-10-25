@@ -2,6 +2,8 @@ import { z } from "zod";
 import { createCoach, startSession } from "@/lib/auth";
 import { mutate, read } from "@/lib/db";
 import { clientIp, fail, json, rateLimit } from "@/lib/api";
+import { sendMail } from "@/lib/mail";
+import { appUrl } from "@/lib/stripe";
 
 const Body = z.object({
   name: z.string().trim().min(1).max(80),
@@ -33,5 +35,18 @@ export async function POST(req: Request) {
     });
   }
   await startSession(coach.id);
+  const base = await appUrl();
+  void sendMail(email, {
+    subject: "Welcome — let's build your AI mind",
+    heading: `Welcome, ${name.split(" ")[0]}!`,
+    paragraphs: [
+      "Here's the fastest path to your first paying client:",
+      "1. Create your mind and use “Interview me” to capture how you coach.",
+      "2. Add your best content: a workbook, transcripts, blog posts.",
+      "3. Test it in the live playground until it sounds like you.",
+      "4. Connect payouts, set your pricing and share your link.",
+    ],
+    button: { label: "Open my studio", url: `${base}/dashboard` },
+  });
   return json({ ok: true, redirect: "/dashboard" });
 }

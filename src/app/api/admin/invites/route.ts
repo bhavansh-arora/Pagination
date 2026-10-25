@@ -4,6 +4,8 @@ import { z } from "zod";
 import { mutate, type Invite } from "@/lib/db";
 import { audit, requireAdmin } from "@/lib/admin";
 import { fail, json } from "@/lib/api";
+import { sendMail } from "@/lib/mail";
+import { appUrl } from "@/lib/stripe";
 
 const Body = z.object({
   email: z.union([z.literal(""), z.string().trim().toLowerCase().email().max(200)]).default(""),
@@ -29,5 +31,14 @@ export async function POST(req: Request) {
     d.invites.push(invite);
   });
   await audit(admin, "Created invite", invite.email || invite.note || "open invite");
-  return json({ invite }, 201);
+  const emailed = invite.email
+    ? await sendMail(invite.email, {
+        subject: "You're invited to build your AI mind",
+        heading: "You're invited",
+        paragraphs: [`${admin.name} invited you to create a coach account and build an AI version of your coaching that clients can talk to any time.`],
+        button: { label: "Create my account", url: `${await appUrl()}/signup?invite=${invite.token}` },
+        footnote: `This invite expires on ${new Date(invite.expiresAt).toLocaleDateString(undefined, { dateStyle: "medium" })}.`,
+      })
+    : false;
+  return json({ invite, emailed }, 201);
 }

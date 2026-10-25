@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { PlanPicker } from "@/components/CoachBilling";
 import { StudioHeader } from "@/components/StudioHeader";
+import { UsageMeter } from "@/components/UsageMeter";
+import { quotaFor } from "@/lib/quota";
 import { getCoach } from "@/lib/auth";
 import { read } from "@/lib/db";
 import { formatMoney } from "@/lib/money";
@@ -23,6 +25,7 @@ export default async function PlanPage() {
     priceMonthly: p.priceMonthly,
     commissionPct: p.commissionPct,
     maxMinds: p.maxMinds,
+    monthlyReplies: p.monthlyReplies,
     features: p.features,
     highlight: p.highlight,
   }));
@@ -37,6 +40,12 @@ export default async function PlanPage() {
           payments
           {coach.planRenewsAt && !coach.planCancelAtPeriodEnd ? ` · renews ${new Date(coach.planRenewsAt).toLocaleDateString(undefined, { dateStyle: "medium" })}` : ""}
         </p>
+        <div className="mb-8">
+          {(() => {
+            const q = quotaFor(d, coach);
+            return <UsageMeter used={q.used} limit={q.limit} planName={q.plan.name} resetsOn={q.resetsOn} />;
+          })()}
+        </div>
         <Suspense>
           <PlanPicker plans={plans} currentId={current.id} hasCustomer={!!coach.stripeCustomerId} renewsAt={coach.planRenewsAt} pendingCancel={!!coach.planCancelAtPeriodEnd} />
         </Suspense>

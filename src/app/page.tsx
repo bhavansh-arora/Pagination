@@ -303,6 +303,7 @@ export default async function Home() {
                   {p.priceMonthly > 0 && <span className="text-sm text-muted">/ month</span>}
                 </div>
                 <div className="mt-1 text-sm font-medium text-violet-700">{p.commissionPct}% fee on client payments</div>
+                <div className="text-xs text-muted">{p.monthlyReplies ? `${p.monthlyReplies.toLocaleString()} AI replies / month` : "Unlimited AI replies"}</div>
                 <ul className="mt-6 flex-1 space-y-2.5">
                   {p.features.map((f) => (
                     <li key={f} className="flex gap-2.5 text-sm text-zinc-700">
@@ -367,6 +368,12 @@ export default async function Home() {
             </Link>
             <Link href="/me" className="hover:text-ink">
               Client account
+            </Link>
+            <Link href="/legal/terms" className="hover:text-ink">
+              Terms
+            </Link>
+            <Link href="/legal/privacy" className="hover:text-ink">
+              Privacy
             </Link>
             <span>© {new Date().getFullYear()} Mindclone</span>
           </div>

@@ -51,6 +51,7 @@ export function newBot(coachId: string, coachName: string, name: string, emoji: 
     accessCode: "",
     published: false,
     pricing: { ...DEFAULT_PRICING, packs: [] },
+    memoryEnabled: true,
     createdAt: now,
     updatedAt: now,
   };

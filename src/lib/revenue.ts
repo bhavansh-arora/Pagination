@@ -25,6 +25,8 @@ export function recurring(memberships: Membership[], currency: string) {
   return memberships.filter((m) => isActiveMembership(m) && m.currency === currency && !m.cancelAtPeriodEnd).reduce((n, m) => n + monthly(m.amount, m.interval), 0);
 }
 
-export const net = (p: Payment) => p.amount - p.platformFee;
-export const gross = (p: Payment) => p.amount;
-export const fee = (p: Payment) => p.platformFee;
+/** Share of a payment that wasn't refunded. Fees are assumed refunded in proportion. */
+const kept = (p: Payment) => (p.amount ? Math.max(0, p.amount - (p.refunded ?? 0)) / p.amount : 0);
+export const gross = (p: Payment) => p.amount - (p.refunded ?? 0);
+export const fee = (p: Payment) => Math.round(p.platformFee * kept(p));
+export const net = (p: Payment) => gross(p) - fee(p);

@@ -5,7 +5,7 @@ import { getCoach } from "@/lib/auth";
 import { publicBot } from "@/lib/bots";
 import { read } from "@/lib/db";
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ embed?: string }> };
 
 async function load(slug: string) {
   const d = await read();
@@ -28,18 +28,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function PublicChat({ params }: Props) {
+export default async function PublicChat({ params, searchParams }: Props) {
   const r = await load((await params).slug);
   if (!r) notFound();
+  const embedded = (await searchParams).embed === "1";
   return (
     <div className="flex h-dvh flex-col">
-      {r.draft && (
+      {r.draft && !embedded && (
         <div className="shrink-0 bg-amber-50 px-4 py-2 text-center text-xs font-medium text-amber-800">
           Only you can see this — publish the mind from your dashboard to share it.
         </div>
       )}
       <div className="min-h-0 flex-1">
-        <ChatView bot={publicBot(r.bot)} mode="public" />
+        <ChatView bot={publicBot(r.bot)} mode="public" embedded={embedded} />
       </div>
     </div>
   );

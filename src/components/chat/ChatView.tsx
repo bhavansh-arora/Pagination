@@ -14,6 +14,8 @@ import {
   Square,
   SquarePen,
   Trash2,
+  ThumbsDown,
+  ThumbsUp,
   UserRound,
   X,
   CircleCheck,
@@ -41,7 +43,7 @@ export interface ChatBot {
   paid?: boolean;
 }
 
-type Msg = { role: "user" | "assistant"; content: string; error?: boolean };
+type Msg = { role: "user" | "assistant"; content: string; error?: boolean; rating?: "up" | "down" };
 type ConvoMeta = { id: string; title: string; updatedAt: string };
 
 function storage(key: string, value?: string) {
@@ -63,8 +65,10 @@ function visitorId(preview: boolean) {
   return id;
 }
 
-export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "preview" }) {
+export function ChatView({ bot, mode, embedded = false }: { bot: ChatBot; mode: "public" | "preview"; embedded?: boolean }) {
   const preview = mode === "preview";
+  // Layout without the sidebar: the coach's playground and the website widget.
+  const compact = preview || embedded;
   const [vid, setVid] = useState<string | null>(null);
   const [code, setCode] = useState<string>("");
   const [locked, setLocked] = useState(bot.needsCode && !preview);
@@ -181,7 +185,7 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
       const res = await fetch(`/api/chat/${bot.slug}/conversations?${q({ id })}`, { headers: headers() });
       const d = res.ok ? await res.json() : null;
       if (seq !== openSeq.current) return;
-      if (d?.conversation) setMessages(d.conversation.messages.map((m: Msg) => ({ role: m.role, content: m.content })));
+      if (d?.conversation) setMessages(d.conversation.messages.map((m: Msg) => ({ role: m.role, content: m.content, rating: m.rating })));
       else {
         setActiveId(null);
         storage(`mc:last:${bot.slug}`, "");
@@ -286,6 +290,18 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
     }
   }
 
+  async function rate(index: number, rating: "up" | "down") {
+    const m = messages[index];
+    if (!activeId || !m || m.role !== "assistant") return;
+    const next = m.rating === rating ? null : rating;
+    setMessages((all) => all.map((x, i) => (i === index ? { ...x, rating: next ?? undefined } : x)));
+    await fetch(`/api/chat/${bot.slug}/feedback`, {
+      method: "POST",
+      headers: headers({ "content-type": "application/json" }),
+      body: JSON.stringify({ visitorId: vid, conversationId: activeId, content: m.content, rating: next, accessCode: code || null, preview }),
+    }).catch(() => undefined);
+  }
+
   async function removeConvo(id: string) {
     await fetch(`/api/chat/${bot.slug}/conversations?${q({ id })}`, { method: "DELETE", headers: headers() });
     if (id === activeId) newChat();
@@ -309,7 +325,7 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
 
   return (
     <div className="flex h-full min-h-0 bg-white" style={style}>
-      {!preview && (
+      {!compact && (
         <>
           <aside
             className={cn(
@@ -401,7 +417,10 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
                 </button>
               )}
               <p className="text-center text-[11px] leading-relaxed text-muted">
-                AI trained on {bot.coachName}&apos;s material. It can make mistakes. Conversations may be reviewed by {bot.coachName.split(" ")[0]}.
+                AI trained on {bot.coachName}&apos;s material. It can make mistakes. Conversations may be reviewed by {bot.coachName.split(" ")[0]}.{" "}
+                <a href="/legal/privacy" target="_blank" className="underline">
+                  Privacy
+                </a>
               </p>
             </div>
           </aside>
@@ -411,22 +430,36 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-14 shrink-0 items-center gap-2 border-b border-line/70 px-3">
-          {!preview && (
+          {!compact && (
             <button className="rounded-lg p-2 text-muted hover:bg-black/5 md:hidden" onClick={() => setSidebar(true)} aria-label="Open menu">
               <Menu className="size-5" />
             </button>
           )}
-          <BotAvatar emoji={bot.avatarEmoji} image={bot.avatarImage} color={bot.brandColor} size={28} className={cn(!preview && "md:hidden")} />
-          <div className={cn("min-w-0 flex-1 text-sm font-semibold", !preview && "md:hidden")}>
+          <BotAvatar emoji={bot.avatarEmoji} image={bot.avatarImage} color={bot.brandColor} size={28} className={cn(!compact && "md:hidden")} />
+          <div className={cn("min-w-0 flex-1 text-sm font-semibold", !compact && "md:hidden")}>
             <span className="truncate">{bot.name}</span>
           </div>
-          <div className={cn("hidden min-w-0 flex-1 truncate text-sm text-muted", !preview && "md:block")}>
+          <div className={cn("hidden min-w-0 flex-1 truncate text-sm text-muted", !compact && "md:block")}>
             {convos.find((c) => c.id === activeId)?.title ?? ""}
           </div>
           {preview ? (
             <button onClick={newChat} className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted hover:bg-black/5 hover:text-ink">
               <RotateCcw className="size-3.5" /> Reset
             </button>
+          ) : embedded ? (
+            <>
+              <button onClick={newChat} className="rounded-lg p-2 text-muted hover:bg-black/5" aria-label="New conversation">
+                <SquarePen className="size-4" />
+              </button>
+              <a
+                href={`/c/${bot.slug}`}
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-muted hover:bg-black/5 hover:text-ink"
+              >
+                Open <ExternalLink className="size-3.5" />
+              </a>
+            </>
           ) : (
             <>
               {!client && (
@@ -450,9 +483,9 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
           className="scrollbar-thin min-h-0 flex-1 overflow-y-auto"
         >
           {empty ? (
-            <Welcome bot={bot} compact={preview} onPick={(s) => send(s)} />
+            <Welcome bot={bot} compact={compact} onPick={(s) => send(s)} />
           ) : (
-            <div className={cn("mx-auto w-full space-y-7 px-4 py-8", preview ? "max-w-full" : "max-w-3xl")}>
+            <div className={cn("mx-auto w-full space-y-7 px-4 py-8", compact ? "max-w-full" : "max-w-3xl")}>
               {messages.map((m, i) => (
                 <Message
                   key={i}
@@ -461,13 +494,14 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
                   streaming={busy && i === messages.length - 1}
                   canRegenerate={!busy && i === messages.length - 1 && m.role === "assistant"}
                   onRegenerate={() => send(undefined, true)}
+                  onRate={(r) => rate(i, r)}
                 />
               ))}
             </div>
           )}
         </div>
 
-        <div className={cn("mx-auto w-full shrink-0 px-4 pb-4", preview ? "max-w-full" : "max-w-3xl")}>
+        <div className={cn("mx-auto w-full shrink-0 px-4 pb-4", compact ? "max-w-full" : "max-w-3xl")}>
           {status?.mode === "paid" && !status.owner && <UsageHint status={status} onPlans={() => setPaywall({})} />}
           <Composer
             value={input}
@@ -477,11 +511,23 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
             busy={busy}
             placeholder={`Message ${bot.name}…`}
           />
-          {!preview && <p className="mt-2 text-center text-[11px] text-muted md:hidden">AI trained on {bot.coachName}&apos;s material. It can make mistakes.</p>}
+          {!compact && <p className="mt-2 text-center text-[11px] text-muted md:hidden">AI trained on {bot.coachName}&apos;s material. It can make mistakes.</p>}
         </div>
       </div>
 
-      {paywall && status && offer && (
+      {paywall && embedded && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-ink/40 p-4 backdrop-blur-sm" onClick={() => setPaywall(null)}>
+          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-sm animate-fade-up rounded-3xl bg-white p-6 text-center shadow-lift">
+            <BotAvatar emoji={bot.avatarEmoji} image={bot.avatarImage} color={bot.brandColor} size={56} className="mx-auto" />
+            <h2 className="mt-3 text-lg font-semibold tracking-tight">Keep going with {bot.coachName.split(" ")[0]}</h2>
+            <p className="mt-1.5 text-sm text-muted">{paywall.reason ?? "Create a free account to continue."} Continue in the full app — your chat will be there.</p>
+            <a href={`/c/${bot.slug}`} target="_blank" rel="noopener" className="mt-5 flex h-11 items-center justify-center gap-2 rounded-xl bg-accent text-sm font-semibold text-white">
+              Continue <ExternalLink className="size-4" />
+            </a>
+          </div>
+        </div>
+      )}
+      {paywall && !embedded && status && offer && (
         <Paywall
           bot={bot}
           offer={offer}
@@ -608,12 +654,14 @@ function Message({
   streaming,
   canRegenerate,
   onRegenerate,
+  onRate,
 }: {
   m: Msg;
   bot: ChatBot;
   streaming: boolean;
   canRegenerate: boolean;
   onRegenerate: () => void;
+  onRate: (r: "up" | "down") => void;
 }) {
   const [copied, setCopied] = useState(false);
   if (m.role === "user") {
@@ -654,6 +702,22 @@ function Message({
               aria-label="Copy"
             >
               {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+            </button>
+            <button
+              onClick={() => onRate("up")}
+              className={cn("rounded-md p-1.5 hover:bg-black/5", m.rating === "up" ? "text-emerald-600" : "text-muted hover:text-ink")}
+              aria-label="Helpful"
+              aria-pressed={m.rating === "up"}
+            >
+              <ThumbsUp className={cn("size-3.5", m.rating === "up" && "fill-current")} />
+            </button>
+            <button
+              onClick={() => onRate("down")}
+              className={cn("rounded-md p-1.5 hover:bg-black/5", m.rating === "down" ? "text-rose-600" : "text-muted hover:text-ink")}
+              aria-label="Not helpful"
+              aria-pressed={m.rating === "down"}
+            >
+              <ThumbsDown className={cn("size-3.5", m.rating === "down" && "fill-current")} />
             </button>
             {canRegenerate && (
               <button onClick={onRegenerate} className="rounded-md p-1.5 text-muted hover:bg-black/5 hover:text-ink" aria-label="Regenerate">

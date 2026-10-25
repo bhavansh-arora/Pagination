@@ -4,6 +4,7 @@ import { CheckCircle2, XCircle } from "lucide-react";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import { PageHeader, Panel } from "@/components/admin/parts";
 import { DATA_DIR, read } from "@/lib/db";
+import { mailEnabled } from "@/lib/mail";
 
 export const metadata = { title: "Settings" };
 
@@ -32,6 +33,18 @@ export default async function SettingsPage() {
       ) : (
         <span className="flex items-center gap-1.5 text-rose-600">
           <XCircle className="size-4" /> Missing — set ANTHROPIC_API_KEY
+        </span>
+      ),
+    ],
+    [
+      "Email (SMTP)",
+      mailEnabled() ? (
+        <span key="mail" className="flex items-center gap-1.5 text-emerald-700">
+          <CheckCircle2 className="size-4" /> Configured
+        </span>
+      ) : (
+        <span key="mail" className="flex items-center gap-1.5 text-amber-700">
+          <XCircle className="size-4" /> Not set — password reset & emails are off (SMTP_URL, MAIL_FROM)
         </span>
       ),
     ],

@@ -79,7 +79,7 @@ export function PlansEditor({ initial, defaultPlanId, currency, coachCounts }: {
               <Field label="Tagline">
                 <Input value={p.tagline} onChange={(e) => patch(i, { tagline: e.target.value })} />
               </Field>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <Field label={`Price / mo (${cur.toUpperCase()})`}>
                   <Input
                     type="number"
@@ -94,6 +94,9 @@ export function PlansEditor({ initial, defaultPlanId, currency, coachCounts }: {
                 </Field>
                 <Field label="Max minds" hint="0 = unlimited">
                   <Input type="number" min={0} value={p.maxMinds} onChange={(e) => patch(i, { maxMinds: Math.max(0, Math.round(Number(e.target.value) || 0)) })} />
+                </Field>
+                <Field label="AI replies / mo" hint="0 = unlimited">
+                  <Input type="number" min={0} step={100} value={p.monthlyReplies} onChange={(e) => patch(i, { monthlyReplies: Math.max(0, Math.round(Number(e.target.value) || 0)) })} />
                 </Field>
               </div>
               <Field label="Features" hint="One per line — shown on the pricing page.">
@@ -126,7 +129,7 @@ export function PlansEditor({ initial, defaultPlanId, currency, coachCounts }: {
             onClick={() => {
               setPlans((all) => [
                 ...all,
-                { id: `plan-${all.length + 1}`, name: "New plan", tagline: "", priceMonthly: 4900, commissionPct: 5, maxMinds: 3, canCharge: true, highlight: false, features: [] },
+                { id: `plan-${all.length + 1}`, name: "New plan", tagline: "", priceMonthly: 4900, commissionPct: 5, maxMinds: 3, monthlyReplies: 2000, canCharge: true, highlight: false, features: [] },
               ]);
               setState("idle");
             }}

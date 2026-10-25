@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, MessageSquare, Sparkles } from "lucide-react";
 import { BotAvatar, Logo } from "@/components/brand";
-import { BillingPortalButton, ClientSignIn, ClientSignOut } from "@/components/ClientPortal";
+import { BillingPortalButton, ClientSignIn, ClientSignOut, ForgetButton, PrivacyControls } from "@/components/ClientPortal";
 import { clientVisitorKey, getClient } from "@/lib/client-auth";
 import { read } from "@/lib/db";
 import { isActiveMembership } from "@/lib/entitlements";
@@ -35,6 +35,7 @@ export default async function ClientHome() {
   const convos = d.conversations.filter((c) => c.visitorId === key && !c.preview).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const chattedIds = [...new Set([...convos.map((c) => c.botId), ...memberships.map((m) => m.botId), ...credits.map((c) => c.botId)])];
   const payments = d.payments.filter((p) => p.clientId === client.id).sort((a, b) => b.at.localeCompare(a.at));
+  const memories = d.memories.filter((m) => m.visitorKey === key && m.notes);
 
   return (
     <div className="mesh min-h-dvh">
@@ -154,6 +155,30 @@ export default async function ClientHome() {
             </div>
           </section>
         )}
+        {memories.length > 0 && (
+          <section>
+            <h2 className="mb-3 text-sm font-semibold tracking-wide text-muted uppercase">What your coaches&apos; AI remembers</h2>
+            <div className="space-y-3">
+              {memories.map((m) => (
+                <div key={m.botId} className="rounded-2xl border border-line bg-white p-5 shadow-soft">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="font-medium">{botsById.get(m.botId)?.name ?? "Mind"}</div>
+                    <ForgetButton botId={m.botId} />
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed whitespace-pre-wrap text-zinc-700">{m.notes}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section>
+          <PrivacyControls />
+          <p className="mt-3 text-center text-xs text-muted">
+            <a href="/legal/privacy" className="hover:text-ink">Privacy</a> · <a href="/legal/terms" className="hover:text-ink">Terms</a> ·{" "}
+            <a href="/legal/refunds" className="hover:text-ink">Refunds</a>
+          </p>
+        </section>
       </main>
     </div>
   );

@@ -60,6 +60,24 @@ export function ClientAuthForm({
           autoComplete={mode === "signup" ? "new-password" : "current-password"}
           className={input}
         />
+        {mode === "login" && (
+          <a href="/forgot?kind=client" className="block text-right text-xs font-medium text-muted hover:text-ink">
+            Forgot password?
+          </a>
+        )}
+        {mode === "signup" && (
+          <p className="text-[11px] leading-relaxed text-muted">
+            By creating an account you agree to the{" "}
+            <a href="/legal/terms" target="_blank" className="underline">
+              Terms
+            </a>{" "}
+            and{" "}
+            <a href="/legal/privacy" target="_blank" className="underline">
+              Privacy Policy
+            </a>
+            .
+          </p>
+        )}
         {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
         <button
           disabled={loading}

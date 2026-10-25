@@ -5,6 +5,8 @@ import { buildPersona, knowledgeBlock } from "./prompt";
 import { chunkText, rank, type Chunk } from "./retrieval";
 import { MODELS } from "./models";
 import { recordUsage } from "./usage";
+import { maybeUpdateMemory, memoryFor } from "./memory";
+import { checkQuotaNotice } from "./quota-notify";
 
 /** Below this size the whole library rides along in the cached system prompt. */
 export const FULL_MEMORY_CHARS = 600_000;
@@ -30,7 +32,7 @@ export async function replyStream(
   history: ChatMessage[],
   signal: AbortSignal,
   onFinish: (text: string) => Promise<void>,
-  opts: { preview?: boolean } = {},
+  opts: { preview?: boolean; visitorKey?: string } = {},
 ): Promise<ReadableStream<Uint8Array>> {
   const { sources, total } = await loadKnowledge(bot.id);
   const persona = buildPersona(bot);
@@ -53,10 +55,12 @@ export async function replyStream(
     const cache = chunkCache();
     const all: Chunk[] = [];
     for (const s of sources) {
-      let chunks = cache.get(s.id);
+      // Keyed by size too, so a source that grows (e.g. corrections) is re-chunked.
+      const cacheKey = `${s.id}:${s.chars}`;
+      let chunks = cache.get(cacheKey);
       if (!chunks) {
         chunks = chunkText(s.title, await readSourceText(s.id));
-        cache.set(s.id, chunks);
+        cache.set(cacheKey, chunks);
       }
       all.push(...chunks);
     }
@@ -72,6 +76,15 @@ export async function replyStream(
     }
   }
   system[system.length - 1].cache_control = { type: "ephemeral" };
+
+  // Per-client memory changes between turns, so it sits after the cache breakpoint.
+  const memory = bot.memoryEnabled && opts.visitorKey ? await memoryFor(bot.id, opts.visitorKey) : null;
+  if (memory?.notes) {
+    system.push({
+      type: "text",
+      text: `<client_memory>\nWhat you remember about this client from earlier conversations:\n${memory.notes}\n</client_memory>\nUse this naturally to personalise your coaching — follow up on their goals and commitments — but don't recite it back to them.`,
+    });
+  }
 
   const model = MODELS.some((m) => m.id === bot.model) ? bot.model : MODELS[0].id;
   const supportsFallback = model !== "claude-haiku-5-5";
@@ -102,7 +115,9 @@ export async function replyStream(
           }
         }
         const final = await stream.finalMessage();
-        recordUsage(bot.id, bot.coachId, final.model || model, final.usage, !!opts.preview).catch((e) => console.error("[usage]", e));
+        recordUsage(bot.id, bot.coachId, final.model || model, final.usage, !!opts.preview)
+          .then(() => checkQuotaNotice(bot.coachId))
+          .catch((e) => console.error("[usage]", e));
         if (final.stop_reason === "refusal") {
           text = "I'm not able to help with that one. Is there something else on your mind I can help you work through?";
           send(controller, { t: "error", message: text });
@@ -117,7 +132,10 @@ export async function replyStream(
           console.error("[chat]", err);
         }
       } finally {
-        if (text.trim()) await onFinish(text).catch((e) => console.error("[chat:save]", e));
+        if (text.trim()) {
+          await onFinish(text).catch((e) => console.error("[chat:save]", e));
+          if (opts.visitorKey) void maybeUpdateMemory(bot, opts.visitorKey, !!opts.preview);
+        }
         try {
           controller.close();
         } catch {}

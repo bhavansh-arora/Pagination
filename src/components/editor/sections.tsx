@@ -259,6 +259,12 @@ export function ExperienceSection({ bot, update }: Props) {
             ))}
           </div>
         </Section>
+        <Section title="Memory" description="Your mind keeps short private notes on each client — goals, situation, commitments — so it can follow up like you would. Clients can see and erase them.">
+          <label className="flex items-center justify-between gap-4">
+            <span className="text-sm font-medium">Remember clients between conversations</span>
+            <Switch checked={bot.memoryEnabled} onChange={(v) => update({ memoryEnabled: v })} label="Remember clients" />
+          </label>
+        </Section>
         <Section title="Call to action" description="Optional. A button in the chat, and your mind will suggest it when someone wants deeper support.">
           <div className="grid gap-5 sm:grid-cols-[1fr_1.5fr]">
             <Field label="Button label">
@@ -339,7 +345,8 @@ export function ShareSection({ bot, update, setPublished }: Props & { setPublish
   useEffect(() => setOrigin(window.location.origin), []);
   useEffect(() => setSlug(bot.slug), [bot.slug]);
   const link = `${origin}/c/${bot.slug}`;
-  const embed = `<iframe src="${link}" style="width:100%;height:640px;border:0;border-radius:16px" allow="clipboard-write"></iframe>`;
+  const embed = `<iframe src="${link}?embed=1" style="width:100%;height:640px;border:0;border-radius:16px" allow="clipboard-write"></iframe>`;
+  const widget = `<script src="${origin}/widget.js" data-mind="${bot.slug}" async></script>`;
   const randomCode = () => Array.from(crypto.getRandomValues(new Uint8Array(4)), (b) => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[b % 32]).join("") + "-" + Array.from(crypto.getRandomValues(new Uint8Array(4)), (b) => "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[b % 32]).join("");
 
   return (
@@ -407,7 +414,9 @@ export function ShareSection({ bot, update, setPublished }: Props & { setPublish
           </a>
         </Section>
 
-        <Section title="Embed on your website" description="Paste this into Webflow, WordPress, Kajabi, Squarespace or any HTML block.">
+        <Section title="Add a chat bubble to your website" description="Paste this once before </body> on any site — Webflow, WordPress, Kajabi, Squarespace, Shopify. A bubble appears in the corner and opens your mind.">
+          <CopyField value={widget} icon={Code2} />
+          <p className="text-xs text-muted">Prefer it inline on a page? Use this instead:</p>
           <CopyField value={embed} icon={Code2} />
         </Section>
 

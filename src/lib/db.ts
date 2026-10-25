@@ -1,6 +1,7 @@
 import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { randomBytes } from "node:crypto";
 
 export type Tone =
   | "warm"
@@ -37,6 +38,8 @@ export interface Coach {
   stripeAccountId?: string;
   payoutsReady?: boolean;
   payoutsDetailsSubmitted?: boolean;
+  /** Last quota warning emailed, e.g. "2026-10:80". */
+  quotaNotice?: string;
 }
 
 /** A plan coaches pay the platform for. Commission applies to what their clients pay them. */
@@ -47,6 +50,8 @@ export interface Plan {
   priceMonthly: number;
   commissionPct: number;
   maxMinds: number;
+  /** AI replies per calendar month across all the coach's minds; 0 = unlimited. */
+  monthlyReplies: number;
   canCharge: boolean;
   highlight: boolean;
   features: string[];
@@ -122,7 +127,31 @@ export interface Payment {
   currency: string;
   platformFee: number;
   stripeRef: string;
+  /** Payment intent, used to match refunds and disputes. */
+  paymentIntent?: string;
   description: string;
+  refunded?: number;
+  disputed?: boolean;
+  /** Message credits a pack added, and how many were taken back after refunds. */
+  messages?: number;
+  creditsRevoked?: number;
+}
+
+/** What a mind remembers about one client. */
+export interface Memory {
+  botId: string;
+  visitorKey: string;
+  notes: string;
+  /** Number of user messages already folded into the notes. */
+  coveredMessages: number;
+  updatedAt: string;
+}
+
+export interface ResetToken {
+  tokenHash: string;
+  kind: "coach" | "client";
+  userId: string;
+  expiresAt: string;
 }
 
 export interface Application {
@@ -157,6 +186,8 @@ export interface Settings {
   defaultPlanId: string;
   platformCurrency: string;
   demoSlug: string;
+  companyName: string;
+  contactEmail: string;
   /** Monthly AI spend budget in USD cents; 0 = no budget. */
   aiMonthlyBudget: number;
 }
@@ -169,6 +200,7 @@ export const DEFAULT_PLANS: Plan[] = [
     priceMonthly: 0,
     commissionPct: 15,
     maxMinds: 1,
+    monthlyReplies: 500,
     canCharge: true,
     highlight: false,
     features: ["1 AI mind", "Unlimited knowledge uploads", "Charge clients (15% platform fee)", "Conversation insights"],
@@ -180,6 +212,7 @@ export const DEFAULT_PLANS: Plan[] = [
     priceMonthly: 2900,
     commissionPct: 8,
     maxMinds: 5,
+    monthlyReplies: 5000,
     canCharge: true,
     highlight: true,
     features: ["5 AI minds", "Everything in Starter", "Lower 8% platform fee", "Private access codes", "Priority support"],
@@ -191,6 +224,7 @@ export const DEFAULT_PLANS: Plan[] = [
     priceMonthly: 9900,
     commissionPct: 3,
     maxMinds: 0,
+    monthlyReplies: 25000,
     canCharge: true,
     highlight: false,
     features: ["Unlimited AI minds", "Everything in Pro", "Lowest 3% platform fee", "Website embed for every mind"],
@@ -204,6 +238,8 @@ export const DEFAULT_SETTINGS: Settings = {
   defaultPlanId: "starter",
   platformCurrency: "usd",
   demoSlug: "",
+  companyName: "",
+  contactEmail: "",
   aiMonthlyBudget: 0,
 };
 
@@ -265,6 +301,8 @@ export interface Bot {
   accessCode: string;
   published: boolean;
   pricing: Pricing;
+  /** Remember each client's goals and context across conversations. */
+  memoryEnabled: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -285,6 +323,10 @@ export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
   at: string;
+  /** Client feedback on an assistant reply. */
+  rating?: "up" | "down";
+  /** The coach's improved version of this reply. */
+  correction?: string;
 }
 
 export interface Conversation {
@@ -293,6 +335,8 @@ export interface Conversation {
   visitorId: string;
   title: string;
   preview: boolean;
+  /** Salted hash of the visitor's IP, used to stop free-trial resets. */
+  ipHash?: string;
   messages: ChatMessage[];
   createdAt: string;
   updatedAt: string;
@@ -315,6 +359,10 @@ interface Data {
   payments: Payment[];
   applications: Application[];
   processedEvents: string[];
+  memories: Memory[];
+  resetTokens: ResetToken[];
+  /** Random per-installation secret (e.g. salt for IP hashes). */
+  instanceSecret: string;
 }
 
 export const DATA_DIR = path.resolve(/*turbopackIgnore: true*/ process.env.DATA_DIR ?? "./data");
@@ -338,51 +386,112 @@ const empty = (): Data => ({
   payments: [],
   applications: [],
   processedEvents: [],
+  memories: [],
+  resetTokens: [],
+  instanceSecret: "",
 });
 
-async function load(): Promise<Data> {
+function normalize(raw: Partial<Data>): Data {
+  const data = { ...empty(), ...raw };
+  data.instanceSecret ||= randomBytes(24).toString("hex");
+  data.settings = { ...DEFAULT_SETTINGS, ...raw.settings };
+  if (!data.settings.plans?.length) data.settings.plans = DEFAULT_PLANS;
+  for (const p of data.settings.plans) p.monthlyReplies ??= 0;
+  for (const c of data.coaches) {
+    c.role ??= "coach";
+    c.status ??= "active";
+  }
+  for (const b of data.bots) {
+    b.pricing = { ...DEFAULT_PRICING, ...b.pricing };
+    b.memoryEnabled ??= true;
+  }
+  return data;
+}
+
+async function loadFromDisk(): Promise<{ data: Data; mtimeMs: number }> {
   try {
-    const raw = JSON.parse(await fs.readFile(DB_FILE, "utf8")) as Partial<Data>;
-    const data = { ...empty(), ...raw };
-    data.settings = { ...DEFAULT_SETTINGS, ...raw.settings };
-    if (!data.settings.plans?.length) data.settings.plans = DEFAULT_PLANS;
-    for (const c of data.coaches) {
-      c.role ??= "coach";
-      c.status ??= "active";
-    }
-    for (const b of data.bots) b.pricing = { ...DEFAULT_PRICING, ...b.pricing };
-    return data;
+    const [text, stat] = await Promise.all([fs.readFile(DB_FILE, "utf8"), fs.stat(DB_FILE)]);
+    return { data: normalize(JSON.parse(text) as Partial<Data>), mtimeMs: stat.mtimeMs };
   } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === "ENOENT") return empty();
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return { data: empty(), mtimeMs: 0 };
     throw err;
   }
 }
 
-async function save(data: Data) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  const tmp = `${DB_FILE}.${process.pid}.${Date.now()}.tmp`;
-  await fs.writeFile(tmp, JSON.stringify(data));
-  await fs.rename(tmp, DB_FILE);
+/*
+ * The whole database lives in memory in this (single) server process. Mutations
+ * run one at a time; their writes to disk are coalesced, and a mutation only
+ * resolves once a write containing its changes has finished. If the file is
+ * changed by something else (e.g. scripts/admin.mjs), it is reloaded.
+ */
+interface Store {
+  data?: Data;
+  mtimeMs: number;
+  queue: Promise<unknown>;
+  dirty: boolean;
+  flushing: Promise<void> | null;
+}
+const g = globalThis as unknown as { __store?: Store };
+const store = (g.__store ??= { mtimeMs: 0, queue: Promise.resolve(), dirty: false, flushing: null });
+
+async function current(): Promise<Data> {
+  if (store.data && !store.dirty && !store.flushing) {
+    const mtimeMs = await fs.stat(DB_FILE).then((s) => s.mtimeMs, () => 0);
+    if (mtimeMs !== store.mtimeMs) store.data = undefined;
+  }
+  if (!store.data) {
+    const loaded = await loadFromDisk();
+    store.data = loaded.data;
+    store.mtimeMs = loaded.mtimeMs;
+  }
+  return store.data;
 }
 
-// Serialize every read-modify-write so concurrent requests can't clobber each other.
-const g = globalThis as unknown as { __dbQueue?: Promise<unknown> };
+async function writeToDisk() {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  const tmp = `${DB_FILE}.${process.pid}.${Date.now()}.tmp`;
+  await fs.writeFile(tmp, JSON.stringify(store.data));
+  await fs.rename(tmp, DB_FILE);
+  store.mtimeMs = (await fs.stat(DB_FILE)).mtimeMs;
+}
+
+function persist(): Promise<void> {
+  store.dirty = true;
+  store.flushing ??= (async () => {
+    try {
+      while (store.dirty) {
+        store.dirty = false;
+        await writeToDisk();
+      }
+    } finally {
+      store.flushing = null;
+    }
+  })();
+  return store.flushing;
+}
 
 export type { Data };
 
 export function read(): Promise<Data> {
-  return load();
+  return current();
 }
 
 export function mutate<T>(fn: (data: Data) => T | Promise<T>): Promise<T> {
-  const run = (g.__dbQueue ?? Promise.resolve()).then(async () => {
-    const data = await load();
-    const result = await fn(data);
-    await save(data);
+  const run = store.queue.then(async () => {
+    const data = await current();
+    try {
+      return await fn(data);
+    } catch (err) {
+      // Throw away partial changes by reloading from disk.
+      store.data = undefined;
+      throw err;
+    }
+  });
+  store.queue = run.catch(() => undefined);
+  return run.then(async (result) => {
+    await persist();
     return result;
   });
-  g.__dbQueue = run.catch(() => undefined);
-  return run;
 }
 
 function sourcePath(id: string) {

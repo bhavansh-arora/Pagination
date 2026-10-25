@@ -149,8 +149,12 @@ export default async function RevenuePage() {
                       {p.description}
                       {p.clientId && ` · ${d.clients.find((c) => c.id === p.clientId)?.email ?? ""}`}
                     </td>
-                    <td className={`${td} text-right tabular-nums`}>{formatMoney(p.amount, p.currency)}</td>
-                    <td className={`${td} text-right font-medium tabular-nums`}>{formatMoney(p.platformFee, p.currency)}</td>
+                    <td className={`${td} text-right tabular-nums`}>
+                      {formatMoney(p.amount, p.currency)}
+                      {!!p.refunded && <div className="text-[11px] text-rose-600">−{formatMoney(p.refunded, p.currency)} refunded</div>}
+                      {p.disputed && <div className="text-[11px] font-semibold text-rose-600">Disputed</div>}
+                    </td>
+                    <td className={`${td} text-right font-medium tabular-nums`}>{formatMoney(fee(p), p.currency)}</td>
                   </tr>
                 ))}
               </tbody>

@@ -9,6 +9,8 @@ const Patch = z
     defaultPlanId: z.string().max(40),
     platformCurrency: z.string().length(3),
     demoSlug: z.string().max(60),
+    companyName: z.string().trim().max(120),
+    contactEmail: z.union([z.literal(""), z.string().trim().email().max(200)]),
     aiMonthlyBudget: z.number().int().min(0).max(100_000_000),
     plans: z
       .array(
@@ -19,6 +21,7 @@ const Patch = z
           priceMonthly: z.number().int().min(0).max(10_000_000),
           commissionPct: z.number().min(0).max(90),
           maxMinds: z.number().int().min(0).max(1000),
+          monthlyReplies: z.number().int().min(0).max(10_000_000),
           canCharge: z.boolean(),
           highlight: z.boolean(),
           features: z.array(z.string().max(120)).max(12),

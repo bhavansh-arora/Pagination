@@ -19,6 +19,7 @@ import {
   Sparkles,
   UserRound,
   Wallet,
+  Wand2,
   X,
 } from "lucide-react";
 import type { Bot, Source } from "@/lib/db";
@@ -30,10 +31,12 @@ import { BrainSection, ExperienceSection, IdentitySection, MindSection, ShareSec
 import { KnowledgeSection } from "./KnowledgeSection";
 import { ConversationsSection } from "./ConversationsSection";
 import { MonetizationSection, type BillingInfo } from "./Monetization";
+import { InterviewSection } from "./InterviewSection";
 
 export type Update = (patch: Partial<Bot>) => void;
 
 const NAV = [
+  { id: "interview", label: "Interview me", icon: Wand2, hint: "AI drafts your mind" },
   { id: "identity", label: "Identity", icon: UserRound, hint: "Name, look & link" },
   { id: "mind", label: "Mind & voice", icon: Brain, hint: "How you think & talk" },
   { id: "knowledge", label: "Knowledge", icon: BookOpen, hint: "Files, links & notes" },
@@ -64,7 +67,7 @@ export function Editor({
 }) {
   const [bot, setBot] = useState(initialBot);
   const [sources, setSources] = useState(initialSources);
-  const [tab, setTab] = useState<Tab>("identity");
+  const [tab, setTab] = useState<Tab>(!initialBot.bio && !initialBot.philosophy && !initialBot.instructions ? "interview" : "identity");
   const [save, setSave] = useState<SaveState>("idle");
   const [saveError, setSaveError] = useState("");
   const [showPreview, setShowPreview] = useState(true);
@@ -161,6 +164,8 @@ export function Editor({
 
   const section = (() => {
     switch (tab) {
+      case "interview":
+        return <InterviewSection bot={bot} update={update} onSource={(src) => setSources((s) => [src, ...s])} onDone={() => setTab("mind")} />;
       case "identity":
         return <IdentitySection bot={bot} update={update} />;
       case "mind":

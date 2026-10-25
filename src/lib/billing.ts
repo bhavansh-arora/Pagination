@@ -1,7 +1,7 @@
 import "server-only";
 import type Stripe from "stripe";
 import { nanoid } from "nanoid";
-import { mutate, type Data, type Membership } from "./db";
+import { mutate, read, type Data, type Membership } from "./db";
 import { stripe } from "./stripe";
 
 type Meta = Record<string, string | undefined>;
@@ -66,9 +66,33 @@ function applySubscription(d: Data, sub: Stripe.Subscription, deleted: boolean) 
   return null;
 }
 
+function findPayment(d: Data, pi: string | Stripe.PaymentIntent | null, invoiceId: string | null) {
+  const id = typeof pi === "string" ? pi : pi?.id;
+  return d.payments.find((p) => (id && p.paymentIntent === id) || (invoiceId && p.stripeRef === invoiceId));
+}
+
+/** Subscription charges point at their invoice through an InvoicePayment. */
+async function invoiceForPaymentIntent(pi: string | Stripe.PaymentIntent | null) {
+  const id = typeof pi === "string" ? pi : pi?.id;
+  if (!id) return null;
+  try {
+    const list = await stripe().invoicePayments.list({ payment: { type: "payment_intent", payment_intent: id }, limit: 1 });
+    const inv = list.data[0]?.invoice;
+    return typeof inv === "string" ? inv : (inv?.id ?? null);
+  } catch (err) {
+    console.error("[billing] invoice lookup failed", err);
+    return null;
+  }
+}
+
 /** Applies a verified Stripe event. Safe to call more than once for the same event. */
 export async function handleStripeEvent(event: Stripe.Event) {
   let cancelOld: string | null = null;
+  let refundInvoiceId: string | null = null;
+  if (event.type === "charge.refunded" || event.type === "charge.dispute.created" || event.type === "charge.dispute.closed") {
+    const pi = event.data.object.payment_intent;
+    if (!findPayment(await read(), pi, null)) refundInvoiceId = await invoiceForPaymentIntent(pi);
+  }
 
   const done = await mutate((d) => {
     if (d.processedEvents.includes(event.id)) return true;
@@ -93,6 +117,8 @@ export async function handleStripeEvent(event: Stripe.Event) {
             currency: s.currency ?? "usd",
             platformFee: Number(meta.platformFee) || 0,
             stripeRef: s.id,
+            paymentIntent: typeof s.payment_intent === "string" ? s.payment_intent : s.payment_intent?.id,
+            messages,
             description: `${messages} message pack`,
           });
         }
@@ -133,6 +159,30 @@ export async function handleStripeEvent(event: Stripe.Event) {
             description: `${meta.interval === "year" ? "Yearly" : "Monthly"} membership`,
           });
         }
+        break;
+      }
+      case "charge.refunded": {
+        const ch = event.data.object;
+        const p = findPayment(d, ch.payment_intent, refundInvoiceId);
+        if (!p) break;
+        p.refunded = Math.min(p.amount, ch.amount_refunded);
+        if (p.kind === "client_pack" && p.messages && p.clientId && p.botId) {
+          const shouldRevoke = Math.round((p.messages * p.refunded) / Math.max(1, p.amount));
+          const extra = shouldRevoke - (p.creditsRevoked ?? 0);
+          const bal = d.credits.find((c) => c.clientId === p.clientId && c.botId === p.botId);
+          if (bal && extra > 0) {
+            const take = Math.min(extra, bal.remaining);
+            bal.remaining -= take;
+            p.creditsRevoked = (p.creditsRevoked ?? 0) + extra;
+          }
+        }
+        break;
+      }
+      case "charge.dispute.created":
+      case "charge.dispute.closed": {
+        const dispute = event.data.object;
+        const p = findPayment(d, dispute.payment_intent, refundInvoiceId);
+        if (p) p.disputed = event.type === "charge.dispute.created" || dispute.status !== "won";
         break;
       }
       case "account.updated": {

@@ -16,6 +16,9 @@ const EVENTS = [
   "customer.subscription.deleted",
   "invoice.paid",
   "account.updated",
+  "charge.refunded",
+  "charge.dispute.created",
+  "charge.dispute.closed",
 ];
 
 function Status({ ok, label, hint }: { ok: boolean; label: string; hint: string }) {

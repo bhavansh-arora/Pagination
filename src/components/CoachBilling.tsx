@@ -87,6 +87,7 @@ export interface PlanView {
   priceMonthly: number;
   commissionPct: number;
   maxMinds: number;
+  monthlyReplies: number;
   features: string[];
   highlight: boolean;
 }
@@ -166,6 +167,7 @@ export function PlanPicker({ plans, currentId, hasCustomer, renewsAt, pendingCan
                 <span className="text-sm text-muted">/ month</span>
               </div>
               <div className="mt-1 text-xs font-medium text-violet-700">{p.commissionPct}% fee on client payments</div>
+              <div className="text-xs text-muted">{p.monthlyReplies ? `${p.monthlyReplies.toLocaleString()} AI replies / month` : "Unlimited AI replies"}</div>
               <ul className="mt-5 flex-1 space-y-2">
                 {p.features.map((f) => (
                   <li key={f} className="flex gap-2 text-sm text-zinc-700">

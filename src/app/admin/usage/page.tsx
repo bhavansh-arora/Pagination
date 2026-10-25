@@ -8,6 +8,7 @@ import { cn } from "@/lib/cn";
 import { read } from "@/lib/db";
 import { MODELS } from "@/lib/models";
 import { planFor } from "@/lib/plans";
+import { fee } from "@/lib/revenue";
 import { lastDays } from "@/lib/usage";
 import { aggregate, cacheSavings, dailyCost, groupBy, monthToDate, rowsSince, tokens, usd } from "@/lib/usage-report";
 
@@ -42,7 +43,7 @@ export default async function UsagePage({ searchParams }: { searchParams: Promis
       nonUsd = true;
       continue;
     }
-    usdRevenue.set(p.coachId, (usdRevenue.get(p.coachId) ?? 0) + p.platformFee / 100);
+    usdRevenue.set(p.coachId, (usdRevenue.get(p.coachId) ?? 0) + fee(p) / 100);
   }
   const coachRows = d.coaches
     .map((c) => {

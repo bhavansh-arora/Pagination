@@ -21,7 +21,13 @@ export function SettingsForm({ initial }: { initial: Settings }) {
         setState("saving");
         setError("");
         try {
-          await api("/api/admin/settings", "PATCH", { signupMode: s.signupMode, visitorMessagesPer10Min: s.visitorMessagesPer10Min, demoSlug: s.demoSlug });
+          await api("/api/admin/settings", "PATCH", {
+            signupMode: s.signupMode,
+            visitorMessagesPer10Min: s.visitorMessagesPer10Min,
+            demoSlug: s.demoSlug,
+            companyName: s.companyName,
+            contactEmail: s.contactEmail,
+          });
           setState("saved");
           router.refresh();
         } catch (err) {
@@ -43,6 +49,31 @@ export function SettingsForm({ initial }: { initial: Settings }) {
             setState("idle");
           }}
         />
+      </Section>
+      <Section title="Business details" description="Used in emails and on the Terms, Privacy and Refund pages. Have those pages reviewed by a lawyer for your country.">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field label="Company or brand name">
+            <Input
+              value={s.companyName}
+              placeholder="Mindclone"
+              onChange={(e) => {
+                setS({ ...s, companyName: e.target.value });
+                setState("idle");
+              }}
+            />
+          </Field>
+          <Field label="Support email">
+            <Input
+              type="email"
+              value={s.contactEmail}
+              placeholder="support@yourdomain.com"
+              onChange={(e) => {
+                setS({ ...s, contactEmail: e.target.value.trim() });
+                setState("idle");
+              }}
+            />
+          </Field>
+        </div>
       </Section>
       <Section title="Website" description="Shown on the homepage as a live demo people can try.">
         <Field label="Demo mind link" hint="The link name of a published, free mind (the part after /c/). Leave empty to hide the demo button.">

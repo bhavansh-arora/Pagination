@@ -23,11 +23,15 @@ A platform where coaches build an AI "mind" of themselves, trained on their own 
 - **Coach onboarding**: application queue (approving one creates a personal sign-up link), an onboarding funnel from "applied" to "first sale", and each coach's progress with their next step
 - **Coaches**: add accounts, suspend or reactivate, make admin, reset passwords, edit, delete
 - **Minds**: every mind on the platform; open any of them in the studio (changes are logged), publish or unpublish, delete
-- **Invites**, **Plans & fees** (prices, commission %, mind limits, features, default plan, Stripe connection and webhook setup), **Settings** (sign-up mode, demo mind, rate limit), **Activity log**
+- **Invites** (emailed automatically when an address is given), **Plans & fees** (price, commission %, mind limit, **monthly AI reply limit**, features, default plan, Stripe connection and webhook setup), **Settings** (sign-up mode, business name and support email, demo mind, rate limit, email status), **Activity log**
 
 **Coach studio (`/dashboard`)**
 - A getting-started checklist: create a mind → add knowledge → publish → connect payouts → set pricing → first client conversation
-- Mind editor: Identity, Mind & voice, Knowledge (files, links, notes), Client experience, AI engine, **Monetization**, Publish & share, Conversations, with a live test chat beside every screen
+- **Interview me**: the coach answers 8 questions (as on a podcast), and Claude drafts their tagline, bio, philosophy, coaching rules, boundaries, welcome message, starters and tone, plus a knowledge note on their method. The coach reviews and ticks what to apply. New minds open on this tab.
+- Mind editor: Identity, Mind & voice, Knowledge (files, links, notes), Client experience (including the **Memory** switch), AI engine, **Monetization**, Publish & share, Conversations, with a live test chat beside every screen
+- **Conversations & feedback**: client 👍/👎 ratings, a "Needs work" filter, what the mind remembers about each client, recent opening questions. **Improve this answer** stores the coach's version and adds it to a "Corrections" knowledge source, so the mind answers that way from then on.
+- **Usage meter**: AI replies used this month against the plan's limit. The coach gets an email at 80% and 100%; at 100% their minds tell clients they'll be "back soon" until the month resets.
+- **Website widget**: one `<script>` tag adds a floating chat bubble to any site (an inline iframe embed is also offered)
 - **Monetization** per mind: keep it free, or paid with N free messages, then monthly and/or yearly membership and/or one-time message packs, in the coach's chosen currency. The editor shows what the coach keeps after the platform fee.
 - **Earnings**: Stripe payouts onboarding and dashboard link, earnings, MRR, members, recent payments
 - **Plan**: choose or upgrade the coach plan (Stripe Checkout); downgrades take effect at the end of the billing period
@@ -36,7 +40,9 @@ A platform where coaches build an AI "mind" of themselves, trained on their own 
 **Client app**
 - Chat with streaming replies, conversation history, and a free-message counter ("2 free messages left · See plans")
 - Paywall: create a free account (anonymous chats move into it), then pick yearly, monthly or a message pack, and pay with Stripe Checkout
-- `/me`: their coaches, memberships (renewal and cancellation status), message credits, payment history, and Stripe's billing portal for cards, invoices and cancelling
+- 👍/👎 on every reply, and "Forgot password?" by email
+- **Memory**: when the coach has it on, the mind keeps short notes on each client's goals, situation and commitments, and follows up in later conversations. The notes are updated in the background by Claude Haiku 5.5 and placed after the prompt-cache breakpoint.
+- `/me`: their coaches, memberships (renewal and cancellation status), message credits, payment history, Stripe's billing portal, **what each mind remembers (with "Forget this")**, **download my data** (JSON) and **delete my account** (cancels memberships, erases conversations and memory)
 
 ## How payments work
 
@@ -45,17 +51,36 @@ A platform where coaches build an AI "mind" of themselves, trained on their own 
   - coach plans, which are monthly subscriptions to the platform;
   - commission, a % of every client payment that depends on the coach's plan. By default: Starter is free with a 15% fee, Pro is $29/mo with 8%, Studio is $99/mo with 3%.
 - **Webhooks** keep everything in sync: memberships, credits, coach plans, payout status and the payment ledger. Events are handled idempotently.
+- **Refunds and disputes**: refunds show in the ledger and are taken out of revenue. A refunded message pack also loses the matching unused credits. Disputes are flagged.
+- **Free-trial protection**: free messages are counted per person *and* per network (a salted hash of the IP, over the last 30 days), so clearing cookies or making a new account doesn't restart the trial. People sharing an office network share the trial.
 - **Access rules for a paid mind**: an active membership gives unlimited messages. Otherwise the client uses their free messages first, then pack credits (one per reply). When none are left, the chat shows the paywall. The coach and admins can always test.
 
 ### Stripe setup
 
 1. Create a Stripe account and enable **Connect** (Express accounts) under Settings → Connect.
 2. Put the secret key in `.env` as `STRIPE_SECRET_KEY`.
-3. Developers → Webhooks → add the endpoint `https://<your domain>/api/stripe/webhook`, listening to **your account and connected accounts**, with these events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `account.updated`. Put its signing secret in `STRIPE_WEBHOOK_SECRET`.
+3. Developers → Webhooks → add the endpoint `https://<your domain>/api/stripe/webhook`, listening to **your account and connected accounts**, with these events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `account.updated`, `charge.refunded`, `charge.dispute.created`, `charge.dispute.closed`. Put its signing secret in `STRIPE_WEBHOOK_SECRET`.
 4. Settings → Billing → **Customer portal**: turn it on (lets clients and coaches update cards, see invoices and cancel).
 5. Restart the app. **Admin → Plans & fees** shows whether both keys are detected.
 
 Use `sk_test_...` keys and Stripe's test cards first. Without Stripe keys everything else works, and minds can still be free.
+
+### Email setup
+
+Set `SMTP_URL` and `MAIL_FROM` in `.env`. Any SMTP provider works (Resend, Postmark, Amazon SES, Mailgun…), e.g. `SMTP_URL=smtps://resend:re_xxx@smtp.resend.com:465`. Emails sent:
+- password resets (coaches and clients);
+- application received, sent to the applicant and to the admins;
+- approval with the personal sign-up link, and invites;
+- welcome email for new coaches;
+- warnings when a coach reaches 80% and 100% of their AI replies.
+
+Without SMTP, everything still works: reset pages ask people to contact the admin, and approval and invite links are shown in the admin panel to copy.
+
+In Stripe, also turn on its own customer emails (receipts and failed-payment emails) under Settings → Customer emails.
+
+### Legal
+
+`/legal/terms`, `/legal/privacy` and `/legal/refunds` are generated from the business name and support email in **Admin → Settings**, and describe what the product actually does. They're a starting point: have them reviewed by a lawyer for your country before launch.
 
 ## How the "mind" works
 
@@ -63,6 +88,8 @@ Use `sk_test_...` keys and Stripe's test cards first. Without Stripe keys everyt
 - **Full memory**: libraries under about 600k characters (roughly 100k words) go into the system prompt behind a prompt-cache breakpoint, so the mind reads everything on every message while cached tokens stay cheap.
 - **Smart recall**: larger libraries are chunked and ranked with BM25; the best passages are attached to the client's message.
 - Server-side refusal fallback (`fallbacks: "default"`) is enabled for Opus and Sonnet. Token usage is recorded per mind per day for the admin cost estimates.
+- **Client memory** is added as a separate system block *after* the cache breakpoint, so personalising a reply doesn't invalidate the cached persona and knowledge.
+- **Interview me** uses Claude Opus 5.5 structured outputs (a Zod schema), so the draft always comes back as valid fields.
 
 ---
 
@@ -156,6 +183,15 @@ npm install
 npm run dev                  # http://localhost:3000
 ```
 
+## Testing
+
+```bash
+npm run build
+npm run test:e2e
+```
+
+`tests/e2e/run.cjs` starts the production build against fake Anthropic, Stripe and SMTP servers (in `tests/mocks/`) and drives real browsers through the whole platform: apply → approval email → coach sign-up → Interview me → payouts → publish; free trial and trial-reset protection; client sign-up, pack purchase, ratings and memory; refund revoking credits; coach corrections; password reset by email; quota pause; the website widget; every admin page; the usage CSV; and account deletion. It needs Playwright with Chromium (`npm i -D playwright && npx playwright install chromium`).
+
 ## Security notes
 
 - Passwords are hashed with scrypt. Sessions are random tokens, stored hashed, in an httpOnly cookie. The cookie is marked `Secure` automatically behind HTTPS.
@@ -163,3 +199,6 @@ npm run dev                  # http://localhost:3000
 - Admin APIs check the admin role on every request. Admin edits to other coaches' minds go to the activity log.
 - Link imports go through `src/lib/safe-fetch.ts`, which blocks private, loopback and link-local addresses: it checks every DNS answer at connect time and re-checks every redirect.
 - Login, sign-up and chat are rate limited per IP. The provided proxy configs overwrite `X-Forwarded-For`, so clients can't spoof their IP.
+- Pages can't be framed by other sites (clickjacking protection), except the public chat at `/c/…`, which the widget embeds. `nosniff`, a referrer policy and a permissions policy are set on every response.
+- Password reset links are single-use, expire after an hour, and are stored hashed. Requesting one never reveals whether an email has an account.
+- The data store keeps the database in memory in the single app process and writes it to disk atomically, batching writes. Edits made to the file from outside (e.g. `scripts/admin.mjs`) are detected and reloaded.
