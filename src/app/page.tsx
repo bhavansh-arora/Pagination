@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BookOpen, Brain, Link2, Lock, MessagesSquare, Share2, Sparkles, Upload } from "lucide-react";
 import { Logo } from "@/components/brand";
 import { getCoach } from "@/lib/auth";
+import { read } from "@/lib/db";
 
 const features = [
   { icon: Upload, title: "Feed it everything", body: "Drop in PDFs, Word docs, transcripts and notes, or paste links to your blog, podcast pages and courses." },
@@ -14,6 +15,8 @@ const features = [
 
 export default async function Home() {
   const coach = await getCoach();
+  const open = (await read()).settings.signupMode === "open";
+  const cta = coach ? "/dashboard" : open ? "/signup" : "/login";
   return (
     <div className="mesh min-h-dvh">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
@@ -28,9 +31,11 @@ export default async function Home() {
               <Link href="/login" className="rounded-xl px-4 py-2 text-sm font-medium text-muted hover:text-ink">
                 Sign in
               </Link>
-              <Link href="/signup" className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-black">
-                Start free
-              </Link>
+              {open && (
+                <Link href="/signup" className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-white hover:bg-black">
+                  Start free
+                </Link>
+              )}
             </>
           )}
         </nav>
@@ -50,10 +55,10 @@ export default async function Home() {
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href={coach ? "/dashboard" : "/signup"}
+              href={cta}
               className="inline-flex h-12 items-center gap-2 rounded-xl bg-gradient-to-b from-violet-500 to-violet-600 px-6 text-[15px] font-medium text-white shadow-[0_10px_30px_-10px_rgb(124_58_237/0.8)] hover:to-violet-700"
             >
-              Build your mind <ArrowRight className="size-4" />
+              {coach || open ? "Build your mind" : "Sign in to your studio"} <ArrowRight className="size-4" />
             </Link>
             <span className="text-sm text-muted">Takes about 5 minutes</span>
           </div>

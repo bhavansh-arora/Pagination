@@ -8,11 +8,14 @@ import { read } from "@/lib/db";
 type Props = { params: Promise<{ slug: string }> };
 
 async function load(slug: string) {
-  const bot = (await read()).bots.find((b) => b.slug === slug);
+  const d = await read();
+  const bot = d.bots.find((b) => b.slug === slug);
   if (!bot) return null;
-  if (bot.published) return { bot, draft: false };
   const coach = await getCoach();
-  return coach?.id === bot.coachId ? { bot, draft: true } : null;
+  const canManage = !!coach && (coach.id === bot.coachId || coach.role === "admin");
+  if (d.coaches.find((c) => c.id === bot.coachId)?.status !== "active" && coach?.role !== "admin") return null;
+  if (bot.published) return { bot, draft: false };
+  return canManage ? { bot, draft: true } : null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

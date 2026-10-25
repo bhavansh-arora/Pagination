@@ -13,7 +13,7 @@ export async function requireCoach(): Promise<Coach | NextResponse> {
 export async function ownedBot(id: string): Promise<{ coach: Coach; bot: Bot } | NextResponse> {
   const coach = await getCoach();
   if (!coach) return fail("Please sign in", 401);
-  const bot = (await read()).bots.find((b) => b.id === id && b.coachId === coach.id);
+  const bot = (await read()).bots.find((b) => b.id === id && (b.coachId === coach.id || coach.role === "admin"));
   return bot ? { coach, bot } : fail("Not found", 404);
 }
 

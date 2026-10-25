@@ -3,6 +3,7 @@ import { deleteSourceText, mutate } from "@/lib/db";
 import { slugify } from "@/lib/bots";
 import { MODELS } from "@/lib/models";
 import { fail, json, ownedBot } from "@/lib/api";
+import { audit } from "@/lib/admin";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -72,6 +73,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
     return { bot };
   });
   if ("error" in result) return fail(result.error!);
+  if (r.coach.id !== r.bot.coachId) await audit(r.coach, "Edited mind", `${r.bot.name} (${Object.keys(patch).join(", ")})`);
   return json(result);
 }
 
@@ -86,5 +88,6 @@ export async function DELETE(_: Request, { params }: Ctx) {
     return ids;
   });
   await Promise.all(removed.map(deleteSourceText));
+  if (r.coach.id !== r.bot.coachId) await audit(r.coach, "Deleted mind", r.bot.name);
   return json({ ok: true });
 }

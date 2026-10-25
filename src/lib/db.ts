@@ -16,12 +16,60 @@ export type ResponseLength = "concise" | "balanced" | "detailed";
 export type Depth = "fast" | "balanced" | "deep";
 export type Visibility = "public" | "code";
 
+export type Role = "admin" | "coach";
+export type AccountStatus = "active" | "suspended";
+
 export interface Coach {
   id: string;
   email: string;
   name: string;
   passwordHash: string;
+  role: Role;
+  status: AccountStatus;
   createdAt: string;
+  lastLoginAt?: string;
+}
+
+export interface Invite {
+  id: string;
+  token: string;
+  email: string;
+  note: string;
+  createdBy: string;
+  createdAt: string;
+  expiresAt: string;
+  usedAt?: string;
+  usedBy?: string;
+}
+
+export interface Settings {
+  signupMode: "open" | "invite" | "closed";
+  maxMindsPerCoach: number;
+  visitorMessagesPer10Min: number;
+}
+
+export const DEFAULT_SETTINGS: Settings = { signupMode: "invite", maxMindsPerCoach: 5, visitorMessagesPer10Min: 40 };
+
+/** Token usage aggregated per day, mind and model. */
+export interface UsageRow {
+  day: string;
+  botId: string;
+  coachId: string;
+  model: string;
+  messages: number;
+  input: number;
+  output: number;
+  cacheRead: number;
+  cacheWrite: number;
+}
+
+export interface AuditEntry {
+  id: string;
+  at: string;
+  actorId: string;
+  actorEmail: string;
+  action: string;
+  target: string;
 }
 
 export interface Session {
@@ -94,17 +142,38 @@ interface Data {
   bots: Bot[];
   sources: Source[];
   conversations: Conversation[];
+  invites: Invite[];
+  settings: Settings;
+  usage: UsageRow[];
+  audit: AuditEntry[];
 }
 
-const DATA_DIR = path.resolve(/*turbopackIgnore: true*/ process.env.DATA_DIR ?? "./data");
+export const DATA_DIR = path.resolve(/*turbopackIgnore: true*/ process.env.DATA_DIR ?? "./data");
 const DB_FILE = path.join(DATA_DIR, "db.json");
 const SOURCES_DIR = path.join(DATA_DIR, "sources");
 
-const empty = (): Data => ({ coaches: [], sessions: [], bots: [], sources: [], conversations: [] });
+const empty = (): Data => ({
+  coaches: [],
+  sessions: [],
+  bots: [],
+  sources: [],
+  conversations: [],
+  invites: [],
+  settings: { ...DEFAULT_SETTINGS },
+  usage: [],
+  audit: [],
+});
 
 async function load(): Promise<Data> {
   try {
-    return { ...empty(), ...(JSON.parse(await fs.readFile(DB_FILE, "utf8")) as Partial<Data>) };
+    const raw = JSON.parse(await fs.readFile(DB_FILE, "utf8")) as Partial<Data>;
+    const data = { ...empty(), ...raw };
+    data.settings = { ...DEFAULT_SETTINGS, ...raw.settings };
+    for (const c of data.coaches) {
+      c.role ??= "coach";
+      c.status ??= "active";
+    }
+    return data;
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") return empty();
     throw err;

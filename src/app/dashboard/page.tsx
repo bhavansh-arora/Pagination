@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { BookOpen, MessagesSquare, Sparkles } from "lucide-react";
-import { BotAvatar, Logo } from "@/components/brand";
-import { NewMindButton, SignOutButton } from "@/components/DashboardClient";
+import { BotAvatar } from "@/components/brand";
+import { NewMindButton } from "@/components/DashboardClient";
+import { StudioHeader } from "@/components/StudioHeader";
 import { getCoach } from "@/lib/auth";
 import { read } from "@/lib/db";
 
@@ -38,15 +39,7 @@ export default async function Dashboard() {
 
   return (
     <div className="mesh min-h-dvh">
-      <header className="sticky top-0 z-20 border-b border-line/70 bg-white/70 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Logo href="/dashboard" />
-          <div className="flex items-center gap-3">
-            <span className="hidden text-sm text-muted sm:inline">{coach.name}</span>
-            <SignOutButton />
-          </div>
-        </div>
-      </header>
+      <StudioHeader coach={coach} />
 
       <main className="mx-auto max-w-6xl px-6 py-10">
         <div className="flex flex-wrap items-end justify-between gap-4">

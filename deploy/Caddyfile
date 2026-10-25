@@ -1,0 +1,13 @@
+{$DOMAIN} {
+	# Don't compress the chat stream: compression buffers it and replies would arrive all at once.
+	@compressible not path /api/chat/*
+	encode @compressible zstd gzip
+
+	request_body {
+		max_size 30MB
+	}
+
+	reverse_proxy app:3000 {
+		flush_interval -1
+	}
+}

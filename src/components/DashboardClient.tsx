@@ -1,5 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LogOut, Plus, X } from "lucide-react";
 import { Button, Field, Input } from "./ui";
@@ -103,6 +104,19 @@ function NewMindDialog({ onClose }: { onClose: () => void }) {
         </div>
       </form>
     </div>
+  );
+}
+
+export function NavLink({ href, children, exact = true }: { href: string; children: React.ReactNode; exact?: boolean }) {
+  const path = usePathname();
+  const active = exact ? path === href : path === href || path.startsWith(href + "/");
+  return (
+    <Link
+      href={href}
+      className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${active ? "bg-black/[0.05] text-ink" : "text-muted hover:text-ink"}`}
+    >
+      {children}
+    </Link>
   );
 }
 

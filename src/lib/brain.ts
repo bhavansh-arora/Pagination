@@ -4,6 +4,7 @@ import { read, readSourceText, type Bot, type ChatMessage } from "./db";
 import { buildPersona, knowledgeBlock } from "./prompt";
 import { chunkText, rank, type Chunk } from "./retrieval";
 import { MODELS } from "./models";
+import { recordUsage } from "./usage";
 
 /** Below this size the whole library rides along in the cached system prompt. */
 export const FULL_MEMORY_CHARS = 600_000;
@@ -100,6 +101,7 @@ export async function replyStream(
           }
         }
         const final = await stream.finalMessage();
+        recordUsage(bot.id, bot.coachId, model, final.usage).catch((e) => console.error("[usage]", e));
         if (final.stop_reason === "refusal") {
           text = "I'm not able to help with that one. Is there something else on your mind I can help you work through?";
           send(controller, { t: "error", message: text });

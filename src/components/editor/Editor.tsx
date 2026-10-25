@@ -15,6 +15,7 @@ import {
   PanelRightOpen,
   Rocket,
   Share2,
+  ShieldCheck,
   Sparkles,
   UserRound,
   X,
@@ -48,7 +49,9 @@ export function Editor({
   initialSources,
   conversationCount,
   fullMemoryChars,
+  adminViewing,
 }: {
+  adminViewing: { name: string; id: string } | null;
   initialBot: Bot;
   initialSources: Source[];
   conversationCount: number;
@@ -185,8 +188,16 @@ export function Editor({
 
   return (
     <div className="flex h-dvh flex-col bg-canvas">
+      {adminViewing && (
+        <div className="flex shrink-0 items-center justify-center gap-2 bg-ink px-4 py-1.5 text-xs text-white">
+          <ShieldCheck className="size-3.5" /> Admin mode — you&apos;re editing {adminViewing.name}&apos;s mind. Changes are logged.
+          <Link href={`/admin/coaches/${adminViewing.id}`} className="font-semibold underline underline-offset-2">
+            Back to coach
+          </Link>
+        </div>
+      )}
       <header className="z-20 flex h-16 shrink-0 items-center gap-3 border-b border-line bg-white/80 px-4 backdrop-blur-xl sm:px-6">
-        <Link href="/dashboard" className="rounded-lg p-2 text-muted hover:bg-black/5 hover:text-ink" aria-label="Back to dashboard">
+        <Link href={adminViewing ? `/admin/coaches/${adminViewing.id}` : "/dashboard"} className="rounded-lg p-2 text-muted hover:bg-black/5 hover:text-ink" aria-label="Back to dashboard">
           <ArrowLeft className="size-[18px]" />
         </Link>
         <BotAvatar emoji={bot.avatarEmoji} image={bot.avatarImage} color={bot.brandColor} size={34} />

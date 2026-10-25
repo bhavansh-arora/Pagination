@@ -13,6 +13,7 @@ export async function POST(req: Request) {
   if (!coach || !(await verifyPassword(parsed.data.password, coach.passwordHash))) {
     return fail("Wrong email or password", 401);
   }
+  if (coach.status !== "active") return fail("This account is suspended. Contact the administrator.", 403);
   await startSession(coach.id);
-  return json({ ok: true });
+  return json({ ok: true, redirect: coach.role === "admin" ? "/admin" : "/dashboard" });
 }

@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import { z } from "zod";
-import { mutate, type ChatMessage, type Conversation } from "@/lib/db";
+import { mutate, read, type ChatMessage, type Conversation } from "@/lib/db";
 import { replyStream } from "@/lib/brain";
 import { chatAccess, validVisitor } from "@/lib/chat-access";
 import { clientIp, fail, rateLimit } from "@/lib/api";
@@ -30,7 +30,8 @@ export async function POST(req: Request, { params }: Ctx) {
   const preview = owner && !!parsed.data.preview;
 
   const limitKey = `chat:${bot.id}:${owner ? "owner" : clientIp(req)}`;
-  if (!rateLimit(limitKey, owner ? 300 : 40, 10 * 60_000)) {
+  const { visitorMessagesPer10Min } = (await read()).settings;
+  if (!rateLimit(limitKey, owner ? 300 : visitorMessagesPer10Min, 10 * 60_000)) {
     return fail("You're sending messages quickly — take a breath and try again in a few minutes.", 429);
   }
 
@@ -76,6 +77,7 @@ export async function POST(req: Request, { params }: Ctx) {
       "content-type": "application/x-ndjson; charset=utf-8",
       "cache-control": "no-store",
       "x-conversation-id": convo.id,
+      "x-accel-buffering": "no",
     },
   });
 }

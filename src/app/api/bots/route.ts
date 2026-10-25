@@ -25,9 +25,12 @@ export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return fail("Give your mind a name");
   const bot = await mutate((d) => {
+    const limit = d.settings.maxMindsPerCoach;
+    if (coach.role !== "admin" && limit > 0 && d.bots.filter((x) => x.coachId === coach.id).length >= limit) return null;
     const b = newBot(coach.id, coach.name, parsed.data.name, parsed.data.emoji ?? "✨", new Set(d.bots.map((x) => x.slug)));
     d.bots.push(b);
     return b;
   });
+  if (!bot) return fail("You've reached the maximum number of minds for your account", 403);
   return json({ bot }, 201);
 }

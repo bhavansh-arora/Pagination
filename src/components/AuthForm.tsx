@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button, Field, Input } from "./ui";
 
-export function AuthForm({ mode }: { mode: "login" | "signup" }) {
+export function AuthForm({ mode, invite, inviteEmail }: { mode: "login" | "signup"; invite?: string; inviteEmail?: string }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,14 +13,14 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const body = Object.fromEntries(new FormData(e.currentTarget));
+    const body = { ...Object.fromEntries(new FormData(e.currentTarget)), ...(invite ? { invite } : {}) };
     const res = await fetch(`/api/auth/${mode}`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body),
     });
     if (res.ok) {
-      router.push("/dashboard");
+      router.push((await res.json()).redirect ?? "/dashboard");
       router.refresh();
       return;
     }
@@ -36,7 +36,16 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         </Field>
       )}
       <Field label="Email">
-        <Input name="email" type="email" required autoComplete="email" placeholder="you@coaching.com" />
+        <Input
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="you@coaching.com"
+          defaultValue={inviteEmail}
+          readOnly={!!inviteEmail}
+          className={inviteEmail ? "bg-zinc-50 text-muted" : undefined}
+        />
       </Field>
       <Field label="Password">
         <Input
