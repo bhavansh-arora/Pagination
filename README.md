@@ -1,26 +1,55 @@
 # Mindclone
 
-A studio for coaches to build an AI "mind" of themselves. Coaches train it on their own material (files, web links and written notes), describe their philosophy and voice, then share a link. Clients get a ChatGPT-style chat that answers in the coach's voice, grounded in the coach's content. Platform admins manage coaches, minds, invites, limits and AI spend.
+A platform where coaches build an AI "mind" of themselves, trained on their own material, and sell access to it. It has a marketing website and three panels:
+
+| Panel | URL | Who |
+|---|---|---|
+| **Website** | `/`, `/apply` | Visitors. Landing page with a live demo, earnings calculator, plans and FAQ. The coach application form is used when sign-ups are invite-only. |
+| **Admin** | `/admin` | You. Analytics, revenue, coach onboarding, plans and fees, platform settings. |
+| **Coach studio** | `/dashboard` | Coaches. Build minds, set pricing, connect payouts, see earnings, upgrade their plan. |
+| **Client app** | `/c/<link>`, `/me` | Clients. ChatGPT-style chat with free trial and paywall, plus their own account with memberships, credits, billing and history. |
 
 ## Features
 
 **Admin panel (`/admin`)**
-- **Overview**: coaches, minds, AI replies and estimated Claude cost (30 days), a replies-per-day chart, the most active minds and the newest coaches
-- **Coaches**: search and filter; add an account directly (password generated for you); per-coach page with usage, minds, active sessions; suspend / reactivate, make or remove admin, reset password, edit name and email, delete the account with everything it owns
-- **Minds**: every mind on the platform; open any mind in the studio (shown in "admin mode", and every change is logged), view its chat, publish / unpublish, delete
-- **Invites**: single-use invite links, optionally locked to one email, with an expiry
-- **Settings**: sign-up mode (open / invite only / closed), max minds per coach, client message rate limit; server status (API key, data size, uptime)
-- **Activity log**: every admin action
-
-When a coach is suspended, they're signed out everywhere, can't sign in, and their minds go offline.
+- **Overview**: coaches, minds, AI replies and estimated Claude cost, client sales, platform revenue, MRR, clients, plus an alert when applications are waiting
+- **Revenue**: client sales (GMV), commission, coach-plan revenue, MRR, platform revenue per day, top coaches, coaches per plan, and a full payment ledger
+- **Coach onboarding**: application queue (approving one creates a personal sign-up link), an onboarding funnel from "applied" to "first sale", and each coach's progress with their next step
+- **Coaches**: add accounts, suspend or reactivate, make admin, reset passwords, edit, delete
+- **Minds**: every mind on the platform; open any of them in the studio (changes are logged), publish or unpublish, delete
+- **Invites**, **Plans & fees** (prices, commission %, mind limits, features, default plan, Stripe connection and webhook setup), **Settings** (sign-up mode, demo mind, rate limit), **Activity log**
 
 **Coach studio (`/dashboard`)**
-- Multiple minds per coach; account page to change name, email and password
-- **Identity**, **Mind & voice**, **Knowledge** (PDF, DOCX, TXT, MD, CSV, HTML, subtitles, web links, notes), **Client experience**, **AI engine** (Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5), **Publish & share** (public link or access code, custom link, embed snippet), **Conversations**
-- Live test chat beside every screen; changes save automatically
+- A getting-started checklist: create a mind → add knowledge → publish → connect payouts → set pricing → first client conversation
+- Mind editor: Identity, Mind & voice, Knowledge (files, links, notes), Client experience, AI engine, **Monetization**, Publish & share, Conversations, with a live test chat beside every screen
+- **Monetization** per mind: keep it free, or paid with N free messages, then monthly and/or yearly membership and/or one-time message packs, in the coach's chosen currency. The editor shows what the coach keeps after the platform fee.
+- **Earnings**: Stripe payouts onboarding and dashboard link, earnings, MRR, members, recent payments
+- **Plan**: choose or upgrade the coach plan (Stripe Checkout); downgrades take effect at the end of the billing period
+- **Account**: name, email, password
 
-**Client chat (`/c/<link>`)**
-- ChatGPT-style chat with streaming replies, conversation history, stop / copy / regenerate; works on mobile
+**Client app**
+- Chat with streaming replies, conversation history, and a free-message counter ("2 free messages left · See plans")
+- Paywall: create a free account (anonymous chats move into it), then pick yearly, monthly or a message pack, and pay with Stripe Checkout
+- `/me`: their coaches, memberships (renewal and cancellation status), message credits, payment history, and Stripe's billing portal for cards, invoices and cancelling
+
+## How payments work
+
+- **Stripe Connect (Express accounts).** Each coach connects their own Stripe account from **Earnings**. Client payments are *destination charges*: the money goes to the coach, and Stripe takes the platform's commission automatically (`application_fee_percent` for memberships, `application_fee_amount` for packs).
+- **Platform revenue** has two streams, both set in **Admin → Plans & fees**:
+  - coach plans, which are monthly subscriptions to the platform;
+  - commission, a % of every client payment that depends on the coach's plan. By default: Starter is free with a 15% fee, Pro is $29/mo with 8%, Studio is $99/mo with 3%.
+- **Webhooks** keep everything in sync: memberships, credits, coach plans, payout status and the payment ledger. Events are handled idempotently.
+- **Access rules for a paid mind**: an active membership gives unlimited messages. Otherwise the client uses their free messages first, then pack credits (one per reply). When none are left, the chat shows the paywall. The coach and admins can always test.
+
+### Stripe setup
+
+1. Create a Stripe account and enable **Connect** (Express accounts) under Settings → Connect.
+2. Put the secret key in `.env` as `STRIPE_SECRET_KEY`.
+3. Developers → Webhooks → add the endpoint `https://<your domain>/api/stripe/webhook`, listening to **your account and connected accounts**, with these events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `account.updated`. Put its signing secret in `STRIPE_WEBHOOK_SECRET`.
+4. Settings → Billing → **Customer portal**: turn it on (lets clients and coaches update cards, see invoices and cancel).
+5. Restart the app. **Admin → Plans & fees** shows whether both keys are detected.
+
+Use `sk_test_...` keys and Stripe's test cards first. Without Stripe keys everything else works, and minds can still be free.
 
 ## How the "mind" works
 
@@ -52,7 +81,7 @@ curl -fsSL https://get.docker.com | sudo sh
 # 2. Get the code
 sudo git clone <your-repo-url> /opt/mindclone && cd /opt/mindclone
 
-# 3. Configure: set ANTHROPIC_API_KEY, ADMIN_EMAIL, ADMIN_PASSWORD, DOMAIN
+# 3. Configure: ANTHROPIC_API_KEY, ADMIN_EMAIL, ADMIN_PASSWORD, DOMAIN, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
 sudo cp .env.example .env && sudo nano .env
 
 # 4. Start

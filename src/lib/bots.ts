@@ -1,6 +1,6 @@
 import "server-only";
 import { customAlphabet, nanoid } from "nanoid";
-import type { Bot } from "./db";
+import { DEFAULT_PRICING, type Bot } from "./db";
 import { DEFAULT_MODEL } from "./models";
 
 const suffix = customAlphabet("abcdefghijkmnpqrstuvwxyz23456789", 5);
@@ -50,6 +50,7 @@ export function newBot(coachId: string, coachName: string, name: string, emoji: 
     visibility: "public",
     accessCode: "",
     published: false,
+    pricing: { ...DEFAULT_PRICING, packs: [] },
     createdAt: now,
     updatedAt: now,
   };
@@ -70,6 +71,7 @@ export function publicBot(bot: Bot) {
     ctaLabel: bot.ctaLabel,
     ctaUrl: bot.ctaUrl,
     needsCode: bot.visibility === "code",
+    paid: bot.pricing.mode === "paid",
   };
 }
 

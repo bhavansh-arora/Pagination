@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { BookOpen, MessagesSquare, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Check, MessagesSquare, Sparkles } from "lucide-react";
 import { BotAvatar } from "@/components/brand";
 import { NewMindButton } from "@/components/DashboardClient";
 import { StudioHeader } from "@/components/StudioHeader";
@@ -35,6 +35,16 @@ export default async function Dashboard() {
         messages: convos.reduce((n, c) => n + c.messages.filter((m) => m.role === "user").length, 0),
       };
     });
+  const firstBot = bots[0]?.bot;
+  const steps = [
+    { done: bots.length > 0, label: "Create your first mind", href: null },
+    { done: bots.some((b) => b.sources > 0), label: "Teach it with your content", href: firstBot ? `/dashboard/bots/${firstBot.id}` : null },
+    { done: bots.some((b) => b.bot.published), label: "Publish & share your link", href: firstBot ? `/dashboard/bots/${firstBot.id}` : null },
+    { done: !!coach.payoutsReady, label: "Connect payouts to get paid", href: "/dashboard/earnings" },
+    { done: bots.some((b) => b.bot.pricing.mode === "paid"), label: "Set your pricing", href: firstBot ? `/dashboard/bots/${firstBot.id}` : null },
+    { done: bots.some((b) => b.conversations > 0), label: "Get your first client conversation", href: null },
+  ];
+  const doneCount = steps.filter((x) => x.done).length;
   const totals = bots.reduce((t, b) => ({ c: t.c + b.conversations, m: t.m + b.messages, w: t.w + b.words }), { c: 0, m: 0, w: 0 });
 
   return (
@@ -49,6 +59,49 @@ export default async function Dashboard() {
           </div>
           {bots.length > 0 && <NewMindButton />}
         </div>
+
+        {doneCount < steps.length && (
+          <div className="mt-8 rounded-3xl border border-violet-100 bg-gradient-to-br from-white to-violet-50/60 p-6 shadow-soft">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="font-semibold">Getting started</h2>
+                <p className="text-sm text-muted">Launch your AI mind and start earning in a few steps.</p>
+              </div>
+              <span className="text-sm font-semibold text-violet-700">
+                {doneCount}/{steps.length} done
+              </span>
+            </div>
+            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-violet-100">
+              <div className="h-full rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500" style={{ width: `${(doneCount / steps.length) * 100}%` }} />
+            </div>
+            <ol className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {steps.map((st, i) => {
+                const body = (
+                  <>
+                    <span
+                      className={`grid size-6 shrink-0 place-items-center rounded-full text-xs font-bold ${st.done ? "bg-emerald-500 text-white" : "bg-white text-violet-700 ring-1 ring-violet-200"}`}
+                    >
+                      {st.done ? <Check className="size-3.5" strokeWidth={3} /> : i + 1}
+                    </span>
+                    <span className={`flex-1 text-sm ${st.done ? "text-muted line-through" : "font-medium"}`}>{st.label}</span>
+                    {!st.done && st.href && <ArrowRight className="size-4 text-violet-500" />}
+                  </>
+                );
+                return (
+                  <li key={st.label}>
+                    {!st.done && st.href ? (
+                      <Link href={st.href} className="flex items-center gap-3 rounded-xl bg-white px-3.5 py-3 shadow-soft transition hover:shadow-lift">
+                        {body}
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-3 rounded-xl bg-white/70 px-3.5 py-3">{body}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        )}
 
         {bots.length > 0 && (
           <div className="mt-8 grid gap-3 sm:grid-cols-3">

@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { formatMoney } from "@/lib/money";
 
-export function BarChart({ data, unit }: { data: { day: string; value: number }[]; unit: string }) {
+export function BarChart({ data, unit, currency }: { data: { day: string; value: number }[]; unit: string; currency?: string }) {
+  const fmt = (v: number) => (currency ? formatMoney(v, currency, { compact: true }) : v.toLocaleString());
   const [hover, setHover] = useState<number | null>(null);
   const max = Math.max(1, ...data.map((d) => d.value));
   const ticks = [max, Math.round(max / 2), 0].filter((v, i, a) => a.indexOf(v) === i);
@@ -12,7 +14,7 @@ export function BarChart({ data, unit }: { data: { day: string; value: number }[
       <div className="relative flex h-44 gap-3">
         <div className="flex flex-col justify-between pb-6 text-right text-[11px] text-muted tabular-nums">
           {ticks.map((t) => (
-            <span key={t}>{t.toLocaleString()}</span>
+            <span key={t}>{fmt(t)}</span>
           ))}
         </div>
         <div className="relative flex-1">
@@ -37,7 +39,7 @@ export function BarChart({ data, unit }: { data: { day: string; value: number }[
                   <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 rounded-lg bg-ink px-2.5 py-1.5 text-xs whitespace-nowrap text-white shadow-lift">
                     <div className="text-zinc-400">{label(d.day)}</div>
                     <div className="font-semibold tabular-nums">
-                      {d.value.toLocaleString()} {unit}
+                      {currency ? formatMoney(d.value, currency) : d.value.toLocaleString()} {unit}
                     </div>
                   </div>
                 )}

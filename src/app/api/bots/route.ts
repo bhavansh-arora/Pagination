@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { mutate, read } from "@/lib/db";
 import { newBot } from "@/lib/bots";
+import { planFor } from "@/lib/plans";
 import { fail, json, requireCoach } from "@/lib/api";
 
 export async function GET() {
@@ -25,12 +26,12 @@ export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return fail("Give your mind a name");
   const bot = await mutate((d) => {
-    const limit = d.settings.maxMindsPerCoach;
+    const limit = planFor(d.settings, coach).maxMinds;
     if (coach.role !== "admin" && limit > 0 && d.bots.filter((x) => x.coachId === coach.id).length >= limit) return null;
     const b = newBot(coach.id, coach.name, parsed.data.name, parsed.data.emoji ?? "✨", new Set(d.bots.map((x) => x.slug)));
     d.bots.push(b);
     return b;
   });
-  if (!bot) return fail("You've reached the maximum number of minds for your account", 403);
+  if (!bot) return fail("You've reached the number of minds on your plan. Upgrade your plan to add more.", 403);
   return json({ bot }, 201);
 }

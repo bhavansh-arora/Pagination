@@ -14,10 +14,16 @@ import {
   Square,
   SquarePen,
   Trash2,
+  UserRound,
+  X,
+  CircleCheck,
+  Sparkles,
 } from "lucide-react";
 import { BotAvatar } from "../brand";
 import { cn } from "@/lib/cn";
 import { Markdown } from "./Markdown";
+import { ClientAuthForm } from "./ClientAuth";
+import { Paywall, type AccessStatus, type Offer } from "./Paywall";
 
 export interface ChatBot {
   slug: string;
@@ -32,6 +38,7 @@ export interface ChatBot {
   ctaLabel: string;
   ctaUrl: string;
   needsCode: boolean;
+  paid?: boolean;
 }
 
 type Msg = { role: "user" | "assistant"; content: string; error?: boolean };
@@ -67,6 +74,12 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [sidebar, setSidebar] = useState(false);
+  const [status, setStatus] = useState<AccessStatus | null>(null);
+  const [offer, setOffer] = useState<Offer | null>(null);
+  const [client, setClient] = useState<{ name: string; email: string } | null>(null);
+  const [paywall, setPaywall] = useState<{ reason?: string } | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [toast, setToast] = useState("");
   const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const stick = useRef(true);
@@ -102,9 +115,62 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
     return true;
   }, [vid, bot.slug, q, headers]);
 
+  const loadStatus = useCallback(async () => {
+    if (!vid || preview) return null;
+    const res = await fetch(`/api/chat/${bot.slug}/status?${q({})}`, { headers: headers() });
+    if (!res.ok) return null;
+    const data = await res.json();
+    setStatus(data.state);
+    setOffer(data.offer);
+    setClient(data.client);
+    return data.state as AccessStatus;
+  }, [vid, preview, bot.slug, q, headers]);
+
   useEffect(() => {
-    if (vid && (!bot.needsCode || preview || code)) loadList();
-  }, [vid, code, loadList, bot.needsCode, preview]);
+    if (vid && (!bot.needsCode || preview || code)) {
+      loadList();
+      loadStatus();
+    }
+  }, [vid, code, loadList, loadStatus, bot.needsCode, preview]);
+
+  // Back from Stripe Checkout: the webhook may land a moment after the redirect.
+  useEffect(() => {
+    if (preview || !vid) return;
+    const url = new URL(window.location.href);
+    const paid = url.searchParams.get("paid");
+    if (!paid) return;
+    url.searchParams.delete("paid");
+    window.history.replaceState(null, "", url.toString());
+    setToast(paid === "pack" ? "Payment received — your messages are being added." : "Payment received — welcome aboard!");
+    let tries = 0;
+    const timer = setInterval(async () => {
+      const st = await loadStatus();
+      if (++tries > 8 || (st && (st.membership || st.credits > 0))) {
+        clearInterval(timer);
+        if (st && (st.membership || st.credits > 0)) setToast(st.membership ? "You're a member — enjoy unlimited conversations." : `${st.credits} messages added to your account.`);
+      }
+    }, 1500);
+    const hide = setTimeout(() => setToast(""), 9000);
+    return () => {
+      clearInterval(timer);
+      clearTimeout(hide);
+    };
+  }, [vid, preview, loadStatus]);
+
+  async function afterSignIn() {
+    setAuthOpen(false);
+    setActiveId(null);
+    setMessages([]);
+    storage(`mc:last:${bot.slug}`, "");
+    await Promise.all([loadList(), loadStatus()]);
+  }
+
+  async function signOut() {
+    await fetch("/api/client/logout", { method: "POST" });
+    setClient(null);
+    newChat();
+    await Promise.all([loadList(), loadStatus()]);
+  }
 
   const openSeq = useRef(0);
   const openConvo = useCallback(
@@ -171,6 +237,17 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
         signal: ctrl.signal,
         body: JSON.stringify({ visitorId: vid, conversationId: activeId, message: regenerate ? undefined : content, regenerate, accessCode: code || null, preview }),
       });
+      if (res.status === 402) {
+        const data = await res.json().catch(() => ({}));
+        setMessages((all) => (regenerate ? all.slice(0, -1) : all.slice(0, -2)));
+        if (!regenerate) setInput(content);
+        if (data.paywall) {
+          setStatus(data.paywall.state);
+          setOffer(data.paywall.offer);
+        }
+        setPaywall({ reason: data.error });
+        return;
+      }
       if (!res.ok || !res.body) {
         const err = (await res.json().catch(() => ({}))).error ?? "Something went wrong. Please try again.";
         if (res.status === 403) setLocked(true);
@@ -205,6 +282,7 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
       abortRef.current = null;
       setMessages((all) => (all.at(-1)?.role === "assistant" && !all.at(-1)!.content ? all.slice(0, -1) : all));
       loadList();
+      loadStatus();
     }
   }
 
@@ -290,6 +368,7 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
               ))}
             </div>
             <div className="space-y-3 border-t border-line p-4">
+              {status?.mode === "paid" && <PlanCard status={status} onUpgrade={() => setPaywall({})} />}
               {bot.ctaUrl && (
                 <a
                   href={bot.ctaUrl}
@@ -299,6 +378,27 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
                 >
                   {bot.ctaLabel || `Work with ${bot.coachName.split(" ")[0]}`} <ExternalLink className="size-3.5" />
                 </a>
+              )}
+              {client ? (
+                <div className="flex items-center gap-2.5 rounded-xl bg-white p-2 shadow-soft">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-zinc-100 text-xs font-semibold text-zinc-600">
+                    {client.name.slice(0, 1).toUpperCase()}
+                  </span>
+                  <a href="/me" className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium">{client.name}</span>
+                    <span className="block truncate text-[11px] text-muted">My account</span>
+                  </a>
+                  <button onClick={signOut} className="rounded-lg px-2 py-1 text-[11px] font-medium text-muted hover:bg-zinc-100 hover:text-ink">
+                    Sign out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setAuthOpen(true)}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-line bg-white px-3 py-2.5 text-sm font-medium shadow-soft hover:border-zinc-300"
+                >
+                  <UserRound className="size-4" /> Sign in to save your chats
+                </button>
               )}
               <p className="text-center text-[11px] leading-relaxed text-muted">
                 AI trained on {bot.coachName}&apos;s material. It can make mistakes. Conversations may be reviewed by {bot.coachName.split(" ")[0]}.
@@ -328,9 +428,16 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
               <RotateCcw className="size-3.5" /> Reset
             </button>
           ) : (
-            <button onClick={newChat} className="rounded-lg p-2 text-muted hover:bg-black/5 md:hidden" aria-label="New conversation">
-              <SquarePen className="size-5" />
-            </button>
+            <>
+              {!client && (
+                <button onClick={() => setAuthOpen(true)} className="rounded-lg px-2.5 py-1.5 text-xs font-semibold text-muted hover:bg-black/5 hover:text-ink md:hidden">
+                  Sign in
+                </button>
+              )}
+              <button onClick={newChat} className="rounded-lg p-2 text-muted hover:bg-black/5 md:hidden" aria-label="New conversation">
+                <SquarePen className="size-5" />
+              </button>
+            </>
           )}
         </header>
 
@@ -361,6 +468,7 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
         </div>
 
         <div className={cn("mx-auto w-full shrink-0 px-4 pb-4", preview ? "max-w-full" : "max-w-3xl")}>
+          {status?.mode === "paid" && !status.owner && <UsageHint status={status} onPlans={() => setPaywall({})} />}
           <Composer
             value={input}
             onChange={setInput}
@@ -372,7 +480,88 @@ export function ChatView({ bot, mode }: { bot: ChatBot; mode: "public" | "previe
           {!preview && <p className="mt-2 text-center text-[11px] text-muted md:hidden">AI trained on {bot.coachName}&apos;s material. It can make mistakes.</p>}
         </div>
       </div>
+
+      {paywall && status && offer && (
+        <Paywall
+          bot={bot}
+          offer={offer}
+          status={status}
+          visitorId={vid}
+          accessCode={code}
+          reason={paywall.reason}
+          onClose={() => setPaywall(null)}
+          onSignedIn={async () => {
+            await afterSignIn();
+            setPaywall({});
+          }}
+        />
+      )}
+      {authOpen && (
+        <div className="fixed inset-0 z-50 grid place-items-end bg-ink/40 backdrop-blur-sm sm:place-items-center sm:p-4" onClick={() => setAuthOpen(false)}>
+          <div onClick={(e) => e.stopPropagation()} className="relative w-full animate-fade-up rounded-t-3xl bg-white p-7 shadow-lift sm:max-w-[400px] sm:rounded-3xl">
+            <button onClick={() => setAuthOpen(false)} className="absolute top-4 right-4 rounded-full p-1.5 text-muted hover:bg-zinc-100" aria-label="Close">
+              <X className="size-4" />
+            </button>
+            <h2 className="text-lg font-semibold tracking-tight">Your {bot.name} account</h2>
+            <p className="mt-1 mb-5 text-sm text-muted">Save your conversations and pick up on any device.</p>
+            <ClientAuthForm visitorId={vid} onDone={afterSignIn} />
+          </div>
+        </div>
+      )}
+      {toast && (
+        <div className="fixed top-4 left-1/2 z-50 flex -translate-x-1/2 animate-fade-up items-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-medium text-white shadow-lift">
+          <CircleCheck className="size-4 text-emerald-400" /> {toast}
+        </div>
+      )}
     </div>
+  );
+}
+
+function UsageHint({ status, onPlans }: { status: AccessStatus; onPlans: () => void }) {
+  let text: string;
+  if (status.membership) {
+    const end = status.membership.currentPeriodEnd ? new Date(status.membership.currentPeriodEnd).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : null;
+    text = status.membership.cancelAtPeriodEnd && end ? `Member until ${end}` : "Member · unlimited conversations";
+  } else if (status.trialLeft > 0) text = `${status.trialLeft} free message${status.trialLeft === 1 ? "" : "s"} left`;
+  else if (status.credits > 0) text = `${status.credits.toLocaleString()} message${status.credits === 1 ? "" : "s"} left`;
+  else text = "You've used your free messages";
+  const showCta = !status.membership;
+  return (
+    <div className="mb-2 flex items-center justify-center gap-2 text-xs text-muted">
+      {status.membership && <Sparkles className="size-3.5 text-accent" />}
+      <span>{text}</span>
+      {showCta && (
+        <>
+          <span className="text-zinc-300">·</span>
+          <button onClick={onPlans} className="font-semibold text-accent hover:underline">
+            {status.trialLeft > 0 || status.credits > 0 ? "See plans" : "Unlock access"}
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function PlanCard({ status, onUpgrade }: { status: AccessStatus; onUpgrade: () => void }) {
+  if (status.membership) {
+    return (
+      <div className="flex items-center gap-2 rounded-xl bg-accent-soft px-3 py-2.5 text-xs font-medium text-ink">
+        <Sparkles className="size-4 text-accent" /> Member
+        <a href="/me" className="ml-auto text-muted hover:text-ink">
+          Manage
+        </a>
+      </div>
+    );
+  }
+  return (
+    <button onClick={onUpgrade} className="w-full rounded-xl border border-accent bg-accent-soft px-3 py-2.5 text-left">
+      <div className="flex items-center gap-1.5 text-xs font-semibold text-ink">
+        <Sparkles className="size-3.5 text-accent" /> Unlock unlimited access
+      </div>
+      <div className="mt-0.5 text-[11px] text-muted">
+        {status.trialLeft > 0 ? `${status.trialLeft} free messages left` : status.credits > 0 ? `${status.credits} messages left` : "Free messages used"}
+      </div>
+    </button>
   );
 }
 

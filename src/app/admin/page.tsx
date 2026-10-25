@@ -6,6 +6,10 @@ import { Empty, Initials, PageHeader, Panel, Pill, StatTile, td, th } from "@/co
 import { read } from "@/lib/db";
 import { ago, EMPTY, money, usageBy, words } from "@/lib/stats";
 import { estimateCost, lastDays } from "@/lib/usage";
+import { formatMoney } from "@/lib/money";
+import { planFor } from "@/lib/plans";
+import { fee, gross, mainCurrency, recurring, sumBy } from "@/lib/revenue";
+import { isActiveMembership } from "@/lib/entitlements";
 
 export const metadata = { title: "Overview" };
 
@@ -30,10 +34,27 @@ export default async function AdminOverview() {
     .slice(0, 6);
   const newest = [...d.coaches].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 6);
   const apiKey = !!(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
+  const clientPayments = d.payments.filter((p) => p.kind !== "coach_plan");
+  const cur = mainCurrency(clientPayments, d.settings.platformCurrency);
+  const pcur = d.settings.platformCurrency;
+  const gmv30 = sumBy(clientPayments, cur, gross, since30);
+  const platform30 = sumBy(clientPayments, cur, fee, since30) + (cur === pcur ? sumBy(d.payments.filter((p) => p.kind === "coach_plan"), pcur, gross, since30) : 0);
+  const planMrr = d.coaches.filter((c) => c.planSubscriptionId && !c.planCancelAtPeriodEnd).reduce((n, c) => n + planFor(d.settings, c).priceMonthly, 0);
+  const newApps = d.applications.filter((a) => a.status === "new").length;
 
   return (
     <>
       <PageHeader title="Overview" subtitle="How the platform is doing." />
+
+      {newApps > 0 && (
+        <Link href="/admin/onboarding" className="mb-6 flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50 p-4 text-sm text-violet-900 hover:bg-violet-100/70">
+          <span className="grid size-7 place-items-center rounded-full bg-violet-600 text-xs font-bold text-white">{newApps}</span>
+          <span className="flex-1">
+            <b>New coach application{newApps === 1 ? "" : "s"}</b> waiting for review.
+          </span>
+          <ArrowRight className="size-4" />
+        </Link>
+      )}
 
       {!apiKey && (
         <div className="mb-6 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
@@ -50,6 +71,13 @@ export default async function AdminOverview() {
         <StatTile label="Minds" value={d.bots.length} sub={`${live} live · ${d.bots.length - live} draft`} />
         <StatTile label="AI replies · 30 days" value={messages30.toLocaleString()} sub={`${convos30} new conversations · ${visitors} visitors all-time`} />
         <StatTile label="Est. AI cost · 30 days" value={money(cost30)} sub={`${knowledge.toLocaleString()} words of knowledge`} />
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatTile label="Client sales · 30 days" value={formatMoney(gmv30, cur)} sub={`${d.memberships.filter(isActiveMembership).length} active memberships`} />
+        <StatTile label="Platform revenue · 30 days" value={formatMoney(platform30, cur)} sub="commission + coach plans" />
+        <StatTile label="Client MRR" value={formatMoney(recurring(d.memberships, cur), cur)} sub={`coach plans ${formatMoney(planMrr, pcur)}/mo`} />
+        <StatTile label="Clients" value={d.clients.length} sub={`${d.clients.filter((c) => c.stripeCustomerId).length} have paid`} />
       </div>
 
       <Panel title="AI replies per day · last 14 days (clients + coach testing)" className="mt-6">

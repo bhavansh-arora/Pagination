@@ -1,16 +1,18 @@
 import { mutate, read } from "@/lib/db";
-import { chatAccess, validVisitor } from "@/lib/chat-access";
+import { chatAccess, resolveVisitor, validVisitor } from "@/lib/chat-access";
 import { fail, json } from "@/lib/api";
 
 type Ctx = { params: Promise<{ slug: string }> };
 
 async function gate(req: Request, ctx: Ctx) {
   const url = new URL(req.url);
-  const visitorId = url.searchParams.get("visitorId");
-  if (!validVisitor(visitorId)) return fail("Invalid visitor");
+  const raw = url.searchParams.get("visitorId");
   const access = await chatAccess((await ctx.params).slug, req.headers.get("x-access-code"));
   if ("error" in access) return fail(access.error, access.status);
-  return { ...access, visitorId, id: url.searchParams.get("id"), preview: url.searchParams.get("preview") === "1" };
+  const preview = access.owner && url.searchParams.get("preview") === "1";
+  const visitor = preview ? (validVisitor(raw) ? { key: raw } : null) : await resolveVisitor(raw);
+  if (!visitor) return fail("Invalid visitor");
+  return { ...access, visitorId: visitor.key, id: url.searchParams.get("id"), preview };
 }
 
 export async function GET(req: Request, ctx: Ctx) {

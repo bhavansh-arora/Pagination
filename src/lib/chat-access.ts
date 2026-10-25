@@ -1,6 +1,7 @@
 import "server-only";
 import crypto from "node:crypto";
 import { getCoach } from "./auth";
+import { clientVisitorKey, getClient } from "./client-auth";
 import { read, type Bot } from "./db";
 
 export type Access = { bot: Bot; owner: boolean } | { error: string; status: number };
@@ -26,3 +27,14 @@ export async function chatAccess(slug: string, accessCode: string | null | undef
 }
 
 export const validVisitor = (v: unknown): v is string => typeof v === "string" && /^[A-Za-z0-9_-]{8,64}$/.test(v);
+
+/**
+ * Which conversations a request may see. Signed-in clients get a key derived from
+ * their session; anonymous visitors can never claim a client's key.
+ */
+export async function resolveVisitor(raw: string | null | undefined): Promise<{ key: string; clientId: string | null } | null> {
+  const client = await getClient();
+  if (client) return { key: clientVisitorKey(client.id), clientId: client.id };
+  if (!validVisitor(raw) || raw.startsWith("cl-")) return null;
+  return { key: raw, clientId: null };
+}

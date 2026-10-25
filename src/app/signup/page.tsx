@@ -32,8 +32,11 @@ export default async function Signup({ searchParams }: { searchParams: Promise<{
         <AuthShell title="Invite only" subtitle="New coach accounts are created by invitation.">
           <div className="flex gap-3 rounded-2xl bg-violet-50 p-4 text-sm text-violet-900">
             <MailCheck className="mt-0.5 size-4 shrink-0" />
-            Ask the administrator for an invite link, then open it to create your account.
+            New coaches join by application. Tell us about your coaching and we&apos;ll send you a personal sign-up link.
           </div>
+          <Link href="/apply" className="mt-5 flex h-11 items-center justify-center rounded-xl bg-violet-600 text-sm font-semibold text-white hover:bg-violet-700">
+            Apply for access
+          </Link>
           <Link href="/login" className="mt-6 block text-center text-sm font-medium text-violet-700 hover:underline">
             Already have an account? Sign in
           </Link>

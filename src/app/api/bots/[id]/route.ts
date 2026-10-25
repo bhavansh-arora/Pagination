@@ -2,6 +2,7 @@ import { z } from "zod";
 import { deleteSourceText, mutate } from "@/lib/db";
 import { slugify } from "@/lib/bots";
 import { MODELS } from "@/lib/models";
+import { CURRENCIES } from "@/lib/money";
 import { fail, json, ownedBot } from "@/lib/api";
 import { audit } from "@/lib/admin";
 
@@ -47,6 +48,24 @@ const Patch = z
     visibility: z.enum(["public", "code"]),
     accessCode: z.string().max(60),
     published: z.boolean(),
+    pricing: z
+      .object({
+        mode: z.enum(["free", "paid"]),
+        currency: z.enum(CURRENCIES),
+        freeMessages: z.number().int().min(0).max(1000),
+        monthly: z.number().int().min(100, "Prices must be at least 1.00").max(10_000_000).nullable(),
+        yearly: z.number().int().min(100, "Prices must be at least 1.00").max(100_000_000).nullable(),
+        packs: z
+          .array(
+            z.object({
+              id: z.string().regex(/^[A-Za-z0-9_-]{1,40}$/),
+              messages: z.number().int().min(1).max(100_000),
+              price: z.number().int().min(100, "Prices must be at least 1.00").max(10_000_000),
+            }),
+          )
+          .max(4),
+      })
+      .refine((p) => p.mode === "free" || p.monthly || p.yearly || p.packs.length, "Add at least one price for a paid mind"),
   })
   .partial()
   .strict();

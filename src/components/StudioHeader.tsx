@@ -11,6 +11,8 @@ export function StudioHeader({ coach }: { coach: Coach }) {
         <Logo href="/dashboard" />
         <nav className="hidden items-center gap-1 sm:flex">
           <NavLink href="/dashboard">My minds</NavLink>
+          <NavLink href="/dashboard/earnings">Earnings</NavLink>
+          <NavLink href="/dashboard/plan">Plan</NavLink>
           <NavLink href="/dashboard/account">Account</NavLink>
         </nav>
         <div className="ml-auto flex items-center gap-2">

@@ -12,7 +12,7 @@ export const viewport: Viewport = { themeColor: "#faf9fc", width: "device-width"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} scroll-smooth`}>
       <body className="min-h-dvh font-sans">{children}</body>
     </html>
   );

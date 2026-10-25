@@ -21,7 +21,7 @@ export function SettingsForm({ initial }: { initial: Settings }) {
         setState("saving");
         setError("");
         try {
-          await api("/api/admin/settings", "PATCH", s);
+          await api("/api/admin/settings", "PATCH", { signupMode: s.signupMode, visitorMessagesPer10Min: s.visitorMessagesPer10Min, demoSlug: s.demoSlug });
           setState("saved");
           router.refresh();
         } catch (err) {
@@ -44,20 +44,20 @@ export function SettingsForm({ initial }: { initial: Settings }) {
           }}
         />
       </Section>
+      <Section title="Website" description="Shown on the homepage as a live demo people can try.">
+        <Field label="Demo mind link" hint="The link name of a published, free mind (the part after /c/). Leave empty to hide the demo button.">
+          <Input
+            value={s.demoSlug}
+            placeholder="maya-ai"
+            onChange={(e) => {
+              setS({ ...s, demoSlug: e.target.value.trim() });
+              setState("idle");
+            }}
+          />
+        </Field>
+      </Section>
       <Section title="Limits" description="Protect your API budget.">
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Minds per coach" hint="0 = unlimited. Admins are exempt.">
-            <Input
-              type="number"
-              min={0}
-              max={1000}
-              value={s.maxMindsPerCoach}
-              onChange={(e) => {
-                setS({ ...s, maxMindsPerCoach: Number(e.target.value) });
-                setState("idle");
-              }}
-            />
-          </Field>
           <Field label="Client messages per 10 min" hint="Per visitor IP, per mind.">
             <Input
               type="number"

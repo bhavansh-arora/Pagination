@@ -3,6 +3,8 @@ import { Editor } from "@/components/editor/Editor";
 import { getCoach } from "@/lib/auth";
 import { read } from "@/lib/db";
 import { FULL_MEMORY_CHARS } from "@/lib/brain";
+import { planFor } from "@/lib/plans";
+import { billingEnabled } from "@/lib/stripe";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -21,6 +23,16 @@ export default async function BotPage({ params }: Props) {
   if (!bot) notFound();
   const owner = bot.coachId === coach.id ? null : d.coaches.find((c) => c.id === bot.coachId);
   const sources = d.sources.filter((s) => s.botId === bot.id).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const ownerCoach = d.coaches.find((c) => c.id === bot.coachId)!;
+  const plan = planFor(d.settings, ownerCoach);
+  const billing = {
+    enabled: billingEnabled(),
+    connected: !!ownerCoach.stripeAccountId,
+    payoutsReady: !!ownerCoach.payoutsReady,
+    canCharge: plan.canCharge,
+    commissionPct: plan.commissionPct,
+    planName: plan.name,
+  };
   const conversationCount = d.conversations.filter((c) => c.botId === bot.id && !c.preview).length;
-  return <Editor initialBot={bot} initialSources={sources} conversationCount={conversationCount} fullMemoryChars={FULL_MEMORY_CHARS} adminViewing={owner ? { name: owner.name, id: owner.id } : null} />;
+  return <Editor initialBot={bot} initialSources={sources} conversationCount={conversationCount} fullMemoryChars={FULL_MEMORY_CHARS} adminViewing={owner ? { name: owner.name, id: owner.id } : null} billing={billing} />;
 }

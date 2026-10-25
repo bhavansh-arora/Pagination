@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Sparkles,
   UserRound,
+  Wallet,
   X,
 } from "lucide-react";
 import type { Bot, Source } from "@/lib/db";
@@ -28,6 +29,7 @@ import { ChatView, type ChatBot } from "../chat/ChatView";
 import { BrainSection, ExperienceSection, IdentitySection, MindSection, ShareSection } from "./sections";
 import { KnowledgeSection } from "./KnowledgeSection";
 import { ConversationsSection } from "./ConversationsSection";
+import { MonetizationSection, type BillingInfo } from "./Monetization";
 
 export type Update = (patch: Partial<Bot>) => void;
 
@@ -37,6 +39,7 @@ const NAV = [
   { id: "knowledge", label: "Knowledge", icon: BookOpen, hint: "Files, links & notes" },
   { id: "experience", label: "Client experience", icon: Sparkles, hint: "Welcome & prompts" },
   { id: "brain", label: "AI engine", icon: Cpu, hint: "Model & depth" },
+  { id: "monetization", label: "Monetization", icon: Wallet, hint: "Free, trial, memberships" },
   { id: "share", label: "Publish & share", icon: Share2, hint: "Link, access, embed" },
   { id: "conversations", label: "Conversations", icon: MessagesSquare, hint: "What clients ask" },
 ] as const;
@@ -50,7 +53,9 @@ export function Editor({
   conversationCount,
   fullMemoryChars,
   adminViewing,
+  billing,
 }: {
+  billing: BillingInfo;
   adminViewing: { name: string; id: string } | null;
   initialBot: Bot;
   initialSources: Source[];
@@ -140,6 +145,7 @@ export function Editor({
       ctaLabel: bot.ctaLabel,
       ctaUrl: bot.ctaUrl,
       needsCode: false,
+      paid: bot.pricing.mode === "paid",
     }),
     [bot],
   );
@@ -165,6 +171,8 @@ export function Editor({
         return <ExperienceSection bot={bot} update={update} />;
       case "brain":
         return <BrainSection bot={bot} update={update} />;
+      case "monetization":
+        return <MonetizationSection bot={bot} update={update} billing={billing} />;
       case "share":
         return <ShareSection bot={bot} update={update} setPublished={setPublished} />;
       case "conversations":
