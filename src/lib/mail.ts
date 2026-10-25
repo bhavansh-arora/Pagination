@@ -23,7 +23,7 @@ export interface MailContent {
 
 async function brand() {
   const s = (await read()).settings;
-  return s.companyName || "Mindclone";
+  return s.companyName || "Sagely";
 }
 
 function render(c: MailContent, name: string) {

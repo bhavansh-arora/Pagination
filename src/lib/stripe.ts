@@ -14,7 +14,7 @@ export function stripe(): Stripe {
     // STRIPE_API_BASE lets you point the SDK at stripe-mock for local testing.
     const base = process.env.STRIPE_API_BASE ? new URL(process.env.STRIPE_API_BASE) : null;
     g.__stripe = new Stripe(key, {
-      appInfo: { name: "Mindclone" },
+      appInfo: { name: "Sagely" },
       ...(base ? { host: base.hostname, port: Number(base.port) || undefined, protocol: base.protocol.replace(":", "") as "http" | "https" } : {}),
     });
   }

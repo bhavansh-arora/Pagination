@@ -55,7 +55,7 @@ export function SettingsForm({ initial }: { initial: Settings }) {
           <Field label="Company or brand name">
             <Input
               value={s.companyName}
-              placeholder="Mindclone"
+              placeholder="Sagely"
               onChange={(e) => {
                 setS({ ...s, companyName: e.target.value });
                 setState("idle");

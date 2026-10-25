@@ -4,6 +4,15 @@
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: "Inter Tight Variable", var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --color-night: #0d0b09;
+  --color-night-2: #16130f;
+  --color-night-3: #1d1914;
+  --color-cream: #f3ecdf;
+  --color-stone: #a59c8c;
+  --color-gold: #d6b57f;
+  --color-gold-deep: #b8925a;
   --color-ink: #16131f;
   --color-muted: #6b6578;
   --color-line: #ebe8f0;
@@ -60,3 +69,77 @@ body {
 .prose-chat :where(p:last-child) { margin-bottom: 0; }
 .prose-chat :where(li) { margin-top: 0.2em; margin-bottom: 0.2em; }
 .prose-chat a { color: var(--accent); }
+
+/* ---- Marketing site (dark editorial) ---------------------------------- */
+
+.site {
+  background: var(--color-night);
+  color: var(--color-cream);
+  color-scheme: dark;
+}
+.site ::selection { background: rgb(214 181 127 / 0.35); }
+
+/* Film grain over the whole page */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer components {
+.serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--color-gold);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+}
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 40s linear infinite; }
+
+@keyframes word-cycle {
+  0%, 28% { transform: translateY(0); }
+  33%, 61% { transform: translateY(-1.2em); }
+  66%, 94% { transform: translateY(-2.4em); }
+  100% { transform: translateY(-3.6em); }
+}
+.word-cycle { animation: word-cycle 7.5s cubic-bezier(0.7, 0, 0.3, 1) infinite; }
+
+@keyframes orbit { to { transform: rotate(360deg); } }
+.orbit { animation: orbit 60s linear infinite; transform-origin: center; }
+.orbit-rev { animation: orbit 90s linear infinite reverse; transform-origin: center; }
+
+@keyframes pulse-dot { 50% { opacity: 0.35; } }
+.pulse-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
+
+/* Scroll-driven reveal + progress bar where supported (no JS, content always visible otherwise) */
+@supports (animation-timeline: view()) {
+  @keyframes reveal { from { opacity: 0; transform: translateY(28px); } }
+  .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 35%; }
+  @keyframes grow-x { from { transform: scaleX(0); } }
+  .scroll-progress { animation: grow-x linear both; animation-timeline: scroll(root); transform-origin: left; }
+}
+@supports not (animation-timeline: view()) {
+  .scroll-progress { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee, .word-cycle, .orbit, .orbit-rev, .pulse-dot, .reveal { animation: none !important; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

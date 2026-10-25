@@ -32,7 +32,7 @@ const linkIn = (mail, re) => (mail?.data.match(re) || [])[0];
 
 async function main() {
   if (!fs.existsSync(path.join(ROOT, ".next/BUILD_ID"))) throw new Error("Build the app first: npm run build");
-  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "mindclone-e2e-"));
+  const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "sagely-e2e-"));
   if (await fetch(`${B}/api/health`).then(() => true, () => false)) throw new Error(`Port ${PORT} is already in use — stop the other server first`);
   await Promise.all([anthropic.start(4010), stripe.start({ port: 4020, app: `http://127.0.0.1:${PORT}` }), smtp.start(2525)]);
   const app = spawn("npx", ["next", "start", "-p", String(PORT)], {
@@ -49,7 +49,7 @@ async function main() {
       STRIPE_WEBHOOK_SECRET: "whsec_test",
       STRIPE_API_BASE: "http://127.0.0.1:4020",
       SMTP_URL: "smtp://127.0.0.1:2525",
-      MAIL_FROM: "Mindclone <hello@example.com>",
+      MAIL_FROM: "Sagely <hello@example.com>",
     },
     stdio: ["ignore", "pipe", "pipe"],
     detached: true,
@@ -84,7 +84,7 @@ async function main() {
     // ---------- Website + application + emails
     const web = await ctx("10.0.0.1");
     await web.goto(B);
-    check("landing page renders", await web.locator("text=available 24/7").count());
+    check("landing page renders", await web.locator("text=Your mind,").count());
     const r1 = await web.request.get(`${B}/admin`);
     check("security: /admin not frameable", r1.headers()["x-frame-options"] === "SAMEORIGIN");
     const r2 = await web.request.get(`${B}/legal/privacy`);

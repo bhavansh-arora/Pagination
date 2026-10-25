@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Snapshot all Mindclone data (accounts, minds, knowledge, conversations) into ./backups.
+# Snapshot all Sagely data (accounts, minds, knowledge, conversations) into ./backups.
 # Works for both the Docker and the systemd install. Keeps the newest $KEEP archives.
 set -euo pipefail
 
@@ -8,7 +8,7 @@ KEEP="${KEEP:-14}"
 OUT_DIR="${BACKUP_DIR:-./backups}"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$OUT_DIR"
-FILE="$OUT_DIR/mindclone-$STAMP.tar.gz"
+FILE="$OUT_DIR/sagely-$STAMP.tar.gz"
 
 if command -v docker >/dev/null && docker compose ps --status running app 2>/dev/null | grep -q app; then
   docker compose exec -T app tar czf - -C /app data > "$FILE"
@@ -18,4 +18,4 @@ else
 fi
 
 echo "Backup written to $FILE ($(du -h "$FILE" | cut -f1))"
-ls -1t "$OUT_DIR"/mindclone-*.tar.gz | tail -n +"$((KEEP + 1))" | xargs -r rm --
+ls -1t "$OUT_DIR"/sagely-*.tar.gz | tail -n +"$((KEEP + 1))" | xargs -r rm --

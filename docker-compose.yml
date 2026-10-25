@@ -6,7 +6,7 @@ services:
     environment:
       DATA_DIR: /app/data
     volumes:
-      - mindclone-data:/app/data
+      - sagely-data:/app/data
     expose:
       - "3000"
 
@@ -27,6 +27,6 @@ services:
       - caddy-config:/config
 
 volumes:
-  mindclone-data:
+  sagely-data:
   caddy-data:
   caddy-config:

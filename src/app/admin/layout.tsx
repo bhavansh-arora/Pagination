@@ -6,7 +6,7 @@ import { AdminNav } from "@/components/admin/AdminNav";
 import { SignOutButton } from "@/components/DashboardClient";
 import { getCoach } from "@/lib/auth";
 
-export const metadata = { title: { default: "Admin", template: "%s · Admin · Mindclone" } };
+export const metadata = { title: { default: "Admin", template: "%s · Admin · Sagely" } };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const coach = await getCoach();

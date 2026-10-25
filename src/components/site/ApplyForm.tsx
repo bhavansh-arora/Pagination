@@ -69,12 +69,12 @@ export function ApplyForm() {
         <Textarea name="message" rows={3} maxLength={2000} placeholder="What would you like your AI mind to help clients with?" />
       </Field>
       {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
-      <Button type="submit" size="lg" className="w-full" loading={loading}>
+      <Button type="submit" size="lg" variant="dark" className="w-full rounded-full bg-night text-cream hover:bg-black" loading={loading}>
         Apply for access
       </Button>
       <p className="text-center text-xs text-muted">
         Already approved?{" "}
-        <Link href="/login" className="font-medium text-violet-700 hover:underline">
+        <Link href="/login" className="font-medium text-gold-deep hover:underline">
           Sign in
         </Link>
       </p>

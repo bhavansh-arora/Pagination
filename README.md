@@ -1,4 +1,4 @@
-# Mindclone
+# Sagely
 
 A platform where coaches build an AI "mind" of themselves, trained on their own material, and sell access to it. It has a marketing website and three panels:
 
@@ -8,6 +8,10 @@ A platform where coaches build an AI "mind" of themselves, trained on their own 
 | **Admin** | `/admin` | You. Analytics, revenue, coach onboarding, plans and fees, platform settings. |
 | **Coach studio** | `/dashboard` | Coaches. Build minds, set pricing, connect payouts, see earnings, upgrade their plan. |
 | **Client app** | `/c/<link>`, `/me` | Clients. ChatGPT-style chat with free trial and paywall, plus their own account with memberships, credits, billing and history. |
+
+## Brand
+
+The product is called **Sagely** ("ai minds"). The logo is a gold speech bubble with a spark on a near-black tile: `LogoMark` / `Logo` in `src/components/brand.tsx`, favicon `src/app/icon.svg`, iOS icon `src/app/apple-icon.png`. The website uses Inter Tight with Instrument Serif italics, near-black `#0d0b09`, cream `#f3ecdf` and gold `#d6b57f` (tokens in `src/app/globals.css`). Fonts are self-hosted through `@fontsource`, so builds need no font downloads.
 
 ## Features
 
@@ -97,7 +101,7 @@ In Stripe, also turn on its own customer emails (receipts and failed-payment ema
 
 You need a Linux VPS (1 vCPU / 1 GB RAM is enough to start), a domain, and an [Anthropic API key](https://console.anthropic.com).
 
-1. **Point your domain at the server.** Create a DNS `A` record (e.g. `mindclone.yourdomain.com`) with the VPS IP address.
+1. **Point your domain at the server.** Create a DNS `A` record (e.g. `sagely.yourdomain.com`) with the VPS IP address.
 2. **Open the firewall** for SSH and web traffic:
    ```bash
    sudo ufw allow OpenSSH && sudo ufw allow 80 && sudo ufw allow 443 && sudo ufw enable
@@ -112,7 +116,7 @@ Caddy sits in front of the app and gets and renews HTTPS certificates automatica
 curl -fsSL https://get.docker.com | sudo sh
 
 # 2. Get the code
-sudo git clone <your-repo-url> /opt/mindclone && cd /opt/mindclone
+sudo git clone -b claude/focused-franklin-n5r5ay https://github.com/bhavansh-arora/Pagination.git /opt/sagely && cd /opt/sagely
 
 # 3. Configure: ANTHROPIC_API_KEY, ADMIN_EMAIL, ADMIN_PASSWORD, DOMAIN, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
 sudo cp .env.example .env && sudo nano .env
@@ -123,22 +127,22 @@ sudo docker compose up -d --build
 
 Open `https://<your DOMAIN>`, sign in with `ADMIN_EMAIL` / `ADMIN_PASSWORD`, and you'll land in `/admin`. Change the admin password under **My studio → Account**. Restarting won't reset it: the env password is only used when the account is first created.
 
-| Task | Command (run in `/opt/mindclone`) |
+| Task | Command (run in `/opt/sagely`) |
 |---|---|
 | Update to the latest code | `sudo git pull && sudo docker compose up -d --build` |
 | Logs | `sudo docker compose logs -f app` |
 | Restart | `sudo docker compose restart app` |
 | Back up now | `sudo ./deploy/backup.sh` (writes to `./backups`, keeps 14) |
-| Nightly backups (3am) | add `0 3 * * * cd /opt/mindclone && ./deploy/backup.sh` to `sudo crontab -e` |
+| Nightly backups (3am) | add `0 3 * * * cd /opt/sagely && ./deploy/backup.sh` to `sudo crontab -e` |
 | Locked out of admin | `sudo docker compose exec app node scripts/admin.mjs reset-password you@example.com 'new-password'` |
 | List accounts | `sudo docker compose exec app node scripts/admin.mjs list` |
 
-Data lives in the Docker volume `<folder>_mindclone-data` (see `docker volume ls`). To restore a backup:
+Data lives in the Docker volume `<folder>_sagely-data` (see `docker volume ls`). To restore a backup:
 
 ```bash
 sudo docker compose stop app
-sudo docker run --rm -v mindclone_mindclone-data:/app/data -v "$PWD/backups":/b alpine \
-  sh -c 'rm -rf /app/data/* && tar xzf /b/mindclone-YYYYMMDD-HHMMSS.tar.gz -C /app'
+sudo docker run --rm -v sagely_sagely-data:/app/data -v "$PWD/backups":/b alpine \
+  sh -c 'rm -rf /app/data/* && tar xzf /b/sagely-YYYYMMDD-HHMMSS.tar.gz -C /app'
 sudo docker compose start app
 ```
 
@@ -149,25 +153,25 @@ sudo docker compose start app
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt install -y nodejs nginx certbot python3-certbot-nginx
 
 # App user and code
-sudo useradd --system --create-home --shell /usr/sbin/nologin mindclone
-sudo git clone <your-repo-url> /opt/mindclone && cd /opt/mindclone
+sudo useradd --system --create-home --shell /usr/sbin/nologin sagely
+sudo git clone <your-repo-url> /opt/sagely && cd /opt/sagely
 sudo cp .env.example .env && sudo nano .env        # set the required values (DOMAIN is unused here)
-sudo chown -R mindclone:mindclone /opt/mindclone
-sudo -u mindclone npm ci && sudo -u mindclone npm run build
+sudo chown -R sagely:sagely /opt/sagely
+sudo -u sagely npm ci && sudo -u sagely npm run build
 
 # Service
-sudo cp deploy/mindclone.service /etc/systemd/system/
-sudo systemctl daemon-reload && sudo systemctl enable --now mindclone
+sudo cp deploy/sagely.service /etc/systemd/system/
+sudo systemctl daemon-reload && sudo systemctl enable --now sagely
 
 # nginx + HTTPS (edit server_name in the file first)
-sudo cp deploy/nginx.conf /etc/nginx/sites-available/mindclone
-sudo ln -s /etc/nginx/sites-available/mindclone /etc/nginx/sites-enabled/
+sudo cp deploy/nginx.conf /etc/nginx/sites-available/sagely
+sudo ln -s /etc/nginx/sites-available/sagely /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d mindclone.yourdomain.com
+sudo certbot --nginx -d sagely.yourdomain.com
 ```
 
-Update: `cd /opt/mindclone && sudo -u mindclone git pull && sudo -u mindclone npm ci && sudo -u mindclone npm run build && sudo systemctl restart mindclone`.
-Logs: `journalctl -u mindclone -f`. Recovery: `sudo -u mindclone node scripts/admin.mjs reset-password you@example.com 'new-password'`. Backups: same `deploy/backup.sh` (it archives `./data`).
+Update: `cd /opt/sagely && sudo -u sagely git pull && sudo -u sagely npm ci && sudo -u sagely npm run build && sudo systemctl restart sagely`.
+Logs: `journalctl -u sagely -f`. Recovery: `sudo -u sagely node scripts/admin.mjs reset-password you@example.com 'new-password'`. Backups: same `deploy/backup.sh` (it archives `./data`).
 
 ### Notes
 

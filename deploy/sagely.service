@@ -1,0 +1,18 @@
+# Non-Docker install: copy to /etc/systemd/system/sagely.service, then
+#   sudo systemctl daemon-reload && sudo systemctl enable --now sagely
+[Unit]
+Description=Sagely
+After=network.target
+
+[Service]
+Type=simple
+User=sagely
+WorkingDirectory=/opt/sagely
+EnvironmentFile=/opt/sagely/.env
+Environment=NODE_ENV=production PORT=3000 HOSTNAME=127.0.0.1
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

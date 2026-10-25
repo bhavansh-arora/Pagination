@@ -4,8 +4,8 @@
  */
 const SCRIPT = String.raw`(function () {
   var s = document.currentScript || document.querySelector('script[src*="/widget.js"][data-mind]');
-  if (!s || window.__mindcloneWidget) return;
-  window.__mindcloneWidget = true;
+  if (!s || window.__sagelyWidget) return;
+  window.__sagelyWidget = true;
   var slug = s.getAttribute("data-mind");
   var origin = new URL(s.src).origin;
   var side = s.getAttribute("data-position") === "left" ? "left" : "right";

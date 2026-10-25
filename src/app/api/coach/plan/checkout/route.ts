@@ -55,7 +55,7 @@ export async function POST(req: Request) {
             currency: d.settings.platformCurrency,
             unit_amount: plan.priceMonthly,
             recurring: { interval: "month" },
-            product_data: { name: `Mindclone ${plan.name} plan` },
+            product_data: { name: `Sagely ${plan.name} plan` },
           },
         },
       ],

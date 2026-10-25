@@ -92,7 +92,7 @@ export default async function LegalPage({ params }: Props) {
   const { doc } = await params;
   if (!(doc in TITLES)) notFound();
   const s = (await read()).settings;
-  const company = s.companyName || "Mindclone";
+  const company = s.companyName || "Sagely";
   return (
     <div className="min-h-dvh bg-canvas">
       <header className="border-b border-line bg-white/80">

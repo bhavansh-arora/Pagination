@@ -74,7 +74,7 @@ export async function safeFetch(rawUrl: string): Promise<FetchedPage> {
       redirect: "manual",
       signal: AbortSignal.timeout(20_000),
       headers: {
-        "user-agent": "Mozilla/5.0 (compatible; MindcloneBot/1.0; +knowledge-import)",
+        "user-agent": "Mozilla/5.0 (compatible; SagelyBot/1.0; +knowledge-import)",
         accept: "text/html,application/xhtml+xml,application/pdf,text/plain;q=0.9,*/*;q=0.5",
       },
     });
