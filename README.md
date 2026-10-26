@@ -116,7 +116,7 @@ Caddy sits in front of the app and gets and renews HTTPS certificates automatica
 curl -fsSL https://get.docker.com | sudo sh
 
 # 2. Get the code
-sudo git clone -b claude/focused-franklin-n5r5ay https://github.com/bhavansh-arora/Pagination.git /opt/sagely && cd /opt/sagely
+sudo git clone https://github.com/bhavansh-arora/sagely.git /opt/sagely && cd /opt/sagely
 
 # 3. Configure: ANTHROPIC_API_KEY, ADMIN_EMAIL, ADMIN_PASSWORD, DOMAIN, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
 sudo cp .env.example .env && sudo nano .env
