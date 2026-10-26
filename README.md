@@ -154,7 +154,7 @@ curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt in
 
 # App user and code
 sudo useradd --system --create-home --shell /usr/sbin/nologin sagely
-sudo git clone <your-repo-url> /opt/sagely && cd /opt/sagely
+sudo git clone https://github.com/bhavansh-arora/sagely.git /opt/sagely && cd /opt/sagely
 sudo cp .env.example .env && sudo nano .env        # set the required values (DOMAIN is unused here)
 sudo chown -R sagely:sagely /opt/sagely
 sudo -u sagely npm ci && sudo -u sagely npm run build
