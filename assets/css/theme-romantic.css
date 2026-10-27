@@ -50,6 +50,4 @@
 .footer-wordmark { background-image: linear-gradient(rgb(244, 233, 231) 0%, rgb(171, 144, 153) 55%, rgb(75, 38, 52) 100%); }
 .sticky-cta { background-color: rgba(48, 18, 30, 0.96); }
 .preloader__bar { background-color: rgba(247, 236, 234, 0.08); }
-.cursor__ring { border-top-color: rgba(217, 166, 160, 0.55); border-right-color: rgba(217, 166, 160, 0.55); border-bottom-color: rgba(217, 166, 160, 0.55); border-left-color: rgba(217, 166, 160, 0.55); }
-.cursor.is-hover .cursor__ring { background-color: rgba(217, 166, 160, 0.08); }
 .stack-card__shade { background-color: rgb(28, 9, 16); }

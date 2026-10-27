@@ -174,7 +174,6 @@ CHROME = f"""
 </div>
 <div class="curtain" aria-hidden="true">{CURTAIN_MARK}</div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
-<div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
 <div class="hover-preview" aria-hidden="true"><div class="hover-preview__inner"></div></div>"""
 
 STICKY = """
@@ -183,8 +182,8 @@ STICKY = """
   <a class="btn btn--gold" href="contact.html">Check your date</a>
 </div>"""
 
-FONTS = ("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500"
-         "&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap")
+FONTS = ("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500"
+         "&family=Montserrat:wght@300;400;500;600&display=swap")
 
 
 def page(filename, title, description, body, active=None, og_image="golden-hour-portrait", extra_head="", sticky=True):

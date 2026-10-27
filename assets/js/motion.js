@@ -197,48 +197,28 @@
     if (hasGsap) requestAnimationFrame(loop);
   });
 
-  /* ---------- Custom cursor, magnetic buttons, hover previews ---------- */
+  /* ---------- Magnetic buttons, hover previews (the mouse cursor itself stays standard) ---------- */
   if (fine) {
-    html.classList.add("has-cursor");
-    var cursor = $(".cursor"), ring = $(".cursor__ring"), dot = $(".cursor__dot"), label = $(".cursor__label");
+    html.classList.add("has-hover");
     var preview = $(".hover-preview"), pInner = $(".hover-preview__inner");
-    var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, px = mx, py = my, lastPx = mx;
+    var mx = innerWidth / 2, my = innerHeight / 2, px = mx, py = my, lastPx = mx, seen = false;
     window.addEventListener("mousemove", function (e) {
       mx = e.clientX; my = e.clientY;
-      if (!cursor.classList.contains("is-ready")) { rx = px = lastPx = mx; ry = py = my; cursor.classList.add("is-ready"); }
-      cursor.classList.remove("is-hidden");
+      if (!seen) { px = lastPx = mx; py = my; seen = true; }
     }, { passive: true });
-    document.addEventListener("mouseleave", function () { cursor.classList.add("is-hidden"); });
-    window.addEventListener("mousedown", function () { cursor.classList.add("is-down"); });
-    window.addEventListener("mouseup", function () { cursor.classList.remove("is-down"); });
-    (function follow() {
-      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+    if (preview) (function follow() {
       px += (mx - px) * 0.12; py += (my - py) * 0.12;
-      dot.style.transform = "translate3d(" + mx + "px," + my + "px,0)";
-      ring.style.transform = "translate3d(" + rx + "px," + ry + "px,0)";
-      if (preview) {
-        var vx = Math.max(-14, Math.min(14, (px - lastPx) * 0.6));
-        preview.style.transform = "translate3d(" + px + "px," + py + "px,0) rotate(" + vx.toFixed(2) + "deg)";
-        lastPx = px;
-      }
+      var vx = Math.max(-14, Math.min(14, (px - lastPx) * 0.6));
+      preview.style.transform = "translate3d(" + px + "px," + py + "px,0) rotate(" + vx.toFixed(2) + "deg)";
+      lastPx = px;
       requestAnimationFrame(follow);
     })();
-    document.addEventListener("mouseover", function (e) {
-      var lab = e.target.closest("[data-cursor]");
-      var hov = e.target.closest("a, button, summary, label, .chip, input, select, textarea");
-      if (lab) {
-        label.textContent = lab.dataset.cursor;
-        cursor.classList.add("is-label"); cursor.classList.remove("is-hover");
-      } else if (hov) {
-        cursor.classList.add("is-hover"); cursor.classList.remove("is-label");
-      } else {
-        cursor.classList.remove("is-hover", "is-label");
-      }
+    if (preview) document.addEventListener("mouseover", function (e) {
       var pv = e.target.closest("[data-preview]");
-      if (pv && preview) {
+      if (pv) {
         pInner.style.backgroundImage = "url('" + pv.dataset.preview + "')";
         preview.classList.add("is-active");
-      } else if (preview) {
+      } else {
         preview.classList.remove("is-active");
       }
     });

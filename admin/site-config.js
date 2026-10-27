@@ -27,7 +27,7 @@ window.SITE_EDITOR_CONFIG = {
 
   // Files and folders (paths from the site root).
   stylesheets: [
-    "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap",
     "assets/css/styles.css"
   ],
   globalCss: "assets/css/editor-global.css",   // theme colours, custom CSS, header/footer styles
@@ -37,9 +37,8 @@ window.SITE_EDITOR_CONFIG = {
 
   // Fonts offered in the Style panel.
   fonts: [
-    { id: '"Inter Tight", "Helvetica Neue", Arial, sans-serif', label: "Inter Tight (site sans)" },
-    { id: '"Instrument Serif", "Times New Roman", serif', label: "Instrument Serif (site italic)" },
-    { id: '"Geist Mono", ui-monospace, monospace', label: "Geist Mono (site labels)" }
+    { id: '"Cormorant Garamond", Garamond, "Times New Roman", serif', label: "Cormorant Garamond (site headings)" },
+    { id: '"Montserrat", "Helvetica Neue", Arial, sans-serif', label: "Montserrat (site text)" }
   ],
 
   // Quick colour swatches: [name, CSS value, preview hex].

@@ -50,8 +50,6 @@
 .footer-wordmark { background-image: linear-gradient(rgb(240, 230, 225) 0%, rgb(157, 137, 146) 55%, rgb(53, 29, 34) 100%); }
 .sticky-cta { background-color: rgba(28, 10, 14, 0.96); }
 .preloader__bar { background-color: rgba(243, 233, 228, 0.08); }
-.cursor__ring { border-top-color: rgba(140, 29, 51, 0.55); border-right-color: rgba(140, 29, 51, 0.55); border-bottom-color: rgba(140, 29, 51, 0.55); border-left-color: rgba(140, 29, 51, 0.55); }
-.cursor.is-hover .cursor__ring { background-color: rgba(140, 29, 51, 0.08); }
 .stack-card__shade { background-color: rgb(14, 5, 7); }
 /* Burgundy is dark, so text on burgundy buttons and tiles is light */
 .btn--gold, .header-cta.btn--gold { --fg: var(--ivory) !important; color: var(--ivory) !important; }
