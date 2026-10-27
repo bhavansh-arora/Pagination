@@ -132,6 +132,12 @@
     if (i < 0 || j < 0) return css + "\n" + a + "\n" + content + "\n" + b + "\n";
     return css.slice(0, i + a.length) + "\n" + content.trim() + "\n" + css.slice(j);
   }
+  // A page's own extra stylesheets (<link ... data-page-css>), e.g. a colour theme for one page.
+  function pageCssLinks(html) {
+    var out = [], re = /<link\b[^>]*\bdata-page-css\b[^>]*>/gi, m;
+    while ((m = re.exec(headOf(html)))) { var h = m[0].match(/href="([^"]+)"/); if (h) out.push(h[1]); }
+    return out;
+  }
   function pageStyles(html) { var m = html.match(/<style id="page-styles">([\s\S]*?)<\/style>/); return m ? m[1] : ""; }
   function setPageStyles(html, css) {
     var tag = '<style id="page-styles">' + css + "</style>";
@@ -687,6 +693,13 @@
     if (!doc) return;
     var el = doc.getElementById("ed-overrides");
     if (!el) { el = doc.createElement("style"); el.id = "ed-overrides"; doc.head.appendChild(el); }
+    // The page's own stylesheets (data-page-css), so it looks exactly as it does on the live site.
+    var want = (state.pageCss || []).map(function (h) { return abs(h); });
+    Array.prototype.forEach.call(doc.querySelectorAll("link[data-ed-page-css]"), function (l) { if (want.indexOf(l.getAttribute("href")) < 0) l.remove(); });
+    want.forEach(function (h) {
+      if (doc.querySelector('link[data-ed-page-css][href="' + h + '"]')) return;
+      var l = doc.createElement("link"); l.rel = "stylesheet"; l.href = h; l.setAttribute("data-ed-page-css", ""); doc.head.insertBefore(l, el);
+    });
     doc.documentElement.classList.add("ed-edit");
     var css = (C.canvasBackground ? "html body{background:" + C.canvasBackground + "!important}" : "") + EDIT_MODE_CSS + themeCss() + (state.siteCss || "");
     // Photos keep loading lazily (only near what's on screen), except inside sideways-scrolling strips,
@@ -982,14 +995,14 @@
       p = readFile(target).then(function (src) {
         var html = region(src, "main");
         if (html == null) throw new Error(target + " has no editable region markers.");
-        return { html: html, css: pageStyles(src), meta: getMeta(src) };
+        return { html: html, css: pageStyles(src), meta: getMeta(src), pageCss: pageCssLinks(src) };
       });
     }
     return p.then(function (d) {
       setContent(toEditor(d.html), toEditor(d.css));
       editor.UndoManager.clear();
       editor.select(null);
-      state.target = target; state.meta = d.meta; state.metaChanged = false;
+      state.target = target; state.meta = d.meta; state.metaChanged = false; state.pageCss = d.pageCss || [];
       if (state.meta) state.meta.origCanonical = state.meta.canonical;
       applyOverrides(target);
       setTimeout(function () { applyOverrides(target); }, 300);

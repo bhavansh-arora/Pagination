@@ -56,6 +56,16 @@
 
   Promise.all([html].concat(sheets)).then(function (res) {
     var doc = new DOMParser().parseFromString(res[0], "text/html");
+    // The page's own stylesheets (<link data-page-css>, e.g. a colour theme for one page): wait for them
+    // before showing the page, so it never flashes in the site-wide colours first.
+    return Promise.all(Array.prototype.map.call(doc.querySelectorAll("head link[data-page-css][href]"), function (l) {
+      // Added at the end of the page, after the pasted snippet's own intro styles, so the page's colours win.
+      return new Promise(function (ok) {
+        var x = document.createElement("link"); x.rel = "stylesheet"; x.href = abs(l.getAttribute("href")) + "?" + V;
+        x.onload = x.onerror = ok; document.body.appendChild(x);
+      });
+    })).then(function () { return doc; });
+  }).then(function (doc) {
 
     // Title, description and structured data come from the editor's SEO settings.
     if (doc.title) document.title = doc.title;

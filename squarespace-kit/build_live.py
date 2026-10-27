@@ -38,13 +38,15 @@ def main():
     root = re.search(r":root\s*\{.*?\n\}", css, re.S).group(0)
     # (Skip the reduced-motion rule: it only belongs inside its @media block, added back below.)
     rules = [l for l in css.split("\n") if ".cursor" not in l and re.match(r"\s*(\.is-loading body|\.is-(loading|loaded|entering|entered|leaving) \.(preloader|curtain)|\.preloader|\.curtain|@keyframes (draw|rise))", l)]
-    intro_css = re.sub(r"\s+", " ", root) + "\n" + "\n".join(r.strip() for r in rules)
+    # The site's colour variables, scoped to the intro screen and curtain only, so they never override
+    # the page's own colours (site theme or a page-specific theme) once the page has loaded.
+    intro_css = re.sub(r"\s+", " ", root).replace(":root", ".preloader, .curtain", 1) + "\n" + "\n".join(r.strip() for r in rules)
     intro_css = intro_css.replace('url("../brand/', 'url("' + HOST + "assets/brand/")
     intro_css += "\n@media (prefers-reduced-motion: reduce) { .preloader, .curtain { display: none !important; } }"
     # Squarespace's own page around the site: hidden from the first frame.
     sq_css = ("html,body,#siteWrapper,#page,.page-section:has(#drx-live),.page-section:has(#drx-live) .content-wrapper,"
               ".page-section:has(#drx-live) .content,.page-section:has(#drx-live) .fluid-engine,.fe-block:has(#drx-live),"
-              ".sqs-block:has(#drx-live){background:#0d0b09!important}"
+              ".sqs-block:has(#drx-live){background:var(--paper,#0d0b09)!important}"
               ".page-section:has(#drx-live) .section-background,#header,.header-announcement-bar-wrapper,#footer-sections,footer.sections{display:none!important}"
               ".page-section:has(#drx-live){padding:0!important;min-height:100vh}#drx-live{min-height:100vh}")
     index = read("index.html")
