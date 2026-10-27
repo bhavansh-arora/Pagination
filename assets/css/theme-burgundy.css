@@ -1,0 +1,62 @@
+/* Home page colour theme: "Deep Burgundy" (dark).
+   Loaded only on index.html, after styles.css; holds just the colour values that differ.
+   Remove the <link data-page-css> in index.html to go back to the site-wide gold palette. */
+:root { --ivory: #f3e9e4; --paper: #140709; --paper-2: #1d0b0f; --paper-3: #271016; --ink: #f3e9e4; --ink-2: #cfbcb6; --muted: #9b8589; --accent: #8c1d33; --accent-ink: #a83a4f; --gold-hi: #e0909f; --gold-grad: linear-gradient(105deg, #6e1426 0%, #e7a3b0 45%, #8c1d33 70%, #5c1020 100%); --night: #0e0507; --line: rgba(243, 233, 228, 0.1); --line-2: rgba(243, 233, 228, 0.18); --line-gold: rgba(140, 29, 51, 0.28); }
+.label--dot::before { box-shadow: rgba(140, 29, 51, 0.15) 0px 0px 0px 4px; }
+@keyframes pulse { 
+  50% { box-shadow: rgba(140, 29, 51, 0) 0px 0px 0px 7px; }
+}
+.btn--glass { --bg: rgba(243, 233, 228, 0.12); --bd: rgba(243, 233, 228, 0.28); }
+.site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(28, 10, 14, 0.94); }
+@media (min-width: 1024px) {
+  .site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(28, 10, 14, 0.72); }
+}
+.nav__link { color: rgba(243, 233, 228, 0.78); }
+.nav__link:hover { background-color: rgba(243, 233, 228, 0.08); }
+.hero__frame::before { background-image: linear-gradient(rgba(14, 5, 7, 0.55) 0%, rgba(14, 5, 7, 0) 22%), linear-gradient(0deg, rgba(14, 5, 7, 0.88) 0%, rgba(14, 5, 7, 0.35) 42%, rgba(14, 5, 7, 0) 68%); }
+.hero__top .label { color: rgba(243, 233, 228, 0.75); }
+.hero__bottom { border-top-color: rgba(243, 233, 228, 0.2); }
+.hero__sub { color: rgba(243, 233, 228, 0.82); }
+.hero__card { background-color: rgba(20, 7, 9, 0.55); border-top-color: rgba(243, 233, 228, 0.16); border-right-color: rgba(243, 233, 228, 0.16); border-bottom-color: rgba(243, 233, 228, 0.16); border-left-color: rgba(243, 233, 228, 0.16); }
+.hero__index { color: rgba(243, 233, 228, 0.8); }
+.hero__index-bar { background-color: rgba(243, 233, 228, 0.25); }
+.tile--media::after { background-image: linear-gradient(0deg, rgba(14, 5, 7, 0.85), rgba(14, 5, 7, 0) 60%); }
+.tile__overlay .label { color: rgba(243, 233, 228, 0.75); }
+.tile--gold p, .tile--gold .label { color: rgba(14, 5, 7, 0.72); }
+.tile--gold .circle-btn { border-top-color: rgba(14, 5, 7, 0.3); border-right-color: rgba(14, 5, 7, 0.3); border-bottom-color: rgba(14, 5, 7, 0.3); border-left-color: rgba(14, 5, 7, 0.3); }
+.tile--media .circle-btn { border-top-color: rgba(243, 233, 228, 0.4); border-right-color: rgba(243, 233, 228, 0.4); border-bottom-color: rgba(243, 233, 228, 0.4); border-left-color: rgba(243, 233, 228, 0.4); }
+.hcard__tag .pill { background-color: rgba(20, 7, 9, 0.6); border-top-color: rgba(243, 233, 228, 0.2); border-right-color: rgba(243, 233, 228, 0.2); border-bottom-color: rgba(243, 233, 228, 0.2); border-left-color: rgba(243, 233, 228, 0.2); }
+.stack-card:nth-child(2) { background-color: rgb(35, 12, 18); }
+.stack-card:nth-child(3) { background-color: rgb(41, 17, 22); }
+.checklist li::before { background-color: rgba(140, 29, 51, 0.16); }
+.checklist--addon li::before { background-color: rgba(243, 233, 228, 0.08); }
+.price-card__note { background-color: rgba(140, 29, 51, 0.1); }
+.price-card--combo .label { color: rgba(14, 5, 7, 0.7); }
+.price-card--combo p { color: rgba(14, 5, 7, 0.78); }
+.faq__icon { background-color: rgba(243, 233, 228, 0.08); }
+.person::after { background-image: linear-gradient(0deg, rgba(14, 5, 7, 0.9), rgba(14, 5, 7, 0) 55%); }
+.person__body p { color: rgba(243, 233, 228, 0.8); }
+.loves li { background-color: rgba(243, 233, 228, 0.06); }
+.filters { background-color: rgba(28, 10, 14, 0.94); }
+.chip:hover { background-color: rgba(243, 233, 228, 0.06); }
+.masonry__tag .pill { background-color: rgba(20, 7, 9, 0.75); }
+.lightbox { background-color: rgb(16, 6, 8); }
+.contact-aside::after { background-image: linear-gradient(0deg, rgba(14, 5, 7, 0.92), rgba(14, 5, 7, 0.1) 70%); }
+.contact-link { background-color: rgba(20, 7, 9, 0.6); border-top-color: rgba(243, 233, 228, 0.14); border-right-color: rgba(243, 233, 228, 0.14); border-bottom-color: rgba(243, 233, 228, 0.14); border-left-color: rgba(243, 233, 228, 0.14); }
+.contact-link small { color: rgba(243, 233, 228, 0.6); }
+.input { background-color: rgba(243, 233, 228, 0.04); }
+.input:focus { background-color: rgba(243, 233, 228, 0.07); }
+.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(140, 29, 51, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(140, 29, 51, 0.1), transparent 60%), initial; background-color: rgb(26, 8, 12); }
+.footer-wordmark { background-image: linear-gradient(rgb(240, 230, 225) 0%, rgb(157, 137, 146) 55%, rgb(53, 29, 34) 100%); }
+.sticky-cta { background-color: rgba(28, 10, 14, 0.96); }
+.preloader__bar { background-color: rgba(243, 233, 228, 0.08); }
+.cursor__ring { border-top-color: rgba(140, 29, 51, 0.55); border-right-color: rgba(140, 29, 51, 0.55); border-bottom-color: rgba(140, 29, 51, 0.55); border-left-color: rgba(140, 29, 51, 0.55); }
+.cursor.is-hover .cursor__ring { background-color: rgba(140, 29, 51, 0.08); }
+.stack-card__shade { background-color: rgb(14, 5, 7); }
+/* Burgundy is dark, so text on burgundy buttons and tiles is light */
+.btn--gold, .header-cta.btn--gold { --fg: var(--ivory) !important; color: var(--ivory) !important; }
+.btn--gold .btn__icon { background: var(--ivory) !important; color: var(--accent) !important; }
+.tile--gold, .tile--gold .h-md, .tile--gold .h-lg, .tile--gold .h-xl, .price-card--combo, .hscroll__end-circle { color: var(--ivory) !important; }
+.tile--gold *, .price-card--combo * { color: var(--ivory) !important; -webkit-text-fill-color: currentColor !important; border-color: rgba(239, 231, 218, 0.3) !important; }
+.tile--gold p, .tile--gold .label, .price-card--combo p, .price-card--combo .label { opacity: 0.85; }
+.tile--gold .h-md em, .tile--gold .h-lg em, .tile--gold .h-xl em, .price-card--combo .h-lg em { color: var(--gold-hi) !important; }
