@@ -36,16 +36,16 @@
   /* ---------- Mobile menu ---------- */
   var toggle = document.querySelector(".menu-toggle");
   var menu = document.getElementById("mobile-menu");
-  function setMenu(open) {
+  function setMenu(open, fromKeyboard) {
     document.body.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     var label = toggle.firstChild; if (label && label.nodeType === 3) label.nodeValue = open ? "Close" : "Menu";
     menu.setAttribute("aria-hidden", String(!open));
-    if (open) { header.classList.remove("is-hidden"); var first = menu.querySelector("a"); if (first) setTimeout(function () { first.focus(); }, 300); }
+    if (open) { header.classList.remove("is-hidden"); var first = menu.querySelector("a"); if (first && fromKeyboard) setTimeout(function () { first.focus(); }, 300); }
   }
   if (toggle && menu) {
-    toggle.addEventListener("click", function () { setMenu(!document.body.classList.contains("menu-open")); });
+    toggle.addEventListener("click", function (e) { setMenu(!document.body.classList.contains("menu-open"), e.detail === 0); });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && document.body.classList.contains("menu-open")) { setMenu(false); toggle.focus(); }
     });
@@ -311,7 +311,7 @@
     });
   }
 
-  /* ---------- Card sliders on touch screens (love stories, [data-swipe]): sideways swipes stay sideways ---------- */
+  /* ---------- Card sliders on phones (love stories, [data-swipe]): native swipe, plus position dots ---------- */
   if (window.PointerEvent) document.querySelectorAll(".hscroll__track, [data-swipe]").forEach(function (track) {
     var small = window.matchMedia("(max-width: 1023px)");
     function on() { return small.matches && !track.closest(".is-pinned") && track.scrollWidth > track.clientWidth + 4; }
@@ -330,49 +330,11 @@
       setTimeout(markDot, 0);
     }
     sync(); if (small.addEventListener) small.addEventListener("change", sync); window.addEventListener("load", sync); window.addEventListener("resize", sync);
-    var drag = null, anim = 0, moved = false;
     function stops() {
       var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0, max = track.scrollWidth - track.clientWidth, out = [];
       Array.prototype.forEach.call(track.children, function (c) { if (c.offsetWidth) out.push(Math.min(max, Math.max(0, c.offsetLeft - pad))); });
       return out;
     }
-    function glide(to) {
-      cancelAnimationFrame(anim);
-      var from = track.scrollLeft, t0 = performance.now(), dur = 520;
-      (function f(now) {
-        var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-        track.scrollLeft = from + (to - from) * e;
-        if (k < 1) anim = requestAnimationFrame(f);
-      })(t0);
-    }
-    track.addEventListener("pointerdown", function (e) {
-      if (e.pointerType === "mouse" || !on()) return;
-      cancelAnimationFrame(anim); moved = false;
-      drag = { x: e.clientX, s: track.scrollLeft, id: e.pointerId, hist: [[performance.now(), e.clientX]] };
-    });
-    track.addEventListener("pointermove", function (e) {
-      if (!drag || e.pointerId !== drag.id) return;
-      var dx = e.clientX - drag.x;
-      if (Math.abs(dx) > 6) moved = true;
-      track.scrollLeft = drag.s - dx;
-      drag.hist.push([performance.now(), e.clientX]); if (drag.hist.length > 5) drag.hist.shift();
-    });
-    function release(e) {
-      if (!drag || (e && e.pointerId !== drag.id)) return;
-      var h = drag.hist, v = 0;
-      if (h.length > 1) { var a = h[0], b = h[h.length - 1]; v = (b[1] - a[1]) / Math.max(1, b[0] - a[0]); }
-      drag = null;
-      var target = track.scrollLeft - v * 260, list = stops(), best = list[0] || 0;
-      list.forEach(function (s) { if (Math.abs(s - target) < Math.abs(best - target)) best = s; });
-      // never skip more than one card per flick
-      var cur = track.scrollLeft, i = list.indexOf(best), near = 0;
-      list.forEach(function (s, k) { if (Math.abs(s - cur) < Math.abs(list[near] - cur)) near = k; });
-      if (Math.abs(i - near) > 1) best = list[near + (i > near ? 1 : -1)];
-      glide(best);
-    }
-    track.addEventListener("pointerup", release);
-    track.addEventListener("pointercancel", release);
-    track.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
   });
 
   /* ---------- Year ---------- */

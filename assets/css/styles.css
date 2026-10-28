@@ -404,7 +404,6 @@ a.tile--media:hover .circle-btn { background: var(--ivory); color: var(--night);
   padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
 }
 /* Touch screens: the slider moves only sideways (the page never drifts up and down during a swipe) */
-@media (max-width: 1023px) { .is-swipe { touch-action: pan-y; scroll-snap-type: none !important; } }
 .hscroll__track::-webkit-scrollbar { display: none; }
 .hscroll__intro { display: none; }
 .hcard { flex: none; width: 78vw; scroll-snap-align: start; display: block; }
@@ -674,7 +673,8 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
   border: 1px solid var(--line); padding: clamp(28px, 5vw, 72px) clamp(20px, 4vw, 64px) 20px;
 }
 .footer-cta { display: grid; gap: 28px; padding-bottom: clamp(40px, 6vw, 80px); border-bottom: 1px solid var(--line); }
-@media (min-width: 900px) { .footer-cta { grid-template-columns: 1fr auto; align-items: end; } }
+.footer-cta { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+@media (max-width: 899px) { .footer-cta__btn { width: clamp(108px, 30vw, 160px); font-size: 0.88rem; } }
 .footer-cta__btn {
   display: grid; place-items: center; width: clamp(140px, 14vw, 190px); aspect-ratio: 1; border-radius: 50%;
   background: var(--accent); color: var(--night); text-align: center; font-weight: 500; font-size: 0.98rem; line-height: 1.2; letter-spacing: -0.01em;
@@ -909,7 +909,7 @@ main, .tile, .qcard, .chapter, .price-card, .form-panel, .faq details { backgrou
 .menu-toggle__bars span { background: #4f6a40; }
 
 /* Sideways strips never scroll up and down inside themselves (that made cards bob while swiping) */
-.hscroll__track, [data-swipe] { overflow-y: hidden; overscroll-behavior-x: contain; }
+.hscroll__track, [data-swipe], .quotes, .filters { overflow-y: hidden; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
 
 
 /* No grey flash on tapped links (iPhone) */
