@@ -50,3 +50,9 @@
 .sticky-cta { background-color: rgba(23, 26, 30, 0.96); }
 .preloader__bar { background-color: rgba(241, 242, 244, 0.08); }
 .stack-card__shade { background-color: rgb(10, 11, 13); }
+/* Buttons: a deep shade of the accent with light text */
+.btn--gold { --bg: #46536a; --bd: #46536a; --fg: var(--ivory); }
+.btn--gold .btn__icon { background: var(--ivory); color: #46536a; }
+.btn--gold:hover .btn__icon { background: #46536a; color: var(--ivory); }
+.footer-cta__btn { background: #46536a; color: var(--ivory); }
+.footer-cta__btn:hover { color: var(--night); }
