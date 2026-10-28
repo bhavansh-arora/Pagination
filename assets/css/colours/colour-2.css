@@ -48,6 +48,9 @@
 .footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(147, 172, 216, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(147, 172, 216, 0.1), transparent 60%), initial; background-color: rgb(15, 23, 42); }
 .footer-wordmark { background-image: linear-gradient(rgb(237, 236, 239) 0%, rgb(141, 151, 175) 55%, rgb(40, 49, 69) 100%); }
 .sticky-cta { background-color: rgba(17, 25, 44, 0.96); }
+.why-card::after { background-image: linear-gradient(0deg, rgba(7, 11, 22, 0.88) 0%, rgba(7, 11, 22, 0.35) 45%, rgba(7, 11, 22, 0) 70%); }
+.why-card__body .label { color: rgba(240, 239, 242, 0.8); }
+.tile__note { color: rgba(240, 239, 242, 0.82); }
 .notfound__frame::before { background-image: linear-gradient(rgba(7, 11, 22, 0.55) 0%, rgba(7, 11, 22, 0) 28%), linear-gradient(0deg, rgba(7, 11, 22, 0.92) 0%, rgba(7, 11, 22, 0.5) 42%, rgba(7, 11, 22, 0.08) 75%); }
 .notfound__num { -webkit-text-stroke-color: rgba(240, 239, 242, 0.4); }
 .notfound__content .lede { color: rgba(240, 239, 242, 0.86); }

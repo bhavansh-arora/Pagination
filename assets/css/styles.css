@@ -44,7 +44,7 @@
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--paper); }
 body {
   margin: 0; background: var(--paper); color: var(--ink);
-  font-family: var(--sans); font-size: 1rem; font-weight: 400; line-height: 1.6;
+  font-family: var(--sans); font-size: 0.94rem; font-weight: 400; line-height: 1.65;
   -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
 }
@@ -68,12 +68,12 @@ h1, h2, h3, .h-display, .h-xl, .h-lg, .h-md {
 h1 em, h2 em, h3 em, .h-display em, .h-xl em, .h-lg em, .h-md em, .serif {
   font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -0.01em; color: var(--gold-hi);
 }
-.h-display { font-size: clamp(3.2rem, 0.4rem + 12.2vw, 14.5rem); line-height: 0.92; letter-spacing: -0.015em; }
-.h-xl { font-size: clamp(3rem, 1rem + 7.4vw, 9rem); line-height: 0.95; letter-spacing: -0.015em; }
-.h-lg { font-size: clamp(2.4rem, 1.2rem + 4.7vw, 5.8rem); }
-.h-md { font-family: var(--display); font-size: clamp(1.65rem, 1.2rem + 1.6vw, 2.7rem); line-height: 1.05; letter-spacing: -0.01em; }
+.h-display { font-size: clamp(3.2rem, 0.6rem + 11vw, 13.5rem); line-height: 0.92; letter-spacing: -0.015em; }
+.h-xl { font-size: clamp(2.6rem, 1rem + 6.2vw, 7.6rem); line-height: 0.95; letter-spacing: -0.015em; }
+.h-lg { font-size: clamp(2.1rem, 1.1rem + 3.9vw, 4.8rem); }
+.h-md { font-family: var(--display); font-size: clamp(1.5rem, 1.1rem + 1.3vw, 2.3rem); line-height: 1.05; letter-spacing: -0.01em; }
 .h-sm { font-family: var(--display); font-size: 1.15rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; }
-.lede { font-size: clamp(1.1rem, 1rem + 0.45vw, 1.35rem); line-height: 1.5; color: var(--ink-2); letter-spacing: -0.01em; max-width: 46ch; }
+.lede { font-size: clamp(1.02rem, 0.95rem + 0.32vw, 1.2rem); line-height: 1.5; color: var(--ink-2); letter-spacing: -0.01em; max-width: 46ch; }
 .body { color: var(--ink-2); max-width: 60ch; }
 .body p + p { margin-top: 1em; }
 .label {
@@ -302,7 +302,7 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .hero__card-body strong { display: block; font-weight: 500; font-size: 0.92rem; letter-spacing: -0.01em; line-height: 1.25; }
 @media (min-width: 1100px) { .hero__card { display: block; } }
 /* With the film card showing, keep "Moments you'll" (about 6em wide) clear of it: the title's size follows the room left of the card. */
-@media (min-width: 1100px) { .hero__title { font-size: min(clamp(3.2rem, 0.4rem + 12.2vw, 14.5rem), calc((100vw - 450px) / 6)); } }
+@media (min-width: 1100px) { .hero__title { font-size: min(clamp(3.2rem, 0.6rem + 11vw, 13.5rem), calc((100vw - 450px) / 6)); } }
 
 .hero__slides { overflow: hidden; }
 .hero__slide { position: absolute; inset: 0; opacity: 0; z-index: 0; }
@@ -336,7 +336,7 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .frame .media { border-radius: var(--r-xl); }
 
 /* ---------- Statement with inline images ---------- */
-.statement { font-family: var(--display); font-size: clamp(1.95rem, 1rem + 3.6vw, 4.8rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.08; color: var(--ink); }
+.statement { font-family: var(--display); font-size: clamp(1.7rem, 0.9rem + 3.1vw, 4.2rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.08; color: var(--ink); }
 .statement em { font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -0.01em; color: var(--gold-hi); }
 .inline-img {
   display: inline-block; width: 1.9em; height: 0.82em; border-radius: 999px; vertical-align: -0.04em; margin-inline: 0.06em;
@@ -366,8 +366,8 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .tile__num { font-family: var(--display); font-size: clamp(3.4rem, 2.4rem + 3vw, 5.6rem); font-weight: 500; letter-spacing: -0.01em; line-height: 0.85; }
 .tile__num sup { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 0.38em; letter-spacing: 0; vertical-align: top; position: relative; top: 0.2em; margin-left: 4px; color: var(--accent); -webkit-text-fill-color: var(--accent); }
 .tile p { color: var(--ink-2); font-size: 0.95rem; max-width: 34ch; }
-.tile .h-md { font-size: clamp(1.65rem, 1.2rem + 1.6vw, 2.7rem); color: var(--ink); max-width: none; }
-.tile .h-lg { font-size: clamp(2.4rem, 1.2rem + 4.7vw, 5.8rem); color: var(--ink); max-width: none; }
+.tile .h-md { font-size: clamp(1.5rem, 1.1rem + 1.3vw, 2.3rem); color: var(--ink); max-width: none; }
+.tile .h-lg { font-size: clamp(2.1rem, 1.1rem + 3.9vw, 4.8rem); color: var(--ink); max-width: none; }
 .tile .tile__title { font-size: clamp(2rem, 1.2rem + 2.6vw, 3.6rem); color: var(--ivory); max-width: none; }
 .tile--gold { background: var(--accent) url("../brand/grain.png"); border-color: var(--accent); color: var(--night); }
 .tile--gold p, .tile--gold .label { color: rgba(8, 7, 6, 0.72); }
@@ -718,29 +718,46 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sticky-cta .btn { min-height: 44px; padding: 0 18px; font-size: 0.86rem; }
 @media (min-width: 1024px) { .sticky-cta { display: none; } }
 
-/* ---------- Why our other work (boxed feature) ---------- */
-.why-box { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: clamp(24px, 4vw, 64px); background: linear-gradient(160deg, var(--paper-3) 0%, var(--paper-2) 65%); border: 1px solid var(--line-gold); }
-.why-box__intro { display: grid; gap: 20px; margin-top: clamp(18px, 2.4vw, 32px); }
+/* ---------- Why our other work (boxed feature with photos) ---------- */
+.why-box { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: clamp(22px, 3.6vw, 56px); background: linear-gradient(160deg, var(--paper-3) 0%, var(--paper-2) 65%); border: 1px solid var(--line-gold); }
+.why-box__intro { display: grid; gap: 18px; margin-top: clamp(18px, 2.4vw, 32px); }
 @media (min-width: 960px) { .why-box__intro { grid-template-columns: 1.1fr 0.9fr; align-items: end; gap: 56px; } }
-.why-box__list { list-style: none; display: grid; margin: clamp(28px, 4vw, 56px) 0 0; padding: 0; }
-.why-box__list li { display: grid; align-content: start; gap: 12px; padding: 22px 0; border-top: 1px solid var(--line); }
-@media (min-width: 900px) {
-  .why-box__list { grid-template-columns: repeat(3, 1fr); }
-  .why-box__list li { padding: 26px 28px 6px 0; }
-  .why-box__list li + li { padding-left: 28px; border-left: 1px solid var(--line); }
-}
-.why-box__foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(24px, 3vw, 40px); }
+.why-box__cards { display: grid; gap: 10px; margin-top: clamp(26px, 3.4vw, 44px); }
+@media (min-width: 760px) { .why-box__cards { grid-template-columns: repeat(3, 1fr); } }
+.why-card { position: relative; margin: 0; aspect-ratio: 4 / 3; border-radius: var(--r-lg); overflow: hidden; isolation: isolate; background: var(--paper-3); color: var(--ivory); }
+@media (min-width: 760px) { .why-card { aspect-ratio: 4 / 5; } }
+.why-card__img { position: absolute; inset: 0; z-index: -1; }
+.why-card__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+.why-card:hover .why-card__img img { transform: scale(1.04); }
+.why-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(8, 7, 6, 0.88) 0%, rgba(8, 7, 6, 0.35) 45%, rgba(8, 7, 6, 0) 70%); }
+.why-card__body { position: absolute; left: 0; right: 0; bottom: 0; display: grid; gap: 10px; padding: clamp(18px, 2vw, 26px); }
+.why-card__body .label { color: rgba(239, 231, 218, 0.8); }
+.why-card__text { font-family: var(--display); font-weight: 500; font-size: clamp(1.25rem, 1rem + 0.7vw, 1.6rem); line-height: 1.15; }
+.why-card__text em { font-family: var(--serif); font-style: italic; color: var(--gold-hi); }
+.why-box__foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(20px, 2.4vw, 32px); }
 @media (max-width: 600px) { .why-box .head__top .label + .label { display: none; } }
 
-/* ---------- What couples worry about ---------- */
-.worries { display: grid; gap: 12px; margin-top: clamp(28px, 4vw, 48px); }
-@media (min-width: 720px) { .worries { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1100px) { .worries { grid-template-columns: repeat(3, 1fr); } }
-.worry { display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--paper-2); border: 1px solid var(--line); }
-.worry__q { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.45rem, 1.1rem + 1vw, 1.9rem); line-height: 1.15; color: var(--gold-hi); }
-.worry__a { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-2); }
+/* ---------- What couples worry about (photos + list) ---------- */
+.worries-wrap { display: grid; gap: clamp(32px, 5vw, 72px); margin-top: clamp(20px, 2.6vw, 36px); }
+@media (min-width: 1024px) { .worries-wrap { grid-template-columns: 0.85fr 1.15fr; align-items: start; } .worries-side { position: sticky; top: 110px; } }
+.worries-photos { position: relative; max-width: 520px; margin-top: clamp(24px, 3vw, 40px); padding: 0 18% 14% 0; }
+.worries-photos img { width: 100%; height: 100%; object-fit: cover; }
+.worries-photos__main { aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; background: var(--paper-3); }
+.worries-photos__inset { position: absolute; right: 0; bottom: 0; width: 52%; aspect-ratio: 4 / 3; border-radius: var(--r-md); overflow: hidden; border: 6px solid var(--paper); background: var(--paper-3); }
+.worries-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.worry { display: grid; grid-template-columns: 40px 1fr; gap: 0 14px; padding: clamp(18px, 2vw, 26px) 0; border-bottom: 1px solid var(--line); }
+.worry__num { padding-top: 0.55em; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--accent); }
+.worry__q { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.25rem, 1rem + 0.7vw, 1.6rem); line-height: 1.2; color: var(--ink); }
+.worry__a { margin-top: 8px; max-width: 54ch; color: var(--ink-2); }
 .worry__a .link { display: inline-flex; }
-.worry__a cite { display: block; margin-top: 10px; font-style: normal; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.worry__a blockquote { margin: 0; padding-left: 14px; border-left: 2px solid var(--accent); }
+.worry__a cite { display: block; margin-top: 8px; font-style: normal; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+/* Smaller avatars (recent couples on the weddings counter) */
+.avatars--sm span { width: 44px; height: 44px; }
+.avatars--sm span + span { margin-left: -12px; }
+.tile__note { color: rgba(239, 231, 218, 0.82); max-width: 34ch; }
+.tile--media.c-4 .tile__title { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.2rem); }
 
 /* ---------- 404 ---------- */
 .notfound { display: flex; flex-direction: column; min-height: max(620px, 100vh); min-height: max(620px, 100svh); padding: var(--frame); }
