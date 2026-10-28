@@ -87,7 +87,7 @@
     var a = e.target.closest("a[href]");
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (a.target === "_blank" || a.hasAttribute("download")) return;
-    var url = new URL(a.getAttribute("href"), location.href);
+    var url = new URL(a.href); // resolved like the browser does (respects <base>)
     if (url.origin !== location.origin || !/(\.html|\/|\/[^.\/]+)$/.test(url.pathname)) return;
     if (url.pathname === location.pathname) return;
     e.preventDefault();
@@ -106,16 +106,7 @@
       var words = $$(".rotator__word", rot), wi = words.length - 1;
       words[wi].classList.add("is-current");
       rot.classList.add("is-live");
-      // Size the slot to the visible word so there is no gap before "again".
-      var fit = function () {
-        var max = Math.max.apply(null, words.map(function (w) { return w.offsetWidth; }));
-        rot.style.width = "";
-        var extra = rot.offsetWidth - max;
-        rot.style.width = (words[wi].offsetWidth + extra) + "px";
-      };
-      fit();
-      window.addEventListener("resize", fit);
-      if (document.fonts) document.fonts.ready.then(fit);
+      // The slot keeps the width of the longest word, so "again" stays put while the words change.
       setInterval(function () {
         if (document.hidden) return;
         var prev = words[wi];
@@ -124,7 +115,6 @@
         prev.classList.add("is-out");
         words[wi].classList.remove("is-out");
         words[wi].classList.add("is-current");
-        fit();
         setTimeout(function () { prev.classList.remove("is-out"); }, 950);
       }, 2600);
     }

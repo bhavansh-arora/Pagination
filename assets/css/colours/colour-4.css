@@ -1,0 +1,52 @@
+/* Home page colour option 4: "Plum & Champagne" (dark aubergine with soft champagne). Shown at /4/.
+   Holds just the colour values that differ from styles.css. */
+:root { --ivory: #f3eef2; --paper: #1a0f24; --paper-2: #23152f; --paper-3: #2e1c3c; --ink: #f3eef2; --ink-2: #cec2cf; --muted: #9a8ca0; --accent: #d2b88a; --accent-ink: #dfc8a0; --gold-hi: #eadbb9; --gold-grad: linear-gradient(105deg, #b29a6c 0%, #f1e5c8 45%, #d2b88a 70%, #a28b5f 100%); --night: #12091a; --line: rgba(243, 238, 242, 0.1); --line-2: rgba(243, 238, 242, 0.18); --line-gold: rgba(210, 184, 138, 0.28); }
+.label--dot::before { box-shadow: rgba(210, 184, 138, 0.15) 0px 0px 0px 4px; }
+@keyframes pulse { 
+  50% { box-shadow: rgba(210, 184, 138, 0) 0px 0px 0px 7px; }
+}
+.btn--glass { --bg: rgba(243, 238, 242, 0.12); --bd: rgba(243, 238, 242, 0.28); }
+.site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(34, 20, 46, 0.94); }
+@media (min-width: 1024px) {
+  .site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(34, 20, 46, 0.72); }
+}
+.nav__link { color: rgba(243, 238, 242, 0.78); }
+.nav__link:hover { background-color: rgba(243, 238, 242, 0.08); }
+.hero__frame::before { background-image: linear-gradient(rgba(18, 9, 26, 0.55) 0%, rgba(18, 9, 26, 0) 22%), linear-gradient(0deg, rgba(18, 9, 26, 0.88) 0%, rgba(18, 9, 26, 0.35) 42%, rgba(18, 9, 26, 0) 68%); }
+.hero__top .label { color: rgba(243, 238, 242, 0.75); }
+.hero__bottom { border-top-color: rgba(243, 238, 242, 0.2); }
+.hero__sub { color: rgba(243, 238, 242, 0.82); }
+.hero__card { background-color: rgba(26, 15, 36, 0.55); border-top-color: rgba(243, 238, 242, 0.16); border-right-color: rgba(243, 238, 242, 0.16); border-bottom-color: rgba(243, 238, 242, 0.16); border-left-color: rgba(243, 238, 242, 0.16); }
+.hero__index { color: rgba(243, 238, 242, 0.8); }
+.hero__index-bar { background-color: rgba(243, 238, 242, 0.25); }
+.tile--media::after { background-image: linear-gradient(0deg, rgba(18, 9, 26, 0.85), rgba(18, 9, 26, 0) 60%); }
+.tile__overlay .label { color: rgba(243, 238, 242, 0.75); }
+.tile--gold p, .tile--gold .label { color: rgba(18, 9, 26, 0.72); }
+.tile--gold .circle-btn { border-top-color: rgba(18, 9, 26, 0.3); border-right-color: rgba(18, 9, 26, 0.3); border-bottom-color: rgba(18, 9, 26, 0.3); border-left-color: rgba(18, 9, 26, 0.3); }
+.tile--media .circle-btn { border-top-color: rgba(243, 238, 242, 0.4); border-right-color: rgba(243, 238, 242, 0.4); border-bottom-color: rgba(243, 238, 242, 0.4); border-left-color: rgba(243, 238, 242, 0.4); }
+.hcard__tag .pill { background-color: rgba(26, 15, 36, 0.6); border-top-color: rgba(243, 238, 242, 0.2); border-right-color: rgba(243, 238, 242, 0.2); border-bottom-color: rgba(243, 238, 242, 0.2); border-left-color: rgba(243, 238, 242, 0.2); }
+.stack-card:nth-child(2) { background-color: rgb(42, 24, 56); }
+.stack-card:nth-child(3) { background-color: rgb(48, 29, 60); }
+.checklist li::before { background-color: rgba(210, 184, 138, 0.16); }
+.checklist--addon li::before { background-color: rgba(243, 238, 242, 0.08); }
+.price-card__note { background-color: rgba(210, 184, 138, 0.1); }
+.price-card--combo .label { color: rgba(18, 9, 26, 0.7); }
+.price-card--combo p { color: rgba(18, 9, 26, 0.78); }
+.faq__icon { background-color: rgba(243, 238, 242, 0.08); }
+.person::after { background-image: linear-gradient(0deg, rgba(18, 9, 26, 0.9), rgba(18, 9, 26, 0) 55%); }
+.person__body p { color: rgba(243, 238, 242, 0.8); }
+.loves li { background-color: rgba(243, 238, 242, 0.06); }
+.filters { background-color: rgba(34, 20, 46, 0.94); }
+.chip:hover { background-color: rgba(243, 238, 242, 0.06); }
+.masonry__tag .pill { background-color: rgba(26, 15, 36, 0.75); }
+.lightbox { background-color: rgb(20, 10, 27); }
+.contact-aside::after { background-image: linear-gradient(0deg, rgba(18, 9, 26, 0.92), rgba(18, 9, 26, 0.1) 70%); }
+.contact-link { background-color: rgba(26, 15, 36, 0.6); border-top-color: rgba(243, 238, 242, 0.14); border-right-color: rgba(243, 238, 242, 0.14); border-bottom-color: rgba(243, 238, 242, 0.14); border-left-color: rgba(243, 238, 242, 0.14); }
+.contact-link small { color: rgba(243, 238, 242, 0.6); }
+.input { background-color: rgba(243, 238, 242, 0.04); }
+.input:focus { background-color: rgba(243, 238, 242, 0.07); }
+.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(210, 184, 138, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(210, 184, 138, 0.1), transparent 60%), initial; background-color: rgb(32, 18, 44); }
+.footer-wordmark { background-image: linear-gradient(rgb(240, 235, 239) 0%, rgb(156, 144, 169) 55%, rgb(60, 41, 72) 100%); }
+.sticky-cta { background-color: rgba(34, 20, 46, 0.96); }
+.preloader__bar { background-color: rgba(243, 238, 242, 0.08); }
+.stack-card__shade { background-color: rgb(18, 9, 26); }
