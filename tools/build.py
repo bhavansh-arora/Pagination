@@ -186,13 +186,14 @@ FONTS = ("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@
          "&family=Montserrat:wght@300;400;500;600&display=swap")
 
 
-def page(filename, title, description, body, active=None, og_image="golden-hour-portrait", extra_head="", sticky=True):
+def page(filename, title, description, body, active=None, og_image="golden-hour-portrait", extra_head="", sticky=True, base=None):
     active = filename if active is None else active
     canonical = f"{SITE_URL}/" if filename == "index.html" else f"{SITE_URL}/{filename.replace('.html', '')}"
+    base_tag = f'<base href="{base}">\n' if base else ""
     html = f"""<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+{base_tag}<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content="{description}">
@@ -904,7 +905,7 @@ def build_404():
   </div>
 </section>"""
     page("404.html", "Page not found — Dan Reynolds Photography", "This page could not be found.", body, active="", sticky=False,
-         extra_head='<meta name="robots" content="noindex, follow">')
+         extra_head='<meta name="robots" content="noindex, follow">', base="/")
 
 
 def build_meta_files():
