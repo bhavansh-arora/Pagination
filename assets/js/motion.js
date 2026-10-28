@@ -17,7 +17,11 @@
   }
   if (reduce) { finishLoading(); html.classList.remove("is-entering"); return; }
 
-  if (hasGsap) { gsap.registerPlugin(ST); html.classList.add("has-gsap"); }
+  if (hasGsap) {
+    gsap.registerPlugin(ST); html.classList.add("has-gsap");
+    // Phones: the address bar showing/hiding must not re-measure the page (that made it jump while scrolling).
+    ST.config({ ignoreMobileResize: true });
+  }
 
   /* Native scrolling is used on purpose: no scroll hijacking, so wheel,
      trackpad, touch, keyboard and scrollbar all behave exactly as expected. */
@@ -232,6 +236,7 @@
 
   // Parallax inside image frames, pivoting around the faces.
   $$(".media").forEach(function (m) {
+    if (!fine) return; // keep photos still on touch screens
     if (m.closest(".masonry, .index-row, .hero, .hcard, .yt, .marquee, .stack-card")) return;
     var im = m.querySelector("img");
     if (!im) return;

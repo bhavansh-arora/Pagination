@@ -296,31 +296,16 @@
     });
   }
 
-  /* ---------- Why our other work: point list drives the large photo ---------- */
+  /* ---------- Why our other work: expanding photo panels (hover on desktop, tap anywhere) ---------- */
   document.querySelectorAll("[data-why]").forEach(function (box) {
-    var items = box.querySelectorAll("[data-why-item]"), slides = box.querySelectorAll("[data-why-slide]");
-    if (!items.length) return;
-    var cur = 0, timer = null, DUR = 5000;
-    var wide = window.matchMedia("(min-width: 960px)");
-    function show(i) {
-      cur = i;
-      items.forEach(function (b, k) { b.classList.toggle("is-active", k === i); b.setAttribute("aria-pressed", k === i ? "true" : "false"); });
-      slides.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
-    }
-    function next() { show((cur + 1) % items.length); }
-    function start() { if (reduceMotion || timer || !wide.matches) return; box.classList.remove("is-paused"); box.style.setProperty("--why-dur", DUR + "ms"); timer = setInterval(next, DUR); }
-    function stop() { clearInterval(timer); timer = null; box.classList.add("is-paused"); }
-    items.forEach(function (b, k) {
-      b.addEventListener("mouseenter", function () { stop(); show(k); });
-      b.addEventListener("focus", function () { stop(); show(k); });
-      b.addEventListener("click", function () { stop(); show(k); });
+    var panels = box.querySelectorAll("[data-why-item]");
+    var hover = window.matchMedia("(hover: hover) and (min-width: 760px)");
+    function open(i) { panels.forEach(function (p, k) { p.classList.toggle("is-active", k === i); p.setAttribute("aria-expanded", k === i ? "true" : "false"); }); }
+    panels.forEach(function (p, k) {
+      p.addEventListener("click", function () { open(k); });
+      p.addEventListener("focus", function () { open(k); });
+      p.addEventListener("mouseenter", function () { if (hover.matches) open(k); });
     });
-    box.addEventListener("mouseleave", start);
-    if (reduceMotion) box.classList.add("is-paused");
-    // Start cycling once the section is on screen.
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (en) { en.forEach(function (e) { if (e.isIntersecting) start(); else stop(); }); }, { threshold: 0.35 }).observe(box);
-    } else start();
   });
 
   /* ---------- Year ---------- */
