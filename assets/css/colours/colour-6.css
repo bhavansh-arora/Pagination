@@ -48,6 +48,11 @@
 .footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(191, 198, 208, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(191, 198, 208, 0.1), transparent 60%), initial; background-color: rgb(21, 24, 28); }
 .footer-wordmark { background-image: linear-gradient(rgb(238, 239, 241) 0%, rgb(145, 153, 167) 55%, rgb(48, 51, 55) 100%); }
 .sticky-cta { background-color: rgba(23, 26, 30, 0.96); }
+.notfound__frame::before { background-image: linear-gradient(rgba(10, 11, 13, 0.55) 0%, rgba(10, 11, 13, 0) 28%), linear-gradient(0deg, rgba(10, 11, 13, 0.92) 0%, rgba(10, 11, 13, 0.5) 42%, rgba(10, 11, 13, 0.08) 75%); }
+.notfound__num { -webkit-text-stroke-color: rgba(241, 242, 244, 0.4); }
+.notfound__content .lede { color: rgba(241, 242, 244, 0.86); }
+.notfound__content .label { color: rgba(241, 242, 244, 0.8); }
+.nf-card__arrow { background-color: rgba(10, 11, 13, 0.5); }
 .preloader__bar { background-color: rgba(241, 242, 244, 0.08); }
 .stack-card__shade { background-color: rgb(10, 11, 13); }
 /* Buttons: a deep shade of the accent with light text */
@@ -56,3 +61,6 @@
 .btn--gold:hover .btn__icon { background: #2b3d6b; color: var(--ivory); }
 .footer-cta__btn { background: #2b3d6b; color: var(--ivory); }
 .footer-cta__btn:hover { color: var(--night); }
+.menu-toggle { background: #2b3d6b; color: var(--ivory); }
+.menu-toggle__bars { background: var(--ivory); }
+.menu-toggle__bars span { background: #2b3d6b; }

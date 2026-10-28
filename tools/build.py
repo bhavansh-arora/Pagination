@@ -885,12 +885,22 @@ def build_contact():
 
 def build_404():
     body = f"""
-<section class="notfound">
+<section class="notfound" aria-label="Page not found">
+  <div class="notfound__frame">
+    <img class="notfound__img" src="assets/img/manny-karina-1600.webp" srcset="assets/img/manny-karina-800.webp 800w, assets/img/manny-karina-1600.webp 1600w" sizes="100vw" alt="A couple standing far away in an open field at dusk" fetchpriority="high">
+    <span class="notfound__num" aria-hidden="true">404</span>
+    <div class="notfound__content">
+      <span class="label label--dot">Error 404 · Page not found</span>
+      <h1 class="h-xl mt-m" data-lines>This moment<br><em>got away.</em></h1>
+      <p class="lede mt-m">The page you're looking for has wandered off, the way the best moments do. Let's get you back to the good stuff.</p>
+      <div class="row mt-l"><a class="btn btn--gold" href="index.html">Go back home <span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn btn--glass" href="portfolio.html">See the portfolio</a></div>
+    </div>
+  </div>
+</section>
+<section class="section">
   <div class="container">
-    <span class="label label--dot">Error 404</span>
-    <h1 class="h-display mt-m" data-lines>This moment<br><em>got away.</em></h1>
-    <p class="lede mt-m" style="margin-inline:auto">Looks like you've gotten turned around. Let's get you back to the good stuff.</p>
-    <div class="row mt-l" style="justify-content:center"><a class="btn btn--gold" href="index.html">Go back home {icon_btn()}</a><a class="btn btn--ghost" href="portfolio.html">See the portfolio</a></div>
+    <div class="head__top reveal"><span class="label">Maybe you were looking for</span><span class="label">Four places to start</span></div>
+    <div class="nf-links"><a class="nf-card reveal" data-delay="0" href="portfolio.html"><div class="nf-card__img"><img class="" src="assets/img/ethan-gwyn-4-1600.webp" srcset="assets/img/ethan-gwyn-4-800.webp 800w, assets/img/ethan-gwyn-4-1600.webp 1600w" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" alt="A couple walking together through autumn trees" loading="lazy"></div><span class="nf-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span><div class="nf-card__body"><span class="label">01 — Portfolio</span><h2 class="nf-card__title">Real <em>weddings</em></h2><p>Full stories from couples we've photographed.</p></div></a><a class="nf-card reveal" data-delay="1" href="films.html"><div class="nf-card__img"><img class="" src="assets/img/dan-filming-1600.webp" srcset="assets/img/dan-filming-800.webp 800w, assets/img/dan-filming-1600.webp 1600w" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" alt="Dan filming a wedding" loading="lazy"></div><span class="nf-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span><div class="nf-card__body"><span class="label">02 — Films</span><h2 class="nf-card__title">Wedding <em>films</em></h2><p>Cinematic films that let you hear the day again.</p></div></a><a class="nf-card reveal" data-delay="2" href="investment.html"><div class="nf-card__img"><img class="" src="assets/img/bouquet-detail-1600.webp" srcset="assets/img/bouquet-detail-800.webp 800w, assets/img/bouquet-detail-1600.webp 1600w" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" alt="A bride holding her bouquet" loading="lazy"></div><span class="nf-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span><div class="nf-card__body"><span class="label">03 — Investment</span><h2 class="nf-card__title">Collections &amp; <em>pricing</em></h2><p>Photo, film, or both, and what each includes.</p></div></a><a class="nf-card reveal" data-delay="3" href="contact.html"><div class="nf-card__img"><img class="" src="assets/img/chicago-skyline-couple-1600.webp" srcset="assets/img/chicago-skyline-couple-800.webp 800w, assets/img/chicago-skyline-couple-1600.webp 1600w" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" alt="A couple in front of the Chicago skyline" loading="lazy"></div><span class="nf-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span><div class="nf-card__body"><span class="label">04 — Contact</span><h2 class="nf-card__title">Check your <em>date</em></h2><p>Tell us about your day. Dates go fast.</p></div></a></div>
   </div>
 </section>"""
     page("404.html", "Page not found — Dan Reynolds Photography", "This page could not be found.", body, active="", sticky=False,

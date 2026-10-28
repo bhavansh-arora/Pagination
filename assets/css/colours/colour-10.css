@@ -48,6 +48,11 @@
 .footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(233, 226, 214, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(233, 226, 214, 0.1), transparent 60%), initial; background-color: rgb(19, 19, 19); }
 .footer-wordmark { background-image: linear-gradient(rgb(241, 237, 229) 0%, rgb(150, 146, 142) 55%, rgb(46, 45, 44) 100%); }
 .sticky-cta { background-color: rgba(21, 21, 21, 0.96); }
+.notfound__frame::before { background-image: linear-gradient(rgba(7, 7, 7, 0.55) 0%, rgba(7, 7, 7, 0) 28%), linear-gradient(0deg, rgba(7, 7, 7, 0.92) 0%, rgba(7, 7, 7, 0.5) 42%, rgba(7, 7, 7, 0.08) 75%); }
+.notfound__num { -webkit-text-stroke-color: rgba(244, 240, 232, 0.4); }
+.notfound__content .lede { color: rgba(244, 240, 232, 0.86); }
+.notfound__content .label { color: rgba(244, 240, 232, 0.8); }
+.nf-card__arrow { background-color: rgba(7, 7, 7, 0.5); }
 .preloader__bar { background-color: rgba(244, 240, 232, 0.08); }
 .stack-card__shade { background-color: rgb(7, 7, 7); }
 /* Buttons: ivory with dark text; hover fills them with the darkest panel colour */
