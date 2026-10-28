@@ -297,37 +297,6 @@
     });
   }
 
-  /* ---------- Why our other work: each point reveals its photo as it scrolls in ---------- */
-  document.querySelectorAll("[data-why]").forEach(function (box) {
-    var steps = box.querySelectorAll("[data-why-step]"), shots = box.querySelectorAll("[data-why-shot]");
-    var media = box.querySelector(".why-media__frame"), count = box.querySelector("[data-why-count]");
-    if (!steps.length || !media) return;
-    var wide = window.matchMedia("(min-width: 900px)"), ticking = false, last = -1;
-    function update() {
-      ticking = false;
-      var vh = window.innerHeight, active = 0;
-      var end = wide.matches ? vh * 0.42 : media.getBoundingClientRect().bottom + 24;
-      var start = end + vh * (wide.matches ? 0.38 : 0.32);
-      steps.forEach(function (st, k) {
-        if (!k) return;
-        var t = st.getBoundingClientRect().top;
-        var p = Math.min(1, Math.max(0, (start - t) / (start - end)));
-        if (reduceMotion) p = p > 0.5 ? 1 : 0;
-        if (shots[k]) shots[k].style.setProperty("--p", p.toFixed(4));
-        if (p > 0.5) active = k;
-      });
-      if (active !== last) {
-        last = active;
-        steps.forEach(function (st, k) { st.classList.toggle("is-active", k === active); });
-        if (count) count.textContent = "0" + (active + 1);
-      }
-    }
-    function req() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-    window.addEventListener("scroll", req, { passive: true });
-    window.addEventListener("resize", req);
-    update();
-  });
-
   /* ---------- Card sliders on touch screens (love stories, [data-swipe]): sideways swipes stay sideways ---------- */
   if (window.PointerEvent) document.querySelectorAll(".hscroll__track, [data-swipe]").forEach(function (track) {
     var small = window.matchMedia("(max-width: 1023px)");
