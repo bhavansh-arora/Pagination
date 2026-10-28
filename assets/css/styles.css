@@ -718,6 +718,30 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sticky-cta .btn { min-height: 44px; padding: 0 18px; font-size: 0.86rem; }
 @media (min-width: 1024px) { .sticky-cta { display: none; } }
 
+/* ---------- Why our other work (boxed feature) ---------- */
+.why-box { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: clamp(24px, 4vw, 64px); background: linear-gradient(160deg, var(--paper-3) 0%, var(--paper-2) 65%); border: 1px solid var(--line-gold); }
+.why-box__intro { display: grid; gap: 20px; margin-top: clamp(18px, 2.4vw, 32px); }
+@media (min-width: 960px) { .why-box__intro { grid-template-columns: 1.1fr 0.9fr; align-items: end; gap: 56px; } }
+.why-box__list { list-style: none; display: grid; margin: clamp(28px, 4vw, 56px) 0 0; padding: 0; }
+.why-box__list li { display: grid; align-content: start; gap: 12px; padding: 22px 0; border-top: 1px solid var(--line); }
+@media (min-width: 900px) {
+  .why-box__list { grid-template-columns: repeat(3, 1fr); }
+  .why-box__list li { padding: 26px 28px 6px 0; }
+  .why-box__list li + li { padding-left: 28px; border-left: 1px solid var(--line); }
+}
+.why-box__foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(24px, 3vw, 40px); }
+@media (max-width: 600px) { .why-box .head__top .label + .label { display: none; } }
+
+/* ---------- What couples worry about ---------- */
+.worries { display: grid; gap: 12px; margin-top: clamp(28px, 4vw, 48px); }
+@media (min-width: 720px) { .worries { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .worries { grid-template-columns: repeat(3, 1fr); } }
+.worry { display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--paper-2); border: 1px solid var(--line); }
+.worry__q { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.45rem, 1.1rem + 1vw, 1.9rem); line-height: 1.15; color: var(--gold-hi); }
+.worry__a { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-2); }
+.worry__a .link { display: inline-flex; }
+.worry__a cite { display: block; margin-top: 10px; font-style: normal; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
 /* ---------- 404 ---------- */
 .notfound { display: flex; flex-direction: column; min-height: max(620px, 100vh); min-height: max(620px, 100svh); padding: var(--frame); }
 .notfound__frame { position: relative; flex: 1 0 auto; display: flex; flex-direction: column; justify-content: flex-end; border-radius: var(--r-xl); overflow: hidden; isolation: isolate; background: var(--night); color: var(--ivory); }

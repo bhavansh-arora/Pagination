@@ -153,7 +153,7 @@
       entries.forEach(function (en) {
         if (!en.isIntersecting) return;
         cio.unobserve(en.target);
-        var el = en.target, end = parseFloat(el.dataset.count), t0 = performance.now(), dur = 1800;
+        var el = en.target, end = parseFloat(el.dataset.count), t0 = performance.now(), dur = parseFloat(el.dataset.countDur) || 1800;
         (function step(now) {
           var p = Math.min(1, (now - t0) / dur);
           var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
