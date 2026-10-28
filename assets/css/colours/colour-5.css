@@ -1,9 +1,9 @@
-/* Home page colour option 5: "Candlelight" (warm cocoa with candle-glow amber). Shown at /5/.
+/* Home page colour option 5: "Candlelight" (warm cocoa with candle-glow copper). Shown at /5/.
    Holds just the colour values that differ from styles.css. */
-:root { --ivory: #f5ece0; --paper: #17100b; --paper-2: #211710; --paper-3: #2c1f16; --ink: #f5ece0; --ink-2: #d6c6b2; --muted: #a08d78; --accent: #d08a4a; --accent-ink: #dea06a; --gold-hi: #efc28f; --gold-grad: linear-gradient(105deg, #a96a33 0%, #f3d1a8 45%, #d08a4a 70%, #93592a 100%); --night: #0f0a07; --line: rgba(245, 236, 224, 0.1); --line-2: rgba(245, 236, 224, 0.18); --line-gold: rgba(208, 138, 74, 0.28); }
-.label--dot::before { box-shadow: rgba(208, 138, 74, 0.15) 0px 0px 0px 4px; }
+:root { --ivory: #f5ece0; --paper: #17100b; --paper-2: #211710; --paper-3: #2c1f16; --ink: #f5ece0; --ink-2: #d6c6b2; --muted: #a08d78; --accent: #c9805a; --accent-ink: #d8987a; --gold-hi: #e8b496; --gold-grad: linear-gradient(105deg, #a16648 0%, #e7c6b5 45%, #c9805a 70%, #915c41 100%); --night: #0f0a07; --line: rgba(245, 236, 224, 0.1); --line-2: rgba(245, 236, 224, 0.18); --line-gold: rgba(201, 128, 90, 0.28); }
+.label--dot::before { box-shadow: rgba(201, 128, 90, 0.15) 0px 0px 0px 4px; }
 @keyframes pulse { 
-  50% { box-shadow: rgba(208, 138, 74, 0) 0px 0px 0px 7px; }
+  50% { box-shadow: rgba(201, 128, 90, 0) 0px 0px 0px 7px; }
 }
 .btn--glass { --bg: rgba(245, 236, 224, 0.12); --bd: rgba(245, 236, 224, 0.28); }
 .site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(32, 22, 15, 0.94); }
@@ -27,9 +27,9 @@
 .hcard__tag .pill { background-color: rgba(23, 16, 11, 0.6); border-top-color: rgba(245, 236, 224, 0.2); border-right-color: rgba(245, 236, 224, 0.2); border-bottom-color: rgba(245, 236, 224, 0.2); border-left-color: rgba(245, 236, 224, 0.2); }
 .stack-card:nth-child(2) { background-color: rgb(40, 27, 18); }
 .stack-card:nth-child(3) { background-color: rgb(46, 32, 22); }
-.checklist li::before { background-color: rgba(208, 138, 74, 0.16); }
+.checklist li::before { background-color: rgba(201, 128, 90, 0.16); }
 .checklist--addon li::before { background-color: rgba(245, 236, 224, 0.08); }
-.price-card__note { background-color: rgba(208, 138, 74, 0.1); }
+.price-card__note { background-color: rgba(201, 128, 90, 0.1); }
 .price-card--combo .label { color: rgba(15, 10, 7, 0.7); }
 .price-card--combo p { color: rgba(15, 10, 7, 0.78); }
 .faq__icon { background-color: rgba(245, 236, 224, 0.08); }
@@ -45,7 +45,7 @@
 .contact-link small { color: rgba(245, 236, 224, 0.6); }
 .input { background-color: rgba(245, 236, 224, 0.04); }
 .input:focus { background-color: rgba(245, 236, 224, 0.07); }
-.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(208, 138, 74, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(208, 138, 74, 0.1), transparent 60%), initial; background-color: rgb(30, 20, 13); }
+.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(201, 128, 90, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(201, 128, 90, 0.1), transparent 60%), initial; background-color: rgb(30, 20, 13); }
 .footer-wordmark { background-image: linear-gradient(rgb(242, 233, 221) 0%, rgb(162, 145, 129) 55%, rgb(58, 44, 34) 100%); }
 .sticky-cta { background-color: rgba(32, 22, 15, 0.96); }
 .preloader__bar { background-color: rgba(245, 236, 224, 0.08); }

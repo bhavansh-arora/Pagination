@@ -1,9 +1,9 @@
-/* Home page colour option 3: "Emerald & Gold" (deep garden green with gold). Shown at /3/.
+/* Home page colour option 3: "Emerald & Sage" (deep garden green with soft sage). Shown at /3/.
    Holds just the colour values that differ from styles.css. */
-:root { --ivory: #eef2ec; --paper: #0a1c17; --paper-2: #10261f; --paper-3: #173229; --ink: #eef2ec; --ink-2: #c3cfc7; --muted: #879a90; --accent: #cfae6e; --accent-ink: #ddc28c; --gold-hi: #e9d4a4; --gold-grad: linear-gradient(105deg, #a8844c 0%, #ead7a8 45%, #cfae6e 70%, #9d7b45 100%); --night: #061310; --line: rgba(238, 242, 236, 0.1); --line-2: rgba(238, 242, 236, 0.18); --line-gold: rgba(207, 174, 110, 0.28); }
-.label--dot::before { box-shadow: rgba(207, 174, 110, 0.15) 0px 0px 0px 4px; }
+:root { --ivory: #eef2ec; --paper: #0a1c17; --paper-2: #10261f; --paper-3: #173229; --ink: #eef2ec; --ink-2: #c3cfc7; --muted: #879a90; --accent: #a3c496; --accent-ink: #b8d3ad; --gold-hi: #afd3a0; --gold-grad: linear-gradient(105deg, #829d78 0%, #d6e4d0 45%, #a3c496 70%, #758d6c 100%); --night: #061310; --line: rgba(238, 242, 236, 0.1); --line-2: rgba(238, 242, 236, 0.18); --line-gold: rgba(163, 196, 150, 0.28); }
+.label--dot::before { box-shadow: rgba(163, 196, 150, 0.15) 0px 0px 0px 4px; }
 @keyframes pulse { 
-  50% { box-shadow: rgba(207, 174, 110, 0) 0px 0px 0px 7px; }
+  50% { box-shadow: rgba(163, 196, 150, 0) 0px 0px 0px 7px; }
 }
 .btn--glass { --bg: rgba(238, 242, 236, 0.12); --bd: rgba(238, 242, 236, 0.28); }
 .site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(15, 37, 30, 0.94); }
@@ -27,9 +27,9 @@
 .hcard__tag .pill { background-color: rgba(10, 28, 23, 0.6); border-top-color: rgba(238, 242, 236, 0.2); border-right-color: rgba(238, 242, 236, 0.2); border-bottom-color: rgba(238, 242, 236, 0.2); border-left-color: rgba(238, 242, 236, 0.2); }
 .stack-card:nth-child(2) { background-color: rgb(19, 46, 37); }
 .stack-card:nth-child(3) { background-color: rgb(25, 51, 41); }
-.checklist li::before { background-color: rgba(207, 174, 110, 0.16); }
+.checklist li::before { background-color: rgba(163, 196, 150, 0.16); }
 .checklist--addon li::before { background-color: rgba(238, 242, 236, 0.08); }
-.price-card__note { background-color: rgba(207, 174, 110, 0.1); }
+.price-card__note { background-color: rgba(163, 196, 150, 0.1); }
 .price-card--combo .label { color: rgba(6, 19, 16, 0.7); }
 .price-card--combo p { color: rgba(6, 19, 16, 0.78); }
 .faq__icon { background-color: rgba(238, 242, 236, 0.08); }
@@ -45,7 +45,7 @@
 .contact-link small { color: rgba(238, 242, 236, 0.6); }
 .input { background-color: rgba(238, 242, 236, 0.04); }
 .input:focus { background-color: rgba(238, 242, 236, 0.07); }
-.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(207, 174, 110, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(207, 174, 110, 0.1), transparent 60%), initial; background-color: rgb(13, 35, 28); }
+.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(163, 196, 150, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(163, 196, 150, 0.1), transparent 60%), initial; background-color: rgb(13, 35, 28); }
 .footer-wordmark { background-image: linear-gradient(rgb(235, 239, 233) 0%, rgb(137, 158, 153) 55%, rgb(37, 63, 53) 100%); }
 .sticky-cta { background-color: rgba(15, 37, 30, 0.96); }
 .preloader__bar { background-color: rgba(238, 242, 236, 0.08); }

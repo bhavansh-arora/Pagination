@@ -1,52 +1,52 @@
-/* Home page colour option 2: "Midnight Navy & Champagne" (evening blue with pale champagne). Shown at /2/.
+/* Home page colour option 2: "Midnight Navy & Dusty Blue" (evening blue with powder-blue accents). Shown at /2/.
    Holds just the colour values that differ from styles.css. */
-:root { --ivory: #f0eee9; --paper: #0b1120; --paper-2: #121a2d; --paper-3: #1a2439; --ink: #f0eee9; --ink-2: #c5c7cf; --muted: #8b92a3; --accent: #d4bd92; --accent-ink: #e0cca6; --gold-hi: #ecdcb8; --gold-grad: linear-gradient(105deg, #b29a6c 0%, #f1e5c8 45%, #d4bd92 70%, #a28b5f 100%); --night: #070b16; --line: rgba(240, 238, 233, 0.1); --line-2: rgba(240, 238, 233, 0.18); --line-gold: rgba(212, 189, 146, 0.28); }
-.label--dot::before { box-shadow: rgba(212, 189, 146, 0.15) 0px 0px 0px 4px; }
+:root { --ivory: #f0eff2; --paper: #0b1120; --paper-2: #121a2d; --paper-3: #1a2439; --ink: #f0eff2; --ink-2: #c5c9d3; --muted: #8b93a6; --accent: #93acd8; --accent-ink: #abc0e3; --gold-hi: #a3bdeb; --gold-grad: linear-gradient(105deg, #768aad 0%, #cedaed 45%, #93acd8 70%, #6a7c9c 100%); --night: #070b16; --line: rgba(240, 239, 242, 0.1); --line-2: rgba(240, 239, 242, 0.18); --line-gold: rgba(147, 172, 216, 0.28); }
+.label--dot::before { box-shadow: rgba(147, 172, 216, 0.15) 0px 0px 0px 4px; }
 @keyframes pulse { 
-  50% { box-shadow: rgba(212, 189, 146, 0) 0px 0px 0px 7px; }
+  50% { box-shadow: rgba(147, 172, 216, 0) 0px 0px 0px 7px; }
 }
-.btn--glass { --bg: rgba(240, 238, 233, 0.12); --bd: rgba(240, 238, 233, 0.28); }
+.btn--glass { --bg: rgba(240, 239, 242, 0.12); --bd: rgba(240, 239, 242, 0.28); }
 .site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(17, 25, 44, 0.94); }
 @media (min-width: 1024px) {
   .site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(17, 25, 44, 0.72); }
 }
-.nav__link { color: rgba(240, 238, 233, 0.78); }
-.nav__link:hover { background-color: rgba(240, 238, 233, 0.08); }
+.nav__link { color: rgba(240, 239, 242, 0.78); }
+.nav__link:hover { background-color: rgba(240, 239, 242, 0.08); }
 .hero__frame::before { background-image: linear-gradient(rgba(7, 11, 22, 0.55) 0%, rgba(7, 11, 22, 0) 22%), linear-gradient(0deg, rgba(7, 11, 22, 0.88) 0%, rgba(7, 11, 22, 0.35) 42%, rgba(7, 11, 22, 0) 68%); }
-.hero__top .label { color: rgba(240, 238, 233, 0.75); }
-.hero__bottom { border-top-color: rgba(240, 238, 233, 0.2); }
-.hero__sub { color: rgba(240, 238, 233, 0.82); }
-.hero__card { background-color: rgba(11, 17, 32, 0.55); border-top-color: rgba(240, 238, 233, 0.16); border-right-color: rgba(240, 238, 233, 0.16); border-bottom-color: rgba(240, 238, 233, 0.16); border-left-color: rgba(240, 238, 233, 0.16); }
-.hero__index { color: rgba(240, 238, 233, 0.8); }
-.hero__index-bar { background-color: rgba(240, 238, 233, 0.25); }
+.hero__top .label { color: rgba(240, 239, 242, 0.75); }
+.hero__bottom { border-top-color: rgba(240, 239, 242, 0.2); }
+.hero__sub { color: rgba(240, 239, 242, 0.82); }
+.hero__card { background-color: rgba(11, 17, 32, 0.55); border-top-color: rgba(240, 239, 242, 0.16); border-right-color: rgba(240, 239, 242, 0.16); border-bottom-color: rgba(240, 239, 242, 0.16); border-left-color: rgba(240, 239, 242, 0.16); }
+.hero__index { color: rgba(240, 239, 242, 0.8); }
+.hero__index-bar { background-color: rgba(240, 239, 242, 0.25); }
 .tile--media::after { background-image: linear-gradient(0deg, rgba(7, 11, 22, 0.85), rgba(7, 11, 22, 0) 60%); }
-.tile__overlay .label { color: rgba(240, 238, 233, 0.75); }
+.tile__overlay .label { color: rgba(240, 239, 242, 0.75); }
 .tile--gold p, .tile--gold .label { color: rgba(7, 11, 22, 0.72); }
 .tile--gold .circle-btn { border-top-color: rgba(7, 11, 22, 0.3); border-right-color: rgba(7, 11, 22, 0.3); border-bottom-color: rgba(7, 11, 22, 0.3); border-left-color: rgba(7, 11, 22, 0.3); }
-.tile--media .circle-btn { border-top-color: rgba(240, 238, 233, 0.4); border-right-color: rgba(240, 238, 233, 0.4); border-bottom-color: rgba(240, 238, 233, 0.4); border-left-color: rgba(240, 238, 233, 0.4); }
-.hcard__tag .pill { background-color: rgba(11, 17, 32, 0.6); border-top-color: rgba(240, 238, 233, 0.2); border-right-color: rgba(240, 238, 233, 0.2); border-bottom-color: rgba(240, 238, 233, 0.2); border-left-color: rgba(240, 238, 233, 0.2); }
+.tile--media .circle-btn { border-top-color: rgba(240, 239, 242, 0.4); border-right-color: rgba(240, 239, 242, 0.4); border-bottom-color: rgba(240, 239, 242, 0.4); border-left-color: rgba(240, 239, 242, 0.4); }
+.hcard__tag .pill { background-color: rgba(11, 17, 32, 0.6); border-top-color: rgba(240, 239, 242, 0.2); border-right-color: rgba(240, 239, 242, 0.2); border-bottom-color: rgba(240, 239, 242, 0.2); border-left-color: rgba(240, 239, 242, 0.2); }
 .stack-card:nth-child(2) { background-color: rgb(22, 32, 53); }
 .stack-card:nth-child(3) { background-color: rgb(28, 37, 57); }
-.checklist li::before { background-color: rgba(212, 189, 146, 0.16); }
-.checklist--addon li::before { background-color: rgba(240, 238, 233, 0.08); }
-.price-card__note { background-color: rgba(212, 189, 146, 0.1); }
+.checklist li::before { background-color: rgba(147, 172, 216, 0.16); }
+.checklist--addon li::before { background-color: rgba(240, 239, 242, 0.08); }
+.price-card__note { background-color: rgba(147, 172, 216, 0.1); }
 .price-card--combo .label { color: rgba(7, 11, 22, 0.7); }
 .price-card--combo p { color: rgba(7, 11, 22, 0.78); }
-.faq__icon { background-color: rgba(240, 238, 233, 0.08); }
+.faq__icon { background-color: rgba(240, 239, 242, 0.08); }
 .person::after { background-image: linear-gradient(0deg, rgba(7, 11, 22, 0.9), rgba(7, 11, 22, 0) 55%); }
-.person__body p { color: rgba(240, 238, 233, 0.8); }
-.loves li { background-color: rgba(240, 238, 233, 0.06); }
+.person__body p { color: rgba(240, 239, 242, 0.8); }
+.loves li { background-color: rgba(240, 239, 242, 0.06); }
 .filters { background-color: rgba(17, 25, 44, 0.94); }
-.chip:hover { background-color: rgba(240, 238, 233, 0.06); }
+.chip:hover { background-color: rgba(240, 239, 242, 0.06); }
 .masonry__tag .pill { background-color: rgba(11, 17, 32, 0.75); }
 .lightbox { background-color: rgb(9, 12, 23); }
 .contact-aside::after { background-image: linear-gradient(0deg, rgba(7, 11, 22, 0.92), rgba(7, 11, 22, 0.1) 70%); }
-.contact-link { background-color: rgba(11, 17, 32, 0.6); border-top-color: rgba(240, 238, 233, 0.14); border-right-color: rgba(240, 238, 233, 0.14); border-bottom-color: rgba(240, 238, 233, 0.14); border-left-color: rgba(240, 238, 233, 0.14); }
-.contact-link small { color: rgba(240, 238, 233, 0.6); }
-.input { background-color: rgba(240, 238, 233, 0.04); }
-.input:focus { background-color: rgba(240, 238, 233, 0.07); }
-.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(212, 189, 146, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(212, 189, 146, 0.1), transparent 60%), initial; background-color: rgb(15, 23, 42); }
-.footer-wordmark { background-image: linear-gradient(rgb(237, 235, 230) 0%, rgb(141, 150, 172) 55%, rgb(40, 49, 69) 100%); }
+.contact-link { background-color: rgba(11, 17, 32, 0.6); border-top-color: rgba(240, 239, 242, 0.14); border-right-color: rgba(240, 239, 242, 0.14); border-bottom-color: rgba(240, 239, 242, 0.14); border-left-color: rgba(240, 239, 242, 0.14); }
+.contact-link small { color: rgba(240, 239, 242, 0.6); }
+.input { background-color: rgba(240, 239, 242, 0.04); }
+.input:focus { background-color: rgba(240, 239, 242, 0.07); }
+.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(147, 172, 216, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(147, 172, 216, 0.1), transparent 60%), initial; background-color: rgb(15, 23, 42); }
+.footer-wordmark { background-image: linear-gradient(rgb(237, 236, 239) 0%, rgb(141, 151, 175) 55%, rgb(40, 49, 69) 100%); }
 .sticky-cta { background-color: rgba(17, 25, 44, 0.96); }
-.preloader__bar { background-color: rgba(240, 238, 233, 0.08); }
+.preloader__bar { background-color: rgba(240, 239, 242, 0.08); }
 .stack-card__shade { background-color: rgb(7, 11, 22); }
