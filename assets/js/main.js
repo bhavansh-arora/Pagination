@@ -296,16 +296,26 @@
     });
   }
 
-  /* ---------- Why our other work: expanding photo panels (hover on desktop, tap anywhere) ---------- */
+  /* ---------- Why our other work: the panels follow the scroll ---------- */
   document.querySelectorAll("[data-why]").forEach(function (box) {
-    var panels = box.querySelectorAll("[data-why-item]");
-    var hover = window.matchMedia("(hover: hover) and (min-width: 760px)");
-    function open(i) { panels.forEach(function (p, k) { p.classList.toggle("is-active", k === i); p.setAttribute("aria-expanded", k === i ? "true" : "false"); }); }
-    panels.forEach(function (p, k) {
-      p.addEventListener("click", function () { open(k); });
-      p.addEventListener("focus", function () { open(k); });
-      p.addEventListener("mouseenter", function () { if (hover.matches) open(k); });
-    });
+    var track = box.querySelector(".why-track"), sticky = box.querySelector(".why-sticky");
+    var panels = box.querySelectorAll("[data-why-item]"), steps = box.querySelectorAll(".why-steps span");
+    if (!track || !panels.length) return;
+    var cur = 0, ticking = false;
+    function set(i) {
+      if (i === cur) return; cur = i;
+      panels.forEach(function (p, k) { p.classList.toggle("is-active", k === i); });
+      steps.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
+    }
+    function update() {
+      ticking = false;
+      var r = track.getBoundingClientRect(), run = track.offsetHeight - sticky.offsetHeight;
+      var p = run > 0 ? Math.min(1, Math.max(0, (parseFloat(getComputedStyle(sticky).top) - r.top) / run)) : 0;
+      set(Math.min(panels.length - 1, Math.floor(p * panels.length * 0.999)));
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener("resize", update);
+    update();
   });
 
   /* ---------- Year ---------- */
