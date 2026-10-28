@@ -46,7 +46,7 @@ def main():
     # Squarespace's own page around the site: hidden from the first frame.
     sq_css = ("html,body,#siteWrapper,#page,.page-section:has(#drx-live),.page-section:has(#drx-live) .content-wrapper,"
               ".page-section:has(#drx-live) .content,.page-section:has(#drx-live) .fluid-engine,.fe-block:has(#drx-live),"
-              ".sqs-block:has(#drx-live){background:var(--paper,#0d0b09)!important}"
+              ".sqs-block:has(#drx-live){background:var(--paper,#14100d)!important}"
               ".page-section:has(#drx-live) .section-background,#header,.header-announcement-bar-wrapper,#footer-sections,footer.sections{display:none!important}"
               ".page-section:has(#drx-live){padding:0!important;min-height:100vh}#drx-live{min-height:100vh}")
     index = read("index.html")

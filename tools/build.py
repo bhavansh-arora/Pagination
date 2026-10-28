@@ -198,7 +198,7 @@ def page(filename, title, description, body, active=None, og_image="golden-hour-
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="#080706">
+<meta name="theme-color" content="#0d0a08">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dan Reynolds Photography">
 <meta property="og:title" content="{title}">

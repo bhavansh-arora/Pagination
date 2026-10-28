@@ -65,3 +65,6 @@
 .btn--gold .btn__icon { background: var(--night); color: var(--ivory); }
 .footer-cta__btn { background: #efe9df; color: var(--night); }
 .footer-cta__btn:hover { background: var(--paper-3); color: var(--ivory); }
+.menu-toggle { background: var(--ivory); color: var(--night); }
+.menu-toggle__bars { background: var(--night); }
+.menu-toggle__bars span { background: var(--ivory); }

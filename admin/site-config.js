@@ -42,15 +42,15 @@ window.SITE_EDITOR_CONFIG = {
   ],
 
   // Quick colour swatches: [name, CSS value, preview hex].
-  swatches: [["Gold", "var(--accent)", "#c6a46a"], ["Light gold", "var(--gold-hi)", "#e2c999"], ["Ivory", "var(--ivory)", "#efe7da"],
-    ["Soft text", "var(--ink-2)", "#c3b9a9"], ["Muted", "var(--muted)", "#8d8373"], ["Dark", "var(--paper)", "#0d0b09"],
-    ["Surface", "var(--paper-2)", "#15120f"], ["White", "#ffffff", "#ffffff"]],
+  swatches: [["Sage", "var(--accent)", "#a5b993"], ["Light sage", "var(--gold-hi)", "#b4cba0"], ["Ivory", "var(--ivory)", "#f3ede3"],
+    ["Soft text", "var(--ink-2)", "#d2c8b9"], ["Muted", "var(--muted)", "#9a8f80"], ["Dark", "var(--paper)", "#14100d"],
+    ["Surface", "var(--paper-2)", "#1d1814"], ["White", "#ffffff", "#ffffff"]],
 
   // Site colours editable under Site → Colours: [CSS variable, label, default].
   theme: {
-    vars: [["--accent", "Gold accent (buttons, highlights)", "#c6a46a"], ["--gold-hi", "Light gold (headline accents)", "#e2c999"],
-      ["--paper", "Page background", "#0d0b09"], ["--paper-2", "Card background", "#15120f"], ["--paper-3", "Raised areas", "#1e1a16"], ["--ink", "Main text", "#efe7da"],
-      ["--ink-2", "Body text", "#c3b9a9"], ["--muted", "Small labels", "#8d8373"], ["--ivory", "Light buttons & text on photos", "#efe7da"]],
+    vars: [["--accent", "Sage accent (highlights)", "#a5b993"], ["--gold-hi", "Light sage (headline accents)", "#b4cba0"],
+      ["--paper", "Page background", "#14100d"], ["--paper-2", "Card background", "#1d1814"], ["--paper-3", "Raised areas", "#27211c"], ["--ink", "Main text", "#f3ede3"],
+      ["--ink-2", "Body text", "#d2c8b9"], ["--muted", "Small labels", "#9a8f80"], ["--ivory", "Light buttons & text on photos", "#f3ede3"]],
     groups: [["Background", [["--paper", "Page background"], ["--paper-2", "Cards & panels"], ["--paper-3", "Raised areas & photo placeholders"]]],
       ["Text", [["--ink", "Headings & main text"], ["--ink-2", "Body text"], ["--muted", "Small labels"], ["--ivory", "Light text on photos & buttons"]]],
       ["Accent", [["--accent", "Gold (buttons, highlights)"], ["--gold-hi", "Light gold (italic headline words)"]]]],
@@ -59,7 +59,7 @@ window.SITE_EDITOR_CONFIG = {
   },
 
   // Editor-only CSS: show everything the live site animates or hides, so it can be edited.
-  canvasBackground: "var(--paper,#0d0b09)",
+  canvasBackground: "var(--paper,#14100d)",
   editModeCss: [
     ".rotator{display:inline-flex!important;flex-wrap:wrap;gap:0 .22em;width:auto!important;overflow:visible!important;padding:0!important;margin:0!important}",
     ".rotator__word{transform:none!important;opacity:1!important;grid-area:auto!important}",
@@ -69,8 +69,8 @@ window.SITE_EDITOR_CONFIG = {
     ".hscroll__intro{display:flex!important;flex-direction:column;justify-content:space-between;gap:24px;flex:none;width:340px;padding-right:24px}",
     ".masonry__tag,.index-row__cta{opacity:1!important;transform:none!important}",
     ".marquee__track{animation:none!important}",
-    ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #c6a46a;border-radius:16px}",
-    ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#c6a46a}",
+    ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #a5b993;border-radius:16px}",
+    ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#a5b993}",
     ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}",
     ".section>.container:empty::before{content:'Drop elements here';display:grid;place-items:center;min-height:78px;font:12px ui-monospace,monospace;color:rgba(198,164,106,.8)}",
     ".section>.container{min-height:96px;padding-block:16px}",
