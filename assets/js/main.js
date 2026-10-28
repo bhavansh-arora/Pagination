@@ -301,13 +301,14 @@
     var items = box.querySelectorAll("[data-why-item]"), slides = box.querySelectorAll("[data-why-slide]");
     if (!items.length) return;
     var cur = 0, timer = null, DUR = 5000;
+    var wide = window.matchMedia("(min-width: 960px)");
     function show(i) {
       cur = i;
       items.forEach(function (b, k) { b.classList.toggle("is-active", k === i); b.setAttribute("aria-pressed", k === i ? "true" : "false"); });
       slides.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
     }
     function next() { show((cur + 1) % items.length); }
-    function start() { if (reduceMotion || timer) return; box.classList.remove("is-paused"); box.style.setProperty("--why-dur", DUR + "ms"); timer = setInterval(next, DUR); }
+    function start() { if (reduceMotion || timer || !wide.matches) return; box.classList.remove("is-paused"); box.style.setProperty("--why-dur", DUR + "ms"); timer = setInterval(next, DUR); }
     function stop() { clearInterval(timer); timer = null; box.classList.add("is-paused"); }
     items.forEach(function (b, k) {
       b.addEventListener("mouseenter", function () { stop(); show(k); });
