@@ -907,3 +907,16 @@ main, .tile, .qcard, .chapter, .price-card, .form-panel, .faq details { backgrou
 .menu-toggle { background: #4f6a40; color: var(--ivory); }
 .menu-toggle__bars { background: var(--ivory); }
 .menu-toggle__bars span { background: #4f6a40; }
+
+/* Sideways strips never scroll up and down inside themselves (that made cards bob while swiping) */
+.hscroll__track, [data-swipe] { overflow-y: hidden; overscroll-behavior-x: contain; }
+
+/* Phones and tablets: footer content centred */
+@media (max-width: 899px) {
+  .footer-cta { justify-items: center; text-align: center; }
+  .footer-cta .label { justify-content: center; }
+  .footer-col--intro { display: grid; justify-items: center; text-align: center; }
+  .footer-col--intro p { margin-inline: auto; }
+  .footer-grid { text-align: center; }
+  .footer-bottom { justify-content: center; text-align: center; }
+}

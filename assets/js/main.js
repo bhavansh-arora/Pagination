@@ -7,6 +7,7 @@
 
   /* ---------- Header: scrolled / hide on scroll down ---------- */
   var header = document.querySelector(".site-header");
+  var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var sticky = document.querySelector(".sticky-cta");
   var lastY = window.scrollY;
   var ticking = false;
@@ -15,7 +16,8 @@
     if (header) {
       header.classList.toggle("is-scrolled", y > 24);
       if (Math.abs(y - lastY) < 14 && y >= 480) { if (sticky) sticky.classList.toggle("is-visible", y > window.innerHeight * 0.7 && window.innerHeight + y <= document.body.scrollHeight - 520); ticking = false; return; }
-      var hide = y > 480 && y > lastY && !document.body.classList.contains("menu-open");
+      // Touch screens keep the header in place (hiding it left an empty band at the top while scrolling).
+      var hide = canHover && y > 480 && y > lastY && !document.body.classList.contains("menu-open");
       if (hide) header.classList.add("is-hidden");
       else if (y < lastY || y < 480) header.classList.remove("is-hidden");
     }
