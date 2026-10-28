@@ -328,14 +328,12 @@
     update();
   });
 
-  /* ---------- Love stories slider on touch screens: sideways swipes stay sideways ---------- */
-  (function () {
-    var track = document.querySelector(".hscroll__track");
-    if (!track || !window.PointerEvent) return;
+  /* ---------- Card sliders on touch screens (love stories, [data-swipe]): sideways swipes stay sideways ---------- */
+  if (window.PointerEvent) document.querySelectorAll(".hscroll__track, [data-swipe]").forEach(function (track) {
     var small = window.matchMedia("(max-width: 1023px)");
-    function on() { return small.matches && !track.closest(".is-pinned"); }
+    function on() { return small.matches && !track.closest(".is-pinned") && track.scrollWidth > track.clientWidth + 4; }
     function sync() { track.classList.toggle("is-swipe", on()); }
-    sync(); if (small.addEventListener) small.addEventListener("change", sync);
+    sync(); if (small.addEventListener) small.addEventListener("change", sync); window.addEventListener("load", sync); window.addEventListener("resize", sync);
     var drag = null, anim = 0, moved = false;
     function stops() {
       var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0, max = track.scrollWidth - track.clientWidth, out = [];
@@ -379,7 +377,7 @@
     track.addEventListener("pointerup", release);
     track.addEventListener("pointercancel", release);
     track.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
-  })();
+  });
 
   /* ---------- Year ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
