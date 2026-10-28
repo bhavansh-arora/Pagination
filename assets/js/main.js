@@ -37,6 +37,7 @@
     document.body.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    var label = toggle.firstChild; if (label && label.nodeType === 3) label.nodeValue = open ? "Close" : "Menu";
     menu.setAttribute("aria-hidden", String(!open));
     if (open) { header.classList.remove("is-hidden"); var first = menu.querySelector("a"); if (first) setTimeout(function () { first.focus(); }, 300); }
   }

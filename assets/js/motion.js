@@ -187,7 +187,7 @@
     if (hasGsap) requestAnimationFrame(loop);
   });
 
-  /* ---------- Magnetic buttons, hover previews (the mouse cursor itself stays standard) ---------- */
+  /* ---------- Photo previews that follow the mouse (the cursor itself stays standard) ---------- */
   if (fine) {
     html.classList.add("has-hover");
     var preview = $(".hover-preview"), pInner = $(".hover-preview__inner");
@@ -213,21 +213,6 @@
       }
     });
 
-    if (hasGsap) {
-      $$(".btn, .icon-btn, .hscroll__end-circle, .yt__play, .menu-toggle, .footer-cta__btn").forEach(function (el) {
-        el.setAttribute("data-magnetic", "");
-        var strength = el.classList.contains("btn") ? 0.28 : 0.4;
-        var host = el.classList.contains("yt__play") ? el.parentElement : el;
-        host.addEventListener("mousemove", function (e) {
-          var r = el.getBoundingClientRect();
-          var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-          gsap.to(el, { x: dx * strength, y: dy * strength, duration: 0.6, ease: "power3.out" });
-        });
-        host.addEventListener("mouseleave", function () {
-          gsap.to(el, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.35)" });
-        });
-      });
-    }
   }
 
   if (!hasGsap) return;

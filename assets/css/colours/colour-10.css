@@ -60,11 +60,9 @@
 .stack-card__shade { background-color: rgb(7, 7, 7); }
 /* Buttons: ivory with dark text; hover fills them with the darkest panel colour */
 .btn--gold { --bg: #efe9df; --bd: #efe9df; --fg: var(--night); }
-.btn--gold::after { background: var(--paper-3); }
 .btn--gold:hover { color: var(--ivory); border-color: var(--ivory); }
 .btn--gold .btn__icon { background: var(--night); color: var(--ivory); }
 .footer-cta__btn { background: #efe9df; color: var(--night); }
-.footer-cta__btn:hover { background: var(--paper-3); color: var(--ivory); }
 .menu-toggle { background: var(--ivory); color: var(--night); }
 .menu-toggle__bars { background: var(--night); }
 .menu-toggle__bars span { background: var(--ivory); }

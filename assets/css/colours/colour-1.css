@@ -61,9 +61,7 @@
 /* Buttons: a deep shade of the accent with light text */
 .btn--gold { --bg: #1d6b66; --bd: #1d6b66; --fg: var(--ivory); }
 .btn--gold .btn__icon { background: var(--ivory); color: #1d6b66; }
-.btn--gold:hover .btn__icon { background: #1d6b66; color: var(--ivory); }
 .footer-cta__btn { background: #1d6b66; color: var(--ivory); }
-.footer-cta__btn:hover { color: var(--night); }
 .menu-toggle { background: #1d6b66; color: var(--ivory); }
 .menu-toggle__bars { background: var(--ivory); }
 .menu-toggle__bars span { background: #1d6b66; }
