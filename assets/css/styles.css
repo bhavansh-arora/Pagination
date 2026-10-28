@@ -69,11 +69,11 @@ h1 em, h2 em, h3 em, .h-display em, .h-xl em, .h-lg em, .h-md em, .serif {
   font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -0.01em; color: var(--gold-hi);
 }
 .h-display { font-size: clamp(3.2rem, 0.6rem + 11vw, 13.5rem); line-height: 0.92; letter-spacing: -0.015em; }
-.h-xl { font-size: clamp(2.6rem, 1rem + 6.2vw, 7.6rem); line-height: 0.95; letter-spacing: -0.015em; }
-.h-lg { font-size: clamp(2.1rem, 1.1rem + 3.9vw, 4.8rem); }
+.h-xl { font-size: clamp(2.4rem, 1rem + 4.6vw, 6.2rem); line-height: 0.95; letter-spacing: -0.015em; }
+.h-lg { font-size: clamp(2rem, 1rem + 3.2vw, 4.2rem); }
 .h-md { font-family: var(--display); font-size: clamp(1.5rem, 1.1rem + 1.3vw, 2.3rem); line-height: 1.05; letter-spacing: -0.01em; }
 .h-sm { font-family: var(--display); font-size: 1.15rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; }
-.lede { font-size: clamp(1.02rem, 0.95rem + 0.32vw, 1.2rem); line-height: 1.5; color: var(--ink-2); letter-spacing: -0.01em; max-width: 46ch; }
+.lede { font-size: clamp(1rem, 0.95rem + 0.2vw, 1.12rem); line-height: 1.5; color: var(--ink-2); letter-spacing: -0.01em; max-width: 46ch; }
 .body { color: var(--ink-2); max-width: 60ch; }
 .body p + p { margin-top: 1em; }
 .label {
@@ -367,7 +367,7 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .tile__num sup { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 0.38em; letter-spacing: 0; vertical-align: top; position: relative; top: 0.2em; margin-left: 4px; color: var(--accent); -webkit-text-fill-color: var(--accent); }
 .tile p { color: var(--ink-2); font-size: 0.95rem; max-width: 34ch; }
 .tile .h-md { font-size: clamp(1.5rem, 1.1rem + 1.3vw, 2.3rem); color: var(--ink); max-width: none; }
-.tile .h-lg { font-size: clamp(2.1rem, 1.1rem + 3.9vw, 4.8rem); color: var(--ink); max-width: none; }
+.tile .h-lg { font-size: clamp(2rem, 1rem + 3.2vw, 4.2rem); color: var(--ink); max-width: none; }
 .tile .tile__title { font-size: clamp(2rem, 1.2rem + 2.6vw, 3.6rem); color: var(--ivory); max-width: none; }
 .tile--gold { background: var(--accent) url("../brand/grain.png"); border-color: var(--accent); color: var(--night); }
 .tile--gold p, .tile--gold .label { color: rgba(8, 7, 6, 0.72); }
@@ -739,7 +739,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 
 /* ---------- What couples worry about (photos + list) ---------- */
 .worries-wrap { display: grid; gap: clamp(32px, 5vw, 72px); margin-top: clamp(20px, 2.6vw, 36px); }
-@media (min-width: 1024px) { .worries-wrap { grid-template-columns: 0.85fr 1.15fr; align-items: start; } .worries-side { position: sticky; top: 110px; } }
+@media (min-width: 900px) { .worries-wrap { grid-template-columns: 0.85fr 1.15fr; align-items: start; } .worries-side { position: sticky; top: 110px; } }
 .worries-photos { position: relative; max-width: 520px; margin-top: clamp(24px, 3vw, 40px); padding: 0 18% 14% 0; }
 .worries-photos img { width: 100%; height: 100%; object-fit: cover; }
 .worries-photos__main { aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; background: var(--paper-3); }
