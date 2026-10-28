@@ -49,7 +49,19 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && document.body.classList.contains("menu-open")) { setMenu(false); toggle.focus(); }
     });
-    menu.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+    menu.addEventListener("click", function (e) {
+      var a = e.target.closest("a");
+      if (!a) return;
+      var list = a.closest(".mobile-menu__list");
+      var samePage = a.pathname === location.pathname || a.getAttribute("href").charAt(0) === "#";
+      // Going to another page: highlight the chosen link only, and let the page-change curtain cover the open menu.
+      if (list && !samePage) {
+        list.querySelectorAll("a[aria-current]").forEach(function (x) { x.removeAttribute("aria-current"); });
+        a.setAttribute("aria-current", "page");
+        return;
+      }
+      setMenu(false);
+    });
     window.addEventListener("resize", function () { if (window.innerWidth >= 1024) setMenu(false); });
   }
 
@@ -304,6 +316,19 @@
     var small = window.matchMedia("(max-width: 1023px)");
     function on() { return small.matches && !track.closest(".is-pinned") && track.scrollWidth > track.clientWidth + 4; }
     function sync() { track.classList.toggle("is-swipe", on()); }
+    var dots = null;
+    if (track.hasAttribute("data-swipe")) {
+      dots = document.createElement("div"); dots.className = "swipe-dots"; dots.setAttribute("aria-hidden", "true");
+      Array.prototype.forEach.call(track.children, function () { dots.appendChild(document.createElement("span")); });
+      track.parentNode.insertBefore(dots, track.nextSibling);
+      var markDot = function () {
+        var list = stops(), cur = track.scrollLeft, near = 0;
+        list.forEach(function (s, k) { if (Math.abs(s - cur) < Math.abs(list[near] - cur)) near = k; });
+        Array.prototype.forEach.call(dots.children, function (d, k) { d.classList.toggle("is-active", k === near); });
+      };
+      track.addEventListener("scroll", function () { requestAnimationFrame(markDot); }, { passive: true });
+      setTimeout(markDot, 0);
+    }
     sync(); if (small.addEventListener) small.addEventListener("change", sync); window.addEventListener("load", sync); window.addEventListener("resize", sync);
     var drag = null, anim = 0, moved = false;
     function stops() {
