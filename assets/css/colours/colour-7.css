@@ -1,0 +1,58 @@
+/* Home page colour option 7: "Merlot & Cream" (our pick: deep merlot with soft cream, warm like the golden-hour photos). Shown at /7/.
+   Holds just the colour values that differ from styles.css. */
+:root { --ivory: #f6efe6; --paper: #1a0b0e; --paper-2: #241015; --paper-3: #2f161c; --ink: #f6efe6; --ink-2: #d8cabd; --muted: #a39089; --accent: #e3d2bb; --accent-ink: #ecdfcc; --gold-hi: #efe2cf; --gold-grad: linear-gradient(105deg, #b6a896 0%, #f2ebe0 45%, #e3d2bb 70%, #a39787 100%); --night: #120709; --line: rgba(246, 239, 230, 0.1); --line-2: rgba(246, 239, 230, 0.18); --line-gold: rgba(227, 210, 187, 0.28); }
+.label--dot::before { box-shadow: rgba(227, 210, 187, 0.15) 0px 0px 0px 4px; }
+@keyframes pulse { 
+  50% { box-shadow: rgba(227, 210, 187, 0) 0px 0px 0px 7px; }
+}
+.btn--glass { --bg: rgba(246, 239, 230, 0.12); --bd: rgba(246, 239, 230, 0.28); }
+.site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(35, 15, 20, 0.94); }
+@media (min-width: 1024px) {
+  .site-header.is-scrolled .site-header__inner, .site-header--solid .site-header__inner { background-color: rgba(35, 15, 20, 0.72); }
+}
+.nav__link { color: rgba(246, 239, 230, 0.78); }
+.nav__link:hover { background-color: rgba(246, 239, 230, 0.08); }
+.hero__frame::before { background-image: linear-gradient(rgba(18, 7, 9, 0.55) 0%, rgba(18, 7, 9, 0) 22%), linear-gradient(0deg, rgba(18, 7, 9, 0.88) 0%, rgba(18, 7, 9, 0.35) 42%, rgba(18, 7, 9, 0) 68%); }
+.hero__top .label { color: rgba(246, 239, 230, 0.75); }
+.hero__bottom { border-top-color: rgba(246, 239, 230, 0.2); }
+.hero__sub { color: rgba(246, 239, 230, 0.82); }
+.hero__card { background-color: rgba(26, 11, 14, 0.55); border-top-color: rgba(246, 239, 230, 0.16); border-right-color: rgba(246, 239, 230, 0.16); border-bottom-color: rgba(246, 239, 230, 0.16); border-left-color: rgba(246, 239, 230, 0.16); }
+.hero__index { color: rgba(246, 239, 230, 0.8); }
+.hero__index-bar { background-color: rgba(246, 239, 230, 0.25); }
+.tile--media::after { background-image: linear-gradient(0deg, rgba(18, 7, 9, 0.85), rgba(18, 7, 9, 0) 60%); }
+.tile__overlay .label { color: rgba(246, 239, 230, 0.75); }
+.tile--gold p, .tile--gold .label { color: rgba(18, 7, 9, 0.72); }
+.tile--gold .circle-btn { border-top-color: rgba(18, 7, 9, 0.3); border-right-color: rgba(18, 7, 9, 0.3); border-bottom-color: rgba(18, 7, 9, 0.3); border-left-color: rgba(18, 7, 9, 0.3); }
+.tile--media .circle-btn { border-top-color: rgba(246, 239, 230, 0.4); border-right-color: rgba(246, 239, 230, 0.4); border-bottom-color: rgba(246, 239, 230, 0.4); border-left-color: rgba(246, 239, 230, 0.4); }
+.hcard__tag .pill { background-color: rgba(26, 11, 14, 0.6); border-top-color: rgba(246, 239, 230, 0.2); border-right-color: rgba(246, 239, 230, 0.2); border-bottom-color: rgba(246, 239, 230, 0.2); border-left-color: rgba(246, 239, 230, 0.2); }
+.stack-card:nth-child(2) { background-color: rgb(43, 18, 24); }
+.stack-card:nth-child(3) { background-color: rgb(49, 23, 28); }
+.checklist li::before { background-color: rgba(227, 210, 187, 0.16); }
+.checklist--addon li::before { background-color: rgba(246, 239, 230, 0.08); }
+.price-card__note { background-color: rgba(227, 210, 187, 0.1); }
+.price-card--combo .label { color: rgba(18, 7, 9, 0.7); }
+.price-card--combo p { color: rgba(18, 7, 9, 0.78); }
+.faq__icon { background-color: rgba(246, 239, 230, 0.08); }
+.person::after { background-image: linear-gradient(0deg, rgba(18, 7, 9, 0.9), rgba(18, 7, 9, 0) 55%); }
+.person__body p { color: rgba(246, 239, 230, 0.8); }
+.loves li { background-color: rgba(246, 239, 230, 0.06); }
+.filters { background-color: rgba(35, 15, 20, 0.94); }
+.chip:hover { background-color: rgba(246, 239, 230, 0.06); }
+.masonry__tag .pill { background-color: rgba(26, 11, 14, 0.75); }
+.lightbox { background-color: rgb(20, 8, 10); }
+.contact-aside::after { background-image: linear-gradient(0deg, rgba(18, 7, 9, 0.92), rgba(18, 7, 9, 0.1) 70%); }
+.contact-link { background-color: rgba(26, 11, 14, 0.6); border-top-color: rgba(246, 239, 230, 0.14); border-right-color: rgba(246, 239, 230, 0.14); border-bottom-color: rgba(246, 239, 230, 0.14); border-left-color: rgba(246, 239, 230, 0.14); }
+.contact-link small { color: rgba(246, 239, 230, 0.6); }
+.input { background-color: rgba(246, 239, 230, 0.04); }
+.input:focus { background-color: rgba(246, 239, 230, 0.07); }
+.footer-card { background-image: url("../brand/grain.png"), radial-gradient(70% 80% at 85% 0%, rgba(227, 210, 187, 0.22), transparent 60%), radial-gradient(60% 60% at 0% 100%, rgba(227, 210, 187, 0.1), transparent 60%), initial; background-color: rgb(33, 13, 18); }
+.footer-wordmark { background-image: linear-gradient(rgb(243, 236, 227) 0%, rgb(165, 148, 146) 55%, rgb(61, 35, 40) 100%); }
+.sticky-cta { background-color: rgba(35, 15, 20, 0.96); }
+.preloader__bar { background-color: rgba(246, 239, 230, 0.08); }
+.stack-card__shade { background-color: rgb(18, 7, 9); }
+/* Buttons: a deep shade of the accent with light text */
+.btn--gold { --bg: #7b2234; --bd: #7b2234; --fg: var(--ivory); }
+.btn--gold .btn__icon { background: var(--ivory); color: #7b2234; }
+.btn--gold:hover .btn__icon { background: #7b2234; color: var(--ivory); }
+.footer-cta__btn { background: #7b2234; color: var(--ivory); }
+.footer-cta__btn:hover { color: var(--night); }
