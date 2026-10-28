@@ -403,6 +403,8 @@ a.tile--media:hover .circle-btn { background: var(--ivory); color: var(--night);
   display: flex; gap: 12px; align-items: flex-start; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
   padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
 }
+/* Touch screens: the slider moves only sideways (the page never drifts up and down during a swipe) */
+@media (max-width: 1023px) { .hscroll__track.is-swipe { touch-action: pan-y; scroll-snap-type: none; } }
 .hscroll__track::-webkit-scrollbar { display: none; }
 .hscroll__intro { display: none; }
 .hcard { flex: none; width: 78vw; scroll-snap-align: start; display: block; }
@@ -712,47 +714,35 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sticky-cta .btn { min-height: 44px; padding: 0 18px; font-size: 0.86rem; }
 @media (min-width: 1024px) { .sticky-cta { display: none; } }
 
-/* ---------- Why our other work: panels that open one after another as you scroll ---------- */
-.why-box { padding: clamp(22px, 3.4vw, 52px); border-radius: var(--r-xl); background: linear-gradient(160deg, var(--paper-3) 0%, var(--paper-2) 65%); border: 1px solid var(--line-gold); }
+/* ---------- Why our other work: a sticky photo that changes with the scroll ---------- */
+.why-box { padding: clamp(18px, 3.4vw, 52px); border-radius: var(--r-xl); background: linear-gradient(160deg, var(--paper-3) 0%, var(--paper-2) 65%); border: 1px solid var(--line-gold); }
 .why-box__intro { display: grid; gap: 16px; margin-top: clamp(18px, 2.4vw, 30px); }
 @media (min-width: 960px) { .why-box__intro { grid-template-columns: 1.1fr 0.9fr; align-items: end; gap: 56px; } }
-/* The track gives the scroll distance; the sticky part stays on screen while the panels change. */
-.why-track { position: relative; height: calc(100svh + 120svh); margin-top: clamp(22px, 3vw, 36px); }
-.why-sticky { position: sticky; top: calc(84px + env(safe-area-inset-top)); height: calc(100svh - 84px - 104px); display: flex; flex-direction: column; gap: 14px; }
-.why-acc { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
-.why-panel { position: relative; flex: 0 0 64px; min-width: 0; min-height: 0; overflow: hidden; isolation: isolate; color: var(--ivory); border-radius: var(--r-lg); background: var(--paper-3);
-  transition: flex-grow 0.8s var(--ease-out), flex-basis 0.8s var(--ease-out); }
-.why-panel.is-active { flex: 1 1 auto; }
-.why-panel img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); transition: transform 1.6s var(--ease-out); }
-.why-panel.is-active img { transform: none; }
-.why-panel::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(13, 10, 8, 0.75), rgba(13, 10, 8, 0.3)); transition: background 0.6s; }
-.why-panel.is-active::after { background: linear-gradient(0deg, rgba(13, 10, 8, 0.9) 0%, rgba(13, 10, 8, 0.35) 45%, rgba(13, 10, 8, 0) 72%); }
-.why-panel__tab { position: absolute; inset: 0; display: flex; align-items: center; gap: 14px; padding: 0 20px; transition: opacity 0.35s; }
-.why-panel.is-active .why-panel__tab { opacity: 0; }
-.why-panel__num { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--gold-hi); }
-.why-panel__name { font-family: var(--display); font-size: 1.3rem; line-height: 1; }
-.why-panel__body { position: absolute; left: 0; right: 0; bottom: 0; display: grid; gap: 10px; padding: clamp(18px, 2.4vw, 32px); opacity: 0; transform: translateY(14px); transition: opacity 0.4s, transform 0.6s var(--ease-out); }
-.why-panel.is-active .why-panel__body { opacity: 1; transform: none; transition-delay: 0.3s; }
-.why-panel__body .label { color: rgba(243, 237, 227, 0.78); }
-.why-panel__title { font-family: var(--display); font-weight: 500; font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.2rem); line-height: 1.1; max-width: 22ch; }
-.why-panel__title em { font-family: var(--serif); font-style: italic; color: var(--gold-hi); }
-.why-panel__text { max-width: 46ch; font-size: 0.94rem; color: rgba(243, 237, 227, 0.85); }
-.why-sticky__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.why-steps { display: flex; gap: 6px; }
-.why-steps span { width: 26px; height: 3px; border-radius: 3px; background: var(--line-2); transition: background-color 0.4s, width 0.4s var(--ease-out); }
-.why-steps span.is-active { width: 44px; background: var(--accent); }
-.why-box__foot { display: flex; flex-wrap: wrap; gap: 8px; }
-@media (min-width: 760px) {
-  .why-sticky { top: calc(96px + env(safe-area-inset-top)); height: min(620px, calc(100svh - 136px)); }
-  .why-acc { flex-direction: row; gap: 10px; }
-  .why-panel { flex: 1 1 0; }
-  .why-panel.is-active { flex: 4 1 0; }
-  .why-panel::after { background: linear-gradient(0deg, rgba(13, 10, 8, 0.82), rgba(13, 10, 8, 0.25)); }
-  .why-panel__tab { flex-direction: column; justify-content: flex-start; padding: 22px 0; }
-  .why-panel__name { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 1.45rem; }
+.why-scrolly { position: relative; margin-top: clamp(24px, 3vw, 44px); }
+.why-media { position: sticky; z-index: 2; top: calc(78px + env(safe-area-inset-top)); padding-bottom: 14px; background: linear-gradient(180deg, var(--paper-3) 85%, rgba(39, 33, 28, 0)); }
+.why-media__frame { position: relative; height: 44svh; border-radius: var(--r-lg); overflow: hidden; background: var(--paper-3); isolation: isolate; }
+.why-shot { position: absolute; inset: 0; margin: 0; --p: 0; clip-path: inset(calc((1 - var(--p)) * 100%) 0 0 0); will-change: clip-path; }
+.why-shot:first-child { --p: 1; }
+.why-shot img { width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1.12 - var(--p) * 0.12)); will-change: transform; }
+.why-media__count { position: absolute; z-index: 5; left: 14px; bottom: 14px; color: var(--ivory); background: rgba(13, 10, 8, 0.5); border-color: rgba(243, 237, 227, 0.25); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-variant-numeric: tabular-nums; }
+.why-steps { list-style: none; margin: 0; padding: 0; }
+.why-step { display: grid; align-content: start; gap: 10px; min-height: 46svh; padding: 26px 4px 0; opacity: 0.32; transition: opacity 0.5s var(--ease); }
+.why-step:last-child { min-height: 30svh; }
+.why-step.is-active { opacity: 1; }
+.why-step__title { font-family: var(--display); font-weight: 500; font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2.3rem); line-height: 1.12; color: var(--ink); max-width: 20ch; }
+.why-step__title em { font-family: var(--serif); font-style: italic; color: var(--gold-hi); }
+.why-step__text { max-width: 44ch; color: var(--ink-2); }
+.why-box__foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+@media (min-width: 900px) {
+  .why-scrolly { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 80px); }
+  .why-media { order: 2; top: calc(50svh - min(310px, 38svh)); align-self: start; padding: 0; background: none; }
+  .why-media__frame { height: min(620px, 76svh); }
+  .why-steps { order: 1; padding: 6svh 0 0; }
+  .why-step { min-height: 62svh; align-content: center; padding: 0; }
+  .why-step:first-child { min-height: 50svh; align-content: start; }
+  .why-step:last-child { min-height: 58svh; }
 }
-@media (max-width: 600px) { .why-box { padding: 16px; } .why-box .head__top .label + .label { display: none; } .why-box__foot { display: none; } }
-@media (prefers-reduced-motion: reduce) { .why-panel, .why-panel img, .why-panel__body, .why-panel__tab, .why-steps span { transition: none !important; } }
+@media (max-width: 600px) { .why-box .head__top .label + .label { display: none; } }
 
 /* Never let anything make the page wider than the screen (stops phones zooming out and the page drifting sideways). */
 html, body { overflow-x: clip; }

@@ -14,9 +14,10 @@
     var y = window.scrollY;
     if (header) {
       header.classList.toggle("is-scrolled", y > 24);
-      var hide = y > 480 && y > lastY + 4 && !document.body.classList.contains("menu-open");
+      if (Math.abs(y - lastY) < 14 && y >= 480) { if (sticky) sticky.classList.toggle("is-visible", y > window.innerHeight * 0.7 && window.innerHeight + y <= document.body.scrollHeight - 520); ticking = false; return; }
+      var hide = y > 480 && y > lastY && !document.body.classList.contains("menu-open");
       if (hide) header.classList.add("is-hidden");
-      else if (y < lastY - 4 || y < 480) header.classList.remove("is-hidden");
+      else if (y < lastY || y < 480) header.classList.remove("is-hidden");
     }
     if (sticky) {
       var nearBottom = window.innerHeight + y > document.body.scrollHeight - 520;
@@ -296,27 +297,89 @@
     });
   }
 
-  /* ---------- Why our other work: the panels follow the scroll ---------- */
+  /* ---------- Why our other work: each point reveals its photo as it scrolls in ---------- */
   document.querySelectorAll("[data-why]").forEach(function (box) {
-    var track = box.querySelector(".why-track"), sticky = box.querySelector(".why-sticky");
-    var panels = box.querySelectorAll("[data-why-item]"), steps = box.querySelectorAll(".why-steps span");
-    if (!track || !panels.length) return;
-    var cur = 0, ticking = false;
-    function set(i) {
-      if (i === cur) return; cur = i;
-      panels.forEach(function (p, k) { p.classList.toggle("is-active", k === i); });
-      steps.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
-    }
+    var steps = box.querySelectorAll("[data-why-step]"), shots = box.querySelectorAll("[data-why-shot]");
+    var media = box.querySelector(".why-media__frame"), count = box.querySelector("[data-why-count]");
+    if (!steps.length || !media) return;
+    var wide = window.matchMedia("(min-width: 900px)"), ticking = false, last = -1;
     function update() {
       ticking = false;
-      var r = track.getBoundingClientRect(), run = track.offsetHeight - sticky.offsetHeight;
-      var p = run > 0 ? Math.min(1, Math.max(0, (parseFloat(getComputedStyle(sticky).top) - r.top) / run)) : 0;
-      set(Math.min(panels.length - 1, Math.floor(p * panels.length * 0.999)));
+      var vh = window.innerHeight, active = 0;
+      var end = wide.matches ? vh * 0.42 : media.getBoundingClientRect().bottom + 24;
+      var start = end + vh * (wide.matches ? 0.38 : 0.32);
+      steps.forEach(function (st, k) {
+        if (!k) return;
+        var t = st.getBoundingClientRect().top;
+        var p = Math.min(1, Math.max(0, (start - t) / (start - end)));
+        if (reduceMotion) p = p > 0.5 ? 1 : 0;
+        if (shots[k]) shots[k].style.setProperty("--p", p.toFixed(4));
+        if (p > 0.5) active = k;
+      });
+      if (active !== last) {
+        last = active;
+        steps.forEach(function (st, k) { st.classList.toggle("is-active", k === active); });
+        if (count) count.textContent = "0" + (active + 1);
+      }
     }
-    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    window.addEventListener("resize", update);
+    function req() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener("scroll", req, { passive: true });
+    window.addEventListener("resize", req);
     update();
   });
+
+  /* ---------- Love stories slider on touch screens: sideways swipes stay sideways ---------- */
+  (function () {
+    var track = document.querySelector(".hscroll__track");
+    if (!track || !window.PointerEvent) return;
+    var small = window.matchMedia("(max-width: 1023px)");
+    function on() { return small.matches && !track.closest(".is-pinned"); }
+    function sync() { track.classList.toggle("is-swipe", on()); }
+    sync(); if (small.addEventListener) small.addEventListener("change", sync);
+    var drag = null, anim = 0, moved = false;
+    function stops() {
+      var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0, max = track.scrollWidth - track.clientWidth, out = [];
+      Array.prototype.forEach.call(track.children, function (c) { if (c.offsetWidth) out.push(Math.min(max, Math.max(0, c.offsetLeft - pad))); });
+      return out;
+    }
+    function glide(to) {
+      cancelAnimationFrame(anim);
+      var from = track.scrollLeft, t0 = performance.now(), dur = 520;
+      (function f(now) {
+        var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        track.scrollLeft = from + (to - from) * e;
+        if (k < 1) anim = requestAnimationFrame(f);
+      })(t0);
+    }
+    track.addEventListener("pointerdown", function (e) {
+      if (e.pointerType === "mouse" || !on()) return;
+      cancelAnimationFrame(anim); moved = false;
+      drag = { x: e.clientX, s: track.scrollLeft, id: e.pointerId, hist: [[performance.now(), e.clientX]] };
+    });
+    track.addEventListener("pointermove", function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      if (Math.abs(dx) > 6) moved = true;
+      track.scrollLeft = drag.s - dx;
+      drag.hist.push([performance.now(), e.clientX]); if (drag.hist.length > 5) drag.hist.shift();
+    });
+    function release(e) {
+      if (!drag || (e && e.pointerId !== drag.id)) return;
+      var h = drag.hist, v = 0;
+      if (h.length > 1) { var a = h[0], b = h[h.length - 1]; v = (b[1] - a[1]) / Math.max(1, b[0] - a[0]); }
+      drag = null;
+      var target = track.scrollLeft - v * 260, list = stops(), best = list[0] || 0;
+      list.forEach(function (s) { if (Math.abs(s - target) < Math.abs(best - target)) best = s; });
+      // never skip more than one card per flick
+      var cur = track.scrollLeft, i = list.indexOf(best), near = 0;
+      list.forEach(function (s, k) { if (Math.abs(s - cur) < Math.abs(list[near] - cur)) near = k; });
+      if (Math.abs(i - near) > 1) best = list[near + (i > near ? 1 : -1)];
+      glide(best);
+    }
+    track.addEventListener("pointerup", release);
+    track.addEventListener("pointercancel", release);
+    track.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  })();
 
   /* ---------- Year ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
