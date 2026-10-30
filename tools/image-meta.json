@@ -501,5 +501,55 @@
 "c": "#b1aca5",
 "fx": 30,
 "fy": 62
+},
+"film-gage-liz": {
+"w": 2400,
+"h": 1600,
+"c": "#8c8c77"
+},
+"film-chris-mckenna": {
+"w": 2400,
+"h": 1350,
+"c": "#5a5047"
+},
+"film-cami-saim": {
+"w": 2400,
+"h": 1350,
+"c": "#2e1e14"
+},
+"film-amanda-collin": {
+"w": 2400,
+"h": 1350,
+"c": "#333730"
+},
+"film-meredith-chris": {
+"w": 1600,
+"h": 1067,
+"c": "#757163"
+},
+"film-rosaleina-cameron": {
+"w": 2400,
+"h": 1350,
+"c": "#30312f"
+},
+"film-kate-jordan": {
+"w": 2400,
+"h": 1350,
+"c": "#4f4440"
+},
+"film-jesse-erin": {
+"w": 2400,
+"h": 1350,
+"c": "#4a5144"
+},
+"film-charlotte-quinn": {
+"w": 2048,
+"h": 1365,
+"c": "#a3a091"
+},
+"film-rebekah-tyler": {
+"w": 2400,
+"h": 1350,
+"c": "#847a69"
 }
 }

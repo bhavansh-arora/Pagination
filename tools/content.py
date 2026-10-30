@@ -35,7 +35,6 @@ WEDDING_FILMS = [
     ("7_heEQhFX18", "Eileen + Matthew", "Wedding film", False),
     ("5Lx9Q7I5jT8", "Yura + Joe", "Highlight reel", True),
     ("pIeFJgLjOj4", "Eleanor + Ryan", "Full highlight film", True),
-    ("fAk-YClUN1Q", "Jade + Lars", "Highlight film", True),
     ("nWng4rPcNxw", "Chloe + Grant", "Highlight reel", True),
     ("iq3GEm4Duq8", "Jevon + Keyariah", "Highlight film", True),
     ("QsGi2K15s3o", "Toni + Andy", "Wedding film", True),
