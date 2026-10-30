@@ -778,9 +778,10 @@ html, body { overflow-x: clip; }
 .worries-wrap { display: grid; gap: clamp(32px, 5vw, 72px); margin-top: clamp(20px, 2.6vw, 36px); }
 @media (min-width: 900px) { .worries-wrap { grid-template-columns: 0.85fr 1.15fr; align-items: start; } .worries-side { position: sticky; top: 110px; } }
 .worries-photos { position: relative; max-width: 520px; margin-top: clamp(24px, 3vw, 40px); padding: 0 18% 14% 0; }
-.worries-photos img { width: 100%; height: 100%; object-fit: cover; }
+.worries-photos__main, .worries-photos__inset { position: relative; }
+.worries-photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .worries-photos__main { aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; background: var(--paper-3); }
-.worries-photos__inset { position: absolute; right: 0; bottom: 0; width: 52%; aspect-ratio: 4 / 3; border-radius: var(--r-md); overflow: hidden; border: 6px solid var(--paper); background: var(--paper-3); }
+.worries-photos__inset { position: absolute; right: 6px; bottom: 6px; width: calc(52% - 12px); aspect-ratio: 4 / 3; border-radius: var(--r-md); overflow: hidden; box-shadow: 0 0 0 6px var(--paper); background: var(--paper-3); }
 .worries-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .worry { display: grid; grid-template-columns: 40px 1fr; gap: 0 14px; padding: clamp(18px, 2vw, 26px) 0; border-bottom: 1px solid var(--line); }
 .worry__num { padding-top: 0.55em; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--accent); }

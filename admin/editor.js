@@ -215,7 +215,7 @@
     // When a photo is swapped, drop its old responsive srcset so the new photo is what loads.
     root.querySelectorAll("img[srcset]").forEach(function (img) {
       var src = img.getAttribute("src") || "";
-      var stem = src.split("/").pop().replace(/-(480|800|1600)\.webp$/, "");
+      var stem = src.split("?")[0].split("/").pop().replace(/-(480|800|1600|2400)\.webp$/, "");
       if (!stem || src.indexOf("data:") === 0 || img.getAttribute("srcset").indexOf(stem + "-") < 0) {
         img.removeAttribute("srcset"); img.removeAttribute("sizes");
       }
