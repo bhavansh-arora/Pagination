@@ -105,7 +105,7 @@ FAQS = [
      "<p>Yes! There is no travel charge for weddings in Chicago, Central Illinois, Milwaukee or Madison, Wisconsin. "
      "For other areas we charge a small fee to cover our expenses — and we love an adventure.</p>"),
     ("What gear do you use?",
-     "<p>Because of the hybrid photo + video nature of our work, we've chosen the Sony system for its accurate colour science and "
+     "<p>Because of the hybrid photo + video nature of our work, we've chosen the Sony system for its accurate color science and "
      "cinema-quality video. We also use a DJI Ronin 4D and a DJI Mavic 3 drone.</p>"),
     ("How far in advance should we book you?",
      "<p>Dates are extremely limited, so we recommend reaching out as soon as possible. We already have weddings booked more than "

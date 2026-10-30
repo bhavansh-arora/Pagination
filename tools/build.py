@@ -282,7 +282,7 @@ def process_section(num):
          "The more you tell us about your day, the better.", "lexi-lucas-1", "Wedding invitation, shoes and jewellery laid flat"),
         ("02", "Schedule a call", "We'll answer your questions and show you how we'll capture your day with authenticity, "
          "artistry and emotion, so you can relive every moment exactly as it happened.", "dan-coffee", "Dan sipping coffee outdoors"),
-        ("03", "Book it", "Lock in your date, then relax. Every emotion, vow and joyful moment will be preserved beautifully "
+        ("03", "Book us", "Lock in your date, then relax. Every emotion, vow and joyful moment will be preserved beautifully "
          "for a lifetime, with a blend of cinematic artistry and honest storytelling.", "golden-hour-portrait",
          "A couple holding hands at golden hour"),
     ]
@@ -357,7 +357,7 @@ def build_home():
     <div class="hero__media hero__slides" data-hero-slides>
       <div class="hero__slide is-active">{img("golden-hour-portrait", "A bride and groom holding hands on a stone path at sunset", "100vw", lazy=False, priority=True)}</div>
       <div class="hero__slide">{img("chicago-skyline-couple", "A couple on the Chicago lakefront with the skyline behind", "100vw")}</div>
-      <div class="hero__slide">{img("ethan-gwyn-4", "A couple walking through autumn trees at sunset", "100vw")}</div>
+      <div class="hero__slide">{img("veil-laugh", "A bride and groom laughing nose to nose under her veil", "100vw")}</div>
       <div class="hero__slide">{img("garden-estate-portrait", "A couple embracing on an estate lawn at golden hour", "100vw")}</div>
     </div>
     <a class="hero__card reveal" data-delay="4" href="films.html" data-cursor="Watch">
@@ -371,8 +371,8 @@ def build_home():
       <div class="hero__bottom">
         <p class="hero__sub reveal" data-delay="2">Documentary-style wedding photos and cinematic films by husband-and-wife team Dan &amp; Lydia Reynolds.</p>
         <div class="row reveal" data-delay="3">
-          <a class="btn btn--gold" href="contact.html">Check your date {icon_btn()}</a>
-          <a class="btn btn--glass" href="portfolio.html">See the work</a>
+          <a class="btn btn--gold" href="contact.html">Inquire {icon_btn()}</a>
+          <a class="btn btn--glass" href="portfolio.html">See Our Work</a>
         </div>
       </div>
     </div>
@@ -382,7 +382,7 @@ def build_home():
 <section class="section">
   <div class="container">
     <div class="head__top reveal"><span class="label">(01) — The studio</span><span class="label">Peoria · Chicago · Wisconsin</span></div>
-    <p class="statement mt-l" data-scrub-words>We're Dan &amp; Lydia<span class="inline-img inline-img--round" style="{bg('lydia')}"></span>, a husband-and-wife team telling love stories<span class="inline-img" style="{bg('golden-hour-portrait')}"></span> through honest photographs and <em>cinematic film</em><span class="inline-img" style="{bg('dan-filming')}"></span> so you can feel your day all over again.</p>
+    <p class="statement mt-l" data-scrub-words>We're Dan &amp; Lydia, a husband-and-wife team telling love stories through honest photographs and <em>cinematic film</em> so you can feel your day all over again.</p>
     <div class="statement-foot reveal">
       <div class="row"><span class="pill">Documentary approach</span><span class="pill">Two artists at every wedding</span><span class="pill">Hand-edited by Dan</span></div>
       <a class="link" href="about.html">Meet Dan &amp; Lydia {ARROW}</a>
@@ -500,7 +500,7 @@ def build_about():
     chapters = [
         ("i.", "Rochester, New York", "dan-seattle", "Dan grinning while holding an ice cream cone",
          "<p>I grew up in Rochester, a city with a deep connection to photography, thanks in part to Kodak. My dad worked there. "
-         "I didn't realise it at the time, but being surrounded by a culture of imagery and innovation planted a seed that would later shape my career.</p>"),
+         "I didn't realize it at the time, but being surrounded by a culture of imagery and innovation planted a seed that would later shape my career.</p>"),
         ("ii.", "A trip to Ireland", "dan-lydia-mountains", "Dan and Lydia in front of jagged mountain peaks",
          "<p>The moment came when I bought a nice camera for a trip to Ireland. I just wanted better photos of the landscapes and history I'd always "
          "dreamed of seeing. Instead, I fell in love with photography: composition, light, and the way a single frame can hold so much emotion.</p>"
@@ -528,13 +528,13 @@ def build_about():
 <section class="section">
   <div class="container">
     <div class="head__top reveal"><span class="label">(01) — Our approach</span><span class="label">A true team effort</span></div>
-    <p class="statement mt-l" data-scrub-words>The business carries Dan's name<span class="inline-img inline-img--round" style="{bg('dan-coffee')}"></span>, but it's truly a team effort. We complement each other's strengths<span class="inline-img inline-img--round" style="{bg('lydia')}"></span> so you can be <em>fully present</em> while we capture every emotion, moment and memory.</p>
+    <p class="statement mt-l" data-scrub-words>The business carries Dan's name, but it's truly a team effort. We complement each other's strengths so you can be <em>fully present</em> while we capture every emotion, moment and memory.</p>
   </div>
 </section>
 
 <section class="section section--flush-top">
   <div class="container">
-    {head("02", "The team", "Meet the<br><em>two of us.</em>", "Cinematic films and timeless images from Dan; a keen eye for detail, organisation and creative input from Lydia.", "Photo · Film")}
+    {head("02", "The team", "Meet the<br><em>two of us.</em>", "Cinematic films and timeless images from Dan; a keen eye for detail, organization and creative input from Lydia.", "Photo · Film")}
     <div class="team">
       <article class="person reveal">
         {media("dan-coffee", "Dan sipping coffee outdoors", "", "(min-width:760px) 50vw, 100vw", reveal=False)}
@@ -564,7 +564,7 @@ def build_about():
 
 <section class="section">
   <div class="container">
-    {head("04", "Favourite venues", "Places we<br><em>love</em> to shoot.", "From Chicago ballrooms to Central Illinois farms, spaces we know inside out, including where the best light falls.", "Illinois")}
+    {head("04", "Favorite venues", "Places we<br><em>love</em> to shoot.", "From Chicago ballrooms to Central Illinois farms, spaces we know inside out, including where the best light falls.", "Illinois")}
     <ul class="venue-list" role="list">{venue_list}</ul>
   </div>
 </section>
@@ -651,7 +651,7 @@ def film_cards(films):
 
 def build_films():
     kit = [
-        ("Camera system", "Sony", "Accurate colour science and cinema-quality video for our hybrid photo + film workflow."),
+        ("Camera system", "Sony", "Accurate color science and cinema-quality video for our hybrid photo + film workflow."),
         ("Stabiliser", "DJI Ronin 4D", "Fluid, cinematic movement through every moment of the day."),
         ("Aerials", "DJI Mavic 3", "Sweeping drone footage of your venue and surroundings."),
         ("Sound", "Pro audio", "Every vow, laugh and toast recorded clearly for the ceremony and selected events."),
@@ -717,7 +717,7 @@ def build_investment():
 <section class="section">
   <div class="container">
     <div class="head__top reveal"><span class="label">(01) — Our philosophy</span><span class="label">Real · Raw · Personal</span></div>
-    <p class="statement mt-l" data-scrub-words>We capture the quiet touches<span class="inline-img" style="{bg('lexi-lucas-10')}"></span>, the nervous laughter, the teary-eyed vows<span class="inline-img" style="{bg('lexi-lucas-6')}"></span> and the <em>unfiltered joy</em> that make your love story uniquely yours.</p>
+    <p class="statement mt-l" data-scrub-words>We capture the quiet touches, the nervous laughter, the teary-eyed vows and the <em>unfiltered joy</em> that make your love story uniquely yours.</p>
   </div>
 </section>
 
@@ -741,7 +741,7 @@ def build_investment():
             <li>Private online gallery for at least 6 months</li>
           </ul>
           <p class="price-card__note"><strong>Most popular:</strong> our comprehensive collection with 8 hours of coverage.</p>
-          <a class="btn btn--ghost btn--block" href="contact.html">Enquire about photo {icon_btn()}</a>
+          <a class="btn btn--ghost btn--block" href="contact.html">Inquire about photo {icon_btn()}</a>
         </div>
       </article>
       <article class="price-card price-card--feature reveal" data-delay="1">
@@ -762,7 +762,7 @@ def build_investment():
             <li>Drone video</li><li>Full ceremony film</li><li>Dances &amp; speeches footage</li>
           </ul>
           <p class="price-card__note"><strong>Most popular:</strong> 8 hours of coverage, including the full ceremony edit.</p>
-          <a class="btn btn--gold btn--block" href="contact.html">Enquire about film {icon_btn()}</a>
+          <a class="btn btn--gold btn--block" href="contact.html">Inquire about film {icon_btn()}</a>
         </div>
       </article>
       <a class="price-card price-card--combo reveal" data-delay="2" href="contact.html">
