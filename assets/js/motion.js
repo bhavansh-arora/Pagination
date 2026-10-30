@@ -105,31 +105,17 @@
 
   /* ---------- Hero slideshow + rotating word ---------- */
   function startHero() {
-    var rot = $(".rotator");
-    if (rot) {
-      var words = $$(".rotator__word", rot), wi = words.length - 1;
-      words[wi].classList.add("is-current");
-      rot.classList.add("is-live");
-      // The slot keeps the width of the longest word, so "again" stays put while the words change.
-      setInterval(function () {
-        if (document.hidden) return;
-        var prev = words[wi];
-        wi = (wi + 1) % words.length;
-        prev.classList.remove("is-current");
-        prev.classList.add("is-out");
-        words[wi].classList.remove("is-out");
-        words[wi].classList.add("is-current");
-        setTimeout(function () { prev.classList.remove("is-out"); }, 950);
-      }, 2600);
-    }
-
+    // One timer drives both: each new word arrives with a new photo.
+    var STEP = 2800;
+    var rot = $(".rotator"), words = rot ? $$(".rotator__word", rot) : [], wi = words.length - 1;
+    if (rot) { words[wi].classList.add("is-current"); rot.classList.add("is-live"); }
     var wrap = $("[data-hero-slides]");
-    if (!wrap) return;
-    var slides = $$(".hero__slide", wrap);
+    var slides = wrap ? $$(".hero__slide", wrap) : [];
     var idx = 0, current = $("[data-hero-current]"), index = $(".hero__index");
     slides.forEach(function (s, i) {
       if (i > 0) { var im = s.querySelector("img"); if (im) im.loading = "eager"; }
     });
+    if (index) index.style.setProperty("--hero-step", STEP + "ms");
     function runBar() {
       if (!index) return;
       index.classList.remove("is-running");
@@ -139,15 +125,24 @@
     runBar();
     setInterval(function () {
       if (document.hidden || window.scrollY > window.innerHeight) return;
-      var prev = slides[idx];
-      idx = (idx + 1) % slides.length;
-      slides.forEach(function (s) { s.classList.remove("is-prev"); });
-      prev.classList.remove("is-active");
-      prev.classList.add("is-prev");
-      slides[idx].classList.add("is-active");
-      if (current) current.textContent = ("0" + (idx + 1)).slice(-2);
-      runBar();
-    }, 6000);
+      if (words.length) {
+        var pw = words[wi];
+        wi = (wi + 1) % words.length;
+        pw.classList.remove("is-current"); pw.classList.add("is-out");
+        words[wi].classList.remove("is-out"); words[wi].classList.add("is-current");
+        setTimeout(function () { pw.classList.remove("is-out"); }, 950);
+      }
+      if (slides.length > 1) {
+        var prev = slides[idx];
+        idx = (idx + 1) % slides.length;
+        slides.forEach(function (s) { s.classList.remove("is-prev"); });
+        prev.classList.remove("is-active");
+        prev.classList.add("is-prev");
+        slides[idx].classList.add("is-active");
+        if (current) current.textContent = ("0" + (idx + 1)).slice(-2);
+        runBar();
+      }
+    }, STEP);
   }
 
   /* ---------- Count-up numbers ---------- */

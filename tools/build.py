@@ -133,7 +133,7 @@ def footer():
         <span class="label label--dot label--live">Limited dates each year</span>
         <p class="h-xl mt-m" data-lines>Let's tell<br>your <em>story.</em></p>
       </div>
-      <a class="footer-cta__btn" href="contact.html" data-magnetic-strong><span>Check<br>your date{ARROW_UR}</span></a>
+      <a class="footer-cta__btn" href="contact.html" data-magnetic-strong><span>Inquire<br>here{ARROW_UR}</span></a>
     </div>
     <div class="footer-grid">
       <div class="footer-col footer-col--intro">
