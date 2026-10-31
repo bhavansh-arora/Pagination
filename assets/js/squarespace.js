@@ -41,6 +41,33 @@
     return HOST + u.replace(/^\.\//, "");
   }
   function absUrls(text) { return text.replace(/url\((["']?)(?!https?:|data:|#)([^)"']+)\1\)/g, function (_, q, u) { return "url(" + q + HOST + u + q + ")"; }); }
+
+  // The Squarespace form, dressed like the site's own form: placeholders, and "(optional)" on fields that
+  // aren't required. Only the look changes; field names, settings and where submissions go stay Dan's.
+  function dressForm(slot) {
+    var HINTS = [[/first/i, "First name"], [/last/i, "Last name"], [/email/i, "you@example.com"], [/phone/i, "(000) 000-0000"],
+      [/location|venue/i, "Venue, city"], [/special day|tell me more|your day/i, "Your story, your vision, the moments that matter most…"],
+      [/restaurant/i, "Your favorite place to eat"]];
+    function apply() {
+      slot.querySelectorAll("input[type=text], input[type=email], input[type=tel], input:not([type]), textarea").forEach(function (el) {
+        if (el.getAttribute("placeholder")) return;
+        var own = el.closest(".field"), label = own ? own.textContent.trim() : "";
+        if (!label) { var group = el.closest(".form-item"); label = group ? group.textContent : ""; }
+        for (var i = 0; i < HINTS.length; i++) if (HINTS[i][0].test(label)) { el.setAttribute("placeholder", HINTS[i][1]); break; }
+      });
+      slot.querySelectorAll(".field-list > .form-item").forEach(function (item) {
+        if (item.classList.contains("required") || item.querySelector(".opt")) return;
+        if (item.querySelector(".description.required")) return;
+        var t = item.querySelector(".title span, legend span");
+        if (t) { var o = document.createElement("span"); o.className = "opt"; o.textContent = "(optional)"; t.parentNode.insertBefore(o, t.nextSibling); }
+      });
+      var first = slot.querySelector("select.show-placeholder option");
+      if (first && /select an option/i.test(first.textContent)) first.textContent = "Select…";
+    }
+    apply();
+    // Squarespace's form re-renders itself at times (validation, sending): put the hints back.
+    if (window.MutationObserver) new MutationObserver(function () { clearTimeout(slot._t); slot._t = setTimeout(apply, 60); }).observe(slot, { childList: true, subtree: true });
+  }
   function load(src) {
     return new Promise(function (ok, fail) { var s = document.createElement("script"); s.src = src; s.async = false; s.onload = ok; s.onerror = fail; document.body.appendChild(s); });
   }
@@ -98,7 +125,7 @@
     root.appendChild(frag);
 
     var sqForm = document.querySelector(".sqs-block-form"), slotEl = document.getElementById("sq-form-slot");
-    if (sqForm && slotEl) { var holder = sqForm.closest(".fe-block"); slotEl.appendChild(sqForm); if (holder) holder.style.display = "none"; }
+    if (sqForm && slotEl) { var holder = sqForm.closest(".fe-block"); slotEl.appendChild(sqForm); if (holder) holder.style.display = "none"; dressForm(slotEl); }
 
     // The site's scripts, in order (animations, menus, lightbox, page transitions).
     // async = false keeps them running in order while they download (or come from the preload) in parallel.

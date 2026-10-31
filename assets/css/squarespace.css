@@ -32,24 +32,70 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 :where(.drx) p { line-height: inherit; }
 :where(.drx) a, :where(.drx) p a { color: inherit; }
 .drx .btn { line-height: inherit; }
-/* Contact page: the Squarespace form block, moved into the design */
-.sq-form-slot { width: 100%; }
-.sq-form-slot label, .sq-form-slot legend { display: block !important; margin-bottom: 8px !important; }
-.sq-form-slot input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), .sq-form-slot textarea, .sq-form-slot select { width: 100% !important; box-sizing: border-box !important; }
-.sq-form-slot .form-item, .sq-form-slot .field { margin-bottom: 18px !important; }
-.sq-form-slot input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), .sq-form-slot textarea, .sq-form-slot select {
-  background: #27211c !important; color: #f3ede3 !important; border: 1px solid rgba(239,231,218,.18) !important;
-  border-radius: 12px !important; font-family: var(--sans, "Montserrat"), Arial, sans-serif !important; padding: 14px 16px !important;
+/* Contact page: the Squarespace form block, moved into the design and styled like the site's own form.
+   Only Squarespace's stable class names are used (.field, .title, .caption, .description, ...), never its
+   generated ones, so its updates are less likely to break this. */
+.sq-form-slot { width: 100%; color: var(--ink-2); font-family: var(--sans); }
+.sq-form-slot form { margin: 0 !important; }
+.sq-form-slot .field-list { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; margin: 0 !important; padding: 0 !important; }
+.sq-form-slot .field-list > * { grid-column: 1 / -1; margin: 0 !important; padding: 0 !important; border: 0 !important; min-width: 0; }
+.sq-form-slot .field-list > .field.email, .sq-form-slot .field-list > .fields.phone,
+.sq-form-slot .field-list > .field.select, .sq-form-slot .field-list > .field.date { grid-column: auto; }
+.sq-form-slot :has(> .field.first-name) { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
+@media (max-width: 640px) {
+  .sq-form-slot .field-list { grid-template-columns: minmax(0, 1fr); }
+  .sq-form-slot .field-list > * { grid-column: 1 / -1 !important; }
 }
-.sq-form-slot input:focus, .sq-form-slot textarea:focus, .sq-form-slot select:focus { border-color: #a5b993 !important; outline: none !important; }
-.sq-form-slot label, .sq-form-slot legend, .sq-form-slot .title, .sq-form-slot .description {
-  font-family: var(--mono, "Montserrat"), sans-serif !important; font-size: .72rem !important; letter-spacing: .16em !important; text-transform: uppercase !important; color: #9a8f80 !important;
-}
-.sq-form-slot button[type="submit"], .sq-form-slot input[type="submit"] {
-  background: #a5b993 !important; color: #0d0a08 !important; border: 0 !important; border-radius: 999px !important;
-  font-family: var(--sans, "Montserrat"), Arial, sans-serif !important; font-weight: 500 !important; text-transform: none !important; letter-spacing: -.01em !important; padding: 1.05em 2em !important;
-}
-.sq-form-slot, .sq-form-slot p, .sq-form-slot span { color: #d2c8b9; }
+.sq-form-slot .field, .sq-form-slot .form-item { margin: 0 !important; display: grid; gap: 8px; }
+/* Labels: as in the site form (sentence case, medium weight); Squarespace's "(required)" markers hidden */
+.sq-form-slot label, .sq-form-slot legend, .sq-form-slot .title, .sq-form-slot .caption, .sq-form-slot .caption-text {
+  display: block !important; margin: 0 !important; padding: 0 !important; font-family: var(--sans) !important; font-size: 0.85rem !important; font-weight: 500 !important;
+  font-style: normal !important; letter-spacing: normal !important; text-transform: none !important; color: var(--ink-2) !important; line-height: 1.4 !important; }
+.sq-form-slot .description.required { display: none !important; }
+.sq-form-slot .opt { color: var(--muted) !important; font-weight: 400 !important; margin-left: 4px; }
+.sq-form-slot fieldset.fields:not(.phone) > legend { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.sq-form-slot fieldset.fields { display: grid; gap: 8px; }
+.sq-form-slot .caption-text:empty { display: none !important; }
+.sq-form-slot p.description { margin: -2px 0 2px !important; font-family: var(--sans) !important; font-size: 0.8rem !important; font-weight: 400 !important;
+  text-transform: none !important; letter-spacing: normal !important; color: var(--muted) !important; line-height: 1.45 !important; }
+/* Inputs */
+.sq-form-slot input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([tabindex="-1"]), .sq-form-slot textarea, .sq-form-slot select {
+  width: 100% !important; max-width: none !important; min-height: 54px !important; box-sizing: border-box !important; margin: 0 !important; padding: 14px 16px !important; border-radius: 12px !important;
+  background: rgba(243, 237, 227, 0.04) !important; border: 1px solid var(--line-2) !important; box-shadow: none !important; color: var(--ink) !important;
+  font-family: var(--sans) !important; font-size: 16px !important; font-weight: 400 !important; line-height: 1.4 !important; letter-spacing: normal !important;
+  text-transform: none !important; -webkit-appearance: none !important; appearance: none !important; color-scheme: dark; transition: border-color 0.3s, background-color 0.3s; }
+.sq-form-slot textarea { min-height: 150px !important; resize: vertical; }
+.sq-form-slot input::placeholder, .sq-form-slot textarea::placeholder { color: var(--muted) !important; opacity: 1 !important;
+  font-family: var(--sans) !important; font-weight: 400 !important; font-style: normal !important; letter-spacing: normal !important; text-transform: none !important; }
+/* Every field and its wrappers fill their grid cell (Squarespace sizes some, like name, date and dropdown, to their content) */
+.sq-form-slot .field-list .field, .sq-form-slot .field-list .form-item,
+.sq-form-slot .field-list .form-item div:not(.title):not(.caption):not([class*="caption"]):not(:has(> svg)):not([aria-hidden="true"]) { width: 100% !important; max-width: none !important; flex: 1 1 auto !important; }
+/* Dropdown arrow and calendar icon: inside the right edge of their box, in the accent colour */
+.sq-form-slot .form-item div:has(> input), .sq-form-slot .form-item div:has(> select) { position: relative !important; }
+.sq-form-slot .form-item div:has(> svg) { position: absolute !important; right: 16px !important; left: auto !important; top: 50% !important; transform: translateY(-50%) !important;
+  width: auto !important; margin: 0 !important; pointer-events: none; color: var(--accent) !important; display: flex !important; align-items: center; }
+.sq-form-slot input[type="date"] { padding-right: 44px !important; }
+/* Squarespace's hidden spam trap stays hidden */
+.sq-form-slot div[aria-hidden="true"]:has(> input[tabindex="-1"]) { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+.sq-form-slot .field-list .form-item svg { width: 14px !important; height: auto !important; max-height: 14px; }
+.sq-form-slot input:focus, .sq-form-slot textarea:focus, .sq-form-slot select:focus { outline: none !important; border-color: var(--accent) !important; background: rgba(243, 237, 227, 0.07) !important; }
+.sq-form-slot select { padding-right: 44px !important; cursor: pointer; }
+.sq-form-slot select.show-placeholder { color: var(--muted) !important; }
+.sq-form-slot select option { color: #14100d; background: #f3ede3; }
+.sq-form-slot .field.select > div { position: relative; }
+.sq-form-slot .field.select svg { display: block; width: 12px; height: auto; color: var(--accent); }
+.sq-form-slot .form-input-effects { display: none !important; }
+/* Submit: the site's green button with its arrow circle */
+.sq-form-slot .form-button-wrapper { margin: 26px 0 0 !important; padding: 0 !important; text-align: left; }
+.sq-form-slot button[type="submit"] {
+  display: inline-flex !important; align-items: center; justify-content: center; gap: 10px; min-height: 52px !important; height: auto !important; width: auto !important;
+  padding: 0 24px 0 26px !important; border-radius: 999px !important; border: 1px solid #4f6a40 !important; background: #4f6a40 !important; color: var(--ivory) !important;
+  font-family: var(--sans) !important; font-size: 0.94rem !important; font-weight: 500 !important; letter-spacing: 0 !important; text-transform: none !important; line-height: 1 !important;
+  box-shadow: none !important; cursor: pointer; transition: filter 0.3s; }
+.sq-form-slot button[type="submit"]:hover { filter: brightness(1.12); }
+.sq-form-slot button[type="submit"]::after { content: ""; flex: none; width: 28px; height: 28px; margin-right: -12px; border-radius: 50%;
+  background: var(--ivory) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6a40' stroke-width='1.8'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / 14px no-repeat; }
+.sq-form-slot .form-submit-button-label { font: inherit !important; color: inherit !important; }
 
 /* Squarespace's wrappers follow the page's own background (site theme, or a page theme like the home page's).
    Higher specificity than the pasted snippet's first-paint colours, so this wins once the site styles load. */
