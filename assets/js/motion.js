@@ -45,6 +45,7 @@
   }
 
   if (html.classList.contains("is-loading")) {
+    window.__drMotion = 1;
     var count = $("[data-count-loader]");
     var loaderBar = $(".preloader__bar");
     var heroImg = $(".hero img, .page-hero--image img, main img");
@@ -55,10 +56,14 @@
     }
     var fontsReady = false;
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { fontsReady = true; });
-    var t0 = performance.now(), shown = 0, MIN = 1600, MAX = 3500;
+    // Inside Squarespace the intro screen has been up since the page opened (this script arrives late),
+    // so count from then and carry on from the number already shown, rather than starting over.
+    var inSq = !!document.getElementById("drx-live");
+    var start = performance.now(), t0 = inSq ? 0 : start, MIN = 1600, MAX = 3500;
+    var shown = inSq && count ? (parseInt(count.textContent, 10) || 0) : 0;
     (function tick(now) {
       var elapsed = now - t0;
-      var ready = (loaded && fontsReady) || elapsed > MAX;
+      var ready = (loaded && fontsReady) || now - start > MAX;
       var target = ready ? 100 : Math.min(90, (elapsed / MIN) * 90);
       var timeCap = Math.min(100, (elapsed / MIN) * 100);
       shown += (Math.min(target, timeCap) - shown) * 0.12;

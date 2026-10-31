@@ -14,9 +14,18 @@
   var PAGE = root.getAttribute("data-page") || "index.html";
   var SLUGS = { "index.html": "/", "about.html": "/about", "portfolio.html": "/portfolio", "films.html": "/films",
     "investment.html": "/investment", "contact.html": "/contact", "404.html": "/page-not-found", "thank-you.html": "/thank-you" };
-  // Fresh within a minute of publishing, while still letting browsers reuse files briefly.
+  // Pages and the editor's global styles: fresh within a minute of publishing.
   var V = "v=" + Math.floor(Date.now() / 60000);
+  // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
+  // browsers keep them between visits and only download a file again after it changes.
+  var HASH = {"assets/css/styles.css":"b455fe30","assets/js/main.js":"4c258c05","assets/js/motion.js":"cec808e3","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"0905bd04"};
+  function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
+
+  // Snippets pasted before this fix hid the intro screen outright: show it while the page loads.
+  var fix = document.createElement("style");
+  fix.textContent = "@media (prefers-reduced-motion: no-preference){.is-loading .preloader,.is-loaded .preloader{display:grid!important}.curtain{display:grid!important}}";
+  document.head.appendChild(fix);
 
   // Same start-up as the site's own pages: entry animation after a page transition, loader on a first visit.
   // (The pasted snippet normally does this itself, before the first frame is painted.)
@@ -28,10 +37,23 @@
 
   root.classList.add("drx");
 
+  // Intro screen: count up while the page downloads; motion.js takes over and finishes it once it runs.
+  (function () {
+    var count = document.querySelector("[data-count-loader]"), bar = document.querySelector(".preloader__bar");
+    if (!count && !bar) return;
+    (function tick() {
+      if (window.__drMotion || !d.classList.contains("is-loading")) return;
+      var n = Math.round(85 * (1 - Math.exp(-performance.now() / 2600)));
+      if (count) count.textContent = ("00" + n).slice(-3);
+      if (bar) bar.style.setProperty("--p", (n / 100).toFixed(3));
+      requestAnimationFrame(tick);
+    })();
+  })();
+
   function css(href) { var l = document.createElement("link"); l.rel = "stylesheet"; l.href = href; document.head.appendChild(l); return l; }
   css("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap");
   var sheets = ["assets/css/styles.css", "assets/css/editor-global.css", "assets/css/squarespace.css"].map(function (p) {
-    return new Promise(function (ok) { var l = css(HOST + p + "?" + V); l.onload = l.onerror = ok; });
+    return new Promise(function (ok) { var l = css(HOST + p + "?" + ver(p)); l.onload = l.onerror = ok; });
   });
 
   function abs(u) {
@@ -74,7 +96,7 @@
 
   // Start downloading the site's scripts now, in parallel with the page; they run once it's in place.
   var SCRIPTS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/js/main.js", "assets/js/motion.js"];
-  SCRIPTS.forEach(function (src) { var l = document.createElement("link"); l.rel = "preload"; l.as = "script"; l.href = HOST + src + "?" + V; document.head.appendChild(l); });
+  SCRIPTS.forEach(function (src) { var l = document.createElement("link"); l.rel = "preload"; l.as = "script"; l.href = HOST + src + "?" + ver(src); document.head.appendChild(l); });
 
   var html = fetch(HOST + PAGE + "?" + V, { cache: "no-cache" }).then(function (r) {
     if (!r.ok) throw new Error(r.status);
@@ -129,7 +151,7 @@
 
     // The site's scripts, in order (animations, menus, lightbox, page transitions).
     // async = false keeps them running in order while they download (or come from the preload) in parallel.
-    return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + V); }));
+    return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + ver(s)); }));
   }).then(function () {
     // Re-measure scroll effects once photos have loaded (the window "load" event has already passed).
     var refresh = function () { if (window.ScrollTrigger) window.ScrollTrigger.refresh(); };

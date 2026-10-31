@@ -88,13 +88,16 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 .sq-form-slot input[type="date"] { padding-right: 44px !important; }
 /* Squarespace's hidden spam trap stays hidden */
 .sq-form-slot div[aria-hidden="true"]:has(> input[tabindex="-1"]) { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
-.sq-form-slot .field-list .form-item svg { width: 14px !important; height: auto !important; max-height: 14px; }
+/* Icons keep their own drawing box (the dropdown arrow has no viewBox, so resizing it crops it); the arrow is scaled down instead */
+.sq-form-slot .field-list .form-item svg { overflow: visible !important; flex: none !important; max-width: none !important; max-height: none !important; }
+.sq-form-slot .field-list .form-item svg[viewBox] { width: 15px !important; height: 15px !important; }
+.sq-form-slot .field-list .form-item svg:not([viewBox]) { width: 18px !important; height: 12px !important; transform: scale(0.78); transform-origin: right center; }
 .sq-form-slot input:focus, .sq-form-slot textarea:focus, .sq-form-slot select:focus { outline: none !important; border-color: var(--accent) !important; background: rgba(243, 237, 227, 0.07) !important; }
 .sq-form-slot select { padding-right: 44px !important; cursor: pointer; }
 .sq-form-slot select.show-placeholder { color: var(--muted) !important; }
 .sq-form-slot select option { color: #14100d; background: #f3ede3; }
 .sq-form-slot .field.select > div { position: relative; }
-.sq-form-slot .field.select svg { display: block; width: 12px; height: auto; color: var(--accent); }
+.sq-form-slot .field.select svg { display: block; color: var(--accent); }
 .sq-form-slot .form-input-effects { display: none !important; }
 /* Submit: the site's green button with its arrow circle */
 .sq-form-slot .form-button-wrapper { margin: 26px 0 0 !important; padding: 0 !important; text-align: left; }

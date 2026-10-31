@@ -5,7 +5,7 @@ Browsers may keep a cached copy of an unchanged URL for a while (GitHub Pages: 1
 could load new HTML with an old stylesheet. A changed file gets a new ?v=, so it is always fetched fresh.
 Run after changing anything in assets/css or assets/js:  python3 tools/version_assets.py
 """
-import hashlib, re
+import hashlib, json, re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -37,7 +37,19 @@ def main():
         new = re.sub(r'((?:\.\./)?assets/img/[A-Za-z0-9_./-]+\.(?:webp|jpe?g|png|avif|svg|gif))(?:\?v=[0-9a-f]+)?', stamp_img, new)
         if new != html:
             page.write_text(new, encoding="utf-8"); changed += 1
-    print(f"{changed} pages updated")
+    # The Squarespace loader asks for the same versions (plus its own stylesheet), so visitors' browsers
+    # keep these files between visits.
+    loader = ROOT / "assets/js/squarespace.js"
+    if loader.exists():
+        sq = dict(ver)
+        for a in ["assets/css/squarespace.css"]:
+            sq[a] = hashlib.sha1((ROOT / a).read_bytes()).hexdigest()[:8]
+        keep = {a: v for a, v in sq.items() if "colours/" not in a}
+        js = loader.read_text(encoding="utf-8")
+        new = re.sub(r"var HASH = \{[^}]*\};", "var HASH = " + json.dumps(keep, separators=(",", ":")) + ";", js)
+        if new != js:
+            loader.write_text(new, encoding="utf-8"); changed += 1
+    print(f"{changed} files updated")
 
 
 if __name__ == "__main__":

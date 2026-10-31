@@ -36,8 +36,9 @@ def block(html, cls):
 def main():
     css = read("assets/css/styles.css")
     root = re.search(r":root\s*\{.*?\n\}", css, re.S).group(0)
-    # (Skip the reduced-motion rule: it only belongs inside its @media block, added back below.)
-    rules = [l for l in css.split("\n") if ".cursor" not in l and re.match(r"\s*(\.is-loading body|\.is-(loading|loaded|entering|entered|leaving) \.(preloader|curtain)|\.preloader|\.curtain|@keyframes (draw|rise))", l)]
+    # Top-level rules only: the indented reduced-motion rule belongs inside its @media block (added back
+    # below); copied out of it, it hid the intro screen for everyone.
+    rules = [l for l in css.split("\n") if ".cursor" not in l and re.match(r"(\.is-loading body|\.is-(loading|loaded|entering|entered|leaving) \.(preloader|curtain)|\.preloader|\.curtain|@keyframes (draw|rise))", l)]
     # The site's colour variables, scoped to the intro screen and curtain only, so they never override
     # the page's own colours (site theme or a page-specific theme) once the page has loaded.
     intro_css = re.sub(r"\s+", " ", root).replace(":root", ".preloader, .curtain", 1) + "\n" + "\n".join(r.strip() for r in rules)
