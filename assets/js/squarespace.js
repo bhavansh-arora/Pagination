@@ -18,7 +18,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"b455fe30","assets/js/main.js":"4c258c05","assets/js/motion.js":"cec808e3","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"0905bd04"};
+  var HASH = {"assets/css/styles.css":"b455fe30","assets/js/main.js":"4c258c05","assets/js/motion.js":"cec808e3","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"56a4d7b0"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
 
@@ -87,6 +87,11 @@
       if (first && /select an option/i.test(first.textContent)) first.textContent = "Select…";
     }
     apply();
+    // Date: a click anywhere in the box opens the calendar (browsers otherwise open it only from their own icon).
+    slot.addEventListener("click", function (e) {
+      var el = e.target;
+      if (el && el.matches && el.matches('input[type="date"]') && el.showPicker) try { el.showPicker(); } catch (err) {}
+    });
     // Squarespace's form re-renders itself at times (validation, sending): put the hints back.
     if (window.MutationObserver) new MutationObserver(function () { clearTimeout(slot._t); slot._t = setTimeout(apply, 60); }).observe(slot, { childList: true, subtree: true });
   }

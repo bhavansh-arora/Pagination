@@ -68,6 +68,28 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 #sq-form-slot .opt { font-weight: 400 !important; }
 /* Dropdown arrow and calendar icon in the accent colour (Squarespace paints the icon shapes black) */
 #sq-form-slot .form-item svg, #sq-form-slot .form-item svg * { fill: var(--accent) !important; color: var(--accent) !important; }
+/* Error messages: under their box (Squarespace puts them inside the label, above it, which pushed one column's box
+   below the other's), as quiet red text, with the box outlined in red. */
+#sq-form-slot .form-item > label.title, #sq-form-slot .form-item > label.title > div,
+#sq-form-slot .form-item .title:has(> .form-field-error) { display: contents !important; }
+#sq-form-slot .field-list > .form-item.field { display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 8px !important; }
+#sq-form-slot .field-list > .form-item.field > *:not(.description) { margin-top: 0 !important; margin-bottom: 0 !important; }
+#sq-form-slot .form-item .form-field-error { order: 10; }
+#sq-form-slot .form-field-error { display: flex !important; align-items: flex-start; gap: 7px; margin: 0 !important; padding: 0 !important;
+  background: none !important; border: 0 !important; border-radius: 0 !important; color: #e88a73 !important;
+  font-family: var(--sans) !important; font-size: 0.8rem !important; line-height: 1.45 !important; font-weight: 400 !important; text-transform: none !important; letter-spacing: normal !important; }
+#sq-form-slot .form-item .form-field-error svg, #sq-form-slot .form-field-error svg, #sq-form-slot .form-field-error svg * {
+  width: 14px !important; height: 14px !important; flex: none !important; margin: 2px 0 0 !important; fill: #e88a73 !important; color: #e88a73 !important; transform: none !important; position: static !important; }
+#sq-form-slot [aria-invalid="true"] { border-color: rgba(232, 138, 115, 0.75) !important; }
+/* The summary above the form ("One or more fields is invalid."): a soft box */
+/* Name and phone keep their message inside the group heading (hidden for name): shown under the boxes instead */
+#sq-form-slot fieldset.fields { position: relative !important; }
+#sq-form-slot fieldset.fields:has(> legend .form-field-error) { padding-bottom: 30px !important; align-self: start !important; }
+#sq-form-slot fieldset.fields > legend .form-field-error { position: absolute !important; left: 0; right: 0; bottom: 0; }
+#sq-form-slot fieldset.fields:not(.phone) > legend:has(.form-field-error) { position: static !important; width: auto !important; height: auto !important; overflow: visible !important; clip: auto !important; }
+#sq-form-slot fieldset.fields:not(.phone) > legend .title > :not(.form-field-error) { display: none !important; }
+#sq-form-slot .field-list > .title > .form-field-error { align-items: center; padding: 13px 16px !important; margin: 0 0 24px !important;
+  border: 1px solid rgba(232, 138, 115, 0.4) !important; border-radius: 12px !important; background: rgba(232, 138, 115, 0.08) !important; font-size: 0.85rem !important; }
 #sq-form-slot p.description { margin: -2px 0 0 !important; }
 /* Inputs */
 .sq-form-slot input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([tabindex="-1"]), .sq-form-slot textarea, .sq-form-slot select {
