@@ -82,6 +82,8 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
   width: 14px !important; height: 14px !important; flex: none !important; margin: 2px 0 0 !important; fill: #e88a73 !important; color: #e88a73 !important; transform: none !important; position: static !important; }
 #sq-form-slot [aria-invalid="true"] { border-color: rgba(232, 138, 115, 0.75) !important; }
 /* The summary above the form ("One or more fields is invalid."): a soft box */
+/* After sending, the thank-you page opens: no flash of Squarespace's own message over the form first */
+#sq-form-slot.sq-redirects .form-submission-text { display: none !important; }
 /* Name and phone keep their message inside the group heading (hidden for name): shown under the boxes instead */
 #sq-form-slot fieldset.fields { position: relative !important; }
 #sq-form-slot fieldset.fields:has(> legend .form-field-error) { padding-bottom: 30px !important; align-self: start !important; }

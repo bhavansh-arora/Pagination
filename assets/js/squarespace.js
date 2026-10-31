@@ -18,7 +18,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"b455fe30","assets/js/main.js":"4c258c05","assets/js/motion.js":"cec808e3","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"56a4d7b0"};
+  var HASH = {"assets/css/styles.css":"b455fe30","assets/js/main.js":"4c258c05","assets/js/motion.js":"cec808e3","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"427834de"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
 
@@ -83,6 +83,9 @@
         var t = item.querySelector(".title span, legend span");
         if (t) { var o = document.createElement("span"); o.className = "opt"; o.textContent = "(optional)"; t.parentNode.insertBefore(o, t.nextSibling); }
       });
+      // The form goes on to the thank-you page: Squarespace's own success message would only flash, faintly,
+      // over the form for a moment before that page opens, so it stays hidden.
+      if (slot.querySelector("form[data-success-redirect]")) slot.classList.add("sq-redirects");
       var first = slot.querySelector("select.show-placeholder option");
       if (first && /select an option/i.test(first.textContent)) first.textContent = "Select…";
     }
