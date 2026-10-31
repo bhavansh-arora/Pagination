@@ -66,6 +66,8 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 #sq-form-slot label, #sq-form-slot legend, #sq-form-slot .title, #sq-form-slot .caption, #sq-form-slot .caption-text { font-size: 0.85rem !important; line-height: 1.65 !important; font-weight: 500 !important; }
 #sq-form-slot label *, #sq-form-slot legend *, #sq-form-slot .title *, #sq-form-slot .caption * { font-size: inherit !important; line-height: inherit !important; font-family: inherit !important; font-weight: inherit !important; letter-spacing: inherit !important; text-transform: inherit !important; }
 #sq-form-slot .opt { font-weight: 400 !important; }
+/* Dropdown arrow and calendar icon in the accent colour (Squarespace paints the icon shapes black) */
+#sq-form-slot .form-item svg, #sq-form-slot .form-item svg * { fill: var(--accent) !important; color: var(--accent) !important; }
 #sq-form-slot p.description { margin: -2px 0 0 !important; }
 /* Inputs */
 .sq-form-slot input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([tabindex="-1"]), .sq-form-slot textarea, .sq-form-slot select {
