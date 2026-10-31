@@ -114,8 +114,8 @@ def header(active):
   <div class="mobile-menu__foot">
     <a class="btn btn--gold btn--block" href="contact.html">Check your date {icon_btn()}</a>
     <div class="mobile-menu__social">
-      <a class="pill" href="{IG_PHOTO}" target="_blank" rel="noopener">Instagram · Photo</a>
-      <a class="pill" href="{IG_FILMS}" target="_blank" rel="noopener">Instagram · Films</a>
+      <a class="pill" href="{IG_PHOTO}" target="_blank" rel="noopener">Instagram · Weddings Photo and Film</a>
+      <a class="pill" href="{IG_FILMS}" target="_blank" rel="noopener">Instagram · Business Films</a>
       <a class="pill" href="{YOUTUBE}" target="_blank" rel="noopener">YouTube</a>
       <a class="pill" href="{FACEBOOK}" target="_blank" rel="noopener">Facebook</a>
     </div>
@@ -142,8 +142,8 @@ def footer():
       </div>
       <div class="footer-col"><h3>Explore</h3><ul>{explore}</ul></div>
       <div class="footer-col"><h3>Follow</h3><ul>
-        <li><a href="{IG_PHOTO}" target="_blank" rel="noopener">Instagram · Photo</a></li>
-        <li><a href="{IG_FILMS}" target="_blank" rel="noopener">Instagram · Films</a></li>
+        <li><a href="{IG_PHOTO}" target="_blank" rel="noopener">Instagram · Weddings Photo and Film</a></li>
+        <li><a href="{IG_FILMS}" target="_blank" rel="noopener">Instagram · Business Films</a></li>
         <li><a href="{YOUTUBE}" target="_blank" rel="noopener">YouTube</a></li>
         <li><a href="{FACEBOOK}" target="_blank" rel="noopener">Facebook</a></li>
         <li><a href="{TWITTER}" target="_blank" rel="noopener">X / Twitter</a></li>
@@ -828,8 +828,8 @@ def build_contact():
         <span class="label label--dot" style="color:rgba(239,231,218,.8)">Based in Peoria, Illinois</span>
         <p class="h-md">No travel fee for Chicago, Central Illinois, Milwaukee &amp; Madison.</p>
         <div class="contact-links">
-          <a class="contact-link" href="{IG_PHOTO}" target="_blank" rel="noopener"><span><small>Instagram · Photo</small>@danreynoldsphotography</span>{IG}</a>
-          <a class="contact-link" href="{IG_FILMS}" target="_blank" rel="noopener"><span><small>Instagram · Films</small>@danreynoldsfilms</span>{IG}</a>
+          <a class="contact-link" href="{IG_PHOTO}" target="_blank" rel="noopener"><span><small>Instagram · Weddings Photo and Film</small>@danreynoldsphotography</span>{IG}</a>
+          <a class="contact-link" href="{IG_FILMS}" target="_blank" rel="noopener"><span><small>Instagram · Business Films</small>@danreynoldsfilms</span>{IG}</a>
           <a class="contact-link" href="{FACEBOOK}" target="_blank" rel="noopener"><span><small>Facebook</small>Dan Reynolds Photography</span>{ARROW_UR}</a>
         </div>
       </div>
