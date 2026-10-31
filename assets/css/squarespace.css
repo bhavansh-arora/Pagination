@@ -22,6 +22,16 @@ body:has(.drx) #siteWrapper, body:has(.drx) #page, body:has(.drx) main#page.cont
 .fe-block:has(.drx), .sqs-block:has(.drx), .sqs-block-content:has(.drx) {
   width: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; transform: none !important; contain: none !important;
 }
+/* Squarespace's own text styles must not reach the design: reset at the root of the site's code.
+   (Its Code Block passes down the site font, e.g. Bitter 900, and its h1-h4 / p / "p a" rules set italic
+   headings, its line height and its link colour.) The :where() rules tie with Squarespace's and win by
+   coming later, while the design's own class rules still win over them. */
+.drx { font-family: var(--sans); font-size: 0.94rem; font-weight: 400; font-style: normal; line-height: 1.65; letter-spacing: normal;
+  text-transform: none; color: var(--ink); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+:where(.drx) h1, :where(.drx) h2, :where(.drx) h3, :where(.drx) h4 { font-style: normal; }
+:where(.drx) p { line-height: inherit; }
+:where(.drx) a, :where(.drx) p a { color: inherit; }
+.drx .btn { line-height: inherit; }
 /* Contact page: the Squarespace form block, moved into the design */
 .sq-form-slot { width: 100%; }
 .sq-form-slot label, .sq-form-slot legend { display: block !important; margin-bottom: 8px !important; }
