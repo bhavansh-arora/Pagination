@@ -13,7 +13,7 @@
   var HOST = new URL("../../", document.currentScript.src).href; // site root
   var PAGE = root.getAttribute("data-page") || "index.html";
   var SLUGS = { "index.html": "/", "about.html": "/about", "portfolio.html": "/portfolio", "films.html": "/films",
-    "investment.html": "/investment", "contact.html": "/contact", "404.html": "/page-not-found" };
+    "investment.html": "/investment", "contact.html": "/contact", "404.html": "/page-not-found", "thank-you.html": "/thank-you" };
   // Fresh within a minute of publishing, while still letting browsers reuse files briefly.
   var V = "v=" + Math.floor(Date.now() / 60000);
   var d = document.documentElement;

@@ -980,3 +980,6 @@ html { -webkit-tap-highlight-color: transparent; }
 /* Shaded (foil) text paints only inside its box: leave room for anything below the line */
 .foil { padding-bottom: 0.1em; margin-bottom: -0.1em; }
 
+
+/* Thank-you page: the 404 layout, with the photo's subject on the left and the message on the right */
+.thanks .notfound__img { object-position: 35% 40%; }

@@ -13,7 +13,7 @@ SITE_DIR = sys.argv[1] if len(sys.argv) > 1 else "/home/user/danreynoldsphotogra
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "code", "live")
 HOST = "https://danreynoldsphotography.codebunny.net/"
 PAGES = {"home": "index.html", "about": "about.html", "portfolio": "portfolio.html", "films": "films.html",
-         "investment": "investment.html", "contact": "contact.html", "page-not-found": "404.html"}
+         "investment": "investment.html", "contact": "contact.html", "page-not-found": "404.html", "thank-you": "thank-you.html"}
 FONTS = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap"
 
 
