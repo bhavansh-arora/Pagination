@@ -429,7 +429,7 @@ a.tile--media:hover .circle-btn { background: var(--ivory); color: var(--night);
   .hscroll.is-pinned .hscroll__track { overflow: visible; scroll-snap-type: none; gap: clamp(16px, 1.6vw, 28px); align-items: stretch; padding-right: 8vw; will-change: transform; }
   .hscroll.is-pinned .hscroll__intro { display: flex; flex-direction: column; justify-content: space-between; flex: none; width: 34vw; max-width: 520px; padding: 8px 2vw 8px 0; }
   .hcard { width: auto; display: flex; flex-direction: column; }
-  .hcard__media { aspect-ratio: auto; height: 64vh; width: calc(64vh * 0.78); }
+  .hcard__media { aspect-ratio: auto; height: 45vh; width: calc(45vh * 0.78); }
   .hscroll__end { width: 24vw; }
   .hscroll.is-pinned .hscroll__progress { display: block; position: absolute; left: var(--gutter); right: var(--gutter); bottom: 5vh; height: 2px; border-radius: 2px; background: var(--line); }
   .hscroll__progress span { display: block; height: 100%; border-radius: 2px; background: var(--accent); transform: scaleX(var(--hp, 0)); transform-origin: left; }

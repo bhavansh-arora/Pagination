@@ -475,7 +475,7 @@ def build_home():
       <a class="btn btn--ghost btn--sm" href="{IG_FILMS}" target="_blank" rel="noopener">{IG} @danreynoldsfilms</a>
     </div>
   </div>
-  <div class="marquee"><div class="marquee__track">{insta_items}</div></div>
+  <div class="marquee" data-instagram><div class="marquee__track">{insta_items}</div></div>
 </section>
 """
     schema = {

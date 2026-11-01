@@ -1,0 +1,62 @@
+# Once a day: the latest Instagram posts go into the home page's photo strip (tools/instagram.py).
+# Needs the repository secret INSTAGRAM_TOKEN (see README → Instagram photo strip); without it, nothing changes.
+name: Instagram photo strip
+
+on:
+  schedule:
+    - cron: "23 13 * * *"   # every day, 13:23 UTC (morning in Illinois)
+  workflow_dispatch: {}     # "Run workflow" button, to update right away
+
+permissions:
+  contents: write   # commit the new photos
+  pages: write      # ask GitHub Pages to rebuild
+
+concurrency:
+  group: instagram-strip
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the image tools
+        run: pip install pillow==10.4.0
+
+      - name: Fetch the latest posts
+        env:
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+          NEW_TOKEN_FILE: ${{ runner.temp }}/instagram-token
+        run: python3 tools/instagram.py
+
+      - name: Save a renewed token
+        env:
+          GH_TOKEN: ${{ secrets.SECRETS_TOKEN }}
+        run: |
+          if [ -s "$RUNNER_TEMP/instagram-token" ]; then
+            if [ -n "$GH_TOKEN" ]; then
+              gh secret set INSTAGRAM_TOKEN --repo "$GITHUB_REPOSITORY" < "$RUNNER_TEMP/instagram-token"
+              echo "Saved the renewed Instagram token."
+            else
+              echo "::warning::Instagram issued a new token, but SECRETS_TOKEN isn't set, so it couldn't be saved. Paste a fresh token into INSTAGRAM_TOKEN within 60 days (see README)."
+            fi
+          fi
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 tools/version_assets.py
+          if [ -z "$(git status --porcelain)" ]; then echo "No new posts."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Instagram: latest posts in the home page photo strip"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
+          gh api -X POST "repos/$GITHUB_REPOSITORY/pages/builds" > /dev/null || echo "Pages rebuilds on its own."
