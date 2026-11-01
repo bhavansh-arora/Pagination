@@ -50,6 +50,11 @@ def main():
         if new != js:
             loader.write_text(new, encoding="utf-8"); changed += 1
     print(f"{changed} files updated")
+    # The Squarespace code the editor hands out carries the intro screen's styling: keep it in step.
+    import sys
+    sys.dont_write_bytecode = True
+    import squarespace_code
+    squarespace_code.main()
 
 
 if __name__ == "__main__":

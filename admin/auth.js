@@ -12,6 +12,14 @@
   var C = window.SITE_EDITOR_CONFIG || {};
   var SESSION = C.sessionKey || "site-editor-session", ITER = 600000, enc = new TextEncoder(), dec = new TextDecoder();
   var DEFAULTS = { owner: (C.repo || {}).owner || "", repo: (C.repo || {}).repo || "", branch: (C.repo || {}).branch || "main" };
+  // Opened from a GitHub Pages address (owner.github.io/repo/admin/): that's the repository to suggest at setup.
+  (function () {
+    var m = location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+    if (!m) return;
+    DEFAULTS.owner = m[1];
+    var first = location.pathname.split("/")[1];
+    DEFAULTS.repo = first && first !== "admin" ? first : m[1] + ".github.io";
+  })();
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); };
   var conf = null, session = null;
@@ -402,6 +410,9 @@
       "<p class='a-hint'>Repository access: <b>" + esc(session.repo) + "</b> only · Repository permissions: <b>Contents → Read and write</b></p>" +
       field("t-new", "New token", { type: "password", icon: "key", placeholder: "github_pat_…", cls: "a-field--mono" }) +
       field("t-me", "Your password, to confirm", { type: "password", icon: "lock", ac: "current-password" }) +
+      // After moving the repository to another GitHub account: point the editor there, keeping everyone's logins.
+      "<details class='a-more'" + (session.owner ? "" : " open") + "><summary>Moved the repository to another account?</summary><div class='a-row3'>" +
+      field("t-owner", "Owner", { value: session.owner || "" }) + field("t-repo", "Repository", { value: session.repo || "" }) + "</div></details>" +
       "<p class='a-msg' id='t-msg' role='alert' hidden></p><div class='a-formfoot'><span></span>" + btn("Renew connection", "a-btn--primary", "type='submit'") + "</div></form></section>" +
       "<footer class='a-acct__owner'><button type='button' class='a-link' id='ac-owner'>" + (acctTab === "token" ? "Back to account" : "Owner settings") + "</button></footer>";
     wirePw(box, "#n-user");
@@ -450,11 +461,12 @@
       e.preventDefault();
       var msg = $("#t-msg"), token = $("#t-new").value.trim(), b = e.target.querySelector("button[type=submit]"), master;
       busy(b, true, "Checking…");
-      needMaster($("#t-me").value).then(function (m) { master = m; return checkToken(repoOf(), token); }).then(function () { return sealToken(master, token); }).then(function (sealed) {
-        return saveConf(repoOf(), token, Object.assign({}, conf, { token: sealed }), "Replace site editor GitHub token");
+      var rc = { owner: $("#t-owner").value.trim() || session.owner, repo: $("#t-repo").value.trim() || session.repo, branch: session.branch || "main" };
+      needMaster($("#t-me").value).then(function (m) { master = m; return checkToken(rc, token); }).then(function () { return sealToken(master, token); }).then(function (sealed) {
+        return saveConf(rc, token, Object.assign({}, conf, { token: sealed, owner: rc.owner, repo: rc.repo, branch: rc.branch }), "Replace site editor GitHub token");
       }).then(function () {
-        session.token = token; store(session, !!localStorage.getItem(SESSION));
-        if (window.__siteEditor) { window.__siteEditor.cfg.token = token; window.__siteEditor.updateUI(); }
+        session.token = token; session.owner = rc.owner; session.repo = rc.repo; session.branch = rc.branch; store(session, !!localStorage.getItem(SESSION));
+        if (window.__siteEditor) { var ec = window.__siteEditor.cfg; ec.token = token; ec.owner = rc.owner; ec.repo = rc.repo; ec.branch = rc.branch; window.__siteEditor.updateUI(); }
         acctTab = "team"; openAccount(); toast("Connection renewed for everyone.");
       }).catch(function (err) { busy(b, false, "Renew connection"); say(msg, err.message); });
     });

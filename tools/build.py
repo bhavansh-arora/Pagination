@@ -156,6 +156,7 @@ def footer():
     <div class="footer-bottom">
       <span>&copy; <span data-year>2026</span> Dan Reynolds Photography</span>
       <span>Illinois &amp; Wisconsin</span>
+      <span><a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a></span>
       <a href="#main">Back to top ↑</a>
     </div>
   </div>

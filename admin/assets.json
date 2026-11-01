@@ -1,5 +1,17 @@
 [
 {
+"src": "assets/img/bella-paxton-dance-1600.webp",
+"name": "bella-paxton-dance"
+},
+{
+"src": "assets/img/veil-laugh-1600.webp",
+"name": "veil-laugh"
+},
+{
+"src": "assets/img/abby-jake-7-1600.webp",
+"name": "abby-jake-7"
+},
+{
 "src": "assets/img/amanda-rick-1600.webp",
 "name": "amanda-rick"
 },
@@ -98,6 +110,10 @@
 {
 "src": "assets/img/ethan-gwyn-4-1600.webp",
 "name": "ethan-gwyn-4"
+},
+{
+"src": "assets/img/klarisa-sam-1-1600.webp",
+"name": "klarisa-sam-1"
 },
 {
 "src": "assets/img/ethan-gwyn-barn-1600.webp",
@@ -206,5 +222,49 @@
 {
 "src": "assets/img/yura-joe-2-1600.webp",
 "name": "yura-joe-2"
+},
+{
+"src": "assets/img/aerial-river-panorama-1600.webp",
+"name": "aerial-river-panorama"
+},
+{
+"src": "assets/img/aerial-main-street-1600.webp",
+"name": "aerial-main-street"
+},
+{
+"src": "assets/img/aerial-fireworks-1600.webp",
+"name": "aerial-fireworks"
+},
+{
+"src": "assets/img/aerial-lagoon-1600.webp",
+"name": "aerial-lagoon"
+},
+{
+"src": "assets/img/aerial-lagoon-park-1600.webp",
+"name": "aerial-lagoon-park"
+},
+{
+"src": "assets/img/aerial-whiting-hall-1600.webp",
+"name": "aerial-whiting-hall"
+},
+{
+"src": "assets/img/aerial-courthouse-square-1600.webp",
+"name": "aerial-courthouse-square"
+},
+{
+"src": "assets/img/aerial-whiting-hall-2-1600.webp",
+"name": "aerial-whiting-hall-2"
+},
+{
+"src": "assets/img/aerial-stadium-1600.webp",
+"name": "aerial-stadium"
+},
+{
+"src": "assets/img/aerial-farm-property-1600.webp",
+"name": "aerial-farm-property"
+},
+{
+"src": "assets/img/drone-closeup-1600.webp",
+"name": "drone-closeup"
 }
 ]

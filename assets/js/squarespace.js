@@ -12,8 +12,9 @@
   root.setAttribute("data-ready", "1");
   var HOST = new URL("../../", document.currentScript.src).href; // site root
   var PAGE = root.getAttribute("data-page") || "index.html";
-  var SLUGS = { "index.html": "/", "about.html": "/about", "portfolio.html": "/portfolio", "films.html": "/films",
-    "investment.html": "/investment", "contact.html": "/contact", "404.html": "/page-not-found", "thank-you.html": "/thank-you" };
+  // Links between pages go to the matching Squarespace page: "about.html" → "/about". Pages added later in the
+  // editor follow the same rule, so a new page only needs a Squarespace page with that URL. Exceptions:
+  var SLUGS = { "index.html": "/", "404.html": "/page-not-found" };
   // Pages and the editor's global styles: fresh within a minute of publishing.
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
@@ -58,8 +59,8 @@
 
   function abs(u) {
     if (!u || /^(https?:|data:|blob:|mailto:|tel:|#|\/\/)/.test(u)) return u;
-    var m = u.match(/^([a-z0-9-]+\.html)(#.*)?$/i);
-    if (m && SLUGS[m[1]]) return SLUGS[m[1]] + (m[2] || "");
+    var m = u.match(/^([a-z0-9-]+)\.html(#.*)?$/i);
+    if (m) return (SLUGS[m[1] + ".html"] || "/" + m[1].toLowerCase()) + (m[2] || "");
     return HOST + u.replace(/^\.\//, "");
   }
   function absUrls(text) { return text.replace(/url\((["']?)(?!https?:|data:|#)([^)"']+)\1\)/g, function (_, q, u) { return "url(" + q + HOST + u + q + ")"; }); }
@@ -69,7 +70,7 @@
   function dressForm(slot) {
     var HINTS = [[/first/i, "First name"], [/last/i, "Last name"], [/email/i, "you@example.com"], [/phone/i, "(000) 000-0000"],
       [/location|venue/i, "Venue, city"], [/special day|tell me more|your day/i, "Your story, your vision, the moments that matter most…"],
-      [/restaurant/i, "Your favorite place to eat"]];
+      [/restaurant/i, "Your favorite place to eat"], [/subject/i, "What's the project?"], [/message/i, "Tell us about the property, place or event…"]];
     function apply() {
       slot.querySelectorAll("input[type=text], input[type=email], input[type=tel], input:not([type]), textarea").forEach(function (el) {
         if (el.getAttribute("placeholder")) return;
@@ -147,9 +148,14 @@
       }).join(", "));
       if (el.hasAttribute("style")) el.setAttribute("style", absUrls(el.getAttribute("style")));
     });
-    // Contact page: the Squarespace Form block (with its integrations) takes the place of the site's form.
-    var form = doc.querySelector("form[data-inquiry]");
-    if (form) { var slot = doc.createElement("div"); slot.className = "sq-form-slot"; slot.id = "sq-form-slot"; form.replaceWith(slot); }
+    // Contact page (or any page with a form spot, [data-sq-form]): the Form block added on the Squarespace page,
+    // with its own fields, integrations and where submissions go, takes the place of the site's form.
+    var form = doc.querySelector("form[data-inquiry], [data-sq-form]");
+    if (form) {
+      var slot = doc.createElement("div"); slot.className = "sq-form-slot"; slot.id = "sq-form-slot";
+      if (form.tagName === "FORM") form.replaceWith(slot);
+      else { form.innerHTML = ""; form.appendChild(slot); } // a form spot keeps its panel; only what's inside is swapped
+    }
     while (doc.body.firstChild) frag.appendChild(document.adoptNode(doc.body.firstChild));
     root.innerHTML = "";
     root.appendChild(frag);

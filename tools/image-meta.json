@@ -579,5 +579,82 @@
 "c": "#413528",
 "fx": 51,
 "fy": 50
+},
+"aerial-river-panorama": {
+"w": 2500,
+"h": 741,
+"c": "#5f6a5d",
+"fx": 50,
+"fy": 50
+},
+"aerial-main-street": {
+"w": 2500,
+"h": 1874,
+"c": "#7c705d",
+"fx": 50,
+"fy": 50
+},
+"aerial-fireworks": {
+"w": 2500,
+"h": 1874,
+"c": "#411b1c",
+"fx": 50,
+"fy": 50
+},
+"aerial-lagoon": {
+"w": 2500,
+"h": 1874,
+"c": "#4e675c",
+"fx": 50,
+"fy": 50
+},
+"aerial-lagoon-park": {
+"w": 2500,
+"h": 1874,
+"c": "#617a7d",
+"fx": 50,
+"fy": 50
+},
+"aerial-whiting-hall": {
+"w": 2500,
+"h": 1875,
+"c": "#728569",
+"fx": 50,
+"fy": 50
+},
+"aerial-courthouse-square": {
+"w": 2500,
+"h": 1875,
+"c": "#7c9568",
+"fx": 50,
+"fy": 50
+},
+"aerial-whiting-hall-2": {
+"w": 2500,
+"h": 1875,
+"c": "#7c9064",
+"fx": 50,
+"fy": 50
+},
+"aerial-stadium": {
+"w": 2500,
+"h": 1874,
+"c": "#5f6e44",
+"fx": 50,
+"fy": 50
+},
+"aerial-farm-property": {
+"w": 2500,
+"h": 1874,
+"c": "#8b8f71",
+"fx": 50,
+"fy": 50
+},
+"drone-closeup": {
+"w": 2046,
+"h": 1387,
+"c": "#c3b28c",
+"fx": 50,
+"fy": 50
 }
 }

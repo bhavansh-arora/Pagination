@@ -23,7 +23,9 @@ window.SITE_EDITOR_CONFIG = {
 
   // Friendly names in the page picker (other .html files are listed automatically).
   pages: { "index.html": "Home", "about.html": "About", "portfolio.html": "Portfolio", "films.html": "Films",
-    "investment.html": "Investment", "contact.html": "Contact", "404.html": "404 page" },
+    "investment.html": "Investment", "contact.html": "Contact", "thank-you.html": "Thank you (after the form)",
+    "drone.html": "Drone", "st-louis-wedding-photographer.html": "St. Louis weddings", "links.html": "Links (Instagram bio)",
+    "privacy-policy.html": "Privacy policy", "terms-of-service.html": "Terms of use", "404.html": "404 page" },
 
   // Files and folders (paths from the site root).
   stylesheets: [
@@ -72,6 +74,8 @@ window.SITE_EDITOR_CONFIG = {
     ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #a5b993;border-radius:16px}",
     ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#a5b993}",
     ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}",
+    // Forms: on Squarespace, the Form block added to that Squarespace page shows here instead.
+    "form[data-inquiry]::before,[data-sq-form]::before{content:'On Squarespace, the Squarespace Form block on this page shows here instead';display:block;margin-bottom:14px;font:12px ui-monospace,monospace;color:#a5b993}",
     ".section>.container:empty::before{content:'Drop elements here';display:grid;place-items:center;min-height:78px;font:12px ui-monospace,monospace;color:rgba(198,164,106,.8)}",
     ".section>.container{min-height:96px;padding-block:16px}",
     ".stack:empty,.container:empty{min-height:96px}"
@@ -110,8 +114,8 @@ window.SITE_EDITOR_CONFIG = {
         '<div class="page-hero__grid"><h1 class="h-xl page-hero__title">A bold headline,<br><em>beautifully said.</em></h1><p class="lede">A short introduction to this page. Click any text to edit it.</p></div></div></section>'],
       ["sec-heading", "Sections", "Section heading", ico('<path d="M5 6h14M5 11h9"/><path d="M5 17h6"/>'),
         wrap(head("01", "Section label", "Two lines of<br><em>headline.</em>", "A sentence that supports the headline."))],
-      ["sec-statement", "Sections", "Statement with photos", ico('<path d="M4 8h9M4 13h16M4 18h11"/><rect x="15" y="6" width="5" height="4" rx="2"/>'),
-        wrap('<div class="head__top"><span class="label">(01) — Label</span><span class="label">Right label</span></div><p class="statement mt-l">A big, confident sentence<span class="inline-img" style="background-image:url(' + IMG("golden-hour-portrait") + ')"></span> with little photos set right <em>inside the words.</em></p>')],
+      ["sec-statement", "Sections", "Statement", ico('<path d="M4 8h9M4 13h16M4 18h11"/>'),
+        wrap('<div class="head__top"><span class="label">(01) — Label</span><span class="label">Right label</span></div><p class="statement mt-l">A big, confident sentence with an <em>accent in the words.</em></p>')],
       ["sec-split", "Sections", "Image + text", ico('<rect x="3" y="5" width="8" height="14" rx="2"/><path d="M14 8h7M14 12h7M14 16h5"/>'),
         wrap('<div class="ed-cols ed-cols--2" style="align-items:center">' + media("dan-filming", "Describe this photo", "ratio-portrait") +
         '<div class="stack"><span class="label">Label</span><h2 class="h-lg">Headline with an <em>accent.</em></h2><p class="body">Write a paragraph here. Click to edit text, double-click the photo to replace it.</p>' + btn("Call to action", "contact.html") + "</div></div>")],
@@ -155,6 +159,9 @@ window.SITE_EDITOR_CONFIG = {
         wrap('<div class="gallery-grid">' + ["colin-amanda-2", "lexi-lucas-6", "ethan-gwyn-3", "roseleina-cameron-1", "quinn-charlotte-1", "brian-tori"].map(function (n) { return media(n, "Wedding photo", ""); }).join("") + "</div>")],
       ["sec-banner", "Sections", "Full-width photo", ico('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 15l6-5 5 4 3-2 6 4"/>'),
         '<div class="frame">' + media("chicago-skyline-couple", "Describe this photo", "ratio-cinema") + "</div>"],
+      ["sec-sqform", "Sections", "Squarespace form", ico('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/>'),
+        wrap('<div class="ed-cols ed-cols--2"><div class="stack"><span class="label">Let\'s talk</span><h2 class="h-xl">Tell us about<br>your <em>day.</em></h2><p class="lede">A sentence inviting people to get in touch.</p></div>' +
+        '<div class="form-panel" data-sq-form><p class="body">Add a Form block to this page in Squarespace: it appears here, styled like the site.</p>' + btn("Send an inquiry", "contact.html") + "</div></div>")],
       ["sec-cta", "Sections", "Call to action", ico('<rect x="3" y="7" width="18" height="10" rx="5"/><path d="M9 12h6"/>'),
         wrap('<a class="tile tile--gold" href="contact.html" style="min-height:0;flex-direction:row;flex-wrap:wrap;align-items:center"><div><span class="label">Limited dates</span><p class="h-lg mt-s">Let\'s tell <em>your story.</em></p></div><span class="circle-btn">' + ARROW_UR + "</span></a>")],
       ["sec-marquee", "Sections", "Scrolling words", ico('<path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/>'),

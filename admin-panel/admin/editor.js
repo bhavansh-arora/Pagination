@@ -969,6 +969,7 @@
     $("#ed-discard").disabled = !pending || !!state.busy;
     $("#ed-live").href = SITE + (state.target.charAt(0) === "@" ? "index.html" : state.target);
     $("#ed-page-settings").disabled = state.target.charAt(0) === "@";
+    $("#ed-sqs").disabled = state.target.charAt(0) === "@";
   }
   function fillTargets() {
     var sel = $("#ed-target");
@@ -1174,6 +1175,36 @@
     load(t);
   });
   $("#ed-page-settings").addEventListener("click", function () { if (window.__seo) window.__seo.open(); });
+  // Squarespace: the code for a Code block that shows this page on a Squarespace page (admin/squarespace-code.html,
+  // filled in with this page and this site's own address, so it works wherever the site is hosted).
+  function sqsSlug(file) {
+    return file === "index.html" ? "/" : file === "404.html" ? "/page-not-found" : "/" + file.replace(/\.html$/, "").toLowerCase();
+  }
+  $("#ed-sqs").addEventListener("click", function () {
+    var file = state.target;
+    if (file.charAt(0) === "@") return;
+    var name = PAGE_NAMES[file] || file.replace(/\.html$/, "").replace(/-/g, " ");
+    fetch("squarespace-code.html", { cache: "no-cache" }).then(function (r) {
+      if (!r.ok) throw new Error("the code template is missing (admin/squarespace-code.html)");
+      return r.text();
+    }).then(function (tpl) {
+      $("#sqs-code").value = tpl.split("{{HOST}}").join(SITE).split("{{PAGE}}").join(file).split("{{NAME}}").join(name + " page");
+      $("#sqs-name").textContent = "the " + name + " page";
+      $("#sqs-slug").textContent = sqsSlug(file);
+      var doc = editor.Canvas.getDocument();
+      $("#sqs-form-step").hidden = !(doc && doc.querySelector("form[data-inquiry], [data-sq-form]"));
+      $("#sqs-copy").textContent = "Copy code";
+      openModal("#m-sqs");
+      setTimeout(function () { $("#sqs-code").scrollTop = 0; }, 60);
+    }).catch(function (e) { toast("Couldn't get the Squarespace code: " + e.message, true); });
+  });
+  // Sites that aren't shown on Squarespace have no code template: no button.
+  fetch("squarespace-code.html", { method: "HEAD", cache: "no-cache" }).then(function (r) { if (!r.ok) $("#ed-sqs").hidden = true; }, function () {});
+  $("#sqs-copy").addEventListener("click", function () {
+    var ta = $("#sqs-code"), done = function () { $("#sqs-copy").textContent = "Copied ✓"; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); document.execCommand("copy"); done(); });
+    else { ta.select(); document.execCommand("copy"); done(); }
+  });
   $("#ed-new-page").addEventListener("click", function () {
     if (!cfg.token) { openSettings("Sign in to add pages."); return; }
     $("#f-new").reset(); openModal("#m-new");
