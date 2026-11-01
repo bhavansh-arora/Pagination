@@ -343,6 +343,12 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .has-gsap [data-scrub-words] .inline-img { opacity: 0.35; transition: opacity 0.3s; }
 .has-gsap [data-scrub-words].is-lit .inline-img { opacity: 1; }
 .statement-foot { margin-top: clamp(32px, 4vw, 56px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
+/* With a photo: pills and a greeting on the left, the photo filling the space on the right (below them on phones) */
+.statement-foot--photo { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 28px; }
+.statement-foot__info { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 28px; }
+.statement-hello { display: grid; gap: 16px; justify-items: start; }
+.statement-photo { margin: 0; }
+@media (min-width: 900px) { .statement-foot--photo { grid-template-columns: minmax(0, 1fr) minmax(0, 46%); gap: clamp(32px, 5vw, 80px); } }
 
 /* ---------- Bento grid ---------- */
 .bento { display: grid; gap: 10px; grid-template-columns: 1fr; }
