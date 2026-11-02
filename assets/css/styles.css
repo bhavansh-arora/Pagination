@@ -350,6 +350,8 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .statement-hello { display: grid; gap: 16px; justify-items: start; }
 .studio-stats { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px 32px; width: 100%; padding-block: clamp(22px, 3vw, 34px); border-block: 1px solid var(--line); }
 .studio-stat p { margin-top: 14px; color: var(--ink-2); font-size: 0.92rem; line-height: 1.55; max-width: 30ch; }
+.studio-quote { margin: 0; display: grid; gap: 16px; padding-left: 20px; border-left: 2px solid var(--accent); }
+.studio-quote p { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem); line-height: 1.45; color: var(--ink); }
 .studio-collage { position: relative; margin: 0; }
 .studio-collage__main { border-radius: var(--r-xl); }
 /* Phones: a smaller photo (about a quarter of the screen), cropped in on Dan & Lydia */
@@ -360,6 +362,9 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 }
 @media (min-width: 900px) {
   .statement-foot--photo { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 6vw, 96px); }
+  /* The photo runs the full height of the column beside it */
+  .studio-collage { display: flex; }
+  .studio-collage .studio-collage__main { aspect-ratio: auto; flex: 1; min-height: 460px; }
 }
 
 
