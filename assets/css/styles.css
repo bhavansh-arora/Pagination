@@ -344,12 +344,27 @@ a:hover .zoom img, .zoom:hover img { transform: scale(1.05); }
 .has-gsap [data-scrub-words] .inline-img { opacity: 0.35; transition: opacity 0.3s; }
 .has-gsap [data-scrub-words].is-lit .inline-img { opacity: 1; }
 .statement-foot { margin-top: clamp(32px, 4vw, 56px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
-/* With a photo: pills and a greeting on the left, the photo filling the space on the right (below them on phones) */
-.statement-foot--photo { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 28px; }
-.statement-foot__info { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 28px; }
+/* Studio intro: pills, two numbers and a greeting on the left; a layered photo collage with a turning badge on the right */
+.statement-foot--photo { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: clamp(40px, 6vw, 56px); }
+.statement-foot__info { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: clamp(26px, 3vw, 36px); }
 .statement-hello { display: grid; gap: 16px; justify-items: start; }
-.statement-photo { margin: 0; }
-@media (min-width: 900px) { .statement-foot--photo { grid-template-columns: minmax(0, 1fr) minmax(0, 46%); gap: clamp(32px, 5vw, 80px); } }
+.studio-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 32px; width: 100%; padding-block: clamp(22px, 3vw, 34px); border-block: 1px solid var(--line); }
+.studio-stat p { margin-top: 14px; color: var(--ink-2); font-size: 0.92rem; line-height: 1.55; max-width: 24ch; }
+.studio-collage { position: relative; margin: 0 0 56px; }
+.studio-collage__main { border-radius: var(--r-xl); }
+.studio-collage__inset { position: absolute; z-index: 2; left: 14px; bottom: -48px; width: 38%; transform: rotate(-4deg); }
+.studio-collage__inset .media { aspect-ratio: 3 / 4; border-radius: var(--r-lg); border: 5px solid var(--paper); box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.75); }
+.studio-badge { position: absolute; z-index: 3; top: -40px; right: 12px; width: clamp(96px, 9vw, 132px); aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: var(--paper); border: 1px solid var(--line-gold); box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7); }
+.studio-badge__ring { position: absolute; inset: 0; width: 100%; height: 100%; animation: studio-spin 26s linear infinite; }
+.studio-badge__ring text { font-family: var(--mono); font-size: 8.4px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; fill: var(--ink-2); }
+.studio-badge__mark { font-family: var(--serif); font-style: italic; font-size: clamp(1.8rem, 1.4rem + 1vw, 2.5rem); line-height: 1; color: var(--gold-hi); }
+@keyframes studio-spin { to { transform: rotate(360deg); } }
+@media (min-width: 900px) {
+  .statement-foot--photo { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 6vw, 96px); }
+  .studio-collage { margin: 0 0 clamp(40px, 5vw, 72px) clamp(24px, 4vw, 64px); }
+  .studio-collage__inset { left: clamp(-64px, -4.5vw, -28px); bottom: clamp(-72px, -5vw, -40px); width: 32%; }
+  .studio-badge { top: clamp(-60px, -4vw, -40px); right: clamp(-20px, -1.4vw, -10px); }
+}
 
 /* ---------- Bento grid ---------- */
 .bento { display: grid; gap: 10px; grid-template-columns: 1fr; }
