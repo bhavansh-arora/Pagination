@@ -182,7 +182,7 @@ window.SITE_EDITOR_CONFIG = {
         wrap(head("06", "Collections", "Choose your<br><em>story.</em>") + '<div class="pricing" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">' +
         ["lexi-lucas-9", "dan-bts"].map(function (n, i) {
           return '<article class="price-card' + (i ? " price-card--feature" : "") + '">' + media(n, "Package photo", "") + '<div class="price-card__body"><div class="price-card__head"><span class="label">Package name</span><span class="pill">6 hours</span></div>' +
-            '<div class="price"><small>From</small><strong>$3,500</strong></div><ul class="checklist"><li>Included item</li><li>Included item</li><li>Included item</li></ul>' + btn("Enquire", "contact.html", i ? "btn--gold btn--block" : "btn--ghost btn--block") + "</div></article>";
+            '<div class="price"><small>From</small><strong>$3,500</strong></div><ul class="checklist"><li>Included item</li><li>Included item</li><li>Included item</li></ul>' + btn("Inquire here", "contact.html", i ? "btn--gold btn--block" : "btn--ghost btn--block") + "</div></article>";
         }).join("") + "</div>")],
       ["sec-faq", "Sections", "FAQ", ico('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17h.01"/>'),
         wrap('<div class="faq-layout"><div class="faq-layout__aside stack"><span class="label">(07) — FAQ</span><h2 class="h-xl">Questions,<br><em>answered.</em></h2></div><div class="faq">' +
@@ -218,7 +218,7 @@ window.SITE_EDITOR_CONFIG = {
       ["el-heading", "Elements", "Heading", ico('<path d="M6 5v14M18 5v14M6 12h12"/>'), '<h2 class="h-lg">A heading with an <em>accent</em></h2>'],
       ["el-text", "Elements", "Paragraph", ico('<path d="M4 7h16M4 12h16M4 17h10"/>'), '<p class="body">Write something here. Select text to make it bold, italic or a link.</p>'],
       ["el-label", "Elements", "Small label", ico('<path d="M4 12h3M10 12h10"/>'), '<span class="label label--dot">Small label</span>'],
-      ["el-button", "Elements", "Gold button", ico('<rect x="3" y="8" width="18" height="8" rx="4"/>'), btn("Check your date", "contact.html")],
+      ["el-button", "Elements", "Gold button", ico('<rect x="3" y="8" width="18" height="8" rx="4"/>'), btn("Inquire here", "contact.html")],
       ["el-button2", "Elements", "Outline button", ico('<rect x="3" y="8" width="18" height="8" rx="4" stroke-dasharray="2 2"/>'), btn("See the work", "portfolio.html", "btn--ghost")],
       ["el-link", "Elements", "Text link", ico('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'), '<a class="link" href="about.html">Read more ' + ARROW + "</a>"],
       ["el-image", "Elements", "Photo", ico('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M3 17l5-4 4 3 3-2 6 4"/>'), media("golden-hour-portrait", "Describe this photo", "ratio-land")],
