@@ -12,6 +12,11 @@
   root.setAttribute("data-ready", "1");
   var HOST = new URL("../../", document.currentScript.src).href; // site root
   var PAGE = root.getAttribute("data-page") || "index.html";
+  // One Squarespace page (/post) shows every blog post: /post?p=<post> loads blog-<post>.html.
+  if (PAGE === "@post") {
+    var post = (new URLSearchParams(location.search).get("p") || "").toLowerCase().replace(/[^a-z0-9-]/g, "");
+    PAGE = post ? "blog-" + post + ".html" : "blog.html";
+  }
   // Links between pages go to the matching Squarespace page: "about.html" → "/about". Pages added later in the
   // editor follow the same rule, so a new page only needs a Squarespace page with that URL. Exceptions:
   var SLUGS = { "index.html": "/", "404.html": "/page-not-found" };
@@ -19,7 +24,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"f8949028","assets/js/main.js":"1346b813","assets/js/motion.js":"cec808e3","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"427834de"};
+  var HASH = {"assets/css/styles.css":"890fdf7e","assets/js/main.js":"1346b813","assets/js/motion.js":"cec808e3","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"427834de"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
 
@@ -59,6 +64,8 @@
 
   function abs(u) {
     if (!u || /^(https?:|data:|blob:|mailto:|tel:|#|\/\/)/.test(u)) return u;
+    var bp = u.match(/^blog-([a-z0-9-]+)\.html(#.*)?$/i);
+    if (bp) return "/post?p=" + bp[1].toLowerCase() + (bp[2] || "");
     var m = u.match(/^([a-z0-9-]+)\.html(#.*)?$/i);
     if (m) return (SLUGS[m[1] + ".html"] || "/" + m[1].toLowerCase()) + (m[2] || "");
     return HOST + u.replace(/^\.\//, "");
