@@ -41,14 +41,19 @@ def build():
               ".page-section:has(#drx-live) .content,.page-section:has(#drx-live) .fluid-engine,.fe-block:has(#drx-live),"
               ".sqs-block:has(#drx-live){background:var(--paper,#14100d)!important}"
               ".page-section:has(#drx-live) .section-background,#header,.header-announcement-bar-wrapper,#footer-sections,footer.sections{display:none!important}"
-              ".page-section:has(#drx-live){padding:0!important;min-height:100vh}#drx-live{min-height:100vh}")
+              ".page-section:has(#drx-live){padding:0!important;min-height:100vh}#drx-live{min-height:100vh}"
+              # The plain copy of the page (for search engines and link previews): readable if it's ever shown.
+              ".drx-booting .drx-seo{visibility:hidden}.drx-seo{max-width:760px;margin:0 auto;padding:110px 20px 64px;color:#f3ede3;font:17px/1.7 Georgia,serif}"
+              ".drx-seo h1{font-size:2.4em;line-height:1.1;margin:0 0 .5em}.drx-seo h2,.drx-seo h3{font-size:1.5em;line-height:1.2;margin:1.4em 0 .4em}"
+              ".drx-seo p,.drx-seo ul,.drx-seo ol{margin:0 0 1em}.drx-seo a{color:#a5b993}.drx-seo img{display:block;max-width:100%;height:auto;margin:1em 0;border-radius:12px}")
     index = (ROOT / "index.html").read_text(encoding="utf-8")
     intro_html = block(index, "preloader") + "\n" + block(index, "curtain")
     # Start-up: the curtain after a page change (as on the site); otherwise the intro screen with its counter.
-    boot = ("<script>window.__drBooted=1;try{var d=document.documentElement;"
+    # (drx-booting keeps the plain copy of the page invisible while the live page loads; it shows if loading fails.)
+    boot = ("<script>window.__drBooted=1;try{var d=document.documentElement;d.classList.add(\"drx-booting\");"
             "if(sessionStorage.getItem(\"dr-nav\")){d.classList.add(\"is-entering\");sessionStorage.removeItem(\"dr-nav\")}"
             "else if(!matchMedia(\"(prefers-reduced-motion: reduce)\").matches){d.classList.add(\"is-loading\")}"
-            "setTimeout(function(){d.classList.remove(\"is-loading\",\"is-entering\")},20000)}catch(e){}</script>")
+            "setTimeout(function(){d.classList.remove(\"is-loading\",\"is-entering\",\"drx-booting\")},20000)}catch(e){}</script>")
     # Order matters: the start-up script must run before any stylesheet is pending.
     return ('<!-- Dan Reynolds Photography · {{NAME}} (live from the site editor). Paste ALL of this into one Code Block. -->\n'
             f'{boot}\n<style>\n{sq_css}\n{intro_css}\n</style>\n{intro_html}\n<link rel="stylesheet" href="{FONTS}">\n'

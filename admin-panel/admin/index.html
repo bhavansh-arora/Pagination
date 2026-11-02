@@ -112,6 +112,12 @@
       <li>Save in Squarespace. That's it: from now on, every <strong>Publish</strong> here updates the Squarespace page by itself.</li>
     </ol>
     <label>Code for the Code block<textarea id="sqs-code" rows="7" readonly spellcheck="false"></textarea></label>
+    <p class="ed-muted ed-small">The code includes a plain copy of this page's text, so Google and link previews see it straight away. After changing a lot of this page's text, copy the code again and replace it in Squarespace (small changes show on the site either way).</p>
+    <div id="sqs-seo" class="ed-sqs-seo" hidden>
+      <p class="ed-small"><b>Squarespace SEO settings for this page</b> (page settings → SEO): paste these so Google and link previews match.</p>
+      <label>SEO title<span class="ed-sqs-row"><input id="sqs-seo-title" readonly><button class="ed-btn ed-btn--ghost" type="button" data-copy="#sqs-seo-title">Copy</button></span></label>
+      <label>SEO description<span class="ed-sqs-row"><textarea id="sqs-seo-desc" rows="2" readonly></textarea><button class="ed-btn ed-btn--ghost" type="button" data-copy="#sqs-seo-desc">Copy</button></span></label>
+    </div>
     <div class="ed-actions">
       <button class="ed-btn ed-btn--ghost" type="button" data-close>Close</button>
       <button class="ed-btn ed-btn--gold" type="button" id="sqs-copy">Copy code</button>

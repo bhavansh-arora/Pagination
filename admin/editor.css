@@ -740,3 +740,6 @@ html.auth-open body > *:not(.auth):not(script) { display: none !important; }
 .ed-blog .ed-check input { width: auto; }
 .ed-blog__msg { margin: 0; padding: 10px 12px; border-radius: 10px; background: #fdecea; color: #a12a1a; font-size: 12.5px; }
 .ed-blog code { font: 11.5px ui-monospace, Menlo, monospace; padding: 0 4px; border-radius: 4px; background: var(--e-panel-2); }
+
+.ed-sqs-seo { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: var(--e-panel-2); border: 1px solid var(--e-line); }
+.ed-sqs-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }

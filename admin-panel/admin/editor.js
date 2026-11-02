@@ -1182,6 +1182,52 @@
   function sqsSlug(file) {
     return file === "index.html" ? "/" : file === "404.html" ? "/page-not-found" : "/" + file.replace(/\.html$/, "").toLowerCase();
   }
+  // A plain copy of the page (headings, text, links, photos with their descriptions, structured data) that goes
+  // inside the Squarespace code, so search engines and link previews get the page's content in Squarespace's own
+  // HTML, before any script runs. The live page replaces it as soon as it loads (and it stays if that ever fails).
+  function seoSnapshot(src) {
+    var main = region(src, "main"); if (main == null) return "";
+    var doc = new DOMParser().parseFromString("<!doctype html><html><body>" + main + "</body></html>", "text/html");
+    doc.body.querySelectorAll("script, style, svg, noscript, iframe, video, form, template, [aria-hidden='true'], .preloader, .curtain").forEach(function (x) { x.remove(); });
+    var KEEP = { H1: 1, H2: 1, H3: 1, H4: 1, P: 1, UL: 1, OL: 1, LI: 1, A: 1, IMG: 1, BLOCKQUOTE: 1, STRONG: 1, EM: 1, BR: 1, FIGURE: 1, FIGCAPTION: 1 };
+    var root = SITE.replace(/\/$/, "") + "/";
+    function link(u) {
+      if (!u || /^(https?:|mailto:|tel:|#)/.test(u)) return u;
+      var bp = u.match(/^blog-([a-z0-9-]+)\.html(#.*)?$/i); if (bp) return "/post?p=" + bp[1].toLowerCase() + (bp[2] || "");
+      var m = u.match(/^([a-z0-9-]+)\.html(#.*)?$/i);
+      if (m) return (m[1] === "index" ? "/" : m[1] === "404" ? "/page-not-found" : "/" + m[1].toLowerCase()) + (m[2] || "");
+      return root + u.replace(/^\.?\//, "");
+    }
+    function walk(node) {
+      var out = "", prevEl = false;
+      node.childNodes.forEach(function (c) {
+        if (c.nodeType === 3) { out += esc(c.textContent.replace(/\s+/g, " ")); if (c.textContent.trim()) prevEl = false; return; }
+        if (c.nodeType !== 1) return;
+        if (prevEl && c.tagName !== "BR") out += " ";  // side-by-side items (pills, rotating words) keep a space between them
+        prevEl = true;
+        var t = c.tagName, inner;
+        if (t === "IMG") {
+          var alt = c.getAttribute("alt"), s = (c.getAttribute("src") || "").split("?")[0];
+          if (alt && s && !/^data:/.test(s)) out += '<img src="' + esc(/^https?:/.test(s) ? s : root + s) + '" alt="' + esc(alt) + '" loading="lazy">';
+          return;
+        }
+        inner = walk(c);
+        if (!KEEP[t]) { out += inner + (/^(DIV|SECTION|ARTICLE|HEADER|FOOTER|ASIDE|NAV|MAIN)$/.test(t) ? " " : ""); return; }
+        if (t === "BR") { out += "<br>"; return; }
+        if (!inner.replace(/<br>|\s/g, "")) return;
+        if (t === "A") { var h = link(c.getAttribute("href")); out += h ? '<a href="' + esc(h) + '">' + inner.trim() + "</a>" : inner; return; }
+        var tag = t.toLowerCase();
+        // Headings with a spoken label (e.g. rotating words) use it: it reads as the full sentence.
+        if (/^H[1-4]$/.test(t) && c.getAttribute("aria-label")) inner = esc(c.getAttribute("aria-label"));
+        out += "<" + tag + ">" + inner.trim() + "</" + tag + ">";
+      });
+      return out;
+    }
+    var body = walk(doc.body).replace(/\s{2,}/g, " ").trim();
+    var ld = (headOf(src).match(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g) || []).join("");
+    // (The structured data goes right after the page's spot, not inside it, so it stays once the live page replaces the copy.)
+    return { html: body ? '<div class="drx-seo">' + body + "</div>" : "", ld: ld };
+  }
   $("#ed-sqs").addEventListener("click", function () {
     var file = state.target;
     if (file.charAt(0) === "@") return;
@@ -1190,11 +1236,22 @@
     var post = C.blog && file.indexOf(C.blog.prefix || "blog-") === 0;
     if (post) { page = "@post"; slug = "/post"; name = "blog post"; }
     $("#sqs-post-note").hidden = !post;
-    fetch("squarespace-code.html", { cache: "no-cache" }).then(function (r) {
+    Promise.all([fetch("squarespace-code.html", { cache: "no-cache" }).then(function (r) {
       if (!r.ok) throw new Error("the code template is missing (admin/squarespace-code.html)");
       return r.text();
-    }).then(function (tpl) {
-      $("#sqs-code").value = tpl.split("{{HOST}}").join(SITE).split("{{PAGE}}").join(page).split("{{NAME}}").join(name + " page");
+    }), post ? Promise.resolve("") : readFile(file).catch(function () { return ""; })]).then(function (res) {
+      var tpl = res[0], src = res[1], snap = src ? seoSnapshot(src) : { html: "", ld: "" }, meta = src ? getMeta(src) : null;
+      var code = tpl.split("{{HOST}}").join(SITE).split("{{PAGE}}").join(page).split("{{NAME}}").join(name + " page");
+      code = code.replace('<div id="drx-live" data-page="' + page + '"></div>', function () { return '<div id="drx-live" data-page="' + page + '">' + snap.html + "</div>" + snap.ld; });
+      $("#sqs-code").value = code;
+      // What to type into the Squarespace page's own SEO settings (Squarespace adds the site name to the title itself).
+      var seoBox = $("#sqs-seo");
+      seoBox.hidden = !meta;
+      if (meta) {
+        var suffix = C.titleSuffix || "", t = meta.title;
+        if (suffix && t.slice(-suffix.length) === suffix) t = t.slice(0, -suffix.length);
+        $("#sqs-seo-title").value = t; $("#sqs-seo-desc").value = meta.desc || "";
+      }
       $("#sqs-name").textContent = post ? "blog posts" : "the " + name + " page";
       $("#sqs-slug").textContent = slug;
       var doc = editor.Canvas.getDocument();
@@ -1206,6 +1263,13 @@
   });
   // Sites that aren't shown on Squarespace have no code template: no button.
   fetch("squarespace-code.html", { method: "HEAD", cache: "no-cache" }).then(function (r) { if (!r.ok) $("#ed-sqs").hidden = true; }, function () {});
+  document.querySelectorAll("#m-sqs [data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var f = $(b.getAttribute("data-copy")), done = function () { b.textContent = "Copied ✓"; setTimeout(function () { b.textContent = "Copy"; }, 1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(f.value).then(done, function () { f.select(); document.execCommand("copy"); done(); });
+      else { f.select(); document.execCommand("copy"); done(); }
+    });
+  });
   $("#sqs-copy").addEventListener("click", function () {
     var ta = $("#sqs-code"), done = function () { $("#sqs-copy").textContent = "Copied ✓"; };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); document.execCommand("copy"); done(); });

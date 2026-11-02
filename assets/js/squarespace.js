@@ -139,7 +139,9 @@
       var mine = document.querySelector('meta[name="description"]') || document.head.appendChild(document.createElement("meta"));
       mine.setAttribute("name", "description"); mine.setAttribute("content", desc.getAttribute("content"));
     }
-    doc.querySelectorAll('script[type="application/ld+json"]').forEach(function (s) { document.head.appendChild(s.cloneNode(true)); });
+    // (Skipped when the pasted code already carries the same structured data, so it isn't there twice.)
+    var haveLd = Array.prototype.map.call(document.querySelectorAll('script[type="application/ld+json"]'), function (s) { return s.textContent.trim(); });
+    doc.querySelectorAll('script[type="application/ld+json"]').forEach(function (s) { if (haveLd.indexOf(s.textContent.trim()) < 0) document.head.appendChild(s.cloneNode(true)); });
 
     // The page itself: per-page styles plus everything in <body> except the site's own scripts.
     var frag = document.createDocumentFragment();
@@ -164,8 +166,9 @@
       else { form.innerHTML = ""; form.appendChild(slot); } // a form spot keeps its panel; only what's inside is swapped
     }
     while (doc.body.firstChild) frag.appendChild(document.adoptNode(doc.body.firstChild));
-    root.innerHTML = "";
+    root.innerHTML = "";   // (replaces the plain copy of the page that came with the pasted code)
     root.appendChild(frag);
+    d.classList.remove("drx-booting");
 
     var sqForm = document.querySelector(".sqs-block-form"), slotEl = document.getElementById("sq-form-slot");
     if (sqForm && slotEl) { var holder = sqForm.closest(".fe-block"); slotEl.appendChild(sqForm); if (holder) holder.style.display = "none"; dressForm(slotEl); }
@@ -180,6 +183,8 @@
     setTimeout(refresh, 1200);
   }).catch(function () {
     d.classList.remove("is-loading", "is-entering");
-    root.innerHTML = '<div class="drx-loading">This page could not be loaded. Please refresh.</div>';
+    // The plain copy of the page in the pasted code stays readable; otherwise say what happened.
+    d.classList.remove("drx-booting");
+    if (!root.querySelector(".drx-seo")) root.innerHTML = '<div class="drx-loading">This page could not be loaded. Please refresh.</div>';
   });
 })();
