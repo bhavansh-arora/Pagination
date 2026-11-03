@@ -743,3 +743,15 @@ html.auth-open body > *:not(.auth):not(script) { display: none !important; }
 
 .ed-sqs-seo { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: var(--e-panel-2); border: 1px solid var(--e-line); }
 .ed-sqs-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }
+
+/* Blog panel: Write with AI */
+.ed-ai { display: grid; gap: 10px; padding: 14px; border-radius: 12px; border: 1px solid #d9cba8; background: linear-gradient(180deg, #fbf7ee, #f6efe0); }
+.ed-ai__head { display: grid; gap: 2px; }
+.ed-ai__head b { font-size: 13.5px; }
+.ed-ai__row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 10px; }
+.ed-ai__foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ed-ai__foot #ai-status { color: var(--e-muted); }
+.ed-ai__foot #ai-status.is-error { color: #a12a1a; }
+.ed-ai__foot #ai-status.is-ok { color: #2f6b3a; }
+.ed-ai.is-busy { opacity: 0.85; }
+.ed-ai.is-busy #ai-go { pointer-events: none; }
