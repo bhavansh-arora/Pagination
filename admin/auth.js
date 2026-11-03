@@ -124,10 +124,10 @@
     if (started) return; started = true;
     document.documentElement.classList.remove("auth-open");
     session = sess;
-    window.__editorAuth = sess ? { owner: sess.owner, repo: sess.repo, branch: sess.branch, token: sess.token, user: sess.user, ai: sess.ai || "" } : null;
+    window.__editorAuth = sess ? { owner: sess.owner, repo: sess.repo, branch: sess.branch, token: sess.token, user: sess.user } : null;
     $("#auth").classList.add("is-done");
     setTimeout(function () { $("#auth").hidden = true; }, 400);
-    ["vendor/grapes.min.js", "editor.js", "media.js", "inspector.js", "seo.js", "ai.js", "blog.js"].forEach(function (src) {
+    ["vendor/grapes.min.js", "editor.js", "media.js", "inspector.js", "seo.js", "blog.js"].forEach(function (src) {
       var s = document.createElement("script"); s.src = src; s.async = false; document.body.appendChild(s);
     });
   }
@@ -233,13 +233,8 @@
       busy(b, true, "Signing in…"); say(msg, "");
       // Same work whether or not the user exists, so the response doesn't reveal valid usernames.
       var attempt = user ? unwrapMaster(user, pw) : pwKey(pw, rand(16), ITER).then(function () { throw new Error("no user"); });
-      var master0;
-      attempt.then(function (master) { master0 = master; return openToken(master, conf.token); }).then(function (token) {
-        // The AI writing key (if the owner added one) unlocks with the same password.
-        return (conf.ai ? openToken(master0, conf.ai).catch(function () { return ""; }) : Promise.resolve("")).then(function (ai) { return { token: token, ai: ai }; });
-      }).then(function (r) {
-        var token = r.token;
-        var sess = { owner: conf.owner, repo: conf.repo, branch: conf.branch, token: token, user: name, ai: r.ai || "" };
+      attempt.then(function (master) { return openToken(master, conf.token); }).then(function (token) {
+        var sess = { owner: conf.owner, repo: conf.repo, branch: conf.branch, token: token, user: name };
         store(sess, $("#a-remember").checked);
         busy(b, true, "Opening the editor…");
         startEditor(sess);
@@ -418,15 +413,7 @@
       // After moving the repository to another GitHub account: point the editor there, keeping everyone's logins.
       "<details class='a-more'" + (session.owner ? "" : " open") + "><summary>Moved the repository to another account?</summary><div class='a-row3'>" +
       field("t-owner", "Owner", { value: session.owner || "" }) + field("t-repo", "Repository", { value: session.repo || "" }) + "</div></details>" +
-      "<p class='a-msg' id='t-msg' role='alert' hidden></p><div class='a-formfoot'><span></span>" + btn("Renew connection", "a-btn--primary", "type='submit'") + "</div></form>" +
-      // AI writing (Blog panel → Draft with AI): an Anthropic API key, stored encrypted like the GitHub token.
-      "<form id='ac-ai' class='a-form' novalidate><h3>AI writing</h3><p class='a-lede'>Lets the Blog panel draft SEO-friendly posts with Claude. Create an API key in the Anthropic Console and paste it here; it's stored encrypted and unlocked with each person's password." +
-      (conf && conf.ai ? " <b>A key is set.</b>" : "") + "</p>" +
-      "<a class='a-btn a-btn--dark a-btn--sm a-self' href='https://console.anthropic.com/settings/keys' target='_blank' rel='noopener'><span>Create a key in the Anthropic Console</span>" + I.ext + "</a>" +
-      field("ai-key", conf && conf.ai ? "Replace the API key" : "Anthropic API key", { type: "password", icon: "key", placeholder: "sk-ant-…", cls: "a-field--mono" }) +
-      field("ai-me", "Your password, to confirm", { type: "password", icon: "lock", ac: "current-password" }) +
-      "<p class='a-msg' id='ai-msg' role='alert' hidden></p><div class='a-formfoot'>" + (conf && conf.ai ? "<button type='button' class='a-link' id='ai-remove'>Remove the key</button>" : "<span></span>") +
-      btn(conf && conf.ai ? "Save new key" : "Turn on AI writing", "a-btn--primary", "type='submit'") + "</div></form></section>" +
+      "<p class='a-msg' id='t-msg' role='alert' hidden></p><div class='a-formfoot'><span></span>" + btn("Renew connection", "a-btn--primary", "type='submit'") + "</div></form></section>" +
       "<footer class='a-acct__owner'><button type='button' class='a-link' id='ac-owner'>" + (acctTab === "token" ? "Back to account" : "Owner settings") + "</button></footer>";
     wirePw(box, "#n-user");
     box.querySelectorAll("[data-acct]").forEach(function (t) {
@@ -469,31 +456,6 @@
         return saveConf(repoOf(), session.token, data, "Change password for " + session.user);
       }).then(function () { openAccount(); toast("Password changed."); })
         .catch(function (err) { busy(b, false, "Change password"); say(msg, err.message); });
-    });
-    $("#ac-ai").addEventListener("submit", function (e) {
-      e.preventDefault();
-      var msg = $("#ai-msg"), key = $("#ai-key").value.trim(), b = e.target.querySelector("button[type=submit]"), master;
-      if (!/^sk-ant-/.test(key)) { say(msg, "That doesn't look like an Anthropic API key (they start with sk-ant-)."); return; }
-      busy(b, true, "Checking…");
-      needMaster($("#ai-me").value).then(function (m) {
-        master = m;
-        return window.__siteAI ? window.__siteAI.check(key) : null;   // confirms the key works (free)
-      }).then(function () { return sealToken(master, key); }).then(function (sealed) {
-        var data = Object.assign({}, conf, { ai: sealed });
-        return saveConf(repoOf(), session.token, data, "Set the site editor's AI writing key").then(function () { conf = data; });
-      }).then(function () {
-        session.ai = key; store(session, !!localStorage.getItem(SESSION));
-        if (window.__editorAuth) window.__editorAuth.ai = key;
-      }).then(function () { acctTab = "team"; openAccount(); toast("AI writing is on. Open Blog → New post → Draft with AI."); })
-        .catch(function (err) { busy(b, false, "Turn on AI writing"); say(msg, err.message); });
-    });
-    if ($("#ai-remove")) $("#ai-remove").addEventListener("click", function () {
-      if (!confirm("Remove the AI writing key? The Blog panel's Draft with AI button stops working for everyone.")) return;
-      var data = Object.assign({}, conf); delete data.ai;
-      saveConf(repoOf(), session.token, data, "Remove the site editor's AI writing key").then(function () {
-        conf = data; session.ai = ""; store(session, !!localStorage.getItem(SESSION));
-        if (window.__editorAuth) window.__editorAuth.ai = "";
-      }).then(function () { acctTab = "team"; openAccount(); toast("AI writing key removed."); }).catch(function (err) { toast(err.message, true); });
     });
     $("#ac-token").addEventListener("submit", function (e) {
       e.preventDefault();

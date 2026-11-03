@@ -43,16 +43,6 @@ window.SITE_EDITOR_CONFIG = {
     index: "blog.html", prefix: "blog-", data: "assets/data/blog.json", template: "contact.html",
     author: "Dan & Lydia", categories: ["Planning", "Real weddings", "Engagements", "Films", "Behind the scenes"],
     publicUrl: function (slug) { return "/post?p=" + slug; },
-    // For "Draft with AI" (admin/ai.js): facts the AI may use, and the pages it may link to.
-    ai: {
-      about: "Dan Reynolds Photography is Dan and Lydia Reynolds, a married husband-and-wife team based in Peoria, Illinois. " +
-        "They offer documentary-style wedding photography and cinematic wedding films (photo, film, or both), and Dan is also a licensed drone pilot. " +
-        "Both of them are at every wedding, and Dan hand-edits every photo. They have documented 120+ weddings and serve Chicago, Peoria and Central Illinois, " +
-        "Milwaukee, Madison (Wisconsin), St. Louis and destinations worldwide. Collections start at $3,500, and most couples invest around $5,000. " +
-        "Their approach is candid and relaxed: gentle guidance, honest moments, and photos and films that let couples feel their day all over again.",
-      pages: [["portfolio.html", "real weddings and full galleries"], ["films.html", "wedding films"], ["investment.html", "collections and pricing"],
-        ["about.html", "about Dan & Lydia"], ["contact.html", "the inquiry form"], ["drone.html", "aerial drone photography"], ["blog.html", "all blog posts"]]
-    },
     head: function (p, H) {
       var meta = [p.category, H.niceDate(p.date)].filter(Boolean).map(H.esc).join(" · ");
       return '<section class="page-hero post-hero" data-post-head><div class="container">' +

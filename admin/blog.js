@@ -203,9 +203,6 @@
     $("#bp-cats").innerHTML = cats.map(function (c) { return '<option value="' + esc(c) + '">'; }).join("");
     setCover(p ? p.cover : "", p ? p.coverAlt || "" : "");
     $("#bp-text-wrap").hidden = !!p;
-    $("#bp-ai").hidden = !!p || !window.__siteAI;
-    aiStatus(window.__siteAI && !window.__siteAI.hasKey() ? "AI writing isn't set up yet: the site owner adds an Anthropic API key in ⚙ Account → Owner settings." : "", "");
-    $("#ai-go").disabled = !(window.__siteAI && window.__siteAI.hasKey());
     $("#bp-edit-note").hidden = !p;
     $("#bp-heading").textContent = p ? "Edit post details" : "New blog post";
     $("#bp-save").textContent = p ? "Save details" : "Create post";
@@ -221,27 +218,6 @@
     loadPosts().then(renderList);
   }
   btn.addEventListener("click", open);
-
-  // Write with AI: Claude drafts the post (title, address, summary, category, text) into the form for review.
-  function aiStatus(text, kind) { var s = $("#ai-status"); s.textContent = text; s.className = "ed-small" + (kind ? " is-" + kind : ""); }
-  $("#ai-go").addEventListener("click", function () {
-    var topic = $("#ai-topic").value.trim(), f = $("#f-blog");
-    if (!topic) { aiStatus("Say what the post is about first.", "error"); $("#ai-topic").focus(); return; }
-    if (f.text.value.trim() && !confirm("Replace the text already in the form with an AI draft?")) return;
-    var box = $("#bp-ai"), go = $("#ai-go"), t0 = Date.now(), timer;
-    box.classList.add("is-busy"); go.textContent = "Writing…";
-    timer = setInterval(function () { aiStatus("Writing your post… " + Math.round((Date.now() - t0) / 1000) + "s (usually under a minute)", ""); }, 1000);
-    window.__siteAI.draftPost({ topic: topic, details: $("#ai-details").value.trim(), keywords: $("#ai-keywords").value.trim(), length: $("#ai-length").value,
-      existing: posts.map(function (x) { return x.title; }) }).then(function (d) {
-      f.title.value = d.title; f.excerpt.value = (d.excerpt || "").slice(0, 220); f.text.value = d.body;
-      if (d.category) f.category.value = d.category;
-      if (d.slug) { f.slug.value = slugify(d.slug); var more = f.querySelector(".ed-blog__more"); if (more) more.open = true; }
-      aiStatus("Draft ready" + (d.keywords && d.keywords.length ? " (targets: " + d.keywords.slice(0, 3).join(", ") + ")" : "") + ". Read it through, choose a cover photo, then Create post.", "ok");
-      f.title.scrollIntoView({ block: "center", behavior: "smooth" });
-    }).catch(function (err) { aiStatus(err.message, "error"); }).then(function () {
-      clearInterval(timer); box.classList.remove("is-busy"); go.textContent = "✨ Draft with AI";
-    });
-  });
   $("#blog-new").addEventListener("click", function () { openForm(null); });
   $("#bp-back").addEventListener("click", function () { show("list"); renderList(); });
   $("#bp-cover-pick").addEventListener("click", function () {
