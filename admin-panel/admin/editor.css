@@ -140,7 +140,7 @@ a { color: var(--e-gold-ink); }
 .ed-bar__left { flex: 0 1 auto; min-width: 0; }
 .ed-bar__right { flex: 0 1 auto; min-width: 0; justify-content: flex-end; }
 .ed-logo, .ed-btn, .ed-icon, .ed-sep { flex: none; }
-.ed-select { flex: 0 1 220px; min-width: 120px; }
+.ed-select { flex: 0 1 220px; min-width: 96px; }
 .ed-select select { width: 100%; min-width: 0; }
 .ed-status { flex: 0 1 auto; min-width: 34px; }
 .ed-ico { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -152,6 +152,10 @@ a { color: var(--e-gold-ink); }
 .ed-cdots { display: inline-flex; }
 .ed-cdot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--e-panel); box-shadow: 0 0 0 1px rgba(43, 34, 24, 0.3); background: conic-gradient(#c6a46a, #efe7da, #0d0b09, #c6a46a); }
 .ed-cdot + .ed-cdot { margin-left: -5px; }
+@media (max-width: 1640px) {
+  #ed-blog .ed-lbl, #ed-sqs .ed-lbl { display: none; }   /* icon only (the name shows on hover), so the bar never overlaps */
+  #ed-blog, #ed-sqs { padding: 0 10px; }
+}
 @media (max-width: 1500px) {
   .ed-lbl--lg { display: none; }
   #ed-page-settings .ed-ico { display: block; }
