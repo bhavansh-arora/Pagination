@@ -41,6 +41,7 @@
     if (introStarted) return;
     introStarted = true;
     startHero();
+    if (hasGsap) thankYouIntro();
     if (hasGsap) ST.refresh();
   }
 
@@ -107,6 +108,29 @@
   window.addEventListener("pageshow", function (e) {
     if (e.persisted) html.classList.remove("is-leaving", "is-entering", "is-entered");
   });
+
+  /* ---------- Thank-you page: the photo opens up, "Thank you" rises letter by letter ---------- */
+  function thankYouIntro() {
+    var hero = $("[data-ty-hero]");
+    if (!hero) return;
+    var title = $("[data-chars]", hero);
+    if (title && !title.getAttribute("data-split")) {
+      title.setAttribute("data-split", "1");
+      // Each word stays together; each letter rises from behind its own mask.
+      $$(".ty-hero__l1, .ty-hero__l2", title).forEach(function (line) {
+        line.innerHTML = line.textContent.split(/(\s+)/).map(function (w) {
+          if (!w || /^\s+$/.test(w)) return w;
+          return '<span class="tw" aria-hidden="true">' + w.split("").map(function (c) { return '<span class="tc"><span>' + c + "</span></span>"; }).join("") + "</span>";
+        }).join("");
+      });
+    }
+    var chars = $$(".tc > span", hero);
+    var frame = $(".ty-hero__frame", hero), img = $(".ty-hero__img", hero), small = window.innerWidth < 700;
+    var tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+    tl.fromTo(frame, { clipPath: small ? "inset(14% 10% 14% 10% round 28px)" : "inset(10% 32% 10% 32% round 32px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", duration: 1.6, ease: "expo.inOut", clearProps: "clipPath" }, 0)
+      .fromTo(img, { scale: 1.32 }, { scale: 1.04, duration: 2.6, ease: "power3.out" }, 0)
+      .fromTo(chars, { yPercent: 118, rotate: 7 }, { yPercent: 0, rotate: 0, duration: 1.25, stagger: 0.035 }, 0.75);
+  }
 
   /* ---------- Hero slideshow + rotating word ---------- */
   function startHero() {
@@ -314,6 +338,29 @@
       });
     });
     return function () { section.classList.remove("is-pinned"); gsap.set(track, { x: 0 }); };
+  });
+
+  // Thank-you page: the photo eases back into a frame as you scroll, the words drift up faster than the photo.
+  var tyHero = $("[data-ty-hero]");
+  if (tyHero) {
+    var tyTrig = { trigger: tyHero, start: "top top", end: "bottom top", scrub: true };
+    gsap.to($(".ty-hero__frame", tyHero), { scale: 0.9, ease: "none", scrollTrigger: tyTrig });
+    gsap.to($(".ty-hero__media", tyHero), { yPercent: 16, ease: "none", scrollTrigger: tyTrig });
+    gsap.to($(".ty-hero__bottom", tyHero), { yPercent: -22, opacity: 0.2, ease: "none", scrollTrigger: tyTrig });
+  }
+  // Timelines: the line draws as you scroll and each step lights up as it's reached.
+  $$("[data-timeline]").forEach(function (tlEl) {
+    var steps = $$(".ty-tstep", tlEl);
+    var light = function (p) {
+      tlEl.style.setProperty("--tp", p.toFixed(4));
+      steps.forEach(function (st) {
+        var on = p >= parseFloat(st.getAttribute("data-at") || 0) - 0.001;
+        if (on) st.classList.add("is-lit", "is-on");
+        else st.classList.remove("is-lit");
+      });
+    };
+    light(0);
+    ST.create({ trigger: tlEl, start: "top 78%", end: "bottom 62%", scrub: 0.5, onUpdate: function (self) { light(self.progress); } });
   });
 
   // Process cards stack: each covered card eases back and dims.

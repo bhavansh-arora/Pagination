@@ -24,9 +24,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap">
-<link rel="stylesheet" href="assets/css/styles.css?v=070d69c0">
+<link rel="stylesheet" href="assets/css/styles.css?v=60495ba6">
 <link rel="stylesheet" href="assets/css/editor-global.css">
-<style id="page-styles">.ty-sign{display:inline-flex;align-items:center;gap:14px;margin-top:clamp(28px,3vw,40px);padding:10px 22px 10px 10px;border-radius:999px;background:rgba(20,16,13,.45);border:1px solid rgba(243,237,227,.18);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}.ty-sign__avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;flex:none}.ty-sign__avatar img{width:100%;height:100%;object-fit:cover;object-position:50% 35%}.ty-sign p{display:grid;gap:2px;line-height:1.1}.ty-sign__hi{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,237,227,.7)}.ty-sign__name{font-family:var(--display);font-size:1.5rem;color:var(--ivory)}.ty-sign__name em{font-family:var(--serif);font-style:italic;color:var(--gold-hi)}.ty-steps{display:grid;gap:clamp(12px,1.6vw,20px);grid-template-columns:minmax(0,1fr)}@media (min-width:860px){.ty-steps{grid-template-columns:repeat(3,minmax(0,1fr))}}.ty-step{position:relative;display:grid;align-content:start;gap:14px;padding:clamp(22px,2.6vw,34px);border-radius:var(--r-lg);background:var(--paper-2);border:1px solid var(--line)}.ty-step__top{display:flex;justify-content:space-between;align-items:center;gap:12px}.ty-step__num{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}.ty-step__dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;margin-top:10px;border:1px solid var(--line-2);font-family:var(--display);font-size:1.1rem;color:var(--ink-2)}.ty-step__dot svg{width:20px;height:20px}.ty-step__title{font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,1.1rem + 1vw,2rem);line-height:1.1;letter-spacing:-.01em;color:var(--ink)}.ty-step p{color:var(--ink-2);line-height:1.65}.ty-step.is-done{border-color:var(--line-gold)}.ty-step.is-done .ty-step__num{color:var(--accent)}.ty-step.is-done .ty-step__dot{background:var(--accent);border-color:var(--accent);color:#14100d}</style>
+<style id="page-styles"></style>
 <script>try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}setTimeout(function(){d.classList.remove("is-loading","is-entering")},5000)}catch(e){}</script>
 <meta name="robots" content="noindex, follow">
 </head>
@@ -72,25 +72,51 @@
 <main id="main">
 <!-- editor:main -->
 
-<section class="notfound thanks" aria-label="Thank you">
-  <div class="notfound__frame">
-    <img class="notfound__img" src="assets/img/liz-gage-father-hug-1600.webp?v=2450eaa1" srcset="assets/img/liz-gage-father-hug-800.webp?v=27f7500a 800w, assets/img/liz-gage-father-hug-1600.webp?v=2450eaa1 1600w, assets/img/liz-gage-father-hug-2400.webp?v=933fb6a6 2400w" sizes="100vw" width="1600" height="1067" alt="A father hugging his daughter, the bride, during the ceremony" fetchpriority="high" decoding="async" style="object-position:60% 35%">
-    <div class="notfound__content">
-      <span class="label label--dot">Inquiry received</span>
-      <h1 class="h-xl mt-m" data-lines>Thank you for<br><em>submitting.</em></h1>
-      <p class="lede mt-m">We will contact you within 24 hours. In the meantime, have a look around: we can't wait to hear about your day.</p>
-      <div class="row mt-l"><a class="btn btn--gold" href="portfolio.html">See Our Work <span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn btn--glass" href="films.html">Watch our films</a></div>
-      <div class="ty-sign"><div class="ty-sign__avatar"><img src="assets/img/dan-lydia-harbor-800.webp?v=b69bb738" width="800" height="533" alt="Dan and Lydia Reynolds" loading="lazy" decoding="async"></div><p><span class="ty-sign__hi">Talk soon,</span><span class="ty-sign__name">Dan &amp; <em>Lydia</em></span></p></div>
+<section class="ty-hero" data-ty-hero aria-label="Thank you">
+  <div class="ty-hero__frame" data-ty-frame>
+    <div class="ty-hero__media"><img class="ty-hero__img" src="assets/img/liz-gage-father-hug-1600.webp?v=2450eaa1" srcset="assets/img/liz-gage-father-hug-800.webp?v=27f7500a 800w, assets/img/liz-gage-father-hug-1600.webp?v=2450eaa1 1600w, assets/img/liz-gage-father-hug-2400.webp?v=933fb6a6 2400w" sizes="100vw" width="1600" height="1067" alt="A father hugging his daughter, the bride, during the ceremony" fetchpriority="high" decoding="async"></div>
+    <div class="ty-hero__top">
+      <span class="ty-badge reveal"><svg class="ty-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10.5" pathLength="1"/><path d="M7 12.4l3.4 3.4L17.2 9" pathLength="1"/></svg>Inquiry received</span>
+      <span class="label ty-hero__note">Dan or Lydia will reply within 24 hours</span>
     </div>
-
+    <div class="ty-hero__bottom">
+      <h1 class="ty-hero__title" data-chars aria-label="Thank you for submitting."><span class="ty-hero__l1">Thank you</span> <em class="ty-hero__l2">for submitting.</em></h1>
+      <div class="ty-hero__aside reveal" data-delay="3">
+        <p class="lede">We will contact you within 24 hours. In the meantime, have a look around: we can't wait to hear about your day.</p>
+        <div class="row"><a class="btn btn--gold" href="portfolio.html">See Our Work <span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn btn--glass" href="films.html">Watch our films</a></div>
+        <div class="ty-sign"><div class="ty-sign__avatar"><img src="assets/img/dan-lydia-harbor-800.webp?v=b69bb738" width="800" height="533" alt="Dan and Lydia Reynolds" loading="lazy" decoding="async"></div><p><span class="ty-sign__hi">Talk soon,</span><span class="ty-sign__name">Dan &amp; <em>Lydia</em></span></p></div>
+      </div>
+    </div>
   </div>
 </section>
-<section class="section">
+
+<div class="marquee marquee--words ty-marquee" aria-hidden="true"><div class="marquee__track"><span>Thank you</span><span>Merci</span><span>Grazie</span><span>Danke</span><span>Gracias</span><span>Obrigado</span><span>Dziękuję</span><span>Tack</span><span>Thank you</span><span>Merci</span><span>Grazie</span><span>Danke</span><span>Gracias</span><span>Obrigado</span><span>Dziękuję</span><span>Tack</span></div></div>
+
+<section class="section ty-next">
   <div class="container">
     <div class="head head--split"><div class="head__top"><span class="label">What happens next</span><span class="label">Inquire · Call · Book</span></div><h2 class="h-xl" data-lines>Here's what<br><em>comes next.</em></h2><p class="lede reveal">No pressure and no hard sell: just a friendly conversation about your day.</p></div>
-    <div class="ty-steps"><article class="ty-step is-done reveal" data-delay="0"><div class="ty-step__top"><span class="ty-step__num">Done</span><span class="pill">Just now</span></div><span class="ty-step__dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><h3 class="ty-step__title">Your inquiry is in</h3><p>We have your note and your date. There's nothing else you need to do right now.</p></article><article class="ty-step reveal" data-delay="1"><div class="ty-step__top"><span class="ty-step__num">Step 02</span><span class="pill">Within 24 hours</span></div><span class="ty-step__dot" aria-hidden="true">02</span><h3 class="ty-step__title">We'll be in touch</h3><p>Dan or Lydia will reply personally with our availability and a few times for a quick call. Keep an eye on your inbox, and your spam folder, just in case.</p></article><article class="ty-step reveal" data-delay="2"><div class="ty-step__top"><span class="ty-step__num">Step 03</span><span class="pill">When you're ready</span></div><span class="ty-step__dot" aria-hidden="true">03</span><h3 class="ty-step__title">A quick call, then book us</h3><p>We'll answer your questions and talk through your day. A contract and retainer lock in your date, and then you can relax.</p></article></div>
+    <div class="ty-timeline" data-timeline>
+      <div class="ty-timeline__rail" aria-hidden="true"><span class="ty-timeline__fill"></span></div>
+      <ol class="ty-timeline__steps">
+        <li class="ty-tstep is-done is-lit" data-at="0"><span class="ty-tstep__node"><svg class="ty-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 12.4l3.6 3.6L17.5 8.6" pathLength="1"/></svg></span><span class="ty-tstep__when">Done · just now</span><h3 class="ty-tstep__title">Your inquiry is in</h3><p>We have your note and your date. There's nothing else you need to do right now.</p></li>
+        <li class="ty-tstep is-lit" data-at="0.5"><span class="ty-tstep__node">02</span><span class="ty-tstep__when">Within 24 hours</span><h3 class="ty-tstep__title">We'll be in touch</h3><p>Dan or Lydia will reply personally with our availability and a few times for a quick call. Keep an eye on your inbox, and your spam folder, just in case.</p></li>
+        <li class="ty-tstep is-lit" data-at="0.96"><span class="ty-tstep__node">03</span><span class="ty-tstep__when">When you're ready</span><h3 class="ty-tstep__title">A quick call, then book us</h3><p>We'll answer your questions and talk through your day. A contract and retainer lock in your date, and then you can relax.</p></li>
+      </ol>
+    </div>
   </div>
 </section>
+
+<section class="section section--flush-top ty-note">
+  <div class="container ty-note__grid">
+    <figure class="ty-note__photo"><div class="media reveal-img"><img src="assets/img/dan-lydia-beach-1600.webp?v=9d67925c" srcset="assets/img/dan-lydia-beach-800.webp?v=05648d5c 800w, assets/img/dan-lydia-beach-1600.webp?v=9d67925c 1600w" sizes="(min-width: 900px) 34vw, 80vw" width="1600" height="1067" alt="Dan and Lydia Reynolds on a beach at sunset" loading="lazy" decoding="async" style="object-position:31% 62%"></div></figure>
+    <div class="ty-note__text">
+      <span class="label label--dot reveal">A note from us</span>
+      <p class="statement mt-l" data-scrub-words>Every inquiry is someone trusting us with one of the biggest days of their life. We read each one ourselves, and we <em>can't wait to hear about yours.</em></p>
+      <p class="ty-note__sig reveal">Dan &amp; <em>Lydia</em></p>
+    </div>
+  </div>
+</section>
+
 <section class="section section--flush-top">
   <div class="container">
     <div class="head__top reveal"><span class="label">While you wait</span><span class="label">A few places to start</span></div>
@@ -140,6 +166,6 @@
 <script src="assets/vendor/gsap.min.js?v=2d26f4c0" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=489bcf6d" defer></script>
 <script src="assets/js/main.js?v=1346b813" defer></script>
-<script src="assets/js/motion.js?v=cec808e3" defer></script>
+<script src="assets/js/motion.js?v=73b9c440" defer></script>
 </body>
 </html>

@@ -1006,16 +1006,82 @@ html { -webkit-tap-highlight-color: transparent; }
 
 
 /* Thank-you page: the 404 layout, with the photo's subject on the left and the message on the right */
-.thanks .notfound__img { object-position: 35% 40%; }
-/* Wide screens: the hug fills the middle of the photo, so the words sit in a dark panel on the left and the
-   photo takes the right side, fading into it (no text ever sits over anyone's face). */
+/* ---------- Thank-you page ---------- */
+/* Hero: full-screen photo (the faces stay clear at the top), giant "Thank you" over the lower part */
+.ty-hero { padding: var(--frame); }
+.ty-hero__frame { position: relative; min-height: max(640px, calc(100svh - 2 * var(--frame))); display: flex; flex-direction: column; justify-content: space-between;
+  border-radius: var(--r-xl); overflow: hidden; isolation: isolate; background: var(--night); color: var(--ivory); transform-origin: 50% 0; will-change: transform; }
+.ty-hero__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.ty-hero__img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 22%; transform-origin: 58% 30%; }
+.ty-hero__frame::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(13, 10, 8, 0.5) 0%, rgba(13, 10, 8, 0) 22%), linear-gradient(0deg, rgba(13, 10, 8, 0.9) 0%, rgba(13, 10, 8, 0.62) 26%, rgba(13, 10, 8, 0) 56%); }
+.ty-hero__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; padding: calc(96px + var(--frame)) clamp(18px, 3vw, 44px) 0; }
+.ty-hero__note { color: rgba(243, 237, 227, 0.8); }
+@media (max-width: 699px) { .ty-hero__note { display: none; } }
+.ty-badge { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 9px; border-radius: 999px; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;
+  background: rgba(20, 16, 13, 0.4); border: 1px solid rgba(243, 237, 227, 0.2); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.ty-badge .ty-check { width: 26px; height: 26px; color: var(--accent); }
+.ty-check circle, .ty-check path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.js .ty-badge.reveal .ty-check circle, .js .ty-badge.reveal .ty-check path, .js .ty-tstep.is-done .ty-check path { stroke-dashoffset: 1; }
+.js .ty-badge.reveal.is-in .ty-check circle { animation: ty-draw 0.9s var(--ease-out) 0.5s forwards; }
+.js .ty-badge.reveal.is-in .ty-check path { animation: ty-draw 0.5s var(--ease-out) 1.25s forwards; }
+.js .ty-tstep.is-done.is-on .ty-check path { animation: ty-draw 0.6s var(--ease-out) 0.3s forwards; }
+@keyframes ty-draw { to { stroke-dashoffset: 0; } }
+.ty-hero__bottom { display: grid; gap: clamp(24px, 3vw, 40px); align-items: end; padding: 0 clamp(18px, 3vw, 44px) clamp(24px, 3.4vw, 52px); }
+.ty-hero__title { font-family: var(--display); font-weight: 500; font-size: clamp(3.4rem, 1.2rem + 9vw, 11rem); line-height: 0.86; letter-spacing: -0.03em; color: var(--ivory); }
+.ty-hero__l1, .ty-hero__l2 { display: block; }
+.ty-hero__l2 { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 0.56em; letter-spacing: -0.015em; color: var(--gold-hi); margin-top: 0.12em; }
+.ty-hero__title .tw { display: inline-block; white-space: nowrap; }
+.ty-hero__title .tc { display: inline-block; overflow: hidden; padding-bottom: 0.12em; margin-bottom: -0.12em; vertical-align: bottom; }
+.ty-hero__title .tc > span { display: inline-block; }
+.ty-hero__aside { display: grid; gap: 20px; max-width: 440px; }
+.ty-hero__aside .lede { color: rgba(243, 237, 227, 0.88); }
+.ty-sign { display: inline-flex; align-items: center; gap: 14px; justify-self: start; padding: 8px 22px 8px 8px; border-radius: 999px;
+  background: rgba(20, 16, 13, 0.45); border: 1px solid rgba(243, 237, 227, 0.18); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.ty-sign__avatar { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; flex: none; }
+.ty-sign__avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+.ty-sign p { display: grid; gap: 2px; line-height: 1.1; }
+.ty-sign__hi { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243, 237, 227, 0.7); }
+.ty-sign__name { font-family: var(--display); font-size: 1.35rem; color: var(--ivory); }
+.ty-sign__name em { font-family: var(--serif); font-style: italic; color: var(--gold-hi); }
 @media (min-width: 1024px) {
-  .thanks .notfound__frame { justify-content: center; }
-  .thanks .notfound__img { inset: 0 0 0 auto; width: 62%; object-position: 45% 30% !important; }
-  .thanks .notfound__frame::before { background: linear-gradient(90deg, var(--night) 40%, rgba(13, 10, 8, 0.7) 47%, rgba(13, 10, 8, 0) 60%), linear-gradient(180deg, rgba(13, 10, 8, 0.45) 0%, rgba(13, 10, 8, 0) 26%); }
-  .thanks .notfound__content { width: 44%; max-width: 620px; margin-left: 0; padding: 120px 0 56px clamp(32px, 4vw, 72px); }
+  .ty-hero__bottom { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); }
+  .ty-hero__img { object-position: 50% 26%; }
 }
-
+/* A band of thank-yous in many languages (outlined and filled, alternating) */
+.ty-marquee { margin-top: clamp(20px, 3vw, 40px); }
+.ty-marquee span:nth-child(odd) { color: transparent; -webkit-text-stroke: 1px rgba(243, 237, 227, 0.45); }
+/* What happens next: a timeline whose line draws as you scroll, lighting each step */
+.ty-timeline { position: relative; margin-top: clamp(36px, 5vw, 64px); --node: 56px; }
+.ty-timeline__rail { position: absolute; left: calc(var(--node) / 2); top: calc(var(--node) / 2); bottom: 24px; width: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.ty-timeline__fill { position: absolute; inset: 0; background: linear-gradient(180deg, var(--accent), var(--gold-hi)); transform-origin: 0 0; transform: scaleY(var(--tp, 1)); }
+.ty-timeline__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(36px, 5vw, 56px); }
+.ty-tstep { position: relative; display: grid; gap: 10px; padding-left: calc(var(--node) + 22px); }
+.ty-tstep__node { position: absolute; left: 0; top: 0; width: var(--node); height: var(--node); border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--display); font-size: 1.15rem; color: var(--muted); background: var(--paper); border: 1px solid var(--line-2);
+  transition: background-color 0.5s var(--ease-out), border-color 0.5s, color 0.5s, box-shadow 0.8s var(--ease-out), transform 0.6s var(--ease-out); }
+.ty-tstep__node .ty-check { width: 24px; height: 24px; }
+.ty-tstep.is-lit .ty-tstep__node { background: var(--accent); border-color: var(--accent); color: var(--night); box-shadow: 0 0 0 8px rgba(165, 185, 147, 0.14); transform: scale(1.04); }
+.ty-tstep__when { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); padding-top: 4px; }
+.ty-tstep__title { font-family: var(--display); font-weight: 500; font-size: clamp(1.6rem, 1.1rem + 1.2vw, 2.3rem); line-height: 1.1; letter-spacing: -0.01em; color: var(--ink); }
+.ty-tstep p { color: var(--ink-2); line-height: 1.7; max-width: 42ch; }
+.js .ty-tstep { opacity: 0.35; transition: opacity 0.6s var(--ease); }
+.js .ty-tstep.is-lit, .js .ty-tstep.is-done { opacity: 1; }
+@media (min-width: 900px) {
+  .ty-timeline__rail { left: calc(var(--node) / 2); right: calc((100% - 2 * clamp(24px, 3vw, 48px)) / 3 - var(--node) / 2); top: calc(var(--node) / 2 - 1px); bottom: auto; width: auto; height: 2px; }
+  .ty-timeline__fill { transform-origin: 0 50%; transform: scaleX(var(--tp, 1)); }
+  .ty-timeline__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); }
+  .ty-tstep { padding-left: 0; padding-top: calc(var(--node) + 28px); }
+}
+/* A note from us */
+.ty-note__grid { display: grid; gap: clamp(32px, 5vw, 80px); align-items: center; }
+.ty-note__photo { margin: 0; max-width: 420px; }
+.ty-note__photo .media { aspect-ratio: 4 / 5; }
+.ty-note__sig { margin-top: clamp(20px, 2.4vw, 32px); font-family: var(--display); font-size: clamp(1.8rem, 1.3rem + 1.4vw, 2.6rem); color: var(--ink); }
+.ty-note__sig em { font-family: var(--serif); font-style: italic; color: var(--gold-hi); }
+.ty-note__sig::before { content: ""; display: inline-block; width: 48px; height: 1px; margin-right: 16px; vertical-align: middle; background: var(--accent); }
+@media (min-width: 900px) { .ty-note__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+@media (prefers-reduced-motion: reduce) { .js .ty-tstep { opacity: 1; } .ty-check circle, .ty-check path { stroke-dashoffset: 0 !important; animation: none !important; } }
 
 /* ---------- Blog (pages made by the editor's Blog panel) ---------- */
 .blog-grid { display: grid; gap: clamp(14px, 1.8vw, 24px); grid-template-columns: minmax(0, 1fr); }
