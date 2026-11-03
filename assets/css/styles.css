@@ -1007,14 +1007,15 @@ html { -webkit-tap-highlight-color: transparent; }
 
 /* Thank-you page: the 404 layout, with the photo's subject on the left and the message on the right */
 .thanks .notfound__img { object-position: 35% 40%; }
-/* Wide screens: the hug fills the middle of the photo, so the photo takes the left side and fades into a dark
-   panel on the right that holds the words (they never sit over anyone's face). */
+/* Wide screens: the hug fills the middle of the photo, so the words sit in a dark panel on the left and the
+   photo takes the right side, fading into it (no text ever sits over anyone's face). */
 @media (min-width: 1024px) {
   .thanks .notfound__frame { justify-content: center; }
-  .thanks .notfound__img { inset: 0 auto 0 0; width: 62%; object-position: 100% 30% !important; }
-  .thanks .notfound__frame::before { background: linear-gradient(90deg, rgba(13, 10, 8, 0) 40%, rgba(13, 10, 8, 0.85) 58%, var(--night) 64%), linear-gradient(180deg, rgba(13, 10, 8, 0.45) 0%, rgba(13, 10, 8, 0) 26%); }
-  .thanks .notfound__content { width: 44%; max-width: 620px; padding: 120px clamp(32px, 4vw, 72px) 56px 0; }
+  .thanks .notfound__img { inset: 0 0 0 auto; width: 62%; object-position: 45% 30% !important; }
+  .thanks .notfound__frame::before { background: linear-gradient(90deg, var(--night) 40%, rgba(13, 10, 8, 0.7) 47%, rgba(13, 10, 8, 0) 60%), linear-gradient(180deg, rgba(13, 10, 8, 0.45) 0%, rgba(13, 10, 8, 0) 26%); }
+  .thanks .notfound__content { width: 44%; max-width: 620px; margin-left: 0; padding: 120px 0 56px clamp(32px, 4vw, 72px); }
 }
+
 
 /* ---------- Blog (pages made by the editor's Blog panel) ---------- */
 .blog-grid { display: grid; gap: clamp(14px, 1.8vw, 24px); grid-template-columns: minmax(0, 1fr); }
