@@ -1032,7 +1032,8 @@ html { -webkit-tap-highlight-color: transparent; }
 .ty-hero__l1, .ty-hero__l2 { display: block; }
 .ty-hero__l2 { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 0.56em; letter-spacing: -0.015em; color: var(--gold-hi); margin-top: 0.12em; }
 .ty-hero__title .tw { display: inline-block; white-space: nowrap; }
-.ty-hero__title .tc { display: inline-block; overflow: hidden; padding-bottom: 0.12em; margin-bottom: -0.12em; vertical-align: bottom; }
+/* Each letter rises from behind a mask with room for descenders (g, y) and italic overhangs */
+.ty-hero__title .tc { display: inline-block; overflow: hidden; padding: 0.04em 0.08em 0.32em; margin: -0.04em -0.08em -0.32em; vertical-align: bottom; }
 .ty-hero__title .tc > span { display: inline-block; }
 .ty-hero__aside { display: grid; gap: 20px; max-width: 440px; }
 .ty-hero__aside .lede { color: rgba(243, 237, 227, 0.88); }
