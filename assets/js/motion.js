@@ -41,7 +41,7 @@
     if (introStarted) return;
     introStarted = true;
     startHero();
-    if (hasGsap) thankYouIntro();
+    if (hasGsap) { thankYouIntro(); droneIntro(); }
     if (hasGsap) ST.refresh();
   }
 
@@ -109,22 +109,37 @@
     if (e.persisted) html.classList.remove("is-leaving", "is-entering", "is-entered");
   });
 
-  /* ---------- Thank-you page: the photo opens up, "Thank you" rises letter by letter ---------- */
-  function thankYouIntro() {
-    var hero = $("[data-ty-hero]");
-    if (!hero) return;
-    var title = $("[data-chars]", hero);
-    if (title && !title.getAttribute("data-split")) {
+  // Big titles marked data-chars: each word stays together and each letter rises from behind its own mask.
+  function splitChars(title) {
+    if (!title) return [];
+    if (!title.getAttribute("data-split")) {
       title.setAttribute("data-split", "1");
-      // Each word stays together; each letter rises from behind its own mask.
-      $$(".ty-hero__l1, .ty-hero__l2", title).forEach(function (line) {
+      Array.prototype.forEach.call(title.children, function (line) {
         line.innerHTML = line.textContent.split(/(\s+)/).map(function (w) {
           if (!w || /^\s+$/.test(w)) return w;
           return '<span class="tw" aria-hidden="true">' + w.split("").map(function (c) { return '<span class="tc"><span>' + c + "</span></span>"; }).join("") + "</span>";
         }).join("");
       });
     }
-    var chars = $$(".tc > span", hero);
+    return $$(".tc > span", title);
+  }
+
+  /* ---------- Drone page: the camera overlay and the title arrive ---------- */
+  function droneIntro() {
+    var hero = $("[data-ascend]");
+    if (!hero) return;
+    var tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+    tl.fromTo($(".dr-hero__media", hero), { scale: 1.12, opacity: 0.4 }, { scale: 1, opacity: 1, duration: 2.2, ease: "power3.out" }, 0)
+      .fromTo($$(".dr-hud__c", hero), { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1, stagger: 0.08 }, 0.3)
+      .fromTo($$(".dr-hud__cross, .dr-hud__rec, .dr-hud__lic, .dr-hud__alt, .dr-hud__ladder", hero), { opacity: 0 }, { opacity: 1, duration: 0.8, stagger: 0.08, ease: "power2.out" }, 0.6)
+      .fromTo(splitChars($("[data-chars]", hero)), { yPercent: 118, rotate: 7 }, { yPercent: 0, rotate: 0, duration: 1.2, stagger: 0.035 }, 0.5);
+  }
+
+  /* ---------- Thank-you page: the photo opens up, "Thank you" rises letter by letter ---------- */
+  function thankYouIntro() {
+    var hero = $("[data-ty-hero]");
+    if (!hero) return;
+    var chars = splitChars($("[data-chars]", hero));
     var frame = $(".ty-hero__frame", hero), img = $(".ty-hero__img", hero), small = window.innerWidth < 700;
     var tl = gsap.timeline({ defaults: { ease: "expo.out" } });
     tl.fromTo(frame, { clipPath: small ? "inset(14% 10% 14% 10% round 28px)" : "inset(10% 32% 10% 32% round 32px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", duration: 1.6, ease: "expo.inOut", clearProps: "clipPath" }, 0)
@@ -348,6 +363,25 @@
     gsap.to($(".ty-hero__media", tyHero), { yPercent: 16, ease: "none", scrollTrigger: tyTrig });
     gsap.to($(".ty-hero__bottom", tyHero), { yPercent: -22, opacity: 0.2, ease: "none", scrollTrigger: tyTrig });
   }
+  // Drone page: scrolling "climbs" - the straight-down view pulls back while the altitude counts up to 400 ft.
+  var ascend = $("[data-ascend]");
+  if (ascend) {
+    var altNum = $("[data-alt]", ascend), dimg = $(".dr-hero__img", ascend), dframe = $(".dr-hero__frame", ascend);
+    var setAlt = function (p) {
+      if (altNum) altNum.textContent = ("00" + Math.round(p * 400)).slice(-3);
+      dframe.style.setProperty("--alt", p.toFixed(3));
+    };
+    setAlt(0);
+    mm.add("(min-width: 900px)", function () {
+      // Desktop: the hero holds still while the camera climbs, then the page carries on.
+      gsap.fromTo(dimg, { scale: 1.75 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", pin: true, scrub: 0.6, anticipatePin: 1, onUpdate: function (self) { setAlt(self.progress); } } });
+      gsap.to($(".dr-hero__content", ascend), { yPercent: -10, opacity: 0.85, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", scrub: true } });
+    });
+    mm.add("(max-width: 899px)", function () {
+      gsap.fromTo(dimg, { scale: 1.5 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "bottom top", scrub: 0.5, onUpdate: function (self) { setAlt(self.progress); } } });
+    });
+  }
+
   // Timelines: the line draws as you scroll and each step lights up as it's reached.
   $$("[data-timeline]").forEach(function (tlEl) {
     var steps = $$(".ty-tstep", tlEl);
