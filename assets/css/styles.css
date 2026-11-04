@@ -1153,6 +1153,45 @@ html { -webkit-tap-highlight-color: transparent; }
 @media (min-width: 960px) { .dr-ask { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } .dr-ask__text { position: sticky; top: 120px; } }
 .drone-ask__fallback { display: grid; gap: 18px; justify-items: start; }
 
+/* ---------- Pages outside the menu: St. Louis, legal pages, links, blog, 404 ---------- */
+.chars-lines > * { display: block; }
+/* St. Louis */
+.stl-hero .ty-hero__l2 { font-size: 0.52em; max-width: 16ch; }
+@media (min-width: 900px) { .stl-hero .ty-hero__l2 { font-size: 0.4em; } }
+.stl-narrow { max-width: 720px; }
+.stl-split, .stl-duo { display: grid; gap: clamp(36px, 6vw, 96px); align-items: center; }
+.stl-collage { position: relative; padding: 0 0 18% 0; }
+.stl-collage__a { width: 72%; }
+.stl-collage__b { position: absolute; right: 0; bottom: 0; width: 56%; border: 6px solid var(--paper); box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.8); }
+.stl-stat { display: grid; gap: 10px; padding-block: 18px; border-block: 1px solid var(--line); }
+.stl-stat p { color: var(--ink-2); max-width: 32ch; }
+.stl-duo__photo { margin: 0; }
+.stl-quote { max-width: 1100px; }
+.stl-cta { min-height: 0; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+@media (min-width: 900px) {
+  .stl-split { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+  .stl-duo { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .stl-duo__photo { max-width: 520px; justify-self: end; }
+}
+/* Privacy & terms: the "On this page" list follows your reading, with a progress line */
+.legal-toc[data-toc] { padding-left: 16px; }   /* stays sticky (from the page styles); sticky also anchors the line */
+.legal-toc[data-toc]::before, .legal-toc[data-toc]::after { content: ""; position: absolute; left: 0; top: 30px; bottom: 0; width: 1px; background: var(--line-2); }
+.legal-toc[data-toc]::after { background: var(--accent); transform-origin: top; transform: scaleY(var(--rp, 0)); transition: transform 0.2s linear; }
+.legal-toc[data-toc] a { transition: color 0.3s, transform 0.4s var(--ease-out); }
+.legal-toc[data-toc] a.is-active { color: var(--ink) !important; transform: translateX(4px); }
+/* Links page: a slowly turning ring around Dan & Lydia */
+.linkbio .linkbio__avatar { position: relative; overflow: visible; border: 0; isolation: isolate; }
+.linkbio .linkbio__avatar .media { border-radius: 50%; overflow: hidden; }
+.linkbio__ring { position: absolute; inset: -7px; border-radius: 50%; z-index: -1;
+  background: conic-gradient(from 0deg, var(--accent), rgba(165, 185, 147, 0) 35%, var(--gold-hi) 55%, rgba(165, 185, 147, 0) 80%, var(--accent));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  animation: studio-spin 7s linear infinite; }
+.linkbio__a svg { transition: transform 0.5s var(--ease-out); }
+.linkbio__a:hover svg { transform: translateX(4px); }
+/* Blog posts: a large first letter, magazine style */
+.post-body > p:first-child::first-letter { float: left; font-family: var(--display); font-size: 4.6em; line-height: 0.82; padding: 0.06em 0.12em 0 0; color: var(--gold-hi); }
+@keyframes studio-spin { to { transform: rotate(360deg); } }
+
 /* ---------- Blog (pages made by the editor's Blog panel) ---------- */
 .blog-grid { display: grid; gap: clamp(14px, 1.8vw, 24px); grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 700px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

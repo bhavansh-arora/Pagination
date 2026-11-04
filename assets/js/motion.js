@@ -41,7 +41,7 @@
     if (introStarted) return;
     introStarted = true;
     startHero();
-    if (hasGsap) { thankYouIntro(); droneIntro(); }
+    if (hasGsap) { thankYouIntro(); droneIntro(); charsIntro(); }
     if (hasGsap) ST.refresh();
   }
 
@@ -122,6 +122,14 @@
       });
     }
     return $$(".tc > span", title);
+  }
+
+  // Any other big title marked data-chars rises letter by letter as the page opens.
+  function charsIntro() {
+    $$("[data-chars]").forEach(function (el) {
+      if (el.closest("[data-ty-hero], [data-ascend]")) return;
+      gsap.fromTo(splitChars(el), { yPercent: 118, rotate: 7 }, { yPercent: 0, rotate: 0, duration: 1.2, stagger: 0.03, ease: "expo.out", delay: 0.2 });
+    });
   }
 
   /* ---------- Drone page: the camera overlay and the title arrive ---------- */
@@ -257,6 +265,26 @@
     });
 
   }
+
+  /* ---------- "On this page" lists: highlight the section being read ---------- */
+  $$("[data-toc]").forEach(function (toc) {
+    var links = $$('a[href^="#"]', toc);
+    var secs = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+    var body = secs[0] && secs[0].parentElement;
+    var ticking = false;
+    function spy() {
+      ticking = false;
+      var line = window.innerHeight * 0.32, cur = 0;
+      secs.forEach(function (sec, i) { if (sec && sec.getBoundingClientRect().top < line) cur = i; });
+      links.forEach(function (a, i) { a.classList.toggle("is-active", i === cur); });
+      if (body) {
+        var r = body.getBoundingClientRect(), p = (line - r.top) / Math.max(1, r.height);
+        toc.style.setProperty("--rp", Math.max(0, Math.min(1, p)).toFixed(3));
+      }
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
+    spy();
+  });
 
   if (!hasGsap) return;
 

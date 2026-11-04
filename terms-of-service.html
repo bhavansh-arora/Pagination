@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap">
-<link rel="stylesheet" href="assets/css/styles.css?v=ce7dd3cc">
+<link rel="stylesheet" href="assets/css/styles.css?v=06ebe6b4">
 <link rel="stylesheet" href="assets/css/editor-global.css">
 <style id="page-styles">.legal-grid{display:grid;gap:clamp(32px,5vw,80px);grid-template-columns:minmax(0,1fr)}@media (min-width:900px){.legal-grid{grid-template-columns:220px minmax(0,760px)}}.legal-toc{display:none}@media (min-width:900px){.legal-toc{display:grid;gap:12px;position:sticky;top:120px;align-self:start}}.legal-toc a{color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .3s}.legal-toc a:hover{color:var(--accent)}.legal__part{scroll-margin-top:110px}.legal__part+.legal__part{margin-top:clamp(36px,4vw,56px);padding-top:clamp(36px,4vw,56px);border-top:1px solid var(--line)}.legal h2{font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.1vw,2rem);line-height:1.15;color:var(--ink);margin:0 0 .6em}.legal p,.legal li{color:var(--ink-2);line-height:1.75}.legal p+p,.legal p+ul,.legal ul+p{margin-top:1em}.legal ul{padding-left:1.2em;list-style:disc}.legal li+li{margin-top:.45em}.legal a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}</style>
 <script>try{var d=document.documentElement;if(sessionStorage.getItem("dr-nav")){d.classList.add("is-entering");sessionStorage.removeItem("dr-nav")}else if(!sessionStorage.getItem("dr-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("is-loading")}setTimeout(function(){d.classList.remove("is-loading","is-entering")},5000)}catch(e){}</script>
@@ -75,7 +75,7 @@
   <div class="container">
     <div class="page-hero__meta reveal"><span class="label label--dot">Terms of use</span><span class="label">Last updated November 1, 2026</span></div>
     <div class="page-hero__grid">
-      <h1 class="h-xl page-hero__title" data-lines>The fine print,<br><em>kept simple.</em></h1>
+      <h1 class="h-xl page-hero__title chars-lines" data-chars aria-label="The fine print, kept simple."><span>The fine print,</span> <em>kept simple.</em></h1>
       <p class="lede reveal" data-delay="2">By using this website you agree to these terms. Your wedding or session itself is covered by the contract we sign together.</p>
     </div>
   </div>
@@ -83,7 +83,7 @@
 <section class="section section--flush-top">
   <div class="container">
     <div class="legal-grid">
-      <nav class="legal-toc" aria-label="On this page"><span class="label">On this page</span><a href="#about">About these terms</a><a href="#copyright">Our photos and films</a><a href="#info">Pricing and information</a><a href="#inquiries">Inquiries</a><a href="#links">Links to other sites</a><a href="#liability">Using the site</a><a href="#law">Governing law</a><a href="#contact">Questions</a></nav>
+      <nav class="legal-toc" aria-label="On this page" data-toc><span class="label">On this page</span><a href="#about">About these terms</a><a href="#copyright">Our photos and films</a><a href="#info">Pricing and information</a><a href="#inquiries">Inquiries</a><a href="#links">Links to other sites</a><a href="#liability">Using the site</a><a href="#law">Governing law</a><a href="#contact">Questions</a></nav>
       <div class="legal reveal"><div class="legal__part" id="about"><h2>About these terms</h2><p>This website is run by Dan Reynolds Photography (Dan and Lydia Reynolds) of Peoria, Illinois. These terms cover your use of the website. Services we provide are covered by a separate written contract, which takes priority over anything on this site.</p></div><div class="legal__part" id="copyright"><h2>Our photos and films</h2><p>Every photo, film, text and design on this site is our work, or used with permission, and is protected by copyright. Please don't download, copy, edit, print or share it, or use it to train AI, without our written permission. Sharing a link to a page is always welcome.</p><p>If you are a client, how you may use your own photos and films is set out in your contract and print release.</p></div><div class="legal__part" id="info"><h2>Pricing and information</h2><p>We keep the information on this site accurate and current, but packages, prices and availability can change. Prices shown are starting points; your quote and contract confirm the final details. Dates are only reserved once a contract is signed and a retainer is paid.</p></div><div class="legal__part" id="inquiries"><h2>Inquiries</h2><p>Sending an inquiry doesn't commit you, or us, to anything. We reply personally, usually within 24 hours. How we handle what you send us is explained in our <a href="privacy-policy.html">privacy policy</a>.</p></div><div class="legal__part" id="links"><h2>Links to other sites</h2><p>This site links to other websites, such as Instagram, YouTube and our client gallery services. We are not responsible for their content or how they handle your information.</p></div><div class="legal__part" id="liability"><h2>Using the site</h2><p>The website is provided as it is. We do our best to keep it available and free of errors, but we can't promise it always will be, and we aren't liable for any loss that comes from using it, to the extent the law allows.</p></div><div class="legal__part" id="law"><h2>Governing law</h2><p>These terms are governed by the laws of the State of Illinois.</p></div><div class="legal__part" id="contact"><h2>Questions</h2><p>If you have a question about these terms, please get in touch through the <a href="contact.html">contact page</a>.</p></div></div>
     </div>
   </div>
@@ -132,6 +132,6 @@
 <script src="assets/vendor/gsap.min.js?v=2d26f4c0" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=489bcf6d" defer></script>
 <script src="assets/js/main.js?v=1346b813" defer></script>
-<script src="assets/js/motion.js?v=b80045ba" defer></script>
+<script src="assets/js/motion.js?v=5556df39" defer></script>
 </body>
 </html>

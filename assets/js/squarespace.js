@@ -24,7 +24,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"ce7dd3cc","assets/js/main.js":"1346b813","assets/js/motion.js":"b80045ba","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"427834de"};
+  var HASH = {"assets/css/styles.css":"06ebe6b4","assets/js/main.js":"1346b813","assets/js/motion.js":"5556df39","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"427834de"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
 
