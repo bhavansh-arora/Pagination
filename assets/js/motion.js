@@ -266,6 +266,31 @@
 
   }
 
+  /* ---------- Lists with a photo stage: the photo follows the row being read or hovered ---------- */
+  $$("[data-stage]").forEach(function (wrap) {
+    var rows = $$(".index-row", wrap), imgs = $$(".dr-stage__img", wrap), cap = $(".dr-stage__count", wrap), hovering = false, cur = -1, ticking = false;
+    function set(i) {
+      if (i === cur || i < 0) return;
+      cur = i;
+      rows.forEach(function (r, k) { r.classList.toggle("is-current", k === i); });
+      imgs.forEach(function (im, k) { im.classList.toggle("is-active", k === i); });
+      if (cap) cap.textContent = ("0" + (i + 1)).slice(-2) + " / " + ("0" + rows.length).slice(-2);
+    }
+    rows.forEach(function (r, k) {
+      r.addEventListener("mouseenter", function () { hovering = true; set(k); });
+      r.addEventListener("mouseleave", function () { hovering = false; });
+    });
+    function onScroll() {
+      ticking = false;
+      if (hovering) return;
+      var mid = window.innerHeight * 0.5, best = 0, dist = Infinity;
+      rows.forEach(function (r, k) { var b = r.getBoundingClientRect(), d = Math.abs(b.top + b.height / 2 - mid); if (d < dist) { dist = d; best = k; } });
+      set(best);
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+    set(0);
+  });
+
   /* ---------- "On this page" lists: highlight the section being read ---------- */
   $$("[data-toc]").forEach(function (toc) {
     var links = $$('a[href^="#"]', toc);
@@ -358,6 +383,27 @@
 
   // Pinned horizontal love stories (desktop).
   var mm = gsap.matchMedia();
+  // (Set up before the gallery below it: pinned sections must be created top to bottom, or the later one
+  //  is measured without the earlier one's extra scroll and the page jumps.)
+  // Drone page: scrolling "climbs" - the straight-down view pulls back while the altitude counts up to 400 ft.
+  var ascend = $("[data-ascend]");
+  if (ascend) {
+    var altNum = $("[data-alt]", ascend), dimg = $(".dr-hero__img", ascend), dframe = $(".dr-hero__frame", ascend);
+    var setAlt = function (p) {
+      if (altNum) altNum.textContent = ("00" + Math.round(p * 400)).slice(-3);
+      dframe.style.setProperty("--alt", p.toFixed(3));
+    };
+    setAlt(0);
+    mm.add("(min-width: 900px)", function () {
+      // Desktop: the hero holds still while the camera climbs, then the page carries on.
+      gsap.fromTo(dimg, { scale: 1.75 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", pin: true, scrub: 0.6, anticipatePin: 1, onUpdate: function (self) { setAlt(self.progress); } } });
+      gsap.to($(".dr-hero__content", ascend), { yPercent: -10, opacity: 0.85, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", scrub: true } });
+    });
+    mm.add("(max-width: 899px)", function () {
+      gsap.fromTo(dimg, { scale: 1.5 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "bottom top", scrub: 0.5, onUpdate: function (self) { setAlt(self.progress); } } });
+    });
+  }
+
   mm.add("(min-width: 1024px)", function () {
     var section = $("[data-hscroll]");
     if (!section) return;
@@ -391,25 +437,6 @@
     gsap.to($(".ty-hero__media", tyHero), { yPercent: 16, ease: "none", scrollTrigger: tyTrig });
     gsap.to($(".ty-hero__bottom", tyHero), { yPercent: -22, opacity: 0.2, ease: "none", scrollTrigger: tyTrig });
   }
-  // Drone page: scrolling "climbs" - the straight-down view pulls back while the altitude counts up to 400 ft.
-  var ascend = $("[data-ascend]");
-  if (ascend) {
-    var altNum = $("[data-alt]", ascend), dimg = $(".dr-hero__img", ascend), dframe = $(".dr-hero__frame", ascend);
-    var setAlt = function (p) {
-      if (altNum) altNum.textContent = ("00" + Math.round(p * 400)).slice(-3);
-      dframe.style.setProperty("--alt", p.toFixed(3));
-    };
-    setAlt(0);
-    mm.add("(min-width: 900px)", function () {
-      // Desktop: the hero holds still while the camera climbs, then the page carries on.
-      gsap.fromTo(dimg, { scale: 1.75 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", pin: true, scrub: 0.6, anticipatePin: 1, onUpdate: function (self) { setAlt(self.progress); } } });
-      gsap.to($(".dr-hero__content", ascend), { yPercent: -10, opacity: 0.85, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", scrub: true } });
-    });
-    mm.add("(max-width: 899px)", function () {
-      gsap.fromTo(dimg, { scale: 1.5 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "bottom top", scrub: 0.5, onUpdate: function (self) { setAlt(self.progress); } } });
-    });
-  }
-
   // Timelines: the line draws as you scroll and each step lights up as it's reached.
   $$("[data-timeline]").forEach(function (tlEl) {
     var steps = $$(".ty-tstep", tlEl);
