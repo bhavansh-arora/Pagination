@@ -51,11 +51,13 @@
       de.style.overflow = "";
       var prev = de.style.scrollBehavior; de.style.scrollBehavior = "auto";
       window.scrollTo(0, y);
+      if (window.__lenis) window.__lenis.scrollTo(y, { immediate: true, force: true });
       de.style.scrollBehavior = prev;
     }
   }
   function setMenu(open, fromKeyboard) {
     document.body.classList.toggle("menu-open", open);
+    if (window.__lenis) window.__lenis[open ? "stop" : "start"]();
     lockScroll(open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");

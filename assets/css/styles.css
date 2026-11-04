@@ -36,7 +36,7 @@
   --r-sm: 10px;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --section: clamp(88px, 11vw, 176px);
+  --section: clamp(72px, 8.5vw, 136px);
 }
 
 /* ---------- Reset ---------- */
@@ -244,6 +244,11 @@ h1 em, h2 em, h3 em, .h-display em, .h-xl em, .h-lg em, .h-md em, .serif {
 .mobile-menu__foot { margin-top: auto; padding-top: 28px; display: grid; gap: 18px; }
 .mobile-menu__social { display: flex; flex-wrap: wrap; gap: 8px; }
 body.menu-open { overflow: hidden; }
+/* Smooth scrolling (Lenis, computers only) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
 .mobile-menu { overscroll-behavior: contain; } /* a swipe at the end of the menu never carries on to the page */
 .menu-open .site-header { transform: none; z-index: 120; }
 .menu-open .site-header__inner { background: transparent !important; border-color: transparent !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }

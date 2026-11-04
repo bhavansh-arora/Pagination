@@ -237,6 +237,7 @@ def page(filename, title, description, body, active=None, og_image="golden-hour-
 {STICKY if sticky else ""}
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/motion.js" defer></script>
 </body>

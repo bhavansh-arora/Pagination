@@ -10,7 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ["assets/css/styles.css", "assets/js/main.js", "assets/js/motion.js",
-          "assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js"]
+          "assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js",
+          "assets/vendor/lenis.min.js"]
 ASSETS += [str(p.relative_to(ROOT)) for p in sorted((ROOT / "assets/css/colours").glob("*.css"))]
 
 

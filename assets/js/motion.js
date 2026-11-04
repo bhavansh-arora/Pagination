@@ -19,6 +19,27 @@
 
   if (hasGsap) {
     gsap.registerPlugin(ST); html.classList.add("has-gsap");
+    // Computers (mouse or trackpad): smooth, weighted scrolling, so every scroll effect glides instead of stepping
+    // with each wheel notch. Touch screens keep their own native scrolling. Overlays scroll natively inside.
+    if (window.Lenis && fine && !window.__lenis) {
+      var lenis = new window.Lenis({
+        lerp: 0.09, wheelMultiplier: 1, allowNestedScroll: true,
+        prevent: function (node) { return !!(node && node.closest && node.closest(".mobile-menu, .lightbox, [data-lenis-prevent]")); }
+      });
+      window.__lenis = lenis;
+      lenis.on("scroll", ST.update);
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+      // In-page links (#section) glide there too, landing just below the floating header.
+      document.addEventListener("click", function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="#"]');
+        if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) return;
+        var id = a.getAttribute("href").slice(1), target = id && document.getElementById(id);
+        if (!target || a.closest(".mobile-menu")) return;
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -96, duration: 1.4 });
+      });
+    }
     // Phones: the address bar showing/hiding must not re-measure the page (that made it jump while scrolling).
     ST.config({ ignoreMobileResize: true });
   }
@@ -396,8 +417,8 @@
     setAlt(0);
     mm.add("(min-width: 900px)", function () {
       // Desktop: the hero holds still while the camera climbs, then the page carries on.
-      gsap.fromTo(dimg, { scale: 1.75 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", pin: true, scrub: 0.6, anticipatePin: 1, onUpdate: function (self) { setAlt(self.progress); } } });
-      gsap.to($(".dr-hero__content", ascend), { yPercent: -10, opacity: 0.85, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=110%", scrub: true } });
+      gsap.fromTo(dimg, { scale: 1.75 }, { scale: 1, ease: "none", force3D: true, scrollTrigger: { trigger: ascend, start: "top top", end: "+=70%", pin: true, scrub: 1, anticipatePin: 1, onUpdate: function (self) { setAlt(self.progress); } } });
+      gsap.to($(".dr-hero__content", ascend), { yPercent: -16, opacity: 0.55, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "+=70%", scrub: 1 } });
     });
     mm.add("(max-width: 899px)", function () {
       gsap.fromTo(dimg, { scale: 1.5 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ascend, start: "top top", end: "bottom top", scrub: 0.5, onUpdate: function (self) { setAlt(self.progress); } } });

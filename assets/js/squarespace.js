@@ -24,7 +24,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"0c94f38f","assets/js/main.js":"1346b813","assets/js/motion.js":"ed750d5b","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/css/squarespace.css":"427834de"};
+  var HASH = {"assets/css/styles.css":"01f27f40","assets/js/main.js":"0e205e9c","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"427834de"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
 
@@ -111,7 +111,7 @@
   }
 
   // Start downloading the site's scripts now, in parallel with the page; they run once it's in place.
-  var SCRIPTS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/js/main.js", "assets/js/motion.js"];
+  var SCRIPTS = ["assets/vendor/gsap.min.js", "assets/vendor/ScrollTrigger.min.js", "assets/vendor/lenis.min.js", "assets/js/main.js", "assets/js/motion.js"];
   SCRIPTS.forEach(function (src) { var l = document.createElement("link"); l.rel = "preload"; l.as = "script"; l.href = HOST + src + "?" + ver(src); document.head.appendChild(l); });
 
   var html = fetch(HOST + PAGE + "?" + V, { cache: "no-cache" }).then(function (r) {
