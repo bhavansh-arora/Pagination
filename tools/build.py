@@ -84,6 +84,7 @@ NAV = [
     ("index.html", "Home"),
     ("about.html", "About"),
     ("portfolio.html", "Portfolio"),
+    ("galleries.html", "Galleries"),
     ("films.html", "Films"),
     ("investment.html", "Investment"),
     ("contact.html", "Contact"),

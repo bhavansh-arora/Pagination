@@ -10,7 +10,8 @@ The copy, packages, FAQs, testimonials, photos and films all come from danreynol
 | --- | --- | --- |
 | Home | `index.html` | Full-bleed hero, signature quote, intro, photo/film split, love stories, featured film, testimonial slider, stats, Instagram strip |
 | About | `about.html` | Team cards, the "My story began with Kodak" chapters, favourite venues, testimonial |
-| Portfolio | `portfolio.html` | Filterable masonry gallery (38 images) with a swipeable, keyboard-accessible lightbox, plus links to client galleries |
+| Portfolio | `portfolio.html` | A curated selection of favorite photos (masonry grid with a lightbox) |
+| Galleries | `galleries.html` | Every client gallery (weddings and engagements) with search and filters; each opens on Pic-Time |
 | Films | `films.html` | Featured film, 16 wedding films, commercial work. YouTube players load only when clicked (privacy-enhanced embeds) |
 | Investment | `investment.html` | Philosophy, Photo & Video packages from $3,500, combo callout, 3-step process, animated FAQ (with FAQ schema) |
 | Contact | `contact.html` | Inquiry form with validation and a success state |

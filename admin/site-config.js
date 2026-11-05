@@ -22,7 +22,7 @@ window.SITE_EDITOR_CONFIG = {
   },
 
   // Friendly names in the page picker (other .html files are listed automatically).
-  pages: { "index.html": "Home", "about.html": "About", "portfolio.html": "Portfolio", "films.html": "Films",
+  pages: { "index.html": "Home", "about.html": "About", "portfolio.html": "Portfolio", "galleries.html": "Galleries", "films.html": "Films",
     "investment.html": "Investment", "contact.html": "Contact", "blog.html": "Blog", "thank-you.html": "Thank you (after the form)",
     "drone.html": "Drone", "st-louis-wedding-photographer.html": "St. Louis weddings", "links.html": "Links (Instagram bio)",
     "privacy-policy.html": "Privacy policy", "terms-of-service.html": "Terms of use", "404.html": "404 page" },
@@ -38,7 +38,7 @@ window.SITE_EDITOR_CONFIG = {
   pageTemplate: "contact.html",                // copied (with new content) when adding a page
   // Squarespace addresses that differ from the file name (the rest follow it: about.html -> /about).
   // Keep in step with SLUGS in assets/js/squarespace.js.
-  slugs: { "index.html": "/", "404.html": "/error-404", "portfolio.html": "/galleries" },
+  slugs: { "index.html": "/", "404.html": "/error-404" },
 
   // The Blog panel (admin/blog.js): each post is a page (prefix + address + ".html"), listed on the blog page in the
   // element marked data-blog-list. On Squarespace, one page (/post) shows any post: /post?p=<address>.

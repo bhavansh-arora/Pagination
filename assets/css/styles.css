@@ -1233,6 +1233,13 @@ html { -webkit-tap-highlight-color: transparent; }
 .post-body > p:first-child::first-letter { float: left; font-family: var(--display); font-size: 4.6em; line-height: 0.82; padding: 0.06em 0.12em 0 0; color: var(--gold-hi); }
 @keyframes studio-spin { to { transform: rotate(360deg); } }
 
+/* ---------- Portfolio (curated favorites) ---------- */
+.pf-section { padding-bottom: var(--section); }
+@media (min-width: 1100px) { .pf-masonry { columns: 3; column-gap: 10px; } .pf-masonry .masonry__item { margin-bottom: 10px; } }
+.pf-next { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+.pf-next__card { min-height: 340px; }
+@media (min-width: 900px) { .pf-next { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } .pf-next__card { min-height: 420px; } }
+
 /* ---------- Blog (pages made by the editor's Blog panel) ---------- */
 .blog-grid { display: grid; gap: clamp(14px, 1.8vw, 24px); grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 700px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

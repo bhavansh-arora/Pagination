@@ -19,12 +19,12 @@
   }
   // Links between pages go to the matching Squarespace page: "about.html" → "/about". Pages added later in the
   // editor follow the same rule, so a new page only needs a Squarespace page with that URL. Exceptions:
-  var SLUGS = { "index.html": "/", "404.html": "/error-404", "portfolio.html": "/galleries" };
+  var SLUGS = { "index.html": "/", "404.html": "/error-404" };
   // Pages and the editor's global styles: fresh within a minute of publishing.
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"f8d2996d","assets/js/main.js":"0e205e9c","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"427834de"};
+  var HASH = {"assets/css/styles.css":"ab6173cc","assets/js/main.js":"0e205e9c","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"427834de"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
 

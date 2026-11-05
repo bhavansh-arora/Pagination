@@ -12,7 +12,7 @@ import sys
 SITE_DIR = sys.argv[1] if len(sys.argv) > 1 else "/home/user/danreynoldsphotography"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "code", "live")
 HOST = "https://danreynoldsphotography.codebunny.net/"
-PAGES = {"home": "index.html", "about": "about.html", "portfolio": "portfolio.html", "films": "films.html",
+PAGES = {"home": "index.html", "about": "about.html", "portfolio": "portfolio.html", "galleries": "galleries.html", "films": "films.html",
          "investment": "investment.html", "contact": "contact.html", "page-not-found": "404.html", "thank-you": "thank-you.html",
          "drone": "drone.html", "st-louis-wedding-photographer": "st-louis-wedding-photographer.html", "links": "links.html",
          "privacy-policy": "privacy-policy.html", "terms-of-service": "terms-of-service.html"}
