@@ -1131,7 +1131,9 @@ html { -webkit-tap-highlight-color: transparent; }
 }
 /* The pilot */
 .dr-intro__grid { display: grid; gap: clamp(32px, 5vw, 80px); align-items: center; }
-.dr-intro__photo { margin: 0; width: min(70%, 320px); justify-self: end; display: grid; gap: 12px; }
+/* Phones: the photo runs full width, landscape; wider screens: a tall photo beside the text */
+.dr-intro__photo { margin: 0; width: 100%; display: grid; gap: 12px; }
+.dr-intro__photo .media.ratio-portrait { aspect-ratio: 3 / 2; }
 .dr-intro__photo .media { border-radius: var(--r-xl); }
 .dr-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: clamp(28px, 3.6vw, 48px) 0 0; border-top: 1px solid var(--line); }
 .dr-facts > div { padding: 18px 16px 0 0; }
@@ -1140,7 +1142,7 @@ html { -webkit-tap-highlight-color: transparent; }
 .dr-facts dd { margin: 8px 0 0; font-family: var(--display); font-size: clamp(1.3rem, 0.9rem + 1vw, 1.9rem); line-height: 1.1; color: var(--ink); }
 .dr-facts dd em { font-family: var(--serif); font-style: italic; color: var(--gold-hi); }
 @media (max-width: 599px) { .dr-facts dd { font-size: 1.05rem; } .dr-facts dd em { display: block; } }
-@media (min-width: 900px) { .dr-intro__photo { width: 100%; max-width: 420px; } }
+@media (min-width: 900px) { .dr-intro__photo { width: 100%; max-width: 420px; justify-self: end; } .dr-intro__photo .media.ratio-portrait { aspect-ratio: 4 / 5; } }
 @media (min-width: 900px) { .dr-intro__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } }
 /* What we fly: big rows, the photo follows the cursor on hover (thumbnails on phones) */
 .dr-list { margin-top: clamp(28px, 4vw, 48px); border-top: 1px solid var(--line); }
