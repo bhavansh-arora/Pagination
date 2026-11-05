@@ -19,7 +19,7 @@
   }
   // Links between pages go to the matching Squarespace page: "about.html" → "/about". Pages added later in the
   // editor follow the same rule, so a new page only needs a Squarespace page with that URL. Exceptions:
-  var SLUGS = { "index.html": "/", "404.html": "/page-not-found" };
+  var SLUGS = { "index.html": "/", "404.html": "/error-404", "portfolio.html": "/galleries" };
   // Pages and the editor's global styles: fresh within a minute of publishing.
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so

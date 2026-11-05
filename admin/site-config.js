@@ -36,6 +36,9 @@ window.SITE_EDITOR_CONFIG = {
   uploadsDir: "assets/uploads/",
   brandDir: "assets/brand/",                   // favicon files
   pageTemplate: "contact.html",                // copied (with new content) when adding a page
+  // Squarespace addresses that differ from the file name (the rest follow it: about.html -> /about).
+  // Keep in step with SLUGS in assets/js/squarespace.js.
+  slugs: { "index.html": "/", "404.html": "/error-404", "portfolio.html": "/galleries" },
 
   // The Blog panel (admin/blog.js): each post is a page (prefix + address + ".html"), listed on the blog page in the
   // element marked data-blog-list. On Squarespace, one page (/post) shows any post: /post?p=<address>.

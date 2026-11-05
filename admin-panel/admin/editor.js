@@ -1180,7 +1180,8 @@
   // Squarespace: the code for a Code block that shows this page on a Squarespace page (admin/squarespace-code.html,
   // filled in with this page and this site's own address, so it works wherever the site is hosted).
   function sqsSlug(file) {
-    return file === "index.html" ? "/" : file === "404.html" ? "/page-not-found" : "/" + file.replace(/\.html$/, "").toLowerCase();
+    var map = C.slugs || { "index.html": "/", "404.html": "/page-not-found" };
+    return map[file] || "/" + file.replace(/\.html$/, "").toLowerCase();
   }
   // A plain copy of the page (headings, text, links, photos with their descriptions, structured data) that goes
   // inside the Squarespace code, so search engines and link previews get the page's content in Squarespace's own
@@ -1195,7 +1196,7 @@
       if (!u || /^(https?:|mailto:|tel:|#)/.test(u)) return u;
       var bp = u.match(/^blog-([a-z0-9-]+)\.html(#.*)?$/i); if (bp) return "/post?p=" + bp[1].toLowerCase() + (bp[2] || "");
       var m = u.match(/^([a-z0-9-]+)\.html(#.*)?$/i);
-      if (m) return (m[1] === "index" ? "/" : m[1] === "404" ? "/page-not-found" : "/" + m[1].toLowerCase()) + (m[2] || "");
+      if (m) return sqsSlug(m[1] + ".html") + (m[2] || "");
       return root + u.replace(/^\.?\//, "");
     }
     function walk(node) {
