@@ -663,5 +663,215 @@
 "c": "#928871",
 "fx": 60,
 "fy": 40
+},
+"pf-01-jack-and-ellie": {
+"w": 5675,
+"h": 8512,
+"c": "#857b69",
+"fx": 50,
+"fy": 38
+},
+"pf-02-bella-and-paxton": {
+"w": 8474,
+"h": 5649,
+"c": "#584433",
+"fx": 50,
+"fy": 38
+},
+"pf-03-liz-and-gage": {
+"w": 5660,
+"h": 8491,
+"c": "#b2b8a4",
+"fx": 50,
+"fy": 38
+},
+"pf-05-jack-and-ellie": {
+"w": 5993,
+"h": 3996,
+"c": "#979797",
+"fx": 50,
+"fy": 38
+},
+"pf-06-chris-and-mckenna": {
+"w": 8372,
+"h": 5581,
+"c": "#93a794",
+"fx": 50,
+"fy": 38
+},
+"pf-09-peter-and-sarah": {
+"w": 5370,
+"h": 8054,
+"c": "#a9a7a1",
+"fx": 50,
+"fy": 38
+},
+"pf-10-meredith-and-chris-tomczyk": {
+"w": 8154,
+"h": 5436,
+"c": "#39352d",
+"fx": 50,
+"fy": 38
+},
+"pf-11-abby-and-jake": {
+"w": 6501,
+"h": 4334,
+"c": "#9d9d9d",
+"fx": 50,
+"fy": 38
+},
+"pf-12-casey-and-connor": {
+"w": 4048,
+"h": 6068,
+"c": "#565656",
+"fx": 50,
+"fy": 38
+},
+"pf-13-bella-and-paxton": {
+"w": 6995,
+"h": 4663,
+"c": "#5d5b58",
+"fx": 50,
+"fy": 38
+},
+"pf-14-amanda-and-rick-france": {
+"w": 5280,
+"h": 7892,
+"c": "#786156",
+"fx": 50,
+"fy": 38
+},
+"pf-15-kelly-and-adam-porter": {
+"w": 7653,
+"h": 5103,
+"c": "#645d49",
+"fx": 50,
+"fy": 38
+},
+"pf-16-samantha-and-alex-berg": {
+"w": 5533,
+"h": 8300,
+"c": "#4f4e4c",
+"fx": 50,
+"fy": 38
+},
+"pf-17-colette-and-sebastian": {
+"w": 6144,
+"h": 4096,
+"c": "#566733",
+"fx": 50,
+"fy": 38
+},
+"pf-18-liz-and-gage": {
+"w": 8385,
+"h": 5590,
+"c": "#48444c",
+"fx": 50,
+"fy": 38
+},
+"pf-19-dylan-and-alex-thomas": {
+"w": 8263,
+"h": 5509,
+"c": "#b0a18e",
+"fx": 50,
+"fy": 38
+},
+"pf-21-bella-and-paxton": {
+"w": 5657,
+"h": 8485,
+"c": "#503e2d",
+"fx": 50,
+"fy": 38
+},
+"pf-22-peter-and-sarah": {
+"w": 7576,
+"h": 5050,
+"c": "#85837f",
+"fx": 50,
+"fy": 38
+},
+"pf-23-chris-and-mckenna": {
+"w": 3089,
+"h": 4634,
+"c": "#ac9c8d",
+"fx": 50,
+"fy": 38
+},
+"pf-24-kelly-and-adam-porter": {
+"w": 5731,
+"h": 8600,
+"c": "#7d6c60",
+"fx": 50,
+"fy": 38
+},
+"pf-25-jack-and-ellie": {
+"w": 5617,
+"h": 8426,
+"c": "#dbc4b5",
+"fx": 50,
+"fy": 38
+},
+"pf-26-charlotte-and-louis": {
+"w": 8540,
+"h": 5699,
+"c": "#979890",
+"fx": 50,
+"fy": 38
+},
+"pf-28-liz-and-gage": {
+"w": 4276,
+"h": 6413,
+"c": "#9c8b79",
+"fx": 50,
+"fy": 38
+},
+"pf-30-meredith-and-chris-tomczyk": {
+"w": 8272,
+"h": 5515,
+"c": "#9db5b0",
+"fx": 50,
+"fy": 38
+},
+"pf-04-samantha-and-alex-berg": {
+"w": 7728,
+"h": 5153,
+"c": "#46302a",
+"fx": 50,
+"fy": 38
+},
+"pf-07-collin-and-amanda-koester": {
+"w": 4277,
+"h": 6415,
+"c": "#a2865e",
+"fx": 50,
+"fy": 38
+},
+"pf-08-collin-and-amanda-koester": {
+"w": 8542,
+"h": 5695,
+"c": "#a59e93",
+"fx": 50,
+"fy": 38
+},
+"pf-20-roseleina-and-cameron": {
+"w": 6485,
+"h": 4323,
+"c": "#5f4731",
+"fx": 50,
+"fy": 38
+},
+"pf-27-collin-and-amanda-koester": {
+"w": 5067,
+"h": 7602,
+"c": "#907a6c",
+"fx": 50,
+"fy": 38
+},
+"pf-29-collin-and-amanda-koester": {
+"w": 6900,
+"h": 4600,
+"c": "#a68458",
+"fx": 50,
+"fy": 38
 }
 }
