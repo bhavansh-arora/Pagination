@@ -1,50 +1,27 @@
 # Reply to Mark Arista
 
 **To:** mark@aristafilms.co
-**Subject:** Your 23 five-star reviews aren't on your website (+ a preview)
+**Subject:** Re: A few ideas for your film portfolio
 
 ---
 
 Hi Mark,
 
-Thanks for being open to this. Before writing, I spent some time with your work and your listings. What stood out most is that couples already love you: 23 five-star reviews on WeddingWire, recommended by 100% of couples. Shanelle said you made her and her husband "feel comfortable in front of the camera." Wynter said you were "so beyond flexible" through *two* postponements.
+Thanks for being open to it! Here are the ideas I promised.
 
-But a couple who finds you on Instagram or Google and lands on markarista.com never sees any of that. They get a short bio, six films and a contact form.
+Couples clearly love working with you. You have 23 five-star reviews on WeddingWire, recommended by 100% of couples, with lines like "made my husband and I feel comfortable in front of the camera." But someone who finds you on Instagram or Google and lands on markarista.com never sees any of that.
 
-So rather than send ideas, I built them into a working preview:
+A few ideas:
 
-**[Preview link]**
+1. **Bring your reviews home.** Show your 5.0 rating and a handful of couple quotes on your own site, right next to the enquiry form.
+2. **Lead with your films.** Open the homepage on your footage, so couples feel your style in the first five seconds.
+3. **Give each film its own page,** with the venue and location. Couples planning at Paliku Gardens, Four Seasons Oahu or Hale Wailele can then find you on Google.
+4. **Make "I want a film like this" the enquiry.** A short 3-step form that tells you which film won them over. Your HoneyBook form stays too.
+5. **Say what makes you different.** Hawaiian settings, Filipino warmth, and the range you already have: traditional Indian weddings, Kauai, Utah. Add one wedding per day, multi-camera with drone, and your fast replies.
 
-Here's what changed and why it matters for you:
+And a quick free fix: your name appears as "Mark Arista Film," "Mark Arista Films" and "Arista Films" across WeddingWire, Zola and Birdeye. One consistent name helps Google trust you.
 
-**1. Your reviews are on your own site now.**
-There's a "5.0 · 23 reviews" section on the homepage and the Experience page, and the rating sits right beside the contact form. That trust lives on WeddingWire today. Now it works for you where couples actually decide.
-
-**2. Your films lead.**
-The homepage opens on your own footage, with a "Now showing" card that plays any film in one tap. Couples feel your style in the first five seconds.
-
-**3. Every couple gets a page.**
-Paliku Gardens, Four Seasons Oahu, Hale Wailele and Ko'olau Ballrooms each get a page with the venue and the feel of the day. That helps couples planning at those venues find you on Google.
-
-**4. "I want a film like this" turns into an enquiry.**
-That button opens a 3-step form with the film already selected, so you know exactly which story won them over. Your HoneyBook form is still there too.
-
-**5. What makes you different, said out loud.**
-"Hawaiian light. Filipino heart." gets its own section. The site also covers your range: you've filmed everything from oceanfront Hawaiian ceremonies to a traditional Indian wedding in Honolulu, and travelled to Kauai and Utah. And it states the things couples quietly worry about: one wedding per day, multi-camera coverage with drone, and fast, personal replies.
-
-**6. Fast on a phone.**
-Videos load only when someone presses play, and there's a "Check your date" button that stays on screen.
-
-**A few free quick wins I noticed along the way:**
-- Your business name changes across listings: "Mark Arista Film" (WeddingWire), "Mark Arista Films" (Zola) and "Arista Films" (Birdeye). Google trusts one consistent name more.
-- Your Birdeye profile is unclaimed and listed under "Hospitality."
-- Zola links to facebook.com/markaristafilms, while your site links to facebook.com/aristafilmsco.
-
-Fixing those takes about 10 minutes and helps you show up in search.
-
-All the copy uses your own words where possible ("your love story is worth telling," "authentic, heartfelt, and handmade"). If anything feels off, tell me and I'll change it.
-
-Happy to walk you through it on a quick 15-minute call, or just reply with your thoughts.
+Would it help if I put together a quick preview of your site with these changes, using your own films and words? No cost and no commitment. If you like where it's heading, we can talk next steps.
 
 Best,
 Bhavansh Arora
@@ -52,8 +29,6 @@ Code Bunny
 
 ---
 
-### Before sending
-- Replace **[Preview link]** with the deployed URL.
-- Review quotes were taken from Mark's public WeddingWire and Zola pages. Spot-check the wording against the live pages before launch.
-- LinkedIn blocks automated access and no profile for Mark turned up in search. If you can open his profile, paste anything useful (career history, how long he's been filming, posts) and I'll weave it in.
-- Sources: [WeddingWire](https://www.weddingwire.com/biz/mja-films-waipahu/72f2a5ee04fd5312.html), [Zola](https://zola.com/wedding-vendors/wedding-videographers/mark-arista-films), [Birdeye](https://reviews.birdeye.com/arista-films-170846266466906).
+### Notes
+- If Mark says yes, send the deployed preview link (the site in this repo), ideally within a day so it feels quick but considered.
+- Review figures and the quote come from Mark's public [WeddingWire](https://www.weddingwire.com/biz/mja-films-waipahu/72f2a5ee04fd5312.html) page. Re-check them on the day you send.
