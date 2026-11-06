@@ -913,3 +913,29 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 
 .phero + .section--tight { padding-top: 0; }
 @media (max-width: 767px) { .fhero .vf { display: none; } }
+
+/* ---------- Reviews ---------- */
+.rev { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+.rev__score { grid-column: 1 / span 3; position: sticky; top: calc(var(--header-h) + 32px); display: grid; gap: var(--stack-1); justify-items: start; }
+.rev__num { font-family: var(--f-display); font-stretch: 125%; font-weight: 800; font-size: clamp(4.5rem, 9vw, 9rem); line-height: .85; letter-spacing: -.05em; }
+.rev__stars { display: flex; gap: 4px; color: var(--sun); margin-bottom: var(--stack-1); }
+.rev__score .body { max-width: 26ch; }
+.rev__score .link { margin-top: var(--stack-1); }
+.rev__list { grid-column: 4 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+.rcard { margin: 0; padding: clamp(24px, 2.6vw, 40px); border-radius: var(--radius); background: var(--ink-3); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: var(--stack-3); min-height: clamp(220px, 20vw, 290px); transition: border-color .5s, background .5s; }
+.rcard:hover { border-color: var(--line-strong); background: #221d19; }
+.rcard blockquote { margin: 0; font-family: var(--f-serif); font-style: italic; font-size: clamp(1.5rem, 2.1vw, 2.125rem); line-height: 1.15; letter-spacing: -.01em; color: var(--cream); text-wrap: pretty; }
+.rcard figcaption { display: grid; gap: 6px; padding-top: var(--stack-2); border-top: 1px solid var(--line); }
+.rcard figcaption .label { color: var(--sun); }
+.rev + * { margin-top: 0; }
+@media (max-width: 1023px) {
+  .rev__score { grid-column: 1 / -1; position: static; grid-template-columns: auto 1fr; align-items: end; column-gap: var(--stack-2); }
+  .rev__num { grid-row: span 3; }
+  .rev__list { grid-column: 1 / -1; margin-top: var(--stack-3); }
+}
+@media (max-width: 767px) {
+  .rev__score { grid-template-columns: 1fr; }
+  .rev__num { grid-row: auto; }
+  .rev__list { grid-template-columns: 1fr; padding-bottom: 0; }
+  .rcard { min-height: 0; }
+}

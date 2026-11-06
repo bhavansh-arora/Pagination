@@ -101,3 +101,20 @@ export const films = [
 ];
 
 export const img = (f) => `assets/img/films/${f.video}.jpg`;
+
+// Real couple reviews, quoted from Mark's public WeddingWire and Zola listings.
+// Confirm with Mark before launch, and add more from his 23 WeddingWire reviews.
+export const reviews = {
+  rating: "5.0",
+  count: 23,
+  source: "WeddingWire",
+  sourceUrl: "https://www.weddingwire.com/biz/mja-films-waipahu/72f2a5ee04fd5312.html",
+  items: [
+    { q: "Kind, friendly, and made my husband and I feel comfortable in front of the camera.", n: "Shanelle", s: "WeddingWire · 2026" },
+    { q: "Mark was so beyond flexible and understanding through our TWO postponements.", n: "Wynter", s: "WeddingWire · 2022" },
+    { q: "Really capture the intimate moments that you want to look back on years down the line.", n: "Brysen & C.", s: "Zola · 2022" },
+    { q: "Incredibly courteous, responsive… (including traveling from Oahu to Kauai).", n: "Jiajia", s: "WeddingWire · 2022" },
+    { q: "Worked extremely well with our photographer.", n: "Smitha", s: "Indian wedding, Honolulu · WeddingWire · 2022" },
+    { q: "Please book with him ASAP, you won't be disappointed.", n: "Crystal", s: "WeddingWire · 2023" },
+  ],
+};

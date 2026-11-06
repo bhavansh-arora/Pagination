@@ -1,9 +1,31 @@
-import { site, films, regions, img } from "./data.mjs";
+import { site, films, regions, img, reviews } from "./data.mjs";
 import { head, header, footer, btn, ic, ctaBlock } from "./layout.mjs";
 
 const byVideo = (id) => films.find((f) => f.video === id);
 const regionLabel = (id) => regions.find((r) => r.id === id)?.label || "";
 const pad = (n) => String(n).padStart(2, "0");
+
+const star = `<svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/></svg>`;
+const reviewsBlock = (label) => `
+<section class="section deep" aria-labelledby="reviews-title">
+  <div class="wrap">
+    <div class="shead">
+      <p class="label scene shead__label" data-reveal>${label}</p>
+      <h2 class="display display--h2 shead__title" id="reviews-title" data-split>Couples say it <span class="it">best.</span></h2>
+    </div>
+    <div class="rev">
+      <div class="rev__score" data-reveal>
+        <p class="rev__num">${reviews.rating}</p>
+        <p class="rev__stars">${star.repeat(5)}</p>
+        <p class="body">${reviews.count} reviews on ${reviews.source}, and recommended by 100% of couples.</p>
+        <a class="link" href="${reviews.sourceUrl}" target="_blank" rel="noopener">Read them all ${ic.arrowUR.replace('viewBox', 'width="14" height="14" viewBox')}</a>
+      </div>
+      <div class="rev__list">
+        ${reviews.items.map((r, k) => `<figure class="rcard" data-reveal style="--d:${(k % 2) * 0.1}s"><blockquote>“${r.q}”</blockquote><figcaption><span class="h4">${r.n}</span><span class="label">${r.s}</span></figcaption></figure>`).join("")}
+      </div>
+    </div>
+  </div>
+</section>`;
 
 const orgLd = {
   "@context": "https://schema.org",
@@ -17,6 +39,7 @@ const orgLd = {
   areaServed: ["Oahu", "Hawaii Island", "Maui", "Kauai", "Hawaii", "Destination"],
   address: { "@type": "PostalAddress", addressRegion: "HI", addressCountry: "US" },
   sameAs: [site.instagram, site.facebook],
+  aggregateRating: { "@type": "AggregateRating", ratingValue: reviews.rating, reviewCount: reviews.count },
 };
 
 /* ============================== HOME ============================== */
@@ -208,6 +231,8 @@ ${header({ active: "index.html" })}
   </div>
 </section>
 
+${reviewsBlock("<b>Sc. 07</b> Kind words")}
+
 ${ctaBlock({})}
 </main>
 ${footer({})}`;
@@ -254,6 +279,7 @@ ${header({ active: "about.html" })}
       <div class="body" data-reveal>
         <p>Whether your celebration takes you to a Hawaiian beach and mountains, a classic church, or beneath the stars, I'm there to capture the magic — transforming your once-in-a-lifetime moments into a story you'll relive for a lifetime.</p>
         <p>A wedding is never only about two people. It's the families who flew in, the elders who gave their blessing, and the friends who would do anything for you. That's who I film for — so years from now you can hear the laughter, see the tears and feel the whole day again.</p>
+        <p>More than an artist, I consider myself a keen observer: a visual storyteller who loves listening to unique love stories. The result is simple — authentic, heartfelt and handmade.</p>
       </div>
     </div>
   </div>
@@ -278,6 +304,7 @@ ${header({ active: "about.html" })}
     <p class="label scene" data-reveal><b>Sc. 03</b> The promise</p>
     <h2 class="quote mt-3" id="quote-title" data-split>Once-in-a-lifetime moments, told as a story you'll relive <span class="it">for a lifetime.</span></h2>
     <p class="label quote-by" data-reveal>— Mark Arista</p>
+    <div class="chips mt-3" data-reveal><span class="chip">One wedding per day</span><span class="chip">Multi-camera coverage</span><span class="chip">Drone footage</span><span class="chip">Cinematic · documentary · story-led</span></div>
   </div>
 </section>
 
@@ -290,7 +317,7 @@ ${header({ active: "about.html" })}
     <div class="where">
       <div class="where__item" data-reveal><span class="label">01</span><h3 class="h3">Oahu</h3><p>Kaneohe, Ko Olina and across the island — gardens, ballrooms and oceanfront ceremonies.</p></div>
       <div class="where__item" data-reveal style="--d:.1s"><span class="label">02</span><h3 class="h3">Hawaii Island</h3><p>Kona sunsets and coastal estates like Hale Wailele.</p></div>
-      <div class="where__item" data-reveal style="--d:.2s"><span class="label">03</span><h3 class="h3">Destination</h3><p>From Salt Lake City, Utah to wherever you're saying yes. Ask about travel.</p></div>
+      <div class="where__item" data-reveal style="--d:.2s"><span class="label">03</span><h3 class="h3">Kauai &amp; beyond</h3><p>Neighbor-island weddings like Kauai, mainland trips like Salt Lake City, Utah — wherever you're saying yes.</p></div>
     </div>
   </div>
 </section>
@@ -451,10 +478,12 @@ ${footer({ base })}`;
 /* ============================== EXPERIENCE ============================== */
 export function experience() {
   const faqs = [
-    ["Where are you based — and do you travel?", "I'm based in Hawaii and film across the islands, from Kaneohe and Ko Olina on Oahu to Kona on Hawaii Island. I also travel for weddings on the mainland and beyond — recent films include a wedding in Salt Lake City, Utah."],
+    ["Where are you based — and do you travel?", "I'm based in Hawaii and film across the islands, from Kaneohe and Ko Olina on Oahu to Kona on Hawaii Island and over to Kauai. I also travel for weddings on the mainland and beyond — recent films include a wedding in Salt Lake City, Utah."],
     ["How far ahead should we book?", "As soon as you have a date and venue in mind. Popular dates go first, so it's always worth checking availability early — even if the rest of your planning is still coming together."],
     ["What will our film feel like?", "Like you. Every film is edited around your story, your voices and your people. Watch a few films to get a feel for the style, then tell me what you want to feel when you press play."],
     ["Can you film our cultural traditions?", "Absolutely. Whether it's a Hawaiian blessing, a lei exchange, the veil, cord and arras, or a money dance that takes over the reception, we'll plan around the moments that matter most to your families."],
+    ["How many weddings do you film in a day?", "Just one. On your date, my full attention — and every camera — is on you and your people."],
+    ["Do you film with drones and multiple cameras?", "Yes. Multi-camera coverage keeps vows and speeches covered from every angle, and drone footage shows off your venue from above wherever the location allows it."],
     ["What's the investment?", "Every collection is tailored to the day you're planning. Share your date and a few details, and I'll send current collections and availability."],
     ["What happens after we enquire?", "I read every message personally and will reply to set up a relaxed call — a chance to talk story and make sure we're the right fit for each other."],
   ];
@@ -508,7 +537,7 @@ ${header({ active: "experience.html" })}
       <h2 class="display display--h2 shead__title" id="trad-title" data-split>Traditions, <span class="it">understood.</span></h2>
     </div>
     <div class="intro__grid">
-      <p class="body intro__text" data-reveal style="grid-column:4 / span 6">Hawaiian, Filipino, both or something entirely your own — the moments your families care about most get planned for, not stumbled upon.</p>
+      <p class="body intro__text" data-reveal style="grid-column:4 / span 6">Hawaiian, Filipino, Indian, a blend of all three, or something entirely your own. Couples have trusted Mark with everything from oceanfront Hawaiian ceremonies to a traditional Indian wedding in Honolulu — the moments your families care about most get planned for, not stumbled upon.</p>
     </div>
     <div class="traditions" data-reveal>
       <span class="tradition">Lei exchange</span>
@@ -547,6 +576,8 @@ ${header({ active: "experience.html" })}
   </div>
 </section>
 
+${reviewsBlock("<b>Sc. 04</b> Kind words")}
+
 ${ctaBlock({ image: "assets/img/films/CWCR__HvvXI.jpg" })}
 </main>
 ${footer({})}`;
@@ -573,7 +604,8 @@ ${header({ active: "contact.html" })}
       <a href="mailto:${site.email}"><span class="label">Email</span><span>${site.email}</span></a>
       <a href="${site.instagram}" target="_blank" rel="noopener"><span class="label">Instagram</span><span>@markaristafilms ↗</span></a>
       <div><span class="label">Hawaii time</span><span data-clock>—</span></div>
-      <div><span class="label">Based in</span><span>Hawaii · travels worldwide</span></div>
+      <div><span class="label">Based in</span><span>Oahu, Hawaii · travels</span></div>
+      <a href="${reviews.sourceUrl}" target="_blank" rel="noopener"><span class="label">Reviews</span><span>★ ${reviews.rating} · ${reviews.count} on ${reviews.source} ↗</span></a>
     </div>
   </div></div>
 

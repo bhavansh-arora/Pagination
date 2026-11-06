@@ -1,39 +1,50 @@
 # Reply to Mark Arista
 
 **To:** mark@aristafilms.co
-**Subject:** A few ideas for couples visiting your site (plus a preview)
+**Subject:** Your 23 five-star reviews aren't on your website (+ a preview)
 
 ---
 
 Hi Mark,
 
-Thanks for being open to this. Rather than send a list of ideas, I built them into a working preview so you can click through it yourself:
+Thanks for being open to this. Before writing, I spent some time with your work and your listings. What stood out most is that couples already love you: 23 five-star reviews on WeddingWire, recommended by 100% of couples. Shanelle said you made her and her husband "feel comfortable in front of the camera." Wynter said you were "so beyond flexible" through *two* postponements.
+
+But a couple who finds you on Instagram or Google and lands on markarista.com never sees any of that. They get a short bio, six films and a contact form.
+
+So rather than send ideas, I built them into a working preview:
 
 **[Preview link]**
 
-You already have the important part: beautiful films, and a clear voice about Hawaiian settings and Filipino warmth. These changes are about getting couples to that feeling faster, and then making it easy for them to enquire.
+Here's what changed and why it matters for you:
 
-**1. Your films are the first thing they see**
-The homepage opens on stills from your own films, with a "Now showing" card that plays any of them in one tap. In the first few seconds, couples see your work, not a page they have to scroll through.
+**1. Your reviews are on your own site now.**
+There's a "5.0 · 23 reviews" section on the homepage and the Experience page, and the rating sits right beside the contact form. That trust lives on WeddingWire today. Now it works for you where couples actually decide.
 
-**2. Every film has its own page**
-Spencer + Jenn, Michael + Adrienne and the others each get a page with the venue, location and feel of the day. Couples planning at Paliku Gardens, Four Seasons Oahu or in Kona can find a film from their own venue. Each page also helps you show up on Google for "[venue] wedding videographer" searches.
+**2. Your films lead.**
+The homepage opens on your own footage, with a "Now showing" card that plays any film in one tap. Couples feel your style in the first five seconds.
 
-**3. "I want a film like this" carries straight into the enquiry**
-On every film page, that button opens your contact form with the film already selected. When the enquiry reaches you, you know exactly which story caught their eye.
+**3. Every couple gets a page.**
+Paliku Gardens, Four Seasons Oahu, Hale Wailele and Ko'olau Ballrooms each get a page with the venue and the feel of the day. That helps couples planning at those venues find you on Google.
 
-**4. A shorter, friendlier enquiry form**
-It's 3 quick steps (you two, the day, your story) and takes about two minutes. It asks the things you'd want to know anyway: date, island, venue, guest count and traditions. Your HoneyBook form is still there for anyone who prefers it.
+**4. "I want a film like this" turns into an enquiry.**
+That button opens a 3-step form with the film already selected, so you know exactly which story won them over. Your HoneyBook form is still there too.
 
-**5. Your heritage, front and centre**
-"Hawaiian light. Filipino heart." gets its own section, along with traditions you understand, like the lei exchange, the veil, cord and arras, and the money dance. That's the thing that sets you apart, so the site says it out loud.
+**5. What makes you different, said out loud.**
+"Hawaiian light. Filipino heart." gets its own section. The site also covers your range: you've filmed everything from oceanfront Hawaiian ceremonies to a traditional Indian wedding in Honolulu, and travelled to Kauai and Utah. And it states the things couples quietly worry about: one wedding per day, multi-camera coverage with drone, and fast, personal replies.
 
-**6. Built to be fast on a phone**
-Videos only load when someone presses play, so pages stay quick even on an iPhone at the beach. There's a "Check your date" button that stays put on mobile, plus films filtered by island and an FAQ that answers the travel and pricing questions before they're asked.
+**6. Fast on a phone.**
+Videos load only when someone presses play, and there's a "Check your date" button that stays on screen.
 
-All the copy uses your own words where possible ("your love story is worth telling", "So what's your story?"). Anything I wrote fresh is easy to change. If any of it feels off, tell me and I'll adjust it.
+**A few free quick wins I noticed along the way:**
+- Your business name changes across listings: "Mark Arista Film" (WeddingWire), "Mark Arista Films" (Zola) and "Arista Films" (Birdeye). Google trusts one consistent name more.
+- Your Birdeye profile is unclaimed and listed under "Hospitality."
+- Zola links to facebook.com/markaristafilms, while your site links to facebook.com/aristafilmsco.
 
-If it's useful, I'm happy to walk you through it on a quick 15-minute call, or you can just reply with thoughts.
+Fixing those takes about 10 minutes and helps you show up in search.
+
+All the copy uses your own words where possible ("your love story is worth telling," "authentic, heartfelt, and handmade"). If anything feels off, tell me and I'll change it.
+
+Happy to walk you through it on a quick 15-minute call, or just reply with your thoughts.
 
 Best,
 Bhavansh Arora
@@ -41,7 +52,8 @@ Code Bunny
 
 ---
 
-### Before sending, check
+### Before sending
 - Replace **[Preview link]** with the deployed URL.
-- Confirm with Mark: the FAQ answers (booking lead time, travel), the guest-count ranges on the form, and the short story paragraph on each film page. These were written from the film titles and stills, not from Mark.
-- There are no testimonials on the site yet, because none are public. Ask Mark for 2–3 couple reviews and we'll add a "Kind words" section.
+- Review quotes were taken from Mark's public WeddingWire and Zola pages. Spot-check the wording against the live pages before launch.
+- LinkedIn blocks automated access and no profile for Mark turned up in search. If you can open his profile, paste anything useful (career history, how long he's been filming, posts) and I'll weave it in.
+- Sources: [WeddingWire](https://www.weddingwire.com/biz/mja-films-waipahu/72f2a5ee04fd5312.html), [Zola](https://zola.com/wedding-vendors/wedding-videographers/mark-arista-films), [Birdeye](https://reviews.birdeye.com/arista-films-170846266466906).
