@@ -241,6 +241,66 @@
     gRender();
   }
 
+  /* ---------- Balanced photo columns: every column ends level (no empty gap at the bottom) ---------- */
+  document.querySelectorAll("[data-balance]").forEach(function (grid) {
+    var items = Array.prototype.slice.call(grid.querySelectorAll(".masonry__item"));
+    items.forEach(function (it, i) {
+      it.dataset.i = i;
+      var im = it.querySelector("img"), w = +im.getAttribute("width") || 1, h = +im.getAttribute("height") || 1;
+      it._r = h / w;
+      it.querySelector(".media").style.setProperty("--ar", w + " / " + h);
+    });
+    var built = 0;
+    function layout() {
+      var cs = getComputedStyle(grid), n = parseInt(cs.getPropertyValue("--cols"), 10) || 2;
+      if (n === built) return;
+      built = n;
+      var gap = parseFloat(cs.getPropertyValue("--gap")) || 8, colW = (grid.clientWidth - gap * (n - 1)) / n || 180, g = gap / colW;
+      var cols = [], k, j, x;
+      for (k = 0; k < n; k++) cols.push({ list: [], h: 0 });
+      function shortest() { var b = cols[0]; cols.forEach(function (c) { if (c.h < b.h) b = c; }); return b; }
+      // In Dan's order, each photo goes to the shortest column...
+      items.forEach(function (it) { var c = shortest(); c.list.push(it); c.h += it._r + g; });
+      // ...then the last few photos of each column are re-shared, trying every split, so the columns end as level as possible.
+      var P = n === 2 ? 8 : n === 3 ? 4 : 3, pool = [], base = [];
+      cols.forEach(function (c) { var t = c.list.splice(Math.max(0, c.list.length - P)); pool = pool.concat(t); base.push(c.list.reduce(function (s, it) { return s + it._r + g; }, 0)); });
+      var total = Math.pow(n, pool.length), best = null, bestD = Infinity, hs = [], pick = [];
+      for (var code = 0; code < total; code++) {
+        for (k = 0; k < n; k++) hs[k] = base[k];
+        for (j = 0, x = code; j < pool.length; j++) { pick[j] = x % n; x = (x - pick[j]) / n; hs[pick[j]] += pool[j]._r + g; }
+        var mx = Math.max.apply(null, hs), mn = Math.min.apply(null, hs);
+        if (mx - mn < bestD - 1e-9) { bestD = mx - mn; best = pick.slice(); }
+      }
+      pool.forEach(function (it, q) { cols[best[q]].list.push(it); });
+      cols.forEach(function (c) {
+        c.list.sort(function (a, b) { return a.dataset.i - b.dataset.i; });
+        c.h = c.list.reduce(function (s, it) { return s + it._r + g; }, 0);
+      });
+      var maxH = Math.max.apply(null, cols.map(function (c) { return c.h; })), frag = document.createDocumentFragment();
+      cols.forEach(function (c) {
+        var col = document.createElement("div");
+        col.className = "masonry__col";
+        // What's left is shared by the last few photos (each grows by at most ~12%, cropped from the centre).
+        var left = maxH - c.h, sum = 0, from = c.list.length;
+        if (left > 0.005) do { from--; sum += c.list[from]._r; } while (from > 0 && left / sum > 0.12);
+        c.list.forEach(function (it, q) {
+          var grow = left > 0.005 && q >= from;
+          it.classList.toggle("is-last", grow);
+          it.style.flexGrow = grow ? it._r : "";
+          col.appendChild(it);
+        });
+        frag.appendChild(col);
+      });
+      grid.innerHTML = "";
+      grid.appendChild(frag);
+      grid.classList.add("is-balanced");
+      if (window.ScrollTrigger && built) window.ScrollTrigger.refresh();
+    }
+    layout();
+    var rt;
+    window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(layout, 150); });
+  });
+
   /* ---------- Lightbox ---------- */
   var lb = document.getElementById("lightbox");
   if (lb) {
@@ -249,7 +309,8 @@
     var lbCap = lb.querySelector("[data-caption]");
     var current = 0, list = [], lastFocus = null;
     function visibleItems() {
-      return Array.prototype.filter.call(document.querySelectorAll(".masonry__item"), function (i) { return !i.hidden; });
+      return Array.prototype.filter.call(document.querySelectorAll(".masonry__item"), function (i) { return !i.hidden; })
+        .sort(function (a, b) { return (a.dataset.i || 0) - (b.dataset.i || 0); });
     }
     function show(i) {
       current = (i + list.length) % list.length;

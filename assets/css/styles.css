@@ -1236,6 +1236,18 @@ html { -webkit-tap-highlight-color: transparent; }
 /* ---------- Portfolio (curated favorites) ---------- */
 .pf-section { padding-bottom: var(--section); }
 @media (min-width: 1100px) { .pf-masonry { columns: 3; column-gap: 10px; } .pf-masonry .masonry__item { margin-bottom: 10px; } }
+/* Balanced columns (set by main.js): photos are shared out so every column ends level; the last photo of a
+   column may be cropped a touch to close the final few pixels. Without JS the CSS columns above still work. */
+.masonry { --cols: 2; --gap: 8px; }
+@media (min-width: 760px) { .masonry { --cols: 3; --gap: 10px; } }
+@media (min-width: 1300px) { .masonry:not(.pf-masonry) { --cols: 4; } }
+.masonry.is-balanced { columns: auto; display: flex; align-items: stretch; gap: var(--gap); }
+.masonry__col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--gap); }
+.masonry.is-balanced .masonry__item { margin: 0; }
+.masonry.is-balanced .masonry__item .media { aspect-ratio: var(--ar); }
+.masonry.is-balanced .masonry__item .media img { position: absolute; inset: 0; }
+.masonry__col > .masonry__item.is-last { flex-shrink: 1; flex-basis: auto; display: flex; flex-direction: column; }
+.masonry__col > .masonry__item.is-last .media { flex: 1 1 auto; }
 .pf-next { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
 .pf-next__card { min-height: 340px; }
 @media (min-width: 900px) { .pf-next { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } .pf-next__card { min-height: 420px; } }
