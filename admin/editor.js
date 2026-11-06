@@ -101,7 +101,9 @@
         return api("/git/trees", { method: "POST", body: JSON.stringify({ base_tree: commit.tree.sha, tree: tree }) });
       });
     }).then(function (tree) {
-      return api("/git/commits", { method: "POST", body: JSON.stringify({ message: message, tree: tree.sha, parents: [base] }) });
+      var body = { message: message, tree: tree.sha, parents: [base] };
+      if (C.commitAuthor && C.commitAuthor.name && C.commitAuthor.email) body.author = body.committer = { name: C.commitAuthor.name, email: C.commitAuthor.email };
+      return api("/git/commits", { method: "POST", body: JSON.stringify(body) });
     }).then(function (c) {
       return api("/git/refs/heads/" + encodeURIComponent(cfg.branch), { method: "PATCH", body: JSON.stringify({ sha: c.sha }) }).then(function () { return c; });
     });

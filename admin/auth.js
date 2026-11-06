@@ -96,7 +96,8 @@
     var body = JSON.stringify(data, null, 2) + "\n";
     var bytes = enc.encode(body), s = ""; for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
     return gh(repoConf, token, path + "?ref=" + encodeURIComponent(repoConf.branch)).then(function (f) { return f.sha; }, function () { return null; }).then(function (sha) {
-      var payload = { message: message, content: btoa(s), branch: repoConf.branch };
+      var payload = { message: message, content: btoa(s), branch: repoConf.branch }, who = C.commitAuthor;
+      if (who && who.name && who.email) payload.author = payload.committer = { name: who.name, email: who.email };
       if (sha) payload.sha = sha;
       return gh(repoConf, token, path, { method: "PUT", body: JSON.stringify(payload) });
     }).then(function () { conf = data; });

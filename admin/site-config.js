@@ -10,6 +10,7 @@ window.SITE_EDITOR_CONFIG = {
   storageKey: "dr-site-editor",                // browser storage keys (unique per site)
   sessionKey: "dr-auth-session",
   repo: { owner: "bhavansh-arora", repo: "danreynoldsphotography", branch: "main" },
+  commitAuthor: { name: "Code Bunny", email: "site@codebunny.net" },   // name shown on every change saved from the editor (optional)
   origin: "https://www.danreynoldsphotography.com",   // live address (fallback for SEO previews)
   titleSuffix: " — Dan Reynolds Photography",         // added to new pages' titles
   altSuffix: " — Dan Reynolds Photography",           // added to suggested photo alt text
