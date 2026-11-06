@@ -832,6 +832,118 @@
 "fx": 50,
 "fy": 38
 },
+"pf-31-yura-and-joseph": {
+"w": 5188,
+"h": 7782,
+"c": "#493222",
+"fx": 50,
+"fy": 38
+},
+"pf-32-steve-and-taylor-torres": {
+"w": 5690,
+"h": 8546,
+"c": "#a39181",
+"fx": 50,
+"fy": 38
+},
+"pf-33-steve-and-taylor-torres": {
+"w": 6758,
+"h": 4505,
+"c": "#593f2b",
+"fx": 50,
+"fy": 38
+},
+"pf-34-charlotte-and-quinn": {
+"w": 4293,
+"h": 6440,
+"c": "#bdb3ab",
+"fx": 50,
+"fy": 38
+},
+"pf-35-hannah-and-rijul": {
+"w": 8156,
+"h": 5437,
+"c": "#615b4a",
+"fx": 50,
+"fy": 38
+},
+"pf-36-ryan-and-kaylin": {
+"w": 5304,
+"h": 7952,
+"c": "#433535",
+"fx": 50,
+"fy": 38
+},
+"pf-37-liz-and-ryan-youskevtch": {
+"w": 5760,
+"h": 8640,
+"c": "#6b534a",
+"fx": 50,
+"fy": 38
+},
+"pf-38-yura-and-joseph": {
+"w": 8640,
+"h": 5760,
+"c": "#85725a",
+"fx": 50,
+"fy": 38
+},
+"pf-39-karina-and-manny-navarro": {
+"w": 6766,
+"h": 4510,
+"c": "#7f6845",
+"fx": 50,
+"fy": 38
+},
+"pf-41-sarah-and-lance": {
+"w": 3930,
+"h": 5900,
+"c": "#6b503b",
+"fx": 50,
+"fy": 38
+},
+"pf-43-mackenzie-and-hunter-frank": {
+"w": 4000,
+"h": 6000,
+"c": "#93806f",
+"fx": 50,
+"fy": 38
+},
+"pf-44-charlotte-and-quinn": {
+"w": 5120,
+"h": 7677,
+"c": "#d1c8bd",
+"fx": 50,
+"fy": 38
+},
+"pf-45-charlotte-and-quinn": {
+"w": 7009,
+"h": 4641,
+"c": "#aba59a",
+"fx": 50,
+"fy": 38
+},
+"pf-46-kyndra-and-dillon-hayner": {
+"w": 5304,
+"h": 7952,
+"c": "#73645b",
+"fx": 50,
+"fy": 38
+},
+"pf-47-yura-and-joseph": {
+"w": 7454,
+"h": 4969,
+"c": "#3a3939",
+"fx": 50,
+"fy": 38
+},
+"pf-53-karina-and-manny-navarro": {
+"w": 6891,
+"h": 4594,
+"c": "#643c30",
+"fx": 50,
+"fy": 38
+},
 "pf-04-samantha-and-alex-berg": {
 "w": 7728,
 "h": 5153,
@@ -853,10 +965,45 @@
 "fx": 50,
 "fy": 38
 },
+"pf-40-clara-and-vince": {
+"w": 8730,
+"h": 5820,
+"c": "#867c70",
+"fx": 50,
+"fy": 38
+},
+"pf-42-julia-and-kirk-bennett": {
+"w": 8090,
+"h": 5394,
+"c": "#72664e",
+"fx": 50,
+"fy": 38
+},
 "pf-20-roseleina-and-cameron": {
 "w": 6485,
 "h": 4323,
 "c": "#5f4731",
+"fx": 50,
+"fy": 38
+},
+"pf-48-kayla-and-james": {
+"w": 5377,
+"h": 8065,
+"c": "#7c6554",
+"fx": 50,
+"fy": 38
+},
+"pf-49-julia-and-kirk-bennett": {
+"w": 5714,
+"h": 8571,
+"c": "#7f7362",
+"fx": 50,
+"fy": 38
+},
+"pf-50-karen-and-paul": {
+"w": 6000,
+"h": 4000,
+"c": "#918f8b",
 "fx": 50,
 "fy": 38
 },
@@ -867,10 +1014,24 @@
 "fx": 50,
 "fy": 38
 },
+"pf-51-clara-and-vince": {
+"w": 7637,
+"h": 5091,
+"c": "#776e60",
+"fx": 50,
+"fy": 38
+},
 "pf-29-collin-and-amanda-koester": {
 "w": 6900,
 "h": 4600,
 "c": "#a68458",
+"fx": 50,
+"fy": 38
+},
+"pf-52-julia-and-kirk-bennett": {
+"w": 8615,
+"h": 5735,
+"c": "#8c7c6a",
 "fx": 50,
 "fy": 38
 }
