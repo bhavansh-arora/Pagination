@@ -159,7 +159,7 @@
         <div class="scard__body">
           <div>
             <h3 class="display scard__title"><a href="films/spencer-jenn.html">Spencer + Jenn</a></h3>
-            <div class="scard__meta"><span>Paliku Gardens</span><span>·</span><span>Kaneohe, Oahu</span></div>
+            <div class="scard__meta"><span>Paliku Gardens</span><span class="scard__sep" aria-hidden="true">·</span><span>Kaneohe, Oahu</span></div>
             <div class="chips mt-2"><span class="chip">Dreamy</span><span class="chip">Romantic</span><span class="chip">Fun</span></div>
           </div>
           <div class="scard__actions">
@@ -174,7 +174,7 @@
         <div class="scard__body">
           <div>
             <h3 class="display scard__title"><a href="films/jillyan-nick.html">Jillyan + Nick</a></h3>
-            <div class="scard__meta"><span>Salt Lake City</span><span>·</span><span>Salt Lake City, Utah</span></div>
+            <div class="scard__meta"><span>Salt Lake City</span><span class="scard__sep" aria-hidden="true">·</span><span>Salt Lake City, Utah</span></div>
             <div class="chips mt-2"><span class="chip">Moving</span><span class="chip">Heartfelt</span><span class="chip">Intentional</span></div>
           </div>
           <div class="scard__actions">
@@ -189,7 +189,7 @@
         <div class="scard__body">
           <div>
             <h3 class="display scard__title"><a href="films/john-sakura.html">John + Sakura</a></h3>
-            <div class="scard__meta"><span>Four Seasons Resort Oahu</span><span>·</span><span>Ko Olina, Oahu</span></div>
+            <div class="scard__meta"><span>Four Seasons Resort Oahu</span><span class="scard__sep" aria-hidden="true">·</span><span>Ko Olina, Oahu</span></div>
             <div class="chips mt-2"><span class="chip">Oceanfront</span><span class="chip">Lush</span><span class="chip">Joyful</span></div>
           </div>
           <div class="scard__actions">
@@ -204,7 +204,7 @@
         <div class="scard__body">
           <div>
             <h3 class="display scard__title"><a href="films/mike-victoria.html">Mike + Victoria</a></h3>
-            <div class="scard__meta"><span>Four Seasons Resort Oahu</span><span>·</span><span>Ko Olina, Oahu</span></div>
+            <div class="scard__meta"><span>Four Seasons Resort Oahu</span><span class="scard__sep" aria-hidden="true">·</span><span>Ko Olina, Oahu</span></div>
             <div class="chips mt-2"><span class="chip">Sunset</span><span class="chip">Intimate</span><span class="chip">Elegant</span></div>
           </div>
           <div class="scard__actions">
@@ -222,9 +222,11 @@
     <p class="label scene" data-reveal><b>Sc. 04</b> The feeling</p>
     <h2 class="sr-only" id="feel-title">Dreamy, romantic, fun, moving, heartfelt, intentional.</h2>
   </div>
-  <div class="feel__rows" aria-hidden="true">
-    <div class="feel__row"><span class="display">Dreamy<span class="dot">.</span></span><span class="it">romantic</span><span class="display outline">Fun.</span><span class="display">Dreamy<span class="dot">.</span></span></div>
-    <div class="feel__row"><span class="display outline">Moving.</span><span class="display">Heartfelt<span class="dot">.</span></span><span class="it">intentional</span><span class="display outline">Moving.</span></div>
+  <div class="wrap feel__rows" aria-hidden="true">
+    <p class="feel__row" data-reveal><span class="display">Dreamy<span class="dot">.</span></span> <span class="it">romantic</span></p>
+    <p class="feel__row feel__row--r" data-reveal style="--d:.08s"><span class="display outline">Fun.</span> <span class="display">Moving<span class="dot">.</span></span></p>
+    <p class="feel__row" data-reveal style="--d:.16s"><span class="display">Heartfelt<span class="dot">.</span></span></p>
+    <p class="feel__row feel__row--r" data-reveal style="--d:.24s"><span class="it">&amp; intentional</span></p>
   </div>
   <div class="wrap feel__foot">
     <p class="body" data-reveal>Six words, pulled straight from the titles of recent films. Every edit chases a feeling — never a template — so your film sounds and moves like the two of you.</p>
@@ -246,7 +248,7 @@
       </button><button type="button" class="place" aria-expanded="false">
         <img src="assets/img/films/hzfBBlhqEzI.jpg" alt="" loading="lazy">
         <span class="place__n label">02</span>
-        <span class="place__title">Mountains & gardens</span>
+        <span class="place__title">The gardens</span>
         <span class="place__info"><p>Spencer + Jenn — a garden aisle at Paliku Gardens, Kaneohe.</p></span>
       </button><button type="button" class="place" aria-expanded="false">
         <img src="assets/img/films/OAF6KZrBGzk.jpg" alt="" loading="lazy">

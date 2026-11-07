@@ -52,7 +52,7 @@ export function home() {
   const tape2 = ["Your love", "<span class=\"it\">your people</span>", "your story", "<span class=\"it\">for a lifetime</span>"];
   const places = [
     { v: "uX9gSYDRctw", t: "The beach", d: "Mike + Victoria — sunset by the shore at Four Seasons Oahu." },
-    { v: "hzfBBlhqEzI", t: "Mountains & gardens", d: "Spencer + Jenn — a garden aisle at Paliku Gardens, Kaneohe." },
+    { v: "hzfBBlhqEzI", t: "The gardens", d: "Spencer + Jenn — a garden aisle at Paliku Gardens, Kaneohe." },
     { v: "OAF6KZrBGzk", t: "Golden hour", d: "Michael + Adrienne — a Kona sunset at Hale Wailele." },
     { v: "itpNCKYn7B4", t: "Far from home", d: "Jillyan + Nick — the islands' heart, carried to Salt Lake City, Utah." },
   ];
@@ -171,7 +171,7 @@ ${header({ active: "index.html" })}
         <div class="scard__body">
           <div>
             <h3 class="display scard__title"><a href="films/${f.slug}.html">${f.couple}</a></h3>
-            <div class="scard__meta"><span>${f.venue}</span><span>·</span><span>${f.location}</span></div>
+            <div class="scard__meta"><span>${f.venue}</span><span class="scard__sep" aria-hidden="true">·</span><span>${f.location}</span></div>
             <div class="chips mt-2">${f.mood.map((m) => `<span class="chip">${m}</span>`).join("")}</div>
           </div>
           <div class="scard__actions">
@@ -189,9 +189,11 @@ ${header({ active: "index.html" })}
     <p class="label scene" data-reveal><b>Sc. 04</b> The feeling</p>
     <h2 class="sr-only" id="feel-title">Dreamy, romantic, fun, moving, heartfelt, intentional.</h2>
   </div>
-  <div class="feel__rows" aria-hidden="true">
-    <div class="feel__row"><span class="display">Dreamy<span class="dot">.</span></span><span class="it">romantic</span><span class="display outline">Fun.</span><span class="display">Dreamy<span class="dot">.</span></span></div>
-    <div class="feel__row"><span class="display outline">Moving.</span><span class="display">Heartfelt<span class="dot">.</span></span><span class="it">intentional</span><span class="display outline">Moving.</span></div>
+  <div class="wrap feel__rows" aria-hidden="true">
+    <p class="feel__row" data-reveal><span class="display">Dreamy<span class="dot">.</span></span> <span class="it">romantic</span></p>
+    <p class="feel__row feel__row--r" data-reveal style="--d:.08s"><span class="display outline">Fun.</span> <span class="display">Moving<span class="dot">.</span></span></p>
+    <p class="feel__row" data-reveal style="--d:.16s"><span class="display">Heartfelt<span class="dot">.</span></span></p>
+    <p class="feel__row feel__row--r" data-reveal style="--d:.24s"><span class="it">&amp; intentional</span></p>
   </div>
   <div class="wrap feel__foot">
     <p class="body" data-reveal>Six words, pulled straight from the titles of recent films. Every edit chases a feeling — never a template — so your film sounds and moves like the two of you.</p>
@@ -537,7 +539,7 @@ ${header({ active: "experience.html" })}
       <h2 class="display display--h2 shead__title" id="trad-title" data-split>Traditions, <span class="it">understood.</span></h2>
     </div>
     <div class="intro__grid">
-      <p class="body intro__text" data-reveal style="grid-column:4 / span 6">Hawaiian, Filipino, Indian, a blend of all three, or something entirely your own. Couples have trusted Mark with everything from oceanfront Hawaiian ceremonies to a traditional Indian wedding in Honolulu — the moments your families care about most get planned for, not stumbled upon.</p>
+      <p class="body trad__lead" data-reveal>Hawaiian, Filipino, Indian, a blend of all three, or something entirely your own. Couples have trusted Mark with everything from oceanfront Hawaiian ceremonies to a traditional Indian wedding in Honolulu — the moments your families care about most get planned for, not stumbled upon.</p>
     </div>
     <div class="traditions" data-reveal>
       <span class="tradition">Lei exchange</span>

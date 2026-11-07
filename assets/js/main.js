@@ -13,7 +13,7 @@
   const $ = (s, c = d) => c.querySelector(s);
   const $$ = (s, c = d) => Array.from(c.querySelectorAll(s));
 
-  if (gsap && ST) { gsap.registerPlugin(ST); root.classList.add("has-gsap"); }
+  if (gsap && ST) { gsap.registerPlugin(ST); root.classList.add("has-gsap"); if (!reduce) root.classList.add("has-scrub"); }
 
   /* ---------- Smooth scroll ---------- */
   let lenis = null;
@@ -255,10 +255,6 @@
         if (k === cards.length - 1) return;
         gsap.to(c, { scale: 0.9, filter: "brightness(0.45)", ease: "none", scrollTrigger: { trigger: cards[k + 1], start: "top bottom", end: "top top+=120", scrub: true } });
       });
-    });
-    // Feeling rows drift
-    $$(".feel__row").forEach((r, k) => {
-      gsap.fromTo(r, { xPercent: k % 2 ? -18 : 4 }, { xPercent: k % 2 ? 2 : -20, ease: "none", scrollTrigger: { trigger: r, start: "top bottom", end: "bottom top", scrub: true } });
     });
     // Big footer word
     const fw = $(".footer__word");
