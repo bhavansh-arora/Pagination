@@ -15,7 +15,7 @@ A few ideas:
 
 1. **Bring your reviews home.** Show your 5.0 rating and a handful of couple quotes on your own site, right next to the enquiry form.
 2. **Lead with your films.** Open the homepage on your footage, so couples feel your style in the first five seconds.
-3. **Give each film its own page,** with the venue and location. Couples planning at Paliku Gardens, Four Seasons Oahu or Hale Wailele can then find you on Google.
+3. **Show all your work, sorted by venue.** Your YouTube channel has 33 wedding films, but your site shows 6. Ten of them are at Paliku Gardens alone. Give each film its own page with the venue, so a couple who just booked Kualoa Ranch or Lanikuhonua can watch every wedding you've filmed there, and find you on Google.
 4. **Make "I want a film like this" the enquiry.** A short 3-step form that tells you which film won them over. Your HoneyBook form stays too.
 5. **Say what makes you different.** Hawaiian settings, Filipino warmth, and the range you already have: traditional Indian weddings, Kauai, Utah. Add one wedding per day, multi-camera with drone, and your fast replies.
 

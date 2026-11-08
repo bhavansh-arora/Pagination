@@ -2,51 +2,57 @@
 
 A multi-page static site for Hawaii wedding videographer Mark Arista, built by Code Bunny.
 
-The visual direction is golden-hour cinema: a volcanic-ink background, warm sand and a sunset-ember accent. The type pairs expanded Archivo with Instrument Serif italics. Film motifs run through the site: timecode, REC, viewfinder brackets and a "Sc. 01" scene numbering.
+The look is golden-hour cinema: a dark volcanic background, warm sand and a sunset-orange accent, with expanded Archivo headlines and Instrument Serif italics. It's image-led throughout: 132 real stills from Mark's 33 public YouTube films, plus a muted background reel of his footage on the home page and on every film page.
 
 ## Pages
 
-| Page | File |
-| --- | --- |
-| Home | `index.html` |
-| About | `about.html` |
-| Films (filter by island, grid/index view) | `films.html` |
-| Film pages ×6 (generated) | `films/<slug>.html` |
-| The Experience (process, traditions, FAQ) | `experience.html` |
-| Contact (3-step inquiry + HoneyBook fallback) | `contact.html` |
-| 404 | `404.html` |
+| Page | File | Highlights |
+| --- | --- | --- |
+| Home | `index.html` | Background film reel, proof bar, film-strip marquee, pinned sideways reel of 8 films, family mosaic, venue index with live preview, review carousel, 4-step process, date check |
+| Films (33) | `films.html` | Moving film wall, filter by island and by venue (`?venue=paliku`), scrub-preview cards |
+| Film pages ×33 | `films/<slug>.html` | Background reel, 4-frame bento, details, inline player, "I want a film like this", more from the same venue, next film |
+| About | `about.html` | Portraits, stats, story, three beliefs, venue index, reviews |
+| Experience | `experience.html` | 6-step process, traditions, collections, FAQ, reviews |
+| Contact | `contact.html` | 3-step inquiry (prefills the date and film from links), HoneyBook fallback |
+| 404 | `404.html` | |
+
+**Scrub cards:** move the mouse across any film card to flip through 4 frames from that film. On phones, cards flip on their own as they reach the middle of the screen.
 
 ## Editing content
 
-All content lives in `src/` and the HTML is generated from it. Don't hand-edit the root `.html` files.
+All content lives in `src/`, and the HTML is generated from it. Don't hand-edit the root `.html` files.
 
-- `src/data.mjs`: site details and the **films list**. Add a film here and its page, card, filter count, contact-form option and sitemap entry are all created.
+- `src/data.mjs`: films, venues, featured films, reviews and site details.
 - `src/pages.mjs`: page templates and copy.
-- `src/layout.mjs`: shared head, header, footer and CTA.
+- `src/layout.mjs`: shared head, header, footer, film card, film strip and CTA.
 
-Rebuild after any change (needs Node 18+, no dependencies):
+**Add a film:** add one line to `films` in `src/data.mjs`, then:
+
+```bash
+python3 tools/frames.py assets/img/f YOUTUBE_ID
+```
 
 ```bash
 node src/build.mjs
 ```
 
-Film stills live in `assets/img/films/<youtube-id>.jpg`. These are the YouTube thumbnails with letterbox bars cropped off.
+The first command needs Pillow (`pip install pillow`). The build needs Node 18+ and has no dependencies.
 
 ## Inquiry form
 
 `assets/js/config.js`:
 
-- `formEndpoint`: paste a Formspree, Basin or Zapier webhook URL to post inquiries directly. While it's empty, submitting the form opens a pre-written email to `email`.
-- `honeybookPid`: Mark's existing HoneyBook placement. It loads lazily under "Prefer the classic booking form?".
+- `formEndpoint`: paste a Formspree, Basin or Zapier webhook URL to post inquiries directly. While it's empty, submitting opens a pre-written email to `email`.
+- `honeybookPid`: Mark's existing HoneyBook placement, loaded only when someone opens it.
 
-`contact.html?film=<slug>` preselects that film. Every film page links to it through the "I want a film like this" button.
+`contact.html?film=<slug>&date=YYYY-MM-DD` prefills the form.
 
 ## Tech
 
 - Plain HTML, CSS and JS. GSAP, ScrollTrigger and Lenis are vendored in `assets/vendor/`.
-- Content renders without JS. Motion is layered on top and respects `prefers-reduced-motion`.
-- YouTube loads only on click (lightbox or inline facade, via `youtube-nocookie`).
-- SEO: per-page meta and OG tags, plus JSON-LD (ProfessionalService, VideoObject on each film page, FAQPage). Includes `sitemap.xml` and `robots.txt`.
+- Pages render without JS. Motion respects `prefers-reduced-motion`. The background reel is skipped on Save-Data or 2G connections, and pauses when off screen.
+- Stills are WebP at 1280w and 640w with `srcset`, lazy-loaded. The full film player loads only on click (`youtube-nocookie`).
+- SEO: per-page meta and OG tags; JSON-LD for ProfessionalService with AggregateRating, VideoObject on each film page, and FAQPage; `sitemap.xml` and `robots.txt`.
 
 ## Preview locally
 
@@ -58,4 +64,4 @@ Then open http://localhost:8080.
 
 ## Deploy
 
-Any static host works (Netlify, Vercel, GitHub Pages, Cloudflare Pages). Point it at the repo root. There's no build step on the host, because the built HTML is committed.
+Any static host works (Netlify, Vercel, GitHub Pages, Cloudflare Pages). Point it at the repo root. There's no build step on the host.

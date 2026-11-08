@@ -182,36 +182,50 @@
     set(); setInterval(set, 15000);
   }
 
-  /* ---------- Hero slideshow ---------- */
-  const hero = $(".hero");
-  if (hero) {
-    const slides = $$(".hero__slide", hero);
-    const segs = $$(".segs button", hero);
-    const name = $("[data-now-name]", hero), loc = $("[data-now-loc]", hero), thumb = $("[data-now-thumb]", hero), nowBtn = $("[data-now-video]", hero);
-    const DUR = 6000;
-    let idx = 0, timer = null, started = 0, remaining = DUR;
-    hero.style.setProperty("--dur", DUR / 1000 + "s");
-    const show = (n) => {
-      idx = (n + slides.length) % slides.length;
-      slides.forEach((s, k) => s.classList.toggle("is-active", k === idx));
-      segs.forEach((b, k) => { b.classList.toggle("is-done", k < idx); b.classList.remove("is-active"); });
-      if (segs[idx]) { void segs[idx].offsetWidth; segs[idx].classList.add("is-active"); }
-      const s = slides[idx].dataset;
-      if (name) name.textContent = s.name;
-      if (loc) loc.textContent = s.loc;
-      if (thumb) thumb.src = s.img;
-      if (nowBtn) { nowBtn.dataset.video = s.video; nowBtn.dataset.title = s.name; nowBtn.setAttribute("aria-label", "Play " + s.name + " film"); }
-      schedule(DUR);
+  /* ---------- Video hero: YouTube background + still fallback ---------- */
+  $$(".vhero").forEach((hero) => {
+    const slides = $$(".vhero__slide", hero);
+    let idx = 0, slideTimer = null;
+    const nextSlide = () => {
+      if (slides.length < 2) return;
+      slides[idx].classList.remove("is-active");
+      idx = (idx + 1) % slides.length;
+      slides[idx].classList.add("is-active");
     };
-    const schedule = (ms) => { clearTimeout(timer); started = performance.now(); remaining = ms; timer = setTimeout(() => show(idx + 1), ms); };
-    segs.forEach((b, k) => b.addEventListener("click", () => show(k)));
-    const pause = () => { clearTimeout(timer); remaining -= performance.now() - started; hero.classList.add("is-paused"); };
-    const resume = () => { hero.classList.remove("is-paused"); schedule(Math.max(400, remaining)); };
-    d.addEventListener("visibilitychange", () => (d.hidden ? pause() : resume()));
-    if (!reduce) show(0); else { slides[0].classList.add("is-active"); }
-  }
+    if (!reduce && slides.length > 1) slideTimer = setInterval(nextSlide, 5200);
 
-  /* ---------- Tape marquee (velocity reactive) ---------- */
+    const id = hero.dataset.yt;
+    const holder = $(".vhero__yt", hero);
+    const conn = navigator.connection || {};
+    const allowVideo = id && holder && !reduce && !conn.saveData && !/2g/.test(conn.effectiveType || "");
+    if (!allowVideo) return;
+    const start = parseInt(hero.dataset.start || "0", 10);
+    const params = new URLSearchParams({ autoplay: 1, mute: 1, controls: 0, loop: 1, playlist: id, playsinline: 1, modestbranding: 1, rel: 0, iv_load_policy: 3, disablekb: 1, fs: 0, start, enablejsapi: 1, origin: location.origin });
+    const frame = d.createElement("iframe");
+    frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?${params}`;
+    frame.title = "Background film reel";
+    frame.allow = "autoplay; encrypted-media";
+    frame.setAttribute("tabindex", "-1");
+    frame.setAttribute("aria-hidden", "true");
+    const post = (msg) => { try { frame.contentWindow.postMessage(JSON.stringify(msg), "*"); } catch (e) {} };
+    frame.addEventListener("load", () => {
+      post({ event: "listening", id: 1, channel: "widget" });
+      post({ event: "command", func: "mute", args: [] });
+    });
+    window.addEventListener("message", (e) => {
+      if (!/youtube(-nocookie)?\.com$/.test(new URL(e.origin).hostname)) return;
+      let data; try { data = JSON.parse(e.data); } catch (err) { return; }
+      const state = data && data.info && data.info.playerState;
+      if (state === 1) { hero.classList.add("is-playing"); clearInterval(slideTimer); }
+    });
+    // Start loading once the page is idle so the hero still paints instantly.
+    const load = () => holder.appendChild(frame);
+    ("requestIdleCallback" in window) ? requestIdleCallback(load, { timeout: 1500 }) : setTimeout(load, 600);
+    // Pause the reel when it is off screen to save battery.
+    new IntersectionObserver(([en]) => post({ event: "command", func: en.isIntersecting ? "playVideo" : "pauseVideo", args: [] }), { threshold: 0.05 }).observe(hero);
+  });
+
+  /* ---------- Marquees (velocity reactive) ---------- */
   const tracks = $$("[data-marquee]");
   if (tracks.length && !reduce) {
     const state = tracks.map((t) => {
@@ -238,43 +252,123 @@
 
   /* ---------- Scroll-driven (GSAP) ---------- */
   if (gsap && ST && !reduce) {
-    // Word scrub
     $$("[data-scrub]").forEach((el) => {
       gsap.to($$(".sw", el), { opacity: 1, stagger: 0.08, ease: "none", scrollTrigger: { trigger: el, start: "top 82%", end: "bottom 50%", scrub: true } });
     });
-    // Parallax images
-    $$("[data-parallax]").forEach((el) => {
-      const amt = parseFloat(el.dataset.parallax) || 10;
-      gsap.fromTo(el, { yPercent: -amt / 2 }, { yPercent: amt / 2, ease: "none", scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
-    });
-    // Stack cards
     const mm = gsap.matchMedia();
-    mm.add("(min-width: 768px)", () => {
-      const cards = $$(".scard");
-      cards.forEach((c, k) => {
-        if (k === cards.length - 1) return;
-        gsap.to(c, { scale: 0.9, filter: "brightness(0.45)", ease: "none", scrollTrigger: { trigger: cards[k + 1], start: "top bottom", end: "top top+=120", scrub: true } });
+    // Pinned horizontal film reel
+    mm.add("(min-width: 1024px)", () => {
+      const reel = $(".reel");
+      if (!reel) return;
+      const pin = $(".reel__pin", reel), track = $(".reel__track", reel), prog = $(".reel__prog i", reel);
+      reel.classList.add("is-pinned");
+      const dist = () => Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+      gsap.to(track, {
+        x: () => -dist(), ease: "none",
+        scrollTrigger: { trigger: pin, start: "top top", end: () => "+=" + dist(), pin: true, scrub: 0.6, invalidateOnRefresh: true, onUpdate: (s) => { if (prog) prog.style.transform = `scaleX(${s.progress})`; } },
       });
+      return () => reel.classList.remove("is-pinned");
     });
-    // Big footer word
+    // Footer wordmark rises in
     const fw = $(".footer__word");
     if (fw) gsap.fromTo(fw, { yPercent: 40 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: fw, start: "top bottom", end: "bottom bottom", scrub: true } });
-    // Hero content subtle push
-    const hb = $(".hero__body, .fhero .wrap");
-    if (hb) gsap.to(hb, { yPercent: -12, opacity: 0.35, ease: "none", scrollTrigger: { trigger: hb.closest("section"), start: "top top", end: "bottom top", scrub: true } });
+    // Hero copy eases back as you scroll away
+    $$(".vhero__body").forEach((hb) => gsap.to(hb, { yPercent: -10, opacity: 0.3, ease: "none", scrollTrigger: { trigger: hb.closest("section"), start: "top top", end: "bottom top", scrub: true } }));
     window.addEventListener("load", () => ST.refresh());
   }
 
-  /* ---------- Places accordion ---------- */
-  $$(".places").forEach((wrap) => {
-    const items = $$(".place", wrap);
-    const activate = (p) => items.forEach((x) => { const on = x === p; x.classList.toggle("is-active", on); x.setAttribute("aria-expanded", String(on)); });
-    items.forEach((p) => {
-      p.addEventListener("click", () => activate(p));
-      p.addEventListener("focus", () => activate(p));
-      if (fine) p.addEventListener("mouseenter", () => activate(p));
+  /* ---------- Scrub preview cards ---------- */
+  $$(".scrub").forEach((card) => {
+    const imgs = $$("img", card), bars = $$(".scrub__bar i", card);
+    let cur = -1;
+    const show = (n) => {
+      if (n === cur) return;
+      cur = n;
+      imgs.forEach((im, k) => { if (k === n && im.loading === "lazy") im.loading = "eager"; im.classList.toggle("is-on", k === n); });
+      bars.forEach((b, k) => b.classList.toggle("is-on", k <= n));
+    };
+    show(0);
+    card.addEventListener("pointerenter", () => imgs.forEach((im) => { im.loading = "eager"; }));
+    card.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      const r = card.getBoundingClientRect();
+      show(Math.min(imgs.length - 1, Math.max(0, Math.floor(((e.clientX - r.left) / r.width) * imgs.length))));
     });
+    card.addEventListener("pointerleave", () => show(0));
+    card._show = show; card._n = imgs.length;
   });
+  // Touch screens: cards in the middle of the screen flip through their frames.
+  if (!fine && !reduce) {
+    const timers = new Map();
+    const io2 = new IntersectionObserver((entries) => entries.forEach((en) => {
+      const c = en.target;
+      if (en.isIntersecting) {
+        let k = 0;
+        timers.set(c, setInterval(() => { k = (k + 1) % c._n; c._show(k); }, 1100));
+      } else { clearInterval(timers.get(c)); c._show && c._show(0); }
+    }), { rootMargin: "-30% 0px -30% 0px" });
+    $$(".scrub").forEach((c) => io2.observe(c));
+  }
+
+  /* ---------- Review carousel ---------- */
+  $$("[data-carousel]").forEach((car) => {
+    const slides = $$(".quote", car), dots = $$(".quotes__dots button", car), qi = $("[data-qi]", car);
+    const DUR = 7000;
+    let i = 0, t = null;
+    car.style.setProperty("--qdur", DUR / 1000 + "s");
+    const go = (n) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => { s.classList.toggle("is-on", k === i); s.setAttribute("aria-hidden", String(k !== i)); });
+      dots.forEach((b, k) => { b.classList.toggle("is-done", k < i); b.classList.remove("is-on"); });
+      void dots[i].offsetWidth; dots[i].classList.add("is-on");
+      if (qi) qi.textContent = String(i + 1).padStart(2, "0");
+      clearTimeout(t); if (!reduce) t = setTimeout(() => go(i + 1), DUR);
+    };
+    $("[data-prev]", car).addEventListener("click", () => go(i - 1));
+    $("[data-next]", car).addEventListener("click", () => go(i + 1));
+    dots.forEach((b, k) => b.addEventListener("click", () => go(k)));
+    car.addEventListener("pointerenter", () => { car.classList.add("is-paused"); clearTimeout(t); });
+    car.addEventListener("pointerleave", () => { car.classList.remove("is-paused"); go(i); });
+    go(0);
+  });
+
+  /* ---------- Venue preview (sidebar image follows the hovered row) ---------- */
+  $$(".venues").forEach((sec) => {
+    const fig = $(".vpreview", sec);
+    if (!fig) return;
+    const img = $("img", fig), nm = $("[data-vp-name]", fig), ar = $("[data-vp-area]", fig);
+    const rows = $$(".vrow", sec);
+    let cur = rows[0], t = null;
+    const set = (r) => {
+      if (r === cur) return;
+      cur = r;
+      rows.forEach((x) => x.classList.toggle("is-on", x === r));
+      fig.classList.add("is-swap");
+      clearTimeout(t);
+      t = setTimeout(() => {
+        img.removeAttribute("srcset");
+        img.src = r.dataset.vpImg; nm.textContent = r.dataset.vpName; ar.textContent = r.dataset.vpArea;
+        const done = () => fig.classList.remove("is-swap");
+        img.complete ? done() : img.addEventListener("load", done, { once: true });
+      }, 140);
+    };
+    if (rows[0]) rows[0].classList.add("is-on");
+    rows.forEach((r) => { r.addEventListener("pointerenter", () => set(r)); r.addEventListener("focus", () => set(r)); });
+  });
+
+  /* ---------- Hover image (venue rows) ---------- */
+  const hov = $(".hoverimg");
+  if (hov && fine && !reduce) {
+    const himg = $("img", hov);
+    let px = 0, py = 0, x = 0, y = 0, on = false;
+    $$("[data-hover-img]").forEach((r) => {
+      r.addEventListener("mouseenter", () => { himg.src = r.dataset.hoverImg; hov.classList.add("is-on"); on = true; });
+      r.addEventListener("mouseleave", () => { hov.classList.remove("is-on"); on = false; });
+    });
+    window.addEventListener("pointermove", (e) => { x = e.clientX + 28; y = e.clientY - 120; }, { passive: true });
+    const loop = () => { px += (x - px) * 0.16; py += (y - py) * 0.16; if (on) hov.style.translate = `${px}px ${py}px`; requestAnimationFrame(loop); };
+    loop();
+  }
 
   /* ---------- Magnetic ---------- */
   if (fine && !reduce) {
@@ -333,51 +427,53 @@
   }
 
   /* ---------- Inline player facade ---------- */
-  $$(".player[data-yt]").forEach((p) => {
-    p.addEventListener("click", () => {
+  $$(".player[data-yt-inline]").forEach((p) => {
+    const play = () => {
       if (p.querySelector("iframe")) return;
-      const id = p.dataset.yt;
       const f = d.createElement("iframe");
-      f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(p.dataset.ytInline)}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
       f.title = p.dataset.title || "Wedding film";
       f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
       f.allowFullscreen = true;
       p.appendChild(f);
       p.removeAttribute("data-cursor");
       if (cursor) cursor.classList.remove("is-on");
-    });
+    };
+    p.addEventListener("click", play);
+    p.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); play(); } });
   });
 
-  /* ---------- Films: filter + view ---------- */
-  const films = $("[data-films]");
-  if (films) {
-    const items = $$("[data-region]", films);
-    const grid = $(".fgrid", films);
-    $$("[data-filter]", films).forEach((b) => b.addEventListener("click", () => {
-      const f = b.dataset.filter;
-      $$("[data-filter]", films).forEach((x) => { x.classList.toggle("is-active", x === b); x.setAttribute("aria-pressed", String(x === b)); });
-      items.forEach((it) => it.classList.toggle("is-hidden", f !== "all" && it.dataset.region !== f));
-      grid.classList.toggle("is-filtered", f !== "all");
-      items.forEach((it) => { if (!it.classList.contains("is-hidden")) it.classList.add("in"); });
-      if (ST) ST.refresh();
-    }));
-    $$("[data-view]", films).forEach((b) => b.addEventListener("click", () => {
-      $$("[data-view]", films).forEach((x) => { x.classList.toggle("is-active", x === b); x.setAttribute("aria-pressed", String(x === b)); });
-      films.classList.toggle("is-list", b.dataset.view === "list");
-      if (ST) ST.refresh();
-    }));
-    const prev = $(".ipreview");
-    if (prev && fine) {
-      const img = $("img", prev);
-      let px = 0, py = 0, x = 0, y = 0, on = false;
-      $$(".irow", films).forEach((r) => {
-        r.addEventListener("mouseenter", () => { img.src = r.dataset.img; prev.classList.add("is-on"); on = true; });
-        r.addEventListener("mouseleave", () => { prev.classList.remove("is-on"); on = false; });
+  /* ---------- Films archive: island + venue filters ---------- */
+  const filmsEl = $("[data-films]");
+  if (filmsEl) {
+    const cards = $$(".fcard", filmsEl), count = $("[data-count]", filmsEl), empty = $(".fempty", filmsEl);
+    const sel = $("[data-venue-filter]", filmsEl);
+    const chips = $$("[data-filter]", filmsEl);
+    const params = new URLSearchParams(location.search);
+    let island = params.get("island") || "all";
+    let venue = params.get("venue") || "";
+    if (sel && venue && !sel.querySelector(`option[value="${CSS.escape(venue)}"]`)) venue = "";
+    const apply = (scroll) => {
+      let n = 0;
+      cards.forEach((c) => {
+        const show = (island === "all" || c.dataset.region === island) && (!venue || c.dataset.venue === venue);
+        c.classList.toggle("is-hidden", !show);
+        if (show) { n++; c.classList.add("in"); }
       });
-      window.addEventListener("pointermove", (e) => { x = e.clientX + 24; y = e.clientY - 110; }, { passive: true });
-      const loop = () => { px += (x - px) * 0.15; py += (y - py) * 0.15; if (on) prev.style.translate = `${px}px ${py}px`; requestAnimationFrame(loop); };
-      loop();
-    }
+      chips.forEach((x) => { const on = x.dataset.filter === island; x.classList.toggle("is-active", on); x.setAttribute("aria-pressed", String(on)); });
+      if (sel) sel.value = venue;
+      if (count) count.textContent = n;
+      if (empty) empty.hidden = n > 0;
+      const q = new URLSearchParams();
+      if (island !== "all") q.set("island", island);
+      if (venue) q.set("venue", venue);
+      history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
+      if (ST) ST.refresh();
+      if (scroll) filmsEl.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    };
+    chips.forEach((b) => b.addEventListener("click", () => { island = b.dataset.filter; apply(); }));
+    if (sel) sel.addEventListener("change", () => { venue = sel.value; apply(); });
+    apply(Boolean(params.get("venue") || params.get("island")));
   }
 
   /* ---------- Inquiry form ---------- */
@@ -417,6 +513,8 @@
       const sel = form.querySelector("[name=film]");
       if (sel && sel.querySelector(`option[value="${CSS.escape(film)}"]`)) sel.value = film;
     }
+    const date = params.get("date");
+    if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) { const di = form.querySelector("[name=date]"); if (di) di.value = date; }
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
