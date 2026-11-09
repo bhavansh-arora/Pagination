@@ -1,7 +1,11 @@
 import { site, films, regions, venues, featured, reviews, venueOf, venueCount, frame, frames, cover, storyOf } from "./data.mjs";
+import { readFileSync } from "node:fs";
 import { head, header, footer, btn, ic, im, pad, scrubCard, filmStrip, ctaBlock, stars, regionLabel } from "./layout.mjs";
 
 const bySlug = (s) => films.find((f) => f.slug === s);
+// Real picture shape of each film (width / height without letterbox bars), from tools/frames.py.
+const aspects = JSON.parse(readFileSync(new URL("./aspects.json", import.meta.url), "utf8"));
+const aspect = (id) => aspects[id] || 1.778;
 const venueKeys = Object.keys(venues).sort((a, b) => venueCount(b) - venueCount(a));
 const paliku = venueCount("paliku");
 
@@ -109,7 +113,7 @@ ${header({ active: "index.html" })}
 </div>
 <main id="main">
 
-<section class="vhero" data-yt="${site.heroVideo.id}" data-start="${site.heroVideo.start}" aria-label="Introduction">
+<section class="vhero" data-yt="${site.heroVideo.id}" data-start="${site.heroVideo.start}" style="--ar:${aspect(site.heroVideo.id)}" aria-label="Introduction">
   <div class="vhero__media" aria-hidden="true">
     ${heroSlides.map(([id, s], i) => `<div class="vhero__slide${i === 0 ? " is-active" : ""}">${im(base, id, s, { sizes: "100vw", eager: i === 0 })}</div>`).join("\n    ")}
     <div class="vhero__yt"></div>
@@ -317,7 +321,7 @@ export function filmPage(f, i) {
   })}
 ${header({ base, active: "films.html" })}
 <main id="main">
-<section class="vhero vhero--film" data-yt="${f.video}" data-start="30" aria-label="${f.couple}">
+<section class="vhero vhero--film" data-yt="${f.video}" data-start="30" style="--ar:${aspect(f.video)}" aria-label="${f.couple}">
   <div class="vhero__media" aria-hidden="true">
     <div class="vhero__slide is-active">${im(base, f.video, f.cover, { sizes: "100vw", eager: true })}</div>
     <div class="vhero__yt"></div>

@@ -2,7 +2,7 @@
 
 A multi-page static site for Hawaii wedding videographer Mark Arista, built by Code Bunny.
 
-The look is golden-hour cinema: a dark volcanic background, warm sand and a sunset-orange accent, with expanded Archivo headlines and Instrument Serif italics. It's image-led throughout: 132 real stills from Mark's 33 public YouTube films, plus a muted background reel of his footage on the home page and on every film page.
+The look is golden-hour cinema: a dark volcanic background, warm sand and a sunset-orange accent, with Fraunces serif headlines (and its italic for accents) over DM Sans body text. It's image-led throughout: 132 real stills from Mark's 33 public YouTube films, plus a muted background reel of his footage on the home page and on every film page.
 
 ## Pages
 
@@ -26,7 +26,7 @@ All content lives in `src/`, and the HTML is generated from it. Don't hand-edit 
 - `src/pages.mjs`: page templates and copy.
 - `src/layout.mjs`: shared head, header, footer, film card, film strip and CTA.
 
-**Add a film:** add one line to `films` in `src/data.mjs`, then:
+**Add a film:** add one line to `films` in `src/data.mjs`, then pull its stills (this also records the film's picture shape in `src/aspects.json`, so the background player crops its letterbox bars):
 
 ```bash
 python3 tools/frames.py assets/img/f YOUTUBE_ID

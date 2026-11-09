@@ -270,8 +270,6 @@
       return () => reel.classList.remove("is-pinned");
     });
     // Footer wordmark rises in
-    const fw = $(".footer__word");
-    if (fw) gsap.fromTo(fw, { yPercent: 40 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: fw, start: "top bottom", end: "bottom bottom", scrub: true } });
     // Hero copy eases back as you scroll away
     $$(".vhero__body").forEach((hb) => gsap.to(hb, { yPercent: -10, opacity: 0.3, ease: "none", scrollTrigger: { trigger: hb.closest("section"), start: "top top", end: "bottom top", scrub: true } }));
     window.addEventListener("load", () => ST.refresh());
@@ -355,6 +353,27 @@
     if (rows[0]) rows[0].classList.add("is-on");
     rows.forEach((r) => { r.addEventListener("pointerenter", () => set(r)); r.addEventListener("focus", () => set(r)); });
   });
+
+  /* ---------- Footer motion ---------- */
+  const foot = $("[data-footer]");
+  if (foot) {
+    const word = $("[data-word]", foot);
+    if (word) {
+      if (reduce) word.classList.add("in");
+      else new IntersectionObserver(([en], ob) => { if (en.isIntersecting) { word.classList.add("in"); ob.disconnect(); } }, { threshold: 0.35 }).observe(word);
+    }
+    if (fine && !reduce) {
+      foot.addEventListener("pointermove", (e) => {
+        const r = foot.getBoundingClientRect();
+        foot.style.setProperty("--mx", e.clientX - r.left + "px");
+        foot.style.setProperty("--my", e.clientY - r.top + "px");
+        foot.classList.add("is-glow");
+      });
+      foot.addEventListener("pointerleave", () => foot.classList.remove("is-glow"));
+    }
+    const top = $("[data-totop]", foot);
+    if (top) top.addEventListener("click", () => { if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
+  }
 
   /* ---------- Hover image (venue rows) ---------- */
   const hov = $(".hoverimg");

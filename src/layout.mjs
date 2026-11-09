@@ -82,7 +82,7 @@ export function head({ title, description, base = "", path = "", image = frame("
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://www.youtube-nocookie.com">
 ${preload ? `<link rel="preload" as="image" href="${base}${preload}">` : ""}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="${base}assets/css/style.css">
 <script>document.documentElement.classList.add('js')</script>
 ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join("\n")}
@@ -128,27 +128,35 @@ export function header({ base = "", active = "", overlay = true }) {
 
 const footStrip = [["0RURO9MIxn4", "-3"], ["Ch_mROgi6YY", "-2"], ["itpNCKYn7B4", "-3"], ["z1kxigj8sno", ""], ["OAF6KZrBGzk", ""], ["WGo_VWh5wRI", "-3"], ["EiA5wwhOABk", ""], ["VGLLFgRVSeI", "-1"]];
 
+const letters = (word, cls = "") => [...word].map((ch, i) => `<span class="fl${cls}" style="--i:${i}">${ch}</span>`).join("");
+const flink = (href, text, ext = false) => `<a class="flink" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}><span data-t="${text}">${text}</span></a>`;
+
 export function footer({ base = "", mbar = true }) {
-  return `<footer class="footer">
+  return `<footer class="footer" data-footer>
+  <div class="footer__glow" aria-hidden="true"></div>
   <div class="footer__grid wrap">
     <a class="footer__yt" href="${site.youtube}" target="_blank" rel="noopener">
       <span class="footer__ytlbl"><span class="label label--dot">Watch on YouTube</span><span class="h4">@bymarkarista · ${films.length} films ↗</span></span>
-      <span class="footer__tiles">${footStrip.map(([id, s]) => `<span>${im(base, id, s, { sizes: "200px" })}</span>`).join("")}</span>
+      <span class="footer__tiles"><span class="footer__track" data-marquee="-1"><span class="footer__set">${footStrip.map(([id, s]) => `<span>${im(base, id, s, { sizes: "200px" })}</span>`).join("")}</span></span></span>
     </a>
-    <div class="footer__intro">
+    <div class="footer__intro" data-reveal>
       <p class="label label--dot">Booking weddings across Hawaii &amp; beyond</p>
       <p class="footer__big">Your love story is worth <span class="it">telling.</span></p>
       <div class="btns">${btn(base + "contact.html", "Check your date")}<a class="btn btn--ghost btn--plain" href="mailto:${site.email}"><span>${site.email}</span></a></div>
     </div>
     <div class="footer__cols">
-      <div class="footer__col"><p class="label">Explore</p>${nav.map(([h, t]) => `<a href="${base}${h}">${t}</a>`).join("")}</div>
-      <div class="footer__col"><p class="label">Follow</p><a href="${site.instagram}" target="_blank" rel="noopener">Instagram ↗</a><a href="${site.youtube}" target="_blank" rel="noopener">YouTube ↗</a><a href="${site.facebook}" target="_blank" rel="noopener">Facebook ↗</a><a href="${reviews.sourceUrl}" target="_blank" rel="noopener">WeddingWire ↗</a></div>
-      <div class="footer__col"><p class="label">In Hawaii it's</p><span class="footer__clock" data-clock>—</span><span>Mahalo · Salamat po</span></div>
+      <div class="footer__col" data-reveal style="--d:.05s"><p class="label">Explore</p>${nav.map(([h, t]) => flink(base + h, t)).join("")}</div>
+      <div class="footer__col" data-reveal style="--d:.12s"><p class="label">Follow</p>${flink(site.instagram, "Instagram ↗", true)}${flink(site.youtube, "YouTube ↗", true)}${flink(site.facebook, "Facebook ↗", true)}${flink(reviews.sourceUrl, "WeddingWire ↗", true)}</div>
+      <div class="footer__col" data-reveal style="--d:.19s"><p class="label">In Hawaii it's</p><span class="footer__clock"><i class="footer__sun" aria-hidden="true"></i><span data-clock>—</span></span><span>Mahalo · Salamat po</span></div>
     </div>
   </div>
-  <div class="wrap"><p class="footer__word" aria-hidden="true">Mark <span class="it">Arista</span></p></div>
+  <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   <div class="wrap footer__bar">
     <span>© <span data-year>2026</span> Mark Arista Films · Hawaii Wedding Videographer</span>
+    <button class="totop" type="button" data-totop aria-label="Back to top">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="tt" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"/></defs><text><textPath href="#tt">BACK TO TOP · BACK TO TOP · </textPath></text></svg>
+      <span>${ic.arrow}</span>
+    </button>
     <span>Website by <a href="https://codebunny.net" target="_blank" rel="noopener">Code Bunny</a></span>
   </div>
 </footer>

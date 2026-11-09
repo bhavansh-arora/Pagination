@@ -41,3 +41,14 @@ for vid in ids:
         sm.save(base + "-sm.webp", "WEBP", quality=76, method=6)
         report.append(f"{vid}{suf} {im.size[0]}x{im.size[1]}")
 print("\n".join(report))
+
+# Record each film's real picture shape (without letterbox bars) for the background player.
+import json
+ap = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src", "aspects.json")
+aspects = json.load(open(ap)) if os.path.exists(ap) else {}
+for vid in ids:
+    sizes = [Image.open(os.path.join(out, f"{vid}{s}.webp")).size for s in ("-1", "-2", "-3") if os.path.exists(os.path.join(out, f"{vid}{s}.webp"))]
+    if sizes:
+        w, h = max(sizes, key=lambda x: x[1])
+        aspects[vid] = round(max(w / h, 16 / 9), 3)
+json.dump(aspects, open(ap, "w"), indent=0, sort_keys=True)
