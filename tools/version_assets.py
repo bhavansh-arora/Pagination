@@ -17,7 +17,9 @@ ASSETS += [str(p.relative_to(ROOT)) for p in sorted((ROOT / "assets/css/colours"
 
 def main():
     ver = {a: hashlib.sha1((ROOT / a).read_bytes()).hexdigest()[:8] for a in ASSETS if (ROOT / a).exists()}
-    pages = [p for p in ROOT.rglob("*.html") if ".git" not in p.parts and "admin" not in p.parts]
+    # (Folders starting with _ are not part of the site: GitHub Pages skips them, so this does too.)
+    pages = [p for p in ROOT.rglob("*.html") if ".git" not in p.parts and "admin" not in p.parts
+             and not any(x.startswith("_") for x in p.relative_to(ROOT).parts)]
     img_ver = {}
 
     def stamp_img(m):
