@@ -159,8 +159,9 @@
     });
     // Contact page (or any page with a form spot, [data-sq-form]): the Form block added on the Squarespace page,
     // with its own fields, integrations and where submissions go, takes the place of the site's form.
+    // A page with no Form block keeps what the site shows in that spot (for example a card that links to Contact).
     var form = doc.querySelector("form[data-inquiry], [data-sq-form]");
-    if (form) {
+    if (form && document.querySelector(".sqs-block-form")) {
       var slot = doc.createElement("div"); slot.className = "sq-form-slot"; slot.id = "sq-form-slot";
       if (form.tagName === "FORM") form.replaceWith(slot);
       else { form.innerHTML = ""; form.appendChild(slot); } // a form spot keeps its panel; only what's inside is swapped
