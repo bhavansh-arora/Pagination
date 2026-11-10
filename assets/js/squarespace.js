@@ -8,6 +8,17 @@
 (function () {
   "use strict";
   var me = document.currentScript, root = document.getElementById("drx-live");
+  var COVER_SIZES = "(min-width: 900px) 860px, 100vw";
+  function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
+  function coverSet(u) { return [750, 1000, 1500, 2000].map(function (w) { return sqImg(u, w) + " " + w + "w"; }).join(", "); }
+  // A post's featured image, from the article data Squarespace puts on the page.
+  function postCover() {
+    var u = "";
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(function (sc) {
+      try { var j = JSON.parse(sc.textContent); if (/Article|BlogPosting/.test(j["@type"]) && j.image) u = typeof j.image === "object" ? (j.image.url || j.image[0]) : j.image; } catch (e) {}
+    });
+    return u ? String(u).replace(/^\/\//, "https://").replace(/^http:/, "https:") : "";
+  }
   // Squarespace's own Blog (the blog page and every post): one code in the Blog page's settings, no Code Block.
   // The site's design is shown in place of Squarespace's, filled with the posts Squarespace serves on the page.
   var BLOG = me && me.getAttribute("data-page") === "@blog";
@@ -25,6 +36,14 @@
   // Blog: a post (Squarespace's post page) uses the site's post design; the blog page uses the site's blog page.
   var SQ_POST = BLOG && document.querySelector(".blog-item-wrapper, article.h-entry");
   var sqJson = null, sqData = null;
+  // A post: start downloading its cover photo right away, in the size the screen needs.
+  if (BLOG && SQ_POST) (function () {
+    var u = postCover();
+    if (!u) return;
+    var l = document.createElement("link"); l.rel = "preload"; l.as = "image";
+    l.setAttribute("imagesrcset", coverSet(u)); l.setAttribute("imagesizes", COVER_SIZES); l.href = sqImg(u, 1500);
+    document.head.appendChild(l);
+  })();
   if (BLOG) {
     PAGE = SQ_POST ? "post.html" : "blog.html";
     if (!SQ_POST) sqJson = fetch(location.pathname + (location.search ? location.search + "&" : "?") + "format=json", { credentials: "same-origin" })
@@ -42,7 +61,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"05ede5e2"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"23fdbe02"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
   // The intro screen is for the first page of a visit only. (The pasted codes start it on every page load, so after
@@ -138,7 +157,6 @@
     x.querySelectorAll("style, script, noscript, figcaption, .image-caption-wrapper").forEach(function (n) { n.remove(); });
     return (x.textContent || "").replace(/\s+/g, " ").trim();
   }
-  function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
   function metaOf(it) { return [(it.categories || [])[0], niceDate(it.publishOn || it.addedOn)].filter(Boolean).join(" · "); }
   var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   function fillBlog(c, data) {
@@ -168,7 +186,8 @@
     });
     var title = String(((art && art.querySelector(".entry-title")) || {}).textContent || ld.headline || document.title).trim();
     var set = function (sel, fn) { var el = c.querySelector(sel); if (el) fn(el); };
-    set("[data-post-title]", function (el) { el.textContent = title; });
+    // (One inner line, like the site's other big titles, so its letters can rise as the page opens.)
+    set("[data-post-title]", function (el) { el.innerHTML = "<span>" + esc(title) + "</span>"; el.setAttribute("aria-label", title); });
     set("[data-post-meta]", function (el) {
       var t = art && art.querySelector("time[datetime]"), when = t ? t.getAttribute("datetime") : (ld.datePublished || "");
       var date = when ? niceDate(new Date(when.length <= 10 ? when + "T12:00:00" : when)) : "";
@@ -181,12 +200,12 @@
       if (ex && ex.trim()) el.textContent = ex.trim(); else el.remove();
     });
     set("[data-post-cover]", function (el) {
-      var u = ld.image; if (u && typeof u === "object") u = u.url || u[0];
+      var u = postCover();
       if (!u) { el.remove(); return; }
-      u = String(u).replace(/^\/\//, "https://").replace(/^http:/, "https:");
-      var img = el.querySelector("img");
-      img.setAttribute("src", sqImg(u, 2500)); img.setAttribute("srcset", sqImg(u, 1000) + " 1000w, " + sqImg(u, 1500) + " 1500w, " + sqImg(u, 2500) + " 2500w");
-      img.setAttribute("sizes", "100vw"); img.setAttribute("alt", title); img.removeAttribute("style"); img.setAttribute("fetchpriority", "high");
+      var img = el.querySelector("img"), media = el.querySelector(".media");
+      if (media) media.style.backgroundImage = "url(" + sqImg(u, 100) + ")";
+      img.setAttribute("src", sqImg(u, 1500)); img.setAttribute("srcset", coverSet(u)); img.setAttribute("sizes", COVER_SIZES);
+      img.setAttribute("alt", title); img.removeAttribute("style"); img.setAttribute("fetchpriority", "high"); img.setAttribute("decoding", "async");
     });
     // The post's text: Squarespace's own (served with the page, so search engines read it), moved into the design.
     var src = art && art.querySelector(".blog-item-content");
@@ -288,7 +307,14 @@
     root.appendChild(frag);
     d.classList.remove("drx-booting");
 
-    if (BLOG) return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + ver(s)); }));
+    if (BLOG) {
+      // The cover fades in once it has loaded (over its soft preview), rather than popping in.
+      root.querySelectorAll(".post-cover img").forEach(function (img) {
+        var done = function () { img.classList.add("is-loaded"); };
+        if (img.complete && img.naturalWidth) done(); else { img.addEventListener("load", done, { once: true }); img.addEventListener("error", done, { once: true }); }
+      });
+      return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + ver(s)); }));
+    }
 
     var sqForm = document.querySelector(".sqs-block-form"), slotEl = document.getElementById("sq-form-slot");
     if (sqForm && slotEl) { var holder = sqForm.closest(".fe-block"); slotEl.appendChild(sqForm); if (holder) holder.style.display = "none"; dressForm(slotEl); }
