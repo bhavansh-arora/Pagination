@@ -194,3 +194,7 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .post-cover .media img.is-loaded { opacity: 1; }
 /* Squarespace's quote block: one line on the left (its figure carries it), not two */
 .drx .post-body--sq .sqs-block-quote blockquote { border: 0 !important; padding: 0 !important; margin: 0 !important; font-size: inherit !important; }
+/* A post without a cover: the text starts closer to the title */
+.post-section--nocover { padding-top: clamp(8px, 1.5vw, 24px) !important; }
+/* A blog card without a photo: just the text */
+.blog-card__img:empty { display: none; }

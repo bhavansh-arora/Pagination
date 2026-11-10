@@ -67,7 +67,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"87025f80"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"eac8ae2a"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
   // The intro screen is for the first page of a visit only. (The pasted codes start it on every page load, so after
@@ -170,6 +170,8 @@
     var grid = c.querySelector("[data-blog-list]");
     if (!grid) return;
     var items = (data && data.items) || [];
+    // (An image address with no file name is an upload that didn't finish: the card goes without a photo.)
+    items.forEach(function (it) { if (it.assetUrl && /\/\d+\/?(\?|$)/.test(it.assetUrl)) it.assetUrl = ""; });
     grid.innerHTML = items.length ? items.map(function (it) {
       var ex = textOf(it.excerpt), words = textOf(it.body).split(" ");
       if (!ex) ex = words.slice(0, 32).join(" ") + (words.length > 32 ? "…" : "");
@@ -207,7 +209,7 @@
     });
     set("[data-post-cover]", function (el) {
       var u = postCover();
-      if (!u) { el.remove(); return; }
+      if (!u) { el.remove(); c.querySelectorAll(".post-section").forEach(function (sec) { sec.classList.add("post-section--nocover"); }); return; }
       var img = el.querySelector("img"), media = el.querySelector(".media");
       if (media) media.style.backgroundImage = "url(" + sqImg(u, 100) + ")";
       img.setAttribute("src", sqImg(u, 1500)); img.setAttribute("srcset", coverSet(u)); img.setAttribute("sizes", COVER_SIZES);
