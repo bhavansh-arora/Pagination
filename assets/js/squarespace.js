@@ -8,7 +8,7 @@
 (function () {
   "use strict";
   var me = document.currentScript, root = document.getElementById("drx-live");
-  var COVER_SIZES = "(min-width: 900px) 860px, 100vw";
+  var COVER_SIZES = "(min-width: 700px) 85vw, 100vw";
   function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
   function coverSet(u) { return [750, 1000, 1500, 2000].map(function (w) { return sqImg(u, w) + " " + w + "w"; }).join(", "); }
   // A post's featured image, from the article data Squarespace puts on the page.
@@ -61,7 +61,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"23fdbe02"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"ec0a518b"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
   // The intro screen is for the first page of a visit only. (The pasted codes start it on every page load, so after
