@@ -11,6 +11,9 @@
   // Squarespace's own Blog (the blog page and every post): one code in the Blog page's settings, no Code Block.
   // The site's design is shown in place of Squarespace's, filled with the posts Squarespace serves on the page.
   var BLOG = me && me.getAttribute("data-page") === "@blog";
+  // Inside Squarespace's editor (the site shown in a frame), the blog stays Squarespace's own, so posts can be managed.
+  var inFrame = false; try { inFrame = window.self !== window.top; } catch (e) { inFrame = true; }
+  if (BLOG && inFrame) { document.documentElement.classList.remove("drx-blog", "drx-booting", "is-entering"); return; }
   if (BLOG && !root) {
     root = document.createElement("div"); root.id = "drx-live"; root.className = "drx-blog-root";
     document.body.insertBefore(root, document.body.firstChild);
