@@ -7,11 +7,26 @@
    editor updates Squarespace automatically: nothing to re-paste. */
 (function () {
   "use strict";
-  var root = document.getElementById("drx-live");
+  var me = document.currentScript, root = document.getElementById("drx-live");
+  // Squarespace's own Blog (the blog page and every post): one code in the Blog page's settings, no Code Block.
+  // The site's design is shown in place of Squarespace's, filled with the posts Squarespace serves on the page.
+  var BLOG = me && me.getAttribute("data-page") === "@blog";
+  if (BLOG && !root) {
+    root = document.createElement("div"); root.id = "drx-live"; root.className = "drx-blog-root";
+    document.body.insertBefore(root, document.body.firstChild);
+  }
   if (!root || root.getAttribute("data-ready")) return;
   root.setAttribute("data-ready", "1");
-  var HOST = new URL("../../", document.currentScript.src).href; // site root
-  var PAGE = root.getAttribute("data-page") || "index.html";
+  var HOST = new URL("../../", me.src).href; // site root
+  var PAGE = BLOG ? "@blog" : root.getAttribute("data-page") || "index.html";
+  // Blog: a post (Squarespace's post page) uses the site's post design; the blog page uses the site's blog page.
+  var SQ_POST = BLOG && document.querySelector(".blog-item-wrapper, article.h-entry");
+  var sqJson = null;
+  if (BLOG) {
+    PAGE = SQ_POST ? "post.html" : "blog.html";
+    sqJson = fetch(location.pathname + (location.search ? location.search + "&" : "?") + "format=json", { credentials: "same-origin" })
+      .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
   // One Squarespace page (/post) shows every blog post: /post?p=<post> loads blog-<post>.html.
   if (PAGE === "@post") {
     var post = (new URLSearchParams(location.search).get("p") || "").toLowerCase().replace(/[^a-z0-9-]/g, "");
@@ -24,7 +39,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"427834de"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"05ede5e2"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
 
@@ -106,6 +121,78 @@
     // Squarespace's form re-renders itself at times (validation, sending): put the hints back.
     if (window.MutationObserver) new MutationObserver(function () { clearTimeout(slot._t); slot._t = setTimeout(apply, 60); }).observe(slot, { childList: true, subtree: true });
   }
+
+  /* ---------- Squarespace Blog in the site's design ---------- */
+  function esc(t) { return String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function niceDate(ms) { var t = new Date(ms); return isNaN(t) ? "" : t.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); }
+  function textOf(html) {
+    var x = document.createElement("div"); x.innerHTML = html || "";
+    x.querySelectorAll("style, script, noscript, figcaption, .image-caption-wrapper").forEach(function (n) { n.remove(); });
+    return (x.textContent || "").replace(/\s+/g, " ").trim();
+  }
+  function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
+  function metaOf(it) { return [(it.categories || [])[0], niceDate(it.publishOn || it.addedOn)].filter(Boolean).join(" · "); }
+  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  function fillBlog(data) {
+    if (SQ_POST) return fillPost(data && data.item ? data : null);
+    var grid = root.querySelector("[data-blog-list]");
+    if (!grid) return;
+    var items = (data && data.items) || [];
+    grid.innerHTML = items.length ? items.map(function (it) {
+      var ex = textOf(it.excerpt), words = textOf(it.body).split(" ");
+      if (!ex) ex = words.slice(0, 32).join(" ") + (words.length > 32 ? "…" : "");
+      return '<a class="blog-card reveal" href="' + esc(it.fullUrl) + '">' +
+        '<div class="blog-card__img">' + (it.assetUrl ? '<img src="' + esc(sqImg(it.assetUrl, 1000)) + '" srcset="' + esc(sqImg(it.assetUrl, 750)) + ' 750w, ' + esc(sqImg(it.assetUrl, 1500)) + ' 1500w" sizes="(min-width: 700px) 50vw, 100vw" alt="' + esc(it.title) + '" loading="lazy" decoding="async">' : "") + "</div>" +
+        '<div class="blog-card__body"><span class="label">' + esc(metaOf(it)) + '</span><h2 class="blog-card__title">' + esc(it.title) + "</h2>" +
+        "<p>" + esc(ex) + '</p><span class="link">Read the post ' + ARROW + "</span></div></a>";
+    }).join("") : '<p class="body">New stories are on the way. Check back soon.</p>';
+    // Squarespace shows a set number of posts per page: links to the older and newer ones.
+    var pg = data && data.pagination, more = [];
+    if (pg && pg.prevPage && pg.prevPageUrl) more.push('<a class="btn btn--ghost" href="' + esc(pg.prevPageUrl) + '">← Newer posts</a>');
+    if (pg && pg.nextPage && pg.nextPageUrl) more.push('<a class="btn btn--ghost" href="' + esc(pg.nextPageUrl) + '">Older posts →</a>');
+    if (more.length) { var nav = document.createElement("div"); nav.className = "blog-more"; nav.innerHTML = more.join(""); grid.parentNode.insertBefore(nav, grid.nextSibling); }
+  }
+  function fillPost(data) {
+    var it = (data && data.item) || {}, art = document.querySelector("article.h-entry, .blog-item-wrapper article");
+    var title = it.title || ((art && art.querySelector(".entry-title")) || {}).textContent || document.title;
+    var set = function (sel, fn) { var el = root.querySelector(sel); if (el) fn(el); };
+    set("[data-post-title]", function (el) { el.textContent = String(title).trim(); });
+    set("[data-post-meta]", function (el) { var m = metaOf(it); if (!m) { var t = art && art.querySelector("time[datetime]"); m = t ? niceDate(new Date(t.getAttribute("datetime") + "T12:00:00")) : ""; } el.textContent = m; });
+    set("[data-post-excerpt]", function (el) { var ex = textOf(it.excerpt); if (ex) el.textContent = ex; else el.remove(); });
+    set("[data-post-cover]", function (el) {
+      if (!it.assetUrl) { el.remove(); return; }
+      var img = el.querySelector("img");
+      img.src = sqImg(it.assetUrl, 2500); img.srcset = sqImg(it.assetUrl, 1000) + " 1000w, " + sqImg(it.assetUrl, 1500) + " 1500w, " + sqImg(it.assetUrl, 2500) + " 2500w";
+      img.sizes = "100vw"; img.alt = String(title).trim(); img.removeAttribute("style");
+      if (it.mediaFocalPoint) img.style.objectPosition = Math.round(it.mediaFocalPoint.x * 100) + "% " + Math.round(it.mediaFocalPoint.y * 100) + "%";
+    });
+    // The post's text: Squarespace's own (served with the page, so search engines read it), moved into the design.
+    var src = art && art.querySelector(".blog-item-content");
+    set("[data-post-body]", function (el) {
+      if (!src) return;
+      el.innerHTML = "";
+      while (src.firstChild) el.appendChild(src.firstChild);
+      el.classList.add("post-body--sq");
+      // Photos in the post: Squarespace sets their address only through its own scripts; set it here.
+      el.querySelectorAll("img").forEach(function (img) {
+        var u = img.getAttribute("data-src") || img.getAttribute("data-image");
+        if (u && (!img.getAttribute("src") || /^data:/.test(img.getAttribute("src")))) img.src = sqImg(u, 1500);
+        img.removeAttribute("style"); img.loading = "lazy"; img.decoding = "async";
+        if (!img.getAttribute("alt")) img.setAttribute("alt", "");
+      });
+      el.querySelectorAll("noscript").forEach(function (n) { n.remove(); });
+      var words = (el.textContent.match(/\S+/g) || []).length;
+      set("[data-post-minutes]", function (m) { m.textContent = Math.max(1, Math.round(words / 220)) + " min read"; });
+    });
+    // Previous and next posts.
+    var pg = data && data.pagination;
+    set("[data-post-nav]", function (el) {
+      var links = [];
+      if (pg && pg.prevItem) links.push('<a class="post-nav__link" href="' + esc(pg.prevItem.fullUrl) + '"><span class="label">Previous post</span><span class="post-nav__title">' + esc(pg.prevItem.title) + "</span></a>");
+      if (pg && pg.nextItem) links.push('<a class="post-nav__link post-nav__link--next" href="' + esc(pg.nextItem.fullUrl) + '"><span class="label">Next post</span><span class="post-nav__title">' + esc(pg.nextItem.title) + "</span></a>");
+      if (links.length) { el.innerHTML = links.join(""); el.hidden = false; }
+    });
+  }
   function load(src) {
     return new Promise(function (ok, fail) { var s = document.createElement("script"); s.src = src; s.async = false; s.onload = ok; s.onerror = fail; document.body.appendChild(s); });
   }
@@ -133,15 +220,18 @@
   }).then(function (doc) {
 
     // Title, description and structured data come from the editor's SEO settings.
-    if (doc.title) document.title = doc.title;
-    var desc = doc.querySelector('meta[name="description"]');
-    if (desc) {
-      var mine = document.querySelector('meta[name="description"]') || document.head.appendChild(document.createElement("meta"));
-      mine.setAttribute("name", "description"); mine.setAttribute("content", desc.getAttribute("content"));
+    // (Not on the blog: there Squarespace's own, set for each post, stay.)
+    if (!BLOG) {
+      if (doc.title) document.title = doc.title;
+      var desc = doc.querySelector('meta[name="description"]');
+      if (desc) {
+        var mine = document.querySelector('meta[name="description"]') || document.head.appendChild(document.createElement("meta"));
+        mine.setAttribute("name", "description"); mine.setAttribute("content", desc.getAttribute("content"));
+      }
+      // (Skipped when the pasted code already carries the same structured data, so it isn't there twice.)
+      var haveLd = Array.prototype.map.call(document.querySelectorAll('script[type="application/ld+json"]'), function (s) { return s.textContent.trim(); });
+      doc.querySelectorAll('script[type="application/ld+json"]').forEach(function (s) { if (haveLd.indexOf(s.textContent.trim()) < 0) document.head.appendChild(s.cloneNode(true)); });
     }
-    // (Skipped when the pasted code already carries the same structured data, so it isn't there twice.)
-    var haveLd = Array.prototype.map.call(document.querySelectorAll('script[type="application/ld+json"]'), function (s) { return s.textContent.trim(); });
-    doc.querySelectorAll('script[type="application/ld+json"]').forEach(function (s) { if (haveLd.indexOf(s.textContent.trim()) < 0) document.head.appendChild(s.cloneNode(true)); });
 
     // The page itself: per-page styles plus everything in <body> except the site's own scripts.
     var frag = document.createDocumentFragment();
@@ -171,6 +261,10 @@
     root.appendChild(frag);
     d.classList.remove("drx-booting");
 
+    if (BLOG) return sqJson.then(fillBlog).then(function () {
+      return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + ver(s)); }));
+    });
+
     var sqForm = document.querySelector(".sqs-block-form"), slotEl = document.getElementById("sq-form-slot");
     if (sqForm && slotEl) { var holder = sqForm.closest(".fe-block"); slotEl.appendChild(sqForm); if (holder) holder.style.display = "none"; dressForm(slotEl); }
 
@@ -184,6 +278,7 @@
     setTimeout(refresh, 1200);
   }).catch(function () {
     d.classList.remove("is-loading", "is-entering");
+    if (BLOG) { d.classList.remove("drx-blog", "drx-booting"); root.remove(); return; }
     // The plain copy of the page in the pasted code stays readable; otherwise say what happened.
     d.classList.remove("drx-booting");
     if (!root.querySelector(".drx-seo")) root.innerHTML = '<div class="drx-loading">This page could not be loaded. Please refresh.</div>';

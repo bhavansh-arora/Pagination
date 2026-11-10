@@ -24,7 +24,7 @@ window.SITE_EDITOR_CONFIG = {
 
   // Friendly names in the page picker (other .html files are listed automatically).
   pages: { "index.html": "Home", "about.html": "About", "portfolio.html": "Portfolio", "galleries.html": "Galleries", "films.html": "Films",
-    "investment.html": "Investment", "contact.html": "Contact", "blog.html": "Blog", "thank-you.html": "Thank you (after the form)",
+    "investment.html": "Investment", "contact.html": "Contact", "blog.html": "Blog (lists the Squarespace posts)", "post.html": "Blog post design", "thank-you.html": "Thank you (after the form)",
     "drone.html": "Drone", "st-louis-wedding-photographer.html": "St. Louis weddings", "links.html": "Links (Instagram bio)",
     "privacy-policy.html": "Privacy policy", "terms-of-service.html": "Terms of use", "404.html": "404 page" },
 
@@ -41,39 +41,10 @@ window.SITE_EDITOR_CONFIG = {
   // Keep in step with SLUGS in assets/js/squarespace.js.
   slugs: { "index.html": "/", "404.html": "/error-404" },
 
-  // The Blog panel (admin/blog.js): each post is a page (prefix + address + ".html"), listed on the blog page in the
-  // element marked data-blog-list. On Squarespace, one page (/post) shows any post: /post?p=<address>.
-  blog: {
-    index: "blog.html", prefix: "blog-", data: "assets/data/blog.json", template: "contact.html",
-    author: "Dan & Lydia", categories: ["Planning", "Real weddings", "Engagements", "Films", "Behind the scenes"],
-    publicUrl: function (slug) { return "/post?p=" + slug; },
-    head: function (p, H) {
-      var meta = [p.category, H.niceDate(p.date)].filter(Boolean).map(H.esc).join(" · ");
-      return '<section class="page-hero post-hero" data-post-head><div class="container">' +
-        '<div class="page-hero__meta reveal"><a class="label label--dot" href="blog.html">Blog</a><span class="label">' + meta + "</span></div>" +
-        '<h1 class="h-xl post-hero__title" data-lines>' + H.esc(p.title) + "</h1>" +
-        '<div class="post-hero__foot reveal">' + (p.excerpt ? '<p class="lede">' + H.esc(p.excerpt) + "</p>" : "") +
-        '<p class="post-hero__by">' + (p.author ? "<span>By " + H.esc(p.author) + "</span>" : "") + "<span>" + (p.minutes || 1) + " min read</span></p></div>" +
-        "</div></section>";
-    },
-    cover: function (p, H) {
-      return '<div class="frame" data-post-cover>' + (p.cover ? '<div class="media ratio-wide reveal-img">' + H.img(p.cover, p.coverAlt, "100vw", ' fetchpriority="high" decoding="async" style="object-position:50% 30%"') + "</div>" : "") + "</div>";
-    },
-    post: function (p, H, body) {
-      return this.head(p, H) + this.cover(p, H) +
-        '<section class="section post-section"><div class="container"><div class="post-body" data-post-body>' + body + "</div></div></section>" +
-        '<section class="section section--flush-top" data-post-foot><div class="container"><div class="post-foot"><a class="link" href="blog.html">← All posts</a><span class="label">Written by ' + H.esc(p.author || "Dan &amp; Lydia") + "</span></div></div></section>";
-    },
-    card: function (p, H) {
-      var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-      var meta = [p.category, H.niceDate(p.date)].filter(Boolean).map(H.esc).join(" · ");
-      return '<a class="blog-card reveal" href="' + H.fileOf(p) + '"><div class="blog-card__img">' + (p.cover ? H.img(p.cover, p.coverAlt, "(min-width: 1024px) 50vw, (min-width: 700px) 50vw, 100vw") : "") + "</div>" +
-        '<div class="blog-card__body"><span class="label">' + meta + '</span><h2 class="blog-card__title">' + H.esc(p.title) + "</h2>" +
-        (p.excerpt ? "<p>" + H.esc(p.excerpt) + "</p>" : "") + '<span class="link">Read the post ' + ARROW + "</span></div></a>";
-    },
-    photo: function (src, alt, H) { return '<figure class="post-figure"><div class="media">' + H.img(src, alt, "(min-width: 1024px) 900px, 100vw") + "</div></figure>"; },
-    empty: '<p class="body">New stories are on the way. Check back soon.</p>'
-  },
+  // Blog posts are written in Squarespace's own Blog (best for search engines); blog.html and post.html are their design.
+  // (The editor's Blog panel is off. To turn it back on, restore the blog settings from the repository history.)
+  blog: null,
+
 
   // Fonts offered in the Style panel.
   fonts: [
