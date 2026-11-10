@@ -52,7 +52,7 @@ def build():
     # (drx-booting keeps the plain copy of the page invisible while the live page loads; it shows if loading fails.)
     boot = ("<script>window.__drBooted=1;try{var d=document.documentElement;d.classList.add(\"drx-booting\");"
             "if(sessionStorage.getItem(\"dr-nav\")){d.classList.add(\"is-entering\");sessionStorage.removeItem(\"dr-nav\")}"
-            "else if(!matchMedia(\"(prefers-reduced-motion: reduce)\").matches){d.classList.add(\"is-loading\")}"
+            "else if(!sessionStorage.getItem(\"dr-seen\")&&!matchMedia(\"(prefers-reduced-motion: reduce)\").matches){d.classList.add(\"is-loading\")}"
             "setTimeout(function(){d.classList.remove(\"is-loading\",\"is-entering\",\"drx-booting\")},20000)}catch(e){}</script>")
     # Order matters: the start-up script must run before any stylesheet is pending.
     return ('<!-- Dan Reynolds Photography · {{NAME}} (live from the site editor). Paste ALL of this into one Code Block. -->\n'
