@@ -12,12 +12,18 @@
   function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
   function coverSet(u) { return [750, 1000, 1500, 2000].map(function (w) { return sqImg(u, w) + " " + w + "w"; }).join(", "); }
   // A post's featured image, from the article data Squarespace puts on the page.
+  // (Only the post's own image: without one, Squarespace names the site's logo or share image there instead.)
   function postCover() {
-    var u = "";
+    var u = "", art = document.querySelector("article.h-entry, .blog-item-wrapper article");
+    var id = art && (art.id || "").replace(/^article-/, "");
     document.querySelectorAll('script[type="application/ld+json"]').forEach(function (sc) {
       try { var j = JSON.parse(sc.textContent); if (/Article|BlogPosting/.test(j["@type"]) && j.image) u = typeof j.image === "object" ? (j.image.url || j.image[0]) : j.image; } catch (e) {}
     });
-    return u ? String(u).replace(/^\/\//, "https://").replace(/^http:/, "https:") : "";
+    u = u ? String(u).replace(/^\/\//, "https://").replace(/^http:/, "https:") : "";
+    if (u && id && u.indexOf(id) < 0) u = "";
+    // An image address with no file name is an upload that didn't finish: no cover rather than a broken one.
+    if (u && /\/\d+\/?(\?|$)/.test(u)) u = "";
+    return u;
   }
   // Squarespace's own Blog (the blog page and every post): one code in the Blog page's settings, no Code Block.
   // The site's design is shown in place of Squarespace's, filled with the posts Squarespace serves on the page.
@@ -61,7 +67,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"ec0a518b"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"87025f80"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
   // The intro screen is for the first page of a visit only. (The pasted codes start it on every page load, so after
@@ -310,7 +316,8 @@
     if (BLOG) {
       // The cover fades in once it has loaded (over its soft preview), rather than popping in.
       root.querySelectorAll(".post-cover img").forEach(function (img) {
-        var done = function () { img.classList.add("is-loaded"); };
+        // (The soft preview behind it goes once the photo is in, so a transparent image never shows it through.)
+        var done = function () { img.classList.add("is-loaded"); setTimeout(function () { if (img.parentNode) img.parentNode.style.backgroundImage = "none"; }, 850); };
         if (img.complete && img.naturalWidth) done(); else { img.addEventListener("load", done, { once: true }); img.addEventListener("error", done, { once: true }); }
       });
       return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + ver(s)); }));

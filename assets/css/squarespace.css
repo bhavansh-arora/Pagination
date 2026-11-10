@@ -185,10 +185,12 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .post-nav__title { font-family: var(--display); font-size: clamp(1.25rem, 1rem + 0.6vw, 1.6rem); line-height: 1.15; }
 .blog-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: clamp(24px, 3vw, 40px); }
 
-/* A post's cover: 85% of the screen width in a wide 16:9 frame on larger screens; the full width (4:3) on phones.
+/* A post's cover: 85% of the screen width in a wide 2:1 frame on larger screens; the full width (4:3) on phones.
    A soft preview while it loads, then a fade. */
 .post-cover { padding-inline: var(--gutter); }
 .post-cover .media { width: 100%; aspect-ratio: 4 / 3; margin-inline: auto; border-radius: var(--r-xl); background: var(--paper-3) center / cover no-repeat; }
-@media (min-width: 700px) { .post-cover .media { width: 85vw; max-width: 100%; aspect-ratio: 16 / 9; max-height: 82vh; } }
+@media (min-width: 700px) { .post-cover .media { width: 85vw; max-width: 100%; aspect-ratio: 2 / 1; max-height: 64vh; } }
 .post-cover .media img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.8s var(--ease-out); }
 .post-cover .media img.is-loaded { opacity: 1; }
+/* Squarespace's quote block: one line on the left (its figure carries it), not two */
+.drx .post-body--sq .sqs-block-quote blockquote { border: 0 !important; padding: 0 !important; margin: 0 !important; font-size: inherit !important; }
