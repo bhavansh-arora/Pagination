@@ -773,6 +773,8 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .footer-wordmark .fw-char { display: inline-block; background: inherit; -webkit-background-clip: text; background-clip: text; padding: 0 0.12em 0.24em 0; margin: 0 -0.12em -0.24em 0; }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding-top: 18px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; }
 .footer-bottom a:hover { color: var(--accent); }
+.footer-bottom .site-credit { color: var(--accent); font-weight: 600; text-decoration: underline; text-decoration-color: rgba(165, 185, 147, 0.45); text-underline-offset: 4px; transition: color 0.25s, text-decoration-color 0.25s; }
+.footer-bottom .site-credit:hover { color: var(--gold-hi); text-decoration-color: currentColor; }
 
 /* ---------- Mobile sticky CTA ---------- */
 .sticky-cta {
