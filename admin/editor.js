@@ -977,12 +977,10 @@
     var sel = $("#ed-target");
     sel.innerHTML = "";
     var g1 = document.createElement("optgroup"); g1.label = "Pages";
-    var gb = document.createElement("optgroup"); gb.label = "Blog posts";
-    var isPost = function (p) { return C.blog && p.indexOf(C.blog.prefix || "blog-") === 0; };
-    state.pages.forEach(function (p) { var o = document.createElement("option"); o.value = p; o.textContent = labelFor(p); (isPost(p) ? gb : g1).appendChild(o); });
+    state.pages.forEach(function (p) { var o = document.createElement("option"); o.value = p; o.textContent = labelFor(p); g1.appendChild(o); });
     var g2 = document.createElement("optgroup"); g2.label = "Shared on every page";
     GLOBALS.forEach(function (g) { var o = document.createElement("option"); o.value = g[0]; o.textContent = g[1]; g2.appendChild(o); });
-    sel.appendChild(g1); if (gb.children.length) sel.appendChild(gb); sel.appendChild(g2);
+    sel.appendChild(g1); sel.appendChild(g2);
     sel.value = state.target;
   }
 
@@ -1196,7 +1194,6 @@
     var root = SITE.replace(/\/$/, "") + "/";
     function link(u) {
       if (!u || /^(https?:|mailto:|tel:|#)/.test(u)) return u;
-      var bp = u.match(/^blog-([a-z0-9-]+)\.html(#.*)?$/i); if (bp) return "/post?p=" + bp[1].toLowerCase() + (bp[2] || "");
       var m = u.match(/^([a-z0-9-]+)\.html(#.*)?$/i);
       if (m) return sqsSlug(m[1] + ".html") + (m[2] || "");
       return root + u.replace(/^\.?\//, "");
@@ -1235,14 +1232,10 @@
     var file = state.target;
     if (file.charAt(0) === "@") return;
     var name = PAGE_NAMES[file] || file.replace(/\.html$/, "").replace(/-/g, " "), slug = sqsSlug(file), page = file;
-    // Blog posts all show on one Squarespace page (/post?p=<post>): it's set up once, for every post.
-    var post = C.blog && file.indexOf(C.blog.prefix || "blog-") === 0;
-    if (post) { page = "@post"; slug = "/post"; name = "blog post"; }
-    $("#sqs-post-note").hidden = !post;
     Promise.all([fetch("squarespace-code.html", { cache: "no-cache" }).then(function (r) {
       if (!r.ok) throw new Error("the code template is missing (admin/squarespace-code.html)");
       return r.text();
-    }), post ? Promise.resolve("") : readFile(file).catch(function () { return ""; })]).then(function (res) {
+    }), readFile(file).catch(function () { return ""; })]).then(function (res) {
       var tpl = res[0], src = res[1], snap = src ? seoSnapshot(src) : { html: "", ld: "" }, meta = src ? getMeta(src) : null;
       var code = tpl.split("{{HOST}}").join(SITE).split("{{PAGE}}").join(page).split("{{NAME}}").join(name + " page");
       code = code.replace('<div id="drx-live" data-page="' + page + '"></div>', function () { return '<div id="drx-live" data-page="' + page + '">' + snap.html + "</div>" + snap.ld; });
@@ -1255,7 +1248,7 @@
         if (suffix && t.slice(-suffix.length) === suffix) t = t.slice(0, -suffix.length);
         $("#sqs-seo-title").value = t; $("#sqs-seo-desc").value = meta.desc || "";
       }
-      $("#sqs-name").textContent = post ? "blog posts" : "the " + name + " page";
+      $("#sqs-name").textContent = "the " + name + " page";
       $("#sqs-slug").textContent = slug;
       var doc = editor.Canvas.getDocument();
       $("#sqs-form-step").hidden = !(doc && doc.querySelector("form[data-inquiry], [data-sq-form]"));
