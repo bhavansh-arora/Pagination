@@ -390,6 +390,8 @@
   var items = $$(".masonry__item");
   if (items.length) {
     gsap.set(items, { opacity: 0, y: 70 });
+    // Phones: the photos already on screen when the page opens fade in in place (no rise as the page appears).
+    if (window.innerWidth < 700) gsap.set(items.filter(function (i) { return i.getBoundingClientRect().top < window.innerHeight; }), { y: 0 });
     ST.batch(items, {
       start: "top 92%",
       onEnter: function (batch) { gsap.to(batch, { opacity: 1, y: 0, duration: 1.2, ease: "expo.out", stagger: 0.09, overwrite: true }); }
