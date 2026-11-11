@@ -23,6 +23,7 @@
       requestAnimationFrame(raf);
     }
   }
+  window.__lenis = lenis;
   if (hasGSAP) window.gsap.registerPlugin(window.ScrollTrigger);
 
   // In-page anchors through Lenis

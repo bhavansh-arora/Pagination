@@ -96,6 +96,9 @@ def marquee(words, cls=""):
             f'<div class="marquee__group" aria-hidden="true">{items}</div></div></div>')
 
 
+HEAD_SCRIPT = '<script>(function(d){var h=d.documentElement,c="js",r=window.matchMedia("(prefers-reduced-motion: reduce)").matches,s;try{s=window.sessionStorage}catch(e){}if(r)c+=" reduced";else if(s){if(s.getItem("ca-nav")==="1"){c+=" is-enter";s.removeItem("ca-nav")}else if(!s.getItem("ca-seen")){c+=" is-intro";s.setItem("ca-seen","1")}}h.className=c})(document);</script>'
+
+
 def head(meta):
     title = meta["title"]
     desc = meta["description"]
@@ -138,7 +141,7 @@ def head(meta):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<script>document.documentElement.className="js";if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("reduced");</script>
+{HEAD_SCRIPT}
 <link rel="preload" href="assets/fonts/fraunces-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 {preload_tag}
@@ -150,6 +153,16 @@ def head(meta):
 
 LOGO = ('<svg class="logo__mark" viewBox="0 0 40 26" aria-hidden="true"><circle cx="13" cy="13" r="11.2"/><circle cx="27" cy="13" r="11.2"/></svg>'
         '<span>co<em>-</em>allies</span>')
+
+
+CURTAIN = """<div class="curtain" aria-hidden="true">
+  <div class="curtain__inner">
+    <svg class="curtain__mark" viewBox="0 0 120 64"><circle class="c1" pathLength="1" cx="40" cy="32" r="26"/><circle class="c2" pathLength="1" cx="80" cy="32" r="26"/></svg>
+    <span class="curtain__word">co<em>-</em>allies</span>
+    <span class="curtain__tag mono">Every becoming needs an ally</span>
+  </div>
+  <span class="curtain__count mono"><span data-count-intro>00</span></span>
+</div>"""
 
 
 def header(active):
@@ -258,6 +271,7 @@ def footer():
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
+<script src="assets/js/experience.js" defer></script>
 </body>
 </html>"""
 
@@ -307,6 +321,7 @@ def build():
         page = [
             head(meta),
             f'<body class="{("page-" + path.stem + " " + body_class).strip()}">',
+            CURTAIN,
             header(meta.get("nav", "")),
             '<main id="main">',
             expand(body, meta).strip(),

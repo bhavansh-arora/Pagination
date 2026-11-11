@@ -16,15 +16,23 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<script>document.documentElement.className="js";if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("reduced");</script>
+<script>(function(d){var h=d.documentElement,c="js",r=window.matchMedia("(prefers-reduced-motion: reduce)").matches,s;try{s=window.sessionStorage}catch(e){}if(r)c+=" reduced";else if(s){if(s.getItem("ca-nav")==="1"){c+=" is-enter";s.removeItem("ca-nav")}else if(!s.getItem("ca-seen")){c+=" is-intro";s.setItem("ca-seen","1")}}h.className=c})(document);</script>
 <link rel="preload" href="assets/fonts/fraunces-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="assets/img/nathalia-sm.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/nathalia-face.webp" fetchpriority="high">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/main.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Co-Allies", "description": "One-to-one coaching with Nathalia del Moral Fleury. Emotional support for women on the path to motherhood (IVF, loss, adoption), plus transition, founder and conscious-leadership coaching. Free 30-minute first session.", "url": "https://www.co-allies.com", "telephone": "+1-438-822-5015", "email": "nathaliadmf@co-allies.com", "image": "https://www.co-allies.com/assets/img/og.jpg", "areaServed": ["Montréal", "Québec", "Canada"], "address": {"@type": "PostalAddress", "addressLocality": "Montréal", "addressRegion": "QC", "addressCountry": "CA"}, "founder": {"@type": "Person", "name": "Nathalia del Moral Fleury", "jobTitle": "Co-Active coach", "sameAs": ["https://www.linkedin.com/in/nathaliadmf/"]}, "knowsAbout": ["Fertility coaching", "IVF emotional support", "Transition coaching", "Executive coaching", "Conscious leadership", "Inner Development Goals"]}</script>
 </head>
-<body class="page-index">
+<body class="page-index header-light">
+<div class="curtain" aria-hidden="true">
+  <div class="curtain__inner">
+    <svg class="curtain__mark" viewBox="0 0 120 64"><circle class="c1" pathLength="1" cx="40" cy="32" r="26"/><circle class="c2" pathLength="1" cx="80" cy="32" r="26"/></svg>
+    <span class="curtain__word">co<em>-</em>allies</span>
+    <span class="curtain__tag mono">Every becoming needs an ally</span>
+  </div>
+  <span class="curtain__count mono"><span data-count-intro>00</span></span>
+</div>
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="progress" aria-hidden="true"></div>
 <header class="site-header">
@@ -48,53 +56,52 @@
 </div>
 <main id="main">
 <!-- ============ HERO ============ -->
-<section class="hero grain" aria-labelledby="hero-title">
-  <div class="hero__aurora" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="container hero__grid">
-    <div class="hero__copy">
-      <span class="chip chip--fill" data-reveal style="justify-self:start"><span class="dot dot--live"></span>Montréal · Now welcoming new clients</span>
-      <h1 class="display hero__title" id="hero-title" data-split>Every becoming needs an <em>ally.</em></h1>
-      <p class="hero__rotator" data-reveal style="--d:.35s">Coaching for
-        <span class="rotator" aria-live="off">
-          <span class="rotator__item">the path to motherhood</span>
-          <span class="rotator__item">your next chapter</span>
-          <span class="rotator__item">founders &amp; CEOs</span>
-          <span class="rotator__item">conscious leaders</span>
-        </span>
-      </p>
-      <p class="lead hero__lead" data-reveal style="--d:.45s">I’m Nathalia del Moral Fleury, former managing director turned Co&#8209;Active coach. For 19 years I led people through change. Now I walk beside you through yours.</p>
-      <div class="btn-row hero__ctas" data-reveal style="--d:.55s">
-        <a class="btn btn--ember" href="https://calendly.com/nathaliadmf/seance-de-coaching-gratuite-de-30-minutes" target="_blank" rel="noopener" data-magnetic="0.2"><span>Book your free 30-min session</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="btn btn--ghost" href="#paths" data-magnetic="0.2">Find your path</a>
-      </div>
-      <ul class="hero__trust" role="list" data-reveal style="--d:.65s">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>CTI-trained Co-Active coach</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>One-to-one &amp; group journeys</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>First session free</li>
-      </ul>
+<section class="xhero theme-dark" aria-labelledby="hero-title" data-hero>
+  <canvas class="xhero__canvas" aria-hidden="true"></canvas>
+  <div class="xhero__vignette" aria-hidden="true"></div>
+  <div class="container xhero__inner">
+    <div class="xhero__top" data-hero-in style="--d:.05s">
+      <span class="chip chip--glass"><span class="dot dot--live"></span>Montréal · Now welcoming new clients</span>
+      <span class="mono xhero__meta">Co-Active coaching<br>Fertility · Transition · Leadership</span>
     </div>
 
-    <div class="hero__visual" data-reveal="scale" style="--d:.2s">
-      <div class="arch">
-        <img src="assets/img/nathalia-sm.webp" srcset="assets/img/nathalia-sm.webp 760w, assets/img/nathalia.webp 1400w" sizes="(max-width: 860px) 82vw, 520px" width="760" height="1140" alt="Nathalia del Moral Fleury, founder of Co-Allies, smiling, seated on a wooden box against a warm sand backdrop" fetchpriority="high">
+    <h1 class="xhero__title" id="hero-title" aria-label="Every becoming needs an ally.">
+      <span class="xhero__line" aria-hidden="true">
+        <span class="xhero__mask"><span class="xhero__word" style="--i:0">Every</span></span>
+        <span class="xhero__face" style="--i:1"><img src="assets/img/nathalia-face.webp" width="900" height="450" alt="" fetchpriority="high"></span>
+        <span class="xhero__mask"><span class="xhero__word" style="--i:2">becoming</span></span>
+      </span>
+      <span class="xhero__line" aria-hidden="true">
+        <span class="xhero__mask"><span class="xhero__word" style="--i:3">needs</span></span>
+        <span class="xhero__mask"><span class="xhero__word xhero__outline" style="--i:4">an</span></span>
+        <span class="xhero__mask xhero__ally"><span class="xhero__word" style="--i:5"><em>ally.</em></span>
+          <svg class="xhero__scribble" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6 26 C 70 8, 150 6, 236 20 S 340 34, 394 12" /></svg>
+        </span>
+      </span>
+    </h1>
+
+    <div class="xhero__bottom">
+      <div class="xhero__intro" data-hero-in style="--d:.9s">
+        <p class="hero__rotator">Coaching for
+          <span class="rotator" aria-live="off">
+            <span class="rotator__item">the path to motherhood</span>
+            <span class="rotator__item">your next chapter</span>
+            <span class="rotator__item">founders &amp; CEOs</span>
+            <span class="rotator__item">conscious leaders</span>
+          </span>
+        </p>
+        <p class="lead">I’m Nathalia del Moral Fleury, former managing director turned Co&#8209;Active coach. For 19 years I led people through change. Now I walk beside you through yours.</p>
       </div>
-      <div class="float-card float-card--a">
-        <span class="float-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 5.2a3.5 3.5 0 0 1 0 6.6M18.5 14.3A6.5 6.5 0 0 1 21.5 20"/></svg></span>
-        <span><strong>450</strong><small>people led as MD,<br>Yves Rocher N. America</small></span>
+      <div class="xhero__actions" data-hero-in style="--d:1s">
+        <a class="btn btn--ember" href="https://calendly.com/nathaliadmf/seance-de-coaching-gratuite-de-30-minutes" target="_blank" rel="noopener" data-magnetic="0.2"><span>Book your free 30-min session</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
       </div>
-      <div class="float-card float-card--b">
-        <span class="float-card__icon" style="background:var(--forest)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-9.3-9.2C1.4 7.5 3.6 4 7.1 4c2 0 3.6 1.1 4.9 2.8C13.3 5.1 14.9 4 16.9 4c3.5 0 5.7 3.5 4.4 6.8C19.5 15.4 12 20 12 20z"/></svg></span>
-        <span><strong>4 paths</strong><small>fertility · transition<br>founders · leadership</small></span>
-      </div>
-      <a class="badge-rotate" href="https://calendly.com/nathaliadmf/seance-de-coaching-gratuite-de-30-minutes" target="_blank" rel="noopener" aria-label="Book a free 30-minute session" data-magnetic="0.3">
+      <a class="badge-rotate xhero__badge" href="https://calendly.com/nathaliadmf/seance-de-coaching-gratuite-de-30-minutes" target="_blank" rel="noopener" aria-label="Book a free 30-minute session" data-magnetic="0.3" data-hero-in style="--d:1.1s">
         <svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="ring-path" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"/></defs><text textLength="298" lengthAdjust="spacing"><textPath href="#ring-path" textLength="298" lengthAdjust="spacing">Free 30-min session ✺ Book now ✺</textPath></text></svg>
         <span class="badge-rotate__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
     </div>
-  </div>
 
-  <div class="container">
-    <nav class="hero__index" aria-label="Coaching paths" data-reveal style="--d:.8s">
+    <nav class="hero__index xhero__index" aria-label="Coaching paths" data-hero-in style="--d:1.2s">
       <a href="fertility.html"><span><span class="mono">01</span>&nbsp;&nbsp;Fertility</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 9v8H9"/></svg></a>
       <a href="coaching.html#transition"><span><span class="mono">02</span>&nbsp;&nbsp;Transition</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 9v8H9"/></svg></a>
       <a href="coaching.html#founders"><span><span class="mono">03</span>&nbsp;&nbsp;Founders &amp; CEOs</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 9v8H9"/></svg></a>
@@ -118,50 +125,75 @@
   </div>
 </section>
 
-<!-- ============ 02 PATHS ============ -->
-<section class="section section--flush-top" id="paths" aria-labelledby="paths-title">
-  <div class="container">
-    <div class="sec-head">
-      <span class="eyebrow" data-reveal><span class="num">(02)</span> Ways to work together</span>
-      <h2 class="h2" id="paths-title" data-split>Give yourself allies for your <em>transformation.</em></h2>
-      <div class="sec-head__aside" data-reveal>
-        <p class="body-copy">Four one-to-one paths, one way of working: deep listening, honest questions and real accountability. Every path begins with a free 30-minute conversation.</p>
-      </div>
+<!-- ============ ZOOM REVEAL ============ -->
+<section class="zoom" aria-label="You need an ally" data-zoom>
+  <div class="zoom__stage">
+    <p class="zoom__pre" aria-hidden="true"><span>You don’t need</span><span>another <em>plan.</em></span></p>
+    <div class="zoom__media"><img src="assets/img/lake.webp" srcset="assets/img/lake-sm.webp 900w, assets/img/lake.webp 1800w" sizes="100vw" alt="A wooden jetty reaching into a still, misty lake at dawn" loading="lazy"></div>
+    <div class="zoom__post">
+      <p class="zoom__big">You need an <em>ally.</em></p>
+      <p class="zoom__sub mono">Someone in your corner · every step</p>
     </div>
+  </div>
+</section>
 
-    <div class="paths" data-stagger="0.1">
-      <a class="path-card path-card--feature" href="fertility.html" data-reveal data-cursor="Explore">
-        <div class="path-card__bg"><img src="assets/img/poppies.webp" srcset="assets/img/poppies-sm.webp 900w, assets/img/poppies.webp 1800w" sizes="(max-width: 1080px) 100vw, 58vw" alt="" loading="lazy"></div>
-        <div class="path-card__top"><span class="path-card__num">01 · Fertility coaching</span><span class="path-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        <div class="path-card__body">
-          <h3 class="path-card__title">You don’t have to carry this <em>alone.</em></h3>
-          <p class="path-card__text">Emotional support for women on the path to motherhood: trying to conceive, IVF, loss, adoption, and everything in between.</p>
+<!-- ============ 02 PATHS (horizontal) ============ -->
+<section class="hpaths theme-dark" id="paths" aria-labelledby="paths-title" data-hpaths>
+  <div class="hpaths__pin">
+    <div class="container hpaths__bar">
+      <span class="eyebrow"><span class="num">(02)</span> Ways to work together</span>
+      <span class="hpaths__progress" aria-hidden="true"><span></span></span>
+      <span class="mono hpaths__hint" aria-hidden="true">Scroll →</span>
+    </div>
+    <div class="hpaths__track">
+      <div class="hpanel hpanel--intro">
+        <h2 class="hpanel__intro-title" id="paths-title" data-split>Four paths. <em>One ally.</em></h2>
+        <p class="lead">Deep listening, honest questions and real accountability. Every path begins with a free 30-minute conversation.</p>
+        <a class="btn btn--ember" href="https://calendly.com/nathaliadmf/seance-de-coaching-gratuite-de-30-minutes" target="_blank" rel="noopener" data-magnetic="0.2"><span>Book a free session</span><span class="btn__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+      <a class="hpanel hpanel--card" href="fertility.html" data-cursor="Explore">
+        <div class="hpanel__bg"><img src="assets/img/poppies.webp" srcset="assets/img/poppies-sm.webp 900w, assets/img/poppies.webp 1800w" sizes="(max-width: 1023px) 100vw, 64vw" alt="" loading="lazy"></div>
+        <span class="hpanel__num">01</span>
+        <div class="hpanel__body">
+          <span class="mono">Fertility coaching</span>
+          <h3 class="hpanel__title">You don’t have to carry this <em>alone.</em></h3>
+          <p>Emotional support for women on the path to motherhood: trying to conceive, IVF, loss, adoption and everything in between.</p>
           <div class="path-card__tags"><span>Trying to conceive</span><span>IVF &amp; treatment</span><span>Pregnancy loss</span><span>Adoption</span></div>
         </div>
+        <span class="path-card__arrow hpanel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
-      <a class="path-card path-card--wide" href="coaching.html#transition" data-reveal data-cursor="Explore">
-        <div class="path-card__bg"><img src="assets/img/horizon-sm.webp" alt="" loading="lazy"></div>
-        <div class="path-card__top"><span class="path-card__num">02 · Transition</span><span class="path-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        <div class="path-card__body">
-          <h3 class="path-card__title">When your work no longer <em>fits.</em></h3>
-          <p class="path-card__text">Align what you do with who you are, with clarity and courage.</p>
+      <a class="hpanel hpanel--card" href="coaching.html#transition" data-cursor="Explore">
+        <div class="hpanel__bg"><img src="assets/img/horizon.webp" srcset="assets/img/horizon-sm.webp 900w, assets/img/horizon.webp 1800w" sizes="(max-width: 1023px) 100vw, 64vw" alt="" loading="lazy"></div>
+        <span class="hpanel__num">02</span>
+        <div class="hpanel__body">
+          <span class="mono">Transition coaching</span>
+          <h3 class="hpanel__title">When your work no longer <em>fits.</em></h3>
+          <p>For people who no longer accept the dissonance between who they are and what they do. Find the clarity and courage to move.</p>
+          <div class="path-card__tags"><span>Clarity</span><span>Courage</span><span>Values</span></div>
         </div>
+        <span class="path-card__arrow hpanel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
-      <a class="path-card path-card--wide" href="coaching.html#founders" data-reveal data-cursor="Explore">
-        <div class="path-card__bg"><img src="assets/img/founder-sm.webp" alt="" loading="lazy"></div>
-        <div class="path-card__top"><span class="path-card__num">03 · Founders &amp; CEOs</span><span class="path-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        <div class="path-card__body">
-          <h3 class="path-card__title">Lonely at the top? <em>Not anymore.</em></h3>
-          <p class="path-card__text">Unconditional support and real accountability for the people who lead.</p>
+      <a class="hpanel hpanel--card" href="coaching.html#founders" data-cursor="Explore">
+        <div class="hpanel__bg"><img src="assets/img/founder.webp" srcset="assets/img/founder-sm.webp 900w, assets/img/founder.webp 1800w" sizes="(max-width: 1023px) 100vw, 64vw" alt="" loading="lazy"></div>
+        <span class="hpanel__num">03</span>
+        <div class="hpanel__body">
+          <span class="mono">Founders &amp; CEOs</span>
+          <h3 class="hpanel__title">Lonely at the top? <em>Not anymore.</em></h3>
+          <p>Unconditional support and real accountability from someone who has led a 450-person organisation.</p>
+          <div class="path-card__tags"><span>Decisions</span><span>Growth</span><span>Accountability</span></div>
         </div>
+        <span class="path-card__arrow hpanel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
-      <a class="path-card path-card--wide path-card--full" href="coaching.html#conscious" data-reveal data-cursor="Explore" style="min-height: 360px;">
-        <div class="path-card__bg"><img src="assets/img/tree.webp" srcset="assets/img/tree-sm.webp 900w, assets/img/tree.webp 1800w" sizes="100vw" alt="" loading="lazy" style="object-position:50% 40%"></div>
-        <div class="path-card__top"><span class="path-card__num">04 · Conscious leadership</span><span class="path-card__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        <div class="path-card__body">
-          <h3 class="path-card__title">Lead in a way the world <em>needs now.</em></h3>
-          <p class="path-card__text">Five dimensions of inner growth, from the Inner Development Goals, turned into extraordinary, outward results.</p>
+      <a class="hpanel hpanel--card" href="coaching.html#conscious" data-cursor="Explore">
+        <div class="hpanel__bg"><img src="assets/img/tree.webp" srcset="assets/img/tree-sm.webp 900w, assets/img/tree.webp 1800w" sizes="(max-width: 1023px) 100vw, 64vw" alt="" loading="lazy"></div>
+        <span class="hpanel__num">04</span>
+        <div class="hpanel__body">
+          <span class="mono">Conscious leadership</span>
+          <h3 class="hpanel__title">Lead the way the world <em>needs now.</em></h3>
+          <p>Five dimensions of inner growth from the Inner Development Goals, turned into extraordinary outward results.</p>
+          <div class="path-card__tags"><span>Being</span><span>Thinking</span><span>Relating</span><span>Collaborating</span><span>Acting</span></div>
         </div>
+        <span class="path-card__arrow hpanel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
     </div>
   </div>
@@ -428,5 +460,6 @@
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
+<script src="assets/js/experience.js" defer></script>
 </body>
 </html>
