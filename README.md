@@ -11,6 +11,7 @@ A multi-page redesign concept for [Co-Allies](https://www.co-allies.com), the Mo
 | Design system | One tokenised stylesheet (`assets/css/main.css`): colour, type scale, spacing, radii and motion tokens shared by every page |
 | Type | Fraunces (variable: opsz, wght, SOFT, WONK), Manrope, JetBrains Mono. All self-hosted |
 | Motion | GSAP + ScrollTrigger (parallax, scroll-drawn step lines), Lenis smooth scroll, masked word reveals, scroll-lit manifesto, magnetic buttons, custom cursor |
+| Signature experience | Once-per-visit intro sequence (the two "allies" circles draw and merge), curtain page transitions, a cinematic hero with her portrait set into the type and living ember orbs that follow the cursor, a pinned full-screen image reveal, a horizontal-scroll paths gallery, inner hero images that expand to full bleed, scroll-reactive marquees and a cursor spotlight on the footer wordmark |
 | Conversion features | "Find your path" selector, fertility stage navigator, 1-minute guided breathing, 3-step "what happens next", FAQ on every key page, lazy-loaded Calendly embed, sticky mobile booking bar |
 | Trust & ethics | Coaching vs therapy vs medical care comparison, crisis lines (811 / 9-8-8), confidentiality notes, land acknowledgement, disclaimer |
 | SEO | Unique titles and descriptions, canonical URLs, Open Graph image, `ProfessionalService` JSON-LD, `sitemap.xml` |
