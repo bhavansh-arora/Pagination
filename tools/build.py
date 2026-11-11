@@ -916,7 +916,7 @@ def build_meta_files():
     pages = ["", "about", "portfolio", "films", "investment", "contact"]
     urls = "".join(f"  <url><loc>{SITE_URL}/{p}</loc></url>\n" for p in pages)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
-    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: {SITE_URL}/sitemap.xml\n")
+    (ROOT / "robots.txt").write_text((ROOT / "robots.txt").read_text() if (ROOT / "robots.txt").exists() else "User-agent: *\nAllow: /\nDisallow: /admin/squarespace-code.html\n")  # kept as written (see robots.txt)
     css = ROOT / "assets/css/editor-global.css"
     if not css.exists():
         css.write_text("/* Styles saved from the visual editor for the shared header and footer. */\n/* editor:header */\n/* /editor:header */\n/* editor:footer */\n/* /editor:footer */\n")

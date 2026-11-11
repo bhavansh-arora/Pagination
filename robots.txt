@@ -1,5 +1,6 @@
+# This copy of the site (drp-3n69xh.danreynoldsphotography.com) only feeds www.danreynoldsphotography.com and stays out
+# of search results: every page carries <meta name="robots" content="noindex">. Search engines may read everything here,
+# so they see that tag. Only the template for the Squarespace page codes is off limits: it can't carry the tag itself.
 User-agent: *
 Allow: /
-Disallow: /admin/
-
-Sitemap: https://www.danreynoldsphotography.com/sitemap.xml
+Disallow: /admin/squarespace-code.html
