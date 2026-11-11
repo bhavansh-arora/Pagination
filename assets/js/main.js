@@ -91,25 +91,32 @@
     } else {
       try { sessionStorage.setItem("ma-seen", "1"); } catch (e) {}
       if (curtain) curtain.style.display = "none";
-      const imgs = $$(".loader__win img", loader), num = $(".loader__count b", loader), bar = $(".loader__bar i", loader);
-      const total = 2300, t0 = performance.now(), flashes = imgs.length - 1;
-      let shown = 0;
-      const finish = () => {
-        imgs.forEach((im) => im.classList.remove("is-on"));
-        imgs[imgs.length - 1].classList.add("is-on");
-        loader.classList.add("is-open");
-        setTimeout(ready, 700);
-        setTimeout(() => loader.classList.add("is-done"), 1200);
-        setTimeout(() => loader.remove(), 1900);
+      root.classList.add("has-loader");
+      // Hold the letterbox closed until the hero film is actually playing (or we give up),
+      // then open it straight onto the moving picture.
+      const line = $(".loader__line i", loader), status = $("[data-status]", loader);
+      const MIN = 1800, MAX = 6500, t0 = performance.now();
+      let filmReady = false, opened = false, shown = 0;
+      const open = () => {
+        if (opened) return; opened = true;
+        loader.classList.add("is-ready");
+        if (status) status.textContent = filmReady ? "Rolling" : "Welcome";
+        setTimeout(() => {
+          loader.classList.add("is-open");
+          setTimeout(ready, 650);
+          setTimeout(() => { loader.remove(); root.classList.remove("has-loader"); }, 1800);
+        }, 380);
       };
+      d.addEventListener("hero:playing", () => { filmReady = true; }, { once: true });
+      d.addEventListener("hero:fallback", () => { filmReady = true; }, { once: true });
       const tick = (now) => {
-        const p = Math.min(1, (now - t0) / total);
-        const eased = 1 - Math.pow(1 - p, 2.4);
-        num.textContent = Math.round(eased * 100);
-        bar.style.transform = `scaleX(${eased})`;
-        const k = Math.min(flashes - 1, Math.floor(p * flashes));
-        if (k !== shown) { imgs[shown].classList.remove("is-on"); imgs[k].classList.add("is-on"); shown = k; }
-        if (p < 1) requestAnimationFrame(tick); else finish();
+        const t = now - t0;
+        // Creep towards 85% while the film buffers; finish once it plays.
+        const target = filmReady ? 1 : 0.85 * (1 - Math.exp(-t / 1400));
+        shown += (target - shown) * (filmReady ? 0.16 : 0.08);
+        line.style.transform = `scaleX(${shown})`;
+        if ((filmReady && t > MIN && shown > 0.985) || t > MAX) { line.style.transform = "scaleX(1)"; open(); return; }
+        requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
     }
@@ -193,20 +200,30 @@
   /* ---------- Video hero: YouTube background + still fallback ---------- */
   $$(".vhero").forEach((hero) => {
     const slides = $$(".vhero__slide", hero);
-    let idx = 0, slideTimer = null;
+    const videoOnly = hero.classList.contains("vhero--video");
+    let idx = 0, slideTimer = null, playing = false;
     const nextSlide = () => {
       if (slides.length < 2) return;
       slides[idx].classList.remove("is-active");
       idx = (idx + 1) % slides.length;
       slides[idx].classList.add("is-active");
     };
-    if (!reduce && slides.length > 1) slideTimer = setInterval(nextSlide, 5200);
+    // Stills are a fallback on the video-only hero: start them only if the film can't play.
+    const fallback = () => {
+      if (playing || hero.classList.contains("is-fallback")) return;
+      hero.classList.add("is-fallback");
+      slides.forEach((s) => $$("img", s).forEach((im) => { im.loading = "eager"; }));
+      if (!reduce && slides.length > 1) slideTimer = setInterval(nextSlide, 5200);
+      d.dispatchEvent(new Event("hero:fallback"));
+    };
+    if (!videoOnly && !reduce && slides.length > 1) slideTimer = setInterval(nextSlide, 5200);
 
     const id = hero.dataset.yt;
     const holder = $(".vhero__yt", hero);
     const conn = navigator.connection || {};
     const allowVideo = id && holder && !reduce && !conn.saveData && !/2g/.test(conn.effectiveType || "");
-    if (!allowVideo) return;
+    if (!allowVideo) { if (videoOnly) fallback(); return; }
+    if (videoOnly) setTimeout(fallback, 6000);
     const start = parseInt(hero.dataset.start || "0", 10);
     const params = new URLSearchParams({ autoplay: 1, mute: 1, controls: 0, loop: 1, playlist: id, playsinline: 1, modestbranding: 1, rel: 0, iv_load_policy: 3, disablekb: 1, fs: 0, start, enablejsapi: 1, origin: location.origin });
     const frame = d.createElement("iframe");
@@ -224,11 +241,16 @@
       if (!/youtube(-nocookie)?\.com$/.test(new URL(e.origin).hostname)) return;
       let data; try { data = JSON.parse(e.data); } catch (err) { return; }
       const state = data && data.info && data.info.playerState;
-      if (state === 1) { hero.classList.add("is-playing"); clearInterval(slideTimer); }
+      if (state === 1 && !playing) {
+        playing = true;
+        // A short beat lets YouTube's first frames settle before we show the film.
+        setTimeout(() => { hero.classList.add("is-playing"); hero.classList.remove("is-fallback"); clearInterval(slideTimer); d.dispatchEvent(new Event("hero:playing")); }, 350);
+      }
     });
     // Start loading once the page is idle so the hero still paints instantly.
     const load = () => holder.appendChild(frame);
-    ("requestIdleCallback" in window) ? requestIdleCallback(load, { timeout: 1500 }) : setTimeout(load, 600);
+    if (videoOnly) load();
+    else ("requestIdleCallback" in window) ? requestIdleCallback(load, { timeout: 1500 }) : setTimeout(load, 600);
     // Pause the reel when it is off screen to save battery.
     new IntersectionObserver(([en]) => post({ event: "command", func: en.isIntersecting ? "playVideo" : "pauseVideo", args: [] }), { threshold: 0.05 }).observe(hero);
   });

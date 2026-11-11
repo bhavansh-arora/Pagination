@@ -102,24 +102,24 @@ export function home() {
     title: "Mark Arista Films — Hawaii Wedding Videographer",
     description: `Hawaii wedding videographer Mark Arista. ${films.length} story-led wedding films with Filipino warmth — Kualoa Ranch, Lanikuhonua, Four Seasons Oahu and beyond. 5.0 from ${reviews.count} reviews.`,
     path: "",
-    preload: frame("hzfBBlhqEzI"),
     jsonld: [orgLd],
   })}
 ${header({ active: "index.html" })}
 <div class="loader" aria-hidden="true">
-  <div class="loader__win">
-    ${[["Ch_mROgi6YY", "-1"], ["OAF6KZrBGzk", "-2"], ["CWCR__HvvXI", "-3"], ["itpNCKYn7B4", "-2"], ["0RURO9MIxn4", "-2"], ["VGLLFgRVSeI", "-1"]].map(([id, s], k) => `<img src="${frameSm(id, s)}" alt=""${k === 0 ? ' class="is-on"' : ""}>`).join("")}<img src="${frame("hzfBBlhqEzI")}" alt="">
+  <div class="loader__panel loader__panel--t"></div>
+  <div class="loader__panel loader__panel--b"></div>
+  <div class="loader__in">
+    <p class="label loader__eyebrow">Hawaii wedding films</p>
+    <p class="loader__name"><span class="ln">${[..."Mark"].map((c, i) => `<span style="--i:${i}">${c}</span>`).join("")}</span> <span class="ln ln--it">${[..."Arista"].map((c, i) => `<span style="--i:${i + 4}">${c}</span>`).join("")}</span></p>
+    <div class="loader__line"><i></i></div>
+    <p class="label loader__status"><span class="loader__dot"></span><span data-status>Loading the film</span></p>
   </div>
-  <div class="loader__bar"><i></i></div>
-  <p class="loader__line">${"Your love story is worth".split(" ").map((w, i) => `<span class="lw"><span style="--i:${i}">${w}</span></span>`).join(" ")} <span class="lw"><span class="it" style="--i:5">telling.</span></span></p>
-  <div class="loader__top"><span class="loader__logo">Mark <i>Arista</i></span><span class="label">Hawaii wedding films</span></div>
-  <div class="loader__bot"><span class="label">Oahu · Hawaii Island · Beyond</span><span class="loader__count"><b>0</b><i>%</i></span></div>
 </div>
 <main id="main">
 
-<section class="vhero" data-yt="${site.heroVideo.id}" data-start="${site.heroVideo.start}" style="--ar:${aspect(site.heroVideo.id)}" aria-label="Introduction">
+<section class="vhero vhero--video" data-yt="${site.heroVideo.id}" data-start="${site.heroVideo.start}" style="--ar:${aspect(site.heroVideo.id)}" aria-label="Introduction">
   <div class="vhero__media" aria-hidden="true">
-    ${heroSlides.map(([id, s], i) => `<div class="vhero__slide${i === 0 ? " is-active" : ""}">${im(base, id, s, { sizes: "100vw", eager: i === 0 })}</div>`).join("\n    ")}
+    ${heroSlides.map(([id, s], i) => `<div class="vhero__slide${i === 0 ? " is-active" : ""}">${im(base, id, s, { sizes: "100vw" })}</div>`).join("\n    ")}
     <div class="vhero__yt"></div>
   </div>
   <div class="vf" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
