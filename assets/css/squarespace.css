@@ -175,33 +175,11 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .drx .post-body--sq .sqs-block-horizontalrule hr, .drx .post-body--sq hr { border: 0; border-top: 1px solid var(--line); margin: 2em 0; }
 .drx .post-body--sq iframe, .drx .post-body--sq video { width: 100% !important; aspect-ratio: 16 / 9; height: auto !important; border: 0; border-radius: var(--r-lg); }
 .drx .post-body--sq .sqs-video-wrapper, .drx .post-body--sq .video-block-wrapper { position: static !important; padding: 0 !important; height: auto !important; }
-/* Previous / next post, and older / newer posts on the blog page */
-.post-nav { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); max-width: 720px; margin: clamp(24px, 3vw, 40px) auto 0; }
-@media (min-width: 700px) { .post-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.post-nav__link { display: grid; gap: 8px; padding: 20px 22px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--paper-2); color: var(--ink); text-decoration: none; transition: border-color 0.3s; }
-.post-nav__link:hover { border-color: var(--line-gold); }
-.post-nav__link--next { text-align: right; }
-@media (min-width: 700px) { .post-nav__link--next:only-child { grid-column: 2; } }
-.post-nav__title { font-family: var(--display); font-size: clamp(1.25rem, 1rem + 0.6vw, 1.6rem); line-height: 1.15; }
-.blog-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: clamp(24px, 3vw, 40px); }
-
-/* A post reads as one column: the title, cover, text and links below all share one width (880px), left edges lined up.
-   The cover is 16:9 at that width; on phones it's 4:3 and full width. A soft preview on its frame while it loads, then the photo fades in over it (the frame has no zoom-on-scroll, so nothing shifts). */
-.post-hero .container, .post-section .container, [data-post-foot] .container { max-width: calc(880px + var(--gutter) * 2); }
-.post-body, .post-foot, .post-nav { max-width: 880px !important; }
-.post-cover { padding-inline: var(--gutter); }
-.post-cover .media, .post-cover__media { position: relative; overflow: hidden; isolation: isolate; width: 100%; max-width: 880px; aspect-ratio: 4 / 3; margin-inline: auto; border-radius: var(--r-xl); background: var(--paper-3) center / cover no-repeat; }
-@media (min-width: 700px) { .post-cover .media, .post-cover__media { aspect-ratio: 16 / 9; } }
-.post-cover .media img, .post-cover__media img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.8s var(--ease-out); }
+/* A post's cover fades in over its soft preview once the photo has loaded (the frame itself is in styles.css) */
+.post-cover .media img, .post-cover__media img { opacity: 0; transition: opacity 0.8s var(--ease-out); }
 .post-cover .media img.is-loaded, .post-cover__media img.is-loaded { opacity: 1; }
 /* Squarespace's quote block: one line on the left (its figure carries it), not two */
 .drx .post-body--sq .sqs-block-quote blockquote { border: 0 !important; padding: 0 !important; margin: 0 !important; font-size: inherit !important; }
-/* A post without a cover: the text starts closer to the title */
-.post-section--nocover { padding-top: clamp(8px, 1.5vw, 24px) !important; }
-/* A blog card without a photo: just the text */
-.blog-card__img:empty { display: none; }
-/* The text starts a comfortable step below the cover, not a whole section away */
-.post-cover + .post-section { padding-top: clamp(32px, 4vw, 56px) !important; }
 /* Blog on phones: after a page change, the page fades in in place (no rise while the curtain lifts) */
 @media (max-width: 699px) { html.drx-blog.is-entering .reveal, html.drx-blog.is-entering:not(.is-entered) .reveal { transform: none !important; } }
 /* Blog: the loader's logo stays perfectly still. It shows only while the curtain fully covers the screen (fading out
