@@ -80,7 +80,8 @@
   const loader = $(".loader");
   const ready = () => { releaseHeld(); startReveals(); d.dispatchEvent(new Event("app:ready")); };
 
-  const hideCurtain = () => { if (curtain) { curtain.classList.remove("is-in", "is-cover"); curtain.classList.add("is-out"); } };
+  // The arrival animation is pure CSS; this just tidies up once it's done.
+  const hideCurtain = () => { if (curtain) setTimeout(() => { if (!curtain.classList.contains("is-leave")) curtain.classList.add("is-off"); }, 1300); };
 
   if (loader) {
     let seen = false;
@@ -90,7 +91,7 @@
       hideCurtain(); setTimeout(ready, 250);
     } else {
       try { sessionStorage.setItem("ma-seen", "1"); } catch (e) {}
-      if (curtain) curtain.style.display = "none";
+      if (curtain) curtain.classList.add("is-off");
       root.classList.add("has-loader");
       // Hold the letterbox closed until the hero film is actually playing (or we give up),
       // then open it straight onto the moving picture.
@@ -135,13 +136,25 @@
     if (url.origin !== location.origin || /^(mailto|tel):/.test(href)) return;
     if (url.pathname === location.pathname && url.hash) return;
     e.preventDefault();
-    curtain.style.display = "";
-    curtain.classList.remove("is-out"); curtain.classList.add("is-in");
-    void curtain.offsetWidth;
-    curtain.classList.add("is-cover");
-    setTimeout(() => { location.href = url.href; }, 650);
+    // Name the page we're heading to, so the closing curtain (and the next page's opening) shows it.
+    const path = url.pathname.replace(/\/index\.html$/, "/");
+    const names = { "films.html": "Films", "about.html": "About", "experience.html": "The experience", "contact.html": "Let's talk" };
+    const file = path.split("/").pop();
+    const label = a.getAttribute("aria-label") || "";
+    const name = file === "" || file === "index.html" ? "Home"
+      : names[file] && !/\/films\//.test(path) ? names[file]
+      : /\/films\//.test(path) ? (label.split(" — ")[0].replace(/^Next film: /, "") || (a.textContent || "").trim().split("\n")[0] || "The film")
+      : "Mark Arista";
+    const nameEl = $("[data-curtain-name]", curtain);
+    if (nameEl) nameEl.textContent = name.length > 32 ? "Mark Arista" : name;
+    try { sessionStorage.setItem("ma-dest", nameEl ? nameEl.textContent : ""); } catch (err) {}
+    curtain.classList.remove("is-off");
+    curtain.classList.add("is-leave");
+    requestAnimationFrame(() => curtain.classList.add("is-text"));
+    setTimeout(() => { location.href = url.href; }, 760);
   });
-  window.addEventListener("pageshow", (e) => { if (e.persisted && curtain) { curtain.classList.remove("is-in", "is-cover"); curtain.classList.add("is-out"); } });
+  // Coming back via the browser's back button: open the curtain again.
+  window.addEventListener("pageshow", (e) => { if (e.persisted && curtain) { curtain.classList.remove("is-leave", "is-text"); curtain.classList.add("is-off"); } });
 
   /* ---------- Header ---------- */
   const header = $(".header");
@@ -153,6 +166,7 @@
       header.classList.toggle("is-scrolled", y > 40);
       const goingDown = y > lastY && y > 320;
       if (!body.classList.contains("menu-open")) header.classList.toggle("is-hidden", goingDown);
+      root.classList.toggle("hdr-hidden", header.classList.contains("is-hidden"));
     }
     if (mbar) mbar.classList.toggle("is-on", y > window.innerHeight * 0.7);
     lastY = y;

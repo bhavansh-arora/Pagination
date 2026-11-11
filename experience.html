@@ -28,7 +28,11 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
-<div class="curtain" aria-hidden="true"><span class="curtain__mark">Mark Arista — Films</span></div>
+<div class="curtain" aria-hidden="true">
+  <div class="curtain__p curtain__p--t"></div><div class="curtain__p curtain__p--b"></div>
+  <div class="curtain__in"><span class="label curtain__eyebrow">Mark Arista Films</span><span class="curtain__name" data-curtain-name></span><i class="curtain__line"></i></div>
+</div>
+<script>try{var n=sessionStorage.getItem("ma-dest");if(n){document.querySelector("[data-curtain-name]").textContent=n;sessionStorage.removeItem("ma-dest")}}catch(e){}</script>
 <div class="cursor" aria-hidden="true"></div>
 <header class="header">
   <div class="wrap">

@@ -214,18 +214,34 @@ ul, ol { padding: 0; list-style: none; }
 .link:hover { background-size: 0% 1px; background-position: 100% 100%; gap: 16px; }
 .link svg { width: 14px; height: 14px; }
 
-/* ---------- Curtain (page transitions) ---------- */
-.curtain {
-  position: fixed; inset: 0; z-index: 220; pointer-events: none;
-  background: var(--ember); transform: translateY(0);
-  display: grid; place-items: center;
-}
-.curtain__mark { font-family: var(--f-mono); font-size: var(--fs-label); letter-spacing: .2em; color: #fff; text-transform: uppercase; opacity: 0; }
-html:not(.js) .curtain { display: none; }
-.curtain.is-out { transform: translateY(-100%); transition: transform .9s var(--ease-io); }
-.curtain.is-in { transform: translateY(100%); transition: none; }
-.curtain.is-in.is-cover { transform: translateY(0); transition: transform .7s var(--ease-io); }
-.curtain.is-cover .curtain__mark { opacity: 1; transition: opacity .3s .3s; }
+/* ---------- Curtain (page transitions) ----------
+   Arriving: two ink panels part like a widescreen letterbox (CSS only, so it always opens).
+   Leaving: they close on a gold line and the name of the page you're heading to. */
+.curtain { position: fixed; inset: 0; z-index: 220; pointer-events: none; color: var(--cream); }
+.curtain__p { position: absolute; left: 0; right: 0; height: 50.5%; background: var(--ink); will-change: transform; }
+.curtain__p--t { top: 0; animation: cOutT 1.05s .12s var(--ease-io) forwards; }
+.curtain__p--b { bottom: 0; animation: cOutB 1.05s .12s var(--ease-io) forwards; }
+.curtain__in { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; animation: cTextOut .5s ease forwards; }
+.curtain__eyebrow { color: var(--sun); }
+.curtain__name { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 5.5rem); line-height: 1; letter-spacing: -.03em; font-variation-settings: "opsz" 144, "SOFT" 100; }
+.curtain__name:empty { display: none; }
+.curtain__line { display: block; width: min(240px, 50vw); height: 1px; background: var(--sun); transform-origin: 50% 50%; }
+@keyframes cOutT { to { transform: translateY(-100%); } }
+@keyframes cOutB { to { transform: translateY(100%); } }
+@keyframes cTextOut { to { opacity: 0; transform: translateY(-10px); } }
+/* leaving */
+.curtain.is-leave .curtain__p--t { animation: cInT .7s var(--ease-io) forwards; }
+.curtain.is-leave .curtain__p--b { animation: cInB .7s var(--ease-io) forwards; }
+.curtain.is-leave .curtain__in { animation: none; opacity: 0; transition: opacity .35s .35s; }
+.curtain.is-leave.is-text .curtain__in { opacity: 1; }
+.curtain.is-leave .curtain__line { animation: cLine .6s .35s var(--ease) both; }
+.curtain.is-leave .curtain__name { animation: cName .7s .3s var(--ease) both; }
+@keyframes cInT { from { transform: translateY(-100%); } to { transform: none; } }
+@keyframes cInB { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes cLine { from { transform: scaleX(0); } }
+@keyframes cName { from { opacity: 0; transform: translateY(14px); } }
+html:not(.js) .curtain, .curtain.is-off { display: none; }
+@media (prefers-reduced-motion: reduce) { .curtain { display: none; } }
 
 /* ---------- Loader (home, once per session) ---------- */
 html:not(.js) .loader, .loader.is-skip { display: none; }
@@ -1205,3 +1221,7 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
   .ahero__text, .xhero__text { align-self: center; margin-top: calc(-1 * clamp(32px, 5vw, 88px)); }
 }
 .ahero, .xhero { padding-top: calc(var(--header-h) + clamp(28px, 3.4vw, 56px)); }
+
+/* Films filter bar: sits under the header, and slides up to the top when the header hides */
+.films .toolbar { transition: top .7s var(--ease), background .4s; }
+.hdr-hidden .films .toolbar { top: 12px; }
