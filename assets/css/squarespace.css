@@ -185,11 +185,13 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .post-nav__title { font-family: var(--display); font-size: clamp(1.25rem, 1rem + 0.6vw, 1.6rem); line-height: 1.15; }
 .blog-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: clamp(24px, 3vw, 40px); }
 
-/* A post's cover: 85% of the screen width in a wide 2:1 frame on larger screens; the full width (4:3) on phones.
-   A soft preview while it loads, then a fade. */
+/* A post reads as one column: the title, cover, text and links below all share one width (880px), left edges lined up.
+   The cover is 16:9 at that width; on phones it's 4:3 and full width. A soft preview while it loads, then a fade. */
+.post-hero .container, .post-section .container, [data-post-foot] .container { max-width: calc(880px + var(--gutter) * 2); }
+.post-body, .post-foot, .post-nav { max-width: 880px !important; }
 .post-cover { padding-inline: var(--gutter); }
-.post-cover .media { width: 100%; aspect-ratio: 4 / 3; margin-inline: auto; border-radius: var(--r-xl); background: var(--paper-3) center / cover no-repeat; }
-@media (min-width: 700px) { .post-cover .media { width: 85vw; max-width: 100%; aspect-ratio: 2 / 1; max-height: 64vh; } }
+.post-cover .media { width: 100%; max-width: 880px; aspect-ratio: 4 / 3; margin-inline: auto; border-radius: var(--r-xl); background: var(--paper-3) center / cover no-repeat; }
+@media (min-width: 700px) { .post-cover .media { aspect-ratio: 16 / 9; } }
 .post-cover .media img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.8s var(--ease-out); }
 .post-cover .media img.is-loaded { opacity: 1; }
 /* Squarespace's quote block: one line on the left (its figure carries it), not two */
@@ -198,3 +200,5 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .post-section--nocover { padding-top: clamp(8px, 1.5vw, 24px) !important; }
 /* A blog card without a photo: just the text */
 .blog-card__img:empty { display: none; }
+/* The text starts a comfortable step below the cover, not a whole section away */
+.post-cover + .post-section { padding-top: clamp(32px, 4vw, 56px) !important; }

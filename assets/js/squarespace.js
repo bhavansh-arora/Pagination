@@ -8,7 +8,7 @@
 (function () {
   "use strict";
   var me = document.currentScript, root = document.getElementById("drx-live");
-  var COVER_SIZES = "(min-width: 700px) 85vw, 100vw";
+  var COVER_SIZES = "(min-width: 980px) 880px, 100vw";
   function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
   function coverSet(u) { return [750, 1000, 1500, 2000].map(function (w) { return sqImg(u, w) + " " + w + "w"; }).join(", "); }
   // A post's featured image, from the article data Squarespace puts on the page.
