@@ -1,0 +1,105 @@
+<!--
+title: Contact & book a free session · Co-Allies Montréal
+description: Book a free 30-minute coaching session with Nathalia del Moral Fleury, or get in touch by phone (438 822 5015) or email. Fertility, transition, founder and conscious-leadership coaching in Montréal.
+nav: contact
+cta_title: Your next chapter starts with <em>one conversation.</em>
+-->
+
+<section class="page-hero grain" aria-labelledby="page-title">
+  <div class="page-hero__orb" aria-hidden="true"></div>
+  <div class="container">
+    <div class="page-hero__crumbs mono" data-reveal><a href="index.html">Home</a><span class="sep"></span><span>Contact</span></div>
+    <div class="page-hero__grid">
+      <h1 class="h1 page-hero__title" id="page-title" data-split>Let’s talk about <em>your vision.</em></h1>
+      <p class="lead page-hero__lead" data-reveal>My goal is to support you in your journey. Book a free 30-minute session in a few clicks, or write to me and I’ll get back to you personally.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--flush-top" aria-label="Book or get in touch">
+  <div class="container contact-grid">
+    <div class="book-card theme-forest grain" data-reveal data-calendly-wrap>
+      <span class="eyebrow eyebrow--plain"><span class="dot dot--live"></span>Free · 30 minutes · Confidential</span>
+      <h2 class="h2">Book your <em>free session.</em></h2>
+      <div class="book-card__times">
+        <div><strong>30</strong><span>minutes</span></div>
+        <div><strong>$0</strong><span>no commitment</span></div>
+        <div><strong>1:1</strong><span>just you &amp; me</span></div>
+      </div>
+      <ul class="check-list" role="list">
+        <li>Share where you are and what you’d like to change</li>
+        <li>Discover how coaching could help, honestly</li>
+        <li>Leave with clarity, whether or not we work together</li>
+      </ul>
+      <div class="btn-row">
+        <button class="btn btn--ember" type="button" data-calendly="cal-frame" data-url="{{BOOK}}"><span>See available times</span><span class="btn__icon">{{icon:calendar}}</span></button>
+        <a class="btn btn--ghost" href="{{BOOK}}" target="_blank" rel="noopener">Open in Calendly ↗</a>
+      </div>
+      <div class="book-card__frame" id="cal-frame" hidden></div>
+    </div>
+
+    <aside class="contact-side">
+      <div data-reveal style="--d:.1s">
+        <a class="contact-line" href="{{PHONE_HREF}}"><span class="contact-line__icon">{{icon:phone}}</span><span><strong>{{PHONE}}</strong><span>Call me directly</span></span></a>
+        <a class="contact-line" href="mailto:{{EMAIL}}"><span class="contact-line__icon">{{icon:mail}}</span><span><strong>{{EMAIL}}</strong><span>I reply personally</span></span></a>
+        <a class="contact-line" href="{{LINKEDIN}}" target="_blank" rel="noopener"><span class="contact-line__icon">{{icon:linkedin}}</span><span><strong>LinkedIn</strong><span>Nathalia del Moral Fleury</span></span></a>
+        <div class="contact-line"><span class="contact-line__icon">{{icon:pin}}</span><span><strong>Montréal, Québec</strong><span>Tiohtià:ke · Canada</span></span></div>
+      </div>
+      <div class="note" data-reveal style="--d:.2s"><span class="note__icon">{{icon:lock}}</span><p>Everything you share, here or in session, is confidential.</p></div>
+    </aside>
+  </div>
+</section>
+
+<section class="section theme-paper2" id="write" aria-labelledby="write-title">
+  <div class="container split">
+    <div class="split__copy write__copy">
+      <span class="eyebrow" data-reveal><span class="num">(02)</span> Prefer to write?</span>
+      <h2 class="h2" id="write-title" data-split>Send me a <em>message.</em></h2>
+      <p class="body-copy" data-reveal>Tell me a little about what brings you here. A sentence is enough. I’ll get back to you personally.</p>
+      <div class="media" data-reveal="mask" style="aspect-ratio:4/3;border-radius:var(--r-xl)"><img src="assets/img/lake-sm.webp" alt="A wooden jetty reaching into a calm, misty lake" loading="lazy"></div>
+    </div>
+    <form class="form write__form" data-contact-form data-to="{{EMAIL}}" novalidate data-reveal>
+      <div class="form__row">
+        <div class="field"><input id="f-name" name="name" type="text" placeholder=" " autocomplete="name" required><label for="f-name">Your name</label></div>
+        <div class="field"><input id="f-email" name="email" type="email" placeholder=" " autocomplete="email" required><label for="f-email">Email</label></div>
+      </div>
+      <div class="form__row">
+        <div class="field"><input id="f-phone" name="phone" type="tel" placeholder=" " autocomplete="tel"><label for="f-phone">Phone (optional)</label></div>
+        <div class="field">
+          <select id="f-topic" name="topic">
+            <option>Fertility coaching</option>
+            <option>Transition coaching</option>
+            <option>Founders &amp; CEOs</option>
+            <option>Conscious leadership</option>
+            <option>Group journeys</option>
+            <option>I’m not sure yet</option>
+          </select>
+          <label for="f-topic">I’m interested in</label>
+        </div>
+      </div>
+      <div class="field"><textarea id="f-msg" name="message" placeholder=" " required></textarea><label for="f-msg">What brings you here?</label></div>
+      <label class="form__consent"><input type="checkbox" name="consent" required><span>I agree to be contacted about my enquiry. My details won’t be shared with anyone.</span></label>
+      <div class="btn-row">
+        <button class="btn btn--ember" type="submit" data-magnetic="0.2"><span>Send message</span><span class="btn__icon">{{icon:arrow}}</span></button>
+      </div>
+      <p class="form__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="cfaq-title">
+  <div class="container faq">
+    <div class="faq__head">
+      <span class="eyebrow" data-reveal><span class="num">(03)</span> Before you book</span>
+      <h2 class="h2" id="cfaq-title" data-split>Common <em>questions.</em></h2>
+    </div>
+    <div class="faq__list" data-stagger="0.05">
+      <details class="acc" data-reveal open><summary><span class="mono">01</span>Do I need to prepare anything?<span class="acc__icon" aria-hidden="true"></span></summary><div class="acc__body"><p>Nothing at all. Come as you are. If it helps, think about what you’d most like to be different six months from now.</p></div></details>
+      <details class="acc" data-reveal><summary><span class="mono">02</span>Is the first session really free?<span class="acc__icon" aria-hidden="true"></span></summary><div class="acc__body"><p>Yes. It’s 30 minutes, free and without obligation. It’s a chance for both of us to see whether we’re a good fit.</p></div></details>
+      <details class="acc" data-reveal><summary><span class="mono">03</span>What if I’m not sure which path I need?<span class="acc__icon" aria-hidden="true"></span></summary><div class="acc__body"><p>That’s completely normal. Choose “I’m not sure yet” and we’ll figure it out together on the call.</p></div></details>
+      <details class="acc" data-reveal><summary><span class="mono">04</span>How soon will I hear back?<span class="acc__icon" aria-hidden="true"></span></summary><div class="acc__body"><p>I read every message personally and reply as soon as I can. For the fastest route, book a time directly in the calendar.</p></div></details>
+    </div>
+  </div>
+</section>
+
+{{cta}}
