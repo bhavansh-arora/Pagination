@@ -775,6 +775,8 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .footer-bottom a:hover { color: var(--accent); }
 .footer-bottom .site-credit { color: var(--accent); font-weight: 600; text-decoration: underline; text-decoration-color: rgba(165, 185, 147, 0.45); text-underline-offset: 4px; transition: color 0.25s, text-decoration-color 0.25s; }
 .footer-bottom .site-credit:hover { color: var(--gold-hi); text-decoration-color: currentColor; }
+/* The credit is always last and on the right, also when the row wraps onto its own line on phones */
+@media (max-width: 699px) { .footer-bottom > :last-child { margin-left: auto; } }
 
 /* ---------- Mobile sticky CTA ---------- */
 .sticky-cta {
