@@ -8,8 +8,7 @@
 (function () {
   "use strict";
   var me = document.currentScript, root = document.getElementById("drx-live");
-  // (On larger screens the cover slowly zooms as the page scrolls, up to 16% larger: room for that, so it stays sharp.)
-  var COVER_SIZES = "(min-width: 980px) 1024px, 100vw";
+  var COVER_SIZES = "(min-width: 980px) 880px, 100vw";
   function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
   function coverSet(u) { return [750, 1000, 1500, 2000].map(function (w) { return sqImg(u, w) + " " + w + "w"; }).join(", "); }
   // A post's featured image, from the article data Squarespace puts on the page.
@@ -115,7 +114,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"d9f239a6"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"1b06c657"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
   // The intro screen is for the first page of a visit only. (The pasted codes start it on every page load, so after
@@ -220,17 +219,8 @@
     var items = (data && data.items) || [];
     // (An image address with no file name is an upload that didn't finish: the card goes without a photo.)
     items.forEach(function (it) { if (it.assetUrl && /\/\d+\/?(\?|$)/.test(it.assetUrl)) it.assetUrl = ""; });
-    // Squarespace's hidden list has already started downloading each post's photo: the card shows that same file
-    // (one download per photo, not two).
-    var base = function (u) { return u ? String(u).split("?")[0].replace(/\/+$/, "").replace(/^https?:/, "") : ""; }, have = {};
-    document.querySelectorAll("#siteWrapper img").forEach(function (i) {
-      var k = base(i.getAttribute("data-image-drx") || i.getAttribute("data-image") || i.getAttribute("src")), c = i.currentSrc || "";
-      if (k && c && !/^data:/.test(c)) have[k] = c;
-    });
     grid.innerHTML = items.length ? items.map(function (it) {
-      var got = it.assetUrl && have[base(it.assetUrl)];
-      var img = !it.assetUrl ? "" : got ? '<img src="' + esc(got) + '" alt="' + esc(it.title) + '" decoding="async">' :
-        '<img src="' + esc(sqImg(it.assetUrl, 1000)) + '" srcset="' + esc(sqImg(it.assetUrl, 750)) + ' 750w, ' + esc(sqImg(it.assetUrl, 1500)) + ' 1500w" sizes="(min-width: 700px) 50vw, 100vw" alt="' + esc(it.title) + '" loading="lazy" decoding="async">';
+      var img = !it.assetUrl ? "" : '<img src="' + esc(sqImg(it.assetUrl, 1000)) + '" srcset="' + esc(sqImg(it.assetUrl, 750)) + ' 750w, ' + esc(sqImg(it.assetUrl, 1500)) + ' 1500w" sizes="(min-width: 700px) 50vw, 100vw" data-fallback="' + esc(sqImg(it.assetUrl, 1000)) + '" alt="' + esc(it.title) + '" loading="lazy">';
       var ex = textOf(it.excerpt), words = textOf(it.body).split(" ");
       if (!ex) ex = words.slice(0, 32).join(" ") + (words.length > 32 ? "…" : "");
       return '<a class="blog-card reveal" href="' + esc(it.fullUrl) + '">' +
@@ -268,12 +258,13 @@
     set("[data-post-cover]", function (el) {
       var u = postCover(data);
       if (!u) { el.remove(); c.querySelectorAll(".post-section").forEach(function (sec) { sec.classList.add("post-section--nocover"); }); return; }
-      var img = el.querySelector("img");
+      var img = el.querySelector("img"), media = el.querySelector(".media");
       img.setAttribute("src", sqImg(u, 1500)); img.setAttribute("srcset", coverSet(u)); img.setAttribute("sizes", COVER_SIZES);
-      img.setAttribute("alt", title); img.removeAttribute("style"); img.setAttribute("fetchpriority", "high"); img.setAttribute("decoding", "async");
-      // A soft preview while it loads, inside the photo itself: same crop, and it moves and zooms with the photo,
-      // so the photo sharpens in place when it arrives (nothing shifts).
-      img.style.background = "url(" + sqImg(u, 100) + ") center / cover no-repeat";
+      img.setAttribute("alt", title); img.removeAttribute("style"); img.setAttribute("fetchpriority", "high");
+      img.setAttribute("data-fallback", sqImg(u, 1000));
+      // A soft preview on its frame while it loads; the photo fades in over it. The frame isn't given the site's slow
+      // zoom-on-scroll (so the photo lands exactly where its preview is, nothing shifts).
+      if (media) { media.classList.remove("media"); media.classList.add("post-cover__media"); media.style.backgroundImage = "url(" + sqImg(u, 100) + ")"; }
     });
     // The post's text: Squarespace's own (served with the page, so search engines read it), moved into the design.
     var src = art && art.querySelector(".blog-item-content");
@@ -385,10 +376,26 @@
     d.classList.remove("drx-booting");
 
     if (BLOG) {
-      // The cover's soft preview goes once the photo is in (so a transparent image never shows it through).
+      // The cover fades in over its soft preview once it has loaded; the preview then goes (so a transparent image
+      // never shows it through). A photo that fails, or hasn't arrived after 8 seconds, is asked for once more.
       root.querySelectorAll(".post-cover img").forEach(function (img) {
-        var done = function () { img.classList.add("is-loaded"); requestAnimationFrame(function () { requestAnimationFrame(function () { img.style.background = ""; }); }); };
-        if (img.complete && img.naturalWidth) done(); else { img.addEventListener("load", done, { once: true }); img.addEventListener("error", done, { once: true }); }
+        var frame = img.parentNode, retried = false;
+        var done = function () { clearTimeout(slow); img.classList.add("is-loaded"); setTimeout(function () { if (frame) frame.style.backgroundImage = "none"; }, 850); };
+        var retry = function () {
+          if (retried) return done(); retried = true;
+          img.removeAttribute("srcset"); img.setAttribute("src", img.getAttribute("data-fallback") + "&r=" + Date.now());
+        };
+        var slow = setTimeout(function () { if (!(img.complete && img.naturalWidth)) retry(); }, 8000);
+        if (img.complete && img.naturalWidth) done();
+        img.addEventListener("load", function () { if (img.naturalWidth) done(); });
+        img.addEventListener("error", retry);
+      });
+      // Blog cards: a photo that fails is asked for once more, then the card shows without a photo (never a broken box).
+      root.querySelectorAll(".blog-card__img img").forEach(function (img) {
+        img.addEventListener("error", function () {
+          if (!img.getAttribute("data-retried")) { img.setAttribute("data-retried", "1"); img.removeAttribute("srcset"); img.setAttribute("src", img.getAttribute("data-fallback") + "&r=" + Date.now()); }
+          else img.remove();
+        });
       });
       return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + ver(s)); }));
     }

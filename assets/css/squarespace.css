@@ -186,13 +186,14 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .blog-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: clamp(24px, 3vw, 40px); }
 
 /* A post reads as one column: the title, cover, text and links below all share one width (880px), left edges lined up.
-   The cover is 16:9 at that width; on phones it's 4:3 and full width. A soft preview inside the photo while it loads, so it sharpens in place. */
+   The cover is 16:9 at that width; on phones it's 4:3 and full width. A soft preview on its frame while it loads, then the photo fades in over it (the frame has no zoom-on-scroll, so nothing shifts). */
 .post-hero .container, .post-section .container, [data-post-foot] .container { max-width: calc(880px + var(--gutter) * 2); }
 .post-body, .post-foot, .post-nav { max-width: 880px !important; }
 .post-cover { padding-inline: var(--gutter); }
-.post-cover .media { width: 100%; max-width: 880px; aspect-ratio: 4 / 3; margin-inline: auto; border-radius: var(--r-xl); background: var(--paper-3) center / cover no-repeat; }
-@media (min-width: 700px) { .post-cover .media { aspect-ratio: 16 / 9; } }
-.post-cover .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.post-cover .media, .post-cover__media { position: relative; overflow: hidden; isolation: isolate; width: 100%; max-width: 880px; aspect-ratio: 4 / 3; margin-inline: auto; border-radius: var(--r-xl); background: var(--paper-3) center / cover no-repeat; }
+@media (min-width: 700px) { .post-cover .media, .post-cover__media { aspect-ratio: 16 / 9; } }
+.post-cover .media img, .post-cover__media img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.8s var(--ease-out); }
+.post-cover .media img.is-loaded, .post-cover__media img.is-loaded { opacity: 1; }
 /* Squarespace's quote block: one line on the left (its figure carries it), not two */
 .drx .post-body--sq .sqs-block-quote blockquote { border: 0 !important; padding: 0 !important; margin: 0 !important; font-size: inherit !important; }
 /* A post without a cover: the text starts closer to the title */
