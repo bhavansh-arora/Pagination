@@ -31,29 +31,51 @@
   // Inside Squarespace's editor (the site shown in a frame), the blog stays Squarespace's own, so posts can be managed.
   var inFrame = false; try { inFrame = window.self !== window.top; } catch (e) { inFrame = true; }
   if (BLOG && inFrame) { document.documentElement.classList.remove("drx-blog", "drx-booting", "is-entering"); return; }
+  // Squarespace's own version of the blog stays hidden by a style of its own (not only by the page's class list,
+  // which other scripts on the page can rewrite), and comes back only if the design can't be loaded.
+  var hideSq = null;
+  if (BLOG) {
+    hideSq = document.createElement("style");
+    hideSq.textContent = "#siteWrapper{display:none!important}html,body{background:#14100d!important}";
+    document.head.appendChild(hideSq);
+    // (If the design hasn't appeared after 15 seconds, Squarespace's own version shows rather than nothing.)
+    setTimeout(function () {
+      if (root && root.querySelector("header, .site-header")) return;
+      hideSq.remove(); if (root) root.remove();
+      document.documentElement.classList.remove("drx-blog", "drx-booting", "is-entering", "is-loading");
+    }, 15000);
+  }
+  // The code can run at the top of the page (before Squarespace's page has arrived): the design is put in place as
+  // soon as the page has a body (the blog page), or once Squarespace's post is on the page (a post).
+  var bodyReady = new Promise(function (ok) {
+    if (document.body) return ok();
+    var mo = new MutationObserver(function () { if (document.body) { mo.disconnect(); ok(); } });
+    mo.observe(document.documentElement, { childList: true });
+  });
+  var domReady = new Promise(function (ok) {
+    if (document.readyState !== "loading") ok(); else document.addEventListener("DOMContentLoaded", function () { ok(); }, { once: true });
+  });
   if (BLOG && !root) {
     root = document.createElement("div"); root.id = "drx-live"; root.className = "drx-blog-root";
-    document.body.insertBefore(root, document.body.firstChild);
   }
+  function placeRoot() { if (!root.parentNode) document.body.insertBefore(root, document.body.firstChild); }
   if (!root || root.getAttribute("data-ready")) return;
   root.setAttribute("data-ready", "1");
   var HOST = new URL("../../", me.src).href; // site root
   var PAGE = BLOG ? "@blog" : root.getAttribute("data-page") || "index.html";
   // Blog: a post (Squarespace's post page) uses the site's post design; the blog page uses the site's blog page.
-  var SQ_POST = BLOG && document.querySelector(".blog-item-wrapper, article.h-entry");
+  // (Before Squarespace's page has arrived, its address says which: /blog/<post> is a post. Checked again once it has.)
+  function sqIsPost() { return !!document.querySelector(".blog-item-wrapper, article.h-entry"); }
+  function urlIsPost() { var s = location.pathname.split("/").filter(Boolean); return s.length >= 2 && !/^(category|tag)$/i.test(s[1]); }
+  var SQ_POST = BLOG && (document.readyState === "loading" ? urlIsPost() : sqIsPost());
   var sqJson = null, sqData = null;
-  // A post: start downloading its cover photo right away, in the size the screen needs.
-  if (BLOG && SQ_POST) (function () {
-    var u = postCover();
-    if (!u) return;
-    var l = document.createElement("link"); l.rel = "preload"; l.as = "image";
-    l.setAttribute("imagesrcset", coverSet(u)); l.setAttribute("imagesizes", COVER_SIZES); l.href = sqImg(u, 1500);
-    document.head.appendChild(l);
-  })();
+  function blogList() {
+    return fetch(location.pathname + (location.search ? location.search + "&" : "?") + "format=json", { credentials: "same-origin" })
+      .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
   if (BLOG) {
     PAGE = SQ_POST ? "post.html" : "blog.html";
-    if (!SQ_POST) sqJson = fetch(location.pathname + (location.search ? location.search + "&" : "?") + "format=json", { credentials: "same-origin" })
-      .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    if (!SQ_POST) sqJson = blogList();
   }
   // One Squarespace page (/post) shows every blog post: /post?p=<post> loads blog-<post>.html.
   if (PAGE === "@post") {
@@ -258,6 +280,17 @@
     return r.text();
   });
   if (sqJson) html = Promise.all([html, sqJson]).then(function (r) { sqData = r[1]; return r[0]; });
+  var tmpl = html;
+  if (BLOG) html = (SQ_POST ? domReady : bodyReady).then(function () {
+    placeRoot();
+    if (!SQ_POST) return tmpl;
+    // A post: Squarespace's post is now on the page. (If the address guessed wrong, the blog page's design instead.)
+    if (!sqIsPost()) { SQ_POST = false; PAGE = "blog.html"; return Promise.all([fetch(HOST + PAGE + "?" + V, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }), blogList()]).then(function (r) { sqData = r[1]; return r[0]; }); }
+    // Start downloading its cover photo now, in the size the screen needs.
+    var u = postCover();
+    if (u) { var l = document.createElement("link"); l.rel = "preload"; l.as = "image"; l.setAttribute("imagesrcset", coverSet(u)); l.setAttribute("imagesizes", COVER_SIZES); l.href = sqImg(u, 1500); document.head.appendChild(l); }
+    return tmpl;
+  });
 
   Promise.all([html].concat(sheets)).then(function (res) {
     var doc = new DOMParser().parseFromString(res[0], "text/html");
@@ -338,7 +371,7 @@
     setTimeout(refresh, 1200);
   }).catch(function () {
     d.classList.remove("is-loading", "is-entering");
-    if (BLOG) { d.classList.remove("drx-blog", "drx-booting"); root.remove(); return; }
+    if (BLOG) { d.classList.remove("drx-blog", "drx-booting"); root.remove(); if (hideSq) hideSq.remove(); return; }
     // The plain copy of the page in the pasted code stays readable; otherwise say what happened.
     d.classList.remove("drx-booting");
     if (!root.querySelector(".drx-seo")) root.innerHTML = '<div class="drx-loading">This page could not be loaded. Please refresh.</div>';
