@@ -42,7 +42,7 @@ window.SITE_EDITOR_CONFIG = {
   slugs: { "index.html": "/", "404.html": "/error-404" },
 
   // Blog posts are written in Squarespace's own Blog (best for search engines); blog.html and post.html are their design.
-  // (The editor's Blog panel is off. To turn it back on, restore the blog settings from the repository history.)
+  // (The editor has no Blog panel: posts are added and edited in Squarespace.)
   blog: null,
 
 
@@ -83,7 +83,7 @@ window.SITE_EDITOR_CONFIG = {
     ".form-success{display:grid!important;gap:16px;margin-top:24px;padding:20px;border:1px dashed #a5b993;border-radius:16px}",
     ".form-success::before{content:'Shown after the inquiry form is sent';font:12px ui-monospace,monospace;color:#a5b993}",
     ".is-in,.reveal,.reveal-img{opacity:1!important;transform:none!important;clip-path:none!important}",
-    "[data-blog-list]::before{content:'Posts are listed here automatically: manage them in the Blog panel';display:block;grid-column:1/-1;margin-bottom:6px;font:12px ui-monospace,monospace;color:#a5b993}",
+    "[data-blog-list]::before{content:'Posts are listed here automatically: add and edit them in Squarespace’s Blog';display:block;grid-column:1/-1;margin-bottom:6px;font:12px ui-monospace,monospace;color:#a5b993}",
     // Forms: on Squarespace, the Form block added to that Squarespace page shows here instead.
     "form[data-inquiry]::before,[data-sq-form]::before{content:'On Squarespace, the Squarespace Form block on this page shows here instead';display:block;margin-bottom:14px;font:12px ui-monospace,monospace;color:#a5b993}",
     ".section>.container:empty::before{content:'Drop elements here';display:grid;place-items:center;min-height:78px;font:12px ui-monospace,monospace;color:rgba(198,164,106,.8)}",

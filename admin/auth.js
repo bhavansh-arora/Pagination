@@ -128,7 +128,7 @@
     window.__editorAuth = sess ? { owner: sess.owner, repo: sess.repo, branch: sess.branch, token: sess.token, user: sess.user } : null;
     $("#auth").classList.add("is-done");
     setTimeout(function () { $("#auth").hidden = true; }, 400);
-    ["vendor/grapes.min.js", "editor.js", "media.js", "inspector.js", "seo.js", "blog.js"].forEach(function (src) {
+    ["vendor/grapes.min.js", "editor.js", "media.js", "inspector.js", "seo.js"].forEach(function (src) {
       var s = document.createElement("script"); s.src = src; s.async = false; document.body.appendChild(s);
     });
   }
