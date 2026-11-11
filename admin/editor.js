@@ -1231,6 +1231,9 @@
   $("#ed-sqs").addEventListener("click", function () {
     var file = state.target;
     if (file.charAt(0) === "@") return;
+    // The blog is Squarespace's own Blog: its design is already connected (once, in the Blog page's settings), and
+    // posts are written in Squarespace. Nothing to paste.
+    if (file === "blog.html" || file === "post.html") { toast("Nothing to paste for the Blog: it's already connected. Publish here and the blog page and every post update by themselves. Posts are written in Squarespace's Blog."); return; }
     var name = PAGE_NAMES[file] || file.replace(/\.html$/, "").replace(/-/g, " "), slug = sqsSlug(file), page = file;
     Promise.all([fetch("squarespace-code.html", { cache: "no-cache" }).then(function (r) {
       if (!r.ok) throw new Error("the code template is missing (admin/squarespace-code.html)");
