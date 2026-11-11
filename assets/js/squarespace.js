@@ -115,7 +115,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"2d724561"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"d9f239a6"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
   // The intro screen is for the first page of a visit only. (The pasted codes start it on every page load, so after
@@ -268,10 +268,12 @@
     set("[data-post-cover]", function (el) {
       var u = postCover(data);
       if (!u) { el.remove(); c.querySelectorAll(".post-section").forEach(function (sec) { sec.classList.add("post-section--nocover"); }); return; }
-      var img = el.querySelector("img"), media = el.querySelector(".media");
-      if (media) media.style.backgroundImage = "url(" + sqImg(u, 100) + ")";
+      var img = el.querySelector("img");
       img.setAttribute("src", sqImg(u, 1500)); img.setAttribute("srcset", coverSet(u)); img.setAttribute("sizes", COVER_SIZES);
       img.setAttribute("alt", title); img.removeAttribute("style"); img.setAttribute("fetchpriority", "high"); img.setAttribute("decoding", "async");
+      // A soft preview while it loads, inside the photo itself: same crop, and it moves and zooms with the photo,
+      // so the photo sharpens in place when it arrives (nothing shifts).
+      img.style.background = "url(" + sqImg(u, 100) + ") center / cover no-repeat";
     });
     // The post's text: Squarespace's own (served with the page, so search engines read it), moved into the design.
     var src = art && art.querySelector(".blog-item-content");
@@ -383,10 +385,9 @@
     d.classList.remove("drx-booting");
 
     if (BLOG) {
-      // The cover fades in once it has loaded (over its soft preview), rather than popping in.
+      // The cover's soft preview goes once the photo is in (so a transparent image never shows it through).
       root.querySelectorAll(".post-cover img").forEach(function (img) {
-        // (The soft preview behind it goes once the photo is in, so a transparent image never shows it through.)
-        var done = function () { img.classList.add("is-loaded"); setTimeout(function () { if (img.parentNode) img.parentNode.style.backgroundImage = "none"; }, 850); };
+        var done = function () { img.classList.add("is-loaded"); requestAnimationFrame(function () { requestAnimationFrame(function () { img.style.background = ""; }); }); };
         if (img.complete && img.naturalWidth) done(); else { img.addEventListener("load", done, { once: true }); img.addEventListener("error", done, { once: true }); }
       });
       return Promise.all(SCRIPTS.map(function (s) { return load(HOST + s + "?" + ver(s)); }));
