@@ -8,7 +8,8 @@
 (function () {
   "use strict";
   var me = document.currentScript, root = document.getElementById("drx-live");
-  var COVER_SIZES = "(min-width: 980px) 880px, 100vw";
+  // (On larger screens the cover slowly zooms as the page scrolls, up to 16% larger: room for that, so it stays sharp.)
+  var COVER_SIZES = "(min-width: 980px) 1024px, 100vw";
   function sqImg(u, w) { return u ? u.split("?")[0] + "?format=" + (w || 1500) + "w" : ""; }
   function coverSet(u) { return [750, 1000, 1500, 2000].map(function (w) { return sqImg(u, w) + " " + w + "w"; }).join(", "); }
   // A post's featured image, from the article data Squarespace puts on the page.
@@ -114,7 +115,7 @@
   var V = "v=" + Math.floor(Date.now() / 60000);
   // The site's own styles and scripts: versioned by content (tools/version_assets.py fills this in), so
   // browsers keep them between visits and only download a file again after it changes.
-  var HASH = {"assets/css/styles.css":"33becf1f","assets/js/main.js":"263f2cec","assets/js/motion.js":"47a99207","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"fe8036ac"};
+  var HASH = {"assets/css/styles.css":"4d907a2e","assets/js/main.js":"263f2cec","assets/js/motion.js":"145fd986","assets/vendor/gsap.min.js":"2d26f4c0","assets/vendor/ScrollTrigger.min.js":"489bcf6d","assets/vendor/lenis.min.js":"3ae98b55","assets/css/squarespace.css":"2d724561"};
   function ver(p) { return HASH[p] ? "v=" + HASH[p] : V; }
   var d = document.documentElement;
   // The intro screen is for the first page of a visit only. (The pasted codes start it on every page load, so after
@@ -163,10 +164,7 @@
     if (bp) return "/post?p=" + bp[1].toLowerCase() + (bp[2] || "");
     var m = u.match(/^([a-z0-9-]+)\.html(#.*)?$/i);
     if (m) return (SLUGS[m[1] + ".html"] || "/" + m[1].toLowerCase()) + (m[2] || "");
-    u = u.replace(/^\.\//, "");
-    // Photos by their plain address (no "?v="), the one the page's plain copy uses: one download, not two.
-    if (/^assets\/img\//.test(u)) u = u.replace(/\?v=[^#]*/, "");
-    return HOST + u;
+    return HOST + u.replace(/^\.\//, "");
   }
   function absUrls(text) { return text.replace(/url\((["']?)(?!https?:|data:|#)([^)"']+)\1\)/g, function (_, q, u) { return "url(" + q + HOST + u + q + ")"; }); }
 

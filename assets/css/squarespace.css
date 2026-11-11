@@ -202,3 +202,5 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .blog-card__img:empty { display: none; }
 /* The text starts a comfortable step below the cover, not a whole section away */
 .post-cover + .post-section { padding-top: clamp(32px, 4vw, 56px) !important; }
+/* Blog on phones: after a page change, the page fades in in place (no rise while the curtain lifts) */
+@media (max-width: 699px) { html.drx-blog.is-entering .reveal, html.drx-blog.is-entering:not(.is-entered) .reveal { transform: none !important; } }
