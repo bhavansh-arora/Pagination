@@ -91,17 +91,25 @@
     } else {
       try { sessionStorage.setItem("ma-seen", "1"); } catch (e) {}
       if (curtain) curtain.style.display = "none";
-      const tc = $(".loader__tc", loader), bar = $(".loader__bar i", loader);
-      const total = 1700, t0 = performance.now();
+      const imgs = $$(".loader__win img", loader), num = $(".loader__count b", loader), bar = $(".loader__bar i", loader);
+      const total = 2300, t0 = performance.now(), flashes = imgs.length - 1;
+      let shown = 0;
+      const finish = () => {
+        imgs.forEach((im) => im.classList.remove("is-on"));
+        imgs[imgs.length - 1].classList.add("is-on");
+        loader.classList.add("is-open");
+        setTimeout(ready, 700);
+        setTimeout(() => loader.classList.add("is-done"), 1200);
+        setTimeout(() => loader.remove(), 1900);
+      };
       const tick = (now) => {
         const p = Math.min(1, (now - t0) / total);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const frames = Math.round(eased * 3 * 24);
-        const s = Math.floor(frames / 24), f = frames % 24;
-        tc.textContent = `00:00:${String(s).padStart(2, "0")}:${String(f).padStart(2, "0")}`;
+        const eased = 1 - Math.pow(1 - p, 2.4);
+        num.textContent = Math.round(eased * 100);
         bar.style.transform = `scaleX(${eased})`;
-        if (p < 1) requestAnimationFrame(tick);
-        else { loader.classList.add("is-done"); setTimeout(ready, 450); setTimeout(() => loader.remove(), 1200); }
+        const k = Math.min(flashes - 1, Math.floor(p * flashes));
+        if (k !== shown) { imgs[shown].classList.remove("is-on"); imgs[k].classList.add("is-on"); shown = k; }
+        if (p < 1) requestAnimationFrame(tick); else finish();
       };
       requestAnimationFrame(tick);
     }
@@ -359,8 +367,24 @@
   if (foot) {
     const word = $("[data-word]", foot);
     if (word) {
+      const fls = $$(".fl", word);
       if (reduce) word.classList.add("in");
-      else new IntersectionObserver(([en], ob) => { if (en.isIntersecting) { word.classList.add("in"); ob.disconnect(); } }, { threshold: 0.35 }).observe(word);
+      else if (gsap && ST) {
+        word.classList.add("is-scrub");
+        // Letters rise one after another as the footer scrolls into view.
+        gsap.fromTo(fls, { yPercent: 115, rotate: 7 }, { yPercent: 0, rotate: 0, ease: "none", stagger: 0.07,
+          scrollTrigger: { trigger: word, start: "top bottom", end: "bottom bottom", scrub: 0.8 } });
+        // A wave runs through the letters under the cursor.
+        if (fine) {
+          word.addEventListener("pointermove", (e) => fls.forEach((l) => {
+            const r = l.getBoundingClientRect();
+            const k = Math.max(0, 1 - Math.abs(e.clientX - (r.left + r.width / 2)) / (r.width * 2.4));
+            gsap.to(l, { y: -k * r.height * 0.16, duration: 0.6, ease: "power3.out", overwrite: "auto" });
+            l.classList.toggle("is-hot", k > 0.55);
+          }));
+          word.addEventListener("pointerleave", () => { gsap.to(fls, { y: 0, duration: 1.1, ease: "elastic.out(1, 0.45)", overwrite: "auto" }); fls.forEach((l) => l.classList.remove("is-hot")); });
+        }
+      } else new IntersectionObserver(([en], ob) => { if (en.isIntersecting) { word.classList.add("in"); ob.disconnect(); } }, { threshold: 0.35 }).observe(word);
     }
     if (fine && !reduce) {
       foot.addEventListener("pointermove", (e) => {
@@ -372,7 +396,15 @@
       foot.addEventListener("pointerleave", () => foot.classList.remove("is-glow"));
     }
     const top = $("[data-totop]", foot);
-    if (top) top.addEventListener("click", () => { if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
+    if (top) {
+      top.addEventListener("click", () => { if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
+      // The ring around the arrow shows how far down the page you are.
+      const ring = $(".totop__ring circle", top);
+      let queued = false;
+      const paint = () => { queued = false; const max = document.documentElement.scrollHeight - innerHeight; ring.style.strokeDashoffset = String(100 - (max > 0 ? Math.min(1, scrollY / max) : 1) * 100); };
+      window.addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
+      paint();
+    }
   }
 
   /* ---------- Hover image (venue rows) ---------- */

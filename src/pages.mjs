@@ -1,4 +1,4 @@
-import { site, films, regions, venues, featured, reviews, venueOf, venueCount, frame, frames, cover, storyOf } from "./data.mjs";
+import { site, films, regions, venues, featured, reviews, venueOf, venueCount, frame, frameSm, frames, cover, storyOf } from "./data.mjs";
 import { readFileSync } from "node:fs";
 import { head, header, footer, btn, ic, im, pad, scrubCard, filmStrip, ctaBlock, stars, regionLabel } from "./layout.mjs";
 
@@ -107,9 +107,13 @@ export function home() {
   })}
 ${header({ active: "index.html" })}
 <div class="loader" aria-hidden="true">
-  <div class="loader__top"><span class="label rec">Rec</span><span class="label">Mark Arista — Films</span></div>
-  <div><div class="loader__tc">00:00:00:00</div><div class="loader__bar"><i></i></div></div>
-  <div class="loader__bot"><span class="label">Take 01 · Hawaii</span><span class="label">Your love story is worth telling</span></div>
+  <div class="loader__win">
+    ${[["Ch_mROgi6YY", "-1"], ["OAF6KZrBGzk", "-2"], ["CWCR__HvvXI", "-3"], ["itpNCKYn7B4", "-2"], ["0RURO9MIxn4", "-2"], ["VGLLFgRVSeI", "-1"]].map(([id, s], k) => `<img src="${frameSm(id, s)}" alt=""${k === 0 ? ' class="is-on"' : ""}>`).join("")}<img src="${frame("hzfBBlhqEzI")}" alt="">
+  </div>
+  <div class="loader__bar"><i></i></div>
+  <p class="loader__line">${"Your love story is worth".split(" ").map((w, i) => `<span class="lw"><span style="--i:${i}">${w}</span></span>`).join(" ")} <span class="lw"><span class="it" style="--i:5">telling.</span></span></p>
+  <div class="loader__top"><span class="loader__logo">Mark <i>Arista</i></span><span class="label">Hawaii wedding films</span></div>
+  <div class="loader__bot"><span class="label">Oahu · Hawaii Island · Beyond</span><span class="loader__count"><b>0</b><i>%</i></span></div>
 </div>
 <main id="main">
 

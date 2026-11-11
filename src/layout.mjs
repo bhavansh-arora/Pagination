@@ -134,6 +134,10 @@ const flink = (href, text, ext = false) => `<a class="flink" href="${href}"${ext
 export function footer({ base = "", mbar = true }) {
   return `<footer class="footer" data-footer>
   <div class="footer__glow" aria-hidden="true"></div>
+  <div class="footer__in">
+  <a class="fcta" href="${base}contact.html" data-cursor="Let's talk" aria-label="Let's tell your story — check your date">
+    <span class="fcta__track" data-marquee="-1"><span class="fcta__set">${[1, 2, 3].map(() => `<span>Let's tell <i>your story</i></span>${ic.star}<span class="fcta__o">Now booking 2027</span>${ic.star}`).join("")}</span></span>
+  </a>
   <div class="footer__grid wrap">
     <a class="footer__yt" href="${site.youtube}" target="_blank" rel="noopener">
       <span class="footer__ytlbl"><span class="label label--dot">Watch on YouTube</span><span class="h4">@bymarkarista · ${films.length} films ↗</span></span>
@@ -153,11 +157,12 @@ export function footer({ base = "", mbar = true }) {
   <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   <div class="wrap footer__bar">
     <span>© <span data-year>2026</span> Mark Arista Films · Hawaii Wedding Videographer</span>
-    <button class="totop" type="button" data-totop aria-label="Back to top">
-      <svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="tt" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"/></defs><text><textPath href="#tt">BACK TO TOP · BACK TO TOP · </textPath></text></svg>
-      <span>${ic.arrow}</span>
+    <button class="totop" type="button" data-totop>
+      <span class="totop__ic"><svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" pathLength="100"/></svg><span class="totop__arr"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg></span></span>
+      <span class="totop__t">Back to top</span>
     </button>
     <span>Website by <a href="https://codebunny.net" target="_blank" rel="noopener">Code Bunny</a></span>
+  </div>
   </div>
 </footer>
 ${mbar ? `<div class="mbar" aria-label="Quick actions">
