@@ -79,6 +79,8 @@ const quoteCarousel = (base) => `
 export function home() {
   const base = "";
   const hv = bySlug("spencer-jenn");
+  const loaderTop = [["Ch_mROgi6YY", "-1"], ["0RURO9MIxn4", "-2"], ["OAF6KZrBGzk", ""], ["itpNCKYn7B4", "-2"], ["CWCR__HvvXI", "-3"], ["k77corBaJ34", "-1"], ["46cY5x1gD50", ""], ["VGLLFgRVSeI", "-1"]];
+  const loaderBot = [["uX9gSYDRctw", "-2"], ["z1kxigj8sno", ""], ["PsfFnelv-0M", "-1"], ["EiA5wwhOABk", "-1"], ["ITdsnRT57i4", "-1"], ["oMNoO73MD5k", ""], ["D3WDQ0Mj978", "-3"], ["WGo_VWh5wRI", "-3"]];
   const heroSlides = [["hzfBBlhqEzI", ""], ["OAF6KZrBGzk", ""], ["Ch_mROgi6YY", ""], ["EiA5wwhOABk", ""], ["itpNCKYn7B4", "-2"]];
   const strip1 = [["0RURO9MIxn4", "-1"], ["46cY5x1gD50", ""], ["itpNCKYn7B4", "-2"], ["4CJ1LGkKKEg", ""], ["PsfFnelv-0M", "-1"], ["Ch_mROgi6YY", "-2"], ["VGLLFgRVSeI", "-1"], ["oMNoO73MD5k", ""], ["k77corBaJ34", "-1"], ["ik5kS-oYUXM", ""], ["DOKLGe2c1pM", ""], ["ITdsnRT57i4", "-1"], ["m2EHcSTe5ec", ""], ["hQkW0HfhK3Y", "-3"]];
   const reel = featured.map(bySlug);
@@ -106,11 +108,22 @@ export function home() {
   })}
 ${header({ active: "index.html" })}
 <div class="loader" aria-hidden="true">
-  <div class="loader__panel loader__panel--t"></div>
-  <div class="loader__panel loader__panel--b"></div>
+  <div class="loader__panel loader__panel--t">
+    <div class="lstrip lstrip--t"><div class="lstrip__track">${[0, 1].map(() => loaderTop.map(([id, s]) => `<span>${im(base, id, s, { sizes: "200px", eager: true })}</span>`).join("")).join("")}</div></div>
+  </div>
+  <div class="loader__panel loader__panel--b">
+    <div class="lstrip lstrip--b"><div class="lstrip__track">${[0, 1].map(() => loaderBot.map(([id, s]) => `<span>${im(base, id, s, { sizes: "200px", eager: true })}</span>`).join("")).join("")}</div></div>
+  </div>
+  <div class="loader__glow"></div>
+  <div class="loader__vf">
+    <i></i><i></i><i></i><i></i>
+    <span class="label rec loader__rec">Rec <span class="tc" data-timecode>00:00:00:00</span></span>
+    <span class="label loader__spec">4K · 24 fps · Hawaii</span>
+  </div>
   <div class="loader__in">
-    <p class="label loader__eyebrow">Hawaii wedding films</p>
+    <p class="label loader__eyebrow">A Mark Arista film · Hawaii</p>
     <p class="loader__name"><span class="ln">${[..."Mark"].map((c, i) => `<span style="--i:${i}">${c}</span>`).join("")}</span> <span class="ln ln--it">${[..."Arista"].map((c, i) => `<span style="--i:${i + 4}">${c}</span>`).join("")}</span></p>
+    <p class="loader__tag">${"Your love story is worth".split(" ").map((w, i) => `<span class="lw"><span style="--i:${i}">${w}</span></span>`).join(" ")} <span class="lw"><span class="it" style="--i:5">telling.</span></span></p>
     <div class="loader__line"><i></i></div>
     <p class="label loader__status"><span class="loader__dot"></span><span data-status>Loading the film</span></p>
   </div>

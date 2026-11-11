@@ -95,7 +95,7 @@
       // Hold the letterbox closed until the hero film is actually playing (or we give up),
       // then open it straight onto the moving picture.
       const line = $(".loader__line i", loader), status = $("[data-status]", loader);
-      const MIN = 1800, MAX = 6500, t0 = performance.now();
+      const MIN = 2600, MAX = 7000, t0 = performance.now();
       let filmReady = false, opened = false, shown = 0;
       const open = () => {
         if (opened) return; opened = true;
@@ -103,9 +103,10 @@
         if (status) status.textContent = filmReady ? "Rolling" : "Welcome";
         setTimeout(() => {
           loader.classList.add("is-open");
-          setTimeout(ready, 650);
-          setTimeout(() => { loader.remove(); root.classList.remove("has-loader"); }, 1800);
-        }, 380);
+          setTimeout(ready, 800);
+          // The loader's viewfinder and timecode land exactly on the hero's, then hand over.
+          setTimeout(() => { loader.remove(); root.classList.remove("has-loader"); }, 1900);
+        }, 420);
       };
       d.addEventListener("hero:playing", () => { filmReady = true; }, { once: true });
       d.addEventListener("hero:fallback", () => { filmReady = true; }, { once: true });

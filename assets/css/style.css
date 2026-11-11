@@ -1069,27 +1069,83 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
    Polish pass
    ========================================================================== */
 
-/* ---------- Loader: letterbox that opens onto the playing film ---------- */
-.loader { position: fixed; inset: 0; z-index: 230; pointer-events: none; color: var(--cream); }
-.loader__panel { position: absolute; left: 0; right: 0; height: 50.5%; background: var(--ink); transition: transform 1.35s var(--ease-io); }
+/* ---------- Loader: opening titles that hand over to the hero ---------- */
+.loader { position: fixed; inset: 0; z-index: 230; pointer-events: none; color: var(--cream); overflow: hidden;
+  --hud-l: calc(max(var(--gutter), (100vw - var(--max)) / 2) + clamp(16px, 1.6vw, 28px)); }
+.loader__panel { position: absolute; left: 0; right: 0; height: 50.5%; background: var(--ink); overflow: hidden; transition: transform 1.4s var(--ease-io); }
 .loader__panel--t { top: 0; }
 .loader__panel--b { bottom: 0; }
-.loader__in { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: clamp(14px, 1.6vw, 22px); text-align: center; padding: 0 var(--gutter); transition: opacity .5s ease, transform .9s var(--ease); }
-.loader__eyebrow { color: var(--muted); animation: ldFade 1s .1s both; }
-.loader__name { font-family: var(--f-display); font-weight: 400; font-size: clamp(3.5rem, 11vw, 10rem); line-height: .9; letter-spacing: -.035em; display: flex; gap: .2em; font-variation-settings: "opsz" 144, "SOFT" 100; }
+
+/* film strips riding in each half */
+.lstrip { position: absolute; left: 0; right: 0; height: clamp(64px, 8vw, 116px); padding: 9px 0; background: #050403; opacity: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  animation: lsIn 1.2s .35s var(--ease) forwards; }
+.lstrip::before, .lstrip::after { content: ""; position: absolute; left: 0; right: 0; height: 4px; z-index: 2; background: repeating-linear-gradient(90deg, rgba(244,236,223,.22) 0 8px, transparent 8px 18px); }
+.lstrip::before { top: 2px; } .lstrip::after { bottom: 2px; }
+.lstrip--t { top: 9vh; }
+.lstrip--b { bottom: 9vh; }
+.lstrip__track { display: flex; gap: 6px; height: 100%; width: max-content; animation: lsMove 26s linear infinite; }
+.lstrip--b .lstrip__track { animation-direction: reverse; }
+.lstrip__track span { display: block; height: 100%; aspect-ratio: 16 / 9; border-radius: 3px; overflow: hidden; }
+.lstrip__track img { width: 100%; height: 100%; object-fit: cover; filter: sepia(.35) saturate(.85) brightness(.75); }
+@keyframes lsIn { to { opacity: .8; } }
+@keyframes lsMove { to { transform: translateX(-50%); } }
+
+/* golden-hour glow behind the title */
+.loader__glow { position: absolute; left: 50%; top: 50%; width: min(1100px, 130vw); aspect-ratio: 1; transform: translate(-50%, -50%) scale(.6); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(246,179,106,.22), rgba(239,90,44,.08) 55%, transparent 75%); opacity: 0;
+  animation: glowIn 2.4s .2s var(--ease) forwards; transition: opacity .8s, transform 1.4s var(--ease-io); }
+@keyframes glowIn { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+
+/* viewfinder: starts framing the title, ends exactly on the hero's viewfinder */
+.loader__vf { position: absolute; z-index: 2;
+  --bw: min(980px, 88vw); --bh: clamp(300px, 46vh, 430px);
+  top: calc(50% - var(--bh) / 2); bottom: calc(50% - var(--bh) / 2); left: calc(50% - var(--bw) / 2); right: calc(50% - var(--bw) / 2);
+  transition: top 1.35s var(--ease-io), bottom 1.35s var(--ease-io), left 1.35s var(--ease-io), right 1.35s var(--ease-io), opacity .6s; }
+.loader__vf i { position: absolute; width: 22px; height: 22px; border: 1.5px solid rgba(255,255,255,.75); animation: vfIn 1s var(--ease) both; }
+.loader__vf i:nth-child(1) { left: 0; top: 0; border-right: 0; border-bottom: 0; --x: -14px; --y: -14px; }
+.loader__vf i:nth-child(2) { right: 0; top: 0; border-left: 0; border-bottom: 0; --x: 14px; --y: -14px; }
+.loader__vf i:nth-child(3) { left: 0; bottom: 0; border-right: 0; border-top: 0; --x: -14px; --y: 14px; }
+.loader__vf i:nth-child(4) { right: 0; bottom: 0; border-left: 0; border-top: 0; --x: 14px; --y: 14px; }
+@keyframes vfIn { from { opacity: 0; transform: translate(var(--x), var(--y)); } }
+.loader__rec, .loader__spec { position: absolute; top: 18px; color: rgba(255,255,255,.82); animation: ldFade 1s .5s both; }
+.loader__rec { left: clamp(16px, 1.6vw, 28px); }
+.loader__spec { right: clamp(16px, 1.6vw, 28px); }
+.loader.is-open .loader__vf { top: calc(var(--header-h) + 8px); bottom: 16px; left: var(--gutter); right: var(--gutter); }
+.loader.is-open .loader__rec { left: calc(var(--hud-l) - var(--gutter)); transition: left 1.35s var(--ease-io); }
+
+/* title card */
+.loader__in { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; justify-items: center; gap: clamp(12px, 1.4vw, 18px); text-align: center; padding: 0 calc(var(--gutter) + 12px); transition: opacity .55s ease, transform 1s var(--ease); }
+.loader__eyebrow { color: var(--sun); animation: ldFade 1s .1s both; }
+.loader__name { font-family: var(--f-display); font-weight: 400; font-size: clamp(3.25rem, 9vw, 8.5rem); line-height: .9; letter-spacing: -.035em; display: flex; gap: .2em; font-variation-settings: "opsz" 144, "SOFT" 100; }
 .ln { display: inline-flex; overflow: hidden; padding: .04em .02em .16em; }
-.ln > span { display: inline-block; animation: ldUp 1.1s var(--ease) both; animation-delay: calc(.15s + var(--i) * 55ms); }
+.ln > span { display: inline-block; animation: ldUp 1.1s var(--ease) both; animation-delay: calc(.2s + var(--i) * 55ms); }
 .ln--it { font-style: italic; font-weight: 300; color: var(--sun); }
-.loader__line { width: min(360px, 60vw); height: 1px; background: var(--line); position: relative; overflow: hidden; animation: ldFade 1s .5s both; }
+.loader__tag { font-family: var(--f-display); font-size: clamp(1.0625rem, 1.6vw, 1.5rem); letter-spacing: -.01em; color: rgba(244,236,223,.86); margin-top: -4px; }
+.loader__tag .lw > span { animation-delay: calc(.85s + var(--i) * 70ms); }
+.loader__tag .it { color: var(--sun); }
+.loader__line { width: min(320px, 56vw); height: 1px; background: var(--line); position: relative; overflow: hidden; margin-top: 6px; animation: ldFade 1s 1.1s both; }
 .loader__line i { position: absolute; inset: 0; background: var(--sun); transform: scaleX(0); transform-origin: 50% 50%; }
-.loader__status { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); animation: ldFade 1s .7s both; }
+.loader__status { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); animation: ldFade 1s 1.2s both; }
 .loader__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); animation: blink 1.2s steps(1) infinite; }
 .loader.is-ready .loader__dot { animation: none; background: var(--sun); }
+.lw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; }
+.lw > span { display: inline-block; animation: ldUp 1s var(--ease) both; }
 @keyframes ldUp { from { transform: translateY(115%); } }
 @keyframes ldFade { from { opacity: 0; transform: translateY(10px); } }
-.loader.is-open .loader__in { opacity: 0; transform: scale(.96); }
-.loader.is-open .loader__panel--t { transform: translateY(-100%); transition-delay: .25s; }
-.loader.is-open .loader__panel--b { transform: translateY(100%); transition-delay: .25s; }
+
+/* the handover */
+.loader.is-open .loader__in { opacity: 0; transform: translateY(-14px) scale(.97); }
+.loader.is-open .loader__glow { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+.loader.is-open .loader__panel--t { transform: translateY(-100%); transition-delay: .3s; }
+.loader.is-open .loader__panel--b { transform: translateY(100%); transition-delay: .3s; }
+.has-loader .vhero .vf, .has-loader .vhero__hud { opacity: 0; }
+@media (max-width: 767px) {
+  .loader__vf { --bh: clamp(300px, 44vh, 380px); }
+  .loader__spec { display: none; }
+  .loader.is-open .loader__vf { opacity: 0; }
+  .lstrip--t { top: 7vh; } .lstrip--b { bottom: 7vh; }
+}
 html:not(.js) .loader, .loader.is-skip { display: none; }
 
 /* Home hero: the film is the hero. Stills only appear if the video can't play. */
@@ -1143,3 +1199,9 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 .footer__word .fl.it.is-hot { color: var(--cream); }
 
 .footer { padding-top: 0; }
+
+/* Inner-page intros sit a little above centre of the photo column */
+@media (min-width: 1024px) {
+  .ahero__text, .xhero__text { align-self: center; margin-top: calc(-1 * clamp(32px, 5vw, 88px)); }
+}
+.ahero, .xhero { padding-top: calc(var(--header-h) + clamp(28px, 3.4vw, 56px)); }
