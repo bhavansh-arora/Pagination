@@ -204,3 +204,10 @@ html.drx-blog, html.drx-blog body { background: var(--paper, #14100d) !important
 .post-cover + .post-section { padding-top: clamp(32px, 4vw, 56px) !important; }
 /* Blog on phones: after a page change, the page fades in in place (no rise while the curtain lifts) */
 @media (max-width: 699px) { html.drx-blog.is-entering .reveal, html.drx-blog.is-entering:not(.is-entered) .reveal { transform: none !important; } }
+/* Blog: the loader's logo stays perfectly still. It shows only while the curtain fully covers the screen (fading out
+   just before the curtain lifts, appearing once it has closed), so it never rides along with the curtain; and it sits
+   at a fixed height on the screen, so iPhone Safari's toolbar growing or shrinking between pages doesn't move it. */
+html.drx-blog .curtain { place-items: start center; }
+html.drx-blog .curtain__mark { margin-top: calc(50vh - 26px); margin-top: calc(50svh - 26px); }
+html.drx-blog.is-entered .curtain__mark { opacity: 0 !important; transition: opacity 0.18s; }
+html.drx-blog.is-leaving .curtain__mark { transition-delay: 0.62s; }
