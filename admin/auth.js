@@ -267,6 +267,7 @@
       "<section class='a-guide'><div class='a-guide__top'><span>" + I.gh + "Create a token on GitHub</span><a class='a-btn a-btn--dark a-btn--sm' href='https://github.com/settings/personal-access-tokens/new' target='_blank' rel='noopener'><span>Open GitHub</span>" + I.ext + "</a></div>" +
       "<ol>" +
       "<li><span>Token name</span><span class='a-g'>" + pill("Site editor", true) + "</span></li>" +
+      "<li><span>Resource owner</span><span class='a-g'>" + pill(rc.owner) + "</span></li>" +
       "<li><span>Expiration</span><span class='a-g'>The longest offered</span></li>" +
       "<li><span>Repository access</span><span class='a-g'>Only select repositories" + I.arrow + pill(rc.repo) + "</span></li>" +
       "<li><span>Repository permissions</span><span class='a-g'>Contents" + I.arrow + pill("Read and write") + "</span></li>" +
