@@ -17,6 +17,9 @@ export const ic = {
   sound: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
 };
 
+// Drawn arrow for links that open another site. (The arrow character turns into a blue emoji on iPhones.)
+export const ext = `<svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
 export const stars = () => `<span class="stars" aria-label="5 out of 5 stars">${ic.rate.repeat(5)}</span>`;
 
 export const btn = (href, text, cls = "btn--ember", extra = "") =>
@@ -144,7 +147,7 @@ export function header({ base = "", active = "", overlay = true }) {
   <nav class="menu__links" aria-label="Mobile">${mlinks}</nav>
   <div class="menu__foot">
     <a href="mailto:${site.email}">${site.email}</a>
-    <a href="${site.instagram}" target="_blank" rel="noopener">Instagram ↗</a>
+    <a href="${site.instagram}" target="_blank" rel="noopener">Instagram${ext}</a>
   </div>
 </div>`;
 }
@@ -152,7 +155,10 @@ export function header({ base = "", active = "", overlay = true }) {
 const footStrip = [["0RURO9MIxn4", "-3"], ["Ch_mROgi6YY", "-2"], ["itpNCKYn7B4", "-3"], ["z1kxigj8sno", ""], ["OAF6KZrBGzk", ""], ["WGo_VWh5wRI", "-3"], ["EiA5wwhOABk", ""], ["VGLLFgRVSeI", "-1"]];
 
 const letters = (word, cls = "") => [...word].map((ch, i) => `<span class="fl${cls}" style="--i:${i}">${ch}</span>`).join("");
-const flink = (href, text, ext = false) => `<a class="flink" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}><span data-t="${text}">${text}</span></a>`;
+const flink = (href, text, external = false) => {
+  const label = text + (external ? ext : "");
+  return `<a class="flink" href="${href}"${external ? ' target="_blank" rel="noopener"' : ""}><span class="flink__in"><span>${label}</span><span class="flink__hov" aria-hidden="true">${label}</span></span></a>`;
+};
 
 export function footer({ base = "", mbar = true }) {
   return `<footer class="footer" data-footer>
@@ -163,7 +169,7 @@ export function footer({ base = "", mbar = true }) {
   </a>
   <div class="footer__grid wrap">
     <a class="footer__yt" href="${site.youtube}" target="_blank" rel="noopener">
-      <span class="footer__ytlbl"><span class="label label--dot">Watch on YouTube</span><span class="h4">@bymarkarista · ${films.length} films ↗</span></span>
+      <span class="footer__ytlbl"><span class="label label--dot">Watch on YouTube</span><span class="h4">@bymarkarista · ${films.length} films${ext}</span></span>
       <span class="footer__tiles"><span class="footer__track" data-marquee="-1"><span class="footer__set">${footStrip.map(([id, s]) => `<span>${im(base, id, s, { sizes: "200px" })}</span>`).join("")}</span></span></span>
     </a>
     <div class="footer__intro" data-reveal>
@@ -173,14 +179,14 @@ export function footer({ base = "", mbar = true }) {
     </div>
     <div class="footer__cols">
       <div class="footer__col" data-reveal style="--d:.05s"><p class="label">Explore</p>${nav.map(([h, t]) => flink(base + h, t)).join("")}</div>
-      <div class="footer__col" data-reveal style="--d:.12s"><p class="label">Follow</p>${flink(site.instagram, "Instagram ↗", true)}${flink(site.youtube, "YouTube ↗", true)}${flink(site.facebook, "Facebook ↗", true)}${flink(reviews.sourceUrl, "WeddingWire ↗", true)}</div>
+      <div class="footer__col" data-reveal style="--d:.12s"><p class="label">Follow</p>${flink(site.instagram, "Instagram", true)}${flink(site.youtube, "YouTube", true)}${flink(site.facebook, "Facebook", true)}${flink(reviews.sourceUrl, "WeddingWire", true)}</div>
       <div class="footer__col" data-reveal style="--d:.19s"><p class="label">In Hawaii it's</p><span class="footer__clock"><i class="footer__sun" aria-hidden="true"></i><span data-clock>—</span></span><span>Mahalo · Salamat po</span></div>
     </div>
   </div>
   <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   <div class="wrap footer__bar">
     <span>© <span data-year>2026</span> Mark Arista Films · Hawaii Wedding Videographer</span>
-    <a class="credit" href="https://web.codebunny.net" target="_blank" rel="noopener"><span class="credit__by">Website by</span><span class="credit__name"><i class="credit__dot" aria-hidden="true"></i>Code Bunny<span class="credit__arr" aria-hidden="true">↗</span></span></a>
+    <a class="credit" href="https://web.codebunny.net" target="_blank" rel="noopener"><span class="credit__by">Website by</span><span class="credit__name"><i class="credit__dot" aria-hidden="true"></i>Code Bunny<span class="credit__arr">${ext}</span></span></a>
   </div>
   </div>
 </footer>

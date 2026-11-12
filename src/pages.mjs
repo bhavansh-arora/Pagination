@@ -1,6 +1,6 @@
 import { site, films, regions, venues, featured, reviews, venueOf, venueCount, frame, frameSm, frames, cover, storyOf } from "./data.mjs";
 import { readFileSync } from "node:fs";
-import { head, header, footer, btn, ic, im, pad, scrubCard, filmStrip, ctaBlock, stars, regionLabel } from "./layout.mjs";
+import { head, header, footer, btn, ic, im, pad, scrubCard, filmStrip, ctaBlock, stars, regionLabel, ext } from "./layout.mjs";
 
 const bySlug = (s) => films.find((f) => f.slug === s);
 // Real picture shape of each film (width / height without letterbox bars), from tools/frames.py.
@@ -58,7 +58,7 @@ const quoteCarousel = (base) => `
   <div class="wrap quotes__in">
     <div class="quotes__head">
       <p class="label label--dot" id="quotes-title">Kind words · ${reviews.source}</p>
-      <a class="quotes__score" href="${reviews.sourceUrl}" target="_blank" rel="noopener"><b>${reviews.rating}</b>${stars()}<span>${reviews.count} reviews · 100% recommend ↗</span></a>
+      <a class="quotes__score" href="${reviews.sourceUrl}" target="_blank" rel="noopener"><b>${reviews.rating}</b>${stars()}<span>${reviews.count} reviews · 100% recommend${ext}</span></a>
     </div>
     <div class="quotes__slides">
       ${reviews.items.map((r, i) => `<figure class="quote${i === 0 ? " is-on" : ""}" aria-hidden="${i !== 0}">
@@ -373,10 +373,10 @@ ${header({ base, active: "films.html" })}
       ${label(1, "The story")}
       <dl class="fdetails" data-reveal>
         <div><dt class="label">Couple</dt><dd>${f.couple}</dd></div>
-        <div><dt class="label">Venue</dt><dd><a href="${base}films.html?venue=${f.venue}">${v.name} ↗</a></dd></div>
+        <div><dt class="label">Venue</dt><dd><a href="${base}films.html?venue=${f.venue}">${v.name}${ext}</a></dd></div>
         <div><dt class="label">Where</dt><dd>${v.area}</dd></div>
         ${f.note ? `<div><dt class="label">Ceremony</dt><dd>${f.note.replace("Ceremony at ", "")}</dd></div>` : ""}
-        <div><dt class="label">Watch</dt><dd><a href="https://www.youtube.com/watch?v=${f.video}" target="_blank" rel="noopener">YouTube ↗</a></dd></div>
+        <div><dt class="label">Watch</dt><dd><a href="https://www.youtube.com/watch?v=${f.video}" target="_blank" rel="noopener">YouTube${ext}</a></dd></div>
       </dl>
     </div>
     <div class="fstory__main">
@@ -622,8 +622,8 @@ ${header({ active: "contact.html" })}
       <p class="lead" data-reveal data-hold>Get in touch — let me help answer any questions you might have. I look forward to hearing from you.</p>
       <div class="contact__facts" data-reveal data-hold>
         <a href="mailto:${site.email}"><span class="label">Email</span><span>${site.email}</span></a>
-        <a href="${site.instagram}" target="_blank" rel="noopener"><span class="label">Instagram</span><span>@markaristafilms ↗</span></a>
-        <a href="${reviews.sourceUrl}" target="_blank" rel="noopener"><span class="label">Reviews</span><span>★ ${reviews.rating} · ${reviews.count} on ${reviews.source} ↗</span></a>
+        <a href="${site.instagram}" target="_blank" rel="noopener"><span class="label">Instagram</span><span>@markaristafilms${ext}</span></a>
+        <a href="${reviews.sourceUrl}" target="_blank" rel="noopener"><span class="label">Reviews</span><span>★ ${reviews.rating} · ${reviews.count} on ${reviews.source}${ext}</span></a>
         <div><span class="label">Hawaii time</span><span data-clock>—</span></div>
       </div>
       <figure class="contact__quote" data-reveal data-hold><blockquote>“${reviews.items[5].q}”</blockquote><figcaption class="label">${reviews.items[5].n} · ${reviews.items[5].s}</figcaption></figure>

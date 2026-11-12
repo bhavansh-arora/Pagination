@@ -1063,9 +1063,10 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 .footer__yt:hover .footer__set img { transform: scale(1.08); }
 @media (max-width: 767px) { .footer__set > span:nth-child(n) { display: block; } }
 .flink { display: block; width: fit-content; overflow: hidden; color: var(--muted); font-size: .9375rem; line-height: 1.5; }
-.flink span { display: block; position: relative; transition: transform .55s var(--ease); }
-.flink span::after { content: attr(data-t); position: absolute; left: 0; top: 100%; color: var(--sun); }
-.flink:hover span, .flink:focus-visible span { transform: translateY(-100%); }
+.flink__in { display: block; position: relative; transition: transform .55s var(--ease); }
+.flink__in > span { display: flex; align-items: center; white-space: nowrap; }
+.flink__hov { position: absolute; left: 0; top: 100%; color: var(--sun); }
+.flink:hover .flink__in, .flink:focus-visible .flink__in { transform: translateY(-100%); }
 .footer__clock { display: inline-flex !important; align-items: center; gap: 10px; }
 .footer__sun { width: 10px; height: 10px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 0 rgba(246,179,106,.6); animation: pulse 2.4s var(--ease) infinite; }
 @keyframes pulse { 70% { box-shadow: 0 0 0 12px rgba(246,179,106,0); } 100% { box-shadow: 0 0 0 0 rgba(246,179,106,0); } }
@@ -1263,3 +1264,9 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
   .footer { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
 }
 
+
+/* External-link arrow (drawn, so it looks the same on every device) */
+.ext { display: inline-block; width: .78em; height: .78em; margin-left: .3em; vertical-align: -.02em; flex: none; }
+.credit__arr .ext { margin-left: 0; width: 12px; height: 12px; }
+.footer__col .flink__hov { color: var(--sun); }
+.footer__col .flink__in > span { width: auto; }
