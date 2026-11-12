@@ -237,7 +237,7 @@
     function update() {
       var r = m.getBoundingClientRect();
       var vh = window.innerHeight;
-      var p = (vh * 0.85 - r.top) / (r.height + vh * 0.35);
+      var p = (vh * 0.92 - r.top) / (r.height + vh * 0.3);
       p = Math.max(0, Math.min(1, p));
       var lit = Math.round(p * words.length);
       for (var k = 0; k < words.length; k++) words[k].classList.toggle("is-lit", k < lit);
