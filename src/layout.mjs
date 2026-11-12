@@ -161,11 +161,7 @@ export function footer({ base = "", mbar = true }) {
   <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   <div class="wrap footer__bar">
     <span>© <span data-year>2026</span> Mark Arista Films · Hawaii Wedding Videographer</span>
-    <button class="totop" type="button" data-totop>
-      <span class="totop__ic"><svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" pathLength="100"/></svg><span class="totop__arr"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg></span></span>
-      <span class="totop__t">Back to top</span>
-    </button>
-    <span>Website by <a href="https://codebunny.net" target="_blank" rel="noopener">Code Bunny</a></span>
+    <a class="credit" href="https://web.codebunny.net" target="_blank" rel="noopener"><span class="credit__by">Website by</span><span class="credit__name"><i class="credit__dot" aria-hidden="true"></i>Code Bunny<span class="credit__arr" aria-hidden="true">↗</span></span></a>
   </div>
   </div>
 </footer>
@@ -173,6 +169,11 @@ ${mbar ? `<div class="mbar" aria-label="Quick actions">
   <a class="btn btn--ember" href="${base}contact.html"><span>Check your date</span></a>
   <a class="mbar__films" href="${base}films.html">Films</a>
 </div>` : ""}
+<button class="totop" type="button" data-totop aria-label="Back to top">
+  <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22.5" pathLength="100"/></svg>
+  <span class="totop__arr"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg></span>
+  <span class="totop__tip" aria-hidden="true">Back to top</span>
+</button>
 <div class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Film player">
   <div class="lightbox__bg" data-close></div>
   <button class="lightbox__close" type="button" data-close><span class="label">Close</span><i aria-hidden="true">✕</i></button>

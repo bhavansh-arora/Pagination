@@ -432,13 +432,26 @@
       });
       foot.addEventListener("pointerleave", () => foot.classList.remove("is-glow"));
     }
-    const top = $("[data-totop]", foot);
+    const top = $("[data-totop]");
     if (top) {
       top.addEventListener("click", () => { if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
       // The ring around the arrow shows how far down the page you are.
       const ring = $(".totop__ring circle", top);
       let queued = false;
-      const paint = () => { queued = false; const max = document.documentElement.scrollHeight - innerHeight; ring.style.strokeDashoffset = String(100 - (max > 0 ? Math.min(1, scrollY / max) : 1) * 100); };
+      const paint = () => {
+        queued = false;
+        const max = document.documentElement.scrollHeight - innerHeight;
+        ring.style.strokeDashoffset = String(100 - (max > 0 ? Math.min(1, scrollY / max) : 1) * 100);
+        top.classList.toggle("is-on", scrollY > innerHeight * 0.9);
+        // Lift the button above the footer's bottom line so it never covers the credits.
+        const bar = $(".footer__bar");
+        if (bar) {
+          const gap = innerHeight - bar.getBoundingClientRect().top + 14 - parseFloat(getComputedStyle(top).bottom);
+          // Phones have no spare room there, so the button simply steps aside at the very end.
+          if (innerWidth < 768) { top.style.translate = ""; if (gap > 0) top.classList.remove("is-on"); }
+          else top.style.translate = gap > 0 ? `0 ${-gap}px` : "";
+        }
+      };
       window.addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
       paint();
     }

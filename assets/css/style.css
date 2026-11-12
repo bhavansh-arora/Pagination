@@ -1183,17 +1183,7 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 
 /* ---------- Back to top ---------- */
 .footer__bar { align-items: center; }
-.totop { display: inline-flex; align-items: center; gap: 12px; height: 52px; padding: 0 22px 0 6px; border-radius: 999px; border: 1px solid var(--line); color: var(--cream); font-size: .875rem; font-weight: 600; transition: border-color .4s, background .4s; }
-.totop:hover { border-color: var(--line-strong); background: rgba(244,236,223,.04); }
-.totop__ic { position: relative; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--cream); color: var(--ink); transition: background .3s, color .3s; }
-.totop:hover .totop__ic { background: var(--ember); color: #fff; }
-.totop__ring { position: absolute; inset: -5px; width: 50px; height: 50px; transform: rotate(-90deg); pointer-events: none; }
-.totop__ring circle { fill: none; stroke: var(--sun); stroke-width: 1.5; stroke-dasharray: 100; stroke-dashoffset: 100; stroke-linecap: round; }
-.totop__arr { position: relative; width: 16px; height: 16px; overflow: hidden; }
-.totop__arr svg { display: block; width: 16px; height: 16px; transition: transform .5s var(--ease); }
-.totop:hover .totop__arr svg { transform: translateY(-100%); }
-.totop:focus-visible { outline: 1.5px solid var(--sun); outline-offset: 3px; }
-@media (max-width: 767px) { .footer__bar { flex-direction: column; justify-content: center; text-align: center; } .totop { order: -1; } }
+@media (max-width: 767px) { .footer__bar { flex-direction: column; justify-content: center; align-items: center; text-align: center; } }
 
 /* ---------- Footer CTA band ---------- */
 .footer__in { will-change: transform; }
@@ -1225,3 +1215,41 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 /* Films filter bar: sits under the header, and slides up to the top when the header hides */
 .films .toolbar { transition: top .7s var(--ease), background .4s; }
 .hdr-hidden .films .toolbar { top: 12px; }
+
+/* ---------- Floating back-to-top (appears after the first screen) ---------- */
+.totop { position: fixed; right: var(--gutter); bottom: calc(24px + env(safe-area-inset-bottom)); z-index: 105;
+  width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(20,17,14,.72); color: var(--cream); border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  opacity: 0; transform: translateY(16px) scale(.9); pointer-events: none;
+  transition: opacity .5s var(--ease), transform .7s var(--ease), translate .25s ease-out, background .3s, color .3s, border-color .3s; }
+.totop.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { background: var(--cream); color: var(--ink); border-color: var(--cream); }
+.totop__ring { position: absolute; inset: -1px; width: calc(100% + 2px); height: calc(100% + 2px); transform: rotate(-90deg); pointer-events: none; }
+.totop__ring circle { fill: none; stroke: var(--sun); stroke-width: 1.5; stroke-dasharray: 100; stroke-dashoffset: 100; stroke-linecap: round; }
+.totop__arr { position: relative; width: 16px; height: 16px; overflow: hidden; }
+.totop__arr svg { display: block; width: 16px; height: 16px; transition: transform .5s var(--ease); }
+.totop:hover .totop__arr svg { transform: translateY(-100%); }
+.totop__tip { position: absolute; right: calc(100% + 10px); top: 50%; white-space: nowrap; padding: 6px 12px; border-radius: 999px;
+  background: var(--cream); color: var(--ink); font-size: .8125rem; font-weight: 600;
+  opacity: 0; transform: translate(6px, -50%); transition: opacity .3s, transform .5s var(--ease); pointer-events: none; }
+.totop:hover .totop__tip, .totop:focus-visible .totop__tip { opacity: 1; transform: translate(0, -50%); }
+.totop:focus-visible { outline: 1.5px solid var(--sun); outline-offset: 4px; }
+@media (max-width: 767px) {
+  .totop { width: 48px; height: 48px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); }
+  .totop__tip { display: none; }
+  /* sit above the mobile "Check your date" bar when it's showing */
+  .mbar.is-on ~ .totop { bottom: calc(84px + env(safe-area-inset-bottom)); }
+}
+
+/* ---------- Code Bunny credit ---------- */
+.credit { display: inline-flex; align-items: center; gap: 10px; color: var(--muted-2); }
+.credit__name { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px 0 12px; border-radius: 999px;
+  border: 1px solid rgba(246,179,106,.45); color: var(--sun); font-weight: 600; letter-spacing: .01em;
+  background: rgba(246,179,106,.06); transition: background .35s, color .35s, border-color .35s; }
+.credit__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 0 0 rgba(239,90,44,.55); animation: pulse 2.4s var(--ease) infinite; }
+.credit__arr { display: inline-block; transition: transform .45s var(--ease); }
+.credit:hover .credit__name, .credit:focus-visible .credit__name { background: var(--sun); color: var(--ink); border-color: var(--sun); }
+.credit:hover .credit__dot { background: var(--ink); animation: none; }
+.credit:hover .credit__arr { transform: translate(2px, -2px); }
+.footer__bar .credit:hover { color: var(--muted); }
