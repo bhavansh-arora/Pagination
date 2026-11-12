@@ -167,7 +167,7 @@ export function footer({ base = "", mbar = true }) {
   <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   <div class="wrap footer__bar">
     <span>© <span data-year>2026</span> Mark Arista Films · Hawaii Wedding Videographer</span>
-    <a class="credit" href="https://web.codebunny.net" target="_blank" rel="noopener"><span class="credit__by">Website by</span><span class="credit__name"><i class="credit__dot" aria-hidden="true"></i>Code Bunny<span class="credit__arr" aria-hidden="true">↗</span></span></a>
+    <a class="credit" href="https://web.codebunny.net" target="_blank" rel="noopener"><span class="credit__by">Website by</span><span class="credit__name"><img class="credit__bunny" src="${base}assets/img/codebunny.webp" alt="" width="20" height="20" loading="lazy" decoding="async">Code Bunny<span class="credit__arr" aria-hidden="true">↗</span></span></a>
   </div>
   </div>
 </footer>

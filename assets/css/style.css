@@ -1262,3 +1262,8 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
   /* leave room for the fixed "Check your date" bar so it doesn't sit on the wordmark */
   .footer { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
 }
+
+/* Code Bunny's bunny next to the credit, with a little hop on hover */
+.credit__bunny { width: 20px; height: 20px; object-fit: contain; flex: none; margin-left: -2px; transform-origin: 50% 100%; }
+.credit:hover .credit__bunny, .credit:focus-visible .credit__bunny { animation: hop .7s var(--ease) both; }
+@keyframes hop { 0% { transform: none; } 30% { transform: translateY(-5px) rotate(-8deg); } 55% { transform: translateY(0) scale(1.08, .92); } 75% { transform: translateY(-2px) rotate(4deg); } 100% { transform: none; } }
