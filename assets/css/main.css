@@ -1147,6 +1147,7 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 .hpaths.is-h .hpaths__hint { display: inline; }
 
 /* ---------- Footer spotlight ---------- */
+.footer__word { background-image: radial-gradient(circle at var(--mx, 50%) var(--my, 60%), rgba(228, 87, 46, 0.95) 0, rgba(228, 87, 46, 0.35) 8vw, rgba(244, 237, 227, 0.03) 16vw); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* ---------- Inner page hero: full-bleed expanding media ---------- */
 .page-hero__media { --inset: max(var(--gutter), calc((100vw - var(--max)) / 2)); width: 100vw; margin-left: calc(50% - 50vw); border-radius: 0; clip-path: inset(0 var(--inset) 0 var(--inset) round var(--r-xl)); }
@@ -1310,45 +1311,5 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 }
 
 /* ---------- Footer: quiet, single-line land acknowledgement ---------- */
-.footer__land { display: block; margin-top: clamp(32px, 4vw, 52px); padding: 18px 0; border-top: 1px solid var(--line-dark); border-bottom: 0; max-width: none; color: var(--on-dark-2); font-size: .86rem; line-height: 1.6; }
-.footer__land .mono { color: var(--on-dark-3); margin-right: 12px; font-size: .68rem; }
-
-/* ==========================================================================
-   Original palette: light cream hero and light paths section
-   ========================================================================== */
-.xhero--light { background: var(--paper); color: var(--ink); }
-.xhero--light .xhero__vignette { background: radial-gradient(130% 95% at 60% 35%, transparent 45%, rgba(232, 203, 168, 0.35) 100%); }
-.xhero--light .xhero__vignette::after { mix-blend-mode: multiply; opacity: .09; }
-.xhero--light .xhero__meta { color: var(--muted); }
-.xhero--light .xhero__title { color: var(--ink); }
-.xhero--light .xhero__title em { color: var(--ember); }
-.xhero--light .xhero__outline { -webkit-text-stroke: 1.5px var(--ink); }
-.xhero--light .xhero__face { box-shadow: var(--shadow); }
-.xhero--light .xhero__intro .lead { color: var(--ink-2); }
-.xhero--light .btn--ghost { --btn-fg: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
-.xhero--light .btn--ghost::before { background: var(--ink); }
-.xhero--light .btn--ghost:hover { color: var(--paper-2); }
-.xhero--light .xhero__card { background: rgba(250, 246, 240, 0.78); border-color: rgba(255, 255, 255, 0.7); box-shadow: var(--shadow); }
-.xhero--light .xhero__card-kicker { color: var(--ember); }
-.xhero--light .xhero__card-title { color: var(--ink); }
-.xhero--light .xhero__card-title em { color: var(--ember); }
-.xhero--light .xhero__card-list { color: var(--ink-2); }
-.xhero--light .xhero__card-stats { border-top-color: var(--line-2); }
-.xhero--light .xhero__card-stats > div + div { border-left-color: var(--line); }
-.xhero--light .xhero__card-stats strong { color: var(--ink); }
-.xhero--light .xhero__card-stats sup { color: var(--ember); }
-.xhero--light .xhero__card-stats span { color: var(--muted); }
-.xhero--light .xhero__card .xhero__badge { background: var(--ink); color: var(--paper-2); }
-.xhero--light .xhero__index { border-color: var(--line-2); }
-.xhero--light .xhero__index a { color: var(--ink); }
-.xhero--light .xhero__index a + a { border-color: var(--line); }
-.xhero--light .xhero__index .mono { color: var(--ember); }
-@media (max-width: 860px) { .xhero--light .xhero__index a:nth-child(n+3) { border-top-color: var(--line); } }
-
-.hpaths--light { background: var(--paper); color: var(--ink); }
-.hpaths--light .hpaths__progress { background: var(--line-2); }
-.hpaths--light .hpaths__progress span { background: var(--ember); }
-.hpaths--light .hpaths__hint { color: var(--muted); }
-.hpaths--light .hpanel__intro-title { color: var(--ink); }
-.hpaths--light .hpanel__intro-title em { color: var(--ember); }
-.hpaths--light .hpanel--intro .lead { color: var(--ink-2); }
+.footer__land { display: block; margin-top: clamp(32px, 4vw, 52px); padding: 18px 0; border-top: 1px solid var(--line-dark); border-bottom: 0; max-width: none; color: var(--on-dark-3); font-size: .86rem; line-height: 1.6; }
+.footer__land .mono { color: var(--on-dark-2); margin-right: 12px; font-size: .68rem; }
