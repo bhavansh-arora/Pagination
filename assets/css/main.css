@@ -1287,3 +1287,29 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 @media (max-width: 560px) { .xhero__card-list, .xhero__card-kicker { display: none; } }
 .xhero__left > * { grid-column: 1 / -1; }
 .xhero__left { grid-template-columns: minmax(0, 1fr); }
+
+/* ---------- Statement: two-column composition ---------- */
+.statement { padding-bottom: calc(var(--section) * .55); }
+.statement__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: var(--stack-lg); align-items: center; }
+.statement__head { grid-column: 1 / span 6; display: grid; gap: var(--stack-md); justify-items: start; }
+.statement__head .manifesto { margin: 0; max-width: 13ch; }
+.statement__head .lead { max-width: 42ch; }
+.statement .seasons { grid-column: 8 / -1; margin: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--line-2); }
+.statement .seasons li, .statement .seasons li + li { display: grid; grid-template-columns: 112px 1fr; align-items: center; gap: 20px; padding: 18px 0; border-left: 0; border-bottom: 1px solid var(--line-2); border-top: 0; }
+.statement .seasons__img { width: 112px; height: 84px; border-radius: 16px; transition: transform .6s var(--ease-out); }
+.statement .seasons li:hover .seasons__img { transform: scale(1.04) rotate(-1.5deg); }
+.statement .seasons li > div { display: grid; gap: 6px; }
+.statement .seasons .mono { justify-self: start; color: var(--ember); }
+.statement .seasons p { grid-column: auto; max-width: 26ch; }
+@media (max-width: 960px) {
+  .statement__head, .statement .seasons { grid-column: 1 / -1; }
+  .statement__head .manifesto { max-width: 16ch; }
+}
+@media (max-width: 520px) {
+  .statement .seasons li, .statement .seasons li + li { grid-template-columns: 84px 1fr; gap: 16px; }
+  .statement .seasons__img { width: 84px; height: 66px; border-radius: 12px; }
+}
+
+/* ---------- Footer: quiet, single-line land acknowledgement ---------- */
+.footer__land { display: block; margin-top: clamp(32px, 4vw, 52px); padding: 18px 0; border-top: 1px solid var(--line-dark); border-bottom: 0; max-width: none; color: var(--on-dark-3); font-size: .86rem; line-height: 1.6; }
+.footer__land .mono { color: var(--on-dark-2); margin-right: 12px; font-size: .68rem; }
