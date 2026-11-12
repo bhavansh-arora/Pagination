@@ -1173,8 +1173,7 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 /* ---------- Review carousel buttons ---------- */
 .qbtn { flex: none; width: 56px; height: 56px; color: var(--cream); }
 .qbtn svg { width: 18px; height: 18px; transition: transform .5s var(--ease); }
-.qbtn[data-next] { background: var(--cream); color: var(--ink); border-color: var(--cream); }
-.qbtn[data-next]:hover { background: var(--sun); border-color: var(--sun); }
+.qbtn:hover { background: var(--cream); color: var(--ink); border-color: var(--cream); }
 .qbtn[data-next]:hover svg { transform: translateX(3px); }
 .qbtn[data-prev]:hover svg { transform: translateX(-3px); }
 .qbtn:focus-visible { outline: 1.5px solid var(--sun); outline-offset: 3px; border-radius: 50%; }
