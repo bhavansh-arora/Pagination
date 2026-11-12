@@ -1,4 +1,10 @@
 import { site, films, frame, frameSm, frames, venueOf, regions, reviews } from "./data.mjs";
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+
+// Version stamp per asset (hash of its contents), so browsers fetch a fresh copy whenever it changes.
+const ver = (rel) => createHash("md5").update(readFileSync(new URL("../" + rel, import.meta.url))).digest("hex").slice(0, 8);
+const asset = (base, rel) => `${base}${rel}?v=${ver(rel)}`;
 
 export const ic = {
   arrow: `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.6"/></svg>`,
@@ -83,7 +89,7 @@ export function head({ title, description, base = "", path = "", image = frame("
 <link rel="preconnect" href="https://www.youtube-nocookie.com">
 ${preload ? `<link rel="preload" as="image" href="${base}${preload}">` : ""}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="${base}assets/css/style.css">
+<link rel="stylesheet" href="${asset(base, "assets/css/style.css")}">
 <script>document.documentElement.classList.add('js')</script>
 ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join("\n")}
 </head>`;
@@ -158,11 +164,11 @@ export function footer({ base = "", mbar = true }) {
       <div class="footer__col" data-reveal style="--d:.19s"><p class="label">In Hawaii it's</p><span class="footer__clock"><i class="footer__sun" aria-hidden="true"></i><span data-clock>—</span></span><span>Mahalo · Salamat po</span></div>
     </div>
   </div>
-  <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   <div class="wrap footer__bar">
     <span>© <span data-year>2026</span> Mark Arista Films · Hawaii Wedding Videographer</span>
     <a class="credit" href="https://web.codebunny.net" target="_blank" rel="noopener"><span class="credit__by">Website by</span><span class="credit__name"><i class="credit__dot" aria-hidden="true"></i>Code Bunny<span class="credit__arr" aria-hidden="true">↗</span></span></a>
   </div>
+  <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   </div>
 </footer>
 ${mbar ? `<div class="mbar" aria-label="Quick actions">
@@ -181,11 +187,11 @@ ${mbar ? `<div class="mbar" aria-label="Quick actions">
   <p class="lightbox__cap label"></p>
 </div>
 <div class="hoverimg" aria-hidden="true"><img alt=""></div>
-<script src="${base}assets/js/config.js"></script>
+<script src="${asset(base, "assets/js/config.js")}"></script>
 <script src="${base}assets/vendor/gsap.min.js" defer></script>
 <script src="${base}assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="${base}assets/vendor/lenis.min.js" defer></script>
-<script src="${base}assets/js/main.js" defer></script>
+<script src="${asset(base, "assets/js/main.js")}" defer></script>
 </body>
 </html>`;
 }

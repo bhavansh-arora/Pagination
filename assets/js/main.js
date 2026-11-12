@@ -447,9 +447,9 @@
         const bar = $(".footer__bar");
         if (bar) {
           const gap = innerHeight - bar.getBoundingClientRect().top + 14 - parseFloat(getComputedStyle(top).bottom);
-          // Phones have no spare room there, so the button simply steps aside at the very end.
-          if (innerWidth < 768) { top.style.translate = ""; if (gap > 0) top.classList.remove("is-on"); }
-          else top.style.translate = gap > 0 ? `0 ${-gap}px` : "";
+          // The page ends on the big wordmark, so the button steps aside once the credits come into view.
+          top.style.translate = "";
+          if (gap > 0) top.classList.remove("is-on");
         }
       };
       window.addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });

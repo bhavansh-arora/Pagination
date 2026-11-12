@@ -1077,7 +1077,6 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 .footer__word .fl.it { color: var(--sun); }
 .footer__bar { align-items: center; }
 @media (max-width: 767px) {
-  .footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
   .footer__col:last-child { margin-top: 8px; }
 }
 
@@ -1253,3 +1252,14 @@ html:not(.js) .loader, .loader.is-skip { display: none; }
 .credit:hover .credit__dot { background: var(--ink); animation: none; }
 .credit:hover .credit__arr { transform: translate(2px, -2px); }
 .footer__bar .credit:hover { color: var(--muted); }
+
+/* ---------- Footer ending: thin credit strip, then the wordmark sits on the bottom edge ---------- */
+.footer { padding-bottom: 0; }
+.footer__bar { margin-top: var(--stack-3); padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: .8125rem; }
+.footer__word { margin-top: clamp(14px, 2vw, 28px); margin-bottom: 0; padding-bottom: .02em; line-height: .8; }
+.credit__name { height: 32px; }
+@media (max-width: 767px) {
+  .footer__bar { gap: 10px; padding: 14px 0; }
+  /* leave room for the fixed "Check your date" bar so it doesn't sit on the wordmark */
+  .footer { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
+}
