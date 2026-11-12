@@ -38,6 +38,22 @@ node src/build.mjs
 
 The first command needs Pillow (`pip install pillow`). The build needs Node 18+ and has no dependencies.
 
+## Link previews
+
+Sharing any page (WhatsApp, iMessage, Instagram DMs, Facebook, LinkedIn, Slack, X) shows a 1200×630 card from `assets/img/og/`: one per main page, plus one per film with the couple's names over a still from their film.
+
+After adding a film or changing a page title, regenerate the cards (needs Playwright), then rebuild:
+
+```bash
+node tools/og.cjs
+```
+
+```bash
+node src/build.mjs
+```
+
+The address in previews, canonical links and the sitemap comes from `url` in `src/data.mjs`. It's currently `https://aristafilms.codebunny.net`; change it there and rebuild if the site moves to markarista.com.
+
 ## Inquiry form
 
 `assets/js/config.js`:

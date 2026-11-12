@@ -7,7 +7,9 @@ export const site = {
   person: "Mark Arista",
   tagline: "Hawaii Wedding Videographer",
   email: "mark@aristafilms.co",
-  url: "https://markarista.com",
+  // The address this site is published at. Link previews, canonical links and the sitemap use it,
+  // so change it here (then rebuild) if the site moves to markarista.com.
+  url: "https://aristafilms.codebunny.net",
   instagram: "https://www.instagram.com/markaristafilms/",
   facebook: "https://www.facebook.com/aristafilmsco",
   youtube: "https://www.youtube.com/@bymarkarista",

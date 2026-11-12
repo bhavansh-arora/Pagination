@@ -1,5 +1,5 @@
 import { site, films, frame, frameSm, frames, venueOf, regions, reviews } from "./data.mjs";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 
 // Version stamp per asset (hash of its contents), so browsers fetch a fresh copy whenever it changes.
@@ -66,7 +66,10 @@ const nav = [
 
 export function head({ title, description, base = "", path = "", image = frame("hzfBBlhqEzI"), jsonld = [], preload = "" }) {
   const url = `${site.url}/${path}`;
-  const og = `${site.url}/${image}`;
+  // Link-preview card made by tools/og.cjs for this page (falls back to the home card).
+  const card = `assets/img/og/${path === "" || path === "404.html" ? "home" : path.replace(/\.html$/, "")}.jpg`;
+  const ogRel = existsSync(new URL("../" + card, import.meta.url)) ? card : "assets/img/og/home.jpg";
+  const og = `${site.url}/${ogRel}`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -82,8 +85,18 @@ export function head({ title, description, base = "", path = "", image = frame("
 <meta property="og:description" content="${description}">
 <meta property="og:url" content="${url}">
 <meta property="og:image" content="${og}">
+<meta property="og:image:secure_url" content="${og}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${title}">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${description}">
+<meta name="twitter:image" content="${og}">
 <link rel="icon" href="${base}assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="${base}assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://www.youtube-nocookie.com">
