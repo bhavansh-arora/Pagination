@@ -318,6 +318,7 @@
       }, reduced ? 0 : 320);
     }
     opts.forEach(function (o) { o.addEventListener("click", function () { choose(o.getAttribute("data-key"), o); }); });
+    window.__finderSelect = function (i) { var o = opts[i]; if (o && o.getAttribute("aria-pressed") !== "true") choose(o.getAttribute("data-key"), o); };
   }
 
   /* ---------- Tabs ---------- */

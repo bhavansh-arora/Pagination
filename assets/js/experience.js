@@ -148,11 +148,9 @@
       var spans = pre.querySelectorAll("span");
       var post = zoom.querySelector(".zoom__post");
       var tl = gsap.timeline({ scrollTrigger: { trigger: zoom, start: "top top", end: "+=110%", pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
-      tl.fromTo(media, { clipPath: "inset(29% 31% 27% 31% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
+      tl.fromTo(media, { clipPath: "inset(12% 14% 12% 14% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
         .fromTo(zimg, { scale: 1.4 }, { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
-        .fromTo(pre, { opacity: 1 }, { opacity: 0, ease: "none", duration: 0.3 }, 0.3)
-        .fromTo(spans[0], { xPercent: 0 }, { xPercent: -20, ease: "none", duration: 0.6 }, 0)
-        .fromTo(spans[1], { xPercent: 0 }, { xPercent: 20, ease: "none", duration: 0.6 }, 0)
+        .fromTo(pre, { opacity: 1, y: 0 }, { opacity: 0, y: -60, ease: "power1.in", duration: 0.32 }, 0.28)
         .fromTo(post, { opacity: 0, y: 70 }, { opacity: 1, y: 0, ease: "power2.out", duration: 0.35 }, 0.6);
       return function () { gsap.set([media, zimg, pre, post].concat(Array.prototype.slice.call(spans)), { clearProps: "all" }); };
     });
@@ -179,6 +177,26 @@
         gsap.fromTo(n, { xPercent: 40 }, { xPercent: -20, ease: "none", scrollTrigger: { trigger: n.closest(".hpanel"), containerAnimation: tw, start: "left right", end: "right left", scrub: true } });
       });
       return function () { hp.classList.remove("is-h"); };
+    });
+  }
+
+  /* ---------- Path finder advances with scroll ---------- */
+  var fsec = document.querySelector("[data-finder-scroll]");
+  if (fsec && window.__finderSelect) {
+    var fopts = fsec.querySelectorAll(".finder__opt");
+    var N = fopts.length;
+    var drive = function (st) {
+      var seg = Math.min(N - 0.001, st.progress * N);
+      var i = Math.floor(seg);
+      window.__finderSelect(i);
+      fopts.forEach(function (o, k) { o.style.setProperty("--fp", k < i ? 1 : (k === i ? (seg - i).toFixed(3) : 0)); });
+    };
+    gsap.matchMedia().add({ desk: "(min-width: 961px) and (min-height: 700px)", small: "(max-width: 960px), (max-height: 699px)" }, function (c) {
+      if (c.conditions.desk) {
+        ST.create({ trigger: fsec, start: function () { return fsec.offsetHeight > window.innerHeight ? "bottom bottom" : "top top"; }, end: "+=" + (N * 42) + "%", pin: true, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: -1, onUpdate: drive });
+      } else {
+        ST.create({ trigger: fsec.querySelector(".finder"), start: "top 65%", end: "bottom 45%", refreshPriority: -1, onUpdate: drive });
+      }
     });
   }
 
