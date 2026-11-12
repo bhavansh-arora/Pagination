@@ -164,11 +164,11 @@ export function footer({ base = "", mbar = true }) {
       <div class="footer__col" data-reveal style="--d:.19s"><p class="label">In Hawaii it's</p><span class="footer__clock"><i class="footer__sun" aria-hidden="true"></i><span data-clock>—</span></span><span>Mahalo · Salamat po</span></div>
     </div>
   </div>
+  <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   <div class="wrap footer__bar">
     <span>© <span data-year>2026</span> Mark Arista Films · Hawaii Wedding Videographer</span>
     <a class="credit" href="https://web.codebunny.net" target="_blank" rel="noopener"><span class="credit__by">Website by</span><span class="credit__name"><i class="credit__dot" aria-hidden="true"></i>Code Bunny<span class="credit__arr" aria-hidden="true">↗</span></span></a>
   </div>
-  <div class="wrap"><p class="footer__word" aria-hidden="true" data-word><span class="fw">${letters("Mark")}</span><span class="fw fw--it">${letters("Arista", " it")}</span></p></div>
   </div>
 </footer>
 ${mbar ? `<div class="mbar" aria-label="Quick actions">
