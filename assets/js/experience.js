@@ -76,7 +76,12 @@
     var ctx = cv && cv.getContext("2d");
     if (ctx) {
       var S = 0.5, W = 0, H = 0, visible = true;
-      var orbs = [
+      var light = hero.classList.contains("xhero--light");
+      var orbs = light ? [
+        { c: "243,167,123", r: 0.42, x: 0.76, y: 0.34, sp: 1.1, ph: 0.0, a: 0.55, pull: 0.32 },
+        { c: "238,182,90", r: 0.30, x: 0.88, y: 0.66, sp: 1.6, ph: 2.1, a: 0.38, pull: 0.18 },
+        { c: "233,178,164", r: 0.34, x: 0.56, y: 0.78, sp: 0.9, ph: 4.2, a: 0.42, pull: 0.12 }
+      ] : [
         { c: "228,87,46", r: 0.46, x: 0.74, y: 0.36, sp: 1.1, ph: 0.0, a: 0.62, pull: 0.38 },
         { c: "238,182,90", r: 0.30, x: 0.88, y: 0.72, sp: 1.6, ph: 2.1, a: 0.34, pull: 0.2 },
         { c: "201,120,106", r: 0.38, x: 0.52, y: 0.86, sp: 0.9, ph: 4.2, a: 0.36, pull: 0.12 },
@@ -91,9 +96,9 @@
       var draw = function (t) {
         mx += (tmx - mx) * 0.035; my += (tmy - my) * 0.035;
         ctx.globalCompositeOperation = "source-over";
-        ctx.fillStyle = "#0b1d17";
+        ctx.fillStyle = light ? "#f4ede3" : "#0b1d17";
         ctx.fillRect(0, 0, W, H);
-        ctx.globalCompositeOperation = "lighter";
+        ctx.globalCompositeOperation = light ? "multiply" : "lighter";
         var M = Math.max(W, H), s = t * 0.0001;
         for (var i = 0; i < orbs.length; i++) {
           var o = orbs[i];
