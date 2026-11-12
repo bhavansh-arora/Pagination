@@ -147,7 +147,7 @@
       var pre = zoom.querySelector(".zoom__pre");
       var spans = pre.querySelectorAll("span");
       var post = zoom.querySelector(".zoom__post");
-      var tl = gsap.timeline({ scrollTrigger: { trigger: zoom, start: "top top", end: "+=110%", pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
+      var tl = gsap.timeline({ scrollTrigger: { trigger: zoom, start: "top top", end: "+=85%", pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
       tl.fromTo(media, { clipPath: "inset(12% 14% 12% 14% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
         .fromTo(zimg, { scale: 1.4 }, { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
         .fromTo(pre, { opacity: 1, y: 0 }, { opacity: 0, y: -60, ease: "power1.in", duration: 0.32 }, 0.28)
@@ -193,7 +193,7 @@
     };
     gsap.matchMedia().add({ desk: "(min-width: 961px) and (min-height: 700px)", small: "(max-width: 960px), (max-height: 699px)" }, function (c) {
       if (c.conditions.desk) {
-        ST.create({ trigger: fsec, start: function () { return fsec.offsetHeight > window.innerHeight ? "bottom bottom" : "top top"; }, end: "+=" + (N * 42) + "%", pin: true, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: -1, onUpdate: drive });
+        ST.create({ trigger: fsec, start: function () { return fsec.offsetHeight > window.innerHeight ? "bottom bottom" : "top top"; }, end: "+=" + (N * 28) + "%", pin: true, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: -1, onUpdate: drive });
       } else {
         ST.create({ trigger: fsec.querySelector(".finder"), start: "top 65%", end: "bottom 45%", refreshPriority: -1, onUpdate: drive });
       }
