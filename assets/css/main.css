@@ -1168,3 +1168,18 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
   .seasons li, .seasons li + li { padding: 22px 0; border-left: 0; }
   .seasons li + li { border-top: 1px solid var(--line); }
 }
+
+/* Zoom scene on phones: a compact, normally scrolling moment (no pin) */
+@media (max-width: 720px) {
+  .zoom { height: auto; padding-block: calc(var(--section) * 0.35) var(--section); }
+  .zoom__stage { position: relative; display: grid; gap: var(--stack-md); place-items: stretch; height: auto; padding-inline: var(--gutter); }
+  .zoom__pre { position: static; opacity: 1; padding: 0; display: block; font-size: clamp(2.5rem, 12vw, 3.6rem); }
+  .zoom__pre span { display: block; }
+  .zoom__pre span:last-child { text-align: left; }
+  .zoom__media { position: relative; inset: auto; aspect-ratio: 4 / 5; border-radius: var(--r-xl); overflow: hidden; }
+  .zoom__post { position: absolute; left: var(--gutter); right: var(--gutter); bottom: clamp(28px, 8vw, 44px); gap: 12px; }
+  .zoom__big { font-size: clamp(3rem, 15vw, 4.6rem); }
+}
+@media (min-width: 721px) {
+  .js .zoom__media[data-reveal="mask"], .js .zoom__media[data-reveal="mask"].is-in { transition: none; }
+}

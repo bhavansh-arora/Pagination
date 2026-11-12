@@ -141,20 +141,21 @@
   /* ---------- Zoom reveal scene ---------- */
   var zoom = document.querySelector("[data-zoom]");
   if (zoom) {
-    var media = zoom.querySelector(".zoom__media");
-    var zimg = media.querySelector("img");
-    var pre = zoom.querySelector(".zoom__pre");
-    var spans = pre.querySelectorAll("span");
-    var post = zoom.querySelector(".zoom__post");
-    var small = function () { return window.innerWidth < 720; };
-    var tl = gsap.timeline({ scrollTrigger: { trigger: zoom, start: "top top", end: "+=170%", pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true } });
-    tl.fromTo(media, { clipPath: function () { return small() ? "inset(30% 16% 30% 16% round 22px)" : "inset(30% 35% 30% 35% round 28px)"; } }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
-      .fromTo(zimg, { scale: 1.5 }, { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
-      .fromTo(pre, { opacity: 1 }, { opacity: 0, ease: "none", duration: 0.3 }, 0.38)
-      .fromTo(spans[0], { xPercent: 0 }, { xPercent: -25, ease: "none", duration: 0.7 }, 0)
-      .fromTo(spans[1], { xPercent: 0 }, { xPercent: 25, ease: "none", duration: 0.7 }, 0)
-      .fromTo(post, { opacity: 0, y: 90 }, { opacity: 1, y: 0, ease: "power2.out", duration: 0.35 }, 0.68)
-      .to({}, { duration: 0.25 });
+    gsap.matchMedia().add("(min-width: 721px)", function () {
+      var media = zoom.querySelector(".zoom__media");
+      var zimg = media.querySelector("img");
+      var pre = zoom.querySelector(".zoom__pre");
+      var spans = pre.querySelectorAll("span");
+      var post = zoom.querySelector(".zoom__post");
+      var tl = gsap.timeline({ scrollTrigger: { trigger: zoom, start: "top top", end: "+=110%", pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
+      tl.fromTo(media, { clipPath: "inset(29% 31% 27% 31% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
+        .fromTo(zimg, { scale: 1.4 }, { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
+        .fromTo(pre, { opacity: 1 }, { opacity: 0, ease: "none", duration: 0.3 }, 0.3)
+        .fromTo(spans[0], { xPercent: 0 }, { xPercent: -20, ease: "none", duration: 0.6 }, 0)
+        .fromTo(spans[1], { xPercent: 0 }, { xPercent: 20, ease: "none", duration: 0.6 }, 0)
+        .fromTo(post, { opacity: 0, y: 70 }, { opacity: 1, y: 0, ease: "power2.out", duration: 0.35 }, 0.6);
+      return function () { gsap.set([media, zimg, pre, post].concat(Array.prototype.slice.call(spans)), { clearProps: "all" }); };
+    });
   }
 
   /* ---------- Horizontal paths ---------- */
