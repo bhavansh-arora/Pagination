@@ -5,6 +5,7 @@
   var html = document.documentElement;
   var reduced = html.classList.contains("reduced") || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var lite = !!window.__lite;
   var gsap = window.gsap;
   var ST = window.ScrollTrigger;
   var hasG = !!(gsap && ST);
@@ -125,9 +126,9 @@
         }
       };
       size();
-      window.addEventListener("resize", function () { size(); if (reduced) draw(0); });
-      if (reduced) {
-        draw(0);
+      window.addEventListener("resize", function () { size(); if (reduced || lite) draw(9000); });
+      if (reduced || lite) {
+        draw(9000);
       } else {
         hero.addEventListener("pointermove", function (e) {
           var r = hero.getBoundingClientRect();
@@ -192,13 +193,19 @@
       if (c.conditions.desk) {
         ST.create({ trigger: fsec, start: function () { return fsec.offsetHeight > window.innerHeight ? "bottom bottom" : "top top"; }, end: "+=" + (N * 28) + "%", pin: true, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: -1, onUpdate: drive });
       } else {
-        ST.create({ trigger: fsec.querySelector(".finder"), start: "top 65%", end: "bottom 45%", refreshPriority: -1, onUpdate: drive });
+        var nearest = function () {
+          var line = window.innerHeight * 0.62, best = 0, bd = Infinity;
+          fopts.forEach(function (o, k) { var r = o.getBoundingClientRect(); var d = Math.abs(r.top + r.height / 2 - line); if (d < bd) { bd = d; best = k; } });
+          window.__finderSelect(best);
+          fopts.forEach(function (o, k) { o.style.setProperty("--fp", k <= best ? 1 : 0); });
+        };
+        ST.create({ trigger: fsec.querySelector(".finder__options"), start: "top 80%", end: "bottom 40%", refreshPriority: -1, onUpdate: nearest });
       }
     });
   }
 
   /* ---------- Inner hero media expands to full bleed ---------- */
-  document.querySelectorAll(".page-hero__media").forEach(function (m) {
+  if (!lite) document.querySelectorAll(".page-hero__media").forEach(function (m) {
     var c = m.closest(".container");
     if (!c) return;
     var inset = function () { return (window.innerWidth - c.clientWidth) / 2 + parseFloat(getComputedStyle(c).paddingLeft || 0); };
@@ -209,7 +216,7 @@
 
   /* ---------- Marquees react to scroll speed ---------- */
   var groups = document.querySelectorAll(".marquee__group");
-  if (groups.length) {
+  if (groups.length && !lite) {
     var setters = Array.prototype.map.call(groups, function (g) { return gsap.quickTo(g, "skewX", { duration: 0.6, ease: "power3" }); });
     var settle = null;
     ST.create({

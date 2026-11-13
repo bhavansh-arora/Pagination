@@ -6,13 +6,17 @@
   var body = document.body;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  // Phones/tablets: lighter mode (native scroll, no word masks, no scrubbed effects)
+  var lite = !finePointer || window.matchMedia("(max-width: 860px)").matches;
+  window.__lite = lite;
+  if (lite) doc.classList.add("lite");
   var hasGSAP = typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined";
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
   /* ---------- Smooth scroll (Lenis) ---------- */
   var lenis = null;
-  if (!reduced && typeof window.Lenis !== "undefined") {
+  if (!reduced && !lite && typeof window.Lenis !== "undefined") {
     lenis = new window.Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
     if (hasGSAP) {
       lenis.on("scroll", window.ScrollTrigger.update);
@@ -169,7 +173,7 @@
     walk(el);
     el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
   }
-  $$("[data-split]").forEach(function (el) { if (!reduced) splitWords(el); else el.classList.add("is-in"); });
+  $$("[data-split]").forEach(function (el) { if (!reduced && !lite) splitWords(el); else el.classList.add("is-in"); });
 
   /* ---------- Reveal on view ---------- */
   var revealEls = $$("[data-reveal], [data-split]");
@@ -215,7 +219,7 @@
 
   /* ---------- Manifesto scroll fill ---------- */
   $$(".manifesto").forEach(function (m) {
-    if (reduced) return;
+    if (reduced || lite) return;
     var words = [];
     (function wrap(node) {
       Array.prototype.slice.call(node.childNodes).forEach(function (child) {
@@ -269,7 +273,7 @@
   /* ---------- GSAP scroll motion ---------- */
   if (hasGSAP && !reduced) {
     var gsap = window.gsap;
-    $$(".media--parallax img").forEach(function (img) {
+    if (!lite) $$(".media--parallax img").forEach(function (img) {
       gsap.fromTo(img, { yPercent: -7 }, { yPercent: 7, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
     });
     $$(".steps").forEach(function (s) {
