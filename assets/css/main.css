@@ -1385,3 +1385,42 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 .xhero__mask { overflow: visible; }
 .js .xhero__word { opacity: 0; transform: translateY(.28em); }
 .js.is-ready .xhero__word { opacity: 1; transform: none; transition: opacity .9s var(--ease-out), transform 1.1s var(--ease-out); transition-delay: calc(var(--i) * .06s); }
+
+/* ==========================================================================
+   Phones & tablets ("lite" mode): smooth, light, nothing half-revealed
+   ========================================================================== */
+@media (max-width: 860px) { .site-footer { padding-bottom: 28px; } }
+
+/* Heavy blur panels become solid on touch devices */
+.lite .chip--glass, .lite .float-card, .lite .path-card__num, .lite .path-card__tags span,
+.lite .zoom__facts li, .lite .xhero__card, .lite .hpanel__body .path-card__tags span,
+.lite .site-header.is-scrolled, .lite .subnav, .lite .mobile-cta { backdrop-filter: none; -webkit-backdrop-filter: none; }
+.lite .site-header.is-scrolled { background: rgba(244, 237, 227, 0.97); }
+.lite .subnav { background: rgba(244, 237, 227, 0.98); }
+.lite .mobile-cta { background: rgba(11, 29, 23, 0.97); }
+.lite .xhero__card { background: rgba(20, 44, 36, 0.92); }
+.lite .chip--glass { background: rgba(244, 237, 227, 0.1); }
+.lite .float-card { background: rgba(250, 246, 240, 0.97); }
+/* Short, simple reveals */
+.lite [data-reveal].is-in { transition-duration: .7s, .8s; }
+.lite [data-reveal="mask"] { clip-path: none !important; }
+.lite .page-hero__media { clip-path: inset(0 var(--gutter) 0 var(--gutter) round var(--r-lg)); }
+
+/* Finder on phones: suggestion card on top, pinned in view while options scroll */
+@media (max-width: 960px) {
+  .finder { display: flex; flex-direction: column; gap: 14px; }
+  .finder__result { order: -1; position: sticky; top: 10px; z-index: 3; min-height: 0 !important; transition: top .5s var(--ease-out); box-shadow: 0 24px 40px -24px rgba(0, 0, 0, .7); }
+  body.header-shown .finder__result { top: calc(var(--header-h) + 8px); }
+  .finder__panel { padding: 20px 20px 18px; gap: 10px; }
+  .finder__title { font-size: 1.6rem; }
+  .finder__text { font-size: .95rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .finder__panel .btn { height: 46px; font-size: .9rem; padding-left: 18px; }
+  .finder__panel .btn .btn__icon { width: 34px; height: 34px; }
+  .finder__panel .btn--ghost { display: none; }
+  .finder__options { gap: 8px; }
+  .finder-sec .finder__opt { padding: 12px 14px; font-size: .95rem; }
+}
+@media (max-width: 960px) {
+  .finder__result { height: 236px; justify-content: flex-end; overflow: hidden; }
+  .finder__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
