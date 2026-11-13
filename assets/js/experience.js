@@ -32,7 +32,7 @@
   function reveal() {
     html.classList.add("is-revealed");
     if (lenis) lenis.start();
-    setTimeout(ready, 220);
+    setTimeout(ready, html.classList.contains("is-intro") ? 1050 : 600);
     if (hasG) setTimeout(function () { ST.refresh(); settleLanding(); }, 1300); else settleLanding();
   }
 
