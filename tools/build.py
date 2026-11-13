@@ -96,7 +96,7 @@ def marquee(words, cls=""):
             f'<div class="marquee__group" aria-hidden="true">{items}</div></div></div>')
 
 
-HEAD_SCRIPT = '<script>(function(d){var h=d.documentElement,c="js",r=window.matchMedia("(prefers-reduced-motion: reduce)").matches,s;try{s=window.sessionStorage}catch(e){}if(r)c+=" reduced";else if(s){if(s.getItem("ca-nav")==="1"){c+=" is-enter";s.removeItem("ca-nav")}else if(!s.getItem("ca-seen")){c+=" is-intro";s.setItem("ca-seen","1")}}h.className=c})(document);</script>'
+HEAD_SCRIPT = '<script>(function(d){var h=d.documentElement,c="js",r=window.matchMedia("(prefers-reduced-motion: reduce)").matches,s;try{s=window.sessionStorage}catch(e){}if(r)c+=" reduced";else if(s){if(s.getItem("ca-nav")==="1"){c+=" is-enter";s.removeItem("ca-nav")}else if(!s.getItem("ca-seen")){c+=" is-intro";s.setItem("ca-seen","1")}}if(!window.matchMedia("(hover: hover) and (pointer: fine)").matches||window.matchMedia("(max-width: 860px)").matches)c+=" lite";h.className=c})(document);</script>'
 
 
 def head(meta):

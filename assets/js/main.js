@@ -173,20 +173,20 @@
     walk(el);
     el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
   }
-  $$("[data-split]").forEach(function (el) { if (!reduced && !lite) splitWords(el); else el.classList.add("is-in"); });
+  $$("[data-split]").forEach(function (el) { if (reduced || lite) el.classList.add("is-in"); });
 
   /* ---------- Reveal on view ---------- */
   var revealEls = $$("[data-reveal], [data-split]");
-  if ("IntersectionObserver" in window && !reduced) {
+  if ("IntersectionObserver" in window && !reduced && !lite) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    }, { rootMargin: "0px 0px 18% 0px", threshold: 0 });
     revealEls.forEach(function (el) { io.observe(el); });
     // Stagger children helper
     $$("[data-stagger]").forEach(function (group) {
-      var step = parseFloat(group.getAttribute("data-stagger")) || 0.08;
+      var step = Math.min(0.05, parseFloat(group.getAttribute("data-stagger")) || 0.05);
       $$("[data-reveal]", group).forEach(function (el, idx) { el.style.setProperty("--d", (idx * step).toFixed(2) + "s"); });
     });
   } else {
@@ -481,6 +481,11 @@
       status.textContent = "Thank you. Your email app should open with your message ready to send.";
     });
   }
+
+  /* ---------- Fetch every image in the background once the page has loaded ---------- */
+  window.addEventListener("load", function () {
+    setTimeout(function () { $$('img[loading="lazy"]').forEach(function (img) { img.loading = "eager"; }); }, 300);
+  });
 
   /* ---------- Footer year ---------- */
   $$("[data-year]").forEach(function (y) { y.textContent = new Date().getFullYear(); });
