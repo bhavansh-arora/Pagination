@@ -1013,7 +1013,7 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 .is-leaving .curtain { clip-path: inset(0 0 0 0) !important; visibility: visible !important; pointer-events: auto; transition: clip-path .75s var(--ease-in-out) !important; }
 .curtain__inner { position: relative; display: grid; justify-items: center; gap: 18px; }
 .curtain__mark { width: clamp(120px, 14vw, 180px); height: auto; overflow: visible; }
-.curtain__mark circle { fill: none; stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.curtain__mark circle { fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 1.04 1; stroke-dashoffset: 1.04; }
 .curtain__mark .c1 { stroke: var(--on-dark); }
 .curtain__mark .c2 { stroke: var(--ember); }
 .curtain__word { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.04em; font-variation-settings: "SOFT" 100, "opsz" 144; font-weight: 440; opacity: 0; transform: translateY(16px); }
@@ -1349,3 +1349,30 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 .h2, .h1 { font-weight: 480; }
 .h2 em, .h1 em { font-weight: 440; }
 .zoom__media::after { background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(8, 20, 16, 0.62) 0%, rgba(8, 20, 16, 0.32) 60%, rgba(8, 20, 16, 0.18) 100%), linear-gradient(180deg, rgba(8, 20, 16, 0.15), rgba(8, 20, 16, 0.45)); }
+
+/* ---------- Image scene: static, full-bleed, full-screen ---------- */
+.zoom { height: auto; min-height: 100svh; display: grid; }
+.zoom__stage { height: auto; min-height: 100svh; padding: calc(var(--header-h) + 4vh) var(--gutter) 8vh; }
+.zoom__media { position: absolute; inset: 0; clip-path: none !important; border-radius: 0; aspect-ratio: auto; }
+.zoom__media img { transform: none !important; }
+.zoom__post { position: relative; inset: auto; left: auto; right: auto; bottom: auto; opacity: 1 !important; transform: none !important; }
+.zoom__kicker { font-family: var(--serif); font-size: clamp(1.3rem, 2vw, 1.9rem); line-height: 1.1; letter-spacing: -0.02em; font-weight: 440; color: rgba(244, 237, 227, 0.88); font-variation-settings: "SOFT" 80, "opsz" 72; }
+.zoom__kicker em { font-style: italic; color: #ffc6a8; font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72; }
+@media (max-width: 720px) {
+  .zoom { padding: 0; min-height: 88svh; }
+  .zoom__stage { min-height: 88svh; display: grid; place-items: center; padding: calc(var(--header-h) + 3vh) var(--gutter) 14vh; }
+  .zoom__media { aspect-ratio: auto; border-radius: 0; }
+  .zoom__lead { display: block; font-size: 1rem; }
+  .zoom__facts { display: none; }
+}
+
+/* ---------- Finder fills the screen while it holds ---------- */
+@media (min-width: 961px) and (min-height: 700px) {
+  .finder-sec { min-height: 100svh; display: flex; align-items: center; }
+  .finder-sec > .container { width: 100%; }
+}
+
+/* ---------- Code Bunny credit link ---------- */
+.footer__credit { color: var(--ember-2); font-weight: 700; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; transition: color .3s, background-size .4s var(--ease-out); }
+.footer__credit:hover { color: #fff; background-size: 100% 2px; }
+.finder__result::before { background: linear-gradient(180deg, rgba(11,29,23,.25) 0%, rgba(11,29,23,.7) 34%, rgba(11,29,23,.96) 72%); }
