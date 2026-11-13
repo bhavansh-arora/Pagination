@@ -1313,3 +1313,39 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 /* ---------- Footer: quiet, single-line land acknowledgement ---------- */
 .footer__land { display: block; margin-top: clamp(32px, 4vw, 52px); padding: 18px 0; border-top: 1px solid var(--line-dark); border-bottom: 0; max-width: none; color: var(--on-dark-3); font-size: .86rem; line-height: 1.6; }
 .footer__land .mono { color: var(--on-dark-2); margin-right: 12px; font-size: .68rem; }
+
+/* ---------- Zoom scene: concrete, actionable ending ---------- */
+.zoom__big { font-weight: 500; }
+.zoom__lead { max-width: 50ch; font-size: var(--fs-lead); line-height: 1.5; color: rgba(244, 237, 227, 0.92); text-shadow: 0 2px 24px rgba(0, 0, 0, .35); }
+.zoom__facts { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.zoom__facts li { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; background: rgba(11, 29, 23, 0.45); border: 1px solid rgba(244, 237, 227, 0.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--on-dark); font-size: .9rem; font-weight: 600; }
+.zoom__facts svg { width: 16px; height: 16px; color: var(--ember-2); }
+.zoom__post { gap: 20px; }
+.zoom__post .btn { margin-top: 6px; }
+@media (max-width: 720px) {
+  .zoom__media { aspect-ratio: 3 / 4; }
+  .zoom__lead, .zoom__facts { display: none; }
+  .zoom__post { gap: 16px; }
+}
+
+/* ---------- Footer: land acknowledgement as the very last line ---------- */
+.footer__land { margin-top: 18px; padding: 14px 0 0; border-top: 1px solid var(--line-dark); font-size: .8rem; color: var(--on-dark-3); }
+.footer__land .mono { color: var(--on-dark-2); font-size: .64rem; }
+
+/* ---------- About hero: copy centred beside a compact portrait ---------- */
+.about-hero { align-items: center; }
+.about-hero .about-hero__copy { align-self: center; }
+.about-hero .about-hero__media { max-width: 400px; justify-self: end; width: 100%; }
+@media (max-width: 960px) { .about-hero .about-hero__media { justify-self: center; max-width: 340px; } }
+
+/* ---------- Bolder details ---------- */
+.eyebrow { color: var(--ink); font-weight: 500; letter-spacing: .14em; }
+.eyebrow .num { display: inline-grid; place-items: center; min-width: 34px; height: 22px; padding: 0 8px; border-radius: 999px; background: var(--ember); color: #fff; letter-spacing: .06em; font-size: .68rem; }
+.eyebrow::after { width: 56px; height: 2px; opacity: .25; }
+.theme-dark .eyebrow, .theme-forest .eyebrow, .hpaths .eyebrow { color: var(--on-dark); }
+.theme-dark .eyebrow .num, .theme-forest .eyebrow .num, .hpaths .eyebrow .num { color: #fff; background: var(--ember); }
+.stat__num { font-weight: 500; }
+.stat__num sup { font-weight: 500; }
+.h2, .h1 { font-weight: 480; }
+.h2 em, .h1 em { font-weight: 440; }
+.zoom__media::after { background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(8, 20, 16, 0.62) 0%, rgba(8, 20, 16, 0.32) 60%, rgba(8, 20, 16, 0.18) 100%), linear-gradient(180deg, rgba(8, 20, 16, 0.15), rgba(8, 20, 16, 0.45)); }
