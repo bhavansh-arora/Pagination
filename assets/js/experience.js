@@ -13,13 +13,27 @@
 
   html.classList.add("curtain-js");
 
+  /* ---------- Stable landing position (no jumps after pins/fonts settle) ---------- */
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  var landTarget = location.hash && location.hash.length > 1 ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+  function settleLanding() {
+    if (landTarget) {
+      var y = landTarget.getBoundingClientRect().top + window.scrollY - 90;
+      if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
+    } else if (window.scrollY !== 0 && !html.classList.contains("was-scrolled")) {
+      if (lenis) lenis.scrollTo(0, { immediate: true, force: true }); else window.scrollTo(0, 0);
+    }
+  }
+  window.addEventListener("scroll", function onFirst() { if (window.__userScrolled) html.classList.add("was-scrolled"); }, { passive: true });
+  ["wheel", "touchstart", "keydown"].forEach(function (ev) { window.addEventListener(ev, function () { window.__userScrolled = true; html.classList.add("was-scrolled"); }, { once: true, passive: true }); });
+
   /* ---------- Intro sequence & page entry ---------- */
   function ready() { html.classList.add("is-ready"); }
   function reveal() {
     html.classList.add("is-revealed");
     if (lenis) lenis.start();
     setTimeout(ready, 220);
-    if (hasG) setTimeout(function () { ST.refresh(); }, 1300);
+    if (hasG) setTimeout(function () { ST.refresh(); settleLanding(); }, 1300); else settleLanding();
   }
 
   if (html.classList.contains("is-intro")) {
@@ -62,6 +76,7 @@
       curtain.style.visibility = "";
       html.classList.remove("is-revealed");
       html.classList.add("is-leaving");
+      if (lenis) lenis.stop();
       setTimeout(function () { location.href = url.href; }, 780);
     });
     window.addEventListener("pageshow", function (e) {
@@ -138,24 +153,6 @@
 
   if (!hasG || reduced) return;
 
-  /* ---------- Zoom reveal scene ---------- */
-  var zoom = document.querySelector("[data-zoom]");
-  if (zoom) {
-    gsap.matchMedia().add("(min-width: 721px)", function () {
-      var media = zoom.querySelector(".zoom__media");
-      var zimg = media.querySelector("img");
-      var pre = zoom.querySelector(".zoom__pre");
-      var spans = pre.querySelectorAll("span");
-      var post = zoom.querySelector(".zoom__post");
-      var tl = gsap.timeline({ scrollTrigger: { trigger: zoom, start: "top top", end: "+=85%", pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
-      tl.fromTo(media, { clipPath: "inset(12% 14% 12% 14% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 1 }, 0)
-        .fromTo(zimg, { scale: 1.4 }, { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
-        .fromTo(pre, { opacity: 1, y: 0 }, { opacity: 0, y: -60, ease: "power1.in", duration: 0.32 }, 0.28)
-        .fromTo(post, { opacity: 0, y: 70 }, { opacity: 1, y: 0, ease: "power2.out", duration: 0.35 }, 0.6);
-      return function () { gsap.set([media, zimg, pre, post].concat(Array.prototype.slice.call(spans)), { clearProps: "all" }); };
-    });
-  }
-
   /* ---------- Horizontal paths ---------- */
   var hp = document.querySelector("[data-hpaths]");
   if (hp) {
@@ -225,5 +222,6 @@
     });
   }
 
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ST.refresh(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ST.refresh(); settleLanding(); });
+  window.addEventListener("load", function () { setTimeout(function () { ST.refresh(); settleLanding(); }, 60); });
 })();
