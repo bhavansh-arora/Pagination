@@ -1,0 +1,57 @@
+# Code Bunny
+
+> Code Bunny (https://www.codebunny.net) is a founder-led web design and development studio run by Bhavansh Arora. It designs and builds fast, SEO-ready websites, e-commerce and booking sites, mobile apps and custom software/AI chatbots for small businesses, coaches, wedding photographers, solar companies and local businesses in United States, Canada, United Kingdom, Ireland, Australia, New Zealand, India. It offers a free website preview: a custom homepage on a live link before the client pays.
+
+## Key pages
+- [Free website preview](https://www.codebunny.net/free-website-preview/)
+- [Portfolio](https://www.codebunny.net/work/)
+- [Services](https://www.codebunny.net/services/)
+- [Ready-made sites for sale](https://www.codebunny.net/templates/)
+- [About](https://www.codebunny.net/about/)
+- [Contact](https://www.codebunny.net/contact/): bhavansh@codebunny.net
+
+## Services
+- [Website Design & Development](https://www.codebunny.net/services/website-design/): Custom-designed, hand-coded sites that feel premium and load in a blink.
+- [SEO & Performance](https://www.codebunny.net/services/seo/): Technical and local SEO, schema and Core Web Vitals, baked in from day one.
+- [Website Redesign](https://www.codebunny.net/services/website-redesign/): Turn a dated, slow site into your best salesperson, without losing rankings.
+- [E-commerce & Booking Sites](https://www.codebunny.net/services/ecommerce/): Storefronts, booking flows and Stripe checkout, ready to sell on day one.
+- [Mobile App Development](https://www.codebunny.net/services/mobile-app-development/): iOS and Android apps with React Native, from wireframe to store launch.
+- [Custom Software & AI Automation](https://www.codebunny.net/services/software-development/): Dashboards, APIs, internal tools and AI chatbots trained on your business.
+
+## Industries
+- [Website Design for Coaches & Consultants](https://www.codebunny.net/industries/coaches/)
+- [Websites for Wedding Photographers & Videographers](https://www.codebunny.net/industries/photographers/)
+- [Website Design for Solar Companies & Installers](https://www.codebunny.net/industries/solar/)
+- [Website Design for Local & Small Businesses](https://www.codebunny.net/industries/local-business/)
+
+## Selected live work
+- [Dan Reynolds Photography](https://www.danreynoldsphotography.com/) (Chicago & Peoria, Illinois, USA): A cinematic, editorial site for a top-10 Illinois wedding photography and film duo, built to turn browsing couples into booked dates.
+- [CustomBotify](https://custombotify.com/) (SaaS · Global): A no-code AI chatbot builder for small businesses: white-label ready, Stripe billing built in, and a clean dashboard clients love.
+- [Thrill Lands](https://thrill-lands.com/) (Entertainment venue): An immersive site for an escape-room and thrill venue, with event booking, features and reviews built to convert thrill-seekers.
+- [Mark Arista Films](https://aristafilms.codebunny.net/) (Oahu, Hawaii, USA): Story-led wedding films from Kualoa Ranch to Four Seasons Oahu, presented in a site as warm and cinematic as the work itself.
+- [Eco Horizon](https://ecohorizon.codebunny.net/) (Ireland): Solar PV, battery and EV charging for Irish homes, businesses and farms, with SEAI and TAMS 3 grant journeys made simple.
+- [High Fifteen](https://highfifteen.codebunny.net/) (Executive coaching): Executive coaching and TEDx speaking for leaders building inclusive, high-performance cultures without burnout.
+- [Captured by Katherine](https://capturedbykatherine.codebunny.net/) (Brisbane, Australia): Candid wedding, family and formal photography since 2009, with a date-availability check that takes seconds.
+- [Alpha Visuals](https://alphavisuals.codebunny.net/) (Christchurch, New Zealand): Candid, cinematic wedding films in 4K and real Super 8mm, filmed worldwide from Christchurch and Adelaide.
+- [Jack Albert Weddings](https://jackalbert.codebunny.net/) (Ottawa Valley, Canada): Warm, cinematic wedding films across Renfrew County, Pembroke, Ottawa and Kingston.
+- [The Things That I See](https://thethingsthatisee.codebunny.net/) (Denver, Colorado, USA): Honest, reverent Catholic and Christian wedding photography and film, rooted in Centennial, Colorado.
+- [Co-Allies](https://co-allies.codebunny.net/) (Montréal, Canada): Fertility, transition and conscious-leadership coaching, designed to feel safe, warm and deeply human.
+- [Take Root Life Coaching](https://takerootlifecoaching.codebunny.net/) (Life coaching): Whole-person life coaching with a calm, grounded brand and a free First Step call at the centre of every page.
+- [Insight Transformational Coaching](https://insighttransform.codebunny.net/) (Life coaching for women): Three clear coaching tiers for women ready to move from wishing to action, with a free get-to-know-you session.
+- [George Dupont Leadership](https://thechampionmindsetacademy.codebunny.net/) (Sports & C-suite leadership): DynastyDNA™, a leadership and culture system from a former pro hockey captain, positioned for franchises and C-suites.
+- [Polish](https://polish.codebunny.net/) (Auckland, New Zealand): Executive coaching, AI leadership programmes and keynote speaking across New Zealand and Australia.
+- [Live in Flow Coaching](https://liveinflowcoaching.codebunny.net/) (Vancouver, Canada): Career-transition coaching for tech professionals, from an ICF PCC coach, built around a free 20-minute call.
+- [Lasting Change Wellness](https://lastingchangewellness.codebunny.net/) (Wellness coaching): The S.H.I.N.E. method for impact-driven women, from a former psychologist and board-certified wellness coach.
+- [Sharon Tabak](https://sharontabak.codebunny.net/) (Life transition coaching): Trauma, identity and life-transition coaching from a certified Jay Shetty Life Coach.
+- [Arielle Innou Coaching](https://arielleinnoucoaching.codebunny.net/) (Toronto, Canada): Life, relationship and corporate coaching plus restorative retreats, in a calm and confident brand.
+- [Lauren Powers](https://beneaththemuscle.codebunny.net/) (Fitness & personal brand): A bold personal brand for a 10-time bodybuilding champion, TV host and best-selling author.
+- [Lithium Solar Energy](https://lisolarenergy.codebunny.net/) (Southern California, USA): Solar, battery backup and EV charging for SoCal homes and businesses, from a Yucaipa team with 17+ years in power.
+- [SunFlow Solar & Exteriors](https://sunflow.codebunny.net/) (Barrie, Ontario, Canada): Solar, roofing and luxury exteriors, with incentive messaging up front and a free consultation flow.
+- [Watthaus Strategy](https://watthaus.codebunny.net/) (Auckland, New Zealand): Rooftop solar for homes and land-to-construction for utility-scale solar farms across New Zealand.
+- [MDJ Mortgages](https://mdj1.codebunny.net/) (Basingstoke, UK): Award-winning mortgage and protection advice, with 186 five-star Google reviews front and centre.
+- [Carole St-Pierre Salon & Spa](https://carolest-pierre.codebunny.net/) (Vaudreuil-Dorion, Québec, Canada): An Aveda Concept salon and eco-responsible spa: hair, facials, laser, aesthetics and bridal, bookable online.
+- [IB Refrigeration & Engineering](https://ibrefrigeration.codebunny.net/) (Nagpur, India): Display counters, food carts and complete commercial kitchens from a 4.9★ manufacturer, presented as a product catalog.
+- [Dance Cart](https://dancecart.codebunny.net/) (Australia): Curriculum-aligned dance programs for Australian primary schools, which schools can browse, enrol in and pay for online.
+- [VINC Learning Centre](https://vinc-lab.com/) (Bengaluru, India): Hands-on robotics, electronics and AI for Grades 6–12, plus career courses for undergraduates.
+- [STEAM-IE](https://steamie.net/) (India): India's first credentialing company for STEAM education, innovation and entrepreneurship.
+- [LaunchMint](https://launchmint.store/) (Digital product): A high-conversion checkout page for a digital product, with an urgency countdown, social proof and one-click checkout.
