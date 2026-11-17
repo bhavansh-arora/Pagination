@@ -1,6 +1,6 @@
 === solar-company-website-guide
 title: How to Build a Solar Company Website That Generates Leads
-desc: A complete guide to solar company website design: the pages, calculators, trust signals and quote forms that turn researching homeowners into booked consultations.
+desc: A complete guide to solar company website design: the pages, calculators, trust signals and quote forms that turn researching homeowners into consultations.
 cat: solar
 kw: solar company website, solar website design, solar installer website, solar lead generation website
 takeaways: Solar buyers research for weeks, so your site must educate as well as sell | A savings calculator and a short quote form are the two highest-converting features | Certifications, warranties and local reviews do the trust-building | Separate pages for homes, businesses and farms let each audience find its own answers
@@ -115,7 +115,7 @@ Usually three to five weeks, including the calculator and CRM integration.
 
 === solar-lead-generation
 title: Solar Lead Generation: 15 Ways to Get More Quote Requests
-desc: Fifteen proven ways for solar installers to generate more qualified leads from their website, Google, reviews, referrals and content, without buying shared leads.
+desc: Fifteen proven ways for solar installers to generate qualified leads from their website, Google, reviews, referrals and content, without buying shared leads.
 cat: solar
 kw: solar lead generation, solar leads, how to get solar leads, solar marketing
 takeaways: Leads you generate yourself convert far better than bought, shared leads | Your website, Google Business Profile and reviews form the foundation | Calculators and incentive guides capture people still researching | Speed of follow-up often matters more than lead volume

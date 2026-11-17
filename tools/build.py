@@ -108,7 +108,7 @@ NAV = [("Work", "/work/"), ("Services", "/services/"), ("Industries", "/industri
 
 def head(*, path, title, desc, schema, og_image="og-default.jpg", noindex=False, preload_img=None, og_type="website", extra_meta=""):
     url = BASE + path
-    full_title = title if "Code Bunny" in title else f"{title} | Code Bunny"
+    full_title = title if ("Code Bunny" in title or len(title) > 47) else f"{title} | Code Bunny"
     graph = {"@context": "https://schema.org", "@graph": org_graph() + [
         {"@type": "WebPage", "@id": url + "#webpage", "url": url, "name": strip(full_title), "description": desc, "isPartOf": {"@id": BASE + "/#website"}, "about": {"@id": ORG_ID}, "inLanguage": "en", "dateModified": TODAY}
     ] + schema}

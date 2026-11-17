@@ -111,7 +111,7 @@ Yes. Interior photography is a specialism, and it's the single best investment f
 
 === school-education-website
 title: Website Design for Schools, Academies and Learning Centres
-desc: What schools, tutoring centres and training providers need from a website: clear programmes, admissions and enrolment flows, trust signals and parent-friendly design.
+desc: What schools, tutoring centres and training providers need from a website: clear programmes, online enrolment, trust signals and parent-friendly design.
 cat: local
 kw: school website design, education website, learning centre website, tutoring website, training academy website
 takeaways: Parents and students want programmes, outcomes, fees and how to enrol, fast | Online enrolment and payment remove friction for busy families | Show real classrooms, teachers and student work | Separate paths for different audiences keep the site easy to navigate

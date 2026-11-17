@@ -1,6 +1,6 @@
 === wedding-photographer-blog-ideas
 title: 40 Blog Post Ideas for Wedding Photographers (That Bring in Enquiries)
-desc: Forty blog post ideas for wedding photographers and videographers, grouped by what they achieve: ranking for venues, answering couples' questions and showing your style.
+desc: Forty blog post ideas for wedding photographers and videographers, grouped by goal: ranking for venues, answering couples' questions and showing your style.
 cat: photographers
 kw: wedding photographer blog ideas, photography blog post ideas, what to blog about photographer, wedding blog topics
 takeaways: Blog for couples, not for other photographers | Real weddings and venue guides bring in the most ready-to-book traffic | Planning advice builds trust months before a couple enquires | One strong post a month is enough if every post has a job
