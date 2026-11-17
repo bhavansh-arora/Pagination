@@ -332,7 +332,7 @@ body.header-light .site-header:not(.is-scrolled) .menu-toggle { background: var(
 .js [data-reveal="fade"] { transform: none; }
 .js [data-reveal="scale"] { transform: scale(.96); }
 .js [data-reveal].is-in { opacity: 1; transform: none; transition: opacity .6s var(--ease-out), transform .7s var(--ease-out); transition-delay: min(var(--d, 0s), .3s); }
-.split-line { display: inline-block; overflow: hidden; vertical-align: top; padding: .04em .12em .26em .02em; margin: -.04em -.12em -.26em -.02em; }
+.split-line { display: inline-block; vertical-align: top; }
 .split-line > span { display: inline-block; will-change: transform; }
 .js [data-split] .split-line > span { transform: translateY(110%); }
 .js [data-split].is-in .split-line > span { transform: none; transition: transform .8s var(--ease-out); transition-delay: calc(min(var(--d, 0s), .2s) + var(--i, 0) * 0.035s); }
@@ -1426,7 +1426,6 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 }
 
 /* Phones & tablets: content is always present, never waiting on a reveal */
-.lite [data-reveal], .lite [data-reveal].is-in, .lite [data-split] .split-line > span { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
 /* Images show a soft placeholder tone while they arrive */
 .media img, .hpanel__bg img, .seasons__img img, .pill-img img, .finder__result-bg img { background: var(--paper-3); }
 
@@ -1469,3 +1468,21 @@ svg.ext { display: inline-block; width: .82em; height: .82em; margin-left: .22em
   .finder-dots span { width: 6px; height: 6px; border-radius: 999px; background: var(--line-dark-2); transition: width .4s var(--ease-out), background .3s; }
   .finder-dots span.is-on { width: 22px; background: var(--ember); }
 }
+
+/* ==========================================================================
+   Text animation (restored): word-by-word headings, soft rise for body text.
+   Never clipped, never fully empty, triggered before content enters view.
+   ========================================================================== */
+.js [data-split] { opacity: 1; transform: none; }
+.js [data-split] .split-line > span { opacity: 0; transform: translateY(.42em); filter: blur(6px); }
+.js [data-split].is-in .split-line > span { opacity: 1; transform: none; filter: blur(0); transition: opacity .7s var(--ease-out), transform .8s var(--ease-out), filter .7s var(--ease-out); transition-delay: calc(min(var(--d, 0s), .2s) + min(var(--i, 0) * 0.045s, .5s)); }
+.js [data-reveal] { opacity: .18; transform: translateY(18px); }
+.js [data-reveal="fade"] { transform: none; }
+.js [data-reveal="mask"] { opacity: 1; }
+.js [data-reveal].is-in { opacity: 1; transform: none; transition: opacity .7s var(--ease-out), transform .8s var(--ease-out); transition-delay: min(var(--d, 0s), .3s); }
+.js [data-reveal="mask"].is-in { transition: clip-path .8s var(--ease-out); }
+/* Phones: same choreography, lighter and quicker (no blur) */
+.lite [data-split] .split-line > span { filter: none; transform: translateY(.35em); }
+.lite [data-split].is-in .split-line > span { filter: none; transition: opacity .55s var(--ease-out), transform .6s var(--ease-out); transition-delay: min(var(--i, 0) * 0.035s, .35s); }
+.lite [data-reveal].is-in { transition: opacity .55s var(--ease-out), transform .6s var(--ease-out); transition-delay: min(var(--d, 0s), .2s); }
+@media (prefers-reduced-motion: reduce) { .js [data-split] .split-line > span, .js [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; } }
