@@ -173,16 +173,16 @@
     walk(el);
     el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
   }
-  $$("[data-split]").forEach(function (el) { if (reduced || lite) el.classList.add("is-in"); });
+  $$("[data-split]").forEach(function (el) { if (!reduced) splitWords(el); else el.classList.add("is-in"); });
 
   /* ---------- Reveal on view ---------- */
   var revealEls = $$("[data-reveal], [data-split]");
-  if ("IntersectionObserver" in window && !reduced && !lite) {
+  if ("IntersectionObserver" in window && !reduced) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
       });
-    }, { rootMargin: "0px 0px 18% 0px", threshold: 0 });
+    }, { rootMargin: "0px 0px 25% 0px", threshold: 0 });
     revealEls.forEach(function (el) { io.observe(el); });
     // Stagger children helper
     $$("[data-stagger]").forEach(function (group) {
