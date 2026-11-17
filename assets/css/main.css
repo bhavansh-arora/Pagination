@@ -1436,3 +1436,36 @@ body.header-light .site-header:not(.is-scrolled) .logo__mark circle:first-child 
 .js [data-reveal="scale"] { transform: scale(.985); }
 .js [data-reveal].is-in, .js [data-split].is-in { opacity: 1; transform: none; transition: transform .7s var(--ease-out); transition-delay: min(var(--d, 0s), .25s); }
 .js [data-reveal="mask"].is-in { transition: clip-path .8s var(--ease-out); }
+
+/* Drawn external-link arrow (never rendered as an emoji) */
+svg.ext { display: inline-block; width: .82em; height: .82em; margin-left: .22em; vertical-align: -0.04em; flex: none; }
+
+/* Hero: supporting content follows the headline quickly, in order */
+.js.is-ready [data-hero-in] { transition: opacity .6s var(--ease-out), transform .7s var(--ease-out); }
+
+/* Rounded image cards always clip their photos (iOS Safari) */
+.finder__result, .hpanel--card, .path-card, .media, .zoom__media, .fcard { -webkit-mask-image: -webkit-radial-gradient(white, black); isolation: isolate; }
+.finder__result { clip-path: inset(0 round var(--r-xl)); }
+
+/* Finder on phones: swipeable situation cards */
+.finder-m { display: none; }
+@media (max-width: 960px) {
+  .finder-sec .finder, .finder-sec .finder__hint { display: none; }
+  .finder-m { display: grid; gap: 14px; }
+  .finder-m__hint { color: var(--on-dark-3); }
+  .finder-rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); -webkit-overflow-scrolling: touch; }
+  .finder-rail::-webkit-scrollbar { display: none; }
+  .fcard { position: relative; flex: 0 0 84%; max-width: 380px; min-height: 420px; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; padding: 22px; border-radius: var(--r-xl); overflow: hidden; color: var(--on-dark); }
+  .fcard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; background: var(--forest-2); }
+  .fcard::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(8, 20, 16, .72) 0%, rgba(8, 20, 16, .35) 38%, rgba(8, 20, 16, .55) 60%, rgba(8, 20, 16, .95) 100%); }
+  .fcard__q { font-family: var(--serif); font-size: 1.45rem; line-height: 1.18; letter-spacing: -0.02em; font-weight: 440; font-variation-settings: "SOFT" 80, "opsz" 72; }
+  .fcard__foot { display: grid; gap: 8px; }
+  .fcard__kicker { color: #ffc6a8; }
+  .fcard__title { font-family: var(--serif); font-size: 1.75rem; line-height: 1; letter-spacing: -0.03em; font-weight: 460; }
+  .fcard__title em { font-style: italic; color: #ffc6a8; font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72; }
+  .fcard__cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 6px; height: 48px; padding: 0 8px 0 18px; border-radius: 999px; background: var(--paper-2); color: var(--ink); font-weight: 650; font-size: .92rem; }
+  .fcard__cta svg { width: 32px; height: 32px; padding: 8px; border-radius: 50%; background: var(--ember); color: #fff; flex: none; }
+  .finder-dots { display: flex; justify-content: center; gap: 6px; }
+  .finder-dots span { width: 6px; height: 6px; border-radius: 999px; background: var(--line-dark-2); transition: width .4s var(--ease-out), background .3s; }
+  .finder-dots span.is-on { width: 22px; background: var(--ember); }
+}
