@@ -322,6 +322,49 @@
       }, reduced ? 0 : 320);
     }
     opts.forEach(function (o) { o.addEventListener("click", function () { choose(o.getAttribute("data-key"), o); }); });
+    // Phones: a swipeable row of situation cards (same content as the desktop selector)
+    (function buildRail() {
+      var arrowSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      var wrap = document.createElement("div");
+      wrap.className = "finder-m";
+      var rail = document.createElement("div");
+      rail.className = "finder-rail";
+      rail.setAttribute("aria-label", "Situations, swipe to explore");
+      opts.forEach(function (o) {
+        var d = data[o.getAttribute("data-key")];
+        if (!d) return;
+        var a = document.createElement("a");
+        a.className = "fcard";
+        a.href = d.href;
+        a.innerHTML = '<img src="' + d.img + '" alt="" loading="lazy" decoding="async">' +
+          '<span class="fcard__q">' + o.textContent.trim() + '</span>' +
+          '<span class="fcard__foot"><span class="mono fcard__kicker">' + d.kicker + '</span>' +
+          '<span class="fcard__title">' + d.title + '</span>' +
+          '<span class="fcard__cta">' + d.cta + arrowSvg + '</span></span>';
+        rail.appendChild(a);
+      });
+      var dots = document.createElement("div");
+      dots.className = "finder-dots";
+      dots.setAttribute("aria-hidden", "true");
+      opts.forEach(function (_, k) { var s = document.createElement("span"); if (!k) s.className = "is-on"; dots.appendChild(s); });
+      var hint = document.createElement("p");
+      hint.className = "mono finder-m__hint";
+      hint.textContent = "Swipe to find the one that sounds like you";
+      wrap.appendChild(hint); wrap.appendChild(rail); wrap.appendChild(dots);
+      finder.parentNode.insertBefore(wrap, finder.nextSibling);
+      var tick = null;
+      rail.addEventListener("scroll", function () {
+        if (tick) return;
+        tick = requestAnimationFrame(function () {
+          tick = null;
+          var card = rail.querySelector(".fcard");
+          if (!card) return;
+          var step = card.getBoundingClientRect().width + 12;
+          var idx = Math.max(0, Math.min(opts.length - 1, Math.round(rail.scrollLeft / step)));
+          Array.prototype.forEach.call(dots.children, function (s, k) { s.classList.toggle("is-on", k === idx); });
+        });
+      }, { passive: true });
+    })();
     window.__finderSelect = function (i) { var o = opts[i]; if (o && o.getAttribute("aria-pressed") !== "true") choose(o.getAttribute("data-key"), o); };
   }
 

@@ -59,6 +59,7 @@ ICONS = {
     "chat": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v10H9l-5 4z"/></svg>',
     "sun": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>',
     "path": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></svg>',
+    "ext": '<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>',
     "info": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.2"/></svg>',
     "star": '<svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true"><path d="M20 0c1.3 10.6 8.4 18 20 20-11.6 2-18.7 9.4-20 20C18.7 29.4 11.6 22 0 20 11.6 18 18.7 10.6 20 0z"/></svg>',
 }
@@ -327,6 +328,7 @@ def build():
         ]
         html = "\n".join(page)
         html = re.sub(r'class="([^"]*?)\s+"', r'class="\1"', html)
+        html = html.replace("↗", ICONS["ext"])
         (ROOT / f"{path.stem}.html").write_text(html, encoding="utf-8")
         out.append(path.stem)
     # sitemap
