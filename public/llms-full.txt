@@ -5542,3 +5542,1799 @@ Typical ranges, yes. They're among the most searched questions and avoiding them
 
 ### Do FAQs help with SEO?
 Yes. Each is a chance to match a specific search, and structured answers are favoured by both search engines and AI tools.
+
+---
+
+# Local SEO for Small Businesses: The Complete 2026 Guide
+URL: https://www.codebunny.net/blog/local-seo-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A complete local SEO guide for small businesses: Google Business Profile, reviews, on-page signals, citations, local content and how to appear in map results.
+
+Key takeaways:
+- Local rankings depend on relevance, distance and prominence
+- Your Google Business Profile and reviews drive the map results
+- Your website needs clear service and location pages with consistent contact details
+- Steady, small actions every month beat one big push
+
+When someone nearby searches for what you do, Google shows a map with three businesses, then a list of websites. Local SEO is the work of getting into both. For most small businesses it's the highest-return marketing there is: the people searching are close, ready and looking for exactly what you sell.
+
+## How Google decides local rankings
+
+Google has said local results depend mainly on three things:
+
+- **Relevance:** how well your business matches the search
+- **Distance:** how close you are to the searcher or the place named
+- **Prominence:** how well known and trusted you are, online and off
+
+You can't move your premises, but you can improve relevance and prominence a great deal.
+
+## 1. Google Business Profile
+
+This is the foundation. A complete, active profile is the biggest single factor for map visibility.
+
+- Claim and verify it
+- Choose the most specific primary category
+- Fill in every field: hours, services, description, attributes
+- Add photos every week or two
+- Post updates monthly
+- Answer questions
+
+Step-by-step in our Google Business Profile optimisation checklist (/blog/google-business-profile-optimization/).
+
+## 2. Reviews
+
+Reviews influence rankings and whether people choose you once they see you.
+
+- Ask every happy customer, at the moment they're happiest
+- Send a direct link by text or email
+- Reply to every review within a few days
+- Aim for a steady flow; recency matters
+
+## 3. Your website
+
+Google reads your site to understand what you do and where.
+
+### Essentials
+
+- **Name, address and phone (NAP)** in the footer of every page, identical to your profile
+- **Location in title tags and headings:** "Emergency Plumber in Leeds"
+- **A page for each service**
+- **A page for each key area you serve** (how to build them (/blog/local-landing-pages/))
+- **An embedded map** on the contact page
+- **Local business schema** (schema guide (/blog/schema-markup-guide/))
+- **Fast, mobile-friendly pages** (Core Web Vitals (/blog/core-web-vitals-explained/))
+
+### Content
+
+Write for local customers: local projects, area guides, answers to questions people in your town ask.
+
+## 4. Citations
+
+Citations are listings of your business details on other sites: Yelp, Bing Places, Apple Business Connect, Facebook, industry directories, local chambers. They matter less than they once did, but consistency still counts.
+
+- Make sure your NAP is identical everywhere
+- Claim the major platforms
+- Fix old addresses or phone numbers
+
+## 5. Local links
+
+Links from other local websites are a strong prominence signal.
+
+- Sponsor a local team or event
+- Join the chamber of commerce
+- Partner with complementary businesses
+- Get featured in local news
+- Supply a testimonial to a local supplier
+
+## 6. Behaviour signals
+
+Google notices when people click your listing, ask for directions and call. Good photos, a strong rating and accurate hours all increase those actions.
+
+## 7. Apple, Bing and AI
+
+Local search isn't only Google.
+
+- **Apple Business Connect** powers Apple Maps and Siri
+- **Bing Places** powers Bing and Copilot, and feeds some AI assistants
+- **AI search** (ChatGPT, Perplexity, Google AI Overviews) draws on your website, listings and reviews
+
+Clear facts and consistent details across all of them help. See how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+## A monthly local SEO routine (about an hour)
+
+| Task | Time |
+| --- | --- |
+| Add 3 to 5 new photos to your profile | 10 min |
+| Publish one Google post | 10 min |
+| Reply to all new reviews | 10 min |
+| Ask recent customers for reviews | 10 min |
+| Check Search Console for issues | 10 min |
+| Update one page or add one piece of local content | 10+ min |
+
+## Common mistakes
+
+- Keyword stuffing your business name
+- Different phone numbers on different sites
+- One generic "services" page
+- Ignoring negative reviews
+- Dozens of thin, duplicate location pages
+- A slow, outdated website
+
+## How long does it take?
+
+Profile improvements can show within weeks. Building a lead over established competitors usually takes three to six months of consistent effort. See how long does SEO take? (/blog/how-long-does-seo-take/)
+
+## Frequently asked questions
+
+### Do I need a physical address to rank locally?
+No. Service-area businesses can hide their address and list the areas they cover.
+
+### How many reviews do I need?
+Enough to beat the competitors shown beside you, with new ones arriving regularly.
+
+### Is local SEO different from regular SEO?
+It's a branch of it. The same fundamentals apply, with extra weight on your business profile, reviews and location signals.
+
+---
+
+# Google Business Profile Optimization Checklist (2026)
+URL: https://www.codebunny.net/blog/google-business-profile-optimization/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A step-by-step checklist to optimise your Google Business Profile: categories, description, services, photos, reviews, posts and the mistakes to avoid.
+
+Key takeaways:
+- Complete every field; incomplete profiles are outranked by complete ones
+- The primary category is the most important single choice
+- Fresh photos, posts and review replies signal an active business
+- Never stuff keywords into your business name
+
+Your Google Business Profile is often the first thing a customer sees: before your website, before your shopfront. It's free, it takes an hour to do well, and most of your competitors have done it badly. Work through this checklist and you'll be ahead of most of them.
+
+## Setup
+
+- [ ] **Claim or create** your profile at google.com/business
+- [ ] **Verify** it (video, phone or postcard)
+- [ ] **Add a second owner** so you're never locked out
+
+## Core information
+
+- [ ] **Business name:** exactly as on your signage. No added keywords or locations.
+- [ ] **Primary category:** the most specific match ("Hair salon", not "Beauty")
+- [ ] **Secondary categories:** up to nine, only if they truly apply
+- [ ] **Address or service area:** hide your address if customers don't visit
+- [ ] **Phone number:** a local number that's answered
+- [ ] **Website:** your homepage, or the most relevant page for that location
+- [ ] **Hours:** including holidays and special hours
+- [ ] **Appointment or booking link**
+
+## Description
+
+- [ ] 750 characters; put the essentials in the first 250
+- [ ] What you do, who for and where
+- [ ] What makes you different
+- [ ] Natural language; no keyword lists
+
+## Services and products
+
+- [ ] Every service listed with a short description
+- [ ] Prices or "from" prices where possible
+- [ ] Products with photos if you sell them
+- [ ] Menu link for restaurants
+
+## Attributes
+
+- [ ] Accessibility, payment options, ownership attributes, amenities
+- [ ] Anything customers filter by: "wheelchair accessible", "online appointments"
+
+## Photos and video
+
+- [ ] Logo and cover photo
+- [ ] Exterior shots so people can find you
+- [ ] Interior shots
+- [ ] Team photos
+- [ ] Work examples: before and afters, finished jobs, dishes
+- [ ] Short videos
+- [ ] **New photos added at least monthly**
+
+Businesses with plenty of recent, real photos get more clicks, calls and direction requests.
+
+## Reviews
+
+- [ ] Create your short review link
+- [ ] Ask every satisfied customer
+- [ ] Reply to every review, good or bad
+- [ ] Never offer rewards for reviews
+- [ ] Report fake reviews through the profile
+
+## Posts
+
+- [ ] One post every week or two: offers, news, events, new work
+- [ ] A photo and a call-to-action button on each
+
+## Questions and answers
+
+- [ ] Add your own common questions and answer them
+- [ ] Monitor for new questions
+
+## Messaging
+
+- [ ] Turn on only if you can reply quickly
+- [ ] Set a welcome message
+
+## Connect it to your website
+
+- [ ] Name, address and phone on your site match the profile exactly
+- [ ] Local business schema on your site (how (/blog/schema-markup-guide/))
+- [ ] Embed the Google map on your contact page
+- [ ] Link to your profile from your site and ask for reviews there
+
+## Track performance
+
+- [ ] Check the Performance tab monthly: searches, views, calls, direction requests
+- [ ] Add tracking parameters to your website link so visits show in analytics
+
+## What to avoid
+
+| Mistake | Why it hurts |
+| --- | --- |
+| Keywords in business name | Risk of suspension |
+| Virtual office addresses | Against guidelines |
+| Duplicate profiles | Splits reviews and confuses Google |
+| Ignoring bad reviews | Looks careless to customers |
+| Wrong hours | Frustrated customers, poor reviews |
+
+## Keep it alive
+
+A profile isn't a set-and-forget job. Ten minutes a week keeps it fresh. For the wider picture, see our local SEO guide (/blog/local-seo-guide/).
+
+## Frequently asked questions
+
+### How long does it take to see results?
+Changes can show within days, but meaningful ranking gains usually take a few weeks of consistent activity.
+
+### Can I list more than one location?
+Yes, one profile per genuine, staffed location.
+
+### What should I do if my profile is suspended?
+Review Google's guidelines, fix any violations (often the business name or address) and submit a reinstatement request with evidence.
+
+---
+
+# How to Create Local Landing Pages That Rank
+URL: https://www.codebunny.net/blog/local-landing-pages/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to build location and service-area landing pages that rank on Google without duplicate content, with a template and examples for small businesses.
+
+Key takeaways:
+- Each page must offer something unique and useful about that location
+- Combine service and location in the title, heading and opening paragraph
+- Local proof, such as projects, reviews and photos, is what separates ranking pages from doorway pages
+- Start small with your most valuable areas
+
+If you serve more than one town, a single homepage can't rank everywhere. Local landing pages give each area its own page to match searches like "roof repair Peoria" or "life coach Vancouver". The catch: Google has seen millions of lazy versions and filters them out. Yours need to be genuinely useful.
+
+## When you need them
+
+- You serve multiple towns, cities or neighbourhoods
+- You have more than one location
+- You want to rank beyond your immediate address
+
+## The anatomy of a page that ranks
+
+### Title tag and H1
+
+"[Service] in [Location]" plus your brand.
+
+- Title: "Mortgage Broker in Basingstoke | MDJ Mortgages"
+- H1: "Mortgage advice Basingstoke trusts"
+
+### Opening paragraph
+
+Confirm the service and the place in the first two sentences, naturally.
+
+### Local proof
+
+This is what makes the page unique:
+
+- Projects or clients in that area
+- Reviews from local customers
+- Photos taken there
+- How long you've served the area
+
+### Local detail
+
+- Neighbourhoods or postcodes covered
+- Landmarks and travel information
+- Regulations, conditions or needs specific to the area
+- Local pricing notes, if they vary
+
+### Services available there
+
+Summaries with links to full service pages.
+
+### FAQs
+
+Questions real customers in that area ask.
+
+### Contact and map
+
+Address or service area, phone, hours, an embedded map and a form.
+
+### A clear call to action
+
+"Book a free consultation in Basingstoke."
+
+## How long should they be?
+
+Typically 500 to 1,000 words. Length isn't the goal; uniqueness is. If you can swap the town name and the page still makes sense, it isn't local enough.
+
+## Avoiding duplicate content
+
+- Write each page from scratch around its local proof
+- Use different photos, reviews and examples
+- Vary structure where it makes sense
+- Don't publish a page until you have something specific to say
+
+## Site structure
+
+- An index page: `/areas/` or `/locations/`
+- One page per place: `/areas/basingstoke/`
+- Links from the homepage footer and relevant service pages
+- Links between nearby areas
+
+See our internal linking guide (/blog/internal-linking-guide/).
+
+## Schema
+
+Use LocalBusiness schema with the correct address or `areaServed`, and FAQ schema for the questions. Details in the schema markup guide (/blog/schema-markup-guide/).
+
+## Service + location combinations
+
+Larger businesses sometimes build pages for every service in every location. That multiplies quickly (10 services × 20 towns = 200 pages) and is hard to keep unique. Start with:
+
+1. A page for each service
+2. A page for each priority area
+3. Combination pages only for your most valuable pairs
+
+## Multi-location businesses
+
+If you have several physical branches, each needs:
+
+- Its own page with unique content, team and photos
+- Its own Google Business Profile linking to that page
+- Its own reviews
+
+## Measure
+
+In Search Console, filter by page to see which searches each landing page appears for. Improve pages that rank on page two; they're closest to paying off. See our Search Console guide (/blog/google-search-console-guide/).
+
+## Examples of clear local positioning
+
+## Frequently asked questions
+
+### How many location pages should I create?
+Start with five to ten for the areas that matter most. Add more as you gather local proof.
+
+### Can I rank in a town where I have no office?
+Yes, with a strong page and real evidence you serve it. Map results are harder without a nearby address; organic results are achievable.
+
+### Should each page have its own phone number?
+Only if calls are genuinely answered locally. Otherwise use your main number consistently.
+
+---
+
+# Salon & Spa Website Guide: Booking, Pricing and Local SEO
+URL: https://www.codebunny.net/blog/salon-website-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to build a salon or spa website that fills your appointment book: online booking, service menus, galleries, team pages and local search visibility.
+
+Key takeaways:
+- Online booking is the most important feature; put it one tap away
+- A clear service menu with prices reduces calls and no-shows
+- Photos of real work and your space sell better than stock images
+- A Google Business Profile with reviews brings in new local clients
+
+For a salon or spa, a website has a simple job: get people booked. Clients decide fast, usually on their phone, often late in the evening when you're closed. If booking takes more than a couple of taps, they'll book somewhere else.
+
+## Online booking first
+
+- **A "Book now" button** in the header on every page, sticky on mobile
+- **Real-time availability** through your booking system (Fresha, Booksy, Vagaro, Square, Timely, GlossGenius)
+- **Embedded or seamlessly linked**, so it feels part of your site
+- **Deposits or card capture** to reduce no-shows
+- **Automatic reminders** by SMS and email
+
+More in online booking for small businesses (/blog/online-booking-for-small-business/).
+
+## A clear service menu
+
+Clients want to know what you offer and what it costs.
+
+- Group by category: cuts, colour, treatments, nails, massage, facials
+- Show prices or "from" prices
+- Add durations
+- Describe treatments in a sentence, especially spa services
+- Link each to booking
+
+Hiding prices leads to phone calls and lost bookings.
+
+## Show the work
+
+- **A gallery** of real results: colour transformations, styles, nails, before and afters
+- **Your space:** people choose a salon partly on atmosphere
+- **Instagram feed,** used sparingly so it doesn't slow the page
+
+Compress images properly; see image SEO (/blog/image-seo/).
+
+## Introduce the team
+
+A photo, name, specialities and a booking link for each stylist or therapist. Clients often choose a person, not just a salon.
+
+## Homepage essentials
+
+1. A striking image or short video of the salon or your work
+2. A headline that captures your vibe: "Sharp cuts. Sharper confidence."
+3. Book button
+4. Services overview
+5. Reviews
+6. Location, hours and a map
+7. Gift cards or offers
+
+## Extra pages worth having
+
+- **Bridal and events**
+- **Gift cards** with online purchase
+- **Products** you retail
+- **Policies:** cancellation, lateness, patch tests
+- **Careers** if you're hiring
+- **New client offer**
+
+## Local SEO for salons
+
+Most new clients search "hair salon near me" or "[treatment] [town]".
+
+- Complete your Google Business Profile and add your booking link (checklist (/blog/google-business-profile-optimization/))
+- Ask every happy client for a review
+- Put your suburb or town in page titles
+- Create pages for your key services: "Balayage in [Town]", "Bridal hair [Town]"
+
+Full strategy in our local SEO guide (/blog/local-seo-guide/).
+
+## Design notes
+
+- **Mood matters.** Luxury spa, edgy barbershop and friendly family salon need different palettes and type.
+- **Mobile first.** Most bookings happen on phones.
+- **Fast.** Heavy sliders and auto-playing video slow sites down.
+- **Accessible.** Good contrast and readable text sizes.
+
+## Bilingual and multi-location salons
+
+If you serve more than one language community, offer both. If you have several branches, give each its own page with address, hours, team and booking.
+
+## Buying a ready-made salon site
+
+If you'd like to launch quickly, a professionally designed site you can rebrand is an option. We sell a small number, including salon, barbershop and beauty designs, on our templates page (/templates/).
+
+## Frequently asked questions
+
+### Which booking system should I use?
+Choose one that suits your size and budget and integrates cleanly with your website. Fresha, Booksy, Square and Vagaro are common choices.
+
+### Should I list prices?
+Yes. "From" prices are fine where services vary.
+
+### Do I need a website if I have Instagram and a booking app?
+A website gives you a home that you control, ranks on Google, and brings everything (services, team, booking, reviews) together.
+
+---
+
+# Dental Practice Website Design: What New Patients Look For
+URL: https://www.codebunny.net/blog/dental-website-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What makes a dental website win new patients: reassuring design, clear treatments and fees, online booking, team profiles, reviews and local SEO.
+
+Key takeaways:
+- Many patients are nervous, so the site should feel calm, friendly and human
+- Make booking or requesting an appointment possible from every page
+- Treatment pages with clear explanations and fees rank well and build trust
+- Real team photos and patient reviews matter more than stock smiles
+
+Choosing a dentist is personal, and for many people a bit daunting. A new patient visiting your website is asking: will I be looked after, can I afford it, and how do I book? Answer those three questions clearly and you'll convert far more visitors than a site full of clinical jargon.
+
+## Reassurance comes first
+
+- **Warm, real photography** of your team and practice
+- **Friendly language:** "nervous patients welcome", "we'll go at your pace"
+- **A clean, bright design** that feels modern and hygienic
+- **Clear information** about what happens at a first visit
+
+## Make booking easy
+
+- A "Book appointment" button in the header and repeated down the page
+- Online booking if your practice system supports it; otherwise a short request form
+- A tappable phone number
+- Emergency appointment information clearly visible
+- Opening hours, including evenings and weekends
+
+## Treatment pages
+
+Give each main treatment its own page. Patients search by treatment: "teeth whitening [town]", "dental implants cost", "Invisalign near me".
+
+On each page:
+
+- What the treatment is, in plain English
+- Who it's for
+- What to expect, step by step
+- How long it takes
+- Fees or a guide price
+- Before-and-after photos (with consent)
+- FAQs
+- A booking button
+
+Typical pages: check-ups, hygiene, whitening, orthodontics and aligners, implants, veneers, crowns, emergency care, children's dentistry.
+
+## Fees and payment
+
+Publish a fee guide. Explain insurance, plans and finance options. Transparency removes one of the biggest barriers to booking.
+
+## Meet the team
+
+A photo, qualifications, registration number, special interests and a line of personality for each clinician. Patients like knowing who'll be treating them.
+
+## Reviews
+
+Display your Google rating and a selection of reviews. Stories from nervous patients who had a good experience are especially persuasive.
+
+## New patient section
+
+A dedicated page covering:
+
+- How to register
+- What happens at the first appointment
+- Forms to complete in advance
+- Offers for new patients
+- Parking, access and directions
+
+## Local SEO for dentists
+
+- A complete Google Business Profile with the right categories (checklist (/blog/google-business-profile-optimization/))
+- Reviews, requested consistently
+- Location in page titles
+- Treatment pages targeting "[treatment] [town]"
+- Dentist and LocalBusiness schema (guide (/blog/schema-markup-guide/))
+
+See the full local SEO guide (/blog/local-seo-guide/).
+
+## Compliance
+
+Dental marketing is regulated. Check your regulator's rules on:
+
+- Displaying registration numbers
+- Advertising claims and before-and-after images
+- Patient testimonials
+- Privacy and consent for forms
+
+When in doubt, ask your indemnity provider.
+
+## Accessibility
+
+Many patients are older or have accessibility needs. Use readable text sizes, good colour contrast and clear navigation. See web accessibility basics (/blog/website-accessibility-basics/).
+
+## A ready-made option
+
+Our Dentava dental design is a bright, reassuring practice site with a smile gallery and new-patient booking, available on the templates page (/templates/).
+
+## Frequently asked questions
+
+### Should a dental website show prices?
+Yes. A fee guide builds trust and reduces enquiries from people outside your price range.
+
+### Do we need online booking?
+It's increasingly expected. If your system doesn't support it, a simple appointment request form is the next best thing.
+
+### How do dental practices get more new patients online?
+A fast, reassuring website, strong treatment pages, an active Google Business Profile and a steady flow of reviews.
+
+---
+
+# Medical Clinic Website Guide: Trust, Access and Appointments
+URL: https://www.codebunny.net/blog/medical-clinic-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to build a medical clinic website patients trust: clear services, provider profiles, appointment booking, accessibility and privacy considerations.
+
+Key takeaways:
+- Patients need three things quickly: what you treat, who they'll see and how to book
+- Provider profiles with photos build trust before the first visit
+- Accessibility and privacy are essential, not optional
+- Keep health information accurate, reviewed and clearly dated
+
+A clinic website is often visited by someone who's worried, in pain or looking after a family member. They need clear answers quickly. The best healthcare sites are calm, well organised and easy to use for people of all ages and abilities.
+
+## The first screen
+
+- A reassuring headline: "Healthcare that feels personal again"
+- A real photo of your team or clinic
+- "Book an appointment" and a phone number
+- Opening hours and location
+- An emergency notice telling people what to do in an urgent situation
+
+## Services
+
+List what you offer, grouped sensibly: general practice, women's health, children's health, chronic disease management, vaccinations, minor procedures, mental health, allied health.
+
+Give key services their own pages with:
+
+- What's involved
+- Who it's for
+- How to prepare
+- Fees or coverage
+- How to book
+
+## Provider profiles
+
+For each clinician:
+
+- Professional photo
+- Qualifications and registration
+- Special interests
+- Languages spoken
+- Days available
+- A short personal note
+
+Patients often choose a doctor from these pages.
+
+## Appointments
+
+- Online booking integrated with your practice system
+- Telehealth options, if available
+- Clear instructions for repeat prescriptions and results
+- New patient registration forms
+- Cancellation policy
+
+More in online booking for small businesses (/blog/online-booking-for-small-business/).
+
+## Practical information
+
+- Address, parking, public transport and accessibility
+- Hours, including after-hours arrangements
+- Fees, insurance and billing
+- What to bring to a first appointment
+
+## Accessibility
+
+Healthcare sites serve people who may be elderly, unwell or using assistive technology.
+
+- Large, readable type and strong contrast
+- Clear headings and simple navigation
+- Keyboard-friendly forms
+- Alt text on images
+- Plain language
+
+See web accessibility basics (/blog/website-accessibility-basics/).
+
+## Privacy and security
+
+- HTTPS across the site
+- Don't collect sensitive health details through basic contact forms
+- Use secure, compliant systems for bookings and patient information
+- A clear privacy policy
+- Follow the rules that apply in your country (HIPAA, GDPR, local health privacy law)
+
+## Health content
+
+Articles and FAQs help patients and bring search traffic. Because health is a "your money or your life" topic, Google holds it to a high standard.
+
+- Have content written or reviewed by a clinician
+- Show the author and review date
+- Cite reputable sources
+- Avoid promising outcomes
+
+## Local SEO
+
+- Google Business Profile with categories, services and booking link
+- Reviews, within the bounds of your regulator's rules
+- Location in titles
+- MedicalClinic and Physician schema
+
+See our local SEO guide (/blog/local-seo-guide/).
+
+## Design
+
+Calm colours, plenty of white space, genuine photography. Avoid clutter and pop-ups. Speed matters: many patients are on phones.
+
+## A ready-made option
+
+Our Meridian Care Clinic design is a trust-building practice site with provider bios, services and appointment requests, available on the templates page (/templates/).
+
+## Frequently asked questions
+
+### Can patients book online through the website?
+Yes, by integrating your practice management or booking system.
+
+### What should a clinic never put on its site?
+Unverified health claims, patient information without consent, or forms that collect sensitive data insecurely.
+
+### How often should the site be updated?
+Whenever providers, hours, fees or services change, with a full review at least twice a year.
+
+---
+
+# Mortgage Broker Website: Turning Rate Shoppers into Clients
+URL: https://www.codebunny.net/blog/mortgage-broker-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What a mortgage broker website needs to generate enquiries: trust signals, calculators, service pages for each borrower type, reviews and compliant content.
+
+Key takeaways:
+- Trust is everything in financial services, so lead with reviews, credentials and real people
+- Calculators draw visitors in and start the conversation
+- Create a page for each borrower type: first-time buyers, remortgage, self-employed and more
+- Offer a free initial consultation with multiple ways to get in touch
+
+People looking for a mortgage are anxious about the biggest financial commitment of their lives. They compare several brokers and choose the one who seems most trustworthy and easiest to deal with. Your website's job is to be that broker before they've spoken to you.
+
+## Lead with trust
+
+- **Review rating and count** near the top: "5.0 on Google from 186 reviews"
+- **Awards and accreditations**
+- **Real photos** of the advisers
+- **Regulatory details** clearly displayed
+- **A friendly, human headline**
+
+MDJ Mortgages does this well: "The mortgage advice Basingstoke trusts, from people who pick up the phone."
+
+## Calculators
+
+Calculators are the most engaging feature on a mortgage site.
+
+- **How much could I borrow?**
+- **Monthly repayment**
+- **Stamp duty or closing costs**
+- **Remortgage savings**
+
+Show an instant indicative result, then offer a personalised figure from an adviser. It's value first, lead capture second.
+
+## A page for each client type
+
+Borrowers search for their own situation.
+
+- First-time buyers
+- Home movers
+- Remortgage / refinance
+- Self-employed and contractors
+- Buy-to-let / investment
+- Later-life lending
+- Poor credit
+- Protection and insurance
+
+Each page should explain the process, common worries, what documents are needed and include a relevant client story.
+
+## Explain the process
+
+Three or four steps from first chat to keys in hand. Reassure visitors that the first conversation is free and without obligation.
+
+## Make contact easy
+
+- Book a call (embedded calendar)
+- Request a callback
+- WhatsApp
+- Phone
+- A short enquiry form
+
+Different people prefer different routes. Offer several. See adding WhatsApp to your website (/blog/whatsapp-for-business-website/).
+
+## Fees
+
+Be upfront about how you're paid: fee-free, a fixed fee or a percentage. Transparency is both a regulatory requirement in many places and a trust builder.
+
+## Content that brings in borrowers
+
+- First-time buyer guides
+- "How much deposit do I need?"
+- "Can I get a mortgage if I'm self-employed?"
+- "Fixed vs variable rates"
+- Local property market updates
+
+Helpful guides rank on Google and position you as the expert. See how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/).
+
+## Compliance
+
+Financial promotions are regulated.
+
+- Include required risk warnings ("Your home may be repossessed...")
+- Display your regulatory status and firm reference number
+- Avoid guarantees
+- Keep rate examples current and representative
+- Have content approved through your compliance process
+
+## Local SEO
+
+- "Mortgage broker [town]" in titles and headings
+- Google Business Profile with reviews (checklist (/blog/google-business-profile-optimization/))
+- Local landing pages for nearby towns (how (/blog/local-landing-pages/))
+- FinancialService schema
+
+## Design
+
+Financial sites don't need to be dull. A warm, premium design with clear typography stands out against competitors' generic templates and signals competence.
+
+## Frequently asked questions
+
+### Do calculators need to be exact?
+They should be indicative and clearly labelled as such, with an invitation to get a personalised figure.
+
+### Should brokers show rates on their site?
+Only if you can keep them current and compliant. Many prefer to explain that rates depend on circumstances.
+
+### What converts best on a broker website?
+Strong reviews, a useful calculator and an easy way to book a free call.
+
+---
+
+# Restaurant Website Must-Haves: Menus, Bookings and Local Search
+URL: https://www.codebunny.net/blog/restaurant-website-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What every restaurant website needs: a readable menu, online reservations and ordering, great photos, hours, location and the local SEO to be found.
+
+Key takeaways:
+- Diners want four things fast: menu, hours, location and a way to book or order
+- Publish the menu as text, not only a PDF
+- Take direct bookings and orders to avoid high platform commissions
+- Keep your Google Business Profile and hours accurate at all times
+
+Someone's hungry. They open your website on their phone. They want to know what you serve, whether you're open, where you are and how to book. If they can't find all four within seconds, they'll pick another restaurant.
+
+## The essentials, above everything
+
+1. **Menu**
+2. **Hours**
+3. **Address** with a tap-to-navigate map link
+4. **Phone**, tappable
+5. **Book a table / Order online**
+
+Put these on the homepage and in the header or footer of every page.
+
+## The menu
+
+- **Use real text,** not just a PDF or image. Text loads fast, is readable on phones, works with screen readers and can be indexed by Google.
+- **Keep prices current.**
+- **Mark dietary options:** vegetarian, vegan, gluten-free, allergens.
+- **Organise clearly** by course or category.
+- **Offer a PDF as a download** if you like, alongside the text version.
+
+## Reservations
+
+- Embed your booking system (OpenTable, Resy, SevenRooms, ResDiary or a simple form)
+- Show a "Book a table" button everywhere
+- Allow notes for allergies and occasions
+- Send confirmation and reminder messages
+
+## Online ordering
+
+Third-party delivery apps bring reach and take a large commission. Direct ordering through your own site keeps the margin and the customer relationship.
+
+- Offer pickup and delivery through your own system where practical
+- Link clearly to it: "Order direct"
+- Still list delivery apps if you use them
+
+## Photography
+
+Food sells through pictures.
+
+- Invest in a short professional shoot
+- Show dishes, the room and the people
+- Compress images so the site stays fast (image SEO (/blog/image-seo/))
+- Avoid stock food photos
+
+## Tell your story
+
+A short about section: who you are, what you cook, where ingredients come from. People love to know.
+
+## Extras worth adding
+
+- Private dining and events enquiries
+- Gift vouchers
+- Catering menu
+- Upcoming events
+- Newsletter sign-up
+- Press and awards
+
+## Local search
+
+Most diners find restaurants through Google Maps.
+
+- Keep your Google Business Profile complete: menu link, booking link, photos, attributes (checklist (/blog/google-business-profile-optimization/))
+- Update hours for holidays
+- Reply to reviews
+- Add Restaurant and Menu schema (guide (/blog/schema-markup-guide/))
+
+See the full local SEO guide (/blog/local-seo-guide/).
+
+## Mobile and speed
+
+Nearly all restaurant browsing is on phones. Design for a thumb, test on mobile data and skip auto-playing music or heavy intro animations.
+
+## Common mistakes
+
+- Menu only as a huge PDF
+- Out-of-date hours
+- No prices
+- Music that plays automatically
+- A site that only works on desktop
+- Hidden address
+
+## Catering and food manufacturing
+
+If you supply equipment or cater commercially, a catalog-style site works well. IB Refrigeration, for example, presents display counters, food carts and commercial kitchen equipment as a browsable product range.
+
+## Frequently asked questions
+
+### Do restaurants still need a website with Instagram and delivery apps?
+Yes. A website is the one place you fully control, and it's what Google links to from your profile.
+
+### How often should the menu be updated?
+Whenever dishes or prices change. An out-of-date menu causes disappointment and bad reviews.
+
+### Can I take orders without paying commission?
+Yes, with a direct ordering system on your own site, paying only payment processing fees.
+
+---
+
+# Websites for Trades and Home Services: Get More Calls and Quotes
+URL: https://www.codebunny.net/blog/tradesperson-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What plumbers, electricians, roofers, builders and other trades need from a website to win more local jobs: trust, proof, service pages and easy contact.
+
+Key takeaways:
+- Customers want to know you're local, reliable and available
+- Click-to-call and a short quote form should be on every page
+- Photos of real jobs and reviews do the selling
+- A page per service and per area brings in Google traffic
+
+When a boiler breaks or a roof leaks, people search on their phone and call one of the first few businesses that look trustworthy. A trade website doesn't need to be fancy. It needs to be fast, clear and convincing in about ten seconds.
+
+## What customers are looking for
+
+1. Do you do the job I need?
+2. Do you cover my area?
+3. Can I trust you?
+4. How do I get hold of you right now?
+
+Design every page around those four questions.
+
+## Homepage must-haves
+
+- **A plain headline:** "Plumbing and heating in Leeds. Same-day callouts."
+- **A tappable phone number** at the top
+- **"Get a free quote" button**
+- **Trust strip:** years trading, review rating, accreditations, insurance
+- **Services** with icons or photos
+- **Areas covered**
+- **Recent work** photos
+- **Reviews**
+- **A short form** at the bottom
+
+## Service pages
+
+One page per main service, because customers search specifically: "boiler repair", "consumer unit replacement", "flat roof repair", "kitchen fitter".
+
+Each page: what's included, typical problems you solve, rough pricing or how you quote, photos, FAQs, and a call to action.
+
+## Area pages
+
+A page for each key town or district you cover, with local jobs and reviews. See how to create local landing pages (/blog/local-landing-pages/).
+
+## Proof
+
+- **Before-and-after photos** of real jobs
+- **Google reviews,** shown with stars and count
+- **Accreditations:** trade bodies, licences, Gas Safe, NICEIC, manufacturer approvals
+- **Insurance** and guarantees
+- **Photos of you and your van.** People like seeing who'll turn up.
+
+## Make contact effortless
+
+- Phone number in the header, sticky on mobile
+- WhatsApp button for photos of the problem (how to add it (/blog/whatsapp-for-business-website/))
+- A quote form with three or four fields plus photo upload
+- Emergency callout information
+- Opening hours
+
+## Pricing
+
+You don't need a full price list. Even a guide ("boiler service from £80", "callout fee £60") builds trust and filters time-wasters.
+
+## Local SEO
+
+For trades, Google Maps is the shop window.
+
+- Google Business Profile with service areas, photos of jobs and weekly updates (checklist (/blog/google-business-profile-optimization/))
+- Ask for a review after every job
+- Consistent name, address and phone everywhere
+- LocalBusiness schema
+
+Full plan in our local SEO guide (/blog/local-seo-guide/).
+
+## Keep it fast and simple
+
+- Loads in under two seconds on mobile
+- Large text and buttons
+- No pop-ups blocking the phone number
+- Works well in poor signal
+
+## Extras that help
+
+- A short video introducing yourself
+- Finance options for bigger jobs
+- A maintenance plan or service contract page
+- A blog answering common questions: "why is my boiler losing pressure?"
+
+## Commercial work
+
+If you also do commercial contracts, add a separate page with relevant accreditations, insurance levels and case studies. Business buyers look for different proof.
+
+## Frequently asked questions
+
+### Do I need a website if I get work from Facebook and word of mouth?
+A website makes you findable on Google, gives new customers confidence and works when referrals slow down.
+
+### How much should a trades website cost?
+A solid lead-generating site typically costs $1,500 to $5,000. See how much a website costs (/blog/how-much-does-a-website-cost-small-business/).
+
+### What's the most important feature?
+A phone number people can tap, followed closely by reviews.
+
+---
+
+# Online Booking for Small Businesses: How to Add It to Your Website
+URL: https://www.codebunny.net/blog/online-booking-for-small-business/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to add online booking to a small business website: choosing a tool, embedding it well, taking deposits, reducing no-shows and avoiding common mistakes.
+
+Key takeaways:
+- Online booking captures customers outside business hours
+- Choose a tool that fits your industry and syncs with your calendar
+- Embed booking on your own site and keep the path to two or three taps
+- Deposits and automated reminders cut no-shows significantly
+
+A large share of appointments are booked outside working hours, when nobody's answering the phone. Online booking means those customers can commit there and then, while you're with a client, at dinner or asleep.
+
+## Who benefits
+
+- Salons, barbers and spas
+- Clinics, dentists and therapists
+- Coaches and consultants
+- Fitness studios and personal trainers
+- Photographers
+- Trades offering fixed-price services or assessments
+- Restaurants and venues
+
+If customers book time with you, it applies.
+
+## Choosing a booking tool
+
+| Need | Popular options |
+| --- | --- |
+| One-to-one calls and consultations | Calendly, TidyCal, Cal.com, Google Calendar booking |
+| Salons and spas | Fresha, Booksy, Vagaro, Timely |
+| Classes and studios | Mindbody, Momence, Acuity |
+| Clinics | Cliniko, Jane, practice-specific systems |
+| Restaurants | OpenTable, Resy, ResDiary |
+| General services | Square Appointments, Acuity, SimplyBook |
+
+### What to look for
+
+- Calendar sync, so you're never double-booked
+- Embeds cleanly in your website
+- Email and SMS reminders
+- Deposits or card capture
+- Staff and service management
+- Fair pricing and no punitive commission
+- You keep ownership of your customer data
+
+## Embedding it properly
+
+- **Keep customers on your site** with an embedded widget where possible
+- **A "Book now" button** in the header on every page
+- **Link each service** directly to its booking flow
+- **Match the look:** colours and fonts close to your brand
+- **Test on mobile.** Most bookings happen there.
+
+## Keep the flow short
+
+Ideal path: choose service, choose time, enter details, confirm. Every extra step loses people. Ask only for what you need at booking; collect the rest later.
+
+## Reduce no-shows
+
+- **Deposits or card on file** for longer appointments
+- **Automated reminders** 24 to 48 hours before, and again on the day
+- **Easy rescheduling** via a link
+- **A clear cancellation policy** shown before they confirm
+
+## Custom booking flows
+
+Off-the-shelf tools suit most businesses. A custom flow makes sense when you need something specific: multi-step quotes, packages, group bookings, or a booking experience that's part of your brand. We've built custom booking for an escape-room venue and enrol-and-pay flows for school dance programmes.
+
+## After the booking
+
+- Instant confirmation with a calendar invite
+- Preparation instructions
+- Directions or video link
+- A follow-up afterwards asking for a review
+
+## Common mistakes
+
+- Sending customers to a separate site that looks nothing like yours
+- Too many required fields
+- No mobile testing
+- Hidden booking link
+- No reminders
+- Not showing prices or durations
+
+## Measure it
+
+Track how many visitors start a booking and how many complete it. If many abandon, shorten the flow or reconsider the deposit amount.
+
+## Frequently asked questions
+
+### Will customers still phone to book?
+Some will. Offer both. Over time, most businesses see a majority of bookings move online.
+
+### Is online booking expensive?
+Many tools have free or low-cost plans for solo businesses. Costs rise with staff numbers and features.
+
+### Can booking connect to payments?
+Yes. Most tools integrate with Stripe, Square or PayPal for deposits and full payments. See accepting payments on your website (/blog/stripe-payments-website/).
+
+---
+
+# Adding WhatsApp to Your Website: A Practical Guide for Small Businesses
+URL: https://www.codebunny.net/blog/whatsapp-for-business-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How and why to add a WhatsApp chat button to your business website, with setup steps, message templates, etiquette and tips for turning chats into customers.
+
+Key takeaways:
+- Many customers would rather message than call or fill in a form
+- A click-to-chat link takes minutes to set up and costs nothing
+- Pre-filled messages make starting a conversation effortless
+- Set expectations for reply times and keep conversations professional
+
+For a lot of customers, sending a quick WhatsApp is easier than making a phone call or completing a form. In many countries it's the default way people talk to businesses. Adding it to your website is one of the simplest changes you can make to get more enquiries.
+
+## Why it works
+
+- **Low effort.** One tap opens a chat.
+- **Familiar.** People already use it daily.
+- **Asynchronous.** They can ask now and you can reply between jobs.
+- **Rich.** Customers can send photos, voice notes and locations.
+- **Personal.** A conversation builds trust quickly.
+
+We use it ourselves. One of our favourite pieces of client feedback arrived as a WhatsApp from a wedding photographer: "I got a lot of compliments on it."
+
+## Step 1: set up WhatsApp Business
+
+Download the free WhatsApp Business app and register your business number. Then:
+
+- Add your business name, logo, description, address and hours
+- Set a **greeting message** for new chats
+- Set an **away message** for out-of-hours
+- Create **quick replies** for common questions
+- Add a **catalogue** if you sell products or packages
+
+## Step 2: create a click-to-chat link
+
+The format is:
+
+`https://wa.me/<number>?text=<message>`
+
+Use your full number with country code and no plus sign, spaces or dashes. The optional `text` adds a pre-filled message, for example: "Hi, I found you online and would like a quote."
+
+Pre-filling the first message removes the awkward blank box and tells you where the enquiry came from.
+
+## Step 3: add it to your website
+
+- **A floating button** in the corner of every page
+- **In the header or contact section** next to your phone number
+- **On service pages** with a tailored pre-filled message: "Hi, I'm interested in boiler servicing"
+- **On the thank-you page** after a form submission
+
+Keep the button visible without covering content or other buttons on mobile.
+
+## Step 4: reply well
+
+- **Respond quickly** in business hours. Speed is the whole advantage.
+- **Use their name** and answer the actual question.
+- **Keep messages short.**
+- **Move to a call or booking** when it makes sense: "Would a quick call be easier? Here's my calendar."
+- **Stay professional.** It's still business communication.
+
+## Etiquette and compliance
+
+- Only message people who contacted you or opted in
+- Don't add customers to groups or broadcast lists without consent
+- Respect privacy laws in your country
+- Avoid sharing sensitive information over chat
+- Mention WhatsApp in your privacy policy
+
+## When to upgrade
+
+The free app suits most small businesses. If several staff need to answer from one number, or you want automation and CRM integration, look at the WhatsApp Business Platform through an approved provider.
+
+## Combine with other channels
+
+WhatsApp works best alongside, not instead of, a phone number and a form. Different customers prefer different routes. See contact forms that convert (/blog/contact-form-best-practices/).
+
+## Track it
+
+Add tracking to your WhatsApp link clicks in analytics so you know how many enquiries it generates and from which pages.
+
+## Add automation
+
+A chatbot can answer common questions, collect details and hand over to you when needed. See AI chatbots for small business (/blog/ai-chatbot-for-small-business/).
+
+## Frequently asked questions
+
+### Do I need a separate phone number?
+It's wise to use a business number so personal and work chats stay separate.
+
+### Is WhatsApp suitable for every business?
+It suits most service businesses. For regulated sectors such as healthcare and finance, check what you're allowed to discuss over chat.
+
+### Will it slow my website down?
+A simple link button adds no weight. Avoid heavy third-party chat widgets if a plain link does the job.
+
+---
+
+# Barbershop Website Guide: Fill Your Chairs with Online Bookings
+URL: https://www.codebunny.net/blog/barbershop-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to build a barbershop website with the right attitude: online booking, a clear price list, barber profiles, a gallery of cuts and local search visibility.
+
+Key takeaways:
+- Booking, prices and location are what clients need most
+- A strong visual identity sets a barbershop apart
+- Barber profiles with their own booking links help clients find their person
+- Google Business Profile reviews bring in walk-ins and new regulars
+
+A barbershop is a brand as much as a service. The best shops have a look, a sound and a feel, and their website should carry it. It also has to do the practical job: let someone book a fade at 11pm on a Sunday for Tuesday afternoon.
+
+## What every barbershop site needs
+
+### Online booking
+
+- "Book now" in the header and hero
+- Choose barber, service and time
+- Reminders by text
+- Walk-in information if you take them
+
+Booksy, Fresha, Squire and Square are common choices. More in online booking for small businesses (/blog/online-booking-for-small-business/).
+
+### A price list
+
+Cuts, fades, beard trims, hot towel shaves, kids' cuts, packages. Clear prices and durations.
+
+### Location and hours
+
+Address, map, parking and opening times, visible on every page.
+
+### The barbers
+
+Photo, name, specialities, Instagram handle and a personal booking link for each. Regulars follow barbers.
+
+### A gallery
+
+Real cuts from your chairs. Fresh fades, beard work, the shop itself. Update it often.
+
+## Give it attitude
+
+Barbershops have some of the best branding of any local business. Use it.
+
+- **Typography:** bold serifs, vintage scripts or sharp modern sans
+- **Colour:** dark and moody, classic red-white-blue or clean monochrome
+- **Photography:** atmospheric shots of the shop and the craft
+- **Voice:** confident and short. "Sharp cuts. Sharper confidence."
+
+Our Crown & Blade design shows how far a classic barbershop identity can go:
+
+## Extras that pay off
+
+- **Products** for sale: pomades, oils, tools
+- **Gift cards**
+- **Memberships** or loyalty schemes
+- **Groom and wedding party packages**
+- **Hiring page** for new barbers
+- **Events and collaborations**
+
+## Local SEO
+
+- Google Business Profile with category "Barber shop", booking link and weekly photos (checklist (/blog/google-business-profile-optimization/))
+- Reviews from regulars; ask at the chair with a QR code by the till
+- "Barber in [neighbourhood]" in page titles
+- Consistent details across Instagram, Facebook and directories
+
+See our local SEO guide (/blog/local-seo-guide/).
+
+## Mobile first
+
+Nearly every visitor is on a phone, often coming from Instagram. Big buttons, fast loading, booking in two taps.
+
+## Instagram and your website
+
+Instagram shows the work. The website turns interest into bookings and shows up on Google. Link them: booking link in your bio, feed highlights on your site.
+
+## Frequently asked questions
+
+### Do barbershops need a website if they use a booking app?
+Yes. Your own site ranks on Google, shows your brand properly and isn't dependent on one platform.
+
+### Should I list every barber?
+Yes, with photos. Clients choose people.
+
+### Can I buy a ready-made barbershop website?
+Yes. Our Crown & Blade design is available on the templates page (/templates/) and sells to one owner only.
+
+---
+
+# Interior Designer Website Guide: Portfolio, Process and Enquiries
+URL: https://www.codebunny.net/blog/interior-designer-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to build an interior design website that attracts the right clients: curated project pages, a clear process, pricing signals and a qualifying enquiry form.
+
+Key takeaways:
+- Your portfolio is the product; show fewer, better projects with a story
+- Explain your process and services so clients know what working with you involves
+- A qualifying enquiry form saves time on poor-fit leads
+- The site's own design must reflect your taste
+
+An interior designer's website is judged twice: once for the work it shows and once for how the site itself looks and feels. If the typography is clumsy or the layout crowded, visitors assume your interiors are too. The site is part of the portfolio.
+
+## Lead with your best room
+
+One beautiful image, a line about your style and where you work, and a clear way to enquire. "Rooms that feel like you, only better."
+
+## Project pages, not just a gallery
+
+A grid of images shows taste. Project pages show thinking. For each project include:
+
+- Project type, location and scope
+- The brief and the client's goals
+- Your concept and key decisions
+- 10 to 20 photographs, including details
+- Before and afters where you have them
+- Floor plans, mood boards or sketches
+- Credits for trades and suppliers
+- A client quote
+
+Five to ten strong projects beat thirty thin ones.
+
+## Explain your services
+
+Clients often don't know what an interior designer actually does or how fees work.
+
+- Full-service design
+- Design consultation
+- E-design or remote packages
+- Kitchen and bathroom design
+- Commercial and hospitality
+- Styling and staging
+
+For each: what's included, who it suits and how it's priced (fixed fee, percentage, hourly).
+
+## Show your process
+
+Four or five steps from first conversation to installation: consultation, concept, design development, procurement, installation. It reassures clients that there's a plan.
+
+## Pricing signals
+
+You may not publish fees, but indicate scale: "Full-service projects typically begin at..." or "We work on projects with budgets from...". It filters enquiries and saves awkward conversations.
+
+## A qualifying enquiry form
+
+Ask:
+
+- Project type and location
+- Scope (rooms or square footage)
+- Timeline
+- Approximate budget range
+- How they found you
+- A few lines about what they want
+
+Budget dropdowns feel less intrusive than an open box. See contact forms that convert (/blog/contact-form-best-practices/).
+
+## About you
+
+Your background, philosophy and a good portrait. Clients invite you into their homes; they want to know who you are.
+
+## Press and recognition
+
+Publications, awards and features, shown as logos.
+
+## Design principles for a designer's site
+
+- **Generous white space**
+- **Refined typography**
+- **Large, high-quality images,** optimised for speed (image SEO (/blog/image-seo/))
+- **Restrained colour** that lets the work lead
+- **Subtle motion**
+
+## SEO for interior designers
+
+- "Interior designer [city]" in titles and headings
+- Project pages naming the neighbourhood and property type
+- A Google Business Profile with project photos
+- Articles answering client questions: "how much does an interior designer cost?", "how long does a renovation take?"
+- Pinterest, which drives significant traffic in this field
+
+See the local SEO guide (/blog/local-seo-guide/).
+
+## E-commerce and furniture
+
+If you sell furniture or homewares, a catalog with filters and checkout can sit alongside the portfolio. Our Velmora furniture design shows how a storefront can still feel editorial.
+
+## A ready-made option
+
+Atelier Interiors, our portfolio-first interior design site with a lead-qualifying enquiry form, is available on the templates page (/templates/).
+
+## Frequently asked questions
+
+### How many projects should I show?
+Five to ten of your best, each with its own page.
+
+### Should I include prices?
+A starting point or typical range helps attract clients with realistic budgets.
+
+### Do I need professional photography?
+Yes. Interior photography is a specialism, and it's the single best investment for your portfolio.
+
+---
+
+# Website Design for Schools, Academies and Learning Centres
+URL: https://www.codebunny.net/blog/school-education-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What schools, tutoring centres and training providers need from a website: clear programmes, admissions and enrolment flows, trust signals and parent-friendly design.
+
+Key takeaways:
+- Parents and students want programmes, outcomes, fees and how to enrol, fast
+- Online enrolment and payment remove friction for busy families
+- Show real classrooms, teachers and student work
+- Separate paths for different audiences keep the site easy to navigate
+
+An education website serves several audiences at once: parents comparing options, students checking what they'll learn, schools or employers looking for a provider, and existing families looking for dates and forms. The best ones give each group a short, obvious path.
+
+## Start with a clear promise
+
+Who do you teach and what do they gain?
+
+- "A skills studio where students build" (hands-on robotics and AI for Grades 6 to 12)
+- "Get your whole school moving" (curriculum-aligned dance programmes)
+
+One line that a parent understands in three seconds.
+
+## Programmes
+
+Each programme or course needs its own page:
+
+- Who it's for (age, grade, level)
+- What students learn and make
+- Schedule, duration and location
+- Teachers
+- Outcomes: skills, certificates, progression
+- Fees
+- How to enrol
+
+A comparison table helps families choose between options.
+
+## Enrolment and payment
+
+Make signing up as easy as buying a ticket.
+
+- Online enrolment forms
+- Secure payment with Stripe or your local provider
+- Automatic confirmation and receipts
+- Free trial or demo class booking
+- Waitlists for full classes
+
+Dance Cart, for example, lets schools browse programmes, enrol and pay online. See accepting payments on your website (/blog/stripe-payments-website/).
+
+## Trust
+
+- **Teachers:** photos, qualifications, registration
+- **Safeguarding** and child protection policies
+- **Accreditation** and curriculum alignment
+- **Results and testimonials** from parents, students and schools
+- **Photos and video** of real classes
+- **Partners** and affiliations
+
+## Paths for different audiences
+
+Use clear top-level navigation such as:
+
+- For parents
+- For schools
+- For students
+- For undergraduates / professionals
+
+Each leads to relevant programmes and a tailored enquiry form. STEAM-IE and VINC both organise content this way.
+
+## Practical information
+
+- Term dates and timetables
+- Location, transport and parking
+- FAQs: what to bring, class sizes, refunds, catch-up classes
+- Contact details and office hours
+
+## Content that builds authority
+
+- Student projects and showcases
+- Event recaps
+- Articles for parents: "how to get kids interested in coding", "why dance matters in primary school"
+- Free resources for teachers
+
+These bring search traffic and give parents confidence. See how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/).
+
+## Local SEO
+
+- "Robotics classes [city]", "tutoring [suburb]" in titles
+- Google Business Profile with photos and reviews
+- EducationalOrganization and Course schema (guide (/blog/schema-markup-guide/))
+
+## Design
+
+Friendly and energetic for younger audiences; calm and credible for professional training. Always accessible, readable and fast on phones. See web accessibility basics (/blog/website-accessibility-basics/).
+
+## Portals and platforms
+
+Larger providers may need student logins, learning management or credentialing. That's custom software territory; see our software development service (/services/software-development/).
+
+## Frequently asked questions
+
+### Can parents pay fees online?
+Yes, through integrated payment at enrolment or via invoices with a pay link.
+
+### How do we handle multiple campuses?
+Give each its own page with address, timetable and staff, and let families filter programmes by location.
+
+### What's the most important page?
+The programme pages. They're where families decide.
+
+---
+
+# Websites for Manufacturers: Turning Technical Buyers into B2B Leads
+URL: https://www.codebunny.net/blog/manufacturer-website-b2b/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How manufacturers and industrial suppliers can use their website to generate quote requests: capabilities, product catalogs, proof of quality and RFQ forms.
+
+Key takeaways:
+- Engineers and buyers want specifications, capabilities and proof of quality
+- An easy request-for-quote flow with file upload is the key conversion
+- Certifications, tolerances and case studies build confidence
+- Product and capability pages bring in specific, high-value searches
+
+Industrial buyers do most of their research online before speaking to a supplier. They're looking for evidence: can you make this part, to this tolerance, in this material, at this volume, by this date? A manufacturing website that answers those questions clearly wins the request for quote.
+
+## Who's visiting
+
+- **Engineers** checking capabilities and tolerances
+- **Procurement** comparing suppliers, certifications and lead times
+- **Business owners** looking for a product or partner
+
+Give each what they need without making them dig.
+
+## Capabilities
+
+Create a page for each process or capability: CNC machining, sheet metal, injection moulding, fabrication, assembly, finishing.
+
+Include:
+
+- Equipment list
+- Materials handled
+- Tolerances and size ranges
+- Volumes: prototype to production
+- Lead times
+- Industries served
+- Photos and video of the shop floor
+
+## Product catalog
+
+If you sell products, a structured catalog helps buyers and search engines.
+
+- Categories and filters
+- Specification tables
+- Downloadable datasheets and CAD files
+- Clear photos from several angles
+- "Request a quote" or "Enquire" on every product
+
+IB Refrigeration presents display counters, food carts and commercial kitchen equipment this way, with reviews and years in business up front.
+
+## The RFQ form
+
+This is your primary conversion.
+
+- Name, company, email, phone
+- Part or product description
+- Quantity and timeline
+- **File upload** for drawings and CAD (STEP, DXF, PDF)
+- NDA option
+
+Promise a response time ("quotes within 24 hours") and keep it.
+
+## Proof of quality
+
+- **Certifications:** ISO 9001, AS9100, ISO 13485 and others relevant to your sector
+- **Inspection capability:** CMM, reports, traceability
+- **Statistics:** on-time delivery, parts shipped, years operating
+- **Case studies:** problem, solution, result
+- **Client logos,** with permission
+
+## Industries
+
+Pages for the sectors you serve (aerospace, medical, automotive, food service, energy) with relevant experience and standards.
+
+## Content for technical buyers
+
+- Design-for-manufacturing guides
+- Material selection guides
+- Tolerance and finish charts
+- Process comparisons
+
+Useful technical content ranks for specific searches and demonstrates expertise.
+
+## SEO for manufacturers
+
+B2B searches are specific and valuable: "5-axis CNC machining titanium", "commercial display counter manufacturer [city]".
+
+- A page per capability and product category
+- Specifications in text, not only in PDFs
+- Location pages if you serve regional markets
+- Product schema for catalog items (guide (/blog/schema-markup-guide/))
+
+## Design
+
+Industrial doesn't have to mean dated. A precise, modern design signals a precise, modern operation. Use real photography from your facility, not stock images of gears.
+
+## Useful features
+
+- Live chat or WhatsApp for quick questions
+- Order or production status tracking for customers
+- Distributor or dealer locator
+- Multilingual content for export markets
+
+## A ready-made option
+
+Torvane Manufacturing, our CNC and manufacturing site with a CAD-upload quote flow, is available on the templates page (/templates/).
+
+## Frequently asked questions
+
+### Should manufacturers show prices?
+For standard products, guide prices help. For custom work, a fast, easy quote process matters more.
+
+### How important is mobile for B2B?
+More than you'd think. Buyers research on phones and tablets, and Google indexes the mobile version of your site.
+
+### What converts best?
+Clear capabilities, visible certifications and a simple RFQ form with file upload.
+
+---
+
+# Personal Trainer and Fitness Coach Website Guide
+URL: https://www.codebunny.net/blog/fitness-personal-trainer-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How personal trainers and fitness coaches can build a website that wins clients: clear offers, transformations, booking, online programmes and local SEO.
+
+Key takeaways:
+- Lead with the result your clients want, not your certifications
+- Transformations and testimonials are your strongest proof
+- Offer one clear first step, such as a free consultation or trial session
+- Online programmes and memberships can be sold directly from your site
+
+Personal training is sold on belief: the client has to believe change is possible for them and that you're the person to get them there. Your website builds that belief with proof, personality and a simple way to start.
+
+## Lead with the outcome
+
+"Certified personal trainer with ten years' experience" is about you. "Build a strong body at any age" is about them. Open with the result, then say who you help: busy professionals, new mums, over-50s, athletes.
+
+## Show transformations
+
+- Before-and-after photos (with consent)
+- Client stories: where they started, what changed, how they feel
+- Numbers where meaningful: strength gained, events completed
+- Video testimonials
+
+Be honest about typical results and timeframes.
+
+## Your offers
+
+Present clearly:
+
+- One-to-one training
+- Small group sessions
+- Online coaching
+- Nutrition coaching
+- Programmes or challenges
+- Memberships
+
+For each: who it's for, what's included, how often, price and how to start. See how to write a coaching packages page (/blog/coaching-packages-page/) for structure.
+
+## One clear first step
+
+Offer a free consultation, movement assessment or trial session, with an embedded calendar. Make it the main button across the site.
+
+## About you
+
+Your story, why you train people, your qualifications and a few photos that show your personality. Fitness is personal; people buy the trainer.
+
+A strong personal brand can carry an entire site. Lauren Powers, a ten-time bodybuilding champion, TV host and author, leads with a bold identity and message.
+
+## Selling online
+
+If you coach remotely, your site can:
+
+- Take payment for programmes and subscriptions
+- Deliver plans through an app or member area
+- Collect check-ins
+- Run challenges with leaderboards
+
+See accepting payments on your website (/blog/stripe-payments-website/).
+
+## Lead magnets
+
+- A free seven-day workout plan
+- A home workout guide
+- A meal prep template
+- A mobility routine video
+
+Capture emails and follow up with useful tips and an invitation to book.
+
+## Local SEO
+
+For in-person trainers:
+
+- "Personal trainer [town]" in titles and headings
+- Google Business Profile with photos and reviews (checklist (/blog/google-business-profile-optimization/))
+- Pages for each service and location
+- Reviews from clients
+
+See the local SEO guide (/blog/local-seo-guide/).
+
+## Social proof and content
+
+- Instagram highlights embedded sparingly
+- Short articles answering common questions
+- Press, podcast or competition features
+
+## Design
+
+Energetic and confident, with strong photography. High contrast, bold type and plenty of movement suit the category, but keep it fast on mobile.
+
+## Legal bits
+
+- Health disclaimer
+- Terms for online programmes
+- Privacy policy
+- Consent for before-and-after images
+
+## Frequently asked questions
+
+### Should I show prices?
+Yes, or at least starting prices. It qualifies enquiries and builds trust.
+
+### Do I need a website if I train at a gym?
+A website helps you build your own client base, which you keep if you move gyms.
+
+### Can I sell programmes directly from my site?
+Yes, with online payment and automated delivery.
