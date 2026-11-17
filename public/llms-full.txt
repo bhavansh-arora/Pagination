@@ -7338,3 +7338,1768 @@ A website helps you build your own client base, which you keep if you move gyms.
 
 ### Can I sell programmes directly from my site?
 Yes, with online payment and automated delivery.
+
+---
+
+# How to Get Your Business Mentioned in ChatGPT, Perplexity and Google AI Overviews
+URL: https://www.codebunny.net/blog/ai-search-optimization/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A practical guide to AI search optimisation (GEO) for small businesses: how AI assistants choose sources and what to change on your website to get cited.
+
+Key takeaways:
+- AI assistants favour clear, specific, well-structured content they can quote
+- State who you are, what you do, where and for whom in plain sentences
+- FAQ sections, schema markup and consistent business details all help
+- Allow AI crawlers in robots.txt and consider an llms.txt summary
+
+More and more people skip the list of blue links and ask an AI: "who's a good wedding photographer in Chicago?", "which solar installers near me handle the grant application?" The assistant replies with a short answer and a few named businesses. If you're not among them, you're invisible to that customer.
+
+Optimising for these tools is sometimes called generative engine optimisation (GEO) or answer engine optimisation. The good news: it rewards the same things as good SEO, with a few additions.
+
+## How AI assistants find and choose sources
+
+Broadly, they work in two ways:
+
+1. **Training data.** What the model learned from the public web up to its cutoff.
+2. **Live retrieval.** The assistant searches the web (via Bing, Google or its own index), reads a handful of pages and summarises them, usually with citations.
+
+For local and commercial questions, live retrieval matters most. That means your pages need to (a) be found by the underlying search, and (b) be easy for a machine to read, trust and quote.
+
+## 1. Say exactly who you are and what you do
+
+AI tools look for explicit statements. Don't make them infer.
+
+Weak: "We craft digital experiences that inspire."
+
+Strong: "Code Bunny is a web design and development studio that builds websites for coaches, wedding photographers, solar companies and local businesses in the US, Canada, the UK, Ireland, Australia, New Zealand and India."
+
+Put a sentence like that on your homepage and about page. Include your location, services, audience and what makes you different.
+
+## 2. Answer questions directly
+
+Structure content the way people ask:
+
+- Use question headings: "How much does a website cost?"
+- Put the direct answer in the first one or two sentences
+- Follow with detail
+
+This "answer first" format is easy for an assistant to lift and cite.
+
+## 3. Add FAQ sections
+
+Every key page should end with three to six real questions and concise answers. Mark them up with FAQ schema.
+
+## 4. Use structured data
+
+Schema markup tells machines precisely what your content means: your organisation, services, location, reviews, articles, FAQs and products. It removes guesswork. See our schema markup guide (/blog/schema-markup-guide/).
+
+## 5. Be specific and factual
+
+Assistants prefer concrete, checkable facts:
+
+- Years in business, number of projects, areas served
+- Prices or ranges
+- Named clients, with permission
+- Timelines and processes
+- Certifications
+
+Vague superlatives ("leading", "best-in-class") give them nothing to quote.
+
+## 6. Keep your details consistent everywhere
+
+AI tools cross-check. Your name, address, phone, services and description should match across your website, Google Business Profile, Bing Places, Apple Business Connect, LinkedIn, directories and review sites. Bing matters more than you'd expect because several assistants rely on it.
+
+## 7. Earn mentions on other sites
+
+Models learn who's reputable from how often and where you're mentioned: reviews, directories, local press, podcasts, partner sites, "best of" lists. Each credible mention makes you more likely to be named.
+
+## 8. Let AI crawlers in
+
+Check your `robots.txt`. If it blocks crawlers such as GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot or Google-Extended, those tools can't read your site. Unless you have a reason to block them, allow them.
+
+## 9. Add an llms.txt file
+
+`llms.txt` is an emerging convention: a plain Markdown file at the root of your site that summarises who you are and links to your most important pages. Not every assistant uses it yet, but it costs little and gives machines a clean overview. We publish one at codebunny.net/llms.txt (/llms.txt), along with a full-text version for deeper context.
+
+## 10. Make pages fast and readable without tricks
+
+Some AI crawlers don't run JavaScript. Make sure your key content is in the HTML itself, not loaded only after scripts run. Clean headings, short paragraphs, lists and tables all help.
+
+## 11. Publish genuinely useful content
+
+Guides, comparisons, pricing explanations and how-tos give assistants material to cite when answering related questions. Each article is another chance to be the source. See how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/).
+
+## 12. Show real expertise
+
+Name the author, show their credentials, date your content and keep it updated. Signals of experience and trustworthiness matter to both search engines and AI systems.
+
+## How to check whether you're showing up
+
+- Ask ChatGPT, Perplexity, Gemini and Copilot the questions your customers would ask
+- Note which businesses are named and which sources are cited
+- Look at what those cited pages do well
+- Repeat monthly; answers change
+
+## A quick checklist
+
+| Do this | Why |
+| --- | --- |
+| Clear "who we are" sentence on home and about | Easy to quote |
+| FAQ sections with schema | Matches question format |
+| Organization, LocalBusiness, Service schema | Removes ambiguity |
+| Consistent listings, including Bing | Cross-verification |
+| Allow AI crawlers | They can't cite what they can't read |
+| llms.txt | Clean summary for machines |
+| Reviews and third-party mentions | Reputation signals |
+
+## Does traditional SEO still matter?
+
+Yes. AI assistants lean on search indexes to find pages, so ranking well remains the foundation. Think of AI visibility as SEO plus clarity.
+
+## Frequently asked questions
+
+### Can I pay to appear in ChatGPT answers?
+Not in the organic answer itself. Visibility comes from the quality and clarity of your web presence.
+
+### How long does it take to appear in AI answers?
+For tools using live search, improvements can show within weeks of your pages being indexed.
+
+### Is llms.txt required?
+No. It's optional and still emerging, but simple to add and helpful for tools that read it.
+
+---
+
+# Technical SEO Checklist for Small Business Websites
+URL: https://www.codebunny.net/blog/technical-seo-checklist/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A plain-English technical SEO checklist for small business websites: crawling, indexing, speed, mobile, structured data, security and the tools to check each.
+
+Key takeaways:
+- Technical SEO makes sure search engines can find, read and trust your pages
+- Most small sites only need to get a dozen fundamentals right
+- Free tools like Search Console and PageSpeed Insights reveal most problems
+- Fix crawling and indexing issues before worrying about anything else
+
+Technical SEO sounds intimidating, but for a small business website it comes down to a short list of things that must be right. Get them right and your content has a fair chance to rank. Get them wrong and nothing else you do will matter much.
+
+Work through this checklist with your developer, or use it to audit your own site.
+
+## Crawling and indexing
+
+- [ ] **Your site is indexed.** Search `site:yourdomain.com` on Google. Your main pages should appear.
+- [ ] **No accidental noindex.** Check that important pages don't carry a `noindex` tag left over from development.
+- [ ] **robots.txt isn't blocking key pages** and points to your sitemap.
+- [ ] **An XML sitemap exists** at `/sitemap.xml` and is submitted in Search Console.
+- [ ] **Canonical tags** point each page to its preferred URL.
+- [ ] **One version of the site.** `http`, `https`, `www` and non-`www` all redirect to a single version.
+
+## Site structure
+
+- [ ] **Clean, readable URLs:** `/services/boiler-repair/`, not `/page?id=47`
+- [ ] **Every important page is reachable** within three clicks of the homepage
+- [ ] **Internal links** connect related pages (guide (/blog/internal-linking-guide/))
+- [ ] **Breadcrumbs** on deeper pages
+- [ ] **No broken links** or orphan pages
+
+## On-page elements
+
+- [ ] **A unique title tag** on every page, under about 60 characters
+- [ ] **A unique meta description,** under about 155 characters
+- [ ] **One H1 per page,** with H2s and H3s in logical order
+- [ ] **Descriptive alt text** on meaningful images
+
+See title tags and meta descriptions (/blog/title-tags-meta-descriptions/).
+
+## Speed and Core Web Vitals
+
+- [ ] **Largest Contentful Paint** under 2.5 seconds on mobile
+- [ ] **Interaction to Next Paint** under 200 milliseconds
+- [ ] **Cumulative Layout Shift** under 0.1
+- [ ] **Images compressed** and in modern formats
+- [ ] **Lazy loading** for off-screen images
+- [ ] **Minimal third-party scripts**
+
+Explained in Core Web Vitals for business owners (/blog/core-web-vitals-explained/).
+
+## Mobile
+
+- [ ] **Responsive design** that works on all screen sizes
+- [ ] **Readable text** without zooming
+- [ ] **Tap targets** large enough for thumbs
+- [ ] **No horizontal scrolling**
+- [ ] **Same content on mobile and desktop** (Google indexes the mobile version)
+
+## Security
+
+- [ ] **HTTPS everywhere** with a valid certificate
+- [ ] **No mixed content** warnings
+- [ ] **Software up to date** if you use a CMS
+
+## Structured data
+
+- [ ] **Organization or LocalBusiness** schema on the homepage
+- [ ] **Service, Product, Article, FAQ** schema where relevant
+- [ ] **Breadcrumb** schema
+- [ ] **Validated** with Google's Rich Results Test
+
+See the schema markup guide (/blog/schema-markup-guide/).
+
+## Redirects and errors
+
+- [ ] **301 redirects** for any changed or removed URLs
+- [ ] **A helpful 404 page**
+- [ ] **No redirect chains** (A to B to C)
+- [ ] **No server errors** in Search Console
+
+## International and language
+
+- [ ] **Correct `lang` attribute** on the HTML
+- [ ] **hreflang tags** if you have multiple language or country versions
+
+## AI and modern search
+
+- [ ] **Key content is in the HTML,** not only rendered by JavaScript
+- [ ] **AI crawlers allowed** in robots.txt, if you want to appear in AI answers
+- [ ] **llms.txt** summary file
+
+See how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+## Tools to check it all
+
+| Tool | What it checks | Cost |
+| --- | --- | --- |
+| Google Search Console | Indexing, errors, queries | Free |
+| PageSpeed Insights | Speed and Core Web Vitals | Free |
+| Rich Results Test | Schema markup | Free |
+| Screaming Frog | Full crawl, up to 500 URLs | Free tier |
+| Bing Webmaster Tools | Bing indexing and audit | Free |
+
+Our Search Console guide (/blog/google-search-console-guide/) shows how to use the most important one.
+
+## What to fix first
+
+1. Anything stopping pages being indexed
+2. HTTPS and duplicate versions
+3. Mobile usability
+4. Speed
+5. Titles, descriptions and headings
+6. Schema
+
+## Frequently asked questions
+
+### How often should I run a technical audit?
+A quick check monthly in Search Console, and a fuller audit every six months or after any major site change.
+
+### Do I need a developer?
+For some fixes, yes. Many checks you can run yourself with free tools.
+
+### Does technical SEO alone make a site rank?
+No. It removes obstacles. You still need useful content and a good reputation.
+
+---
+
+# Schema Markup for Small Businesses: A Plain-English Guide
+URL: https://www.codebunny.net/blog/schema-markup-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What schema markup is, which types matter for small businesses, how to add it and how it helps you earn rich results and AI visibility.
+
+Key takeaways:
+- Schema is a label that tells search engines exactly what your content means
+- LocalBusiness, Service, FAQ, Review and Article are the types most small businesses need
+- It can earn rich results such as stars, FAQs and business details in search
+- JSON-LD is the recommended format and can be added without changing how your page looks
+
+Search engines are good at reading text, but they still have to guess what it means. Is "Dan Reynolds" a person, a business or a place? Is "5.0" a rating or a version number? Schema markup removes the guessing. It's a standard vocabulary that labels your content so machines understand it precisely.
+
+## What it looks like
+
+Schema is usually added as a block of JSON-LD code in your page's HTML. Visitors never see it. A simple example for a local business:
+
+`{"@type": "LocalBusiness", "name": "Harbour Dental", "telephone": "+44 1904 000000", "address": {...}, "openingHours": "Mo-Fr 09:00-17:30"}`
+
+That tells Google, Bing and AI assistants: this is a business, here's its name, phone, address and hours.
+
+## Why it matters
+
+- **Rich results.** Stars, prices, FAQs, breadcrumbs and event details can appear in your search listing, making it bigger and more clickable.
+- **Clarity.** Search engines are more confident about what you offer and where.
+- **Knowledge panels and maps.** Consistent business data supports your local presence.
+- **AI answers.** Assistants rely on structured, unambiguous information. See how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+Schema doesn't guarantee rich results or rankings. It makes you eligible and removes ambiguity.
+
+## The types small businesses need
+
+### Organization / LocalBusiness
+
+Your name, logo, contact details, address, hours, areas served and social profiles. Use the most specific subtype available: `Dentist`, `HairSalon`, `Plumber`, `Restaurant`, `LegalService`.
+
+### Service
+
+Describes each service you offer, who provides it and where.
+
+### Product and Offer
+
+For anything with a price: products, packages, templates. Enables price and availability in results.
+
+### FAQPage
+
+Marks up question-and-answer sections so machines can read them cleanly.
+
+### Review and AggregateRating
+
+Shows ratings for products and services. Follow Google's rules: reviews must be genuine and visible on the page, and self-serving reviews of your own business aren't eligible for star snippets.
+
+### Article / BlogPosting
+
+For articles: headline, author, dates and image. Supports author credibility.
+
+### BreadcrumbList
+
+Shows the page's position in your site, often displayed in search results.
+
+### Person
+
+For founders, practitioners and authors: name, role and credentials.
+
+### Event, Course, Recipe, JobPosting
+
+Use when relevant; each can unlock its own rich result.
+
+## How to add schema
+
+1. **If you have a developer or a custom site:** have JSON-LD added to each page template. It should be generated from your real content so it never goes out of date.
+2. **On WordPress:** plugins like Rank Math or Yoast add basic schema; check the output.
+3. **On builders:** Wix and Squarespace add some automatically; extra types can often be added through a code block.
+4. **By hand:** use Google's Structured Data Markup Helper or a generator, then paste the code into the page head.
+
+## Test it
+
+- **Rich Results Test** (search.google.com/test/rich-results) shows which rich results a page is eligible for
+- **Schema Markup Validator** (validator.schema.org) checks syntax
+- **Search Console** reports errors under Enhancements
+
+## Rules to follow
+
+- Mark up only content that's visible on the page
+- Keep it accurate and current
+- Don't mark up fake reviews or misleading information
+- Use the most specific type that fits
+
+Breaking the rules can lead to a manual action that removes rich results.
+
+## A sensible starting set
+
+| Page | Schema |
+| --- | --- |
+| Homepage | Organization or LocalBusiness, WebSite |
+| Service pages | Service, FAQPage, BreadcrumbList |
+| Location pages | LocalBusiness with areaServed, FAQPage |
+| Product pages | Product, Offer |
+| Blog posts | BlogPosting, BreadcrumbList, FAQPage |
+| About page | Person, AboutPage |
+
+Every page on this site uses that structure. It's part of every Code Bunny build.
+
+## Frequently asked questions
+
+### Does schema improve rankings directly?
+Not directly, but richer listings earn more clicks and clearer data helps search engines match you to the right searches.
+
+### Is schema hard to maintain?
+Not when it's generated automatically from your page content. Hand-written schema needs updating whenever details change.
+
+### Will schema make stars appear next to my site?
+Only for eligible types and genuine reviews. Google no longer shows stars for a business's own reviews of itself on its own site.
+
+---
+
+# Core Web Vitals Explained for Business Owners
+URL: https://www.codebunny.net/blog/core-web-vitals-explained/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What Core Web Vitals are, why they matter for rankings and conversions, how to check yours and the most common fixes, explained without jargon.
+
+Key takeaways:
+- Core Web Vitals measure loading speed, responsiveness and visual stability
+- They affect rankings a little and conversions a lot
+- Check them free with PageSpeed Insights and Search Console
+- Images, fonts and third-party scripts cause most problems
+
+Core Web Vitals are Google's way of measuring whether a page is pleasant to use. They're three numbers. You don't need to be technical to understand them, and knowing what they mean will help you have a much better conversation with whoever looks after your website.
+
+## The three metrics
+
+### Largest Contentful Paint (LCP): how fast it loads
+
+The time until the biggest thing on screen (usually the main image or headline) appears.
+
+- **Good:** under 2.5 seconds
+- **Poor:** over 4 seconds
+
+### Interaction to Next Paint (INP): how fast it responds
+
+How quickly the page reacts when someone taps or clicks.
+
+- **Good:** under 200 milliseconds
+- **Poor:** over 500 milliseconds
+
+### Cumulative Layout Shift (CLS): how stable it is
+
+Whether things jump around as the page loads. You've felt this when you go to tap a button and an advert pushes it away.
+
+- **Good:** under 0.1
+- **Poor:** over 0.25
+
+## Why they matter
+
+**Rankings.** Core Web Vitals are part of Google's page experience signals. They won't lift a weak page above a great one, but between similar pages, the better experience tends to win.
+
+**Conversions.** This is the bigger effect. Slow, jumpy pages lose visitors. A site that loads in two seconds instead of five keeps far more of the people you've worked hard to attract.
+
+**Mobile.** Google measures the mobile experience, where connections and processors are slower.
+
+## How to check yours
+
+1. Go to PageSpeed Insights (https://pagespeed.web.dev/)
+2. Enter your URL
+3. Look at the mobile tab first
+
+You'll see two kinds of data:
+
+- **Field data:** real experiences of your visitors over the last 28 days. This is what Google uses.
+- **Lab data:** a simulated test, useful for diagnosing.
+
+For the whole site, open **Search Console** and look at the Core Web Vitals report, which groups pages into good, needs improvement and poor. See our Search Console guide (/blog/google-search-console-guide/).
+
+## Common causes and fixes
+
+### Slow LCP
+
+| Cause | Fix |
+| --- | --- |
+| Huge hero image | Compress, resize, use WebP |
+| Image loads late | Prioritise it; don't lazy-load the hero |
+| Slow server | Better hosting or a CDN |
+| Render-blocking CSS and fonts | Preload fonts, trim unused CSS |
+
+### Poor INP
+
+| Cause | Fix |
+| --- | --- |
+| Heavy JavaScript | Remove unused scripts, defer the rest |
+| Too many third-party tools | Audit chat widgets, trackers and embeds |
+| Bloated page builders | Simplify or rebuild |
+
+### High CLS
+
+| Cause | Fix |
+| --- | --- |
+| Images without dimensions | Set width and height |
+| Late-loading fonts | Use `font-display: swap` and preload |
+| Banners and embeds injected late | Reserve space for them |
+
+More on images in our image SEO guide (/blog/image-seo/).
+
+## The usual suspects
+
+In our audits, three things account for most failing sites:
+
+1. **Unoptimised images**
+2. **Too many plugins and third-party scripts**
+3. **Heavy themes or page builders**
+
+Fixing images alone often moves a site from red to green.
+
+## Can animations and good scores coexist?
+
+Yes. Animation only hurts when it's implemented carelessly. This site uses scroll effects, a WebGL background and page transitions while keeping its first load light, because scripts are deferred and images are optimised. See website animations and performance (/blog/website-animations-performance/).
+
+## What score should I aim for?
+
+Aim for all three metrics in the "good" range on mobile. Don't obsess over a perfect 100 lab score; real-user data matters more.
+
+## When to rebuild
+
+If your site is built on a platform or theme that makes good scores impossible, patching costs more than starting fresh. See 12 signs you need a new website (/blog/signs-you-need-a-new-website/).
+
+## Frequently asked questions
+
+### Do Core Web Vitals affect rankings a lot?
+They're one factor among many. Content relevance matters more, but speed can be the tiebreaker and strongly affects conversions.
+
+### Why is my desktop score good and mobile poor?
+Phones have slower processors and connections. Google assesses mobile, so that's the score to fix.
+
+### How long until improvements show?
+Lab scores change immediately. Field data in Search Console updates over about 28 days.
+
+---
+
+# Title Tags and Meta Descriptions: How to Write Them (With Examples)
+URL: https://www.codebunny.net/blog/title-tags-meta-descriptions/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to write title tags and meta descriptions that rank and get clicked, with formulas, length guidance and examples for small business pages.
+
+Key takeaways:
+- The title tag is the strongest on-page signal you control
+- Put the main keyword near the front and keep titles under about 60 characters
+- Meta descriptions don't affect rankings directly but drive clicks
+- Every page needs a unique title and description
+
+When your page appears on Google, the searcher sees two things: a blue headline and a short description beneath it. Those come from your title tag and meta description. They decide whether you rank for the right searches and whether anyone clicks.
+
+They're also among the quickest SEO improvements you can make.
+
+## Title tags
+
+### What they are
+
+The title tag is the page's name in the HTML. It appears in search results, browser tabs and when links are shared.
+
+### Why they matter
+
+It's one of the clearest signals to Google about what a page is about, and it's your headline in the results.
+
+### How to write them
+
+**Formula:** Primary keyword + benefit or detail | Brand
+
+- "Wedding Photographer in Chicago & Peoria | Dan Reynolds Photography"
+- "Emergency Plumber in Leeds, 24/7 Callouts | Harbour Plumbing"
+- "Website Design for Coaches | Code Bunny"
+
+**Rules:**
+
+- **Under about 60 characters,** so it doesn't get cut off
+- **Main keyword near the start**
+- **Location** for local businesses
+- **Unique** for every page
+- **Readable.** Write for people, not a list of keywords.
+- **Brand at the end,** except on the homepage where it can lead
+
+### Common mistakes
+
+- "Home" or "Welcome" as the homepage title
+- The same title on every page
+- Keyword stuffing: "Plumber Leeds | Plumbing Leeds | Leeds Plumbers"
+- Titles that are too long or too vague
+
+## Meta descriptions
+
+### What they are
+
+A short summary of the page that often appears under the title in search results.
+
+### Why they matter
+
+They don't influence rankings directly. They influence clicks, and more clicks mean more customers. Think of it as a tiny advert.
+
+### How to write them
+
+**Formula:** What the page offers + a reason to choose you + a call to action
+
+- "Award-winning mortgage advice in Basingstoke for first-time buyers, remortgages and the self-employed. Free first consultation. 5.0 on Google from 186 reviews."
+- "Custom-designed, hand-coded websites that load fast and rank on Google. Get a free homepage preview from Code Bunny."
+
+**Rules:**
+
+- **Under about 155 characters**
+- **Include the keyword;** Google bolds matching words
+- **Add proof:** a rating, a number, a guarantee
+- **End with an action:** book, get, see, call
+- **Unique** per page
+
+Google sometimes rewrites descriptions to match the search. A well-written one is still used most of the time.
+
+## Templates by page type
+
+| Page | Title template |
+| --- | --- |
+| Homepage | [What you do] in [Location] \| [Brand] |
+| Service | [Service] in [Location] \| [Brand] |
+| Location | [Service] [Town] \| [Brand] |
+| Blog post | [Question or topic as searched] |
+| About | About [Brand]: [What makes you different] |
+| Contact | Contact [Brand]: [Offer, e.g. Free Quote] |
+
+## How to check your current tags
+
+- Search `site:yourdomain.com` and scan the results
+- In Search Console, review pages with high impressions and low click-through rate; their titles and descriptions need work
+- Use a crawler like Screaming Frog to list every title and description and spot duplicates or missing ones
+
+## Improve click-through rate
+
+In Search Console, find queries where you rank on page one but get few clicks. Rewrite those titles and descriptions to be more specific and appealing, then compare after a few weeks. It's one of the fastest ways to get more traffic without ranking any higher.
+
+## What about headings?
+
+Your on-page H1 should be closely related to the title tag but doesn't need to be identical. The title is for search results; the H1 is for the visitor who's arrived.
+
+## Don't forget social sharing
+
+Open Graph tags control how your page looks when shared on Facebook, LinkedIn, WhatsApp and elsewhere: title, description and image. Set them alongside your SEO tags.
+
+## Frequently asked questions
+
+### How long should a title tag be?
+Aim for 50 to 60 characters. Google truncates by pixel width, so shorter is safer.
+
+### Should every page have a meta description?
+Yes. If one is missing, Google picks text from the page, which may not sell it well.
+
+### How often should I update them?
+Review them when rankings or click-through rates drop, or when your services change.
+
+---
+
+# SEO for a New Website: What to Do in the First 90 Days
+URL: https://www.codebunny.net/blog/seo-for-new-websites/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A week-by-week SEO plan for a new website's first 90 days: setup, indexing, on-page basics, local signals, content and early links.
+
+Key takeaways:
+- Get the technical foundations and tracking right in week one
+- Submit your sitemap and make sure Google can index every key page
+- Publish a small amount of genuinely useful content rather than a lot of thin pages
+- Early reviews, listings and a few good links build trust fastest
+
+A new website starts with no history, no links and no trust. Google doesn't know it exists. The first three months are about fixing that: getting found, getting understood and earning the first signs of credibility.
+
+Here's a realistic plan.
+
+## Week 1: foundations
+
+- **Set up Google Search Console** and verify your domain
+- **Set up Bing Webmaster Tools** (it also feeds several AI assistants)
+- **Install analytics** (GA4 or a privacy-friendly alternative)
+- **Submit your XML sitemap** in both
+- **Check indexing:** use URL Inspection on your homepage and request indexing
+- **Confirm HTTPS** and that all versions of your domain redirect to one
+- **Run PageSpeed Insights** and fix anything in the red
+
+Use our technical SEO checklist (/blog/technical-seo-checklist/) to cover everything.
+
+## Week 2: on-page basics
+
+- **Unique title tag and meta description** on every page (how to write them (/blog/title-tags-meta-descriptions/))
+- **One clear H1** per page
+- **Service pages** for each thing you sell
+- **Contact details** in the footer
+- **Schema markup:** Organization or LocalBusiness, Service, FAQ (guide (/blog/schema-markup-guide/))
+- **Internal links** between related pages
+
+## Week 3: local presence
+
+- **Create or claim your Google Business Profile** and complete every field (checklist (/blog/google-business-profile-optimization/))
+- **Claim Bing Places and Apple Business Connect**
+- **Add your business to key directories** for your industry and region
+- **Make sure name, address and phone match** everywhere
+
+## Week 4: first reviews
+
+Ask five to ten recent customers for a Google review. A new site with a handful of genuine reviews looks far more established than one with none.
+
+## Weeks 5 to 8: content
+
+Publish four to six genuinely useful pieces:
+
+- Answers to your customers' most common questions
+- A pricing or cost guide
+- A "how it works" explainer
+- A comparison or buying guide
+- A case study or two
+
+Quality matters more than quantity. See how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/) and keyword research for small businesses (/blog/keyword-research-small-business/).
+
+## Weeks 9 to 12: early links and refinement
+
+### Earn your first links
+
+- Suppliers and partners
+- Industry associations and accreditation bodies
+- Local chamber of commerce
+- Clients who list their suppliers
+- A local news story or guest article
+
+A few relevant links from real organisations are worth more than hundreds from low-quality directories.
+
+### Review the data
+
+In Search Console, look at:
+
+- Which pages are indexed
+- Which queries you're starting to appear for
+- Pages with impressions but low clicks (improve titles)
+- Any crawl errors
+
+Our Search Console guide (/blog/google-search-console-guide/) shows where.
+
+## What results to expect
+
+| Timeframe | Typical progress |
+| --- | --- |
+| Weeks 1 to 2 | Site indexed, ranks for your brand name |
+| Month 1 to 2 | Appears for long-tail and local searches |
+| Month 3 | First organic enquiries, growing impressions |
+| Month 6+ | Competing for main service keywords |
+
+New sites take time to build trust. Steady effort wins. See how long does SEO take? (/blog/how-long-does-seo-take/)
+
+## What not to do
+
+- **Buy links** or use link schemes
+- **Publish dozens of thin pages** to "look bigger"
+- **Copy content** from other sites
+- **Change URLs repeatedly**
+- **Expect page-one rankings in week two**
+
+## Replacing an old site?
+
+If your new site replaces an existing one, the priority is redirects. Without them you'll lose rankings the old site earned. See how to redesign without losing SEO (/blog/seo-migration-redesign/).
+
+## Don't forget AI search
+
+State clearly who you are, what you do and where; add FAQs; allow AI crawlers. See how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+## Frequently asked questions
+
+### How long does it take Google to index a new site?
+Usually a few days to a couple of weeks after you submit a sitemap.
+
+### Should I run ads while SEO builds?
+Often, yes. Ads bring traffic immediately while organic visibility grows. See SEO vs Google Ads (/blog/seo-vs-google-ads/).
+
+### Do I need a blog from day one?
+You need useful content. A handful of strong guides is enough to start.
+
+---
+
+# Keyword Research for Small Businesses: A Simple, Free Method
+URL: https://www.codebunny.net/blog/keyword-research-small-business/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A simple keyword research method for small businesses using free tools: find what customers search, judge intent and competition, and map keywords to pages.
+
+Key takeaways:
+- Start with how your customers describe their problem, not industry jargon
+- Intent matters more than volume; "near me" and "cost" searches are close to buying
+- Free tools like Google autocomplete and Search Console are enough to begin
+- Assign one main keyword to each page
+
+Keyword research is simply finding out what your customers type into Google, so you can build pages that answer them. You don't need expensive software. An hour with free tools will give you a list that guides your whole website.
+
+## Step 1: brainstorm seed terms
+
+Write down:
+
+- Each service or product you sell
+- The problems customers come to you with
+- Words customers actually use (not your internal jargon)
+- Your location and areas served
+
+A plumber's list might include: boiler repair, blocked drain, leaking tap, emergency plumber, bathroom installation, Leeds, Headingley.
+
+## Step 2: expand with free tools
+
+### Google autocomplete
+
+Type a seed term and note the suggestions. Add a letter after it ("boiler repair a", "boiler repair b") to see more.
+
+### People also ask
+
+The question boxes in search results show what people want to know. Each is a potential FAQ or article.
+
+### Related searches
+
+Scroll to the bottom of the results page for more ideas.
+
+### Google Search Console
+
+If your site is live, the Performance report shows queries you already appear for. Look for ones ranking between positions 8 and 20; they're your quickest wins.
+
+### Google Keyword Planner
+
+Free with a Google Ads account. Gives rough volume ranges and related terms.
+
+### Other free options
+
+AnswerThePublic, AlsoAsked, Ubersuggest's free tier and Bing Webmaster Tools' keyword research.
+
+## Step 3: understand intent
+
+Not all searches are equal. Sort each keyword by what the searcher wants:
+
+| Intent | Example | Best page type |
+| --- | --- | --- |
+| Buy / hire | "emergency plumber Leeds" | Service or location page |
+| Compare | "best boiler brands" | Comparison guide |
+| Learn | "why is my boiler losing pressure" | Blog article |
+| Find you | "Harbour Plumbing reviews" | Homepage, reviews page |
+
+Buying-intent keywords bring customers. Informational ones build awareness and trust. You need both, but start with the first.
+
+## Step 4: judge competition
+
+Search each important keyword and look at page one.
+
+- Are the results big national brands or local businesses like you?
+- Are the pages specifically about that topic or only loosely related?
+- Could you create something clearly more useful?
+
+If page one is all household names, target a more specific version: add a location, a niche or a detail. "Wedding photographer" is brutal. "Catholic wedding photographer Denver" is winnable.
+
+## Step 5: go long-tail
+
+Long, specific phrases have lower volume but higher intent and less competition:
+
+- "career coach for tech professionals Vancouver"
+- "solar panel installers for farms Cork"
+- "balayage specialist Vaudreuil"
+
+A handful of these often bring more customers than one broad term.
+
+## Step 6: map keywords to pages
+
+Give each page one primary keyword and a few closely related ones.
+
+| Page | Primary keyword | Related |
+| --- | --- | --- |
+| Homepage | plumber Leeds | plumbing and heating Leeds |
+| Service | boiler repair Leeds | boiler breakdown, gas engineer |
+| Location | plumber Headingley | emergency plumber Headingley |
+| Article | boiler losing pressure | how to repressurise a boiler |
+
+Never target the same keyword with two pages; they'll compete with each other.
+
+## Step 7: use them naturally
+
+Put the primary keyword in:
+
+- The title tag
+- The H1
+- The first paragraph
+- One or two subheadings
+- The URL
+- Image alt text where relevant
+
+Then write for humans. See title tags and meta descriptions (/blog/title-tags-meta-descriptions/).
+
+## Local modifiers
+
+For local businesses, combine every service with:
+
+- Your town or city
+- Neighbourhoods and nearby towns
+- "near me" (you don't write this on the page; you earn it through local signals)
+
+See our local SEO guide (/blog/local-seo-guide/).
+
+## Revisit every six months
+
+Search behaviour shifts. Check Search Console for new queries, and add pages for topics you're starting to appear for.
+
+## Frequently asked questions
+
+### Do I need paid tools?
+Not to begin. Paid tools such as Ahrefs or Semrush become useful once you're investing seriously in content.
+
+### What search volume is worth targeting?
+For local services, even 20 to 50 searches a month can be valuable if the intent is to buy.
+
+### How many keywords should one page target?
+One main keyword and a few close variations. Google understands synonyms.
+
+---
+
+# How to Write a Blog Post That Ranks on Google
+URL: https://www.codebunny.net/blog/how-to-write-a-blog-post-that-ranks/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A step-by-step method for writing blog posts that rank and bring in leads: choosing topics, structure, headings, on-page SEO, internal links and updates.
+
+Key takeaways:
+- Start from a question your customers actually search
+- Answer it early, then go deeper with clear headings
+- Demonstrate real experience with examples, numbers and specifics
+- End with a next step so readers can become leads
+
+Most business blog posts get no traffic. Not because blogging doesn't work, but because the posts are written for the business ("Our new office!") and not for the searcher. A post that ranks does one thing: it answers a specific question better than what's already on page one.
+
+Here's the method we use, including for the article you're reading.
+
+## 1. Choose a topic people search for
+
+Pick one question or problem.
+
+- Ask your sales team or check your inbox: what do customers ask?
+- Use Google autocomplete and "People also ask"
+- Check Search Console for queries you almost rank for
+
+See keyword research for small businesses (/blog/keyword-research-small-business/).
+
+## 2. Check what's ranking
+
+Search the phrase. Look at the top five results.
+
+- What format are they? Guides, lists, comparisons?
+- What do they cover?
+- What's missing, outdated or vague?
+
+Your goal is to be more useful, not longer.
+
+## 3. Match the intent
+
+If the top results are step-by-step guides, write a guide. If they're lists of examples, write a list. Google is showing you what searchers want.
+
+## 4. Write a clear title
+
+Include the phrase people search, near the front. Make a promise.
+
+- "How Much Does a Website Cost for a Small Business in 2026?"
+- "15 Must-Haves for a Coaching Website"
+
+Under 60 characters where possible. See title tags and meta descriptions (/blog/title-tags-meta-descriptions/).
+
+## 5. Answer early
+
+Open with a short introduction that confirms the reader is in the right place, then give the direct answer within the first few paragraphs. People, search engines and AI assistants all reward this.
+
+## 6. Structure with headings
+
+- One H1 (the title)
+- H2s for main sections, written as the questions or steps readers have
+- H3s for sub-points
+
+A reader should grasp the whole article by skimming the headings.
+
+## 7. Make it easy to read
+
+- Short paragraphs
+- Bullet points and numbered steps
+- Tables for comparisons
+- Bold for key phrases
+- Plain words
+
+## 8. Show real experience
+
+This is what separates content that ranks from generic filler.
+
+- Use your own examples and client stories
+- Include real numbers and ranges
+- Add your opinion and say why
+- Show photos or screenshots of your work
+
+Google's quality guidelines emphasise experience, expertise, authoritativeness and trust. First-hand detail demonstrates all four.
+
+## 9. Add a key takeaways box and FAQs
+
+A short summary at the top helps skimmers and gives AI tools a clean extract. Three to five FAQs at the end capture related searches. Mark them up with FAQ schema (guide (/blog/schema-markup-guide/)).
+
+## 10. Link internally
+
+Link to related articles and to the service page the topic relates to. It helps readers and spreads authority around your site. See our internal linking guide (/blog/internal-linking-guide/).
+
+## 11. Optimise images
+
+Compress them, give them descriptive file names and write alt text. See image SEO (/blog/image-seo/).
+
+## 12. End with a next step
+
+Every post should lead somewhere: a consultation, a quote, a download, a related guide. Traffic that doesn't convert is just a number.
+
+## 13. Publish, then promote
+
+- Share on your social channels and in your newsletter
+- Send to anyone mentioned in it
+- Add links to it from older related posts
+
+## 14. Update it
+
+Check your top posts every six to twelve months. Refresh facts, add new examples and update the date. Updated content often jumps in rankings.
+
+## How long should a post be?
+
+As long as it takes to answer the question fully and no longer. For most small business topics that's 800 to 1,500 words.
+
+## Should you use AI to write?
+
+AI is useful for outlines and first drafts. Published as-is, it tends to be generic and identical to everyone else's. Add your experience, examples and voice, and check every fact. Google's guidance is about helpfulness, not how the text was produced; unhelpful content at scale is what gets penalised.
+
+## A simple template
+
+1. Title with the search phrase
+2. Two or three sentence intro
+3. Key takeaways
+4. Direct answer
+5. Detailed sections with H2s
+6. Examples
+7. Call to action
+8. FAQs
+
+## Frequently asked questions
+
+### How often should I publish?
+Consistency beats frequency. One strong post a month is enough for most small businesses.
+
+### How long until a post ranks?
+Typically a few weeks to a few months, depending on competition and your site's authority.
+
+### Should I write about topics outside my services?
+Stay close to what you sell. Relevance builds authority in your niche.
+
+---
+
+# Internal Linking: The Simple SEO Tactic Most Small Sites Ignore
+URL: https://www.codebunny.net/blog/internal-linking-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What internal links are, why they matter for SEO and conversions, and a practical method for adding them across a small business website.
+
+Key takeaways:
+- Internal links help search engines discover pages and understand which matter most
+- Descriptive anchor text tells Google what the linked page is about
+- Link from high-traffic pages to the pages you want to rank
+- Every important page should be linked from several others
+
+Internal links are links from one page on your site to another. They're free, entirely in your control and take minutes to add. They're also one of the most neglected parts of small business SEO.
+
+## Why they matter
+
+### Discovery
+
+Search engines find pages by following links. A page with no internal links pointing to it (an orphan) may never be crawled.
+
+### Understanding
+
+The words you link with (anchor text) tell Google what the destination page is about.
+
+### Authority
+
+Links pass value. Your homepage usually has the most authority; linking from it to key pages shares that strength.
+
+### Visitors
+
+Good links guide people to the next relevant thing, keeping them on your site and moving them towards an enquiry.
+
+## Types of internal links
+
+- **Navigation:** main menu and footer
+- **Contextual:** links within the body text
+- **Breadcrumbs:** Home > Services > Boiler Repair
+- **Related content:** "You might also like"
+- **Calls to action:** buttons to contact or booking pages
+
+Contextual links inside your content carry the most weight.
+
+## How to do it well
+
+### 1. Use descriptive anchor text
+
+Bad: "Click here to learn more."
+
+Good: "See our guide to local SEO for small businesses (/blog/local-seo-guide/)."
+
+The reader and Google both know what's behind the link.
+
+### 2. Link to your most important pages most often
+
+Decide which pages matter most (usually service pages and your contact or booking page) and make sure they receive links from many other pages.
+
+### 3. Link from strong pages
+
+In Search Console or analytics, find your most visited pages. Add links from them to pages you want to boost.
+
+### 4. Connect related content
+
+Group pages into topics. A solar installer might have a main "solar panels" page linked to and from pages on batteries, grants, costs and FAQs. This "hub and spoke" structure shows depth on a topic.
+
+### 5. Add links when you publish
+
+Each time you add a page or post:
+
+- Link out from it to three to five relevant existing pages
+- Go back to two or three older pages and add links to the new one
+
+### 6. Keep it natural
+
+Link where it genuinely helps the reader. A few useful links per section is plenty.
+
+## A 30-minute internal linking audit
+
+1. List your five most important pages
+2. For each, search your site (`site:yourdomain.com "keyword"`) to find pages that mention the topic
+3. Add a link from those mentions to the important page
+4. Check that every page in your sitemap is linked from at least one other
+5. Fix any broken internal links
+
+## Common mistakes
+
+- **Orphan pages** nobody links to
+- **Generic anchors:** "here", "read more"
+- **Same anchor text for different pages,** which confuses search engines
+- **Too many links** in one paragraph
+- **Links only in the menu,** none in content
+- **Broken links** after URL changes
+
+## Internal links and conversions
+
+Don't only link for SEO. Each article should point to the next step: the relevant service, a case study, a booking page. That's how readers become leads. See how to get more leads from your website (/blog/website-conversion-rate-optimization/).
+
+## Site structure tips
+
+- Keep important pages within three clicks of the homepage
+- Use clear categories
+- Add breadcrumbs, with breadcrumb schema (guide (/blog/schema-markup-guide/))
+- Put your key pages in the footer
+
+## Frequently asked questions
+
+### How many internal links should a page have?
+There's no fixed number. Include as many as are genuinely useful; most articles have five to fifteen.
+
+### Should internal links open in a new tab?
+Generally no. Keep visitors in the same tab for internal links.
+
+### Does anchor text need to be the exact keyword?
+No. Use natural, descriptive variations.
+
+---
+
+# Image SEO: How to Optimise Images for Speed and Search
+URL: https://www.codebunny.net/blog/image-seo/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A practical image SEO guide: file formats, sizing, compression, file names, alt text, lazy loading and structured data, for faster pages and better rankings.
+
+Key takeaways:
+- Images are usually the heaviest part of a page, so optimising them is the fastest speed win
+- Use WebP or AVIF, sized to how they're displayed
+- Descriptive file names and alt text help search engines and screen-reader users
+- Lazy-load everything below the first screen and always set dimensions
+
+Images make a website feel alive. They're also the main reason most websites are slow. Image SEO is about getting both: pictures that look great, load fast and help you get found in search.
+
+## 1. Choose the right format
+
+| Format | Best for |
+| --- | --- |
+| WebP | Almost everything; small files, wide support |
+| AVIF | Even smaller; excellent for photos |
+| JPEG | Fallback for photos |
+| PNG | Graphics needing transparency, when WebP isn't an option |
+| SVG | Logos, icons and simple illustrations |
+
+For most sites, converting JPEGs and PNGs to WebP cuts image weight by a quarter to a third with no visible difference.
+
+## 2. Resize before you upload
+
+Don't upload a 6,000-pixel photo to display at 800 pixels. Export at the largest size it will actually appear, typically:
+
+- Full-width hero: 1,800 to 2,400 px
+- Content image: 1,200 to 1,600 px
+- Thumbnail: 400 to 800 px
+
+## 3. Compress
+
+Aim for quality settings of roughly 75 to 82 for WebP. Tools: Squoosh, TinyPNG, ImageOptim, ShortPixel, or your platform's built-in optimiser.
+
+Targets: under 200 to 300 KB for large images, under 100 KB for smaller ones.
+
+## 4. Serve responsive images
+
+Use `srcset` so phones get a smaller file than desktops. Modern platforms and well-built custom sites do this automatically.
+
+## 5. Lazy-load
+
+Images below the first screen should load only as the visitor scrolls. Add `loading="lazy"`. Don't lazy-load the main hero image; prioritise it so it appears immediately.
+
+## 6. Set width and height
+
+Declaring dimensions lets the browser reserve space, preventing content from jumping as images load. This improves your layout shift score. See Core Web Vitals explained (/blog/core-web-vitals-explained/).
+
+## 7. Name files descriptively
+
+Before uploading, rename:
+
+- `IMG_4821.jpg` → `kitchen-renovation-leeds-oak-worktop.webp`
+
+Use lowercase words separated by hyphens. Describe what's in the image.
+
+## 8. Write good alt text
+
+Alt text describes an image for people using screen readers and for search engines.
+
+- Describe what's in the picture, concisely
+- Include a keyword only if it fits naturally
+- Skip "image of" or "picture of"
+- Leave decorative images with empty alt (`alt=""`)
+
+Good: "Bride and groom walking through vineyard at sunset"
+
+Bad: "wedding photographer chicago best wedding photographer illinois"
+
+## 9. Add context
+
+Search engines use the text around an image to understand it. Place images near relevant headings and paragraphs, and use captions where they help.
+
+## 10. Use original images
+
+Real photos of your work, team and premises outperform stock images for trust, and can rank in image search. Stock photos appear on thousands of sites.
+
+## 11. Consider image search
+
+For visual businesses (photographers, designers, salons, restaurants, manufacturers) Google Images and Google Lens can send real traffic. Descriptive names, alt text and surrounding content all help.
+
+## 12. Add structured data
+
+Product, Recipe and Article schema can include images, making them eligible for rich results. See our schema markup guide (/blog/schema-markup-guide/).
+
+## 13. Social sharing images
+
+Set an Open Graph image (1200 × 630 px) for each key page so links look good when shared on Facebook, LinkedIn and WhatsApp.
+
+## How to audit your images
+
+1. Run PageSpeed Insights (https://pagespeed.web.dev/) on your main pages
+2. Look for "Properly size images", "Serve images in next-gen formats" and "Defer offscreen images"
+3. Check total page weight; images are usually the bulk
+4. Fix the largest files first
+
+## A quick workflow
+
+1. Export at display size
+2. Rename descriptively
+3. Convert to WebP and compress
+4. Upload with width and height set
+5. Write alt text
+6. Lazy-load if below the fold
+
+## Image-heavy sites
+
+Portfolios and galleries need extra care. We cover the specifics in how to make your photography website load fast (/blog/photography-website-speed/).
+
+## Frequently asked questions
+
+### Does alt text help rankings?
+It helps search engines understand images and can improve image search visibility. Its main purpose is accessibility.
+
+### Is WebP supported everywhere?
+Yes, by all modern browsers.
+
+### How many images are too many?
+There's no limit if they're optimised and lazy-loaded. Unoptimised, even a few can slow a page badly.
+
+---
+
+# How to Redesign Your Website Without Losing SEO
+URL: https://www.codebunny.net/blog/seo-migration-redesign/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A step-by-step guide to protecting your Google rankings during a website redesign or migration: URL mapping, 301 redirects, content, testing and monitoring.
+
+Key takeaways:
+- Most ranking losses after a redesign come from missing redirects
+- Map every old URL to its closest new equivalent before launch
+- Keep the content and titles that already rank
+- Monitor Search Console closely for the first month
+
+A redesign should make your site rank better: it's faster, clearer and better structured. Yet redesigns are one of the most common causes of sudden traffic loss. The reason is almost always the same. URLs changed, nobody set up redirects, and Google found a site full of dead ends.
+
+Follow these steps and you'll keep what you've earned.
+
+## Before: take stock
+
+### 1. Crawl your current site
+
+Use Screaming Frog (free up to 500 URLs) or a similar tool to export every URL, title, description and H1.
+
+### 2. Identify your valuable pages
+
+In Search Console, export the Pages report for the past 12 to 16 months. Sort by clicks. In analytics, find pages that drive enquiries. These are the pages you can't afford to break.
+
+### 3. Find pages with backlinks
+
+Check Search Console's Links report for pages other sites link to. Their URLs must be preserved or redirected.
+
+### 4. Record benchmarks
+
+Note current traffic, rankings for key terms and conversion numbers so you can compare afterwards.
+
+## During: plan the move
+
+### 5. Keep URLs where you can
+
+If a URL ranks, the safest option is not to change it.
+
+### 6. Build a redirect map
+
+A spreadsheet:
+
+| Old URL | New URL | Notes |
+| --- | --- | --- |
+| /about.html | /about/ | |
+| /services.html#seo | /services/seo/ | Split into own page |
+| /old-blog-post | /blog/new-slug/ | Updated |
+| /discontinued-service | /services/ | Closest relevant page |
+
+Rules:
+
+- Every old URL gets a destination
+- Redirect to the most relevant page, not everything to the homepage
+- Use 301 (permanent) redirects
+- Avoid chains: A should go straight to C, not via B
+
+### 7. Preserve what works
+
+For pages that rank:
+
+- Keep the main topic, headings and substantial content
+- Keep or improve the title tag
+- Don't cut a detailed page down to two sentences for design reasons
+
+### 8. Carry over technical elements
+
+- Title tags and meta descriptions
+- Schema markup
+- Canonical tags
+- Image alt text
+- Analytics and tag manager code
+- Any verification codes
+
+### 9. Build on staging, blocked from search
+
+Use a staging URL with noindex or password protection so the unfinished site isn't indexed.
+
+## Launch day
+
+### 10. Remove the noindex
+
+The most common launch mistake is going live with search engines still blocked.
+
+### 11. Implement and test redirects
+
+Test a sample of old URLs. Each should land on the right page with a 301 status.
+
+### 12. Submit the new sitemap
+
+In Search Console and Bing Webmaster Tools.
+
+### 13. Check robots.txt
+
+Make sure it isn't blocking the new site.
+
+### 14. Test everything
+
+Forms, phone links, booking, payments, mobile layout, speed.
+
+## After: monitor
+
+### 15. Watch Search Console daily for two weeks
+
+- **Pages report:** 404 errors and "not indexed" reasons
+- **Performance:** clicks and impressions for your key pages
+
+Fix 404s by adding missing redirects.
+
+### 16. Update external links you control
+
+Google Business Profile, social profiles, directory listings, email signatures.
+
+### 17. Compare with benchmarks
+
+A dip in the first couple of weeks is normal as Google recrawls. Traffic should recover and then improve. A sustained drop after four weeks needs investigation.
+
+## Changing domain too?
+
+A domain change adds steps:
+
+- Redirect every URL on the old domain to the same path on the new one
+- Use Search Console's Change of Address tool
+- Keep the old domain registered and redirecting for at least a year, ideally permanently
+
+## Platform changes
+
+Moving from WordPress, Wix or Squarespace to a custom build (or vice versa) usually changes URL formats. That makes the redirect map essential. On this site, for example, old `.html` URLs redirect to clean folder-style URLs.
+
+## What to do if rankings have already dropped
+
+1. Check for a leftover noindex or robots.txt block
+2. Find 404s in Search Console and redirect them
+3. Compare old and new versions of key pages (use the Wayback Machine) and restore missing content
+4. Check titles and headings weren't changed for the worse
+5. Confirm the site isn't slower than before
+
+Most losses are recoverable if you act within a few weeks.
+
+For the complete project plan, see our 30-step website redesign checklist (/blog/website-redesign-checklist/).
+
+## Frequently asked questions
+
+### How long do redirects need to stay in place?
+Indefinitely is best. At minimum, a year.
+
+### Will I lose rankings temporarily?
+Small fluctuations are normal for a few weeks. With correct redirects, rankings usually stabilise or improve.
+
+### Can I redirect all old pages to the homepage?
+No. Google treats irrelevant redirects like missing pages. Redirect each to its closest match.
+
+---
+
+# Google Search Console for Beginners: What to Check and Why
+URL: https://www.codebunny.net/blog/google-search-console-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A beginner's guide to Google Search Console: setup, the reports that matter, how to find quick SEO wins and a simple monthly routine for small businesses.
+
+Key takeaways:
+- Search Console is free and shows exactly how Google sees your site
+- The Performance report reveals the searches you appear for and where you rank
+- The Pages report tells you which pages aren't indexed and why
+- Fifteen minutes a month is enough to catch problems and find opportunities
+
+Google Search Console is a free tool from Google that shows how your website performs in search: which queries bring people to you, which pages are indexed and what's going wrong. If you only use one SEO tool, make it this one.
+
+## Setting up
+
+1. Go to search.google.com/search-console (https://search.google.com/search-console)
+2. Add your site as a **Domain property** (covers all versions) and verify through a DNS record, or as a **URL prefix** and verify with an HTML tag
+3. Submit your sitemap under **Sitemaps** (usually `yourdomain.com/sitemap.xml`)
+
+Data starts appearing within a couple of days.
+
+## The Performance report
+
+This is where you'll spend most of your time.
+
+### Four numbers
+
+- **Clicks:** visits from Google search
+- **Impressions:** how often you appeared
+- **CTR:** clicks divided by impressions
+- **Average position:** your typical ranking
+
+### Queries
+
+The actual searches you showed up for. Look for:
+
+- Searches you didn't know you ranked for
+- Queries with lots of impressions and few clicks
+- Queries where you rank between positions 5 and 20
+
+### Pages
+
+Which pages bring traffic. Click a page, then switch to Queries to see what it ranks for.
+
+### Filters
+
+Compare date ranges, filter by country or device, and search for queries containing a word such as your town.
+
+## Finding quick wins
+
+### 1. "Almost there" keywords
+
+Filter for position 8 to 20. These are within reach of page one. Improve the page: better content, clearer title, more internal links.
+
+### 2. Low click-through rate
+
+High impressions but low CTR means your title and description aren't enticing. Rewrite them. See title tags and meta descriptions (/blog/title-tags-meta-descriptions/).
+
+### 3. Content ideas
+
+Queries you appear for without a dedicated page are topics to write about. See how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/).
+
+## The Pages (indexing) report
+
+Shows which pages Google has indexed and which it hasn't, with reasons.
+
+| Status | Meaning | Action |
+| --- | --- | --- |
+| Not found (404) | Page doesn't exist | Redirect or fix the link |
+| Excluded by noindex | You've told Google not to index it | Remove tag if unintended |
+| Crawled, currently not indexed | Google saw it and wasn't convinced | Improve content, add internal links |
+| Duplicate without canonical | Similar pages | Set canonical or merge |
+| Redirect | Normal for redirected URLs | Usually fine |
+
+Not every excluded URL is a problem. Focus on important pages that should be indexed and aren't.
+
+## URL Inspection
+
+Paste any URL to see whether it's indexed, when it was last crawled and how Google renders it. Use **Request indexing** after publishing or updating a page.
+
+## Experience reports
+
+- **Core Web Vitals:** speed and stability by page group (explained (/blog/core-web-vitals-explained/))
+- **HTTPS:** confirms pages are served securely
+
+## Enhancements
+
+Shows structured data Google has found (FAQs, breadcrumbs, products, reviews) and any errors. See the schema markup guide (/blog/schema-markup-guide/).
+
+## Links
+
+- **External links:** who links to you and to which pages
+- **Internal links:** which of your pages have the most links; important pages should be near the top (internal linking guide (/blog/internal-linking-guide/))
+
+## Security and manual actions
+
+Hopefully empty. If Google detects hacking or applies a penalty, it's reported here.
+
+## A 15-minute monthly routine
+
+1. **Performance:** compare the last 28 days with the previous period. Note rises and falls.
+2. **Queries:** scan for new terms and "almost there" keywords.
+3. **Pages report:** check for new errors.
+4. **Core Web Vitals:** any pages slipping?
+5. **Pick one action** for the month: improve a page, rewrite a title, fix an error.
+
+## Bing Webmaster Tools
+
+Set this up too. It's free, imports your Search Console settings, and Bing's index powers several AI assistants. See how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+## Frequently asked questions
+
+### Is Search Console the same as Google Analytics?
+No. Search Console shows how you appear in Google search. Analytics shows what visitors do once they're on your site. Use both.
+
+### Why don't the numbers match my analytics?
+They measure different things in different ways. Small discrepancies are normal.
+
+### How far back does the data go?
+Sixteen months. Export reports periodically if you want a longer history.
+
+---
+
+# How Long Does SEO Take to Work? Honest Timelines
+URL: https://www.codebunny.net/blog/how-long-does-seo-take/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Realistic timelines for SEO results, what affects how fast you'll see them, what to expect month by month and how to speed things up.
+
+Key takeaways:
+- Most businesses see meaningful movement in three to six months and strong results in six to twelve
+- New sites, competitive markets and thin content all slow things down
+- Local and long-tail keywords pay off fastest
+- SEO compounds; early months feel slow and later months accelerate
+
+"How long until we're on page one?" is the question every business asks and few agencies answer honestly. The truthful answer has a range and some conditions. Here's what to expect and why.
+
+## The short version
+
+- **Brand searches** (your business name): days to weeks
+- **Long-tail and local searches:** one to three months
+- **Main service keywords in a moderately competitive market:** three to six months
+- **Competitive city or national terms:** six to twelve months or more
+
+## Why it takes time
+
+1. **Crawling and indexing.** Google has to find and process your pages.
+2. **Trust.** New sites and new content are tested gradually.
+3. **Competition.** Others have been building content and links for years.
+4. **Compounding.** Each page, link and review adds a little; the effect builds.
+
+## What affects your timeline
+
+| Factor | Faster | Slower |
+| --- | --- | --- |
+| Site age | Established domain | Brand-new domain |
+| Competition | Small town, niche service | Big city, crowded industry |
+| Starting point | Good technical base | Slow, broken or thin site |
+| Content | Regular, useful, specific | Sparse or generic |
+| Links and reviews | Existing reputation | None yet |
+| Consistency | Monthly effort | One-off push |
+
+## Month by month
+
+**Month 1:** audit, technical fixes, tracking, Google Business Profile, keyword mapping. Little visible change.
+
+**Month 2:** improved pages get recrawled. Impressions start rising in Search Console. Long-tail queries appear.
+
+**Month 3:** first ranking gains for specific and local terms. Early organic enquiries.
+
+**Months 4 to 6:** steady growth as more content is indexed and links and reviews accumulate. Main keywords move onto pages one and two.
+
+**Months 6 to 12:** compounding. Content published early now ranks well. Organic becomes a reliable lead source.
+
+## Quick wins while you wait
+
+- **Fix titles and descriptions** on pages already ranking; more clicks without ranking higher (how (/blog/title-tags-meta-descriptions/))
+- **Target "almost there" keywords** at positions 8 to 20 (Search Console guide (/blog/google-search-console-guide/))
+- **Complete your Google Business Profile** and gather reviews; map results can move in weeks (checklist (/blog/google-business-profile-optimization/))
+- **Speed up the site** (Core Web Vitals (/blog/core-web-vitals-explained/))
+- **Add internal links** to key pages (guide (/blog/internal-linking-guide/))
+
+## How to tell it's working before the leads arrive
+
+Leading indicators:
+
+- Rising impressions in Search Console
+- More queries triggering your pages
+- Average position improving
+- More pages indexed
+- More branded searches
+
+If these are trending up, traffic and enquiries will follow.
+
+## Red flags
+
+- **Guaranteed rankings** or timeframes
+- **"Instant results"**
+- **Bought links** or private blog networks
+- **No reporting** or only vanity metrics
+- **Nothing visible being done** each month
+
+Honest SEO involves visible work: pages improved, content published, issues fixed.
+
+## Should you run ads in the meantime?
+
+Often, yes. Ads bring enquiries from day one and reveal which keywords convert. Use that data to guide SEO. See SEO vs Google Ads (/blog/seo-vs-google-ads/).
+
+## Is it worth the wait?
+
+Once you rank, each click is free and the traffic continues. Businesses that invest steadily for a year typically find organic search becomes their lowest-cost source of leads.
+
+## New site?
+
+Follow our first 90 days SEO plan (/blog/seo-for-new-websites/) to build the right foundations.
+
+## Frequently asked questions
+
+### Can SEO work in a month?
+You can fix technical issues and see small gains, particularly locally, but meaningful results take longer.
+
+### Why did my rankings drop after improving?
+Fluctuations are normal as Google re-evaluates pages. Judge trends over months, not days.
+
+### Does SEO ever finish?
+No. Competitors keep working and search changes. The effort needed to maintain is less than the effort to build.
+
+---
+
+# SEO vs Google Ads: Which Is Better for a Small Business?
+URL: https://www.codebunny.net/blog/seo-vs-google-ads/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+An honest comparison of SEO and Google Ads for small businesses: cost, speed, trust, longevity and how to combine them for the best return.
+
+Key takeaways:
+- Ads deliver traffic immediately; SEO builds a lasting asset
+- Ads stop the moment you stop paying, while SEO keeps working
+- Most businesses do best with ads for quick wins and SEO for long-term growth
+- Both fail without a website that converts visitors into enquiries
+
+You want more customers from Google. There are two ways to get them: pay for ads at the top of the page, or earn a place in the organic results below. Each has strengths. The right mix depends on your budget, timeline and market.
+
+## Side by side
+
+| | SEO | Google Ads |
+| --- | --- | --- |
+| Speed | Months | Same day |
+| Cost model | Time and expertise | Pay per click |
+| Longevity | Continues after work stops | Stops when budget stops |
+| Trust | Many users prefer organic results | Marked "Sponsored" |
+| Control | Limited; Google decides | Precise targeting and budgets |
+| Data | Slower feedback | Immediate keyword and conversion data |
+| Best for | Long-term, sustainable leads | Launches, promotions, quick results |
+
+## The case for Google Ads
+
+- **Instant visibility.** Be at the top today.
+- **Precise targeting.** By keyword, location, time and device.
+- **Budget control.** Set a daily cap.
+- **Measurable.** Track cost per lead exactly.
+- **Testing.** Learn which keywords and messages convert.
+
+### Downsides
+
+- Costs can be high in competitive industries; some clicks cost $20 or more
+- Traffic ends when spending stops
+- Poorly managed campaigns waste money fast
+- Needs ongoing optimisation
+
+## The case for SEO
+
+- **Compounding returns.** Content you publish today can bring leads for years.
+- **Lower cost per lead over time.**
+- **Credibility.** Ranking organically signals authority.
+- **Broader reach.** Captures research-stage searches ads rarely target.
+- **Supports AI visibility.** Assistants draw on organic content. See how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+### Downsides
+
+- Takes months (realistic timelines (/blog/how-long-does-seo-take/))
+- No guarantees
+- Requires consistent effort
+- Algorithm changes can shift rankings
+
+## When to prioritise ads
+
+- You need leads this month
+- You're launching a new business, service or location
+- You have a seasonal or time-limited offer
+- Your market's organic results are dominated by giants
+- You want to test demand before investing in content
+
+## When to prioritise SEO
+
+- You're building for the long term
+- Your budget is limited but you have time
+- Clicks in your industry are expensive
+- You already have some authority to build on
+- Local search and map results are key to your business
+
+## Why most businesses should do both
+
+They reinforce each other.
+
+- **Ads data guides SEO.** See which keywords convert, then build content for them.
+- **SEO lowers ad dependence.** As rankings grow, shift budget.
+- **Double presence.** Appearing in both ads and organic results increases total clicks.
+- **Remarketing.** Bring back visitors who found you organically.
+
+### A sensible plan
+
+| Phase | Focus |
+| --- | --- |
+| Months 1 to 3 | Ads for immediate leads; start SEO foundations |
+| Months 4 to 9 | Continue both; expand content |
+| Months 10+ | Reduce ad spend where organic now ranks; keep ads for high-value and seasonal terms |
+
+## Don't forget Local Services Ads and Maps
+
+For local businesses, Google's map results and Local Services Ads (where available) often sit above everything. A strong Google Business Profile (/blog/google-business-profile-optimization/) is essential either way.
+
+## The thing both depend on
+
+A click is only worth something if the page converts. Sending expensive traffic to a slow, confusing website wastes money on ads and squanders rankings from SEO.
+
+Before spending more on traffic, make sure your site:
+
+- Loads fast on mobile
+- Says clearly what you do and where
+- Shows proof
+- Has an obvious next step
+
+See how to get more leads from your website (/blog/website-conversion-rate-optimization/).
+
+## Landing pages for ads
+
+Send ad clicks to a focused page that matches the ad, not your homepage. See landing page vs website (/blog/landing-page-vs-website/).
+
+## Frequently asked questions
+
+### Do Google Ads improve my SEO rankings?
+No. Paying for ads doesn't affect organic rankings directly.
+
+### Which is cheaper?
+Ads cost less to start and more over time. SEO costs more up front and less per lead in the long run.
+
+### How much should I spend on Google Ads?
+Enough to gather meaningful data: often $500 to $1,500 a month for a local service business to begin, adjusted by results.
