@@ -3273,3 +3273,2272 @@ Absolutely. Embed the film, add stills and write about filming at the venue.
 
 ### Do I need the venue's permission?
 You don't need permission to write about a venue, but building the relationship first makes them far more likely to share and link.
+
+---
+
+# 40 Blog Post Ideas for Wedding Photographers (That Bring in Enquiries)
+URL: https://www.codebunny.net/blog/wedding-photographer-blog-ideas/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Forty blog post ideas for wedding photographers and videographers, grouped by what they achieve: ranking for venues, answering couples' questions and showing your style.
+
+Key takeaways:
+- Blog for couples, not for other photographers
+- Real weddings and venue guides bring in the most ready-to-book traffic
+- Planning advice builds trust months before a couple enquires
+- One strong post a month is enough if every post has a job
+
+Most photographers' blogs go quiet after three posts because "blogging" feels like a chore with no clear payoff. The fix is to treat every post as a small landing page aimed at a specific search or a specific doubt in a couple's mind.
+
+Here are forty ideas, grouped by what they do for you.
+
+## Real weddings (your SEO engine)
+
+1. A full wedding at a venue you'd love to shoot again
+2. A rainy-day wedding that still looked incredible
+3. A small or micro wedding
+4. An elopement
+5. A winter wedding
+6. A multi-day or cultural celebration
+7. A wedding with an unusual timeline (brunch, sunset ceremony)
+8. Your favourite wedding of the year, and why
+
+Put the venue in the title every time. Each of these is a page that can rank for "[venue] wedding photos". See venue pages (/blog/venue-pages-for-photographers/).
+
+## Venue and location guides
+
+9. A photographer's guide to your most-shot venue
+10. The best wedding venues in your region
+11. Best engagement photo locations in your city
+12. Hidden-gem ceremony spots
+13. Best venues for a small wedding
+14. Where to take portraits at a specific venue
+15. Best sunset spots for couple portraits
+16. Indoor photo locations for bad weather
+
+## Planning advice (trust builders)
+
+17. A wedding day timeline that leaves room for great photos
+18. How many hours of photography do you need?
+19. First look or no first look?
+20. How to plan family photos without chaos
+21. What to do if it rains
+22. Getting-ready tips for better photos
+23. How to choose a ceremony time for the best light
+24. Unplugged ceremonies: pros and cons
+25. Do you need a second photographer?
+26. Should you hire a videographer too?
+
+Couples search for these early in their planning. If your advice helps, you're the photographer they already trust when they're ready to book.
+
+## Engagement sessions
+
+27. What to wear for engagement photos
+28. How to feel relaxed in front of the camera
+29. Engagement session ideas for couples who hate posing
+30. Should you bring your dog?
+
+## About you and your process
+
+31. What it's like to work with you, from enquiry to gallery
+32. Your editing style explained with before and afters
+33. What's in your camera bag (keep it short; couples skim this)
+34. Why you became a wedding photographer
+35. How you choose which images to deliver
+36. Behind the scenes of a wedding day
+
+## Products and after the wedding
+
+37. Why print your photos: albums explained
+38. How to choose images for your album
+39. What to do with your wedding photos after the day
+
+## Vendor spotlights
+
+40. Your favourite planners, florists or venues, interviewed
+
+These earn links and referrals from the vendors you feature.
+
+## How to write each post
+
+- **Title:** include the venue or the question, the way couples would type it
+- **Intro:** two or three sentences that set the scene
+- **Body:** 300 to 800 words. Google can't read photos; it needs text.
+- **Images:** well compressed, descriptive file names and alt text (image SEO (/blog/image-seo/))
+- **Links:** to the venue, vendors and your related posts
+- **Call to action:** "Planning a wedding at [venue]? Check your date."
+
+More on structure in how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/).
+
+## A realistic schedule
+
+| Month type | Post |
+| --- | --- |
+| Busy season | One real wedding |
+| Quiet season | One venue guide and one planning article |
+
+Twelve to eighteen good posts a year will outperform fifty rushed ones.
+
+## Repurpose everything
+
+Each post becomes a Pinterest board, three Instagram carousels, a reel and an email to past enquiries. Write once, use five times.
+
+## Frequently asked questions
+
+### How long should a wedding blog post be?
+At least 300 words alongside the images. Venue guides and planning articles do better at 800 to 1,200.
+
+### Should I blog every wedding?
+No. Blog the ones that show your style and target venues or locations you want more of.
+
+### Do blogs still work when couples use Instagram?
+Yes. Instagram is for discovery; Google is where couples research venues and vendors with intent to book.
+
+---
+
+# How to Make Your Photography Website Load Fast (Without Losing Quality)
+URL: https://www.codebunny.net/blog/photography-website-speed/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Practical steps to speed up an image-heavy photography website: formats, sizing, lazy loading, galleries and video, with no visible loss in quality.
+
+Key takeaways:
+- Export at the size the image is displayed, not full resolution
+- WebP or AVIF cut file sizes dramatically with no visible difference
+- Lazy-load everything below the first screen
+- Load video players only when someone clicks play
+
+Photographers face a real tension: the work has to look incredible, and incredible images are heavy. A slow site loses couples before they've seen a single frame, and Google ranks slow pages lower. The good news is that you can have both speed and quality. It comes down to how images are prepared and delivered.
+
+## Why speed matters more for photographers
+
+- Most couples arrive on a phone, often on mobile data
+- Portfolio pages carry dozens of images
+- Visitors compare several photographers in one sitting; the slow tab gets closed
+- Google's Core Web Vitals reward fast-loading pages (explained here (/blog/core-web-vitals-explained/))
+
+## Step 1: export at display size
+
+A camera file might be 8,000 pixels wide. Your website shows it at 1,600 at most. Uploading the original forces every visitor to download four or five times more than they can see.
+
+**Guidelines:**
+
+| Use | Width to export |
+| --- | --- |
+| Full-width hero | 2,000 to 2,400 px |
+| Gallery image | 1,400 to 1,800 px |
+| Grid thumbnail | 600 to 800 px |
+
+## Step 2: use modern formats
+
+**WebP** is supported by every modern browser and is typically 25 to 35% smaller than JPEG at the same visual quality. **AVIF** is smaller still. Export JPEGs from Lightroom at around 80 quality, then convert to WebP at 75 to 82 with a tool like Squoosh, ShortPixel or your site's built-in optimiser.
+
+At normal viewing sizes, nobody can tell the difference. You'll see it in your load times.
+
+## Step 3: serve the right size to each device
+
+A phone doesn't need the desktop version. Responsive images (`srcset`) let the browser choose the smallest file that still looks sharp on that screen. A good custom build or a quality platform handles this automatically; if yours doesn't, it's worth fixing.
+
+## Step 4: lazy-load below the fold
+
+Only the first image or two should load immediately. Everything else should load as the visitor scrolls towards it. This single change can turn a ten-second page into a two-second one.
+
+## Step 5: reserve space for images
+
+If images pop in and shove the text around, the page feels janky and Google counts it against you (it's called layout shift). Setting width and height on every image reserves the space before it loads.
+
+## Step 6: tame your galleries
+
+- **Paginate or "load more"** for galleries beyond 40 to 60 images
+- **Avoid heavy slider plugins** that load every slide up front
+- **Use a lightbox** that loads the large version only on click
+
+## Step 7: handle video carefully
+
+- Compress background loops hard and keep them short
+- Always set a poster image
+- For Vimeo and YouTube, show a thumbnail and load the player on click
+
+More in wedding videographer websites (/blog/wedding-videographer-website/).
+
+## Step 8: trim everything else
+
+- **Fonts:** two families at most, self-hosted or preloaded
+- **Plugins and widgets:** each one adds weight; remove those you don't need
+- **Third-party scripts:** chat widgets, pixels and Instagram feeds are common culprits
+- **Hosting:** a good host with a CDN delivers images from a server near the visitor
+
+## How to test
+
+1. Open PageSpeed Insights (https://pagespeed.web.dev/) and test your homepage and a gallery page on mobile.
+2. Look at **Largest Contentful Paint**; aim for under 2.5 seconds.
+3. Check the "properly size images" and "next-gen formats" suggestions.
+4. Test on a real phone on mobile data, not only on office Wi-Fi.
+
+## What we do on photography builds
+
+On sites like the ones below, every image is exported in multiple sizes as WebP, lazy-loaded with reserved space, and the hero is prioritised so it appears first. That's how a gallery-rich homepage still loads quickly.
+
+## Frequently asked questions
+
+### Will compressing images make them look worse?
+Not at sensible settings. At WebP quality 75 to 82 and display size, the difference is invisible to visitors.
+
+### What file size should I aim for?
+Under 300 KB for large images and under 100 KB for thumbnails is a good target.
+
+### Is my platform the problem?
+Sometimes. If you've optimised images and the site is still slow, the template or plugins may be the bottleneck. We're happy to take a look.
+
+---
+
+# The Perfect Wedding Inquiry Form: Questions That Qualify Couples
+URL: https://www.codebunny.net/blog/wedding-inquiry-form/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What to ask on a wedding photography or videography inquiry form to get more, better enquiries, with a ready-to-use field list and follow-up tips.
+
+Key takeaways:
+- Ask for the date and venue first; they tell you most of what you need
+- Keep required fields to six or fewer
+- One open question lets couples show their personality
+- Reply within a few hours; speed wins bookings
+
+Your inquiry form is the bridge between a couple loving your work and you getting the chance to book them. Ask too little and you're emailing back and forth for days. Ask too much and they abandon it halfway.
+
+Here's the balance that works.
+
+## The essential fields
+
+1. **Names** (both partners)
+2. **Email**
+3. **Wedding date** (with a "we don't have one yet" option)
+4. **Venue or location**
+5. **What they're looking for** (photo, film or both)
+6. **Tell me about your day** (open text)
+
+That's enough to check availability, understand the scale and start a real conversation.
+
+## Useful optional fields
+
+- **Phone number.** Optional; some couples prefer a text.
+- **Estimated guest count.** Helps you judge coverage.
+- **How did you find me?** Tells you which marketing works.
+- **Budget range.** Divisive. If you show starting prices on your site, you may not need it. If you don't, a range dropdown filters effectively.
+- **Instagram handle.** A nice way to get to know them.
+
+## Questions that start a conversation
+
+Swap the dull "Message" box for a prompt:
+
+- "Tell me about the two of you and what you're planning."
+- "What matters most to you about your wedding photos?"
+- "What's the part of the day you're most excited about?"
+
+Couples who answer thoughtfully tend to be the ones who value photography. And you get something personal to respond to.
+
+## Design details that lift completions
+
+- **One column,** thumb-friendly on mobile
+- **A date picker** rather than free text
+- **Clear labels** above each field
+- **A friendly button:** "Send my enquiry" or "Check my date" beats "Submit"
+- **A note about response time:** "I reply within 24 hours"
+- **A confirmation message** that tells them what happens next
+
+More in contact forms that convert (/blog/contact-form-best-practices/).
+
+## Add an availability check
+
+A simple "Check your date" field near the top of your site is a lovely hook. The couple gets an instant answer and you get the start of an enquiry. Captured by Katherine uses this to great effect.
+
+## Where the form should live
+
+- A dedicated contact page
+- A short version at the bottom of every portfolio and investment page
+- A button in the header on every page
+
+Don't make couples hunt for it after they've fallen for a gallery.
+
+## What happens after they submit
+
+### Instantly
+
+An automatic email confirming you received it, with a link to your pricing guide or a favourite gallery while they wait.
+
+### Within a few hours
+
+A personal reply. Mention something specific they wrote. Confirm availability. Suggest a call. Speed matters: couples often book the first photographer who replies warmly and promptly.
+
+### If they go quiet
+
+Follow up after three days and again after a week. Most photographers never follow up at all; those who do book more weddings.
+
+## Tools
+
+Your form can feed a studio management tool (HoneyBook, Dubsado, Studio Ninja, Sprout Studio) so enquiries, replies, contracts and invoices sit in one place. A good website integrates with whichever you use.
+
+## Protect against spam
+
+Use a hidden "honeypot" field or an invisible challenge. Avoid old-style puzzles that make humans prove themselves.
+
+## Frequently asked questions
+
+### Should I ask for budget on the form?
+If your site shows starting prices, it's optional. If it doesn't, a budget range saves time for you both.
+
+### How long should my form be?
+Six required fields at most. Everything else can be optional or asked later.
+
+### Is it better to use a form or just list my email?
+Offer both. Forms capture structured information; some couples simply prefer to email.
+
+---
+
+# Wedding Photographer Website Examples (and What Makes Them Work)
+URL: https://www.codebunny.net/blog/wedding-photographer-website-examples/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Six wedding photography and videography websites we built, from Chicago to Christchurch, with a breakdown of what each one does well.
+
+Key takeaways:
+- The best photography sites open with one unforgettable image and a clear location
+- Each has its own visual identity that matches the photographer's style
+- All make it effortless to enquire from any page
+- Fast loading is designed in, not bolted on
+
+Templates have made wedding photography sites look increasingly alike. These six, all built by Code Bunny, show how much room there is to be distinctive while staying fast and easy to book.
+
+## 1. Dan Reynolds Photography — Chicago & Peoria, Illinois
+
+A husband-and-wife photo and film team ranked among the top photographers in Illinois. The homepage opens with a golden-hour frame and the line "Moments you'll see again", then moves through portfolio, films and investment.
+
+**What works:** photo and film presented as one experience; a built-in editor and blog so the team can publish their own stories; location in the first line for local SEO.
+
+After launch, Dan told us: "I think the site looks great. I got a lot of compliments on it."
+
+## 2. Mark Arista Films — Oahu, Hawaii
+
+A wedding videographer whose site feels like the opening titles of a film: a dark palette, film-strip details and a single centred title.
+
+**What works:** the design language *is* the medium. You know it's a filmmaker's site before you read a word.
+
+## 3. Captured by Katherine — Brisbane, Australia
+
+Candid wedding, family and formal photography since 2009. Warm, romantic and relaxed, with an availability check couples can use in seconds.
+
+**What works:** the "Check your date" hook turns browsing into an enquiry.
+
+## 4. Jack Albert Weddings — Ottawa Valley, Canada
+
+Warm, cinematic wedding films across Renfrew County, Ottawa and Kingston. The headline "The day, heard again" sells what film offers that photos can't: sound.
+
+**What works:** a headline that makes the case for video in four words.
+
+## 5. The Things That I See — Denver, Colorado
+
+Catholic and Christian wedding photography and film. The site leads with reverence and a clear statement of who it's for.
+
+**What works:** a tight niche. Couples who want a photographer who understands a Catholic ceremony know instantly they've found one.
+
+## 6. Alpha Visuals — Christchurch, New Zealand
+
+Candid, cinematic wedding films shot in 4K with real Super 8mm available. Pricing is stated up front.
+
+**What works:** confident pricing and a distinctive offer (Super 8) that sets it apart.
+
+## What they have in common
+
+1. **One hero image or clip.** No twelve-slide carousels.
+2. **Location in the first line.**
+3. **A personality.** Colour, type and voice match the work.
+4. **An enquiry button on every screen.**
+5. **Speed.** Hand-coded, optimised images, lazy loading.
+6. **Text for Google.** Beautiful galleries supported by real copy.
+
+## How to use these as inspiration
+
+Note what draws you to each: the mood, the layout, how pricing is handled, the enquiry flow. Share those notes with your designer. Borrow structure and ideas; keep the style your own.
+
+For the principles behind them, read how to build a wedding photographer website that books couples (/blog/wedding-photographer-website-guide/).
+
+## Frequently asked questions
+
+### Are these built on Squarespace or Showit?
+No, they're custom-coded, which is why they look distinct and load quickly.
+
+### Can you build something like this for me?
+Yes. Tell us which you like and we'll design a free preview (/free-website-preview/) of your homepage.
+
+### How long does a photography site take to build?
+Usually one to three weeks once we have your images and copy.
+
+---
+
+# How Many Photos Should Be in Your Portfolio? A Curation Guide
+URL: https://www.codebunny.net/blog/photographer-portfolio-curation/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How wedding photographers should curate an online portfolio: how many images to show, how to choose and order them, and what to leave out.
+
+Key takeaways:
+- Twenty to forty exceptional images beat hundreds of good ones
+- Show the work you want to be hired for
+- Include full wedding galleries so couples can see consistency
+- Open and close with your strongest frames
+
+The hardest part of building a photography website isn't design. It's deciding what to leave out. Every image you love has a memory attached; couples only see whether it's great. A tight portfolio signals confidence. A sprawling one hides your best work among your average.
+
+## How many images?
+
+| Section | Recommended number |
+| --- | --- |
+| Homepage | 1 hero plus 10 to 20 highlights |
+| Main portfolio | 30 to 50 |
+| Each category (weddings, engagements) | 20 to 30 |
+| Full real-wedding gallery | 40 to 80 |
+
+If you're unsure about an image, the answer is no.
+
+## Show what you want to shoot
+
+Your portfolio is a filter. If you want elopements in the mountains, show those. If you fill it with ballroom receptions because that's what you've shot most, you'll book more ballrooms.
+
+## A five-step curation process
+
+1. **Gather** your 200 favourite images from the last two years.
+2. **First cut:** remove anything technically weak or stylistically inconsistent. Aim for 100.
+3. **Second cut:** remove duplicates of the same moment or pose. Aim for 60.
+4. **Third cut:** ask "would I be thrilled to deliver this as the hero image?" Aim for 40.
+5. **Get an outside eye.** Ask a photographer friend or a past client which ten they'd drop.
+
+## Variety without chaos
+
+A strong portfolio covers the range of a wedding day:
+
+- Getting ready and details
+- Emotional moments (the look, the tears, the laughter)
+- Portraits of the couple
+- Family and friends
+- Ceremony and reception atmosphere
+- The party
+
+It should also show different light (bright sun, golden hour, indoor, night) and reflect the diversity of the couples you serve.
+
+## Consistency
+
+Editing style should be coherent across images shown together. If your look has changed, retire the old work, however much you love it.
+
+## Order matters
+
+- **Open with your best.** The first image decides whether anyone sees the second.
+- **End strong.** People remember the last frame.
+- **Alternate rhythm:** wide then close, quiet then energetic, colour then black and white.
+- **Pair images** that complement each other side by side.
+
+## Full galleries build trust
+
+Highlights show your peak. Couples also want to know what an entire day looks like in your hands. Publish three to five full weddings (as blog posts or gallery pages) so they can see consistency from the first frame to the last. These posts double as SEO assets; see venue pages (/blog/venue-pages-for-photographers/).
+
+## What to leave out
+
+- Styled shoots presented as real weddings (label them honestly)
+- Work that's more than three or four years old, unless it's iconic
+- Images where the couple's faces are hidden in every frame
+- Anything you're including only because the venue was impressive
+
+## Keep it fast
+
+Even the best curation fails if the page takes ten seconds to load. Export at display size, use WebP and lazy-load. See photography website speed (/blog/photography-website-speed/).
+
+## Refresh regularly
+
+Review your portfolio at the end of each season. Swap in new favourites and remove the weakest five. A portfolio is never finished.
+
+## Examples of tight curation
+
+## Frequently asked questions
+
+### Should I have separate portfolios for weddings and engagements?
+Yes, if you want to book both. Keep each one tight.
+
+### Should I include black and white images?
+If it's part of your style, yes. Mix them with intention rather than at random.
+
+### How do I choose a hero image?
+Pick the frame that best represents your style and makes people stop. Test two options and see which gets more enquiries.
+
+---
+
+# Google Business Profile for Wedding Photographers: Setup and Optimisation
+URL: https://www.codebunny.net/blog/google-business-profile-photographers/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How wedding photographers and videographers can set up and optimise a Google Business Profile to appear in map results and win more local enquiries.
+
+Key takeaways:
+- Your profile is what appears in Google's map results; your website alone won't get you there
+- Choose "Wedding photographer" as the primary category
+- Add fresh photos monthly and reply to every review
+- You can hide your home address and list a service area
+
+Search "wedding photographer near me" and the first thing you see is a map with three businesses. Those results come from Google Business Profiles, not websites. If you haven't set yours up, or set it up once and forgot it, you're invisible in the most valuable spot on the page.
+
+It's free and takes about an hour to do properly.
+
+## Step 1: create or claim your profile
+
+Go to google.com/business (https://www.google.com/business/). Search for your business name first; a listing may already exist. Create or claim it, then verify (usually by video or postcard).
+
+## Step 2: get the basics exactly right
+
+- **Business name:** your real trading name. Don't stuff keywords in; Google can suspend profiles for that.
+- **Primary category:** "Wedding photographer". Add secondary categories such as "Photographer", "Portrait studio" or "Video production service" if they apply.
+- **Service area:** if you work from home, hide your address and add the cities and regions you cover.
+- **Phone and website:** match exactly what's on your site.
+- **Hours:** when you answer enquiries.
+
+Consistency of name, address and phone across the web matters for local rankings. More in our local SEO guide (/blog/local-seo-guide/).
+
+## Step 3: write a strong description
+
+You have 750 characters. Lead with what you do and where:
+
+> "Dan Reynolds Photography is a Chicago and Central Illinois wedding photography and film team. We document weddings across Illinois and Wisconsin in a warm, documentary style..."
+
+Mention your style, areas, and what makes you different. Write for couples, not for an algorithm.
+
+## Step 4: add services
+
+List each service with a short description: wedding photography, wedding videography, engagement sessions, elopements. Add starting prices if you're comfortable.
+
+## Step 5: photos, lots of them
+
+Profiles with more photos get more clicks. Upload:
+
+- 20 to 30 of your best wedding images to start
+- A logo and a cover image
+- A photo of you
+- Short video clips
+
+Then add a few new images every month. Fresh activity signals a live business.
+
+## Step 6: reviews
+
+Reviews are the biggest factor you control.
+
+- Ask every couple when you deliver their gallery
+- Send your direct review link (find it under "Ask for reviews")
+- Reply to every review, warmly and specifically
+- Never offer incentives; it's against Google's rules
+
+Tactics in how wedding vendors can get more reviews (/blog/reviews-for-wedding-vendors/).
+
+## Step 7: posts and updates
+
+Google lets you publish short posts. Share a recent wedding, a blog post or an available date once or twice a month. They take five minutes and show activity.
+
+## Step 8: questions and messages
+
+Seed the Q&A with common questions ("Do you travel?", "How far in advance should we book?") and answer them. Turn on messaging only if you'll reply promptly.
+
+## Step 9: link it to a strong website
+
+Your profile and website reinforce each other. Make sure your site:
+
+- States your location in the title and headline
+- Has matching contact details in the footer
+- Includes local business schema (schema guide (/blog/schema-markup-guide/))
+- Has pages for the areas you serve
+
+## What moves you up the map
+
+Google says local ranking depends on relevance, distance and prominence. In practice:
+
+| Factor | What you can do |
+| --- | --- |
+| Relevance | Right categories, complete services, good description |
+| Distance | Accurate service areas |
+| Prominence | Reviews, photos, website quality, links |
+
+## Common mistakes
+
+- Keyword-stuffed business names
+- A profile with five photos from 2021
+- Ignoring reviews
+- Different phone numbers on the profile and website
+- Duplicate listings
+
+## Frequently asked questions
+
+### Do I need a physical studio?
+No. Service-area businesses are fully supported. Hide your address and list where you work.
+
+### How many reviews do I need?
+More than your nearest competitors, with a steady flow of new ones. Recency matters as much as total count.
+
+### Can I have profiles in several cities?
+Only where you have a genuine, staffed location. Use service areas and location pages on your site for the rest.
+
+---
+
+# Writing a Wedding Photographer About Page Couples Connect With
+URL: https://www.codebunny.net/blog/wedding-photographer-about-page/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to write an about page for a wedding photography or videography business that shows your personality, builds trust and leads couples to enquire.
+
+Key takeaways:
+- Couples are choosing a person to spend their wedding day with, so show them one
+- Lead with how you work and what it feels like, then your story
+- Use real photos of you, ideally at work
+- End with an invitation to get in touch
+
+A couple can find a hundred photographers whose work they like. They book the one they'd be happy to have beside them for twelve hours on the most emotional day of their lives. Your about page is where that choice gets made.
+
+## What couples want to know
+
+- What are you like to be around?
+- How do you work on the day: directing or blending in?
+- Do you understand what matters to us?
+- Can we trust you to handle it?
+
+Notice what isn't on the list: your first camera, your gear, or the year you "fell in love with capturing moments".
+
+## A structure that works
+
+### 1. Open with them
+
+> "You're planning a day full of people you love, and you'd rather be with them than posing for hours."
+
+### 2. How you work
+
+Describe your approach in plain terms. "I'll give gentle direction for portraits, then step back and let the day unfold. Most couples tell me they forgot I was there."
+
+### 3. Who you are
+
+Now a little about you: where you're from, how long you've been doing this, why weddings. Keep it warm and brief. If you're a duo, introduce both of you and how you work together.
+
+### 4. Proof you're good at this
+
+Years of experience, number of weddings, awards or features, and a short quote from a couple about what you were like on the day.
+
+### 5. A few human details
+
+Coffee order, favourite film, your dog's name. Three or four lines that give couples something to connect over.
+
+### 6. Invite them in
+
+"I'd love to hear what you're planning. Tell me about your day." Then the button.
+
+## Photos of you
+
+This is non-negotiable. Include at least one clear, friendly portrait and one of you working at a wedding. Couples who can picture you in the room are far more likely to enquire.
+
+## Voice
+
+Write the way you'd talk to a couple over coffee. First person, relaxed, specific. Skip the phrases every photographer uses:
+
+- "I'm passionate about capturing authentic moments"
+- "More than just a photographer"
+- "Telling your unique love story"
+
+Say something only you could say.
+
+## For duos and teams
+
+Husband-and-wife teams and studios should explain who does what and who'll be there on the day. Couples worry about booking a brand and getting a stranger. Dan Reynolds Photography, for example, presents photo and film as the work of one close team.
+
+## Add a short "what to expect"
+
+Three steps from enquiry to gallery remove uncertainty:
+
+1. **Say hello.** Tell me your date and plans.
+2. **Let's chat.** A relaxed call to see if we're a fit.
+3. **Book and relax.** I'll help with timelines and be there from prep to the last dance.
+
+## Common mistakes
+
+- No photo of yourself
+- A life story in chronological order
+- Gear lists
+- Third-person bios for a one-person business
+- No call to action
+
+## Frequently asked questions
+
+### How long should a photographer's about page be?
+Around 250 to 500 words. Enough to feel like you, short enough to read on a phone.
+
+### Should I mention my family or faith?
+If it's part of how you connect with your ideal couples, yes. Share what feels natural.
+
+### Should I include a video?
+A 60-second hello filmed in good light can be more persuasive than any amount of text.
+
+---
+
+# Squarespace vs Custom Websites for Photographers
+URL: https://www.codebunny.net/blog/squarespace-vs-custom-for-photographers/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+An honest comparison of Squarespace, Showit, Pixieset and custom-built websites for wedding photographers: cost, speed, SEO, design freedom and when to switch.
+
+Key takeaways:
+- Templates are a sensible start when you're new and budget is tight
+- Custom wins on speed, uniqueness and SEO control, which matter most in competitive cities
+- The biggest cost of a template is looking like everyone else
+- Switching platforms is safe if redirects are handled properly
+
+Most wedding photographers start on Squarespace, Showit, Pixieset or a similar builder, and for good reason: they're affordable, attractive and quick to set up. The question isn't whether they're good. It's whether they're still the right tool once your business depends on standing out.
+
+## The quick comparison
+
+| | Template platform | Custom website |
+| --- | --- | --- |
+| Upfront cost | $0 to $500 (plus template) | $2,500 to $8,000 |
+| Monthly cost | $16 to $40 | $5 to $30 hosting |
+| Look | Shared with thousands of others | Unique to you |
+| Speed | Average, depends on template | Fast when built well |
+| SEO control | Basics covered | Full control |
+| Editing | Easy drag and drop | Easy if an editor is built in |
+| Ownership | Rented | Yours |
+
+## Where templates shine
+
+- **Speed to launch.** You can be live in a weekend.
+- **Low cost.** Ideal in year one.
+- **Easy editing.** Swap images whenever you like.
+- **Integrations.** Galleries, booking and email tools plug in.
+
+If you're in your first couple of seasons, use a template and spend your money on education and gear.
+
+## Where they hold you back
+
+### Sameness
+
+Popular photography templates are used by thousands of studios. When a couple has five tabs open and three share a layout, your work has to do all the differentiating.
+
+### Speed
+
+Builders load a lot of platform code on every page. Add 40 images and the mobile experience suffers. Custom sites ship only what the page needs. See photography website speed (/blog/photography-website-speed/).
+
+### SEO depth
+
+You can rank on a template; many do. In a competitive city, the extra control of a custom build (clean code, precise schema, fast load times, flexible venue pages) is an edge. See SEO for wedding photographers (/blog/wedding-photographer-seo/).
+
+### Design limits
+
+Want a film-strip hero, an availability checker, or a layout the template doesn't support? You're fighting the tool.
+
+## What custom gives you
+
+- A design built around *your* style, not adapted from someone else's
+- Performance engineered for image-heavy pages
+- Features made for how you work
+- Full ownership of code and content
+
+These are all custom builds, and none could be mistaken for a template:
+
+## "But I need to update it myself"
+
+A fair concern, and a solvable one. A custom site can include a simple editor and blog. Dan Reynolds Photography launched with exactly that: the team adds their own posts and updates content without touching code.
+
+## When to make the switch
+
+Consider going custom when:
+
+- You're booking consistently and want to raise prices
+- You're in a crowded market and look like your competitors
+- Your site is slow and you've already optimised images
+- You want to invest seriously in SEO
+- You're embarrassed by how "template" it feels
+
+## Switching without losing rankings
+
+Moving platforms is safe when done properly:
+
+1. List every existing URL
+2. Redirect each to its new equivalent
+3. Keep page titles and content that already rank
+4. Resubmit your sitemap in Search Console
+
+Full process in how to redesign without losing SEO (/blog/seo-migration-redesign/).
+
+## A middle option
+
+A focused custom homepage and core pages, connected to your existing gallery delivery tool (Pixieset, Pic-Time) for client galleries. You get a distinctive front door without rebuilding everything.
+
+## Frequently asked questions
+
+### Is Showit better than Squarespace for photographers?
+Showit offers more design freedom; Squarespace is simpler. Both are solid template platforms with similar limitations.
+
+### Will a custom site get me more bookings?
+A site that's faster, more distinctive and better optimised usually converts more visitors. The work still has to be good.
+
+### Can I see what custom would look like before deciding?
+Yes. We'll design a free preview (/free-website-preview/) of your homepage to compare with your current site.
+
+---
+
+# How Wedding Vendors Can Get More Reviews (Without Feeling Awkward)
+URL: https://www.codebunny.net/blog/reviews-for-wedding-vendors/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A simple system for wedding photographers, videographers and vendors to collect more Google and platform reviews, with timing tips and message templates.
+
+Key takeaways:
+- Ask at the moment of peak happiness, usually gallery or film delivery
+- Make it one click with a direct review link
+- A short personal message outperforms an automated request
+- Reply to every review and reuse the best ones on your website
+
+Couples read reviews before they read anything else. A photographer with 80 recent five-star reviews will out-book an equally talented one with six, almost every time. Yet most vendors collect reviews by hoping.
+
+Here's a system that takes ten minutes to set up and runs every time you deliver.
+
+## Why reviews matter so much
+
+- **Trust.** Couples can't try before they buy.
+- **Local rankings.** Review count, rating and recency influence Google's map results.
+- **Conversion.** Reviews on your website lift enquiries.
+- **Words to reuse.** Couples describe your value better than you can.
+
+## Where to collect them
+
+1. **Google** first. It affects search visibility most.
+2. **The Knot / WeddingWire / Hitched / Easy Weddings**, whichever couples use in your country.
+3. **Facebook**, if your audience is active there.
+
+Focus on Google until you have a healthy base, then spread out.
+
+## When to ask
+
+Timing is everything. Ask when the couple is happiest:
+
+- The day you deliver the gallery or film
+- When they message you saying they've cried over it
+- After an album arrives
+
+Not six months later when the glow has faded.
+
+## How to ask
+
+### 1. Get your direct link
+
+In your Google Business Profile, choose "Ask for reviews" and copy the short link. It opens the review box directly.
+
+### 2. Send a personal message
+
+> "Hi Maya and Chris! I'm so glad you love the photos. It would mean a lot if you could share a few words about your experience on Google. It only takes a minute and really helps other couples find me: [link]. Thank you both, it was a joy to be part of your day."
+
+### 3. Make it easy to write
+
+Some couples freeze at a blank box. Offer prompts:
+
+- What was it like working with me on the day?
+- How did you feel when you saw your photos?
+- Would you recommend me to a friend?
+
+### 4. Follow up once
+
+A gentle reminder a week or two later doubles response rates. Then let it go.
+
+## Build it into your workflow
+
+Add "request review" to your delivery checklist or automate it in your studio management tool, triggered a few days after delivery. The best system is the one you don't have to remember.
+
+## Reply to every review
+
+A thoughtful reply shows future couples you care, and signals to Google that the profile is active. Mention something specific from their day.
+
+## Handling a negative review
+
+It happens to everyone eventually.
+
+1. Take a breath; don't reply angry.
+2. Respond publicly, briefly and professionally.
+3. Offer to resolve it privately.
+4. Let your many positive reviews speak for themselves.
+
+A calm reply to a critical review often builds more trust than a perfect record.
+
+## Put reviews to work
+
+- Feature the best on your homepage and investment page
+- Pair each with an image from that couple's wedding
+- Screenshot heartfelt messages (with permission)
+- Share on Instagram stories
+
+Sometimes the most convincing review is a casual one. After we launched Dan Reynolds Photography's site, his WhatsApp said simply: "I got a lot of compliments on it." We put it on our homepage.
+
+## What not to do
+
+- **Don't pay or incentivise** reviews. It breaches Google's policies.
+- **Don't write your own.**
+- **Don't ask only your happiest clients** in a way that screens others out; platforms prohibit "review gating".
+- **Don't copy a review** from one platform to another under the couple's name without permission.
+
+## Frequently asked questions
+
+### How many reviews should I aim for?
+More than the competitors who appear next to you in the map results, with new ones arriving regularly.
+
+### Can I ask past couples from years ago?
+Yes. A friendly anniversary message is a natural moment to ask.
+
+### Should reviews go on my website?
+Definitely. Embed or quote them near your calls to action, and consider review schema so search engines understand them.
+
+---
+
+# How to Build a Solar Company Website That Generates Leads
+URL: https://www.codebunny.net/blog/solar-company-website-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A complete guide to solar company website design: the pages, calculators, trust signals and quote forms that turn researching homeowners into booked consultations.
+
+Key takeaways:
+- Solar buyers research for weeks, so your site must educate as well as sell
+- A savings calculator and a short quote form are the two highest-converting features
+- Certifications, warranties and local reviews do the trust-building
+- Separate pages for homes, businesses and farms let each audience find its own answers
+
+Solar is one of the biggest purchases a homeowner makes after the house itself. They don't decide in an afternoon. They research, compare installers, read reviews and run numbers, often over several weeks. The installer whose website answers their questions best is usually the one who gets the call.
+
+We've built solar websites for installers in Ireland, Canada, the United States and New Zealand. This is the structure that works.
+
+## What a solar website has to do
+
+1. **Explain** what's possible and what it costs, in plain language
+2. **Prove** you're certified, experienced and local
+3. **Personalise** the numbers to the visitor's home
+4. **Capture** the lead when they're ready
+
+Miss any one and visitors move on to a competitor's site that covers it.
+
+## The homepage
+
+### Above the fold
+
+- A headline about the benefit: "Go solar. Save big." or "Powering Ireland's solar future."
+- A line on who you serve and where
+- A primary button: "Get my free quote"
+- A trust strip: years in business, installs completed, review rating, key certifications
+
+### Further down
+
+- Services at a glance: solar PV, batteries, EV charging
+- How it works in three or four steps
+- A savings calculator or estimator
+- Incentives and grants available
+- Recent installations
+- Reviews
+- FAQ
+- A final quote form
+
+## Pages every solar site needs
+
+- **Residential solar**
+- **Commercial solar**
+- **Agricultural solar**, if you serve farms
+- **Battery storage** and **EV charging** (how to sell them (/blog/battery-ev-charger-pages/))
+- **Incentives / grants** (how to explain them (/blog/solar-incentives-content/))
+- **How it works / process**
+- **Projects or case studies**
+- **About:** team, certifications, story
+- **Service areas** (without thin content (/blog/solar-service-area-pages/))
+- **FAQ** (25 questions to answer (/blog/solar-faq-content/))
+- **Get a quote**
+
+## The two features that convert
+
+### A savings calculator
+
+Homeowners want to know one thing: what will *I* save? A simple calculator that takes a postcode or ZIP and a monthly bill, then estimates system size, savings and payback, turns a generic pitch into a personal one. It also captures a lead at the perfect moment. More in should your solar website have a savings calculator? (/blog/solar-savings-calculator/)
+
+### A short quote form
+
+Three to five fields to start, more on a second step. Long forms kill conversions. See designing a solar quote form that converts (/blog/solar-quote-form/).
+
+## Trust signals
+
+Solar has a reputation problem in some markets: pushy sales, vanished installers, broken promises. Counter it visibly:
+
+- Accreditation logos (SEAI, NABCEP, CEC, MCS or your local body)
+- Manufacturer partnerships and warranty terms
+- Years trading and number of installs
+- Real photos of your team and vans
+- Google reviews with a live count
+- Local address and phone number
+
+Full list in trust signals every solar website needs (/blog/solar-website-trust-signals/).
+
+## Design for clarity
+
+- **Clean and bright,** or premium and dark; either works if text is readable
+- **Real project photos** over stock
+- **Simple diagrams** for how systems work
+- **Numbers shown clearly:** savings, payback, warranty years
+- **Mobile first:** many visitors arrive from social ads on their phones
+
+## Get found locally
+
+Solar is a local business. People search "solar installers [town]" and "solar panels [county]". You need:
+
+- Location in titles and headings
+- Genuine service area pages
+- A complete Google Business Profile with reviews
+- Local schema markup
+
+Our guide to SEO for solar companies (/blog/solar-seo/) covers this in depth.
+
+## Follow up fast
+
+A website lead is worth most in the first hour. Send an instant confirmation, route the enquiry to your CRM, and call or text the same day. The best website in the world can't rescue a lead that waits three days.
+
+## Frequently asked questions
+
+### How much does a solar company website cost?
+A lead-generation site with a calculator and quote flow typically costs $4,000 to $10,000, depending on pages and integrations.
+
+### Do I need a calculator?
+It isn't essential, but it's one of the strongest lead-capture tools available to solar installers.
+
+### How long does it take to build?
+Usually three to five weeks, including the calculator and CRM integration.
+
+---
+
+# Solar Lead Generation: 15 Ways to Get More Quote Requests
+URL: https://www.codebunny.net/blog/solar-lead-generation/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Fifteen proven ways for solar installers to generate more qualified leads from their website, Google, reviews, referrals and content, without buying shared leads.
+
+Key takeaways:
+- Leads you generate yourself convert far better than bought, shared leads
+- Your website, Google Business Profile and reviews form the foundation
+- Calculators and incentive guides capture people still researching
+- Speed of follow-up often matters more than lead volume
+
+Buying leads from aggregators feels easy until you notice the same homeowner was sold to four other installers. Exclusive leads from your own marketing cost less over time and close at much higher rates, because the customer chose *you*.
+
+Here are fifteen ways to generate them.
+
+## Foundations
+
+### 1. A website built to convert
+
+Clear benefit, clear proof, clear next step. If your site doesn't have a quote button on every screen, start there. See how to build a solar company website (/blog/solar-company-website-guide/).
+
+### 2. A savings calculator
+
+Give visitors a personalised estimate and ask for contact details to send the full breakdown. More on calculators (/blog/solar-savings-calculator/).
+
+### 3. A short, friendly quote form
+
+Three to five fields. How to design it (/blog/solar-quote-form/).
+
+### 4. Google Business Profile
+
+Fill in everything, add project photos weekly and gather reviews. This is what puts you in the map results. See our optimisation checklist (/blog/google-business-profile-optimization/).
+
+### 5. Reviews, constantly
+
+Ask every customer on commissioning day. A steady flow of recent reviews lifts rankings and trust.
+
+## Search
+
+### 6. Local SEO
+
+Service area pages, local keywords and schema markup. SEO for solar companies (/blog/solar-seo/) explains the plan.
+
+### 7. Incentive and grant content
+
+People search "solar grants [country]" and "is solar worth it in [region]" long before they request quotes. A clear, current guide captures them early. How to write it (/blog/solar-incentives-content/).
+
+### 8. FAQ content
+
+Answer the questions homeowners type into Google. 25 to start with (/blog/solar-faq-content/).
+
+### 9. Google Ads on high-intent keywords
+
+"Solar installers near me" and "solar panel quote [town]" are expensive but valuable. Send clicks to a focused landing page, not your homepage. Compare the trade-offs in SEO vs Google Ads (/blog/seo-vs-google-ads/).
+
+## Proof and referrals
+
+### 10. Case studies
+
+Short write-ups with photos, system size, cost and savings. "A 6 kW system in Barrie saving $1,900 a year" is more convincing than any claim.
+
+### 11. A referral programme
+
+Happy customers have neighbours with identical roofs. Offer a thank-you for referrals and make it easy to share.
+
+### 12. Yard signs and neighbour letters
+
+Old-fashioned and effective. Add a QR code to a landing page for that street or town.
+
+## Content and social
+
+### 13. Project photos and video
+
+Time-lapse installs, drone shots and customer interviews perform well on Facebook, Instagram and YouTube and reassure people that you do real work locally.
+
+### 14. Email nurture
+
+Most leads aren't ready immediately. A short series (how solar works, incentives, a case study, financing) keeps you front of mind.
+
+### 15. Partnerships
+
+Builders, roofers, electricians, EV dealers and estate agents all meet homeowners at decision points. Offer a simple referral arrangement.
+
+## Don't waste the leads you get
+
+Lead generation is only half the job.
+
+- **Respond within minutes** during business hours
+- **Call, then text, then email**
+- **Follow up at least five times** over two weeks
+- **Track every lead** in a CRM with its source
+
+Installers who respond in five minutes win far more often than those who respond the next day.
+
+## Measure what matters
+
+| Metric | Why |
+| --- | --- |
+| Leads by source | Shows where to invest |
+| Cost per lead | Keeps spending honest |
+| Lead-to-survey rate | Reveals lead quality |
+| Survey-to-sale rate | Reveals sales effectiveness |
+
+## See it in practice
+
+## Frequently asked questions
+
+### Are bought solar leads worth it?
+They can fill gaps, but shared leads are contacted by several installers and close at low rates. Building your own pipeline pays back better.
+
+### How many leads does a website generate?
+It depends on traffic and conversion rate. A well-built site typically converts 3 to 8% of visitors into enquiries.
+
+### What's the fastest way to get more leads?
+Fix your website's quote path and response time, then turn on tightly targeted Google Ads while SEO builds.
+
+---
+
+# SEO for Solar Companies: Rank in Every Town You Serve
+URL: https://www.codebunny.net/blog/solar-seo/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A practical SEO guide for solar installers: local keywords, service area pages, Google Business Profile, content, schema and links that bring in quote requests.
+
+Key takeaways:
+- Solar searches are local, so build a strong page for each area you serve
+- Service pages for residential, commercial, battery and EV each target different searches
+- Incentive guides and FAQs capture homeowners early in their research
+- Reviews and a complete Google Business Profile drive map visibility
+
+When a homeowner searches "solar installers near me", three companies appear in the map and a handful below it. Those spots generate a steady stream of exclusive, high-intent leads for free. Getting there is a matter of doing a few things consistently.
+
+## What solar customers search
+
+| Type | Examples |
+| --- | --- |
+| Installer + location | "solar installers Dublin", "solar company Barrie" |
+| Product + location | "solar panels Auckland", "home battery San Bernardino" |
+| Cost and value | "solar panel cost 2026", "is solar worth it in Ontario" |
+| Incentives | "SEAI solar grant", "solar rebates [state]" |
+| Comparison | "best solar panels", "Tesla Powerwall alternatives" |
+
+Your site needs pages that match each type.
+
+## 1. Service pages
+
+Build a dedicated page for each service:
+
+- Residential solar
+- Commercial solar
+- Agricultural solar
+- Battery storage
+- EV charger installation
+- Maintenance and repairs
+
+Each should cover who it's for, how it works, typical costs and savings, incentives, FAQs and a quote form.
+
+## 2. Service area pages
+
+Create a page for each town, city or county you serve, with unique, useful content: local projects, grid or council details, typical savings, reviews from that area. Avoid copy-and-paste. We explain how in service area pages for solar installers (/blog/solar-service-area-pages/).
+
+## 3. On-page basics
+
+- **Title tags:** "Solar Panel Installers in Cork | Eco Horizon"
+- **One H1** with the service and location
+- **Clear headings** and short paragraphs
+- **Internal links** between services and areas
+
+See title tags and meta descriptions (/blog/title-tags-meta-descriptions/).
+
+## 4. Google Business Profile
+
+- Primary category: "Solar energy company" or "Solar energy equipment supplier"
+- Service areas listed
+- Services with descriptions
+- Weekly project photos
+- Every review answered
+
+Full checklist here (/blog/google-business-profile-optimization/).
+
+## 5. Reviews
+
+Ask on commissioning day, when the customer has just seen the meter run backwards. Send a direct link by text.
+
+## 6. Content that ranks
+
+### Incentive guides
+
+Keep one page per programme, updated whenever rules change. How to write them (/blog/solar-incentives-content/).
+
+### Cost guides
+
+"How much do solar panels cost in [region]?" with honest ranges and worked examples.
+
+### FAQs
+
+Each question is a potential search. Start with these 25 (/blog/solar-faq-content/).
+
+### Case studies
+
+Real installs with numbers and photos, tagged by location.
+
+## 7. Schema markup
+
+Add LocalBusiness, Service, FAQ and Review schema so Google and AI assistants understand exactly what you do and where. See our schema markup guide (/blog/schema-markup-guide/).
+
+## 8. Speed and mobile
+
+Many solar sites are weighed down by chat widgets, tracking scripts and uncompressed drone footage. Trim them. Aim for green Core Web Vitals on mobile. See Core Web Vitals explained (/blog/core-web-vitals-explained/).
+
+## 9. Links
+
+- Manufacturer "find an installer" directories
+- Accreditation bodies
+- Local chambers of commerce and business groups
+- Local news stories about community or commercial projects
+- Supplier and partner websites
+
+## 10. Be visible in AI answers
+
+Homeowners now ask ChatGPT and Google's AI Overviews "who are the best solar installers in [area]?" Clear facts on your site (areas served, certifications, years trading, review counts), consistent listings and FAQ content help you get mentioned. See how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+## A 90-day plan
+
+| Weeks | Work |
+| --- | --- |
+| 1 to 2 | Technical audit, titles, Search Console, GBP clean-up |
+| 3 to 6 | Service pages and top five area pages |
+| 7 to 10 | Incentive guide, cost guide, FAQ page, schema |
+| 11 to 13 | Case studies, review drive, link outreach |
+
+## Frequently asked questions
+
+### How long until SEO brings leads?
+Map visibility and long-tail terms can improve in a few weeks; competitive city terms usually take four to nine months.
+
+### Should I target "solar panels" nationally?
+No. Local terms convert better and are far easier to win.
+
+### Do I need a blog?
+You need useful content. Guides, FAQs and case studies matter more than a traditional blog.
+
+---
+
+# Should Your Solar Website Have a Savings Calculator?
+URL: https://www.codebunny.net/blog/solar-savings-calculator/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Why a solar savings calculator is one of the best lead-generation tools for installers, what it should include, and how to make its estimates trustworthy.
+
+Key takeaways:
+- A calculator turns a generic pitch into a personal number
+- Ask for as little as possible: location and monthly bill are enough
+- Show a useful estimate first, then offer a detailed quote in exchange for contact details
+- Be transparent about assumptions so the numbers build trust
+
+Every solar visitor arrives with the same question: *what would I save?* Most websites answer with "book a free consultation to find out". A calculator answers on the spot, and that changes the whole conversation.
+
+## Why calculators work
+
+- **Personal.** A number for their home beats a national average.
+- **Instant.** No waiting for a callback.
+- **Engaging.** Interacting with a tool keeps people on the page.
+- **Qualifying.** You learn their bill, location and rough system size before you call.
+- **Lead capture.** "Email me my full savings report" is an easy yes.
+
+## What to ask
+
+Keep the inputs minimal:
+
+1. **Postcode or ZIP** (for sunlight hours and electricity rates)
+2. **Average monthly electricity bill**
+
+Optional refinements:
+
+3. Roof direction or type
+4. Whether they have or want an EV
+5. Interest in a battery
+
+Two inputs get the most completions. Offer the rest as "refine my estimate".
+
+## What to show
+
+- **Recommended system size** (kW and approximate panel count)
+- **Estimated annual savings**
+- **Estimated payback period**
+- **Lifetime savings** over 25 years
+- **CO₂ avoided,** translated into something relatable such as trees or car miles
+- **Available incentives**
+
+Show ranges rather than single figures. "$1,400 to $1,900 a year" is more believable than "$1,652".
+
+## The lead capture moment
+
+There are two approaches:
+
+**Gate the result:** ask for contact details before showing anything. Captures more data but frustrates visitors.
+
+**Show first, then offer more:** display the estimate, then offer a detailed report, a roof assessment or a firm quote in exchange for details. This builds goodwill and still converts strongly.
+
+We recommend the second.
+
+## Make the numbers trustworthy
+
+- State assumptions: electricity price, export rate, panel output, degradation
+- Link to your data sources
+- Label results as estimates
+- Don't inflate savings; a sales call that disappoints kills the deal
+- Update rates and incentives regularly
+
+## How it works under the hood
+
+A basic calculator needs:
+
+- Average solar irradiance by region
+- Typical electricity tariffs
+- System cost per kW
+- Current incentive amounts
+
+These can sit in a simple data table that your team updates. More advanced versions pull live data from mapping and solar APIs to assess the actual roof.
+
+## Design tips
+
+- Put it high on the homepage and on its own page
+- Use sliders and large tap targets
+- Animate the result so it feels rewarding
+- Keep it fast; no heavy third-party widgets
+- Follow the result with one clear button: "Get my exact quote"
+
+## An example
+
+Our Heliora solar template includes a ZIP-code savings and emissions estimator built into the hero, with a no-obligation quote flow straight after:
+
+## Is it worth the build cost?
+
+A custom calculator typically adds $1,000 to $3,000 to a website project. If it generates even a few extra qualified leads a month, it pays for itself with the first installation.
+
+## Alternatives if you're not ready
+
+- A simple "savings by bill size" table
+- Worked examples for three typical homes
+- A short quiz that ends in a quote request
+
+## Frequently asked questions
+
+### How accurate do the estimates need to be?
+Accurate enough to be honest and consistent with what your surveyor will say. Ranges and clear assumptions protect you.
+
+### Can the calculator feed my CRM?
+Yes. Submissions can go straight to HubSpot, GoHighLevel, Pipedrive, a spreadsheet or your inbox.
+
+### Should I use a third-party calculator widget?
+They're quick to add but often slow, generic and branded by someone else. A custom calculator matches your site and keeps the lead data yours.
+
+---
+
+# Designing a Solar Quote Form That Converts
+URL: https://www.codebunny.net/blog/solar-quote-form/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to design a solar quote request form that homeowners actually finish: which fields to ask, multi-step layouts, trust cues and what to do after submission.
+
+Key takeaways:
+- Start with three to five easy fields and ask the rest on step two
+- Multi-step forms with a progress bar outperform one long page
+- Reassure at the point of submission: no obligation, no spam, fast response
+- Route every lead to your CRM and reply within minutes
+
+A homeowner has read your page, likes what they see and clicks "Get a quote". Then they meet a 14-field form asking for their roof pitch and annual kilowatt-hours. Half of them leave.
+
+Your quote form is the narrowest point of your funnel. Small improvements here are worth more than almost any other change on the site.
+
+## The principle: easy first, detail later
+
+Ask for the minimum needed to start a conversation, then gather detail once they've committed.
+
+### Step 1: about the property
+
+- Postcode or ZIP
+- Property type: home, business, farm
+- Average monthly electricity bill (a dropdown of ranges is easier than typing)
+
+### Step 2: about what they want
+
+- Interested in: solar, battery, EV charger (tick boxes)
+- Roof type or a note that they're not sure
+- Timeline: as soon as possible, within 3 months, just researching
+
+### Step 3: contact details
+
+- Name
+- Phone
+- Email
+- Best time to call
+
+By step three they've invested effort and are far more likely to finish.
+
+## Why multi-step works
+
+- Each screen looks short and achievable
+- A progress bar creates momentum
+- Easy questions first build commitment
+- You can capture partial data from those who drop off
+
+## What not to ask up front
+
+- Annual usage in kWh (most people don't know)
+- Roof pitch, orientation and dimensions (your survey will find out)
+- A bill upload as a required field (offer it as optional)
+- Full address before they trust you
+
+## Trust cues beside the form
+
+- "Free, no-obligation quote"
+- "We'll never share your details"
+- "Response within one business day"
+- Accreditation logos
+- A short review
+- A photo of a real team member who'll call
+
+## Button wording
+
+"Submit" is a dead word. Use what the visitor gets:
+
+- "Get my free quote"
+- "See my savings"
+- "Check my eligibility"
+
+## Mobile matters most
+
+Many solar enquiries start on a phone, often from a Facebook ad.
+
+- Large tap targets and tick boxes
+- Number keyboards for phone and postcode fields
+- Autofill enabled
+- No tiny dropdowns
+
+## After they submit
+
+1. **Thank-you page** confirming what happens next and when
+2. **Instant email or SMS** with the same message and a link to a case study
+3. **CRM entry** created automatically with source tracking
+4. **A call within minutes** if in business hours
+
+Offer a way to book a call slot directly on the thank-you page; it saves phone tag.
+
+## Offer alternatives
+
+Not everyone likes forms. Next to it, offer:
+
+- Click-to-call
+- WhatsApp or SMS
+- A callback request with a single phone field
+
+## Test and improve
+
+Track how many people start the form versus finish it. If lots drop at a particular step, simplify that step. Small changes, such as removing one field or rewording a button, can lift completions noticeably.
+
+General principles are in contact forms that convert (/blog/contact-form-best-practices/).
+
+## Examples
+
+## Frequently asked questions
+
+### Should I ask for a phone number?
+Yes for solar, because a conversation is needed. Make it clear why: "so we can confirm a few details about your roof".
+
+### Should the form be on every page?
+A button to it should be. Put the full form on a dedicated quote page and at the bottom of key pages.
+
+### Can the form integrate with our CRM?
+Yes. Most CRMs accept web form data directly or through tools like Zapier.
+
+---
+
+# Service Area Pages for Solar Installers (Without Thin Content)
+URL: https://www.codebunny.net/blog/solar-service-area-pages/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How solar companies can build location pages that rank in every town they serve, with a content template that avoids duplicate, thin pages.
+
+Key takeaways:
+- One strong page per priority area beats dozens of near-duplicates
+- Each page needs genuinely local content: projects, reviews, conditions and incentives
+- Link area pages to service pages and case studies
+- Start with the five to ten areas that matter most
+
+If you install solar across twenty towns but your website only mentions your head office, you're competing for one town's searches. Service area pages fix that, when they're done properly. Done lazily (the same paragraph with the town name swapped) they can drag your whole site down.
+
+## Why they work
+
+Google tries to show local results for searches like "solar installers Galway". A page that's clearly about solar in Galway, with evidence you actually work there, is a strong match.
+
+## What makes a page "thin"
+
+- Identical text across pages with only the place name changed
+- No local detail
+- No unique images
+- No reason for a human to read it
+
+Google's guidelines call these doorway pages. Avoid them.
+
+## The template for a strong area page
+
+### 1. Headline and intro
+
+"Solar Panel Installation in [Town]" plus two or three sentences on your experience there.
+
+### 2. Local proof
+
+- Number of systems installed in the area
+- Two or three local projects with photos, system size and savings
+- Reviews from customers in that town
+
+### 3. Local conditions
+
+- Typical sunlight hours and expected generation
+- Common roof types and housing stock
+- Local electricity provider and export arrangements
+- Planning or permit notes specific to the council or county
+
+### 4. Incentives
+
+National schemes plus anything regional. Link to your full incentives guide (/blog/solar-incentives-content/).
+
+### 5. Services available
+
+Short summaries linking to residential, commercial, battery and EV pages.
+
+### 6. FAQs
+
+Three or four questions specific to the area.
+
+### 7. Call to action
+
+A quote form with the town pre-filled.
+
+Aim for 500 to 900 words that couldn't be pasted onto another town's page.
+
+## How many pages?
+
+Start with five to ten: your base and the largest towns or counties you serve. Add more as you complete projects there and have something real to say. Quality first.
+
+## URL and linking structure
+
+- `/areas/` index page listing every location
+- `/areas/galway/` for each
+- Link from each service page to the relevant area pages and back
+- Link case studies to their area page
+
+Clear structure helps both visitors and search engines. More in our internal linking guide (/blog/internal-linking-guide/).
+
+## Titles and meta
+
+- **Title:** "Solar Panel Installers in Galway | [Company]"
+- **Meta description:** mention the area, a proof point and the quote offer
+
+See title tags and meta descriptions (/blog/title-tags-meta-descriptions/).
+
+## Schema
+
+Add LocalBusiness schema with `areaServed` listing your locations, plus FAQ schema on each area page. See our schema markup guide (/blog/schema-markup-guide/).
+
+## Keep them alive
+
+Every time you complete an install in an area, add the photo and a line to that page. Fresh, real content keeps pages ranking and makes them more persuasive.
+
+## Area pages and your Google Business Profile
+
+Your profile's service areas should match the areas on your site. Consistency reinforces relevance. See the Google Business Profile checklist (/blog/google-business-profile-optimization/).
+
+## Examples of regional positioning
+
+These solar sites make their service region unmistakable:
+
+For the broader approach, see how to create local landing pages that rank (/blog/local-landing-pages/).
+
+## Frequently asked questions
+
+### Can I create pages for towns where I haven't installed yet?
+Yes, if you genuinely serve them and can write useful local content. Be honest about experience.
+
+### Will many similar pages hurt my site?
+Near-duplicates can. Unique, useful pages won't.
+
+### Do I need a physical office in each area?
+No. Service area pages are designed for businesses that travel to customers.
+
+---
+
+# Trust Signals Every Solar Website Needs
+URL: https://www.codebunny.net/blog/solar-website-trust-signals/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+The trust signals that reassure solar buyers, from accreditations and warranties to reviews and real project photos, and where to place them on your website.
+
+Key takeaways:
+- Solar is a high-cost, long-term purchase, so buyers look hard for reasons to trust you
+- Accreditations, warranties and years in business belong near the top of the page
+- Real photos and local reviews beat stock imagery and generic claims
+- Transparency about price, process and aftercare is itself a trust signal
+
+A solar system costs thousands and lasts 25 years. Buyers have heard stories about cowboy installers and companies that vanished before the warranty did. Before they'll hand over their details, they need evidence you're not one of them.
+
+Here are the signals that matter, in rough order of impact.
+
+## 1. Accreditations and certifications
+
+Display the logos of the bodies that matter in your market: SEAI registration in Ireland, NABCEP in the US, CEC or SEANZ in Australasia, MCS in the UK, plus electrical licences. Link each to your listing where possible so visitors can verify.
+
+## 2. Reviews, with numbers
+
+"Rated 5/5 from 67 reviews" near the top of the page is powerful. Show the platform (Google, Trustpilot), the count and a few full reviews with names and locations.
+
+## 3. Years in business and installs completed
+
+"Solar PV specialists since 2015" and "1,200+ systems installed" answer the question "will you still be here?"
+
+## 4. Warranties, spelled out
+
+- Panel product and performance warranty
+- Inverter warranty
+- Battery warranty
+- Your own workmanship warranty
+
+Put the years in a simple table. Vague "industry-leading warranties" reassures nobody.
+
+## 5. Manufacturer partnerships
+
+Certified installer status with recognised brands shows you're trained and supported.
+
+## 6. Real photos
+
+Your team, your vans, your installs. Drone shots of finished roofs in recognisable local settings are ideal. Stock photos of smiling families signal the opposite of what you intend.
+
+## 7. Case studies with real numbers
+
+System size, cost, annual savings, payback, and a quote from the customer. Include commercial and farm projects if you do them.
+
+## 8. A visible, local presence
+
+Full address, local phone number, service area map, company registration number. A site with only a contact form looks like a lead broker.
+
+## 9. A clear process
+
+Show the steps from enquiry to switch-on with typical timings. Uncertainty feels like risk.
+
+## 10. Transparent pricing guidance
+
+You may not publish exact prices, but typical ranges for common system sizes show you have nothing to hide.
+
+## 11. Aftercare and monitoring
+
+Explain what happens after installation: monitoring apps, servicing, who to call. It shows you plan to stick around.
+
+## 12. Finance and grant support
+
+"We handle the grant application for you" removes a major worry and positions you as the expert.
+
+## 13. Insurance and safety
+
+Public liability cover and safety certifications matter especially to commercial clients.
+
+## 14. Awards and press
+
+Industry awards or local news coverage add third-party validation.
+
+## 15. A professional website
+
+The site itself is a trust signal. Fast, modern, error-free and secure (HTTPS) says "this company pays attention". Slow and dated says the opposite. More general principles in 20 website trust signals (/blog/website-trust-signals/).
+
+## Where to place them
+
+| Location | Signals |
+| --- | --- |
+| Hero / top strip | Review rating, years, installs, key accreditation |
+| Mid-page | Warranties, process, case studies |
+| Near forms | "No obligation", privacy note, a review |
+| Footer | Full address, registrations, all logos |
+
+Repeat the strongest ones. Nobody reads every section.
+
+## Examples
+
+Eco Horizon puts its founding year, grant handling and review rating up front. SunFlow leads with being 100% Canadian and its incentive expertise.
+
+## Frequently asked questions
+
+### Do badges really make a difference?
+Yes, when they're recognised and verifiable. A row of obscure logos helps less than one that buyers know.
+
+### What if we're a new company?
+Lean on your team's individual experience, manufacturer training, strong warranties and your first customer reviews.
+
+### Should we show prices?
+Typical ranges build trust and filter enquiries. Exact quotes follow a survey.
+
+---
+
+# How to Explain Solar Incentives and Grants on Your Website
+URL: https://www.codebunny.net/blog/solar-incentives-content/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How solar installers should present grants, rebates and tax credits on their website: structure, wording, accuracy and how to keep the page up to date.
+
+Key takeaways:
+- Incentives are one of the most searched solar topics, so a clear guide attracts early-stage buyers
+- Explain each scheme with who qualifies, how much and how to claim
+- Show a worked example so the saving feels real
+- Date the page and review it every quarter because rules change
+
+"Are there grants for solar?" is often the first thing a homeowner searches. Incentives can cut the cost of a system dramatically, and they're confusing: different schemes, eligibility rules and deadlines. The installer who explains them clearly earns trust and the enquiry.
+
+## Why you need a dedicated page
+
+- It ranks for high-volume searches like "[country] solar grant"
+- It answers the biggest objection (cost) with good news
+- It positions you as the helpful expert
+- It gives sales teams a link to send
+
+## Structure of a strong incentives page
+
+### 1. A plain-English summary
+
+Start with the headline: "Homeowners in [region] can currently claim up to [amount] towards solar panels." One or two sentences, updated whenever it changes.
+
+### 2. A table of current schemes
+
+| Scheme | Who it's for | Value | How it's paid |
+| --- | --- | --- | --- |
+| National grant | Homeowners | Up to X | After installation |
+| Farm scheme | Farmers | X% of cost | Grant aid |
+| Business allowance | Companies | Tax relief | Through accounts |
+
+### 3. A section for each scheme
+
+- What it is
+- Who qualifies
+- How much you can get
+- How and when to apply
+- Deadlines or planned changes
+- A link to the official source
+
+### 4. A worked example
+
+> A typical 4 kW system costs €8,000. With the grant of €1,800, the homeowner pays €6,200. With annual savings of around €1,000, payback is roughly six years.
+
+Use your own realistic local figures. Worked examples make abstract percentages concrete.
+
+### 5. How you help
+
+"We complete the application for you and include the grant in your quote." This is a genuine selling point.
+
+### 6. FAQs
+
+- Can I combine schemes?
+- Do I need to apply before installation?
+- What happens if the scheme changes after I sign?
+- Are batteries covered?
+
+### 7. Call to action
+
+"Find out what you qualify for" with a short form.
+
+## Accuracy is everything
+
+Incentives change, sometimes sharply. Out-of-date information damages trust and can create legal problems.
+
+- **Link to official sources** for every scheme
+- **Show a "last updated" date**
+- **Review the page quarterly** and after every budget or policy announcement
+- **Avoid guarantees.** Say "currently" and "subject to eligibility"
+- **Don't give tax advice.** Suggest customers confirm with an adviser
+
+## Segment by audience
+
+Homeowners, businesses and farmers often have different schemes. Give each its own section or page so nobody wades through irrelevant detail. Eco Horizon, for instance, addresses homes, businesses and farms separately with the relevant grants for each.
+
+## Use incentives across the site
+
+- A banner or strip on the homepage: "Grants of up to X available"
+- A line in the calculator results
+- A mention on each service page
+- In area pages, where regional schemes apply
+
+## Urgency, honestly
+
+If a scheme is reducing or ending on a known date, say so. Real deadlines motivate action. Never invent urgency; customers check.
+
+## SEO tips
+
+- Target "[scheme name]" and "[region] solar grant" in the title and headings
+- Add FAQ schema (guide (/blog/schema-markup-guide/))
+- Keep the same URL year after year and update the content, so the page builds authority
+- Link to it from related articles and service pages
+
+## Frequently asked questions
+
+### How often do solar incentives change?
+It varies by country, but reviewing your page every quarter is a sensible minimum.
+
+### Should I include incentives in my quotes?
+Show the price before and after incentives so customers see both the full cost and their net cost.
+
+### What if incentives end?
+Update the page immediately and shift the message to long-term savings and energy independence.
+
+---
+
+# Selling Batteries and EV Chargers on Your Solar Website
+URL: https://www.codebunny.net/blog/battery-ev-charger-pages/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How solar installers can present battery storage and EV charger installation on their website to increase average order value and win standalone enquiries.
+
+Key takeaways:
+- Batteries and EV chargers deserve their own pages, not a bullet point on the solar page
+- Explain benefits in everyday terms: backup power, using your own energy at night, charging from the sun
+- Address cost and payback honestly
+- Past solar customers are your warmest audience for both
+
+For many installers, batteries and EV chargers have moved from optional extras to a major share of revenue. Yet on most solar websites they're a line in a list. Giving each a proper page captures searches you're currently missing and lifts the value of every solar quote.
+
+## Why separate pages
+
+- People search for them directly: "home battery installation [town]", "EV charger installer near me"
+- Each has its own questions and objections
+- Existing solar owners want to add them later
+- EV owners may not have solar yet and are a new audience
+
+## The battery storage page
+
+### Lead with the benefit
+
+- "Use your solar power after dark"
+- "Keep the lights on in a power cut"
+- "Cut your reliance on the grid"
+
+### Explain how it works, simply
+
+A short diagram: panels charge the battery by day; the battery powers the home in the evening; the grid tops up only when needed.
+
+### Who it's for
+
+- Homes out during the day
+- Areas with frequent outages
+- Customers on time-of-use tariffs
+- Anyone wanting more energy independence
+
+### Options and sizing
+
+Brands you install, typical capacities and what each can run. A simple table helps.
+
+### Cost and payback
+
+Be honest. Batteries often have a longer payback than panels. Give typical ranges and explain non-financial benefits such as backup power.
+
+### Retrofit
+
+Make it clear you can add a battery to an existing system, including ones you didn't install.
+
+### FAQs
+
+Lifespan, warranty, safety, where it's installed, whether it works in a power cut.
+
+## The EV charger page
+
+### Lead with convenience and savings
+
+- "Charge at home for a fraction of public charging costs"
+- "Charge your car from your roof"
+
+### Cover the basics
+
+- Charger types and speeds
+- Smart charging and solar-aware charging
+- Tethered vs untethered
+- Typical install time and what's involved
+
+### Grants and requirements
+
+Any available home or workplace charger grants, and electrical requirements such as fuse board upgrades.
+
+### Who you serve
+
+Homes, workplaces, apartment blocks, fleets. Commercial charging can be its own page.
+
+### FAQs
+
+Do I need planning permission? Can I install without solar? Which cars are compatible?
+
+## Bundle them
+
+Offer clear packages: solar only, solar plus battery, solar plus battery plus EV charger. Show the combined benefit. Customers often choose the fuller package when it's presented as a complete system.
+
+## Cross-link everywhere
+
+- From the solar page: "Add a battery" and "Add an EV charger"
+- From the calculator results: "With a battery you'd use X% more of your own power"
+- From case studies featuring combined systems
+
+Good internal linking helps SEO too; see our internal linking guide (/blog/internal-linking-guide/).
+
+## Market to your past customers
+
+Your existing solar customers already trust you. Email them when:
+
+- Battery prices fall or new grants appear
+- You start installing a new battery brand
+- They've had their system long enough to see how much they export
+
+A dedicated landing page for "add a battery to your existing solar" gives those emails somewhere to send people.
+
+## SEO essentials
+
+- Titles like "Home Battery Storage Installation in [Region]" and "EV Charger Installers [Town]"
+- FAQ and Service schema
+- Area mentions and links to your service area pages (/blog/solar-service-area-pages/)
+- Real installation photos with descriptive alt text
+
+## See it done
+
+Lithium Solar Energy and Eco Horizon both present solar, battery and EV charging as distinct services within one coherent offer.
+
+## Frequently asked questions
+
+### Should batteries be mentioned in every solar quote?
+Yes, as an option with its own price and benefit, so the customer can choose.
+
+### Is there enough search demand for separate pages?
+Yes. Battery and EV charger searches have grown quickly and competition is often lower than for solar itself.
+
+### What if we only install one brand?
+Explain why you chose it. A confident recommendation is more reassuring than a long list.
+
+---
+
+# Commercial and Agricultural Solar: Website Content That Wins B2B Deals
+URL: https://www.codebunny.net/blog/commercial-solar-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to present commercial and agricultural solar on your website: what business and farm buyers look for, the content they need and how to capture enquiries.
+
+Key takeaways:
+- Business buyers care about ROI, payback, tax treatment and disruption
+- Case studies with real figures are the most persuasive content
+- Farms have distinct needs and often distinct grants
+- Offer a feasibility assessment rather than a generic quote
+
+Selling solar to a business or a farm is a different sale from selling to a homeowner. There are more decision-makers, bigger numbers and a longer timeline. The website content that wins residential leads (lifestyle images, monthly bill savings) won't convince a finance director or a dairy farmer.
+
+## What commercial buyers want to know
+
+1. **What's the return?** Payback period, IRR, lifetime savings
+2. **How is it financed?** Capital purchase, lease, power purchase agreement
+3. **What's the tax position?** Allowances and depreciation
+4. **Will it disrupt operations?**
+5. **Who else have you done this for?**
+6. **What happens after installation?** Monitoring, maintenance, performance guarantees
+
+Your commercial page should answer all six.
+
+## Structure of a commercial solar page
+
+### Headline
+
+Lead with the business outcome: "Cut your energy costs by up to 40% and fix your price for 25 years."
+
+### Proof strip
+
+Total kW or MW installed, number of commercial clients, sectors served, accreditations.
+
+### Who it's for
+
+Manufacturing, warehousing, retail, hospitality, offices, schools. Short sections or tabs for each, with relevant examples.
+
+### The financial case
+
+- Typical system sizes and costs per kW
+- Example payback calculations
+- Financing options explained
+- Tax allowances and grants (with advice to confirm with their accountant)
+
+### Process
+
+Feasibility study, design, grid application, installation, commissioning, monitoring, with realistic timelines.
+
+### Case studies
+
+The centrepiece. For each:
+
+- Client and sector
+- Challenge
+- System size
+- Annual generation and savings
+- Payback
+- A quote from the decision-maker
+- Photos
+
+### Call to action
+
+"Request a free feasibility assessment". Business buyers respond to a tangible deliverable more than "get a quote".
+
+## Agricultural solar
+
+Farms combine high daytime energy use, large roofs and, in many regions, dedicated grants. Give agriculture its own page.
+
+### Speak the language
+
+Milking parlours, grain drying, cold storage, poultry sheds. Show you understand how farms use energy.
+
+### Cover the grant in detail
+
+Where farm-specific schemes exist (such as TAMS in Ireland), explain eligibility, rates and the application process, and offer to handle it.
+
+### Show farm projects
+
+Photos of panels on sheds, with herd size or operation type, system size and savings.
+
+### Address practical concerns
+
+Roof condition, asbestos sheeting, livestock safety, three-phase supply, export limits.
+
+## Lead capture for B2B
+
+Ask slightly different questions from the residential form:
+
+- Company name and sector
+- Site location
+- Approximate annual electricity spend
+- Roof or land availability
+- Decision timeline
+- Contact name and role
+
+Offer to review energy bills confidentially. Make it easy to upload them.
+
+## Content that supports the sale
+
+- **A downloadable guide:** "The business case for commercial solar"
+- **An ROI calculator** for commercial systems
+- **Sector pages** for your strongest industries
+- **Articles** on financing, tax treatment and grid connection
+
+Business buyers forward links to colleagues. Give them something worth forwarding.
+
+## Utility-scale and land
+
+If you develop solar farms or work with landowners, that's a third audience with its own page: land requirements, lease terms, the development process. Watthaus Strategy, for example, speaks separately to homeowners and to utility-scale and land projects.
+
+## SEO for commercial solar
+
+Target "commercial solar installers [region]", "solar for farms [country]" and sector terms like "solar for warehouses". Volume is lower than residential, but each lead is worth far more. See SEO for solar companies (/blog/solar-seo/).
+
+## Frequently asked questions
+
+### Should commercial and residential be on the same website?
+Usually yes, with clearly separate sections so each audience sees relevant content.
+
+### How long is the commercial sales cycle?
+Often three to twelve months. Nurture with case studies and follow-up, not pressure.
+
+### Do case studies need exact figures?
+Real numbers are far more persuasive. If a client prefers privacy, use ranges and anonymise the name.
+
+---
+
+# Solar Website Examples from Four Countries (and What They Do Well)
+URL: https://www.codebunny.net/blog/solar-website-examples/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Five solar company websites from Ireland, Canada, the USA and New Zealand, with a breakdown of the design and lead-generation ideas worth borrowing.
+
+Key takeaways:
+- Strong solar sites lead with a clear benefit and an immediate quote path
+- Local identity and grant expertise are powerful differentiators
+- Calculators and incentive messaging do much of the selling
+- Each example adapts the same principles to its own market
+
+Solar websites often look interchangeable: a blue sky, a roof, "Go solar today". These five, all designed and built by Code Bunny, show how a clear message and a distinct identity make an installer memorable. For each, we've highlighted the idea most worth borrowing.
+
+## 1. Eco Horizon — Ireland
+
+Solar PV, batteries and EV charging for Irish homes, businesses and farms. The headline, "Powering Ireland's solar future", is confident and national. Grants (SEAI and TAMS 3) are woven through the site, and a 5/5 rating from dozens of reviews sits near the top.
+
+**Borrow this:** make grant handling part of your core promise.
+
+## 2. SunFlow Solar & Exteriors — Barrie, Ontario
+
+Solar, roofing and luxury exteriors under one brand. "Power from the roof up" ties the services together, and "100% Canadian" is a clear trust signal.
+
+**Borrow this:** if you offer related services, unite them under one idea.
+
+## 3. Lithium Solar Energy — Southern California
+
+Solar, battery backup, panel upgrades and EV charging from a Yucaipa team with 17+ years in power. The "Go solar. Save big." hero is direct, and the end-to-end promise (designed, permitted, installed, monitored) reassures.
+
+**Borrow this:** spell out that one team handles everything.
+
+## 4. Watthaus Strategy — Auckland, New Zealand
+
+Bridging real estate and renewable energy: rooftop solar for homes and land-to-construction for utility-scale farms. Two audiences, each given its own clear path.
+
+**Borrow this:** split your homepage by audience when you serve very different buyers.
+
+## 5. Heliora — a ready-made solar template
+
+A premium lead-generation design with a ZIP-code savings and emissions calculator built into the hero and a no-obligation quote flow. It's one of the ready-made sites we sell (/templates/).
+
+**Borrow this:** put the calculator at the top, where curiosity is highest.
+
+## What they share
+
+1. **A benefit-led headline** in a handful of words
+2. **A quote button** visible at all times
+3. **Proof up top:** years, reviews, accreditations
+4. **Incentives explained**
+5. **Separate paths** for homes, businesses and farms
+6. **Real photography** and local identity
+7. **Fast mobile performance**
+
+## How to use these examples
+
+Decide which approach fits your market. Is your edge local roots, grant expertise, premium products or breadth of services? Lead with that. Then make sure the essentials from how to build a solar company website (/blog/solar-company-website-guide/) are covered.
+
+## Frequently asked questions
+
+### Can I buy the Heliora template?
+Yes. Each ready-made site sells to one buyer only. See the templates page (/templates/).
+
+### Can you build a custom solar site for my company?
+Yes. Start with a free preview (/free-website-preview/) of your homepage.
+
+### What makes a solar site convert?
+A clear benefit, strong proof, a personal savings estimate and a short quote form, followed by a fast response.
+
+---
+
+# 25 Solar FAQs Your Website Should Answer
+URL: https://www.codebunny.net/blog/solar-faq-content/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+The 25 questions homeowners ask before buying solar, grouped by topic, with guidance on answering them to build trust, rank on Google and appear in AI answers.
+
+Key takeaways:
+- Every FAQ is a search query and an objection you can remove
+- Answer in two to four plain sentences, then link to detail
+- Group questions by topic so visitors find theirs quickly
+- FAQ schema helps answers appear in search results and AI summaries
+
+Before they request a quote, homeowners have questions, usually the same ones. If your website answers them clearly, you build trust, shorten sales calls and pick up search traffic for each question. If it doesn't, they'll find the answers on a competitor's site.
+
+Here are the 25 to cover, grouped by theme.
+
+## Cost and savings
+
+1. **How much do solar panels cost?** Give typical ranges for common system sizes in your area.
+2. **How much will I save?** Explain what affects savings and link to your calculator.
+3. **How long is the payback period?** A typical range with a worked example.
+4. **Are there grants or incentives?** Summarise and link to your incentives page (/blog/solar-incentives-content/).
+5. **Is finance available?** Outline the options.
+6. **Will solar increase my home's value?** Share what's known honestly.
+
+## Suitability
+
+7. **Is my roof suitable?** Orientation, pitch, shading and condition.
+8. **Does solar work in cloudy weather or winter?** Yes, at reduced output; explain.
+9. **How many panels do I need?** Based on usage and roof space.
+10. **Do I need planning permission?** State local rules and exceptions.
+11. **Can I install solar on a flat roof or the ground?** Explain options.
+
+## How it works
+
+12. **How do solar panels work?** Two or three sentences and a diagram.
+13. **What happens to electricity I don't use?** Export payments or net metering in your region.
+14. **Will solar power my home in a power cut?** Only with a battery and the right inverter; be clear.
+15. **Do I need a battery?** Pros, cons and who benefits most.
+16. **Can I charge an electric car with solar?** Yes; link to your EV charger page (/blog/battery-ev-charger-pages/).
+
+## Installation
+
+17. **How long does installation take?** Typical days on site and overall timeline.
+18. **What's involved in the process?** Survey, design, install, commissioning.
+19. **Will there be disruption?** Scaffolding, brief power-down, access needed.
+20. **Who handles the paperwork?** Grid applications, grants, certificates.
+
+## After installation
+
+21. **How long do panels last?** Typical lifespan and degradation.
+22. **What warranties do I get?** Product, performance and workmanship.
+23. **Do panels need maintenance or cleaning?** Minimal; explain.
+24. **How do I monitor my system?** App and what it shows.
+25. **What if something goes wrong?** Your aftercare and response times.
+
+## How to write good answers
+
+- **Answer first.** Put the direct answer in the first sentence.
+- **Keep it short.** Two to four sentences, then link to a detailed page.
+- **Use local specifics.** Your region's rules, rates and schemes.
+- **Be honest.** Admit limitations; it builds credibility.
+- **Update regularly.** Especially costs and incentives.
+
+## Where FAQs should live
+
+- A dedicated FAQ page, grouped by topic
+- The most relevant three to five on each service page
+- A few on the homepage
+- In area pages, for local questions
+
+## Mark them up with schema
+
+FAQ schema tells search engines exactly which text is the question and which is the answer. That helps your content appear in rich results and makes it easier for AI assistants to quote you. See our schema markup guide (/blog/schema-markup-guide/) and how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+## Turn the big ones into articles
+
+Questions like "how much do solar panels cost in [region]?" and "is solar worth it?" deserve full guides of their own. Link to them from the short FAQ answer. This is the backbone of SEO for solar companies (/blog/solar-seo/).
+
+## Use them in sales
+
+Send links to relevant answers after a call. It reinforces what you said and shows you're thorough.
+
+## Frequently asked questions
+
+### How many FAQs should a solar site have?
+Start with these 25. Add more as your sales team hears new questions.
+
+### Should answers include prices?
+Typical ranges, yes. They're among the most searched questions and avoiding them pushes visitors elsewhere.
+
+### Do FAQs help with SEO?
+Yes. Each is a chance to match a specific search, and structured answers are favoured by both search engines and AI tools.
