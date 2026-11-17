@@ -8,13 +8,27 @@ The Code Bunny studio website: a fast, static, SEO-first site with no framework 
 public/            ← the website (this folder is what gets deployed)
 tools/content.py   ← all page copy: services, industries, FAQs, testimonials, contact details
 tools/projects.json← portfolio: every live site, its category, blurb and URL
-tools/build.py     ← generates every HTML page, sitemap.xml, robots.txt, llms.txt
+tools/articles/*.md← the blog: 100 guides in Markdown (several per file)
+tools/blog.py      ← blog engine: Markdown → HTML, categories, FAQ extraction
+tools/build.py     ← generates every HTML page, sitemap.xml, robots.txt, llms.txt, RSS
 tools/screenshots.js / optimize.py ← re-capture portfolio screenshots from the live sites
-tools/og.js        ← renders the social-share images
+tools/og.js        ← renders the social-share images (site + one per article)
 deploy/            ← Caddyfile + rsync deploy script for the VPS
 ```
 
-Pages: Home, Work (filterable portfolio, 39 projects), Services + 6 service pages, Industries + 4 industry pages, Templates (sites for sale), Free website preview, About, Contact, Privacy, 404.
+Pages: Home, Work (filterable portfolio, 39 projects), Services + 6 service pages, Industries + 4 industry pages, Templates (sites for sale), Free website preview, Blog (100 guides in 8 categories), About, Contact, Privacy, 404. 128 indexable pages in total.
+
+## The experience layer
+
+Animations use self-hosted GSAP (ScrollTrigger, SplitText, Flip) and Lenis smooth scroll, all loaded after the page is readable:
+
+- First-visit loading screen, WebGL shader background in the hero, letter-by-letter headline
+- Sideways-scrolling work gallery (desktop), image reveals, 3D tilt, custom cursor, magnetic buttons
+- Dan Reynolds' real WhatsApp messages replayed as an animated phone conversation
+- Page-to-page transitions, service hover previews, footer wordmark that fills as you scroll
+- Click the bunny for an easter egg
+
+Everything is progressive enhancement: with JavaScript off, or with the visitor's "reduce motion" setting on, all content is visible and static.
 
 ## Everyday edits
 
@@ -22,6 +36,27 @@ Pages: Home, Work (filterable portfolio, 39 projects), Services + 6 service page
 2. Rebuild: `python3 tools/build.py`
 3. Preview: `cd public && python3 -m http.server 8080`, then open http://localhost:8080
 4. Deploy: `DEPLOY_HOST=user@your-vps ./deploy/deploy.sh`
+
+### Writing a new article
+
+Add a block to any file in `tools/articles/` (format is documented at the top of `tools/blog.py`):
+
+```
+=== url-slug
+title: Article title
+desc: Meta description under 160 characters
+cat: strategy | coaches | photographers | solar | local | seo | design | tech
+kw: main keyword, second keyword
+takeaways: First point | Second point | Third point
+---
+Markdown body with ## headings. Shortcodes: [[cta]]  [[audit]]  [[work:slug,slug]]
+
+## Frequently asked questions
+### A question?
+The answer.
+```
+
+Then `python3 tools/build.py`, and `node tools/og.js` (with the local server running) to render its share image.
 
 ### Adding a new portfolio site
 
@@ -34,7 +69,10 @@ Pages: Home, Work (filterable portfolio, 39 projects), Services + 6 service page
 - Unique, keyword-targeted `<title>` and meta description on every page; canonical URLs
 - JSON-LD structured data: Organization, WebSite, WebPage, BreadcrumbList, Service, OfferCatalog, FAQPage, ItemList (portfolio), Product (templates), Person (founder), Offer (free preview)
 - Open Graph + Twitter cards with custom 1200×630 share images
-- `sitemap.xml`, `robots.txt`, `llms.txt` (for AI search engines), web manifest, favicons
+- `sitemap.xml` with real last-modified dates, RSS feed, web manifest, favicons
+- AI search: `robots.txt` explicitly welcomes GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others; `llms.txt` summarises the business; `llms-full.txt` contains the full text of every guide
+- BlogPosting + FAQ schema, author, dates, key-takeaways box and question-style headings on every article
+- IndexNow: `deploy/deploy.sh` pings Bing, Yandex and others with every URL on each deploy
 - Service and industry landing pages targeting real search intent ("website design for coaches", "solar company website", etc.)
 - Self-hosted fonts, WebP images with `srcset`, lazy loading, no render-blocking third-party JS (~650 KB first load)
 - 301 redirects from the old `about.html` / `contact.html` / `marketplace.html` URLs (in the Caddyfile, plus fallback stubs)

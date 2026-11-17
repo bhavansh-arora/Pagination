@@ -23,3 +23,34 @@ const cards = [
   }
   await b.close();
 })();
+
+// ---- Blog share images: one per article (reads tools/.og-blog.json written by build.py)
+(async () => {
+  const fs = require('fs');
+  const file = path.join(__dirname, '.og-blog.json');
+  if (!fs.existsSync(file)) return;
+  const posts = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const outDir = path.join(__dirname, '..', 'public/assets/img/og/blog');
+  fs.mkdirSync(outDir, { recursive: true });
+  const only = process.argv.includes('--all') ? null : (s) => !fs.existsSync(path.join(outDir, s + '.jpg'));
+  const b = await chromium.launch();
+  const p = await b.newPage({ viewport: { width: 1200, height: 630 } });
+  await p.goto('http://localhost:8080/404.html');
+  const H = 'http://localhost:8080';
+  let n = 0;
+  for (const a of posts) {
+    if (only && !only(a.slug)) continue;
+    const size = a.title.length > 70 ? 50 : a.title.length > 50 ? 58 : 68;
+    await p.setContent(`<html><head><link rel="stylesheet" href="${H}/assets/css/site.css"></head><body style="margin:0;width:1200px;height:630px;overflow:hidden;background:#0d0b0a;position:relative;opacity:1">
+      <div style="position:absolute;inset:0;background:radial-gradient(45% 60% at 85% 35%,${a.hue}55,transparent 70%),radial-gradient(40% 50% at 0% 100%,${a.hue}22,transparent 70%)"></div>
+      <img src="${H}/assets/img/work/${a.shot}-640.webp" style="position:absolute;width:520px;right:-70px;top:150px;border-radius:14px;border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 80px -20px #000;transform:rotate(-5deg)">
+      <div style="position:absolute;left:64px;top:56px;display:flex;align-items:center;gap:14px"><img src="${H}/assets/img/brand/bunny.webp" width="52" height="52"><img src="${H}/assets/img/brand/wordmark.webp" width="180"></div>
+      <div style="position:absolute;left:64px;bottom:64px;width:690px"><div style="display:flex;align-items:center;gap:10px;font:500 17px Geist,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#b3a99e;margin-bottom:20px"><span style="width:10px;height:10px;border-radius:50%;background:${a.hue}"></span>${a.cat}</div>
+      <div class="display" style="font-size:${size}px;line-height:1.02;color:#f3ece3">${a.title.replace(/&/g, '&amp;')}</div><div style="margin-top:22px;color:#7d746b;font:400 20px Geist,sans-serif">codebunny.net/blog</div></div></body></html>`);
+    await p.waitForTimeout(250);
+    await p.screenshot({ path: path.join(outDir, a.slug + '.jpg'), type: 'jpeg', quality: 80 });
+    n++;
+  }
+  console.log('blog og images rendered:', n);
+  await b.close();
+})();
