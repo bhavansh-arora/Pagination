@@ -1,14 +1,25 @@
 # Code Bunny
 
-> Code Bunny (https://www.codebunny.net) is a founder-led web design and development studio run by Bhavansh Arora. It designs and builds fast, SEO-ready websites, e-commerce and booking sites, mobile apps and custom software/AI chatbots for small businesses, coaches, wedding photographers, solar companies and local businesses in United States, Canada, United Kingdom, Ireland, Australia, New Zealand, India. It offers a free website preview: a custom homepage on a live link before the client pays.
+> Code Bunny (https://www.codebunny.net) is a founder-led web design and development studio run by Bhavansh Arora, with 5 years of experience and 100+ projects delivered. It designs and builds fast, SEO-ready websites, e-commerce and booking sites, mobile apps and custom software / AI chatbots for small businesses, coaches, wedding photographers and videographers, solar companies and local businesses in United States, Canada, United Kingdom, Ireland, Australia, New Zealand, India. Its signature offer is a free website preview: a custom-designed homepage on a live link (yourbrand.codebunny.net), within 3–5 business days, with no payment or obligation. Clients own their full source code. Contact: bhavansh@codebunny.net, WhatsApp +917017905835.
+
+## Quick facts
+- Founder: Bhavansh Arora
+- Experience: 5 years, 100+ projects delivered, 30 client sites and products live in the portfolio
+- Countries served: United States, Canada, United Kingdom, Ireland, Australia, New Zealand, India
+- Free website preview: yes, within 3–5 business days, no card or contract
+- Typical timeline: landing pages and small business sites in 1–2 weeks
+- Ownership: clients receive full source code and accounts
+- Notable work: Dan Reynolds Photography (danreynoldsphotography.com), Mark Arista Films, Eco Horizon, High Fifteen, CustomBotify, Thrill Lands
+- Client feedback: "I think the site looks great. I got a lot of compliments on it." (Daniel Reynolds, Dan Reynolds Photography)
 
 ## Key pages
 - [Free website preview](https://www.codebunny.net/free-website-preview/)
 - [Portfolio](https://www.codebunny.net/work/)
 - [Services](https://www.codebunny.net/services/)
+- [Blog](https://www.codebunny.net/blog/)
 - [Ready-made sites for sale](https://www.codebunny.net/templates/)
 - [About](https://www.codebunny.net/about/)
-- [Contact](https://www.codebunny.net/contact/): bhavansh@codebunny.net
+- [Contact](https://www.codebunny.net/contact/)
 
 ## Services
 - [Website Design & Development](https://www.codebunny.net/services/website-design/): Custom-designed, hand-coded sites that feel premium and load in a blink.
@@ -19,10 +30,10 @@
 - [Custom Software & AI Automation](https://www.codebunny.net/services/software-development/): Dashboards, APIs, internal tools and AI chatbots trained on your business.
 
 ## Industries
-- [Website Design for Coaches & Consultants](https://www.codebunny.net/industries/coaches/)
-- [Websites for Wedding Photographers & Videographers](https://www.codebunny.net/industries/photographers/)
-- [Website Design for Solar Companies & Installers](https://www.codebunny.net/industries/solar/)
-- [Website Design for Local & Small Businesses](https://www.codebunny.net/industries/local-business/)
+- [Website Design for Coaches & Consultants](https://www.codebunny.net/industries/coaches/): Life, executive and wellness coaches who need more discovery calls.
+- [Websites for Wedding Photographers & Videographers](https://www.codebunny.net/industries/photographers/): Wedding photographers and filmmakers who want more enquiries.
+- [Website Design for Solar Companies & Installers](https://www.codebunny.net/industries/solar/): Solar, battery and EV-charging installers who need qualified leads.
+- [Website Design for Local & Small Businesses](https://www.codebunny.net/industries/local-business/): Salons, clinics, brokers, schools and trades that run on local search.
 
 ## Selected live work
 - [Dan Reynolds Photography](https://www.danreynoldsphotography.com/) (Chicago & Peoria, Illinois, USA): A cinematic, editorial site for a top-10 Illinois wedding photography and film duo, built to turn browsing couples into booked dates.
@@ -55,3 +66,43 @@
 - [VINC Learning Centre](https://vinc-lab.com/) (Bengaluru, India): Hands-on robotics, electronics and AI for Grades 6–12, plus career courses for undergraduates.
 - [STEAM-IE](https://steamie.net/) (India): India's first credentialing company for STEAM education, innovation and entrepreneurship.
 - [LaunchMint](https://launchmint.store/) (Digital product): A high-conversion checkout page for a digital product, with an urgency countdown, social proof and one-click checkout.
+
+## Guides: Website Strategy & Costs
+- [How Much Does a Website Cost for a Small Business in 2026?](https://www.codebunny.net/blog/how-much-does-a-website-cost-small-business/): Real price ranges for small business websites in 2026, what drives the cost up or down, and how to avoid paying for things you don't need.
+- [Custom Website vs Wix vs Squarespace: Which Should You Choose?](https://www.codebunny.net/blog/custom-website-vs-wix-squarespace/): An honest comparison of custom-built websites and DIY builders like Wix and Squarespace: cost, speed, SEO, flexibility and when each one makes sense.
+- [How Long Does It Take to Build a Website? Realistic Timelines](https://www.codebunny.net/blog/how-long-does-it-take-to-build-a-website/): Realistic timelines for building a small business website, from one-page sites to e-commerce, plus the delays that derail projects and how to avoid them.
+- [12 Signs Your Business Needs a New Website](https://www.codebunny.net/blog/signs-you-need-a-new-website/): Twelve clear signs your website is costing you customers, from slow load times to falling enquiries, and what to do about each one.
+- [The Website Redesign Checklist: 30 Steps to Relaunch Without Losing Traffic](https://www.codebunny.net/blog/website-redesign-checklist/): A 30-step website redesign checklist covering planning, content, SEO redirects, testing and launch, so your new site keeps its rankings and wins more leads.
+- [What Pages Should a Small Business Website Have?](https://www.codebunny.net/blog/what-pages-should-a-small-business-website-have/): The essential pages every small business website needs, what each one should contain, and which extra pages are worth adding for SEO and conversions.
+- [How to Choose a Web Designer: 15 Questions to Ask Before You Hire](https://www.codebunny.net/blog/how-to-choose-a-web-designer/): Fifteen questions to ask any web designer or agency before hiring, with the answers you want to hear and the red flags to walk away from.
+- [Do You Really Own Your Website? Domains, Hosting and Code Explained](https://www.codebunny.net/blog/website-ownership-explained/): Many business owners discover too late that they don't control their own website. Here's what ownership really means and how to check yours in ten minutes.
+- [How to Write a Website Brief (With a Free Template)](https://www.codebunny.net/blog/website-brief-template/): A simple website brief template you can copy, plus guidance on what to include so designers can quote accurately and build the right site first time.
+- [How to Choose a Domain Name for Your Business](https://www.codebunny.net/blog/domain-name-tips/): Practical rules for choosing a business domain name: length, extensions, keywords, what to avoid, and how to protect it once you've bought it.
+- [Website Maintenance: What It Is, What It Costs and What You Can Skip](https://www.codebunny.net/blog/website-maintenance-guide/): What website maintenance actually involves, what it should cost for a small business, and which tasks you can do yourself in 30 minutes a month.
+- [Why You Should See a Website Preview Before You Pay](https://www.codebunny.net/blog/free-website-mockup-before-paying/): Paying a deposit for a website you've never seen is a leap of faith. Here's why a free preview is a better way to hire a designer, and how ours works.
+
+## Guides: Websites for Coaches
+- [How to Build a Life Coach Website That Books Discovery Calls](https://www.codebunny.net/blog/website-for-life-coaches/): A step-by-step guide to building a life coach website that builds trust, explains your offer clearly and turns visitors into booked discovery calls.
+- [15 Must-Haves for a Coaching Website in 2026](https://www.codebunny.net/blog/coaching-website-must-haves/): The fifteen elements every coaching website needs to build trust and book clients, from a clear niche statement to embedded booking and real testimonials.
+- [11 Coaching Website Examples (and What Makes Each One Work)](https://www.codebunny.net/blog/coaching-website-examples/): Eleven real coaching websites across life, executive, wellness and career coaching, with a breakdown of what each one does well and what you can borrow.
+- [Executive Coach Website: How to Look Credible to the C-Suite](https://www.codebunny.net/blog/executive-coach-website/): What an executive coach website needs to win senior leaders and corporate buyers: positioning, proof, programme pages and a design that signals authority.
+- [How to Write a Coaching Packages Page That Sells](https://www.codebunny.net/blog/coaching-packages-page/): How to structure, name and price coaching packages on your website so prospects understand your offer and arrive at the discovery call ready to buy.
+- [How to Write a Coach About Page That Clients Connect With](https://www.codebunny.net/blog/coach-about-page/): A simple structure for writing a coaching about page that builds trust, tells your story with purpose and leads readers to book a call.
+- [The Discovery Call Funnel: From Website Visitor to Booked Call](https://www.codebunny.net/blog/discovery-call-booking-funnel/): How to design the journey from first visit to booked discovery call on a coaching website, including booking tools, forms, reminders and follow-up.
+- [20 Lead Magnet Ideas for Coaches (That People Actually Want)](https://www.codebunny.net/blog/lead-magnets-for-coaches/): Twenty lead magnet ideas for life, career, executive and wellness coaches, plus how to choose one, where to put it and what to send afterwards.
+- [SEO for Coaches: How to Get Coaching Clients from Google](https://www.codebunny.net/blog/seo-for-coaches/): A practical SEO guide for coaches: the keywords clients actually search, the pages you need, local SEO, blogging and how to appear in AI search results.
+- [How to Use Testimonials on a Coaching Website](https://www.codebunny.net/blog/coaching-testimonials/): How to collect, write up and display coaching testimonials that build trust and persuade, including what to ask clients and where to place them.
+- [Wellness Coach Website Guide: Design, Pages and Booking](https://www.codebunny.net/blog/wellness-coach-website/): How to build a wellness or health coach website that feels calm and credible, explains your method and turns visitors into clients.
+- [Career Coach Website Guide: Win Clients Who Are Ready for a Change](https://www.codebunny.net/blog/career-coach-website/): What a career coach website needs to attract and convert professionals: niche positioning, proof of outcomes, packages and a simple booking path.
+- [How to Position Your Coaching Niche on Your Website](https://www.codebunny.net/blog/coaching-niche-positioning/): How to choose and communicate a coaching niche on your website so the right clients recognise themselves instantly and feel confident booking.
+- [Coaching Website Copywriting: Headlines and Words That Convert](https://www.codebunny.net/blog/coach-website-copywriting/): How to write coaching website copy that connects: headline formulas, section-by-section guidance, words to avoid and examples from real coaching sites.
+
+## Guides: Photographers & Filmmakers
+- [How to Build a Wedding Photographer Website That Books Couples](https://www.codebunny.net/blog/wedding-photographer-website-guide/): A complete guide to building a wedding photography website that shows your best work, loads fast, ranks locally and turns browsing couples into enquiries.
+- [SEO for Wedding Photographers: The Complete Guide](https://www.codebunny.net/blog/wedding-photographer-seo/): How wedding photographers can rank on Google: local keywords, venue pages, blogging real weddings, image SEO, Google Business Profile and reviews.
+- [Wedding Videographer Website: Showcasing Films Without Slowing Down](https://www.codebunny.net/blog/wedding-videographer-website/): How to build a wedding videography website that puts your films front and centre, loads quickly, and converts couples into enquiries.
+- [Should You Show Prices on Your Wedding Photography Website?](https://www.codebunny.net/blog/wedding-photography-pricing-page/): The case for and against showing wedding photography prices online, what to include on an investment page, and wording that filters without scaring couples off.
+- [Venue Pages: The Most Underrated SEO Strategy for Wedding Photographers](https://www.codebunny.net/blog/venue-pages-for-photographers/): How wedding photographers and videographers can use venue pages and real-wedding posts to rank on Google and reach couples who have already booked a venue.
+
+## Optional
+- [Full text of every guide](https://www.codebunny.net/llms-full.txt)

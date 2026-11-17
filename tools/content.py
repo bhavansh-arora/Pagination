@@ -14,6 +14,8 @@ SITE = {
     "projects_delivered": 100,
     "countries": ["United States", "Canada", "United Kingdom", "Ireland", "Australia", "New Zealand", "India"],
     "preview_turnaround": "within 3–5 business days",
+    # IndexNow (Bing, Yandex, Seznam, Naver): instant indexing pings. Key file is published at /<key>.txt
+    "indexnow_key": "048a2b05d4253bfbe1c8dd75fd24d0b3",
 }
 
 CATS = {

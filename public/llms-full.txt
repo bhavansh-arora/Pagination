@@ -1,0 +1,3275 @@
+# Code Bunny: full site content for AI assistants
+
+Code Bunny (https://www.codebunny.net) is a founder-led web design and development studio run by Bhavansh Arora, with 5 years of experience and 100+ projects delivered. It designs and builds fast, SEO-ready websites, e-commerce and booking sites, mobile apps and custom software / AI chatbots for small businesses, coaches, wedding photographers and videographers, solar companies and local businesses in United States, Canada, United Kingdom, Ireland, Australia, New Zealand, India. Its signature offer is a free website preview: a custom-designed homepage on a live link (yourbrand.codebunny.net), within 3–5 business days, with no payment or obligation. Clients own their full source code. Contact: bhavansh@codebunny.net, WhatsApp +917017905835.
+
+## Quick facts
+- Founder: Bhavansh Arora
+- Experience: 5 years, 100+ projects delivered, 30 client sites and products live in the portfolio
+- Countries served: United States, Canada, United Kingdom, Ireland, Australia, New Zealand, India
+- Free website preview: yes, within 3–5 business days, no card or contract
+- Typical timeline: landing pages and small business sites in 1–2 weeks
+- Ownership: clients receive full source code and accounts
+- Notable work: Dan Reynolds Photography (danreynoldsphotography.com), Mark Arista Films, Eco Horizon, High Fifteen, CustomBotify, Thrill Lands
+- Client feedback: "I think the site looks great. I got a lot of compliments on it." (Daniel Reynolds, Dan Reynolds Photography)
+
+## Frequently asked questions
+### Is the free website preview really free?
+Yes. Tell us about your business and we'll design a live homepage preview on a private link like yourbrand.codebunny.net. There's no payment, no card and no contract. If you love it, we quote the full build. If not, you walk away and owe nothing.
+
+### How much does a website cost?
+Every project is quoted on scope. A focused one-page site costs far less than a multi-page site with booking, payments or a custom dashboard. You get a fixed, written price before any work starts, and the free preview lets you see the quality before you spend anything.
+
+### How long does it take to build a website?
+Most landing pages and small business sites go live in 1–2 weeks. Larger multi-page builds, e-commerce stores and web apps are scoped individually, and you'll get a clear timeline with your quote.
+
+### Will my website rank on Google?
+Every Code Bunny site ships with technical SEO built in: fast load times, clean semantic HTML, structured data (schema), optimised titles and meta descriptions, an XML sitemap and mobile-first layouts. We can also help with ongoing local SEO and content.
+
+### Do I own my website?
+Yes, 100%. You get the full source code, design files and admin access. No lock-in, no hostage hosting. Host it with us or anywhere you like.
+
+### Where are you based? Do you work with clients abroad?
+We're a remote-first studio and have shipped sites for clients in the United States, Canada, the United Kingdom, Ireland, Australia, New Zealand and India. You'll work directly with the founder on WhatsApp, email or video calls, whatever suits your time zone.
+
+
+## Service: Website Design & Development (https://www.codebunny.net/services/website-design/)
+We design and build custom websites for service businesses, creatives and startups: every pixel considered, every page engineered to load fast, rank and convert.
+Includes: Custom design, never a recycled theme; Mobile-first, responsive on every screen; Hand-coded for speed and 90+ Lighthouse scores; On-page SEO, schema and sitemap built in; Contact, booking and lead-capture forms; Analytics and Search Console setup; Copywriting help and content structure; Full source code and ownership.
+
+## Service: SEO & Performance (https://www.codebunny.net/services/seo/)
+Beautiful sites don't matter if nobody finds them. We build SEO into the foundation (speed, structure, schema and content) so Google understands exactly who you serve and where.
+Includes: Technical SEO audit and fixes; Core Web Vitals and page-speed optimisation; Local SEO and Google Business Profile alignment; Schema markup (Organization, Service, FAQ, Review); Keyword research and page targeting; Title, meta and heading optimisation; XML sitemaps, robots and canonical setup; Search Console and analytics reporting.
+
+## Service: Website Redesign (https://www.codebunny.net/services/website-redesign/)
+If your site feels dated, loads slowly or isn't bringing in enquiries, a redesign is the highest-leverage marketing move you can make. We keep what works and rebuild the rest.
+Includes: Audit of your current site, SEO and analytics; Modern design aligned to your brand; Content restructure for clarity and conversion; 301 redirects to protect existing rankings; Speed and accessibility improvements; Migration off slow builders or bloated themes; Fresh photography and imagery direction; Before/after performance report.
+
+## Service: E-commerce & Booking Sites (https://www.codebunny.net/services/ecommerce/)
+From product catalogs to appointment booking and one-click checkout, we build storefronts and booking flows that make it effortless for customers to pay you.
+Includes: Product catalogs with filters and search; Appointment and class booking flows; Stripe, PayPal and Razorpay checkout; Discount codes, bundles and upsells; Order and enquiry notifications; Inventory and admin dashboards; Conversion-optimised product pages; Analytics and e-commerce tracking.
+
+## Service: Mobile App Development (https://www.codebunny.net/services/mobile-app-development/)
+We design and build cross-platform mobile apps with React Native: one codebase, native feel on iOS and Android, shipped to the App Store and Google Play.
+Includes: UX research, flows and wireframes; High-fidelity UI design; React Native for iOS and Android; Auth, payments and push notifications; APIs, databases and admin panels; App Store and Google Play submission; Analytics and crash reporting; Post-launch support and iteration.
+
+## Service: Custom Software & AI Automation (https://www.codebunny.net/services/software-development/)
+Dashboards, internal tools, integrations and AI assistants trained on your business. We build software that fits how you actually work, like our own product CustomBotify.
+Includes: Custom web apps and dashboards; AI chatbots and assistants (OpenAI API); CRM, lead and workflow automation; API design and third-party integrations; Stripe billing and subscriptions; Data scraping and enrichment pipelines; Role-based admin panels; Hosting, monitoring and maintenance.
+
+---
+
+# How Much Does a Website Cost for a Small Business in 2026?
+URL: https://www.codebunny.net/blog/how-much-does-a-website-cost-small-business/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Real price ranges for small business websites in 2026, what drives the cost up or down, and how to avoid paying for things you don't need.
+
+Key takeaways:
+- Most small business websites cost between $1,500 and $10,000 to build professionally
+- Page count matters less than features like booking, payments and custom design
+- Ongoing costs (domain, hosting, maintenance) usually run $10 to $150 a month
+- A fixed quote and a preview before you pay removes most of the risk
+
+"How much does a website cost?" is the first question almost every business owner asks us, and the honest answer is a range. A website is closer to a renovation than a product on a shelf: the price depends on what you're building, who builds it and how much of the thinking is done for you.
+
+This guide gives you real numbers, explains what actually moves the price, and shows you how to budget without getting burned.
+
+## The short answer
+
+Here are the typical ranges we see across the market in 2026 for a small business website:
+
+| Route | Typical upfront cost | Best for |
+| --- | --- | --- |
+| DIY builder (Wix, Squarespace) | $0 to $500, plus your time | Brand-new businesses testing an idea |
+| Freelancer using a template | $500 to $2,500 | Simple brochure sites on a tight budget |
+| Custom design by a small studio | $2,500 to $10,000 | Established businesses that need leads |
+| Agency build with strategy and content | $10,000 to $50,000+ | Larger companies with complex needs |
+
+Most established small businesses (a coaching practice, a salon, a solar installer, a wedding photographer) land in the third row. That's the range where you get custom design, proper SEO foundations and someone thinking about conversion, without paying for a room full of account managers.
+
+## What actually drives the cost
+
+Page count is the thing people fixate on, but it's rarely the biggest factor. These are.
+
+### 1. Custom design vs a template
+
+A template gives you someone else's layout with your logo dropped in. Custom design starts from your customers: what they need to see, in what order, to trust you and get in touch. Custom takes more hours, which is why it costs more, but it's also why it tends to convert better.
+
+### 2. Functionality
+
+A five-page site that only displays information is simple. The cost rises when the site has to *do* things:
+
+- Online booking or appointment requests
+- Payments, deposits or a full online store
+- Calculators, quizzes or quote builders
+- Member areas, courses or client portals
+- Integrations with your CRM, calendar or email platform
+
+Each of these is a mini software project. A solar savings calculator, for example, can take longer to build than the rest of the site combined.
+
+### 3. Content
+
+Someone has to write the words and source the images. If you supply polished copy and professional photos, the build is faster. If your designer is also writing your copy, structuring your offers and directing photography, expect to pay for that time. It's usually worth it: content is what persuades.
+
+### 4. SEO depth
+
+Every decent build should include the basics: fast pages, clean structure, title tags, a sitemap. Deeper work costs extra: keyword research, location pages, schema markup, and migrating an old site without losing rankings. If you rely on Google for leads, read our technical SEO checklist (/blog/technical-seo-checklist/) before you sign anything.
+
+### 5. Who you hire
+
+A freelancer has low overheads. An agency has project managers, strategists and an office. A small founder-led studio sits in between: senior work without the layers. Rates also vary a lot by country, which is why a studio like ours can deliver agency-level work for clients in the US, UK and Australia at a lower price than a local agency.
+
+## The ongoing costs people forget
+
+The build is a one-off. These are not:
+
+- **Domain name:** $10 to $20 a year for most `.com` names.
+- **Hosting:** $5 to $50 a month for a typical small business site. Builders like Wix and Squarespace bundle this into a $16 to $40 monthly plan.
+- **Maintenance:** $0 to $150 a month depending on the platform. WordPress sites need regular plugin and security updates. Hand-coded static sites need very little.
+- **Email:** around $6 to $12 per user per month for Google Workspace or Microsoft 365.
+- **Tools:** booking software, email marketing and CRM subscriptions, if you use them.
+
+A fair all-in running cost for most small businesses is $20 to $100 a month. If you're being quoted $300 a month for "hosting" on a five-page site, ask exactly what's included. We cover this in detail in our website maintenance guide (/blog/website-maintenance-guide/).
+
+## Three sample budgets
+
+To make this concrete, here's how three common projects typically price out.
+
+**A one-page site for a new coach.** A single long page with an about section, services, testimonials and a booking link. Expect $800 to $2,500 depending on design polish and whether copy is included.
+
+**A lead-generation site for a local service business.** Eight to fifteen pages: home, about, a page per service, a few location pages, reviews, contact and a quote form. Expect $3,000 to $8,000 with proper SEO setup.
+
+**A booking or e-commerce site.** A salon with online booking and deposits, or a store with 50 products and Stripe checkout. Expect $5,000 to $15,000 depending on the catalog and integrations.
+
+## How to avoid overpaying
+
+1. **Get a fixed quote, in writing.** Hourly billing puts all the risk on you. A fixed price for a defined scope puts it where it belongs.
+2. **Ask what you'll own.** You should get the domain, the code, the design files and admin access. If the answer is vague, walk away. More on this in do you really own your website? (/blog/website-ownership-explained/)
+3. **Check live work, not mockups.** Anyone can make a pretty picture. Click through real sites they've launched and test them on your phone.
+4. **Separate must-haves from nice-to-haves.** Launch with what you need to win customers, then add features once the site is paying for itself.
+5. **See something before you pay.** A studio confident in its work will show you a direction first. That's why we offer a free website preview (/free-website-preview/): we design your homepage on a live link before you commit to anything.
+
+## Is a cheap website a false economy?
+
+Sometimes. A $300 website that brings in no enquiries costs more than a $5,000 website that brings in two new clients a month. The right question isn't "what's the cheapest site I can get?" but "what will this site be worth to my business?"
+
+If one new client is worth $2,000 to you, a site that converts even one extra visitor a month pays for itself quickly. That's the lens to use.
+
+## Frequently asked questions
+
+### Can I build a website for free?
+Yes. Builders like Wix and Google Sites have free plans, but they show ads, use a subdomain and limit features. They're fine for testing an idea, not for a business that wants to look established.
+
+### Why do quotes for the same website vary so much?
+Because the scope behind them differs. One quote may be a template with your logo; another includes strategy, copywriting, custom design and SEO. Ask each provider to list exactly what's included and compare like for like.
+
+### Should I pay monthly or upfront?
+Upfront builds usually cost less over three years and leave you owning the site. "Website as a service" monthly plans lower the barrier but often mean you're renting, and lose the site if you stop paying. Check the contract.
+
+---
+
+# Custom Website vs Wix vs Squarespace: Which Should You Choose?
+URL: https://www.codebunny.net/blog/custom-website-vs-wix-squarespace/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+An honest comparison of custom-built websites and DIY builders like Wix and Squarespace: cost, speed, SEO, flexibility and when each one makes sense.
+
+Key takeaways:
+- Builders are the right choice when you're starting out and budget matters more than polish
+- Custom sites win on speed, flexibility, SEO control and standing out from competitors
+- The real cost of DIY is your time and the leads a generic site doesn't convert
+- Many businesses start on a builder and move to custom once the website becomes a sales channel
+
+Website builders have made it possible for anyone to get online in a weekend. So why do businesses still pay for custom websites? Because "online" and "winning customers online" are different goals.
+
+We build custom sites for a living, so you might expect a one-sided answer. You won't get one: there are situations where a builder is exactly the right call, and we'll tell you when.
+
+## The quick comparison
+
+| | Wix / Squarespace | Custom website |
+| --- | --- | --- |
+| Upfront cost | $0 to $500 | $2,500 to $10,000+ |
+| Monthly cost | $16 to $40 | $5 to $50 hosting |
+| Time to launch | Days (of your time) | 1 to 4 weeks |
+| Design | Templates, limited tweaks | Built around your brand |
+| Page speed | Average | Fast when built well |
+| SEO control | Good basics, limited depth | Full control |
+| Custom features | Whatever the platform allows | Anything you can describe |
+| Ownership | You rent the platform | You own the code |
+
+## When a builder is the right choice
+
+A builder makes sense if:
+
+- **You're validating a new business.** Don't spend $5,000 on a website for an idea you haven't sold yet.
+- **Your budget is under $1,000.** A good template beats a bad custom build.
+- **You enjoy doing it yourself** and have the time to learn design, copy and SEO basics.
+- **Your site is a simple brochure** and most of your customers come from referrals anyway.
+
+Squarespace in particular produces clean, respectable sites, and for a lot of new businesses that's enough for year one.
+
+## Where builders start to hurt
+
+### Everyone looks the same
+
+Templates are popular for a reason, which means your competitors are using them too. When a customer has three tabs open and all three sites share the same layout, the cheapest price tends to win. Distinctive design is how you avoid competing on price.
+
+### Speed and Core Web Vitals
+
+Builders load their entire platform on every page, whether you use the features or not. That extra weight shows up in load times, especially on mobile. A hand-coded site only ships what the page needs. Speed affects both rankings and conversion; we explain how in Core Web Vitals explained (/blog/core-web-vitals-explained/).
+
+### The feature ceiling
+
+Builders are great until you want something they don't offer: a savings calculator, a multi-step quote form, a custom booking flow, a page layout the template doesn't support. Then you're stacking third-party widgets, each with its own monthly fee and its own look.
+
+### SEO depth
+
+Modern builders handle the basics well. Where they fall short is fine control: custom schema markup, clean URL structures, precise control over what loads and when. For competitive local searches, those details add up. See our schema markup guide (/blog/schema-markup-guide/) for what you'd be missing.
+
+### You're renting
+
+On a builder, your site lives on their platform under their terms. If they raise prices or retire a feature, you adapt. You can't take a Wix site and host it elsewhere. A custom site is a set of files you own outright.
+
+## The hidden cost of DIY: your time
+
+A builder's sticker price ignores the biggest cost. Business owners typically spend 30 to 60 hours building their own site, then more hours every month fiddling with it. If your time is worth $75 an hour, that "free" website cost $3,000 before you count the leads a generic site didn't convert.
+
+The question isn't whether you *can* build it yourself. It's whether that's the best use of your week.
+
+## What custom actually gets you
+
+A good custom build isn't just a prettier template. It includes:
+
+- **Strategy.** Someone who has built dozens of sites in your industry knows what your customers need to see.
+- **Conversion design.** Every page has a job and a clear next step.
+- **Performance.** Lean code that loads fast on a phone with two bars of signal.
+- **Flexibility.** If you can describe it, it can be built.
+- **Ownership.** Your code, your content, your accounts.
+
+Here are two custom builds where a template wouldn't have done the job:
+
+## A middle path
+
+It doesn't have to be all or nothing. Three options sit between DIY and fully bespoke:
+
+1. **Start on a builder, upgrade later.** Totally valid. Just make sure you own your domain so the move is painless.
+2. **Buy a ready-made custom site.** A pre-built, professionally designed site that you rebrand. We sell a small number of these on our templates page (/templates/); each sells to one owner only.
+3. **Custom design, simple build.** A focused one-page custom site costs far less than a full build and still looks nothing like a template.
+
+## How to decide
+
+Ask yourself three questions:
+
+1. **Is the website a sales channel or a business card?** If customers find and choose you through it, invest. If it just confirms you exist, a builder is fine.
+2. **What's one new customer worth?** If the answer is more than a few hundred dollars, a better-converting site pays for itself quickly.
+3. **Do you want to spend your evenings on this?** Be honest.
+
+If you're on the fence, the lowest-risk way to decide is to see what custom would look like for your business. Our free website preview (/free-website-preview/) exists for exactly this: we design your homepage on a live link, you compare it with what you have, and you decide with real evidence.
+
+## Frequently asked questions
+
+### Is Wix or Squarespace bad for SEO?
+No. Both cover the fundamentals and plenty of builder sites rank well. They offer less control over speed and advanced technical SEO, which matters more in competitive markets.
+
+### Can I move from Squarespace to a custom site later?
+Yes. Your content can be migrated and your URLs redirected so you keep your rankings. Read how to redesign without losing SEO (/blog/seo-migration-redesign/) before you switch.
+
+### Is WordPress a builder or custom?
+Both, depending on how it's used. A WordPress site with a bought theme and 30 plugins behaves like a builder. A custom-coded WordPress theme is closer to a custom site, with more maintenance than a static build.
+
+---
+
+# How Long Does It Take to Build a Website? Realistic Timelines
+URL: https://www.codebunny.net/blog/how-long-does-it-take-to-build-a-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Realistic timelines for building a small business website, from one-page sites to e-commerce, plus the delays that derail projects and how to avoid them.
+
+Key takeaways:
+- A focused small business website takes 1 to 4 weeks with an experienced team
+- Content, not code, is the most common cause of delay
+- A clear brief and one decision-maker can halve the timeline
+- E-commerce and custom features add weeks, not days
+
+The honest answer: anywhere from a few days to a few months. A one-page site for a coach is a very different project from a 200-product online store. What matters more than the average is understanding which parts take time, and which of those you control.
+
+## Typical timelines by project type
+
+| Project | Typical timeline |
+| --- | --- |
+| One-page site or landing page | 3 to 7 days |
+| Small business site (5 to 10 pages) | 1 to 3 weeks |
+| Larger site with location and service pages (15 to 40 pages) | 3 to 6 weeks |
+| Booking site with payments | 3 to 6 weeks |
+| E-commerce store | 4 to 10 weeks |
+| Web app or custom platform | 2 to 6 months |
+
+These assume an experienced team and a client who responds within a day or two. Stretch either and the numbers stretch with them.
+
+## The four phases of a website project
+
+### 1. Discovery (1 to 3 days)
+
+A conversation about your business, customers, competitors and goals. The output is an agreed scope: which pages, which features, what success looks like. Skipping this phase is the fastest way to make a project slow.
+
+### 2. Design (3 to 7 days)
+
+The homepage usually comes first because it sets the visual language for everything else. Once that direction is approved, inner pages follow quickly. At Code Bunny this is where our free website preview (/free-website-preview/) fits: we design your homepage on a live link before you've committed, so the riskiest decision is made early.
+
+### 3. Build (1 to 3 weeks)
+
+Design becomes working pages: responsive layouts, forms, animations, integrations, SEO setup. For a brochure site this is fast. Features like booking, payments and calculators are where build time grows.
+
+### 4. Launch (2 to 4 days)
+
+Testing on real devices, connecting the domain, setting up analytics and Search Console, redirecting old URLs and submitting the sitemap. It's tempting to rush this. Don't: a broken form on launch day costs real enquiries.
+
+## What actually causes delays
+
+In our experience across more than a hundred projects, the code is almost never what holds things up. These are the real culprits.
+
+### Waiting for content
+
+This is the big one. The design is done, the pages are built, and everyone waits three weeks for the about page copy. If you take one thing from this article: **start gathering your content before the project starts.** That means:
+
+- A short description of each service
+- Your story and credentials
+- Testimonials and reviews
+- Logo files and brand colours
+- Photos of you, your team and your work
+- Logins for your domain and any existing tools
+
+If writing isn't your strength, ask your designer to draft the copy for you to edit. Reacting to a draft is far quicker than staring at a blank page.
+
+### Too many decision-makers
+
+Feedback from one person takes a day. Feedback from a committee takes a week and often contradicts itself. Nominate one person to collect opinions and give a single, consolidated response.
+
+### Scope creep
+
+"Can we also add a blog, a members area and a quiz?" Each addition is reasonable. Together they double the project. Park new ideas in a phase-two list and launch what was agreed.
+
+### Slow feedback loops
+
+A two-week project has room for two or three review rounds. If each one takes five days to come back, it's now a six-week project.
+
+## How to launch faster
+
+1. **Write a brief.** Even one page helps. Use our website brief template (/blog/website-brief-template/).
+2. **Collect content first.** See the list above.
+3. **Share examples.** Three sites you like and one you don't saves days of guessing.
+4. **Agree the scope and freeze it.** New ideas go on the phase-two list.
+5. **Give feedback in one batch, within 48 hours.**
+6. **Launch, then improve.** A good site that's live beats a perfect site that isn't. You can refine copy and add pages after launch.
+
+## Can a website really be built in a week?
+
+Yes, when the scope is tight and the content is ready. We regularly take a business from first call to live site in under two weeks. The projects that manage it share the same traits: a clear offer, a decisive owner and content supplied up front.
+
+What can't be rushed is the thinking. A site built quickly on a muddled message will underperform a site built quickly on a clear one. If you're not sure what your site should say, start with what pages a small business website should have (/blog/what-pages-should-a-small-business-website-have/).
+
+## How long until the website brings in leads?
+
+Launch day isn't the finish line. Visitors from ads and social media can arrive immediately. Search traffic takes longer: Google needs to crawl, index and trust a new site, which typically takes a few weeks for brand searches and three to six months for competitive terms. We break this down in how long does SEO take? (/blog/how-long-does-seo-take/)
+
+## Frequently asked questions
+
+### Why do some agencies quote three months for a simple site?
+Often it's process overhead: multiple teams, scheduled review meetings and a queue of other projects. A small senior team can move faster because the person you speak to is the person doing the work.
+
+### Does a faster build mean lower quality?
+Not necessarily. Speed comes from experience, reusable components and clear decisions. Quality drops when testing is skipped or content is rushed, so make sure those aren't what's being cut.
+
+### What do you need from me to get started?
+A short description of your business and customers, any existing website or social profiles, your logo if you have one, and a few sites you like. That's enough for us to design a first preview.
+
+---
+
+# 12 Signs Your Business Needs a New Website
+URL: https://www.codebunny.net/blog/signs-you-need-a-new-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Twelve clear signs your website is costing you customers, from slow load times to falling enquiries, and what to do about each one.
+
+Key takeaways:
+- If enquiries have dropped or never came, the website is the first place to look
+- Slow mobile load times and confusing navigation lose visitors within seconds
+- You don't always need a full rebuild; some problems have quick fixes
+- A redesign should protect your existing Google rankings with proper redirects
+
+Websites rarely fail loudly. They just quietly stop pulling their weight: fewer enquiries, more "I couldn't find your prices" phone calls, an awkward pause when someone asks for your web address.
+
+Here are twelve signs it's time for a change, roughly in order of how much they cost you.
+
+## 1. It doesn't bring in enquiries
+
+The clearest sign of all. If people visit and leave without calling, booking or filling in a form, the site isn't doing its job. Check your analytics: if you get 500 visitors a month and two enquiries, the problem isn't traffic.
+
+## 2. It's slow on a phone
+
+More than half of web traffic is mobile, and visitors won't wait. Test your site at PageSpeed Insights (https://pagespeed.web.dev/). If the mobile score is in the red or the page takes more than three seconds to become usable, you're losing people before they've read a word. See Core Web Vitals explained (/blog/core-web-vitals-explained/) for what the numbers mean.
+
+## 3. It looks dated
+
+Design trends move, and visitors judge credibility in a fraction of a second. Tiny text, stock photos of handshakes, a cluttered sidebar and a copyright date from years ago all say the same thing: this business isn't paying attention.
+
+## 4. It's awkward to use on mobile
+
+Being technically "responsive" isn't enough. Can you tap the phone number? Are the buttons big enough for a thumb? Does the menu work? Is the text readable without zooming? Borrow a friend's phone and try to book your own service.
+
+## 5. You're embarrassed to share it
+
+If you hesitate before giving out your URL, or apologise for the site when you do, trust that instinct. Your website should be something you're proud to put on a business card.
+
+## 6. You can't update it yourself
+
+If changing your opening hours means emailing a developer and waiting a week, the site will always be out of date. A modern site should let you edit everyday content yourself. When we launched Dan Reynolds Photography, it shipped with a built-in editor and blog so Dan can publish his own stories.
+
+## 7. It doesn't show up on Google
+
+Search your main service plus your town. If you're nowhere on the first page (and competitors with worse reviews are), the site likely has thin content, weak structure or technical problems. Our local SEO guide (/blog/local-seo-guide/) explains what Google looks for.
+
+## 8. Your business has changed
+
+New services, new prices, a new location, a new audience. If the website describes the business you ran three years ago, it's attracting the wrong customers and under-selling the right ones.
+
+## 9. Visitors leave immediately
+
+A high bounce rate on your homepage usually means a mismatch: people expected one thing and found another, or couldn't tell within five seconds what you do. A clear headline, a strong image and one obvious next step fix most of it. See homepage design best practices (/blog/homepage-design-best-practices/).
+
+## 10. It isn't secure
+
+No padlock in the address bar (HTTPS) means browsers show a "Not secure" warning. That alone will stop people filling in your contact form. Outdated plugins are a related risk: they're the most common way small business sites get hacked.
+
+## 11. Your competitors' sites are better
+
+Customers compare. Open your top three competitors side by side with your own site. If theirs are clearer, faster and more convincing, that's where the enquiries are going.
+
+## 12. It's built on something nobody supports
+
+A discontinued builder, a theme that hasn't been updated since 2019, or code written by a developer who's disappeared. If nobody can safely change the site, it's a liability.
+
+## Redesign, rebuild or repair?
+
+Not every problem needs a new website.
+
+**Repair** when the design is fine but specific things are broken: slow images, a missing call to action, outdated copy. These are often a few days' work.
+
+**Redesign** when the structure and platform are sound but the look and messaging are tired.
+
+**Rebuild** when the platform itself is the problem: it's slow, insecure, impossible to edit or can't support what you need.
+
+If you ticked four or more signs on this list, a rebuild is usually cheaper in the long run than patching.
+
+## What a good redesign protects
+
+A new site should never cost you the traffic you already have. Before anything is switched off:
+
+- Every old URL should redirect to its new equivalent
+- Page titles and content that rank well should be kept or improved
+- Analytics and Search Console should stay connected
+- The new site should be tested on real phones
+
+Our website redesign checklist (/blog/website-redesign-checklist/) walks through all 30 steps, and how to redesign without losing SEO (/blog/seo-migration-redesign/) covers the redirects in detail.
+
+## Where to start
+
+You don't have to commit to a full project to find out what's possible. Two low-effort options:
+
+1. **Get a second opinion.** Send us your URL and we'll tell you honestly whether it needs a repair, a redesign or a rebuild.
+2. **See the alternative.** With our free website preview (/free-website-preview/), we design a new homepage for your business on a live link. Put it next to your current site and the decision usually makes itself.
+
+## Frequently asked questions
+
+### How often should a business redesign its website?
+Most businesses benefit from a significant refresh every three to five years, with smaller updates in between. If the site still converts well and loads fast, there's no need to change it just because time has passed.
+
+### Will a redesign hurt my SEO?
+It can if it's done carelessly. With proper redirects and preserved content, a redesign normally improves rankings because the new site is faster and better structured.
+
+### How much does a redesign cost?
+Similar to a new build of the same size, sometimes a little less if your content is in good shape. See how much a website costs (/blog/how-much-does-a-website-cost-small-business/) for ranges.
+
+---
+
+# The Website Redesign Checklist: 30 Steps to Relaunch Without Losing Traffic
+URL: https://www.codebunny.net/blog/website-redesign-checklist/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A 30-step website redesign checklist covering planning, content, SEO redirects, testing and launch, so your new site keeps its rankings and wins more leads.
+
+Key takeaways:
+- Benchmark your current traffic and rankings before changing anything
+- Map every old URL to a new one with 301 redirects
+- Test forms, speed and mobile on real devices before launch
+- Watch Search Console daily for the first two weeks after relaunch
+
+A redesign is the highest-leverage marketing project most small businesses ever run. It's also the easiest way to accidentally erase years of Google rankings in an afternoon. This checklist keeps the upside and removes the risk.
+
+Work through it in order. Each phase builds on the one before.
+
+## Phase 1: Before you touch anything
+
+1. **Write down the goal.** "Look more modern" isn't a goal. "Increase enquiries from 6 to 15 a month" is.
+2. **Benchmark current performance.** Record monthly visitors, enquiries, top landing pages and conversion rate from your analytics.
+3. **Export your rankings.** In Google Search Console, export the queries and pages report for the last 12 months. These are the pages you must protect.
+4. **Crawl the existing site.** Use a free tool like Screaming Frog (up to 500 URLs) to list every URL, title and meta description.
+5. **List what works.** Pages that rank, copy that converts, photos customers mention. Keep them.
+6. **List what doesn't.** Confusing navigation, dead pages, outdated services.
+7. **Back everything up.** Download a full copy of the current site and database.
+
+## Phase 2: Plan the new site
+
+8. **Decide the sitemap.** Which pages stay, merge, split or go. See what pages a small business website should have (/blog/what-pages-should-a-small-business-website-have/).
+9. **Build the redirect map.** A spreadsheet with two columns: old URL, new URL. Every old page needs a destination. This single document protects your SEO.
+10. **Keep URLs where you can.** If `/services/boiler-repair/` ranks well, don't rename it for the sake of tidiness.
+11. **Write a brief.** One page covering audience, goals, pages, features and examples. Use our website brief template (/blog/website-brief-template/).
+12. **Choose the platform deliberately.** If the old platform was the problem, don't rebuild on it.
+
+## Phase 3: Content and design
+
+13. **Rewrite the homepage headline.** It should say what you do, for whom and where, in one line.
+14. **Give every page one job.** One primary call to action per page.
+15. **Update proof.** Fresh testimonials, current review counts, recent work.
+16. **Keep ranking content.** If a page ranks, improve its copy rather than replacing it wholesale.
+17. **Optimise images.** Export in WebP at the size they'll be displayed. Our image SEO guide (/blog/image-seo/) covers this.
+18. **Write unique titles and meta descriptions** for every page. See title tags and meta descriptions (/blog/title-tags-meta-descriptions/).
+
+## Phase 4: Build and test
+
+19. **Build on a staging link** that search engines can't index.
+20. **Test every form.** Submit each one and confirm the email arrives.
+21. **Test on real phones.** At least one iPhone and one Android.
+22. **Check speed.** Run PageSpeed Insights on the homepage and a service page. Aim for green on mobile.
+23. **Add schema markup.** Organization, LocalBusiness, Service and FAQ where relevant. See our schema markup guide (/blog/schema-markup-guide/).
+24. **Check accessibility basics.** Colour contrast, alt text, keyboard navigation.
+
+## Phase 5: Launch
+
+25. **Implement the 301 redirects** from your redirect map and test a sample of old URLs.
+26. **Remove the noindex** from staging settings. Forgetting this is the classic launch-day mistake.
+27. **Reconnect analytics and Search Console** and submit the new XML sitemap.
+28. **Update your Google Business Profile** and social links if any URLs changed.
+
+## Phase 6: After launch
+
+29. **Monitor Search Console daily for two weeks.** Watch for 404 errors and coverage issues and fix them as they appear.
+30. **Compare against your benchmark after 30, 60 and 90 days.** A small dip in the first two weeks is normal. A sustained drop means redirects or content need attention.
+
+## The three mistakes that cause most redesign disasters
+
+**No redirects.** Old URLs return 404 errors, and Google drops them. Rankings that took years vanish in weeks.
+
+**Deleting content that ranks.** A designer trims a 900-word service page to three sentences because it "looks cleaner". The page stops ranking.
+
+**Launching with noindex still on.** The whole site disappears from search until someone notices.
+
+All three are avoidable with the checklist above. We go deeper in how to redesign without losing SEO (/blog/seo-migration-redesign/).
+
+## Frequently asked questions
+
+### How long does a redesign take?
+Most small business redesigns take two to six weeks. See realistic website timelines (/blog/how-long-does-it-take-to-build-a-website/).
+
+### Should I redesign in stages or all at once?
+For most small sites, a single well-planned launch is simpler and safer. Staged rollouts make sense for large sites with hundreds of pages.
+
+### Can you redesign my site without changing the platform?
+Often, yes. But if the platform is the reason the site is slow or hard to edit, a rebuild on something better usually costs less over time.
+
+---
+
+# What Pages Should a Small Business Website Have?
+URL: https://www.codebunny.net/blog/what-pages-should-a-small-business-website-have/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+The essential pages every small business website needs, what each one should contain, and which extra pages are worth adding for SEO and conversions.
+
+Key takeaways:
+- Five core pages cover most small businesses: home, about, services, proof and contact
+- Give each service its own page so it can rank on Google
+- Location and FAQ pages add search visibility with little effort
+- Every page needs one clear next step
+
+You can build a successful business website with five pages. You can also build a failing one with fifty. What matters is that every page has a clear purpose and leads the visitor one step closer to getting in touch.
+
+Here's what to include, in priority order.
+
+## The five essentials
+
+### 1. Home
+
+Your homepage has about five seconds to answer three questions: what do you do, who is it for, and what should I do next? It needs a clear headline, one strong image, proof you're trustworthy and a prominent call to action. Everything else is supporting detail. We break it down in homepage design best practices (/blog/homepage-design-best-practices/).
+
+### 2. About
+
+One of the most-visited pages on any small business site. People want to know who they'd be dealing with. Include your story, your credentials, real photos and what you believe about your work. Then end with a call to action; about pages convert when they ask.
+
+### 3. Services (one page each)
+
+This is where most small sites go wrong. They list eight services on a single page with a sentence each. Google can't rank one page for eight different searches, and customers can't find the detail they need.
+
+Give each core service its own page with:
+
+- Who it's for and the problem it solves
+- What's included and how it works
+- Pricing or a starting price, if you can share it
+- Proof: a testimonial or example specific to that service
+- Answers to common questions
+- A call to action
+
+### 4. Proof
+
+Testimonials, reviews, case studies or a portfolio. For a photographer or designer the portfolio is the product. For a service business, a page of real reviews with names does the same job. Scatter proof across other pages too; don't hide it all in one place.
+
+### 5. Contact
+
+Make it effortless. A short form, a phone number that's tappable on mobile, your email, your address and hours if you have a location, and a note about how quickly you reply. See contact forms that convert (/blog/contact-form-best-practices/).
+
+## Pages that earn their place
+
+Once the essentials are solid, these add real value.
+
+### Location or service-area pages
+
+If you serve several towns, a dedicated page for each helps you appear in local searches. They must contain real, local content: thin copy-and-paste pages can hurt more than help. Our guide to local landing pages that rank (/blog/local-landing-pages/) shows how.
+
+### FAQ
+
+A good FAQ page answers the questions you're tired of answering by email, removes objections and gives search engines and AI assistants clear question-and-answer content to quote. Marked up with FAQ schema, it's one of the easiest SEO wins.
+
+### Pricing
+
+Controversial, but usually worth it. Visitors who can't find any indication of cost often assume they can't afford you, or that you're hiding something. Even "packages start from $X" filters out poor fits and builds trust.
+
+### Blog or guides
+
+Useful articles bring in visitors who aren't ready to buy yet and position you as the expert when they are. It only works if you publish genuinely helpful content. See does your business need a blog? (/blog/website-blog-for-business/)
+
+### Booking
+
+If customers book appointments, let them do it online. Fewer missed calls, fewer no-shows, and bookings while you sleep.
+
+## Pages you legally or practically need
+
+- **Privacy policy.** Required in most countries if you collect any personal data, including through a contact form.
+- **Terms.** Needed if you sell online.
+- **404 page.** A friendly "page not found" with links back to your main pages keeps lost visitors on the site.
+
+## Recommended structures by business type
+
+**Coach or consultant:** Home, About, Work With Me (programmes), Testimonials, Blog, Contact / Book a Call.
+
+**Local service business:** Home, About, a page per service, Service Areas, Reviews, FAQ, Contact / Get a Quote.
+
+**Photographer or creative:** Home, Portfolio (by category), About, Investment, Journal, Contact.
+
+**Clinic or salon:** Home, Services / Treatments, Team, Pricing, Book Online, Reviews, Contact.
+
+## How many pages is too many?
+
+There's no upper limit, only a quality limit. Ten strong pages outperform forty weak ones. Add a page when you have something specific and useful to say that a customer would search for. Remove or merge pages that say nearly the same thing.
+
+## Frequently asked questions
+
+### Can a one-page website work?
+Yes, for a simple offer or a new business. The trade-off is SEO: one page can only target a handful of search terms. Many businesses start with one page and expand.
+
+### Do I need a separate page for every town I serve?
+Only for towns where you want to rank and can write something specific. Five solid location pages beat fifty near-duplicates.
+
+### Where should testimonials go?
+Everywhere they're relevant: the homepage, each service page and near every call to action, plus a dedicated page for people who want to read more.
+
+---
+
+# How to Choose a Web Designer: 15 Questions to Ask Before You Hire
+URL: https://www.codebunny.net/blog/how-to-choose-a-web-designer/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Fifteen questions to ask any web designer or agency before hiring, with the answers you want to hear and the red flags to walk away from.
+
+Key takeaways:
+- Judge designers on live websites, not mockups or promises
+- Make sure you'll own the domain, code and content outright
+- Ask who actually does the work and how you'll communicate
+- A fixed quote, clear timeline and a preview before paying are strong trust signals
+
+Hiring a web designer is hard because you're buying something that doesn't exist yet. Portfolios all look good. Everyone says they do SEO. Prices range from a few hundred dollars to tens of thousands for what sounds like the same thing.
+
+These fifteen questions cut through it. Ask them on the first call and listen carefully to the answers.
+
+## About their work
+
+### 1. Can I see live websites you've built, not just screenshots?
+
+Click through real sites. Test them on your phone. Are they fast? Does the contact form work? Screenshots hide a lot.
+
+### 2. Have you built sites for businesses like mine?
+
+Industry experience means the designer already knows what your customers need to see. Someone who has built ten coaching sites or five solar sites will ask better questions than a generalist.
+
+### 3. Can I speak to a past client?
+
+A confident designer will happily connect you. Ask the client what communication was like and whether the project finished on time.
+
+## About the process
+
+### 4. Who will actually do the work?
+
+At agencies, the person who sells is often not the person who builds. Find out whether your project will be handled by a senior designer, a junior, or outsourced.
+
+### 5. What's your process and timeline?
+
+You want clear phases with dates: discovery, design, build, launch. Vague answers now mean delays later. Compare what you hear with our realistic website timelines (/blog/how-long-does-it-take-to-build-a-website/).
+
+### 6. What do you need from me?
+
+Good designers tell you up front what content, access and decisions they'll need and when. This is the biggest factor in finishing on time.
+
+### 7. How many rounds of revisions are included?
+
+Two or three is typical. Unlimited sounds generous but usually signals a vague process.
+
+### 8. Will I see the design before I commit?
+
+This is rare, and valuable. A designer who shows you a direction before taking payment is confident in their work. It's why we offer a free website preview (/free-website-preview/): your homepage, designed and live on a link, before you pay anything.
+
+## About ownership and money
+
+### 9. What exactly is included in the price?
+
+Get a written scope: number of pages, features, copywriting, SEO setup, training. "A website" isn't a scope.
+
+### 10. Is the price fixed?
+
+A fixed price for a fixed scope protects you. If they bill hourly, ask for a cap.
+
+### 11. Who owns the website when it's finished?
+
+The only acceptable answer: you do. The domain should be registered in your name, and you should receive the code, design files and all logins. Read do you really own your website? (/blog/website-ownership-explained/) before signing anything.
+
+### 12. What are the ongoing costs?
+
+Hosting, maintenance, licences. Ask for all recurring fees in writing and what happens if you stop paying them.
+
+## About results
+
+### 13. How will the site be optimised for search?
+
+Listen for specifics: page speed, title tags, schema markup, redirects from your old site, Search Console setup. "We do SEO" isn't an answer. Use our technical SEO checklist (/blog/technical-seo-checklist/) to judge what you're told.
+
+### 14. Can I update the site myself?
+
+You should be able to change text, photos and prices without paying a developer each time. Ask to see the editor.
+
+### 15. What happens after launch?
+
+Is there a support window? Who fixes bugs? What does ongoing help cost? Launch is the start of a website's life, not the end.
+
+## Red flags
+
+Walk away if you hear any of these:
+
+- **"We'll register the domain for you"** in their own account. You may never get it back.
+- **Guaranteed #1 rankings.** Nobody controls Google.
+- **No contract or written scope.**
+- **Full payment up front** with no milestones.
+- **Proprietary platforms** you can't leave without rebuilding from scratch.
+- **Slow replies before you've paid.** It doesn't get faster afterwards.
+
+## Freelancer, studio or agency?
+
+**Freelancers** are affordable and personal, but one person covers design, code, copy and SEO, and availability can be a risk.
+
+**Agencies** bring teams and process, with prices and timelines to match.
+
+**Small studios** sit in between: senior people doing the work directly, with enough experience to cover strategy, design, build and SEO. For most small businesses this is the best balance. It's how we work at Code Bunny: you talk to the founder, who is also the person building your site.
+
+## Frequently asked questions
+
+### How much should I expect to pay?
+Most professional small business sites cost $2,500 to $10,000. See our full cost breakdown (/blog/how-much-does-a-website-cost-small-business/).
+
+### Is it risky to hire a designer in another country?
+Not if you check their work, get a contract and keep ownership of your domain. Many of our clients are in the US, Canada, the UK and Australia; time zones are rarely a problem with clear communication.
+
+### Should I choose the cheapest quote?
+Compare scope first. The cheapest quote often leaves out copywriting, SEO or mobile testing, and the redo costs more than doing it properly once.
+
+---
+
+# Do You Really Own Your Website? Domains, Hosting and Code Explained
+URL: https://www.codebunny.net/blog/website-ownership-explained/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Many business owners discover too late that they don't control their own website. Here's what ownership really means and how to check yours in ten minutes.
+
+Key takeaways:
+- Your website has four parts to own: the domain, the hosting, the code and the content
+- The domain is the most important; it must be registered in your name
+- Website builders and some agencies rent you a site rather than sell it
+- A ten-minute check today can prevent a very expensive problem later
+
+A surprising number of businesses don't own their own website. They find out when they try to switch designers, their agency closes, or an invoice dispute ends with the site going dark.
+
+It's avoidable. Here's what "owning your website" really means and how to check where you stand.
+
+## The four things you need to own
+
+### 1. The domain name
+
+Your domain (`yourbusiness.com`) is your address on the internet. Your website, your email and often your Google rankings all hang off it.
+
+**It must be registered in an account you control**, with your name or company as the registrant and your email as the contact. If your web designer registered it in their account "to make things easier", you're depending on their goodwill and their continued existence.
+
+**Check now:** search your domain at a WHOIS lookup such as lookup.icann.org (https://lookup.icann.org/). Then make sure you can log in to the registrar it names.
+
+### 2. The hosting
+
+Hosting is the server where your website's files live. You don't need to own a server, but you do need access to the hosting account, or at least the right to take a full copy of your site and move it elsewhere.
+
+### 3. The code and design
+
+When you pay for a custom website, your contract should say you own the finished work: the code, the design files and any custom graphics. Some agencies license it to you instead, meaning you can use it only while you keep paying them.
+
+### 4. The content
+
+Your copy, photos, blog posts and customer data. You should be able to export all of it.
+
+## Who really owns it? Common setups
+
+| Setup | Domain | Site | Can you leave freely? |
+| --- | --- | --- | --- |
+| Custom site, handed over | You | You | Yes |
+| WordPress, self-hosted | You | You | Yes |
+| Wix / Squarespace | You (if you registered it) | The platform | Content yes, design no |
+| "Website as a service" monthly plan | Often the provider | The provider | Usually no |
+| Agency proprietary platform | Varies | The agency | No |
+
+Builders aren't a trap; they're just a rental. You can export text and images, but the design and functionality stay on the platform. We compare the options in custom website vs Wix vs Squarespace (/blog/custom-website-vs-wix-squarespace/).
+
+## The ten-minute ownership check
+
+1. **Domain:** Can you log in to the registrar? Is your name on the registration? Is auto-renew on with a valid card?
+2. **Hosting:** Do you have the login, or a written right to a full backup?
+3. **Website admin:** Do you have an administrator account, not just an editor role?
+4. **Analytics and Search Console:** Are they in a Google account you own? Years of data live there.
+5. **Google Business Profile:** Are you listed as the primary owner?
+6. **Email:** Is it tied to the same domain account, and do you control it?
+7. **Contract:** Does it say you own the finished site?
+
+If any answer is "no" or "not sure", ask your provider this week. It's a simple request when relationships are good and a painful one when they aren't.
+
+## What to ask before you sign with any designer
+
+- Will the domain be registered in my name and my account?
+- Will I get full admin access and all logins at launch?
+- Do I own the code and design outright once I've paid?
+- Can I move the site to another host or developer whenever I like?
+- What happens to the site if I stop paying a monthly fee?
+
+At Code Bunny the answer to all of these is yes: clients get the full source code, design files and every account. No lock-in. It's one of the 15 questions we suggest asking any designer (/blog/how-to-choose-a-web-designer/).
+
+## What to do if you don't control your domain
+
+1. **Ask politely for a transfer.** Most providers will move the domain to your account. It takes a few minutes and an authorisation code.
+2. **Check your invoices.** If you paid for the registration, you have a strong claim.
+3. **Use the registrar's dispute process** if the provider refuses or has vanished.
+4. **Don't let it expire.** An expired domain can be bought by anyone, including people who'll charge thousands to give it back.
+
+## Frequently asked questions
+
+### My designer hosts my site. Is that a problem?
+Not by itself. Many good designers offer hosting. It's only a problem if you have no access, no backups and no contractual right to leave.
+
+### Can I move a Wix or Squarespace site to another host?
+No. You can export content, but the site must be rebuilt elsewhere. Your domain can move with you.
+
+### Who owns the website if I haven't paid the final invoice?
+Usually the designer, until you do. That's normal and fair. Ownership should transfer in full on final payment, and your contract should say so.
+
+---
+
+# How to Write a Website Brief (With a Free Template)
+URL: https://www.codebunny.net/blog/website-brief-template/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A simple website brief template you can copy, plus guidance on what to include so designers can quote accurately and build the right site first time.
+
+Key takeaways:
+- A one-page brief gets you more accurate quotes and a faster project
+- Describe your customers and goals before you describe pages and colours
+- Share three sites you like and say why
+- You don't need technical language; plain answers are best
+
+A website brief is a short document that tells a designer what you need and why. It doesn't need to be long or technical. One clear page will get you better quotes, fewer misunderstandings and a faster launch than a dozen back-and-forth emails.
+
+Below is the template we'd love every client to send us. Copy it, answer in plain language, and you're done.
+
+## The template
+
+### 1. About your business
+
+- Business name and what you do, in one or two sentences
+- How long you've been running
+- Where you operate (town, region, country, or online only)
+- What makes you different from competitors
+
+### 2. Your customers
+
+- Who is your ideal customer? (Age, situation, what they're struggling with)
+- How do they usually find you today?
+- What questions do they ask before buying?
+- What would stop them choosing you?
+
+### 3. Goals for the website
+
+Pick the one that matters most and be specific:
+
+- More enquiries or quote requests
+- More online bookings
+- Online sales
+- Looking more credible to win bigger clients
+- Ranking on Google for particular searches
+
+Add a number if you can: "We get about five enquiries a month and want fifteen."
+
+### 4. Your current website
+
+- URL, if you have one
+- What you like about it
+- What frustrates you or your customers
+- Who built it and what platform it's on
+
+### 5. Pages and features
+
+- Pages you know you need (see what pages a small business site should have (/blog/what-pages-should-a-small-business-website-have/))
+- Features: booking, payments, quote form, calculator, blog, gallery, members area
+- Tools it must connect to: calendar, CRM, email marketing, payment provider
+
+### 6. Look and feel
+
+- Three websites you like and what you like about each
+- One you dislike and why
+- Existing brand assets: logo, colours, fonts, photography
+- Three words you want visitors to feel (for example: calm, expert, friendly)
+
+### 7. Content
+
+- Who will write the copy? You, the designer, or a mix
+- What photos and videos do you have?
+- Do you have testimonials and reviews ready to use?
+
+### 8. Practicalities
+
+- Budget range
+- Ideal launch date and any fixed deadlines
+- Who makes the final decisions
+- Who'll update the site after launch
+
+## Tips for filling it in
+
+### Start with customers, not colours
+
+The most useful part of any brief is the description of your customers and what they need. Design decisions follow from that. A site for nervous first-time dental patients looks and reads differently from one for corporate buyers.
+
+### Be honest about budget
+
+Sharing a range isn't giving away negotiating power; it's saving everyone's time. A good designer will tell you what's achievable inside it. For typical ranges, see how much a website costs (/blog/how-much-does-a-website-cost-small-business/).
+
+### Examples beat adjectives
+
+"Clean and modern" means something different to everyone. A link to a site you admire, with a note saying "I like how simple the menu is", is unambiguous.
+
+### Separate must-haves from nice-to-haves
+
+Mark each feature as essential for launch or a possible phase two. It keeps the first version focused and the quote realistic.
+
+## A filled-in example
+
+> **Business:** Rowan & Co, a two-person mortgage broker in Leeds, trading 6 years. // **Customers:** first-time buyers aged 25 to 40 who feel overwhelmed and are comparing three or four brokers. // **Goal:** go from 8 to 20 enquiries a month. // **Current site:** five years old, slow on mobile, no reviews shown. // **Pages:** home, about, first-time buyers, remortgage, self-employed, reviews, contact. // **Features:** mortgage calculator, callback form, Google reviews feed. // **Look:** trustworthy and warm, not corporate. // **Content:** we need help with copy; have 180 Google reviews. // **Budget:** £3,000 to £5,000. // **Launch:** before spring.
+
+That's under 120 words and tells a designer almost everything they need to quote and start.
+
+## What happens after you send it
+
+A good designer will reply with questions, a proposed scope, a fixed price and a timeline. Compare responses using our 15 questions to ask a web designer (/blog/how-to-choose-a-web-designer/).
+
+If you'd rather skip straight to seeing ideas, send us the brief through our free website preview (/free-website-preview/) form and we'll turn it into a designed homepage on a live link.
+
+## Frequently asked questions
+
+### How long should a website brief be?
+One to two pages. Enough to be clear; short enough that people actually read it.
+
+### What if I don't know what I want?
+Fill in the sections about your business, customers and goals, and leave the rest. A good designer can recommend pages and features from there.
+
+### Should I send the same brief to several designers?
+Yes. It's the only way to compare quotes fairly, because everyone is pricing the same thing.
+
+---
+
+# How to Choose a Domain Name for Your Business
+URL: https://www.codebunny.net/blog/domain-name-tips/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Practical rules for choosing a business domain name: length, extensions, keywords, what to avoid, and how to protect it once you've bought it.
+
+Key takeaways:
+- Short, easy to spell and easy to say beats clever every time
+- A .com is still the safest choice, with your country extension a strong alternative
+- Register the domain yourself, in your own account
+- Keywords in a domain give little SEO benefit; brand clarity matters more
+
+Your domain name is on your van, your business card, your email address and every link anyone ever shares. It's worth ten minutes of thought before you click buy.
+
+## The rules that matter
+
+### Keep it short
+
+Aim for under 15 characters if you can. Shorter names are easier to type, remember and fit on a sign.
+
+### Make it easy to say out loud
+
+Try the radio test: say it to a friend and ask them to type it. If they hesitate over spelling, hyphens or numbers, choose something else. Avoid:
+
+- Hyphens (`best-plumber-leeds.com`)
+- Numbers (`4` or `four`?)
+- Double letters where words meet (`pressservice.com`)
+- Creative spellings (`kwikfix.com`)
+
+### Use your business name if you can
+
+If your business is Harbour Dental, `harbourdental.com` is the obvious choice. If it's taken, add your town or a short word: `harbourdentalyork.com` or `visitharbourdental.com`.
+
+### Choose the right extension
+
+- **`.com`** is still the default people type and trust.
+- **Country extensions** (`.co.uk`, `.ca`, `.com.au`, `.ie`, `.co.nz`, `.in`) are excellent for businesses serving one country and can help signal local relevance.
+- **Newer extensions** (`.studio`, `.photography`, `.coach`) can work for creative brands, but some people still add `.com` out of habit.
+
+If you can afford it, buy both the `.com` and your country version and point one at the other.
+
+## Do keywords in a domain help SEO?
+
+Much less than they used to. Google has said for years that exact-match domains get no special treatment. `cheapplumberleeds.com` won't outrank a well-built site on a brand name.
+
+A light, natural keyword can still help *people* understand what you do: `aristafilms`, `ecohorizon`, `capturedbykatherine`. That's about clarity, not ranking tricks. For what actually moves rankings, see our local SEO guide (/blog/local-seo-guide/).
+
+## Before you buy
+
+1. **Check trademarks** in your country to avoid a legal headache later.
+2. **Check social handles.** Matching names across Instagram, Facebook and LinkedIn look professional.
+3. **Search the name.** Make sure it isn't associated with something you wouldn't want to be confused with.
+4. **Read it as one word.** Some innocent phrases look unfortunate when run together.
+5. **Check its history.** Paste it into the Wayback Machine. A domain previously used for spam can carry baggage.
+
+## Where to register
+
+Use a mainstream registrar: Namecheap, Cloudflare, Porkbun, GoDaddy or Google Workspace's partners. Expect to pay $10 to $20 a year for a `.com`. Watch out for low first-year prices that jump at renewal.
+
+**Register it yourself, in your own account.** Don't let a designer or agency register it in theirs. This is the single most important point in this article; we explain why in do you really own your website? (/blog/website-ownership-explained/)
+
+## Protect it once you own it
+
+- Turn on **auto-renew** and keep the payment card current
+- Enable **two-factor authentication** on the registrar account
+- Turn on **domain lock** to prevent unauthorised transfers
+- Use **WHOIS privacy** to keep your personal details off public records
+- Register for several years if the business is established
+
+## What if the name you want is taken?
+
+- Add your location: `harbourdentalyork.com`
+- Add a verb: `getharbour.com`, `visitharbour.com`, `hello` or `try`
+- Add what you do: `harbourdentalcare.com`
+- Use your country extension
+- Check if it's for sale, but be cautious: premium domains can cost thousands and rarely justify it for a local business
+
+## Domain and email
+
+Once you have the domain, set up professional email on it (`you@yourbusiness.com`) through Google Workspace or Microsoft 365. An address at your own domain looks far more credible than a free Gmail or Hotmail account, and keeps your business email separate from any one website platform.
+
+## Frequently asked questions
+
+### Can I change my domain name later?
+Yes, but it takes care. Every old URL needs redirecting to the new domain so you keep your rankings. It's much easier to choose well now.
+
+### Should I buy multiple domains?
+Buying the main `.com` and your country extension is sensible. Buying dozens of variations is rarely worth it.
+
+### How long should I register for?
+At least a year with auto-renew on. Longer terms won't boost SEO but reduce the risk of forgetting.
+
+---
+
+# Website Maintenance: What It Is, What It Costs and What You Can Skip
+URL: https://www.codebunny.net/blog/website-maintenance-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What website maintenance actually involves, what it should cost for a small business, and which tasks you can do yourself in 30 minutes a month.
+
+Key takeaways:
+- Maintenance covers security, backups, updates, performance and content
+- Costs range from almost nothing for static sites to $50 to $300 a month for complex ones
+- WordPress needs the most upkeep because of plugins
+- A 30-minute monthly check catches most problems early
+
+A website isn't finished at launch. Like a shop, it needs someone to sweep the floor, change the window display and make sure the lock works. The good news: for most small business sites, that's not much work, and you shouldn't be paying a fortune for it.
+
+## What maintenance actually covers
+
+### Security and updates
+
+Any site built on software (WordPress, plugins, e-commerce platforms) needs regular updates to patch security holes. Out-of-date plugins are the most common way small business websites get hacked.
+
+### Backups
+
+A complete copy of your site, taken automatically and stored somewhere other than the web server, so a mistake or attack can be undone in minutes.
+
+### Uptime and performance
+
+Checking the site is online, loads quickly and that nothing has broken after an update.
+
+### Content
+
+Keeping information accurate: hours, prices, team members, services, recent work. An out-of-date site quietly erodes trust.
+
+### Technical health
+
+Fixing broken links, renewing the domain and SSL certificate, and watching Search Console for errors.
+
+## How much maintenance does your site need?
+
+It depends heavily on how the site was built.
+
+| Site type | Maintenance need | Typical monthly cost |
+| --- | --- | --- |
+| Hand-coded static site | Very low | $0 to $30 |
+| Wix / Squarespace | Low (platform handles it) | Included in plan |
+| WordPress with plugins | Medium to high | $50 to $150 |
+| E-commerce store | High | $100 to $300+ |
+| Custom web app | High | Quoted individually |
+
+This is one reason we build many client sites as fast static sites: there's no database to hack and no plugins to update, so upkeep is close to zero.
+
+## What a care plan should include
+
+If you pay someone monthly, you should be getting:
+
+- Software, theme and plugin updates, tested after each one
+- Daily or weekly off-site backups
+- Uptime and security monitoring
+- A set amount of time for small content changes
+- A short monthly report
+- A guaranteed response time when something breaks
+
+If your "maintenance" fee is really just hosting with a markup, ask for the list above.
+
+## The 30-minute monthly check you can do yourself
+
+1. **Open the site on your phone.** Does everything look right?
+2. **Submit your own contact form.** Did the email arrive?
+3. **Check Search Console** for new errors. Our Search Console guide (/blog/google-search-console-guide/) shows where to look.
+4. **Run PageSpeed Insights** on your homepage.
+5. **Read your homepage** as if you were a customer. Is anything out of date?
+6. **Confirm a recent backup exists.**
+7. **Check your domain's renewal date.**
+
+Put it in your calendar for the first Monday of each month.
+
+## Signs your site is being neglected
+
+- Copyright year is out of date
+- "Latest news" is from three years ago
+- A browser warning says "Not secure"
+- The site is noticeably slower than it used to be
+- Forms stopped sending emails and nobody noticed
+- You find spammy links or pages you didn't create
+
+Any of the last three needs attention today.
+
+## Should you maintain it yourself or pay someone?
+
+**Do it yourself** if you're on a builder or a static site and comfortable editing text and images.
+
+**Pay someone** if you're on WordPress or run a store, if the site generates real revenue, or if you simply don't want to think about it. An hour of your time is usually worth more than the monthly fee.
+
+## When maintenance costs more than it's worth
+
+If you're spending hundreds a month patching an old, slow site, compare that with the cost of a rebuild on a lower-maintenance platform. It often pays for itself within a year. See 12 signs you need a new website (/blog/signs-you-need-a-new-website/).
+
+## Frequently asked questions
+
+### Do I need a maintenance plan for a simple site?
+Not always. A static or builder-based brochure site mainly needs occasional content updates and a renewed domain.
+
+### What happens if I don't update WordPress?
+Sooner or later a known vulnerability gets exploited. Hacked sites can be flagged by Google and removed from search results until cleaned.
+
+### How often should I update my content?
+Whenever something changes, and review everything at least twice a year. Adding fresh work, reviews or articles regularly also helps SEO.
+
+---
+
+# Why You Should See a Website Preview Before You Pay
+URL: https://www.codebunny.net/blog/free-website-mockup-before-paying/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Paying a deposit for a website you've never seen is a leap of faith. Here's why a free preview is a better way to hire a designer, and how ours works.
+
+Key takeaways:
+- A preview shows you real work for your business, not a sales promise
+- It reveals how a designer listens, communicates and delivers before money changes hands
+- A coded preview on a live link is worth more than a static mockup
+- There should be no obligation to continue
+
+The usual way to hire a web designer goes like this: you look at a portfolio, sit through a sales call, pay a 50% deposit, and then wait to find out whether they understood you. Sometimes it works out. Sometimes you're two thousand dollars in and looking at a design that feels nothing like your business.
+
+There's a better order of events: see the work first.
+
+## What a website preview is
+
+A website preview is a designed homepage for *your* business, made before you've paid or signed anything. Done properly, it isn't a generic template with your logo swapped in. It uses your real services, your tone and your brand, and it's built in code on a live link so you can open it on your phone and click around.
+
+## Why it's better for you
+
+### You judge real work, not promises
+
+A portfolio shows what a designer did for someone else. A preview shows what they'd do for you. It's the difference between reading a restaurant review and tasting the food.
+
+### You see how they listen
+
+Did they pick up on what makes you different? Did they understand your customers? A preview tells you in thirty seconds whether you've been heard.
+
+### You test the working relationship
+
+How quickly did they reply? Did they ask sensible questions? Did they deliver when they said they would? You learn all of this before any money is involved.
+
+### You can compare with what you have
+
+Put the preview next to your current site. If the difference is obvious, the decision is easy. If it isn't, you've lost nothing.
+
+### It removes the risk
+
+No deposit to lose. No contract to escape. If you don't love it, you say thanks and walk away.
+
+## Why would a designer work for free?
+
+Fair question. For us the maths is simple: most people who see a preview they love want to build the rest. The few hours we invest are our marketing budget, spent on proving the work rather than on adverts claiming it.
+
+It also keeps us honest. If a preview doesn't impress, we haven't earned the project.
+
+## Mockup or coded preview?
+
+Not all "free previews" are equal.
+
+| | Static mockup | Coded preview |
+| --- | --- | --- |
+| Format | An image or PDF | A real web page on a live link |
+| Mobile view | Sometimes | Yes |
+| Animations and interactions | No | Yes |
+| Shows real speed | No | Yes |
+| Reusable in the final build | Rarely | Yes |
+
+A mockup shows how a site might look. A coded preview shows how it actually behaves. Ours are coded and hosted on a private link like `yourbrand.codebunny.net`.
+
+## How the Code Bunny free preview works
+
+1. **You tell us about your business.** A 60-second form: what you do, who you serve, any sites you like.
+2. **We design your homepage.** Custom, coded, mobile-ready, with your logo, colours and services.
+3. **You review it on a live link.** Share it with a partner or a colleague. Ask for tweaks.
+4. **You decide.** If you love it, we send a fixed quote for the full site. If not, no cost and no hard feelings.
+
+Many of the sites in our portfolio (/work/) are live on a codebunny.net link in exactly this way:
+
+## What to send to get a great preview
+
+The more we know, the closer the first version lands. Useful things to include:
+
+- Your current website or social profiles
+- Your logo and any brand colours
+- A sentence about your ideal customer
+- Two or three websites you admire
+- The one thing you most want visitors to do
+
+If you'd like a structure, use our website brief template (/blog/website-brief-template/).
+
+## Questions to ask about any free preview offer
+
+- Is it custom, or a template with my name on it?
+- Is it a live page or just an image?
+- Is there any obligation or hidden fee?
+- Who owns the design if I go ahead? (With us: you do.)
+- What happens to it if I don't? (With us: we take it offline.)
+
+## Frequently asked questions
+
+### Is the preview really free?
+Yes. No card, no deposit, no contract. You only pay if you choose to build the full site with us.
+
+### How long does it take?
+We aim to deliver previews within a few business days. We limit how many we take on each week so each gets proper attention.
+
+### What if I only want small changes to my current site?
+Tell us. We'll give you an honest view on whether a refresh or a rebuild makes more sense, and what each would cost.
+
+---
+
+# How to Build a Life Coach Website That Books Discovery Calls
+URL: https://www.codebunny.net/blog/website-for-life-coaches/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A step-by-step guide to building a life coach website that builds trust, explains your offer clearly and turns visitors into booked discovery calls.
+
+Key takeaways:
+- Your website's one job is to get the right person onto a discovery call
+- Lead with the client's problem and the change you help them make, not your certifications
+- Show your face, your story and real client results
+- Put a booking button in the header, the hero and at the end of every page
+
+People don't hire a life coach the way they buy a product. They hire someone they trust with the parts of their life that aren't working. Your website has to earn that trust quickly, then make the next step (a free call) feel safe and easy.
+
+We've built coaching sites for life, executive, wellness, career and relationship coaches in five countries. This is what the ones that book calls have in common.
+
+## Start with one goal
+
+Almost every successful coaching site is built around a single action: **book a free discovery call.** Not "learn more", not "follow me on Instagram". One call to action, repeated consistently.
+
+Before you design anything, decide what that call is named (First Step call, clarity call, chemistry session), how long it is, and how people book it.
+
+## The homepage, section by section
+
+### 1. A headline about them
+
+Weak: "Certified Life Coach and NLP Practitioner."
+Strong: "Feeling stuck? Find your footing and choose your path."
+
+Your visitor is thinking about their own problem. Meet them there. Follow the headline with one sentence on who you help and how, and a booking button.
+
+### 2. Your face
+
+Coaching is personal. A warm, professional photo of you in the hero section does more for trust than any stock image of a sunrise.
+
+### 3. The problem, in their words
+
+Three or four lines that describe how your ideal client feels right now. When someone reads this and thinks "that's me", they keep scrolling.
+
+### 4. The change you offer
+
+What will be different after working with you? Be concrete: "set boundaries without guilt", "make the career move you've been postponing for two years".
+
+### 5. How it works
+
+Three simple steps: book a free call, choose a programme, start. Removing uncertainty about the process removes a major barrier.
+
+### 6. Proof
+
+Testimonials with full names and photos where clients allow it. Results are more persuasive than praise: "I left the job I'd hated for six years" beats "She's a wonderful coach." More in how to use testimonials on a coaching website (/blog/coaching-testimonials/).
+
+### 7. About you, briefly
+
+A short version of your story with a link to the full about page (/blog/coach-about-page/). Credentials belong here, as supporting evidence.
+
+### 8. The call to action, again
+
+End with a clear invitation and a booking button.
+
+## Here's what that looks like in practice
+
+## The other pages you need
+
+- **About:** your story, told in a way that shows you understand the client's.
+- **Work with me:** your programmes and packages. See how to write a coaching packages page (/blog/coaching-packages-page/).
+- **Testimonials:** a fuller collection of client stories.
+- **Book a call:** an embedded calendar, not a form that leads to email tennis.
+- **Blog or resources:** optional, but powerful for SEO and trust.
+
+## Make booking effortless
+
+Embed a scheduler (Calendly, TidyCal, Acuity or Google Calendar's booking pages) directly on your site. Every extra step between "I'm interested" and "I'm booked" loses people. Ask only what you need: name, email and one question about what they'd like help with.
+
+We map the whole journey in the discovery call funnel (/blog/discovery-call-booking-funnel/).
+
+## Mistakes we see on coaching websites
+
+- **Leading with qualifications.** Clients care about their outcome first, your training second.
+- **Trying to help everyone.** "I help people live their best life" speaks to nobody. See positioning your coaching niche (/blog/coaching-niche-positioning/).
+- **No prices or even a hint.** Mystery reads as expensive or evasive.
+- **Walls of text.** Short paragraphs, clear headings, generous space.
+- **A hidden booking link.** If it takes more than one click to find, it's hidden.
+- **Slow, template-heavy pages.** They look like every other coach's site.
+
+## Don't forget Google
+
+Clients search for coaches: "career coach Vancouver", "life coach for women", "executive coach Auckland". A site with clear service pages, your location and helpful articles can bring in enquiries every month without ads. Start with SEO for coaches (/blog/seo-for-coaches/).
+
+## Frequently asked questions
+
+### Do I need a website if I get clients from Instagram?
+Yes. Social platforms are rented space, and serious prospects will look you up. A website is where they decide whether to book.
+
+### Should I put prices on my coaching website?
+At least a starting price or range. It filters out poor fits and makes the discovery call more productive.
+
+### How many pages does a coaching website need?
+Five is plenty to start: home, about, work with me, testimonials and booking. Add a blog when you're ready to invest in SEO.
+
+---
+
+# 15 Must-Haves for a Coaching Website in 2026
+URL: https://www.codebunny.net/blog/coaching-website-must-haves/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+The fifteen elements every coaching website needs to build trust and book clients, from a clear niche statement to embedded booking and real testimonials.
+
+Key takeaways:
+- Clarity about who you help beats clever design
+- Booking should be one click from anywhere on the site
+- Real photos and named testimonials build trust faster than anything else
+- A fast, mobile-friendly site is non-negotiable because most visitors arrive from social on their phone
+
+Use this as a checklist against your current site. Score yourself honestly: most coaching websites we review are missing at least five.
+
+## 1. A clear niche statement
+
+Within five seconds a visitor should know who you help and with what. "Career transition coaching for tech professionals" tells the right person they're in the right place.
+
+## 2. A client-focused headline
+
+Speak to the feeling or goal your client has today. Save your title and credentials for the about section. For formulas and examples, see coaching website copywriting (/blog/coach-website-copywriting/).
+
+## 3. A professional photo of you
+
+Not a selfie, not a stock image. A warm, well-lit portrait where you're looking at the camera.
+
+## 4. One primary call to action
+
+"Book a free call" in the header, the hero and the footer. Same wording each time.
+
+## 5. Embedded online booking
+
+A live calendar on your site. No "email me to arrange a time".
+
+## 6. A signature method or framework
+
+Naming your process (a four-step method, a framework with an acronym) makes your coaching tangible and memorable. Lasting Change Wellness, for example, builds its whole site around the S.H.I.N.E. method.
+
+## 7. Clear programmes or packages
+
+What's included, how long it lasts, who it's for. See how to write a coaching packages page (/blog/coaching-packages-page/).
+
+## 8. Testimonials with names and results
+
+Specific outcomes from real people. Video is even better.
+
+## 9. Credentials and affiliations
+
+ICF, EMCC, certifications, relevant career history. Shown as logos or a short list, supporting your story rather than leading it.
+
+## 10. An about page that connects
+
+Your story, framed around why you understand your clients. See how to write a coach about page (/blog/coach-about-page/).
+
+## 11. A lead magnet
+
+Most visitors aren't ready to book today. A useful free resource in exchange for an email keeps the conversation going. Ideas in 20 lead magnets for coaches (/blog/lead-magnets-for-coaches/).
+
+## 12. Mobile-first design
+
+Most coaching traffic comes from Instagram and LinkedIn links opened on a phone. Design for the small screen first.
+
+## 13. Fast loading
+
+A slow site loses people before they've read your headline. Aim for under two seconds on mobile.
+
+## 14. SEO foundations
+
+A page per service, your location if you coach locally, proper title tags and a few genuinely helpful articles. Start with SEO for coaches (/blog/seo-for-coaches/).
+
+## 15. A privacy policy and clear contact details
+
+You're collecting names and emails. A privacy policy is a legal requirement in most places, and visible contact details signal you're a real business.
+
+## Nice-to-haves once the basics are solid
+
+- **Media and speaking page** with logos of podcasts and publications you've appeared in
+- **A quiz or self-assessment** that qualifies leads and gives instant value
+- **A client portal or resource library**
+- **Retreat or event pages** with their own booking flows
+- **Corporate or B2B page** if you also sell to organisations
+
+## See these in real sites
+
+Each of these coaching sites covers the fifteen essentials in its own style:
+
+## Frequently asked questions
+
+### What's the most important page on a coaching website?
+The homepage, because it decides whether anyone sees the rest. After that, your booking page.
+
+### Do I need a blog?
+Not on day one. It becomes valuable when you want steady traffic from Google and something to share on social.
+
+### Can I build a coaching website myself?
+Yes, with a builder like Squarespace. The trade-off is time and a template look. If you'd like to compare, we'll design a free preview (/free-website-preview/) of a custom homepage for you.
+
+---
+
+# 11 Coaching Website Examples (and What Makes Each One Work)
+URL: https://www.codebunny.net/blog/coaching-website-examples/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Eleven real coaching websites across life, executive, wellness and career coaching, with a breakdown of what each one does well and what you can borrow.
+
+Key takeaways:
+- The best coaching sites lead with the client's problem, not the coach's biography
+- Each example uses one clear call to action, usually a free call
+- Distinct colour, typography and photography stop a site looking like a template
+- You can borrow structure from any of them without copying the style
+
+Looking at good examples is the fastest way to work out what you want from your own site. These eleven are all sites we designed and built at Code Bunny. For each, we've pulled out the one idea worth borrowing.
+
+## 1. High Fifteen: executive coaching with attitude
+
+High Fifteen helps senior leaders build inclusive, high-performing cultures. The site is bold and confident, with a headline that names the stakes ("Cultures that perform under pressure") and a founder photo that's impossible to ignore.
+
+**Borrow this:** a point of view. The site says what it's against as well as what it's for.
+
+## 2. Take Root Life Coaching: calm and grounded
+
+Whole-person life coaching presented with natural imagery and a gentle palette. The "First Step call" is on every screen.
+
+**Borrow this:** give your discovery call a name that fits your brand.
+
+## 3. Co-Allies: sensitive topics handled with care
+
+Coaching for fertility journeys, life transitions and conscious leadership. The design is soft and human, and the copy never rushes the reader.
+
+**Borrow this:** match your tone to how your client feels when they arrive.
+
+## 4. Live in Flow Coaching: a tight niche
+
+Career-transition coaching for tech professionals. The headline ("Feeling stuck? Find your flow.") and every section speak to that one audience.
+
+**Borrow this:** name your niche in the first line.
+
+## 5. Polish: coaching meets AI leadership
+
+Executive coaching, AI leadership programmes and keynote speaking for leaders in New Zealand and Australia. Dramatic photography and crisp type signal a premium offer.
+
+**Borrow this:** separate pages for separate audiences (coaching, programmes, speaking).
+
+## 6. Lasting Change Wellness: a named method
+
+The whole site hangs on the S.H.I.N.E. method, turning an abstract service into a clear, step-by-step journey.
+
+**Borrow this:** name your framework and build your pages around it.
+
+## 7. Sharon Tabak: credibility through association
+
+A certified Jay Shetty life coach specialising in trauma, identity and big transitions. The certification is shown early, and the headline promises a specific transformation.
+
+**Borrow this:** if you have a recognisable credential, put it near the top.
+
+## 8. Arielle Innou Coaching: warmth and clarity
+
+Life, relationship and corporate coaching plus retreats. A friendly portrait and a three-word promise ("Clear, confident, in control") do the heavy lifting.
+
+**Borrow this:** a short promise people can repeat.
+
+## 9. George Dupont Leadership: authority branding
+
+A former pro hockey captain sells a leadership system to sports franchises and C-suites. Dark, cinematic design and a trademarked method position him as the obvious expert.
+
+**Borrow this:** let your background shape the visual language.
+
+## 10. Insight Transformational Coaching: clear tiers
+
+Three coaching levels for women ready to move from wishing to action, each clearly explained.
+
+**Borrow this:** offer good, better and best so prospects choose *which*, not *whether*.
+
+## 11. Lauren Powers: a personal brand that performs
+
+A ten-time bodybuilding champion, TV host and author. The site is loud, bold and unmistakably hers.
+
+**Borrow this:** don't sand off your personality to look "professional".
+
+## What all eleven have in common
+
+1. **A headline about the client.** Not one opens with a job title.
+2. **One call to action.** A free call, on every screen.
+3. **A real person, front and centre.**
+4. **A distinct look.** None of them could be mistaken for a template.
+5. **Speed.** Hand-coded pages that load quickly on a phone.
+
+## How to use these examples
+
+Pick two or three you're drawn to and note *what* you like: the layout, the tone, the way packages are shown. Include those notes in your website brief (/blog/website-brief-template/). It gives a designer a far clearer target than "something modern".
+
+## Frequently asked questions
+
+### Can I have a site like one of these?
+Yes. Tell us which you like and we'll design a free preview (/free-website-preview/) of your own homepage in a similar spirit.
+
+### What platform are these built on?
+They're custom-coded, which is why they're fast and don't look like templates.
+
+### How long did each take?
+Most went from first conversation to live in one to three weeks.
+
+---
+
+# Executive Coach Website: How to Look Credible to the C-Suite
+URL: https://www.codebunny.net/blog/executive-coach-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What an executive coach website needs to win senior leaders and corporate buyers: positioning, proof, programme pages and a design that signals authority.
+
+Key takeaways:
+- Senior buyers look for evidence, specificity and discretion
+- Speak to two audiences: the leader being coached and the HR sponsor who signs it off
+- Case studies with business outcomes beat generic praise
+- The design should feel premium and restrained, with fast, flawless execution
+
+Executive coaching is sold differently from life coaching. Your buyer is busy, sceptical and often spending the company's money. They may be a leader looking for themselves or an HR director choosing for someone else. Either way, they'll judge you on your website in under a minute.
+
+## Know your two audiences
+
+**The leader** wants to know: do you understand my world, and have you helped people like me?
+
+**The sponsor** (HR, L&D or a board member) wants to know: is this credible, measurable and safe to recommend?
+
+A strong executive coaching site answers both, often with separate pages: "For leaders" and "For organisations".
+
+## Positioning: be specific
+
+"I help leaders reach their potential" is forgettable. Specific positioning wins:
+
+- "Coaching for first-time CEOs in scale-ups"
+- "Inclusive leadership for global teams"
+- "AI leadership programmes for executive teams"
+
+Specificity is itself a credibility signal. It tells a senior reader you've done this before. More in positioning your coaching niche (/blog/coaching-niche-positioning/).
+
+## Proof that works at this level
+
+### Client logos
+
+If you've worked with recognisable organisations and have permission, show them near the top.
+
+### Outcome-based case studies
+
+Senior buyers want business impact: retention, engagement scores, promotion readiness, a successful transition. Structure each case as situation, approach, result. Anonymise where needed ("CFO, FTSE 250 retailer").
+
+### Credentials
+
+ICF PCC or MCC, EMCC, an executive education background, board or operating experience. At this level your own leadership history is often your strongest credential.
+
+### Thought leadership
+
+Articles, a TEDx talk, podcast appearances, a book. These show you have a point of view worth paying for.
+
+## Pages an executive coach site needs
+
+- **Home:** positioning, proof and a path for each audience
+- **Executive coaching:** how one-to-one engagements work, duration and what's measured
+- **Team and organisational programmes**
+- **Speaking** with topics, a showreel and a booking enquiry
+- **Case studies**
+- **About** with career history
+- **Insights** (articles)
+- **Contact:** a short enquiry form and a calendar link
+
+## Here are three in the wild
+
+## Design: premium, restrained, fast
+
+- **Typography carries the brand.** A confident serif or a clean grotesque, used consistently.
+- **Photography is editorial**, not corporate stock.
+- **White space signals confidence.**
+- **Nothing is broken.** A typo or a slow page undermines a premium fee instantly.
+
+## The enquiry path
+
+Executives won't fill in a ten-field form. Offer two routes:
+
+1. **Book a confidential conversation:** an embedded calendar for a 20 to 30 minute call.
+2. **Organisation enquiry:** a short form for HR with fields for company, role and what they're looking to solve.
+
+Mention confidentiality explicitly. It matters at this level.
+
+## Should you show pricing?
+
+Most executive coaches don't publish exact fees, because engagements are scoped individually. A line such as "Engagements typically run six months and start from £X" still helps qualify enquiries. For structuring your offers, see how to write a coaching packages page (/blog/coaching-packages-page/).
+
+## SEO for executive coaches
+
+Senior buyers do search: "executive coach London", "leadership coaching for CTOs", "CEO coach". Service pages, location signals, and articles that answer real leadership questions build visibility over time. See SEO for coaches (/blog/seo-for-coaches/).
+
+## Frequently asked questions
+
+### Do executive coaches need a blog?
+It's one of the best ways to demonstrate thinking. Even one strong article a month gives prospects something to forward to their boss.
+
+### Should I use a personal name or a company brand?
+Either works. A personal brand builds trust quickly; a company name is easier to grow beyond yourself. Many coaches use both.
+
+### How important is LinkedIn compared with my website?
+LinkedIn starts conversations. Your website closes them. Senior buyers nearly always check both.
+
+---
+
+# How to Write a Coaching Packages Page That Sells
+URL: https://www.codebunny.net/blog/coaching-packages-page/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to structure, name and price coaching packages on your website so prospects understand your offer and arrive at the discovery call ready to buy.
+
+Key takeaways:
+- Offer two or three packages, not a menu of ten
+- Describe outcomes first and logistics second
+- Showing a price or starting price improves the quality of enquiries
+- Every package should end with the same call to action
+
+Your packages page (often called "Work with me") is where interest turns into intent. Done well, it means people arrive at the discovery call already knowing what they want. Done badly, it's a list of session counts that leaves them more confused than before.
+
+## Sell the outcome, then the logistics
+
+Nobody wants "six 60-minute sessions". They want to stop dreading Monday mornings, lead their team with confidence, or finally make the move.
+
+For each package, lead with:
+
+1. **Who it's for.** "For professionals who know they want out but don't know what's next."
+2. **The outcome.** What will be true at the end.
+3. **How it works.** Duration, session rhythm, support between sessions.
+4. **What's included.** Sessions, assessments, worksheets, message access.
+5. **The investment.**
+6. **The next step.** Book a free call.
+
+## How many packages?
+
+Two or three. Any more and people freeze. A classic structure:
+
+| Package | For | Typical format |
+| --- | --- | --- |
+| Starter / Clarity | Someone with one specific challenge | 4 sessions over 6 weeks |
+| Signature | Your ideal client, your full method | 3 months, fortnightly sessions plus support |
+| Premium / VIP | Those who want more access | 6 months, weekly sessions, priority messaging |
+
+Make the middle option the one you'd most like to sell and mark it "most popular". Many people choose the middle.
+
+## Naming your packages
+
+Names should describe a result or a stage of the journey, not a metal. "Find Your Footing", "The Transition", "Lead with Confidence" tell a story that "Bronze, Silver, Gold" doesn't.
+
+## Should you show prices?
+
+There's no universal rule, but here's what we've seen across dozens of coaching sites:
+
+**Show prices if** you want fewer, better-qualified enquiries, and your pricing is fixed.
+
+**Show a "from" price if** engagements vary but you want to filter out people for whom it's far out of reach.
+
+**Hide prices if** you sell mainly to organisations with bespoke scopes. Even then, say so explicitly.
+
+Whatever you choose, never make visitors feel foolish for asking. "Investment is discussed on your free call, with options from $X" is clear and respectful.
+
+## Elements that lift conversions
+
+- **A testimonial under each package** from someone who took that programme
+- **An FAQ** covering refunds, rescheduling, online vs in person, and how quickly they can start
+- **A "not sure which?" line** pointing to the discovery call
+- **Payment options:** pay in full or in instalments
+- **A guarantee or clear cancellation policy**
+
+## Example layout
+
+1. Short intro: who you work with and the change you help create
+2. Two or three package cards side by side
+3. A "how it works" strip: call, choose, start
+4. Testimonials
+5. FAQ
+6. Final call to action
+
+You can see tiered offers presented clearly on sites like these:
+
+## Common mistakes
+
+- **Describing only the format.** Sessions and minutes, with no mention of results.
+- **Too many options.** Hourly, packages, group, VIP days, retreats, all on one page.
+- **No call to action** under each package.
+- **Jargon.** If a client wouldn't say it, don't write it.
+- **Out-of-date prices.** Review the page every quarter.
+
+## Frequently asked questions
+
+### Should I offer single sessions?
+Usually not as your main offer. Transformation takes time, and single sessions attract people who aren't committed. A paid one-off "intensive" can work as an entry point.
+
+### How do I price coaching packages?
+Start from the value of the outcome to your client and what comparable coaches in your niche charge, then test. Raising prices as demand grows is normal.
+
+### Where should the packages page sit in my menu?
+In the main navigation, labelled plainly: "Work with me", "Coaching" or "Programmes".
+
+---
+
+# How to Write a Coach About Page That Clients Connect With
+URL: https://www.codebunny.net/blog/coach-about-page/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A simple structure for writing a coaching about page that builds trust, tells your story with purpose and leads readers to book a call.
+
+Key takeaways:
+- Your about page is really about the client and why you're the right guide for them
+- Open with their situation before telling your story
+- Share the turning point that led you to coaching, not your whole CV
+- End with a clear invitation to book a call
+
+Your about page is usually the second most-visited page on your site. People go there with one question: *can I trust this person with something that matters to me?* Most about pages answer a different question: *what has this person done since university?*
+
+Here's a structure that answers the right one.
+
+## The five-part structure
+
+### 1. Start with them
+
+Open with a line or two that shows you understand where your reader is.
+
+> "You've done everything right. Good job, good salary, and a quiet feeling on Sunday evenings that this can't be it."
+
+Now they're listening.
+
+### 2. Introduce yourself as the guide
+
+One or two sentences: who you are and who you help. "I'm Maria, a career transition coach. I help tech professionals move into work that feels like flow."
+
+### 3. Tell the relevant part of your story
+
+Not your biography; the part that explains why you do this work. Usually that's a turning point:
+
+- A moment you were in your client's shoes
+- What you tried that didn't work
+- What changed
+- Why you now help others through the same thing
+
+Keep it honest and specific. A real detail ("I cried in a car park before a board meeting") is worth ten abstract sentences.
+
+### 4. Show your credibility
+
+Now bring in the evidence: certifications, training, years of experience, number of clients, notable organisations, media features. A short list or a row of logos works well.
+
+### 5. Invite the next step
+
+End with what to do now: "If this sounds familiar, let's talk. Book a free 30-minute call." Add the button.
+
+## Voice: write like you speak
+
+Write in first person, in the tone you'd use on a discovery call. Read it aloud. If you wouldn't say a sentence to a client's face, rewrite it.
+
+Avoid:
+
+- "Passionate about empowering individuals to unlock their potential"
+- Long lists of every course you've taken
+- Third-person bios ("Jane is a certified...") unless it's a separate speaker bio
+
+## Photos
+
+Include at least two: a professional portrait and something more relaxed that shows your personality. Clients are choosing a person; let them see one.
+
+## Add a few human details
+
+A short "outside of coaching" section makes you relatable: where you live, what you love, a quirk or two. Three lines is enough.
+
+## A fill-in-the-blanks template
+
+> **[Line that names your client's situation.]** // I'm [name], a [type] coach. I help [who] to [outcome]. // [Two or three short paragraphs: your turning point and what you learned.] // Today I've worked with [number/type of clients] and trained with [credentials]. // [One line on your approach or method.] // Away from work you'll find me [human detail]. // **Ready to talk? [Book a free call.]**
+
+## Examples that do it well
+
+These coaching sites handle the "about" story with warmth and purpose:
+
+## Common mistakes
+
+- **Starting with "I".** Start with "you".
+- **The full CV.** Nobody needs your 2009 job title.
+- **No photo.**
+- **No call to action.** An about page with no next step is a dead end.
+- **Hiding it.** Link to it from your homepage and main menu.
+
+## A separate speaker bio
+
+If you speak or get quoted in the press, add a short third-person bio at the bottom of the page (50 and 150-word versions) with a downloadable headshot. Event organisers will thank you.
+
+## Frequently asked questions
+
+### How long should a coaching about page be?
+Roughly 300 to 600 words. Long enough to tell a real story, short enough to read on a phone.
+
+### Should I share personal struggles?
+Share what's relevant and what you're comfortable having public. The aim is to show you understand, not to overshare.
+
+### Do I need professional photos?
+They're one of the best investments you can make for a coaching site. A two-hour shoot gives you images for the whole website and a year of social posts.
+
+---
+
+# The Discovery Call Funnel: From Website Visitor to Booked Call
+URL: https://www.codebunny.net/blog/discovery-call-booking-funnel/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to design the journey from first visit to booked discovery call on a coaching website, including booking tools, forms, reminders and follow-up.
+
+Key takeaways:
+- Reduce the path from interest to booked call to two clicks
+- Embed your calendar on the site instead of asking people to email you
+- Ask two or three qualifying questions, no more
+- Automated confirmations and reminders cut no-shows sharply
+
+Every coaching website is, underneath, a funnel with one output: a booked call with a good-fit prospect. Each unnecessary step between "this person gets me" and "I'm in your calendar" loses a share of people. Here's how to build the path so fewer drop out.
+
+## The five stages
+
+1. **Arrive.** From Instagram, LinkedIn, Google or a referral.
+2. **Recognise.** "This is for someone like me."
+3. **Trust.** Proof that you're credible and get results.
+4. **Decide.** A clear, low-risk invitation.
+5. **Book.** A time in the diary within a minute.
+
+Your website's job is to move people through each stage without friction.
+
+## Stage 1 and 2: the first screen
+
+The top of your homepage needs a client-focused headline, one supporting sentence and a booking button. If visitors have to scroll to find out what you do, many won't. See coaching website copywriting (/blog/coach-website-copywriting/).
+
+## Stage 3: trust
+
+Place proof before you ask for the booking: testimonials, credentials, a short version of your story. Then ask again.
+
+## Stage 4: frame the call
+
+People hesitate because they fear a sales pitch. Remove the fear by saying exactly what happens:
+
+- **Name it.** "First Step call", "Clarity call".
+- **Say how long.** 20 or 30 minutes.
+- **Say what they'll get.** "We'll talk through where you are, where you'd like to be, and whether coaching is the right fit."
+- **Say what it isn't.** "No pressure, no obligation."
+
+## Stage 5: the booking page
+
+### Embed the calendar
+
+Use Calendly, TidyCal, Acuity, Cal.com or Google Calendar appointment schedules, embedded on your own page. Sending people to "email me your availability" can lose half of them.
+
+### Ask the right questions
+
+Two or three is the sweet spot:
+
+1. What would you most like help with?
+2. What have you tried so far?
+3. How did you hear about me?
+
+These prepare you for the call and screen out poor fits without feeling like an application.
+
+### Keep the page clean
+
+Remove the main navigation distractions. Show a short reminder of what the call is, a testimonial, and the calendar.
+
+## After they book
+
+This is where many coaches lose the sale they just earned.
+
+- **Instant confirmation** with a calendar invite and video link
+- **A welcome email** with a short note from you and, ideally, one thing to think about before the call
+- **Reminders** 24 hours and 1 hour before, by email and SMS if your tool supports it
+- **An easy reschedule link**
+
+Automated reminders are the single biggest lever for reducing no-shows.
+
+## For visitors who aren't ready
+
+Most people won't book on the first visit. Give them a smaller step:
+
+- A lead magnet (/blog/lead-magnets-for-coaches/) in exchange for an email
+- A short email series that shares your thinking
+- A gentle invitation to book at the end of each email
+
+## Measure it
+
+Track three numbers each month:
+
+| Metric | What it tells you |
+| --- | --- |
+| Visitors to booking page | Is the site sending people there? |
+| Bookings ÷ booking page visitors | Is the booking page convincing? |
+| Clients ÷ calls held | Is the call converting? |
+
+If lots of people reach the booking page but few book, simplify the page. If few reach it, your homepage and calls to action need work.
+
+## See it in action
+
+## Frequently asked questions
+
+### Should the discovery call be free?
+For most coaches, yes. It lowers the barrier and lets both sides check fit. Some established coaches charge a small fee to filter for commitment.
+
+### How long should it be?
+Twenty to thirty minutes is enough to understand the situation and explain how you work.
+
+### Which booking tool is best?
+Any of the mainstream ones work. Choose the one that syncs with your calendar, sends reminders and embeds cleanly on your site.
+
+---
+
+# 20 Lead Magnet Ideas for Coaches (That People Actually Want)
+URL: https://www.codebunny.net/blog/lead-magnets-for-coaches/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+Twenty lead magnet ideas for life, career, executive and wellness coaches, plus how to choose one, where to put it and what to send afterwards.
+
+Key takeaways:
+- A lead magnet should solve one small, specific problem quickly
+- Quizzes and checklists usually outperform long ebooks
+- Promote it in your hero, mid-page and footer
+- Follow up with a short email series that leads to a discovery call
+
+Most people who visit your coaching website aren't ready to book a call today. A lead magnet gives them a useful first step and gives you permission to keep in touch until they are.
+
+The best ones share three traits: they're specific, they're quick to consume, and they give a real result.
+
+## Quick-win formats
+
+1. **Checklist.** "The 10-point Sunday reset for a calmer week."
+2. **One-page worksheet.** "Find your top five values in ten minutes."
+3. **Script or template.** "Three ways to say no without feeling guilty."
+4. **Cheat sheet.** "20 questions to ask yourself before changing careers."
+5. **Journal prompts.** "Seven prompts for the week after a breakup."
+
+## Interactive formats
+
+6. **Quiz.** "What's your leadership style?" Quizzes convert well because people love learning about themselves.
+7. **Self-assessment scorecard.** "Rate your work-life balance across eight areas."
+8. **Wheel of life.** A classic coaching tool, made interactive or printable.
+9. **Calculator.** "What is your burnout costing you?"
+
+## Deeper formats
+
+10. **Short email course.** Five days, one small action a day.
+11. **Mini video training.** 15 minutes on one problem.
+12. **Guided audio.** A meditation, visualisation or pep talk.
+13. **Workbook.** A longer guided exercise around your method.
+14. **Webinar or masterclass replay.**
+15. **First chapter of your book.**
+
+## Niche-specific ideas
+
+16. **Career coaches:** a CV or LinkedIn headline template, or a "should I stay or go?" decision guide.
+17. **Executive coaches:** a 90-day plan for new leaders, or a one-to-one meeting template.
+18. **Wellness coaches:** a seven-day energy tracker or simple meal planner.
+19. **Relationship coaches:** conversation starters for couples.
+20. **Business coaches:** a pricing calculator or weekly planning template.
+
+## How to choose
+
+Ask: what's the first small problem my ideal client wants solved, the one that sits just before the bigger problem I'm paid to solve? Your lead magnet should fix that small thing and reveal the bigger one.
+
+A career coach's checklist on "signs it's time to leave your job" naturally leads to a call about what to do next.
+
+## Where to put it on your website
+
+- **In the hero** as a secondary button under "Book a call"
+- **A dedicated section** halfway down the homepage
+- **At the end of every blog post**
+- **In the footer**
+- **A dedicated landing page** you can link to from social
+
+Keep the form to first name and email. Every extra field lowers sign-ups.
+
+## What happens after they sign up
+
+The download is the start, not the goal. Set up a short welcome sequence:
+
+1. **Immediately:** deliver the resource and say who you are.
+2. **Day 2:** a quick tip that builds on it.
+3. **Day 4:** a client story.
+4. **Day 6:** common mistakes people make with this problem.
+5. **Day 8:** an invitation to book a discovery call.
+
+Then add them to your regular newsletter. For the full journey, see the discovery call funnel (/blog/discovery-call-booking-funnel/).
+
+## Make it look good
+
+A scruffy PDF undermines a premium service. Use your brand fonts and colours, keep layouts clean and add your photo and booking link on the last page.
+
+## Mistakes to avoid
+
+- **Too long.** A 40-page ebook rarely gets read.
+- **Too broad.** "A guide to a better life."
+- **No follow-up.**
+- **Asking for a phone number** on the form.
+- **Hiding it** on one page.
+
+## Frequently asked questions
+
+### Do lead magnets still work?
+Yes, when they're genuinely useful. People are more selective about giving their email, so quality matters more than ever.
+
+### What tool do I need?
+An email platform such as MailerLite, Kit (ConvertKit), Flodesk or Mailchimp. They provide the form, delivery and automated emails.
+
+### How many lead magnets should I have?
+Start with one strong one. Add more later for different audiences or blog topics.
+
+---
+
+# SEO for Coaches: How to Get Coaching Clients from Google
+URL: https://www.codebunny.net/blog/seo-for-coaches/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A practical SEO guide for coaches: the keywords clients actually search, the pages you need, local SEO, blogging and how to appear in AI search results.
+
+Key takeaways:
+- Clients search by niche and location, like "career coach Toronto", so build a page for each service
+- A Google Business Profile helps even if you coach online
+- Helpful articles answering client questions bring steady traffic
+- Clear, well-structured pages also help you appear in ChatGPT and Google AI answers
+
+Most coaches rely on referrals and social media. Both are valuable, and both stop when you do. Search is different: a page that ranks keeps bringing in prospects month after month while you're busy coaching.
+
+You don't need to become an SEO expert. You need to do a handful of things well.
+
+## How people search for coaches
+
+Searches fall into three groups:
+
+- **Service + location:** "life coach Denver", "executive coach London"
+- **Service + niche:** "career coach for tech workers", "coach for women in leadership", "divorce coach online"
+- **Problem-based:** "how to change careers at 40", "feeling stuck in life what to do"
+
+The first two are people ready to hire. The third are people earlier in the journey who may hire later.
+
+## Step 1: one page per service
+
+If you offer life coaching, career coaching and corporate workshops, each needs its own page. One page can't rank for three different things.
+
+On each page include:
+
+- The service and audience in the page title and main heading
+- Who it's for and the problems it solves
+- How it works
+- Testimonials specific to that service
+- FAQs
+- A booking call to action
+
+Read title tags and meta descriptions (/blog/title-tags-meta-descriptions/) to get the basics right.
+
+## Step 2: claim your location
+
+Even if you work on Zoom, many clients prefer someone "local". Mention your city and region on your homepage, contact page and footer, and set up a Google Business Profile. You can hide your home address and list a service area. Our Google Business Profile checklist (/blog/google-business-profile-optimization/) walks through it.
+
+Then ask happy clients for Google reviews. They influence both rankings and trust.
+
+## Step 3: write what your clients are Googling
+
+List the ten questions you hear most on discovery calls. Each is an article:
+
+- "How do I know if I need a career coach?"
+- "What happens in a life coaching session?"
+- "How much does executive coaching cost?"
+- "Life coach vs therapist: what's the difference?"
+
+Answer each clearly in 800 to 1,500 words, with a call to action at the end. One good article a month is enough. See how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/).
+
+## Step 4: get the technical basics right
+
+- **Speed:** fast on mobile
+- **Mobile-friendly:** obviously
+- **HTTPS:** the padlock
+- **Clear structure:** one H1 per page, logical headings
+- **Schema markup:** tells Google you're a professional service with reviews and FAQs
+
+Our technical SEO checklist (/blog/technical-seo-checklist/) covers these in plain English.
+
+## Step 5: earn a few good links
+
+Links from other sites tell Google you're trusted. Good sources for coaches:
+
+- Your certifying body's directory (ICF, EMCC)
+- Podcast guest appearances
+- Guest articles for industry publications
+- Local business associations
+- Collaborations with therapists, HR consultants and other coaches
+
+## Getting found in AI search
+
+People now ask ChatGPT, Perplexity and Google's AI Overviews for recommendations: "who's a good career coach for engineers in Vancouver?" These tools pull from clear, specific, well-structured web pages.
+
+To be included: state plainly who you help, where and how; use question-style headings with direct answers; keep your details consistent across your site, LinkedIn and directories. We cover this in depth in how to get mentioned in AI search (/blog/ai-search-optimization/).
+
+## How long will it take?
+
+Expect brand searches (your name) to work within weeks, niche and local terms within three to six months, and competitive terms longer. SEO compounds: the work you do this quarter keeps paying next year. More in how long does SEO take? (/blog/how-long-does-seo-take/)
+
+## A simple 90-day plan
+
+| Month | Focus |
+| --- | --- |
+| 1 | Service pages, titles, Google Business Profile, Search Console |
+| 2 | Three helpful articles, ask five clients for reviews |
+| 3 | Two more articles, one guest appearance, review Search Console data |
+
+## Frequently asked questions
+
+### Can I rank if I only coach online?
+Yes. Target niche terms ("online career coach for nurses") and still claim your home city for local searches.
+
+### Is SEO worth it for a solo coach?
+If one new client is worth $1,500 or more, even one extra enquiry a month from Google is a strong return.
+
+### Do I need to blog every week?
+No. One genuinely helpful article a month beats four thin ones.
+
+---
+
+# How to Use Testimonials on a Coaching Website
+URL: https://www.codebunny.net/blog/coaching-testimonials/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to collect, write up and display coaching testimonials that build trust and persuade, including what to ask clients and where to place them.
+
+Key takeaways:
+- The best testimonials describe a before, an after and what changed
+- Ask clients specific questions instead of "can you write me a testimonial?"
+- Place proof next to every call to action, not only on one page
+- Always get written permission and respect confidentiality
+
+Coaching is invisible. There's no product photo, no before-and-after picture. Testimonials are how prospects see the result before they buy, which makes them the most persuasive content on your site.
+
+## What makes a testimonial persuasive
+
+Compare:
+
+> "Sarah is an amazing coach. I highly recommend her!"
+
+> "I'd been in the same role for nine years and couldn't see a way out. Within three months of working with Sarah I'd landed a director role at a company I love, and I negotiated a 25% raise."
+
+The second has the three ingredients that matter:
+
+1. **Before:** the situation and how it felt
+2. **After:** the specific result
+3. **Bridge:** what the coaching did
+
+## How to ask
+
+Don't ask for "a testimonial". Ask questions that produce the story:
+
+1. What was going on for you before we started working together?
+2. What made you hesitate about coaching?
+3. What changed as a result of our work?
+4. What specifically was most helpful?
+5. Who would you recommend this to?
+
+Send them by email, or ask on your final session and offer to write it up for the client to approve. Most people are happy to help and relieved not to face a blank page.
+
+**When to ask:** right after a win, at the end of a programme, or when a client says something lovely unprompted ("Would you mind if I quoted that?").
+
+## Permission and confidentiality
+
+Coaching is private. Always:
+
+- Get written permission before publishing
+- Offer options: full name and photo, first name and role, or anonymous ("Marketing Director, tech company")
+- Let clients approve the final wording
+- Remove a testimonial promptly if asked
+
+Named testimonials with photos are most powerful, but an honest anonymous one beats none.
+
+## Formats
+
+- **Short quotes** for scattering across pages
+- **Mini case studies** (150 to 300 words) for programme pages
+- **Video testimonials:** highly convincing and reusable on social
+- **Screenshots** of messages, with permission
+- **Google reviews** for extra credibility and SEO
+
+Real messages can be especially convincing because nobody wrote them for marketing. One of our own favourite pieces of feedback is a WhatsApp from a client that simply says: "I got a lot of compliments on it."
+
+## Where to put them
+
+Not all on one page that few people visit.
+
+- **Homepage:** two or three of your best, near the top
+- **Each programme page:** testimonials from people who took that programme
+- **Next to every booking button**
+- **About page:** one that speaks to what you're like to work with
+- **Booking page:** to reassure at the moment of decision
+- **A dedicated page** for those who want more
+
+## Match testimonials to objections
+
+List the reasons people hesitate: "it's expensive", "I've tried coaching before", "I don't have time". Find a testimonial that answers each and place it where that doubt arises, such as a "worth every penny" quote next to your pricing.
+
+## Add specifics
+
+Wherever possible include name, role, location, programme and a photo. Details make a testimonial believable.
+
+## Keep them fresh
+
+Add new testimonials every quarter. Dates aren't essential, but a wall of quotes that hasn't changed in four years looks stale.
+
+## Mark them up for Google
+
+Review schema can help search engines understand your testimonials. Use it honestly and only for genuine reviews. See our schema markup guide (/blog/schema-markup-guide/).
+
+## Frequently asked questions
+
+### What if I'm a new coach with no testimonials?
+Offer a few pro bono or discounted sessions in exchange for honest feedback. Character references from colleagues can also help while you build.
+
+### Can I edit a testimonial?
+You can tidy grammar and shorten it, but never change the meaning, and always get the client's approval of the final version.
+
+### How many should I show?
+Three to five strong ones on the homepage is plenty. Quality over quantity.
+
+---
+
+# Wellness Coach Website Guide: Design, Pages and Booking
+URL: https://www.codebunny.net/blog/wellness-coach-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to build a wellness or health coach website that feels calm and credible, explains your method and turns visitors into clients.
+
+Key takeaways:
+- Wellness clients need to feel safe and understood before they'll book
+- A named method and clear programme structure make an intangible service concrete
+- Be careful with health claims; promise support, not cures
+- Calm design still needs a strong, visible call to action
+
+Wellness coaching covers a lot of ground: health, nutrition, stress, sleep, hormones, burnout, habits. What unites the clients is that they've often tried things before and feel discouraged. Your website's job is to make them feel understood, show them a believable path and make starting easy.
+
+## Set the tone
+
+Wellness sites work best when they feel like a deep breath:
+
+- **Colour:** soft, natural palettes with one confident accent
+- **Photography:** real, warm, natural light; you, not stock models with salads
+- **Space:** generous margins and short paragraphs
+- **Language:** kind, clear and free of guilt
+
+Calm doesn't mean vague. The booking button should still be the most obvious thing on the page.
+
+## Say who you help
+
+"I help people feel better" won't land. Specific does:
+
+- "Coaching for women navigating perimenopause"
+- "Burnout recovery for healthcare professionals"
+- "Helping impact-driven women quiet self-doubt"
+
+The narrower the statement, the more the right person feels seen. See positioning your coaching niche (/blog/coaching-niche-positioning/).
+
+## Make your method visible
+
+Clients want to know there's a plan. Name your approach and show the steps. Lasting Change Wellness does this with the S.H.I.N.E. method: a simple acronym that turns an abstract service into a journey people can picture.
+
+## Pages to include
+
+- **Home:** who you help, the change you offer, proof and a call to action
+- **About:** your own wellness story and credentials
+- **Programmes:** clear options with what's included
+- **Success stories**
+- **Resources or blog:** recipes, guides, articles
+- **Book a call**
+
+Optional: a quiz ("What's your stress type?"), a free challenge, an online course area.
+
+## Be careful with claims
+
+Health is regulated, and trust is fragile. Protect both:
+
+- Don't promise to diagnose, treat or cure
+- Use phrases like "support", "guide" and "work towards"
+- Add a short disclaimer that coaching isn't a substitute for medical care
+- Be clear about your qualifications and scope
+- Only use testimonials that reflect typical, honest experiences
+
+## Credentials that matter
+
+Display relevant ones: NBHWC board certification, health coaching diplomas, nutrition qualifications, a clinical background if you have one. A former psychologist turned wellness coach, for example, should say so prominently.
+
+## Lead magnets that fit wellness
+
+- A seven-day reset plan
+- An energy or symptom tracker
+- A simple meal-planning template
+- A guided breathing audio
+- A self-assessment quiz
+
+More ideas in 20 lead magnets for coaches (/blog/lead-magnets-for-coaches/).
+
+## Booking and intake
+
+Offer a free introductory call with an embedded calendar. For wellness, a short intake question helps: "What would you most like to feel different three months from now?" Keep anything medical for a secure form after they've become a client.
+
+## Selling programmes online
+
+If you sell a group programme or course, your site can take payment directly through Stripe or connect to a course platform. Make the path short: programme page, pay, welcome email with next steps.
+
+## SEO for wellness coaches
+
+People search for help with specific struggles: "burnout coach", "health coach for PCOS", "stress management coaching". Build a page for each area you specialise in and write articles answering the questions clients ask. See SEO for coaches (/blog/seo-for-coaches/).
+
+## Frequently asked questions
+
+### Should I show prices on a wellness coaching site?
+A starting price helps set expectations. Many wellness coaches share full pricing for programmes and discuss bespoke options on a call.
+
+### Can I sell supplements or products on my site?
+Yes, with an online shop, but be careful about claims and check local regulations.
+
+### Do I need a blog?
+It helps with SEO and gives you content for social. Recipes, practical guides and myth-busting articles tend to do well.
+
+---
+
+# Career Coach Website Guide: Win Clients Who Are Ready for a Change
+URL: https://www.codebunny.net/blog/career-coach-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+What a career coach website needs to attract and convert professionals: niche positioning, proof of outcomes, packages and a simple booking path.
+
+Key takeaways:
+- Career clients want tangible outcomes, so lead with results
+- Niche by industry, career stage or transition type
+- LinkedIn drives most traffic, so your site must match your profile
+- Show a clear process from first call to new role
+
+Career coaching clients are usually motivated and measurable. They want a new role, a promotion, a pivot or the confidence to ask for more. That makes your website easier to write than most coaching sites, as long as you're specific.
+
+## Lead with outcomes
+
+Career coaching has something most coaching doesn't: clear results. Use them.
+
+- "Clients typically land a new role within four months"
+- "From senior engineer to engineering manager in one promotion cycle"
+- Logos of companies clients have moved to (with permission)
+
+Only publish numbers you can back up.
+
+## Pick a niche
+
+Career coaching is crowded. Niches cut through:
+
+| Niche by | Examples |
+| --- | --- |
+| Industry | Tech, healthcare, law, finance |
+| Stage | Graduates, mid-career, executives |
+| Transition | Career change, return to work, redundancy |
+| Identity | Women in leadership, international professionals |
+
+Live in Flow Coaching, for example, focuses on career transitions for tech professionals, and every line of the site speaks to that audience.
+
+## What to put on the homepage
+
+1. **Headline:** the feeling and the outcome. "Feeling stuck? Find your flow."
+2. **Who you help:** in one line.
+3. **How it works:** three steps.
+4. **Results:** testimonials with role changes.
+5. **Your credentials:** ICF level, recruiting or HR background, industries you know.
+6. **Call to action:** a free 20 to 30 minute call.
+
+## Services to consider listing
+
+- One-to-one career coaching programmes
+- CV and LinkedIn review
+- Interview preparation
+- Salary negotiation coaching
+- Career change discovery
+- Corporate outplacement
+
+Give each its own section or page. Smaller, fixed-price services (like a CV review) are good entry points to longer programmes.
+
+## Match your LinkedIn
+
+Most career coaching clients find you on LinkedIn and click through. Your headline, photo and message should be consistent across both. Link your site's booking page in your LinkedIn featured section.
+
+## Content that attracts career clients
+
+Write the articles your clients are searching for:
+
+- "How to change careers at 40"
+- "Signs you've outgrown your job"
+- "How to answer 'tell me about yourself'"
+- "How to negotiate salary without losing the offer"
+
+Each ranks on Google, shares well on LinkedIn and ends with an invitation to book. See how to write a blog post that ranks (/blog/how-to-write-a-blog-post-that-ranks/).
+
+## Lead magnets that work
+
+- CV or LinkedIn headline templates
+- A "stay or go" decision worksheet
+- Interview question bank
+- Salary negotiation scripts
+- A career values quiz
+
+## The booking path
+
+Embed a calendar, ask two questions (current role and what they want to change), and send automatic reminders. The full approach is in the discovery call funnel (/blog/discovery-call-booking-funnel/).
+
+## B2B: outplacement and corporate programmes
+
+If you work with employers, add a separate page for organisations with case studies, the outcomes you measure and an enquiry form for HR. Corporate buyers need different proof from individual clients.
+
+## Frequently asked questions
+
+### Should career coaches guarantee results?
+No. You can share typical outcomes and client stories, but a job offer depends on factors outside your control.
+
+### Do I need separate pages for each service?
+Yes, if you want each to rank on Google and to give prospects enough detail to choose.
+
+### How do career coaches get clients online?
+A mix of LinkedIn content, search-optimised articles, referrals and a website that converts visitors into discovery calls.
+
+---
+
+# How to Position Your Coaching Niche on Your Website
+URL: https://www.codebunny.net/blog/coaching-niche-positioning/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to choose and communicate a coaching niche on your website so the right clients recognise themselves instantly and feel confident booking.
+
+Key takeaways:
+- A clear niche makes marketing easier and fees higher
+- Define it with three parts: who, problem and outcome
+- Put your positioning statement in the first line of your homepage
+- You can niche your marketing without turning away other good clients
+
+"I help people live their best life" is true of every coach and persuasive to no one. A niche isn't a cage; it's a signpost. It tells the right person, in a second, "this is for you".
+
+## Why niching works
+
+- **Recognition.** People respond to messages that describe their exact situation.
+- **Referrals.** "She's the coach for new managers in tech" is easy to remember and pass on.
+- **Search.** "Career coach for nurses" is far easier to rank for than "life coach".
+- **Pricing.** Specialists charge more than generalists.
+- **Content.** You always know what to write about.
+
+## The three-part positioning formula
+
+**I help [who] to [outcome] without/despite [problem].**
+
+- "I help first-time founders lead growing teams without burning out."
+- "I help women navigating fertility treatment feel supported and in control."
+- "I help tech professionals move into work that feels like flow."
+
+Write ten versions. Read each aloud. The right one feels slightly scary because it's specific.
+
+## Four ways to niche
+
+| Dimension | Examples |
+| --- | --- |
+| Who | Lawyers, new mothers, expats, creatives |
+| Problem | Burnout, imposter feelings, divorce, redundancy |
+| Outcome | Promotion, career change, confidence, boundaries |
+| Method | Somatic work, strengths-based, a named framework |
+
+The strongest niches combine two: a who and a problem.
+
+## Put it on your website
+
+### The hero
+
+Your positioning belongs in your headline or the line directly beneath it. Don't make visitors hunt for it.
+
+### The "is this you?" section
+
+Three or four bullet points describing your ideal client's situation in their own words.
+
+### Your programmes
+
+Name and describe them in terms of the niche outcome.
+
+### Your testimonials
+
+Choose stories from clients who fit the niche. People look for someone like themselves.
+
+### Your content
+
+Articles, lead magnets and social posts all speak to the same person.
+
+## Examples of clear positioning
+
+Each of these sites tells you who it's for within seconds:
+
+George Dupont Leadership targets sports franchises and C-suite teams with a trademarked system. Co-Allies speaks to women on the path to motherhood and leaders in transition. Different audiences, same clarity.
+
+## "But I don't want to turn clients away"
+
+You won't. Niching is about marketing focus, not a rule about who you can work with. People outside your niche will still find you through referrals and often say "I know I'm not exactly your usual client, but...". What changes is that your ideal clients finally recognise you.
+
+## How to find your niche
+
+1. **Look at your best clients.** Who did you love working with and get great results for? What did they have in common?
+2. **Look at your own story.** Many coaches serve a past version of themselves.
+3. **Check demand.** Are people searching for it and paying for it?
+4. **Test.** Change your headline and LinkedIn bio for 90 days and see who shows up.
+
+## Signs your positioning is working
+
+- Discovery calls start with "I read your site and it felt like you were describing me"
+- Referrals arrive pre-sold
+- You stop competing on price
+- Writing content gets easier
+
+## Frequently asked questions
+
+### Can I have more than one niche?
+You can serve two closely related audiences, each with its own page. More than that and the homepage message blurs.
+
+### What if I pick the wrong niche?
+You adjust. Updating a headline and a few pages is quick. Staying vague costs more than choosing imperfectly.
+
+### Do I need to niche from day one?
+No. Many coaches discover their niche after their first 20 clients. Start reasonably specific and narrow as patterns emerge.
+
+---
+
+# Coaching Website Copywriting: Headlines and Words That Convert
+URL: https://www.codebunny.net/blog/coach-website-copywriting/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to write coaching website copy that connects: headline formulas, section-by-section guidance, words to avoid and examples from real coaching sites.
+
+Key takeaways:
+- Write to one person in the words they'd use themselves
+- Your headline should name their problem or their goal
+- Cut jargon like "empower" and "unlock your potential"
+- Every section should end by pointing to the next step
+
+Design gets attention. Words get the booking. Most coaching websites lose people in the first sentence by talking about the coach when the visitor is thinking about themselves.
+
+Here's how to write copy that sounds like you and speaks to them.
+
+## Rule one: write to one person
+
+Picture a real client, ideally your favourite one. Write as if you're sending them a message. Use "you" twice as often as "I".
+
+## Rule two: use their words
+
+Go through discovery call notes, emails and testimonials. Collect the exact phrases clients use: "I feel like I'm treading water", "I know I'm capable of more". Those phrases are your copy. They'll outperform anything you invent.
+
+## Headline formulas that work
+
+**Problem then promise**
+"Feeling stuck? Find your flow."
+
+**The outcome**
+"Clear, confident and in control again."
+
+**The transformation**
+"Transform life's hardest moments into your greatest comeback."
+
+**The enemy**
+"Cultures that perform under pressure. Without burnout, blame or busy nonsense."
+
+**The identity**
+"For women who are done wishing and ready to act."
+
+Notice what none of them say: "Welcome to my website" or "Certified Professional Coach".
+
+## Section by section
+
+### Subheadline
+
+One sentence: who you help and how. "One-to-one coaching for tech professionals ready for a career that fits."
+
+### The problem section
+
+Describe their situation so accurately they feel understood. Three short lines beat one long paragraph.
+
+### The solution section
+
+Introduce your coaching as the bridge. Focus on what changes for them.
+
+### How it works
+
+Three steps. Short verbs: Book. Plan. Grow.
+
+### About snippet
+
+Two or three sentences on why you, with a link to your about page (/blog/coach-about-page/).
+
+### Call to action
+
+Specific and low-pressure: "Book your free 30-minute call". Add a reassurance: "No pressure. Just a conversation."
+
+## Words to cut
+
+| Instead of | Try |
+| --- | --- |
+| Empower you to unlock your potential | Help you [specific outcome] |
+| Holistic, transformative journey | A three-month programme |
+| I am passionate about | (just say what you do) |
+| Solutions | (name the actual thing) |
+| Leverage, synergy, optimise | Use, together, improve |
+
+If a phrase could appear on any coach's site, it isn't doing any work on yours.
+
+## Make it scannable
+
+Most visitors skim first and read second.
+
+- Short paragraphs (one to three lines)
+- A heading every few paragraphs
+- Bullet points for lists
+- Bold for the key phrase in a section, sparingly
+
+## Calls to action that get clicked
+
+- Use the same wording everywhere so it becomes familiar
+- Start with a verb: Book, Start, Get
+- Say what happens: "Book a free 30-minute call"
+- Place one after every major section
+
+For more examples, see call-to-action examples that convert (/blog/call-to-action-examples/).
+
+## The read-aloud test
+
+Read every page out loud. Anywhere you stumble, sound stiff or wouldn't say it to a client's face, rewrite. This catches most problems.
+
+## Should you use AI to write your copy?
+
+AI tools are useful for outlining and tidying, but they default to the same generic phrases every other coach's site uses. Use them to speed up a draft built from your own client language, then edit until it sounds like you.
+
+## Frequently asked questions
+
+### How long should my homepage be?
+Long enough to answer the visitor's main questions and build trust; usually 500 to 900 words broken into clear sections.
+
+### Should I write in first person?
+Yes, for a solo coach. "I" and "you" feel personal. Use "we" only if you're genuinely a team.
+
+### Can you write my copy for me?
+Yes. Copy support is part of our builds, and our free website preview (/free-website-preview/) includes a drafted homepage headline and structure for your business.
+
+---
+
+# How to Build a Wedding Photographer Website That Books Couples
+URL: https://www.codebunny.net/blog/wedding-photographer-website-guide/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+A complete guide to building a wedding photography website that shows your best work, loads fast, ranks locally and turns browsing couples into enquiries.
+
+Key takeaways:
+- Couples decide in seconds, so your first screen must show your best image and where you work
+- Curate hard: 30 exceptional images beat 300 good ones
+- Speed matters as much as beauty because most couples browse on phones
+- An availability check or simple enquiry form on every page turns swooning into bookings
+
+A wedding photographer's website has one of the hardest jobs on the internet. It has to be beautiful enough to make a couple fall for your work, fast enough that they don't leave while it loads, and clear enough that they know how to hire you. Most manage one of the three.
+
+We've built sites for wedding photographers and filmmakers in Chicago, Hawaii, Brisbane, Denver, Ottawa and Christchurch. Here's what consistently works.
+
+## The first screen
+
+When a couple lands on your homepage, they should see, without scrolling:
+
+1. **One stunning image or short film clip.** Your single best frame, not a slideshow of twelve.
+2. **Who you are and where you work.** "Chicago & Peoria wedding photographer."
+3. **A line that captures your style.** "Moments you'll see again."
+4. **A way to enquire.** "Check your date" or "Inquire".
+
+That's it. Everything else comes after the scroll.
+
+## The pages you need
+
+### Portfolio
+
+Organise by what couples want to see: weddings, engagements, and perhaps by style or season. Show full galleries from a few real weddings as well as highlights; couples want to know what a whole day looks like, not only the hero shots. See how many photos should be in your portfolio (/blog/photographer-portfolio-curation/).
+
+### About
+
+Couples will spend their whole wedding day with you. They want to like you. Show your face, share your approach and let your personality come through. More in writing an about page couples connect with (/blog/wedding-photographer-about-page/).
+
+### Investment
+
+Whether to show prices is the eternal debate. Our view: show at least a starting price. We explain why in should you show prices on your wedding photography website? (/blog/wedding-photography-pricing-page/)
+
+### Real weddings / journal
+
+Individual blog posts for weddings you've shot. They show range, help couples picture their own day and are the backbone of your SEO, especially when you name the venue.
+
+### Contact
+
+A form that asks the right questions without feeling like homework. See the perfect wedding inquiry form (/blog/wedding-inquiry-form/).
+
+## Speed: the invisible dealbreaker
+
+Photography sites are image-heavy by nature, and that's where most go wrong. A homepage with 40 full-resolution JPEGs can take ten seconds to load on mobile data. Couples won't wait.
+
+The fix isn't fewer images; it's smarter delivery: modern formats (WebP or AVIF), images sized for the screen they're shown on, and lazy loading so pictures only download as they scroll into view. Done properly, a gallery-rich page can still load in under two seconds. Details in how to make your photography website load fast (/blog/photography-website-speed/).
+
+## Get found locally
+
+Couples search for "[city] wedding photographer" and "[venue name] wedding photos". To appear:
+
+- Put your location in your homepage title and headline
+- Create a page for each area you serve
+- Blog real weddings with the venue name in the title
+- Set up and maintain a Google Business Profile
+- Collect Google reviews
+
+Our full guide: SEO for wedding photographers (/blog/wedding-photographer-seo/).
+
+## Proof
+
+- **Reviews** from Google, The Knot or WeddingWire, shown on the site
+- **Awards and features** ("ranked in the top 10 in Illinois")
+- **Numbers** that reassure: years in business, weddings photographed
+- **Kind words** next to matching images from that couple's day
+
+## Make enquiring easy
+
+Put an enquiry button in the header on every page. On mobile, make it sticky. An availability checker ("Check your date in seconds") is a lovely touch: it gives the couple instant gratification and starts the conversation.
+
+## Design principles for photography sites
+
+- **Let the work breathe.** Neutral backgrounds, generous spacing.
+- **Type with character.** An elegant serif or refined sans sets the mood without competing.
+- **Consistent editing** across images shown together.
+- **Subtle motion.** Gentle fades and reveals; nothing that fights the photos.
+- **Mobile first.** The majority of couples will see your site on a phone, often from an Instagram link.
+
+## Template or custom?
+
+Squarespace, Showit and Pixieset make attractive sites and are fine when you're starting. Custom becomes worth it when you want to stand apart from the hundreds of photographers on the same templates, load faster, and rank better. We compare them in Squarespace vs custom websites for photographers (/blog/squarespace-vs-custom-for-photographers/).
+
+## Frequently asked questions
+
+### How many images should be on my homepage?
+Fewer than you think: one hero image and 10 to 20 carefully chosen frames further down is plenty.
+
+### Should I include video on my homepage?
+A short, silent, well-compressed clip can be powerful, especially if you also offer films. Make sure it doesn't slow the page.
+
+### How often should I update my portfolio?
+At least once a season. Replace older work with your latest best so the site reflects how you shoot today.
+
+---
+
+# SEO for Wedding Photographers: The Complete Guide
+URL: https://www.codebunny.net/blog/wedding-photographer-seo/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How wedding photographers can rank on Google: local keywords, venue pages, blogging real weddings, image SEO, Google Business Profile and reviews.
+
+Key takeaways:
+- Target "city + wedding photographer" on your homepage and venue names in blog posts
+- Each real-wedding post is a landing page for a venue search
+- Image file names, alt text and compression all matter
+- A complete Google Business Profile with reviews puts you in the map results
+
+Instagram shows your work to people who already follow you. Google shows it to couples who are actively looking to book. For many wedding photographers, search is the single biggest source of enquiries, and it's work that keeps paying for years.
+
+## How couples search
+
+- **"[City] wedding photographer"** — high intent, high competition
+- **"[Venue] wedding photographer"** or **"[venue] wedding photos"** — high intent, low competition
+- **"[Style] wedding photographer [region]"** — documentary, elopement, Catholic, destination
+- **Planning questions** — "best time for wedding photos", "how many hours of photography do I need"
+
+A good SEO plan covers all four.
+
+## Step 1: optimise your homepage for your main location
+
+- **Title tag:** "Chicago & Peoria Wedding Photographer | Dan Reynolds Photography"
+- **H1 heading:** include location and "wedding photographer" naturally
+- **First paragraph:** say where you're based and where you travel
+- **Footer:** location and contact details
+
+See title tags and meta descriptions (/blog/title-tags-meta-descriptions/) for how to write them.
+
+## Step 2: location pages
+
+If you serve several areas, give each a page: "Milwaukee Wedding Photographer", "Wisconsin Wedding Photographer". Each needs unique content: weddings you've shot there, favourite venues, local tips. No copy-and-paste. Our guide to local landing pages (/blog/local-landing-pages/) shows how.
+
+## Step 3: venue pages and real-wedding posts
+
+This is the most underused strategy in wedding photography. When a couple books a venue, they immediately search for photos taken there. If your blog post or venue guide appears, you're talking to a couple with a confirmed date and location.
+
+For each wedding you blog:
+
+- Title: "[Venue Name] Wedding | [Couple's names]"
+- 300+ words telling the story of the day and mentioning the venue, town and vendors
+- 30 to 60 well-optimised images
+- Links to the venue and other vendors
+- A call to action for couples marrying there
+
+We go deeper in venue pages for wedding photographers (/blog/venue-pages-for-photographers/).
+
+## Step 4: image SEO
+
+Your images are your content, so make them readable to Google:
+
+- **File names:** `kualoa-ranch-wedding-ceremony.webp`, not `IMG_4821.jpg`
+- **Alt text:** a plain description: "Bride and groom walking through the gardens at Kualoa Ranch"
+- **Compression:** WebP or AVIF, sized appropriately
+- **Lazy loading** for everything below the first screen
+
+More in our image SEO guide (/blog/image-seo/).
+
+## Step 5: Google Business Profile
+
+Your profile decides whether you appear in the map results. Fill in every field, choose "Wedding photographer" as the primary category, add your service areas, upload fresh photos monthly and reply to every review. Full walkthrough: Google Business Profile for wedding photographers (/blog/google-business-profile-photographers/).
+
+## Step 6: reviews
+
+Ask every couple for a Google review when you deliver their gallery; that's when they're happiest. Make it easy with a direct link. Reviews influence both rankings and bookings. See how wedding vendors can get more reviews (/blog/reviews-for-wedding-vendors/).
+
+## Step 7: links from the wedding world
+
+- Venue "preferred vendor" lists
+- Features on wedding blogs and magazines
+- Vendor friends linking to your blog posts about shared weddings
+- Local directories and associations
+
+When you publish a wedding, send the link to every vendor involved. Many will share and link to it.
+
+## Step 8: technical health
+
+A beautiful site that's slow or broken on mobile won't rank. Check:
+
+- Mobile PageSpeed score
+- HTTPS
+- One H1 per page
+- An XML sitemap submitted in Search Console
+- No broken links
+
+Our technical SEO checklist (/blog/technical-seo-checklist/) lists everything.
+
+## Helpful content couples search for
+
+- "How many hours of wedding photography do I need?"
+- "Wedding day timeline for the best photos"
+- "Best wedding venues in [region]"
+- "What to wear for engagement photos"
+
+More in 40 blog post ideas for wedding photographers (/blog/wedding-photographer-blog-ideas/).
+
+## How long does it take?
+
+Venue posts can rank in weeks because competition is low. City-level terms usually take six to twelve months of consistent work. Start now; the photographers ranking today began years ago.
+
+## Frequently asked questions
+
+### Does Instagram help my Google ranking?
+Not directly. It builds awareness, which leads to people searching your name, which helps.
+
+### Should I blog every wedding?
+Blog the ones at venues you'd love to shoot again and the ones that best show your style.
+
+### Is Squarespace or Showit bad for SEO?
+They cover the basics. Custom sites offer more control over speed and structure, which matters in competitive cities.
+
+---
+
+# Wedding Videographer Website: Showcasing Films Without Slowing Down
+URL: https://www.codebunny.net/blog/wedding-videographer-website/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How to build a wedding videography website that puts your films front and centre, loads quickly, and converts couples into enquiries.
+
+Key takeaways:
+- Lead with a short, silent, looping clip and let couples choose to press play
+- Host films on Vimeo or YouTube and load players only when clicked
+- Each film deserves a page with the story, the venue and stills
+- Explain your packages and deliverables clearly because couples don't know film jargon
+
+Film is the most emotional medium a wedding vendor has, and the hardest to present online. Video files are heavy, autoplay is unreliable and a single badly embedded player can add seconds to your load time. Get it right, though, and nothing sells better.
+
+## The hero: motion without the wait
+
+The strongest opening for a filmmaker's site is a short, silent background loop: 8 to 15 seconds of your best moments, compressed hard, with a still poster image that shows instantly while it loads.
+
+Rules:
+
+- **Keep it under 3 to 5 MB.** 720p is plenty for a background.
+- **Muted and looping.** Browsers block autoplay with sound.
+- **Poster image first** so the page never looks empty.
+- **A fallback image on slow connections.**
+
+Then give couples a clear "Watch the film" button for the full piece.
+
+## Embedding films the fast way
+
+A page with six embedded Vimeo players loads six players' worth of scripts, even if nobody presses play. Instead:
+
+1. Show a thumbnail with a play button.
+2. Load the actual player only when clicked.
+
+This "facade" technique can cut seconds off load time and is one of the biggest wins on film sites. See website animations and performance (/blog/website-animations-performance/) for more on keeping rich sites fast.
+
+**Where to host:** Vimeo gives clean, ad-free playback and privacy controls. YouTube adds discoverability. Many filmmakers use Vimeo on the site and YouTube for reach.
+
+## Give each film a home
+
+Don't just list embeds on one page. Give your best films their own pages with:
+
+- The film
+- A few paragraphs on the couple and the day
+- The venue, location and vendors
+- A handful of stills (frame grabs work beautifully)
+- A call to action
+
+These pages rank for venue searches the same way photographers' blog posts do. See venue pages (/blog/venue-pages-for-photographers/).
+
+## Explain what couples are buying
+
+Couples know what a photo album is. They often don't know the difference between a highlight film, a feature film, a teaser and documentary edits. Spell it out:
+
+| Deliverable | What it is |
+| --- | --- |
+| Teaser | 60 to 90 seconds for social, delivered quickly |
+| Highlight film | 4 to 8 minutes, the story of the day |
+| Feature film | 15 to 30 minutes with full speeches and vows |
+| Documentary edit | Ceremony and speeches in full |
+
+Mention anything distinctive: 4K, drone, Super 8, same-day edits, licensed music.
+
+## Pricing
+
+Film packages confuse couples more than photography. A clear investment page with starting prices and what's included will save you hours of email. Alpha Visuals, for instance, states that highlight films start from a set price, which immediately qualifies enquiries.
+
+## Stills matter too
+
+Not everyone will press play, especially at work or on mobile data. Sprinkle high-quality frame grabs throughout so the site still sells with the sound off.
+
+## Sound and music
+
+Never autoplay audio. Let couples choose. On film pages, mention that the film is best watched with sound on; it's a small nudge that changes how they experience it.
+
+## SEO for filmmakers
+
+- Homepage targeting "[city] wedding videographer"
+- Film pages with venue names
+- Text on every page: Google can't watch your film
+- Video schema markup so films can appear in video results
+- A Google Business Profile with reviews
+
+The principles in SEO for wedding photographers (/blog/wedding-photographer-seo/) apply almost exactly.
+
+## Photo and film together
+
+If you offer both, or partner with a photographer, say so prominently. Couples love booking one team. Dan Reynolds Photography presents photo and film side by side for exactly this reason.
+
+## Frequently asked questions
+
+### Should my film autoplay on the homepage?
+A muted background loop, yes. A full film with sound, no; let visitors choose.
+
+### How many films should I show?
+Five to eight of your best, covering different venues and styles.
+
+### Can a video-heavy site still be fast?
+Yes, with compressed loops, poster images and click-to-load players. Our film sites load quickly on mobile for this reason.
+
+---
+
+# Should You Show Prices on Your Wedding Photography Website?
+URL: https://www.codebunny.net/blog/wedding-photography-pricing-page/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+The case for and against showing wedding photography prices online, what to include on an investment page, and wording that filters without scaring couples off.
+
+Key takeaways:
+- Showing a starting price saves time for you and the couple
+- You don't have to publish full packages; "collections begin at" works well
+- Present price alongside what's included and why it's worth it
+- Follow pricing with proof and an easy way to enquire
+
+Few questions divide wedding photographers like this one. One camp says publishing prices scares couples away before they've fallen for your work. The other says hiding them wastes everyone's time. After building sites for photographers and filmmakers across six countries, here's where we land.
+
+## The case for showing prices
+
+- **Couples expect it.** Most are comparing several photographers and will skip those who make them ask.
+- **It filters enquiries.** You stop spending evenings replying to couples whose budget is a third of your rate.
+- **It builds trust.** Openness reads as confidence.
+- **It anchors value.** Seeing a number next to what's included frames the conversation.
+
+## The case against
+
+- **Bespoke quoting.** If every wedding is priced individually, a single number may mislead.
+- **Competitors can see it.** True, though they can find out anyway.
+- **Sticker shock without context.** A price with no explanation of value can put people off.
+
+## The middle path most photographers should take
+
+Show a **starting price** and explain what shapes the final figure.
+
+> "Wedding collections begin at $3,800. Most couples invest between $4,500 and $6,000 for full-day coverage with a second photographer."
+
+This filters effectively without boxing you in, and invites the enquiry rather than replacing it.
+
+## What to include on an investment page
+
+1. **A short intro** about your approach and what the experience includes
+2. **Starting price** or two to three collections
+3. **What's included:** hours, second shooter, engagement session, gallery, albums, turnaround time
+4. **Add-ons:** extra hours, albums, film, rehearsal dinner
+5. **How booking works:** retainer, contract, payment schedule
+6. **Travel:** where you're based and how travel fees work
+7. **Testimonials** from couples who felt it was worth every penny
+8. **FAQs**
+9. **A call to action:** "Check your date"
+
+## Presenting collections
+
+If you list full packages, three is the magic number. Name them, lead with the experience and put the most popular in the middle.
+
+| | Essential | Signature | Complete |
+| --- | --- | --- | --- |
+| Coverage | 6 hours | 8 hours | 10 hours |
+| Second photographer | — | Included | Included |
+| Engagement session | — | Included | Included |
+| Album | — | — | Included |
+
+## Wording that reassures
+
+- Call it "Investment" or "Pricing"; both are fine. Couples search for "pricing".
+- Explain the why: "You're not only booking a day of photography. You're booking 14 months of planning support, 40 hours of editing and images your grandchildren will see."
+- Offer payment plans if you have them.
+- Invite conversation: "Every wedding is different. Tell me about yours and I'll put together a custom quote."
+
+## If you truly can't show prices
+
+Say so and give a reason, plus a response time: "Because every celebration is unique, I create a custom proposal for each couple. Send me your date and I'll reply within 24 hours." Silence is the real conversion killer.
+
+## A pricing guide PDF
+
+Some photographers offer a detailed guide in exchange for an email address. It works if the site still shows a starting price. If the guide is the only way to see any number, many couples won't bother.
+
+## See how others handle it
+
+## Frequently asked questions
+
+### Will I get fewer enquiries if I show prices?
+Possibly fewer, but better. Photographers usually find the quality and booking rate improve.
+
+### Should I show prices on Instagram too?
+A "starting at" line in your highlights or link page is helpful and saves repetitive DMs.
+
+### How often should I raise my prices?
+Review them at least once a year, or whenever you're booking more than about 70% of enquiries.
+
+---
+
+# Venue Pages: The Most Underrated SEO Strategy for Wedding Photographers
+URL: https://www.codebunny.net/blog/venue-pages-for-photographers/
+Author: Bhavansh Arora · Updated 2026-11-16
+
+How wedding photographers and videographers can use venue pages and real-wedding posts to rank on Google and reach couples who have already booked a venue.
+
+Key takeaways:
+- Couples search "[venue] wedding photos" the moment they book
+- Venue pages face far less competition than city keywords
+- Combine practical venue advice with your best images from that location
+- Share each page with the venue and vendors to earn links and referrals
+
+A couple books their venue. That night, they type "Kualoa Ranch wedding photos" into Google to see what their day might look like. Whoever appears is talking to a couple with a date, a location and a budget, who haven't yet chosen a photographer.
+
+That's why venue pages are the best-kept secret in wedding SEO.
+
+## Why they work
+
+- **High intent.** These couples are booking vendors now.
+- **Low competition.** Hundreds of photographers fight for "Chicago wedding photographer". A handful compete for each venue.
+- **Relevance.** Seeing their actual venue through your lens is the most persuasive portfolio possible.
+- **Relationships.** Venues love and share good content about themselves.
+
+## Two formats
+
+### 1. Real-wedding blog posts
+
+One wedding at one venue. Tell the story of the day with 30 to 60 images.
+
+**Title:** "A Summer Wedding at Lanikuhonua | Maya & Chris"
+
+### 2. Venue guides
+
+An evergreen page about the venue itself, drawing on several weddings you've shot there.
+
+**Title:** "Four Seasons Oahu Wedding Photography: A Photographer's Guide"
+
+Guides take more effort and rank for longer. Aim for a guide for each of your top five to ten venues, and real-wedding posts for everything else.
+
+## What to include in a venue guide
+
+1. **An introduction** to the venue and why you love shooting there
+2. **Your best images** from that location, across seasons and lighting
+3. **Best photo spots** on the property
+4. **Timing advice:** when the light is best, sunset times, where to do portraits
+5. **Rain plan:** indoor options that still look great
+6. **Practical details:** capacity, ceremony locations, getting-ready rooms
+7. **Recommended vendors** you've worked with there
+8. **Links** to full galleries from weddings at the venue
+9. **A call to action:** "Getting married here? Check your date."
+
+Aim for 600 to 1,200 words of genuinely useful advice. This is what separates a page that ranks from a gallery that doesn't.
+
+## On-page SEO checklist
+
+- Venue name and "wedding" in the page title and H1
+- Venue name and town in the first paragraph
+- Descriptive image file names and alt text (image SEO guide (/blog/image-seo/))
+- A link to the venue's own website
+- Internal links to and from related posts
+- Fast loading despite many images (photography website speed (/blog/photography-website-speed/))
+
+## Getting links and referrals from the page
+
+When you publish:
+
+1. **Email the venue coordinator** with the link and a few images they can use, credited.
+2. **Tag and message every vendor** involved.
+3. **Ask to be considered for the preferred vendor list.**
+4. **Share on Pinterest** with the venue name in the pin title.
+
+Venues regularly link to good guides, and those links lift your whole site.
+
+## Which venues to prioritise
+
+- Venues you've shot at and want to return to
+- Popular venues with high search volume
+- New venues with little content yet
+- Venues that suit your style and price point
+
+Check demand by typing the venue name plus "wedding" into Google and seeing what autocomplete suggests.
+
+## What if you haven't shot there yet?
+
+Be honest. You can still write a useful guide based on a site visit or styled shoot and say so. Never imply you've photographed weddings there if you haven't.
+
+## Examples from real sites
+
+These sites build their SEO around real weddings and locations:
+
+## Keep them updated
+
+Each time you shoot at the venue again, add a few new images and a link to the new gallery. Fresh content keeps the page ranking.
+
+## Frequently asked questions
+
+### How many venue pages do I need?
+Start with your top five. Each one is a long-term asset.
+
+### Can videographers use this strategy?
+Absolutely. Embed the film, add stills and write about filming at the venue.
+
+### Do I need the venue's permission?
+You don't need permission to write about a venue, but building the relationship first makes them far more likely to share and link.
