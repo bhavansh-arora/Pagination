@@ -1,0 +1,54 @@
+<body class="{{bodyclass}}">
+  <a class="skip" href="#main">Skip to content</a>
+{{loader}}
+  <div class="wipe" aria-hidden="true"><div class="wipe__panel"></div><div class="wipe__panel wipe__panel--ink"></div></div>
+  <div class="cursor is-hidden" aria-hidden="true"><div class="cursor__ring"><span class="cursor__label"></span></div><div class="cursor__dot"></div></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="wrap header__inner">
+      <a class="logo" href="index.html" aria-label="ASB Media Group — home">
+        <svg class="logo__mark" viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="22" r="20.75" stroke="currentColor" stroke-opacity=".32" stroke-width="1.5"/><path d="M17.5 14.2v15.6c0 .5.5.8.9.5l12.3-7.8a.6.6 0 0 0 0-1L18.4 13.7c-.4-.3-.9 0-.9.5Z" fill="currentColor"/><circle cx="35" cy="9" r="3.6" fill="#ff3b1f"/></svg>
+        <span class="logo__text"><span class="logo__name">ASB Media</span><span class="logo__sub">Group · Tampa Bay</span></span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+          {{nav}}
+      </nav>
+      <div class="header__cta">
+        <a class="btn btn--sm" href="contact.html" data-magnetic=".25">Start a project {{icon:arrow}}</a>
+        <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span class="menu-btn__lines"><span></span><span></span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="wrap menu__inner">
+      <nav class="menu__list" aria-label="Menu">
+        <div class="menu__item"><a class="menu__link" href="index.html" data-preview="home"><span class="mono">01</span>Home</a></div>
+        <div class="menu__item"><a class="menu__link" href="work.html" data-preview="work"><span class="mono">02</span>Brand <em>films</em></a></div>
+        <div class="menu__item"><a class="menu__link" href="services.html" data-preview="services"><span class="mono">03</span>Services</a></div>
+        <div class="menu__item"><a class="menu__link" href="weddings.html" data-preview="weddings"><span class="mono">04</span>Weddings</a></div>
+        <div class="menu__item"><a class="menu__link" href="photography.html" data-preview="stills"><span class="mono">05</span>Stills</a></div>
+        <div class="menu__item"><a class="menu__link" href="about.html" data-preview="about"><span class="mono">06</span>Studio</a></div>
+        <div class="menu__item"><a class="menu__link" href="contact.html" data-preview="contact"><span class="mono">07</span>Contact</a></div>
+      </nav>
+      <aside class="menu__side">
+        <div class="menu__preview">
+          <img data-key="home" class="is-active" src="assets/img/film-funbike-sm.webp" alt="" loading="lazy">
+          <img data-key="work" src="assets/img/film-mary-sm.webp" alt="" loading="lazy">
+          <img data-key="services" src="assets/img/film-teco-sm.webp" alt="" loading="lazy">
+          <img data-key="weddings" src="assets/img/wed-04-sm.webp" alt="" loading="lazy">
+          <img data-key="stills" src="assets/img/sport-08-sm.webp" alt="" loading="lazy">
+          <img data-key="about" src="assets/img/film-dance-sm.webp" alt="" loading="lazy">
+          <img data-key="contact" src="assets/img/prod-06-sm.webp" alt="" loading="lazy">
+        </div>
+        <div class="menu__contact">
+          <div><p class="eyebrow eyebrow--plain">Start a project</p><a href="mailto:aramisbooker@asbmediagroup.com">aramisbooker@asbmediagroup.com</a></div>
+          <div><p class="eyebrow eyebrow--plain">Call the studio</p><a href="tel:+18136070444">(813) 607-0444</a></div>
+          <p class="mono muted"><span class="rec-dot"></span>&nbsp; Tampa Bay · <span data-clock>—</span> ET</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main">
