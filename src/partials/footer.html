@@ -1,0 +1,104 @@
+</main>
+
+<footer class="footer theme-dark" data-header-dark>
+  <div class="container">
+    <div class="footer__news">
+      <div>
+        <span class="eyebrow label"><span class="num">(✺)</span><span class="dash"></span>The Love to Cook list</span>
+        <h2 class="h2" style="margin-top:28px">First dibs on <em>new dates</em>.</h2>
+      </div>
+      <div>
+        <p class="muted" style="max-width:44ch;margin-bottom:24px">Classes sell out fast with only 8 places. Join the list and new dates land in your inbox a day before anyone else sees them.</p>
+        <form class="news-form" data-form="news" novalidate>
+          <label class="sr-only" for="news-email-{{key}}">Email address</label>
+          <input id="news-email-{{key}}" name="email" type="email" placeholder="Your email address" required autocomplete="email">
+          <button class="btn btn--butter" type="submit">Join the list <span class="btn__icon"><svg aria-hidden="true"><use href="#i-arrow"/></svg><svg aria-hidden="true"><use href="#i-arrow"/></svg></span></button>
+          <div class="form-success" style="background:transparent;padding:8px 0;text-align:left"><b>You're in.</b> Look out for new dates soon.</div>
+        </form>
+        <p class="news-note">One email when new dates drop. Unsubscribe anytime.</p>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      <div class="footer__brand">
+        <img src="assets/img/logo-cream.png" alt="Love to Cook" width="120" height="79" loading="lazy">
+        <p>Cook school, artisan bakery &amp; pâtisserie in the heart of Crieff. Small classes, proper technique, lots of butter.</p>
+        <div class="footer__social">
+          <a class="icon-btn" href="https://www.instagram.com/lovetocook.uk" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-ig"/></svg></a>
+          <a class="icon-btn" href="mailto:Sam@lovetocook.uk" aria-label="Email"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
+          <a class="icon-btn" href="tel:+447541034170" aria-label="Phone"><svg aria-hidden="true"><use href="#i-phone"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="label">Explore</h4>
+        <ul>
+          <li><a href="classes.html">Classes &amp; Events</a></li>
+          <li><a href="private.html">Private Lessons</a></li>
+          <li><a href="bakery.html">Bakery Pre-orders</a></li>
+          <li><a href="gift.html">Gift Vouchers</a></li>
+          <li><a href="about.html">About Sam</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="label">Classes</h4>
+        <ul>
+          <li><a href="class.html?c=croissant">Croissant Masterclass</a></li>
+          <li><a href="class.html?c=sourdough">Sourdough from Scratch</a></li>
+          <li><a href="class.html?c=choux">Choux Pastry</a></li>
+          <li><a href="class.html?c=danish">Danish Pastries</a></li>
+          <li><a href="classes.html">All dates →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="label">Visit &amp; contact</h4>
+        <ul>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query=16+King+Street+Crieff+Scotland" target="_blank" rel="noopener">16 King Street<br>Crieff, Perthshire</a></li>
+          <li><a href="tel:+447541034170">+44 7541 034170</a></li>
+          <li><a href="mailto:Sam@lovetocook.uk">Sam@lovetocook.uk</a></li>
+          <li><a href="https://www.instagram.com/lovetocook.uk" target="_blank" rel="noopener">@lovetocook.uk</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__mega" aria-hidden="true">love to <em>cook</em></div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> Love to Cook · Crieff, Scotland</span>
+      <nav aria-label="Legal">
+        <a href="contact.html#policies">Booking &amp; cancellation policy</a>
+        <a href="contact.html#policies">Privacy</a>
+        <span class="credit">Site by <a href="https://web.codebunny.net/" target="_blank" rel="noopener">Code Bunny</a></span>
+      </nav>
+      <a class="to-top" href="#top" data-to-top>Back to top <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+{{mbar}}
+
+<div class="scrim" aria-hidden="true"></div>
+<aside class="drawer" aria-label="Your bag" data-lenis-prevent>
+  <div class="drawer__head"><h2>Your bag<sup id="drawer-n"></sup></h2><button class="icon-btn" type="button" data-close aria-label="Close bag"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
+  <div class="drawer__body" id="drawer-body"></div>
+  <div class="drawer__foot hide" id="drawer-foot">
+    <div class="drawer__sum"><span>Subtotal</span><b id="drawer-total">£0</b></div>
+    <button class="btn btn--block" type="button" data-checkout>Checkout securely <span class="btn__icon"><svg aria-hidden="true"><use href="#i-arrow"/></svg><svg aria-hidden="true"><use href="#i-arrow"/></svg></span></button>
+    <p class="drawer__note"><svg aria-hidden="true"><use href="#i-lock"/></svg>Apple Pay · Google Pay · Visa · Mastercard · Amex, powered by Square</p>
+  </div>
+</aside>
+<div class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Checkout">
+  <div class="modal__box" data-lenis-prevent>
+    <button class="icon-btn modal__close" type="button" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    <div class="modal__content"></div>
+  </div>
+</div>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
+<script src="assets/js/data.js?v={{v}}" defer></script>
+<script src="assets/js/site.js?v={{v}}" defer></script>
+<script src="assets/js/motion.js?v={{v}}" defer></script>
+</body>
+</html>

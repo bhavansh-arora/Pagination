@@ -1,0 +1,82 @@
+<!--meta {"title": "Gift Vouchers | Give a Baking Class | Love to Cook, Crieff", "description": "Design a Love to Cook gift voucher for any amount or a specific class. Personal message, instant email delivery, valid for 12 months.", "key": "gift"} -->
+
+<section class="page-hero">
+  <div class="container">
+    <nav class="page-hero__crumbs label" aria-label="Breadcrumb" data-hero-fade><a href="index.html">Home</a>{{i:arrow}}<span>Gift Vouchers</span></nav>
+    <span class="eyebrow label" data-hero-fade><span class="num">(01)</span><span class="dash"></span>Gift vouchers</span>
+    <h1 class="h1" style="margin-top:clamp(20px,2.4vw,32px)"><span data-hero-split style="display:block">Give the gift</span><span data-hero-split style="display:block">of <em>butter.</em></span></h1>
+    <div class="page-hero__grid">
+      <div class="page-hero__lead">
+        <p class="lead lead--wide" data-hero-fade>A day at the bench, a box of croissants, a skill for life. Design a voucher in a minute and we'll deliver it beautifully, today or on the big day.</p>
+      </div>
+      <div class="page-hero__meta" data-hero-fade>
+        <div><b>12</b><span>months validity</span></div>
+        <div><b>Any</b><span>class or bake</span></div>
+        <div><b>Instant</b><span>email delivery</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--flush-top">
+  <div class="container gift-builder" data-gift>
+    <div class="gift-builder__form" data-reveal>
+      <fieldset>
+        <legend><span class="num">1</span><b>Choose an amount</b></legend>
+        <div class="amounts" role="radiogroup" aria-label="Voucher amount">
+          <button type="button" class="amount" role="radio" data-amount="50">£50</button>
+          <button type="button" class="amount" role="radio" data-amount="75">£75</button>
+          <button type="button" class="amount" role="radio" data-amount="150">£150</button>
+          <button type="button" class="amount" role="radio" data-amount="300">£300</button>
+        </div>
+        <div class="form-row">
+          <label class="field"><input name="custom" type="number" min="10" max="1000" inputmode="numeric" placeholder=" "><span>Or a custom amount (£)</span></label>
+          <label class="field"><select name="cls"></select><span>Or gift a specific class</span></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend><span class="num">2</span><b>Make it personal</b></legend>
+        <div class="form-row">
+          <label class="field"><input name="to" maxlength="28" placeholder=" "><span>Recipient's name</span></label>
+          <label class="field"><input name="from" maxlength="28" placeholder=" "><span>From</span></label>
+        </div>
+        <label class="field"><textarea name="msg" maxlength="120" placeholder=" "></textarea><span>Your message (shown on the voucher)</span></label>
+      </fieldset>
+      <fieldset>
+        <legend><span class="num">3</span><b>Delivery</b></legend>
+        <div class="form-row">
+          <label class="field"><select name="delivery"><option>Email it to them</option><option>Email it to me to print</option></select><span>How should it arrive?</span></label>
+          <label class="field"><input name="send" type="date" placeholder=" "><span>Send on (leave blank for now)</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="gift-builder__preview">
+      <div style="perspective:1200px">
+        <div class="voucher" data-tilt>
+          <svg class="voucher__whisk" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-whisk"/></svg>
+          <div class="voucher__top"><img src="assets/img/logo-cream.png" alt=""><span class="label" style="color:var(--butter);text-align:right" data-v="cls">Redeemable on any class or bake</span></div>
+          <div class="voucher__amount" data-v="amount">£75</div>
+          <div class="voucher__bottom"><div class="voucher__to"><b data-v="to">For someone lovely</b><i data-v="msg">A day of baking, on me.</i></div><div class="voucher__code" data-v="code">LTC · 2026</div></div>
+        </div>
+      </div>
+      <div class="estimate"><div><span>Voucher total</span><br><b data-gift-total>£75</b></div><button class="btn btn--butter" type="button" data-gift-add>Add to bag {{arrow}}</button></div>
+      <p class="muted" style="font-size:var(--fs-xs);text-align:center">Redeemable online at checkout. Prefer a classic gift card? <a class="link" href="https://app.squareup.com/gift/MLHSJHJ400S03/order" target="_blank" rel="noopener">Buy via Square</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section theme-paper">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow label"><span class="num">(02)</span><span class="dash"></span>Why it's the perfect present</span>
+        <h2 class="h2" data-split>Better than <em>another candle</em>.</h2>
+      </div>
+    </div>
+    <div class="features">
+      <div class="feature" data-reveal><span class="feature__ic">{{i:sparkle}}</span><h3 class="h4">An experience, not a thing</h3><p>A morning they'll remember, and a skill they'll use for years.</p></div>
+      <div class="feature" data-reveal><span class="feature__ic">{{i:calendar}}</span><h3 class="h4">They choose the date</h3><p>Redeem online on any class, any date, for 12 months.</p></div>
+      <div class="feature" data-reveal><span class="feature__ic">{{i:mail}}</span><h3 class="h4">Delivered beautifully</h3><p>A designed voucher by email, sent instantly or scheduled for the day.</p></div>
+    </div>
+  </div>
+</section>
