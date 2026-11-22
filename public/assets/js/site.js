@@ -84,15 +84,15 @@
     var c = $(".gl"); if (!c || reduce) return;
     var gl = c.getContext("webgl", { antialias: false, alpha: false, powerPreference: "low-power" }); if (!gl) return;
     var vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
-    var fs = "precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;" +
+    var fs = "precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;uniform vec3 cI,cO,cH;" +
       "float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}" +
       "float n(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),u.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);}" +
       "float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p*=2.03;a*=.5;}return v;}" +
       "void main(){vec2 uv=gl_FragCoord.xy/r;float k=r.x/r.y;vec2 p=uv;p.x*=k;vec2 mm=m;mm.x*=k;float tt=t*.05;" +
       "vec2 q=vec2(fbm(p*1.5+tt),fbm(p*1.5-tt+5.2));vec2 w=vec2(fbm(p*1.5+3.*q+vec2(1.7,9.2)+tt*1.4),fbm(p*1.5+3.*q+vec2(8.3,2.8)-tt));" +
       "float f=fbm(p*1.3+2.6*w);float dd=distance(p,mm);float glow=smoothstep(.85,0.,dd);" +
-      "vec3 ink=vec3(.051,.043,.039);vec3 org=vec3(.95,.57,.16);vec3 hi=vec3(1.,.8,.55);" +
-      "float band=smoothstep(.48,1.,f+glow*.35);vec3 col=mix(ink,org*.5,band);col=mix(col,hi*.75,pow(band,4.)*.7);col+=org*glow*.12;" +
+      "vec3 ink=cI;vec3 org=cO;vec3 hi=cH;" +
+      "float band=smoothstep(.56,1.08,f+glow*.3);vec3 col=mix(ink,org*.42,band*.85);col=mix(col,hi*.7,pow(band,5.)*.55);col+=org*glow*.08;" +
       "col*=mix(.35,1.,smoothstep(.05,1.,uv.x*.85+uv.y*.35));col*=smoothstep(0.,.35,uv.y)*.6+.4;" +
       "col+=(h(gl_FragCoord.xy+fract(t))-.5)*.03;gl_FragColor=vec4(col,1.);}";
     function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
@@ -103,6 +103,12 @@
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     var uR = gl.getUniformLocation(pr, "r"), uT = gl.getUniformLocation(pr, "t"), uM = gl.getUniformLocation(pr, "m");
+    // palette comes from the CSS theme tokens (--gl-base / --gl-a / --gl-b)
+    var cs = getComputedStyle(html);
+    function v3(name, fb) { var a = (cs.getPropertyValue(name) || "").split(",").map(parseFloat); return a.length === 3 && !a.some(isNaN) ? a : fb; }
+    gl.uniform3fv(gl.getUniformLocation(pr, "cI"), v3("--gl-base", [0.043, 0.086, 0.157]));
+    gl.uniform3fv(gl.getUniformLocation(pr, "cO"), v3("--gl-a", [0.79, 0.62, 0.33]));
+    gl.uniform3fv(gl.getUniformLocation(pr, "cH"), v3("--gl-b", [0.95, 0.86, 0.64]));
     var mx = 0.72, my = 0.62, tx = mx, ty = my, vis = true, t0 = performance.now();
     function size() { var s = Math.min(devicePixelRatio || 1, 1.5) * 0.5; c.width = c.clientWidth * s; c.height = c.clientHeight * s; gl.viewport(0, 0, c.width, c.height); }
     size(); w.addEventListener("resize", size);
@@ -456,5 +462,5 @@
   /* ---------------------------------------------------------------- misc */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
   html.classList.add("ready");
-  if (w.console && console.log) console.log("%c🐇 Code Bunny", "font:600 20px Georgia;color:#f29228", "\nLike what you see? Let's build yours → https://www.codebunny.net/free-website-preview/");
+  if (w.console && console.log) console.log("%c🐇 Code Bunny", "font:600 20px Georgia;color:#c99e54", "\nLike what you see? Let's build yours → https://www.codebunny.net/free-website-preview/");
 })();

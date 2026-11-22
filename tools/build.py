@@ -26,6 +26,7 @@ WA = f"https://wa.me/{SITE['whatsapp']}?text={quote(SITE['whatsapp_text'])}"
 CLIENT_SITES = [p for p in PROJECTS if p["cat"] != "templates"]
 SITEMAP = []
 LASTMOD = {}
+THEME_COLOR = {"heritage": "#0b1628", "bordeaux": "#1e0b12", "forest": "#0c1a15"}.get(SITE.get("theme", "heritage"), "#0b1628")
 SVC_BLOG = {"website-design": ["strategy", "design"], "seo": ["seo"], "website-redesign": ["design", "strategy"], "ecommerce": ["tech"], "mobile-app-development": ["tech"], "software-development": ["tech"]}
 IND_BLOG = {"coaches": "coaches", "photographers": "photographers", "solar": "solar", "local-business": "local"}
 ARTICLES = load_articles()
@@ -119,7 +120,7 @@ def head(*, path, title, desc, schema, og_image="og-default.jpg", noindex=False,
     boot = ('<script>(function(h){h.className=h.className.replace("no-js","js");try{if(' + loader_flag +
             '&&!sessionStorage.getItem("cbv")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)h.classList.add("is-loading")}catch(e){}})(document.documentElement)</script>')
     return f"""<!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-theme="{SITE.get('theme', 'heritage')}">
 <head>
 <meta charset="utf-8">
 {boot}
@@ -129,7 +130,7 @@ def head(*, path, title, desc, schema, og_image="og-default.jpg", noindex=False,
 <link rel="canonical" href="{url}">
 <meta name="robots" content="{'noindex, follow' if noindex else 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}">
 <meta name="author" content="{SITE['founder']}">
-<meta name="theme-color" content="#0d0b0a">
+<meta name="theme-color" content="{THEME_COLOR}">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Code Bunny">
@@ -1008,7 +1009,7 @@ def build_meta_files():
     robots += "".join(f"User-agent: {b}\n" for b in ai_bots) + "Allow: /\n\n" + f"Sitemap: {BASE}/sitemap.xml\n"
     open(os.path.join(OUT, "robots.txt"), "w").write(robots)
     open(os.path.join(OUT, f"{SITE['indexnow_key']}.txt"), "w").write(SITE["indexnow_key"])
-    open(os.path.join(OUT, "site.webmanifest"), "w").write(json.dumps({"name": "Code Bunny", "short_name": "Code Bunny", "start_url": "/", "display": "standalone", "background_color": "#0d0b0a", "theme_color": "#0d0b0a",
+    open(os.path.join(OUT, "site.webmanifest"), "w").write(json.dumps({"name": "Code Bunny", "short_name": "Code Bunny", "start_url": "/", "display": "standalone", "background_color": "#0b1628", "theme_color": "#0b1628",
                                                                        "icons": [{"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=2))
 
     about = (f"Code Bunny ({BASE}) is a founder-led web design and development studio run by {SITE['founder']}, with {SITE['years']} years of experience and "

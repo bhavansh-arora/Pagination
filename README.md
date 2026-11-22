@@ -30,6 +30,15 @@ Animations use self-hosted GSAP (ScrollTrigger, SplitText, Flip) and Lenis smoot
 
 Everything is progressive enhancement: with JavaScript off, or with the visitor's "reduce motion" setting on, all content is visible and static.
 
+## Colour themes
+
+The site uses a classic palette: **Heritage** (Oxford navy, ivory paper, antique gold). Two alternatives are built in:
+
+- `bordeaux`: deep claret, cream and gold
+- `forest`: racing green, cream and brass
+
+Switch by setting `SITE["theme"]` in `tools/content.py`, then run `python3 tools/build.py` and `node tools/og.js --all` (so the share images match). All colours live in the `:root` block at the top of `public/assets/css/site.css`, including the hero background's `--gl-*` values, so a new palette is one block of variables.
+
 ## Everyday edits
 
 1. Change copy in `tools/content.py` (or add a project to `tools/projects.json`).

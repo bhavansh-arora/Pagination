@@ -13,6 +13,8 @@ SITE = {
     "years": 5,
     "projects_delivered": 100,
     "countries": ["United States", "Canada", "United Kingdom", "Ireland", "Australia", "New Zealand", "India"],
+    # Colour theme: "heritage" (Oxford navy + gold), "bordeaux" (claret + gold) or "forest" (racing green + brass)
+    "theme": "heritage",
     "preview_turnaround": "within 3–5 business days",
     # IndexNow (Bing, Yandex, Seznam, Naver): instant indexing pings. Key file is published at /<key>.txt
     "indexnow_key": "048a2b05d4253bfbe1c8dd75fd24d0b3",
